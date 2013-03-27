@@ -19,6 +19,7 @@ class InvoiceLine {
 	private $vatCode;
 	private $freeText1;
 	private $freeText2;
+	private $freeText3;
 
 	public function __construct( $quantity = null, $article = null, $freeText1 = null, $freeText2 = null ) {
 		$this->ID = uniqid();
@@ -148,6 +149,14 @@ class InvoiceLine {
 	public function setFreeText2( $freeText2 ) {
 		$this->freeText2 = $freeText2;
 		return $this;
+	}
+
+	public function getFreeText3() {
+		return $this->freeText3;
+	}
+
+	public function setFreeText3( $freeText3 ) {
+		$this->freeText3 = $freeText3;
 	}
 
 
