@@ -94,6 +94,7 @@ class InvoicesDocument extends Document {
 			$vatCodeElement			 = $this->createElement( 'vatcode', $line->getVatCode() );
 			$freeText1Element		 = $this->createElement( 'freetext1', $line->getFreeText1() );
 			$freeText2Element		 = $this->createElement( 'freetext2', $line->getFreeText2() );
+			$freeText3Element		 = $this->createElement( 'freetext3', $line->getFreeText3() );
 
 			// Add those attributes to the line
 			$lineElement->appendChild( $quantityElement );
