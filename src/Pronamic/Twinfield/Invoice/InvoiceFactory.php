@@ -24,6 +24,7 @@ class InvoiceFactory extends ParentFactory {
 					->setOffice($office);
 
 			$response = $service->send($request_invoice);
+			$this->setResponse($response);
 
 			if($response->isSuccessful()) {
 				return InvoiceMapper::map($response);
