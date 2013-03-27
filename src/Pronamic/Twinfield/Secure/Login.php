@@ -95,47 +95,35 @@ class Login {
 	 * @return boolean If successful or not
 	 */
 	public function process() {
-		// Determines if a cookie has the values we need
-		if ( isset( $_COOKIE[ 'twinfield_session_id' ] ) && isset( $_COOKIE[ 'twinfield_cluster' ] ) ) {
-			// Takes the cookies values for the important sessionID and cluster url
-			$this->sessionID = $_COOKIE[ 'twinfield_session_id' ];
-			$this->cluster = $_COOKIE[ 'twinfield_cluster' ];
+		// Process logon
+		$response = $this->soapLoginClient->Logon( $this->config->getCredentials() );
 
-			// This login object is now processed
+		// Check response is successful
+		if ( 'Ok' == $response->LogonResult ) {
+			// Response from the logon request
+			$this->loginResponse = $this->soapLoginClient->__getLastResponse();
+
+			// Make a new DOM and load the response XML
+			$envelope = new \DOMDocument();
+			$envelope->loadXML( $this->loginResponse );
+
+			// Gets SessionID
+			$sessionID = $envelope->getElementsByTagName( 'SessionID' );
+			$this->sessionID = $sessionID->item( 0 )->textContent;
+
+			// Gets Cluster URL
+			$cluster = $envelope->getElementsByTagName( 'cluster' );
+			$this->cluster = $cluster->item( 0 )->textContent;
+
+			$this->setCookies();
+
+			// This login object is processed!
 			$this->processed = true;
 
 			return true;
-		} else {
-			// Process logon
-			$response = $this->soapLoginClient->Logon( $this->config->getCredentials() );
-
-			// Check response is successful
-			if ( 'Ok' == $response->LogonResult ) {
-				// Response from the logon request
-				$this->loginResponse = $this->soapLoginClient->__getLastResponse();
-
-				// Make a new DOM and load the response XML
-				$envelope = new \DOMDocument();
-				$envelope->loadXML( $this->loginResponse );
-
-				// Gets SessionID
-				$sessionID = $envelope->getElementsByTagName( 'SessionID' );
-				$this->sessionID = $sessionID->item( 0 )->textContent;
-
-				// Gets Cluster URL
-				$cluster = $envelope->getElementsByTagName( 'cluster' );
-				$this->cluster = $cluster->item( 0 )->textContent;
-
-				$this->setCookies();
-
-				// This login object is processed!
-				$this->processed = true;
-
-				return true;
-			}
-
-			return false;
 		}
+
+		return false;
 	}
 
 	/**
