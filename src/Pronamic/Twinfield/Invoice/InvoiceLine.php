@@ -157,6 +157,7 @@ class InvoiceLine {
 
 	public function setFreeText3( $freeText3 ) {
 		$this->freeText3 = $freeText3;
+		return $this;
 	}
 
 
