@@ -170,8 +170,8 @@ echo '</pre>';
 
 		return $return;
 	}
-	
-	
+
+
 	///////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -271,7 +271,7 @@ echo '</pre>';
 		$result = self::readDimension($office, Read::DIMENSION_TYPE_DEBTOR, $code);
 
 		$xml = simplexml_load_string($result->ProcessXmlStringResult);
-		echo '<pre>', htmlentities( $xml->asXML() ), '</pre>';
+		
 		$debtor = new Debtor();
 
 		$office = XML\OfficeParser::parse($xml->office);
@@ -288,7 +288,7 @@ echo '</pre>';
 		echo htmlentities($xml->asXML());
 		echo '</pre>';
 		*/
-		
+
 		return $debtor;
 	}
 
