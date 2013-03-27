@@ -10,7 +10,7 @@ namespace Pronamic\Twinfield\Secure;
  *
  * @uses \DOMDocument
  * @uses \SoapClient
- * @uses \Pronamic\Twinfield\Secure\Document
+ * @uses \Pronamic\Twinfield\DOM\Document
  * @uses \Pronamic\Twinfield\Response\Response
  *
  * @since 0.0.1
@@ -48,6 +48,10 @@ class Service {
 	 * @var DOMDocument
 	 */
 	private $response;
+
+	public function __construct(Login $login) {
+		$this->login = $login;
+	}
 
 	/**
 	 * Sets the login class for this secure service

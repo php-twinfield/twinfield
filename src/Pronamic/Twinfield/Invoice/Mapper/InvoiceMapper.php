@@ -2,6 +2,9 @@
 
 namespace Pronamic\Twinfield\Invoice\Mapper;
 
+use \Pronamic\Twinfield\Invoice\Invoice;
+use \Pronamic\Twinfield\Invoice\InvoiceLine;
+
 use \Pronamic\Twinfield\Response\Response;
 use \Pronamic\Twinfield\Customer\Customer;
 
@@ -23,7 +26,7 @@ class InvoiceMapper {
 				->setDueDate( $responseDOM->getElementsByTagName( 'duedate' )->item(0)->textContent )
 				->setBank( $responseDOM->getElementsByTagName( 'bank' )->item(0)->textContent )
 				->setInvoiceAddressNumber( $responseDOM->getElementsByTagName( 'invoiceaddressnumber' )->item(0)->textContent )
-				->setDeliverAddressNumber( $responseDOM->getElementsByTagName( 'deliveradressnumber' )->item(0)->textContent )
+				->setDeliverAddressNumber( $responseDOM->getElementsByTagName( 'deliveraddressnumber' )->item(0)->textContent )
 				->setCustomer( $customer )
 				->setPeriod( $responseDOM->getElementsByTagName( 'period' )->item(0)->textContent )
 				->setCurrency( $responseDOM->getElementsByTagName( 'currency' )->item(0)->textContent )

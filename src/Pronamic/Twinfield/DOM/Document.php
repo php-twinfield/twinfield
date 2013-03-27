@@ -1,6 +1,6 @@
 <?php
 
-namespace Pronamic\Twinfield\Secure;
+namespace Pronamic\Twinfield\DOM;
 
 /**
  * Abstract class that all Document generators for

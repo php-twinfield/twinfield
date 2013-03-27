@@ -2,7 +2,7 @@
 
 namespace Pronamic\Twinfield\Request\Read;
 
-use Pronamic\Twinfield\Secure\Document as SecureDocument;
+use Pronamic\Twinfield\DOM\Document as SecureDocument;
 
 abstract class Read extends SecureDocument {
 
