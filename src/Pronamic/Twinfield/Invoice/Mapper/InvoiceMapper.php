@@ -45,7 +45,10 @@ class InvoiceMapper {
 					->setValueExcl( $lineDOM->getElementsByTagName( 'valueexcl' )->item(0)->textContent )
 					->setVatValue( $lineDOM->getElementsByTagName( 'vatvalue' )->item(0)->textContent )
 					->setValueInc( $lineDOM->getElementsByTagName( 'valueinc' )->item(0)->textContent )
-					->setUnitsPriceExcl( $lineDOM->getElementsByTagName( 'unitspriceexcl' )->item(0)->textContent );
+					->setUnitsPriceExcl( $lineDOM->getElementsByTagName( 'unitspriceexcl' )->item(0)->textContent )
+					->setFreeText1( $lineDOM->getElementsByTagName( 'freetext1' )->item(0)->textContent )
+					->setFreeText2( $lineDOM->getElementsByTagName( 'freetext2' )->item(0)->textContent )
+					->setFreeText3( $lineDOM->getElementsByTagName( 'freetext3' )->item(0)->textContent );
 
 			$invoice->addLine( $temp_line );
 			unset( $temp_line );
