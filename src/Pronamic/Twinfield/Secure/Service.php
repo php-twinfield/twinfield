@@ -89,7 +89,7 @@ class Service {
 		$this->response = new \DOMDocument();
 		$this->response->loadXML( $this->result->ProcessXmlStringResult );
 
-		return new Response( $this->response, $document );
+		return new Response( $this->response );
 	}
 
 	/**
