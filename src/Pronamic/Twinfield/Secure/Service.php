@@ -10,7 +10,6 @@ namespace Pronamic\Twinfield\Secure;
  *
  * @uses \DOMDocument
  * @uses \SoapClient
- * @uses \Pronamic\Twinfield\DOM\Document
  * @uses \Pronamic\Twinfield\Response\Response
  *
  * @since 0.0.1
@@ -21,7 +20,6 @@ namespace Pronamic\Twinfield\Secure;
  * @copyright (c) 2013, Leon Rowland
  * @version 0.0.1
  */
-use \Pronamic\Twinfield\DOM\Document as SecureDocument;
 use \Pronamic\Twinfield\Response\Response;
 
 class Service {
@@ -78,7 +76,7 @@ class Service {
 	 * @param Document $document A class that extended Secure\Document
 	 * @return \DOMDocument The response from the request
 	 */
-	public function send( SecureDocument $document ) {
+	public function send( \DOMDocument $document ) {
 
 		// Get the secureclient and send this documents xml
 		$this->result = $this->login->getClient()->ProcessXmlString( array(

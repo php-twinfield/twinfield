@@ -7,7 +7,6 @@ class Invoice extends Read {
 	public function __construct() {
 		parent::__construct();
 
-		$this->setElementsToCheck( array( 'salesinvoice' => 'result' ) );
 		$this->add( 'type', 'salesinvoice' );
 	}
 

@@ -2,9 +2,7 @@
 
 namespace Pronamic\Twinfield\Request\Catalog;
 
-use Pronamic\Twinfield\Secure\Document as SecureDocument;
-
-abstract class Catalog extends SecureDocument {
+abstract class Catalog extends \DOMDocument {
 
 	private $listElement;
 
