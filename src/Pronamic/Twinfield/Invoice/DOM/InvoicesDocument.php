@@ -19,18 +19,14 @@ namespace Pronamic\Twinfield\Invoice\DOM;
  * @copyright (c) 2013, Leon Rowland
  * @version 0.0.1
  */
-use \Pronamic\Twinfield\DOM\Document;
 use \Pronamic\Twinfield\Invoice\Invoice;
 
-class InvoicesDocument extends Document {
+class InvoicesDocument extends \DOMDocument {
 
 	private $salesInvoicesElement;
 
 	public function __construct() {
 		parent::__construct();
-
-		// Set elements to check in the securedocument
-		$this->setElementsToCheck( array( 'salesinvoices' => 'result' ) );
 
 		// Make the main wrap element
 		$this->salesInvoicesElement = $this->createElement( 'salesinvoices' );
