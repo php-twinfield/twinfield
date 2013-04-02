@@ -32,25 +32,29 @@ class CustomersDocument extends \DOMDocument {
 		$websiteElement = $this->createElement('website', $customer->getWebsite());
 		$this->dimensionElement->appendChild($websiteElement);
 
-		// Make financial element
-		$financialElement = $this->createElement('financials');
-		$this->dimensionElement->appendChild($financialElement);
 
-		// Set financial child elements
-		$dueDaysElement		 = $this->createElement('duedays', $customer->getDueDays());
-		$payAvailableElement = $this->createElement('payavailable', $customer->getPayAvailable());
-		$payCodeElement		 = $this->createElement('paycode', $customer->getPayCode());
-		$vatCodeElement		 = $this->createElement('vatcode', $customer->getVatCode());
-		$eBillingElement	 = $this->createElement('ebilling', $customer->getEBilling());
-		$eBillMailElement	 = $this->createElement('ebillmail', $customer->getEBillMail());
+		if ( $customer->getDueDays() > 0 ) {
+			// Make financial element
+			$financialElement = $this->createElement('financials');
+			$this->dimensionElement->appendChild($financialElement);
 
-		// Add these to the financial element
-		$financialElement->appendChild($dueDaysElement);
-		$financialElement->appendChild($payAvailableElement);
-		$financialElement->appendChild($payCodeElement);
-		$financialElement->appendChild($vatCodeElement);
-		$financialElement->appendChild($eBillingElement);
-		$financialElement->appendChild($eBillMailElement);
+			// Set financial child elements
+			$dueDaysElement		 = $this->createElement('duedays', $customer->getDueDays());
+			$payAvailableElement = $this->createElement('payavailable', $customer->getPayAvailable());
+			$payCodeElement		 = $this->createElement('paycode', $customer->getPayCode());
+			$vatCodeElement		 = $this->createElement('vatcode', $customer->getVatCode());
+			$eBillingElement	 = $this->createElement('ebilling', $customer->getEBilling());
+			$eBillMailElement	 = $this->createElement('ebillmail', $customer->getEBillMail());
+
+			// Add these to the financial element
+			$financialElement->appendChild($dueDaysElement);
+			$financialElement->appendChild($payAvailableElement);
+			$financialElement->appendChild($payCodeElement);
+			$financialElement->appendChild($vatCodeElement);
+			$financialElement->appendChild($eBillingElement);
+			$financialElement->appendChild($eBillMailElement);
+		}
+
 
 		// Make address element
 		$addressesElement = $this->createElement('addresses');

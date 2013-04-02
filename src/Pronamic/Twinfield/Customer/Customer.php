@@ -19,7 +19,7 @@ class Customer {
 	private $cocNumber;
 	private $vatNumber;
 	private $editDimensionName;
-	private $dueDays;
+	private $dueDays = 0;
 	private $payAvailable = 'false';
 	private $payCode;
 	private $vatCode;
