@@ -46,28 +46,34 @@ class CustomersDocument extends \DOMDocument {
 			$addressElement->setAttribute('type', $address->getType());
 
 			// Build elements
+			$aNameElement = $this->createElement('name', $address->getName());
+			$countryElement = $this->createElement('country', $address->getCountry());
+			$cityElement = $this->createElement('city', $address->getCity());
+			$postcodeElement = $this->createElement('postcode', $address->getPostcode());
+			$telephoneElement = $this->createElement('telephone', $address->getTelephone());
+			$faxElement = $this->createElement('telefax', $address->getFax());
+			$emailElement = $this->createElement('email', $address->getEmail());
 			$field1Element = $this->createElement('field1', $address->getField1());
 			$field2Element = $this->createElement('field2', $address->getField2());
 			$field3Element = $this->createElement('field3', $address->getField3());
-			$postcodeElement = $this->createElement('postcode', $address->getPostcode());
-			$cityElement = $this->createElement('city', $address->getCity());
-			$countryElement = $this->createElement('country', $address->getCountry());
-			$telephoneElement = $this->createElement('telephone', $address->getTelephone());
-			$faxElement = $this->createElement('telefax', $address->getFax());
 			$field4Element = $this->createElement('field4', $address->getField4());
-			$emailElement = $this->createElement('email', $address->getEmail());
+			$field5Element = $this->createElement('field5', $address->getField5());
+			$field6Element = $this->createElement('field6', $address->getField6());
 
 			// Add these elements to the address
+			$addressElement->appendChild($aNameElement);
+			$addressElement->appendChild($countryElement);
+			$addressElement->appendChild($cityElement);
+			$addressElement->appendChild($postcodeElement);
+			$addressElement->appendChild($telephoneElement);
+			$addressElement->appendChild($faxElement);
+			$addressElement->appendChild($emailElement);
 			$addressElement->appendChild($field1Element);
 			$addressElement->appendChild($field2Element);
 			$addressElement->appendChild($field3Element);
-			$addressElement->appendChild($postcodeElement);
-			$addressElement->appendChild($cityElement);
-			$addressElement->appendChild($countryElement);
-			$addressElement->appendChild($telephoneElement);
-			$addressElement->appendChild($faxElement);
 			$addressElement->appendChild($field4Element);
-			$addressElement->appendChild($emailElement);
+			$addressElement->appendChild($field5Element);
+			$addressElement->appendChild($field6Element);
 		}
 	}
 }
