@@ -32,6 +32,26 @@ class CustomersDocument extends \DOMDocument {
 		$websiteElement = $this->createElement('website', $customer->getWebsite());
 		$this->dimensionElement->appendChild($websiteElement);
 
+		// Make financial element
+		$financialElement = $this->createElement('financials');
+		$this->dimensionElement->appendChild($financialElement);
+
+		// Set financial child elements
+		$dueDaysElement		 = $this->createElement('duedays', $customer->getDueDays());
+		$payAvailableElement = $this->createElement('payavailable', $customer->getPayAvailable());
+		$payCodeElement		 = $this->createElement('paycode', $customer->getPayCode());
+		$vatCodeElement		 = $this->createElement('vatcode', $customer->getVatCode());
+		$eBillingElement	 = $this->createElement('ebilling', $customer->getEBilling());
+		$eBillMailElement	 = $this->createElement('ebillmail', $customer->getEBillMail());
+
+		// Add these to the financial element
+		$financialElement->appendChild($dueDaysElement);
+		$financialElement->appendChild($payAvailableElement);
+		$financialElement->appendChild($payCodeElement);
+		$financialElement->appendChild($vatCodeElement);
+		$financialElement->appendChild($eBillingElement);
+		$financialElement->appendChild($eBillMailElement);
+
 		// Make address element
 		$addressesElement = $this->createElement('addresses');
 		$this->dimensionElement->appendChild($addressesElement);
@@ -46,19 +66,19 @@ class CustomersDocument extends \DOMDocument {
 			$addressElement->setAttribute('type', $address->getType());
 
 			// Build elements
-			$aNameElement = $this->createElement('name', $address->getName());
-			$countryElement = $this->createElement('country', $address->getCountry());
-			$cityElement = $this->createElement('city', $address->getCity());
-			$postcodeElement = $this->createElement('postcode', $address->getPostcode());
-			$telephoneElement = $this->createElement('telephone', $address->getTelephone());
-			$faxElement = $this->createElement('telefax', $address->getFax());
-			$emailElement = $this->createElement('email', $address->getEmail());
-			$field1Element = $this->createElement('field1', $address->getField1());
-			$field2Element = $this->createElement('field2', $address->getField2());
-			$field3Element = $this->createElement('field3', $address->getField3());
-			$field4Element = $this->createElement('field4', $address->getField4());
-			$field5Element = $this->createElement('field5', $address->getField5());
-			$field6Element = $this->createElement('field6', $address->getField6());
+			$aNameElement		 = $this->createElement( 'name', $address->getName() );
+			$countryElement		 = $this->createElement( 'country', $address->getCountry() );
+			$cityElement		 = $this->createElement( 'city', $address->getCity() );
+			$postcodeElement	 = $this->createElement( 'postcode', $address->getPostcode() );
+			$telephoneElement	 = $this->createElement( 'telephone', $address->getTelephone() );
+			$faxElement			 = $this->createElement( 'telefax', $address->getFax() );
+			$emailElement		 = $this->createElement( 'email', $address->getEmail() );
+			$field1Element		 = $this->createElement( 'field1', $address->getField1() );
+			$field2Element		 = $this->createElement( 'field2', $address->getField2() );
+			$field3Element		 = $this->createElement( 'field3', $address->getField3() );
+			$field4Element		 = $this->createElement( 'field4', $address->getField4() );
+			$field5Element		 = $this->createElement( 'field5', $address->getField5() );
+			$field6Element		 = $this->createElement( 'field6', $address->getField6() );
 
 			// Add these elements to the address
 			$addressElement->appendChild($aNameElement);

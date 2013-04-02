@@ -20,9 +20,10 @@ class Customer {
 	private $vatNumber;
 	private $editDimensionName;
 	private $dueDays;
-	private $payAvailable;
+	private $payAvailable = 'false';
 	private $payCode;
-	private $eBilling;
+	private $vatCode;
+	private $eBilling = 'false';
 	private $eBillMail;
 	private $addresses = array();
 	private $groups;
@@ -176,7 +177,7 @@ class Customer {
 	}
 
 	public function setPayAvailable( $payAvailable ) {
-		$this->payAvailable = $payAvailable;
+		$this->payAvailable = var_export($payAvailable, true);
 		return $this;
 	}
 
@@ -189,12 +190,21 @@ class Customer {
 		return $this;
 	}
 
+	public function getVatCode() {
+		return $this->vatCode;
+	}
+
+	public function setVatCode( $vatCode ) {
+		$this->vatCode = $vatCode;
+		return $this;
+	}
+
 	public function getEBilling() {
 		return $this->eBilling;
 	}
 
 	public function setEBilling( $eBilling ) {
-		$this->eBilling = $eBilling;
+		$this->eBilling = var_export($eBilling, true);
 		return $this;
 	}
 

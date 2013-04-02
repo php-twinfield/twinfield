@@ -29,6 +29,16 @@ class CustomerMapper {
 				->setVatNumber($responseDOM->getElementsByTagName('vatnumber')->item(0)->textContent)
 				->setEditDimensionName($responseDOM->getElementsByTagName('editdimensionname')->item(0)->textContent);
 
+		// Financial elements
+		$financialElement = $responseDOM->getElementsByTagName('financials')->item(0);
+
+		$customer
+				->setDueDays($financialElement->getElementsByTagName('duedays')->item(0)->textContent)
+				->setPayAvailable($financialElement->getElementsByTagName('payavailable')->item(0)->textContent)
+				->setPayCode($financialElement->getElementsByTagName('paycode')->item(0)->textContent)
+				->setEBilling($financialElement->getElementsByTagName('ebilling')->item(0)->textContent)
+				->setEBillMail($financialElement->getElementsByTagName('ebillmail')->item(0)->textContent);
+
 		// Build address entries
 		foreach($responseDOM->getElementsByTagName('address') as $addressDOM) {
 			$temp_address = new CustomerAddress();
