@@ -24,6 +24,8 @@ namespace Pronamic\Twinfield\Secure;
  * @copyright (c) 2013, Leon Rowland
  * @version 0.0.1
  */
+use Pronamic\Twinfield\SoapClient;
+
 class Login {
 
 	protected $loginWSDL = 'https://login.twinfield.com/webservices/session.asmx?wsdl';
@@ -78,9 +80,7 @@ class Login {
 	public function __construct( Config $config ) {
 		$this->config = $config;
 
-		$this->soapLoginClient = new \SoapClient( $this->loginWSDL, array(
-			'trace' => 1
-				) );
+		$this->soapLoginClient = new SoapClient( $this->loginWSDL, array( 'trace' => 1 ) );
 	}
 
 	/**
@@ -127,44 +127,6 @@ class Login {
 	}
 
 	/**
-	 * Sets the cookie for the twinfield api.
-	 *
-	 * If no parameters are passed will use the values from the class
-	 * properties.
-	 *
-	 * @since 0.0.1
-	 *
-	 * @access public
-	 * @param string $sessionID OPTIONAL The Session Information
-	 * @param string $cluster OPTIONAL The Cluster URL
-	 * @return void
-	 */
-	public function setCookies( $sessionID = null, $cluster = null ) {
-		if ( ! $sessionID )
-			$sessionID = $this->sessionID;
-
-		if ( ! $cluster )
-			$cluster = $this->cluster;
-
-		// Sets cookies to time + 1 hour ( 3600 seconds )
-		setcookie( 'twinfield_session_id', $sessionID, time() + 3600, '/' );
-		setcookie( 'twinfield_cluster', $cluster, time() + 3600, '/' );
-	}
-
-	/**
-	 * Removes the existing cookies.
-	 *
-	 * @since 0.0.1
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function removeCookies() {
-		setcookie( 'twinfield_session_id', '', 1);
-		setcookie( 'twinfield_cluster', '', 1);
-	}
-
-	/**
 	 * Gets a new instance of the soap header.
 	 *
 	 * Will automaticly login if haven't already on this object
@@ -196,7 +158,7 @@ class Login {
 			$this->process();
 
 		// Makes a new client, and assigns the header to it
-		$client = new \SoapClient( sprintf( $this->clusterWSDL, $this->cluster ) );
+		$client = new SoapClient( sprintf( $this->clusterWSDL, $this->cluster ) );
 		$client->__setSoapHeaders( $this->getHeader() );
 
 		return $client;
