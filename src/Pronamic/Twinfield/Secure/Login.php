@@ -115,8 +115,6 @@ class Login {
 			$cluster = $envelope->getElementsByTagName( 'cluster' );
 			$this->cluster = $cluster->item( 0 )->textContent;
 
-			$this->setCookies();
-
 			// This login object is processed!
 			$this->processed = true;
 
