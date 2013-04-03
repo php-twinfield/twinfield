@@ -20,10 +20,43 @@ class CustomerFactory extends ParentFactory {
 
 			$response = $service->send($request_customer);
 			$this->setResponse($response);
-			
+
 			if($response->isSuccessful()) {
 				return CustomerMapper::map($response);
 			}
+		}
+	}
+
+	public function listAll() {
+		if($this->getLogin()->process()) {
+			$service = $this->getService();
+
+			$request_customers = new TwinfieldRequest\Catalog\Dimension( $this->getConfig()->getOffice() );
+			$request_customers->setDimType('DEB');
+
+			$response = $service->send($request_customers);
+			$this->setResponse($response);
+
+			if ($response->isSuccessful()) {
+
+				$responseDOM = $response->getResponseDocument();
+
+				$customers = array();
+
+				foreach($responseDOM->getElementsByTagName('dimension') as $customer) {
+					$customer_id = $customer->textContent;
+
+					if(!is_numeric($customer_id)) continue;
+
+					$customers[$customer->textContent] = array(
+						'name' => $customer->getAttribute('name'),
+						'shortName' => $customer->getAttribute('shortname')
+					);
+				}
+
+				return $customers;
+			}
+
 		}
 	}
 

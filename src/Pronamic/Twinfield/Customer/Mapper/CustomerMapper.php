@@ -9,7 +9,7 @@ use \Pronamic\Twinfield\Response\Response;
 class CustomerMapper {
 	public static function map(Response $response) {
 		$responseDOM = $response->getResponseDocument();
-
+		
 		// Generate new customer object
 		$customer = new Customer();
 

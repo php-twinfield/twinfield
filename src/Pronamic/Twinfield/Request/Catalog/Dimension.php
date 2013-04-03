@@ -2,10 +2,11 @@
 
 namespace Pronamic\Twinfield\Request\Catalog;
 
-class Dimension {
-	
+class Dimension extends Catalog {
+
 	public function __construct( $office = null, $dimType = null ) {
-		$this->add( 'type', 'dimension' );
+		parent::__construct();
+		$this->add( 'type', 'dimensions' );
 		$this->setOffice( $office );
 		$this->setDimType( $dimType );
 	}

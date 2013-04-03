@@ -15,6 +15,6 @@ abstract class Catalog extends \DOMDocument {
 
 	protected function add( $element, $value ) {
 		$_element = $this->createElement( $element, $value );
-		$this->appendChild( $_element );
+		$this->listElement->appendChild( $_element );
 	}
 }
