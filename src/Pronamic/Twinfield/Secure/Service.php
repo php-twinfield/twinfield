@@ -21,7 +21,6 @@ namespace Pronamic\Twinfield\Secure;
  * @version 0.0.1
  */
 use \Pronamic\Twinfield\Response\Response;
-use \Pronamic\Twinfield\Response\ResponseDocument;
 
 class Service {
 
@@ -85,7 +84,8 @@ class Service {
 		) );
 
 		// Make a new DOMDocument, and load the response into it
-		$this->response = new ResponseDocument( $this->result->ProcessXmlStringResult );
+		$this->response = new \DOMDocument();
+		$this->response->loadXML( $this->result->ProcessXmlStringResult );
 
 		return new Response( $this->response );
 	}
