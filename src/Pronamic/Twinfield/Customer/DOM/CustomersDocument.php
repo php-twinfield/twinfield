@@ -31,6 +31,10 @@ class CustomersDocument extends \DOMDocument {
 		// Make website element
 		$websiteElement = $this->createElement('website', $customer->getWebsite());
 		$this->dimensionElement->appendChild($websiteElement);
+		
+		// Test coc element
+		$cocNumberElement = $this->createElement('cocnumber', $customer->getCocNumber());
+		$this->dimensionElement->appendChild($cocNumberElement);
 
 
 		if ( $customer->getDueDays() > 0 ) {
