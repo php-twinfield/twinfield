@@ -25,7 +25,11 @@ abstract class ParentFactory {
 	}
 
 	public function makeLogin() {
-		$this->login = new Login($this->getConfig());
+		try {
+			$this->login = new Login($this->getConfig());
+		} catch ( Exception $exc ) {
+			echo $exc->getTraceAsString();
+		}
 	}
 
 	public function getLogin() {
