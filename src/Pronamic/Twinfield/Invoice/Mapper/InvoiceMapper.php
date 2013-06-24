@@ -4,6 +4,7 @@ namespace Pronamic\Twinfield\Invoice\Mapper;
 
 use \Pronamic\Twinfield\Invoice\Invoice;
 use \Pronamic\Twinfield\Invoice\InvoiceLine;
+use \Pronamic\Twinfield\Invoice\InvoiceTotals;
 
 use \Pronamic\Twinfield\Response\Response;
 use \Pronamic\Twinfield\Customer\Customer;
