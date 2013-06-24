@@ -53,6 +53,8 @@ class Invoice {
 	private $deliverAddressNumber;
 	private $headerText;
 	private $footerText;
+	
+	private $totals;
 
 	/**
 	 * Holds the invoice lines for this
@@ -64,7 +66,7 @@ class Invoice {
 	 * @var array of InvoiceLine
 	 */
 	private $lines = array();
-
+	
 	/**
 	 * Adds a line to this invoice.
 	 *
@@ -135,6 +137,15 @@ class Invoice {
 	public function setCustomer( \Pronamic\Twinfield\Customer\Customer $customer ) {
 		$this->customer = $customer;
 		return $this;
+	}
+	
+	public function setTotals( \Pronamic\Twinfield\Invoice\InvoiceTotals $totals ) {
+		$this->totals = $totals;
+		return $this;
+	}
+	
+	public function getTotals() {
+		return $this->totals;
 	}
 
 	/**
