@@ -62,13 +62,35 @@ class InvoicesDocument extends \DOMDocument {
 
 		// Set customer element
 		$customer = $invoice->getCustomer();
+		
 		$customerElement = $this->createElement( 'customer', $customer->getID() );
-		$headerElement->appendChild( $customerElement );
-
-		// Set invoicetype element
 		$invoiceTypeElement = $this->createElement( 'invoicetype', $invoice->getInvoiceType() );
+		$invoiceNumberElement = $this->createElement( 'invoicenumber', $invoice->getInvoiceNumber() );
+		$statusElement = $this->createElement( 'status', $invoice->getStatus() );
+		$currencyElement = $this->createElement( 'currency', $invoice->getCurrency() );
+		$periodElement = $this->createElement( 'period', $invoice->getPeriod() );
+		$invoiceDateElement = $this->createElement( 'invoicedate', $invoice->getInvoiceDate() );
+		$dueDateElement = $this->createElement( 'duedate', $invoice->getDueDate() );
+		$bankElement = $this->createElement( 'bank', $invoice->getBank() );
+		$invoiceAddressNumber = $this->createElement( 'invoiceaddressnumber', $invoice->getInvoiceAddressNumber() );
+		$deliverAddressNumber = $this->createElement( 'deliveraddressnumber', $invoice->getDeliverAddressNumber() );
+		$headerText = $this->createElement( 'headertext', $invoice->getHeaderText() );
+		$footerText = $this->createElement( 'footertext', $invoice->getFooterText() );
+		
+		$headerElement->appendChild( $customerElement );
 		$headerElement->appendChild( $invoiceTypeElement );
-
+		$headerElement->appendChild( $invoiceNumberElement );
+		$headerElement->appendChild( $statusElement );
+		$headerElement->appendChild( $currencyElement );
+		$headerElement->appendChild( $periodElement );
+		$headerElement->appendChild( $invoiceDateElement );
+		$headerElement->appendChild( $dueDateElement );
+		$headerElement->appendChild( $bankElement );
+		$headerElement->appendChild( $invoiceAddressNumber );
+		$headerElement->appendChild( $deliverAddressNumber );
+		$headerElement->appendChild( $headerText );
+		$headerElement->appendChild( $footerText );
+		
 		// Add orders
 		$linesElement = $this->createElement( 'lines' );
 		$invoiceElement->appendChild( $linesElement );
@@ -91,6 +113,7 @@ class InvoicesDocument extends \DOMDocument {
 			$freeText1Element		 = $this->createElement( 'freetext1', $line->getFreeText1() );
 			$freeText2Element		 = $this->createElement( 'freetext2', $line->getFreeText2() );
 			$freeText3Element		 = $this->createElement( 'freetext3', $line->getFreeText3() );
+			$performanceDateElement  = $this->createElement( 'performancedate', $line->getPerformanceDate() );
 
 			// Add those attributes to the line
 			$lineElement->appendChild( $quantityElement );
@@ -102,6 +125,8 @@ class InvoicesDocument extends \DOMDocument {
 			$lineElement->appendChild( $vatCodeElement );
 			$lineElement->appendChild( $freeText1Element );
 			$lineElement->appendChild( $freeText2Element );
+			$lineElement->appendChild( $freeText3Element );
+			$lineElement->appendChild( $performanceDateElement );
 		}
 	}
 }
