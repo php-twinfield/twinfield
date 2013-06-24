@@ -11,6 +11,7 @@ class InvoiceLine {
 	private $subArticle;
 	private $description;
 	private $unitsPriceExcl;
+	private $unitsPriceInc;
 	private $units;
 	private $allowDiscountOrPremium;
 	private $valueExcl;
@@ -20,6 +21,7 @@ class InvoiceLine {
 	private $freeText1;
 	private $freeText2;
 	private $freeText3;
+	private $performanceDate;
 
 	public function __construct( $quantity = null, $article = null, $freeText1 = null, $freeText2 = null ) {
 		$this->ID = uniqid();
@@ -159,7 +161,22 @@ class InvoiceLine {
 		$this->freeText3 = $freeText3;
 		return $this;
 	}
+	
+	public function getUnitsPriceInc() {
+		return $this->unitsPriceInc;
+	}
 
+	public function setUnitsPriceInc( $unitsPriceInc ) {
+		$this->unitsPriceInc = $unitsPriceInc;
+	}
+
+	public function getPerformanceDate() {
+		return $this->performanceDate;
+	}
+
+	public function setPerformanceDate( $performanceDate ) {
+		$this->performanceDate = $performanceDate;
+	}
 
 
 }
