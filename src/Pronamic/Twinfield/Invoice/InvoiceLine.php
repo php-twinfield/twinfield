@@ -177,7 +177,7 @@ class InvoiceLine {
 
 	public function setPerformanceDate( $performanceDate ) {
 		$this->performanceDate = $performanceDate;
-		return this;
+		return $this;
 	}
 
 
