@@ -168,6 +168,7 @@ class InvoiceLine {
 
 	public function setUnitsPriceInc( $unitsPriceInc ) {
 		$this->unitsPriceInc = $unitsPriceInc;
+		return this;
 	}
 
 	public function getPerformanceDate() {
@@ -176,6 +177,7 @@ class InvoiceLine {
 
 	public function setPerformanceDate( $performanceDate ) {
 		$this->performanceDate = $performanceDate;
+		return this;
 	}
 
 
