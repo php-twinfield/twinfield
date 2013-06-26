@@ -136,6 +136,22 @@ Advanced documentation coming soon. Detailing usage without the Factory class. G
 with the response and data as well as more indepth examples and usage recommendations.
 
 
+## Contribute
+
+You can contribute to the development of this project. Try and keep to the way of doing things as
+the other 2 components have implemented.
+
+A large requirement is to maintain backwards compatibility so if you have any plans for large
+restructure or alteration please bring up in an issue first.
+
+Other than that, fork away!
+
+## Authors
+
+[Pronamic](http://pronamic.nl)
+[Remco Tolsma](http://remcotolsma.nl)
+[Leon Rowland](http://leon.rowland.nl)
+
 ## License
 
 Copyright 2009-2011 Pronamic.
