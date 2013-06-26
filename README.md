@@ -34,8 +34,8 @@ this will be the method for all components ( including Invoice currently )
 
 Typically it is as follows, if using the Factories
 
-Add/Edit: Make Object, Make Factory, Give object in Submit method of related factory.
-Retrieve: Make Factory, Supply all required params to respective listAll and get methods
+* Add/Edit: Make Object, Make Factory, Give object in Submit method of related factory.
+* Retrieve: Make Factory, Supply all required params to respective listAll and get methods
 
 #### Add/Edit
 
