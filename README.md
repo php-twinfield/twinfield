@@ -12,8 +12,8 @@ The classes follow the PSR0 naming convention.
 
 Currently the Library supports the following components from Twinfield
 
-*Customer
-*Invoice
+* Customer
+* Invoice
 
 ### General Usage Information
 Components will have Factories to simplify the request and send process of Twinfield.
@@ -23,11 +23,8 @@ the filled in details.
 An example of the usage of the Configuration class.
 
 ```php
-
 $config = new \Pronamic\Twinfield\Secure\Config();
 $config->setCredentials('Username', 'Password', 'Organization', 'Office');
-
-
 ```
 
 Now, to the current modules
@@ -45,7 +42,6 @@ Retrieve: Make Factory, Supply all required params to respective listAll and get
 Make your Customer object
 
 ```php
-
 $customer = new \Pronamic\Twinfield\Customer\Customer();
 $customer
 	->setID(10666)
@@ -57,13 +53,11 @@ $customer
 	->setVatCode('VL')
 	->setDueDays(10)
 	->setCocNumber('12341234');
-
 ```
 
 Customers can have addresses associated with them
 
 ```php
-
 $customerAddress = new \Pronamic\Twinfield\Customer\CustomerAddress();
 $customerAddress
 	->setDefault(false)
@@ -77,21 +71,17 @@ $customerAddress
 	->setTelephone('010-12345')
 	->setFax('010-1234')
 	->setEmail('test@email.com');
-
 ```
 
 Assign that address to the customer
 
 ```php
-
 $customer->addAddress($customer_address);
-
 ```
 
 Now lets submit it!
 
 ```php
-
 // config at the ready
 
 $customerFactory = new \Pronamic\Twinfield\Customer\CustomerFactory($config);
@@ -103,7 +93,6 @@ if($customerFactory->send($customer)){
 	// a new customer object
 	$successfulCustomer = \Pronamic\Twinfield\Customer\Mapper\CustomerMapper::map($customerFactory->getResponse()->getResponseDocument()->saveXML());
 }
-
 ```
 
 #### Retrieve/Request
@@ -116,7 +105,6 @@ You can get all customers or get a single one currently.
 $customerFactory = new \Pronamic\Twinfield\Customer\CustomerFactory($config);
 
 $customers = $customerFactory->listAll();
-
 ```
 
 At the moment, listAll will return an array of just name and short name.
@@ -124,7 +112,6 @@ At the moment, listAll will return an array of just name and short name.
 ```php
 
 $customer = $customerFactory->get('customerCode', 'office[optional]');
-
 ```
 
 The response from get() will be a \Pronamic\Twinfield\Customer\Customer object.
@@ -148,9 +135,9 @@ Other than that, fork away!
 
 ## Authors
 
-[Pronamic](http://pronamic.nl)
-[Remco Tolsma](http://remcotolsma.nl)
-[Leon Rowland](http://leon.rowland.nl)
+* [Pronamic](http://pronamic.nl)
+* [Remco Tolsma](http://remcotolsma.nl)
+* [Leon Rowland](http://leon.rowland.nl)
 
 ## License
 
