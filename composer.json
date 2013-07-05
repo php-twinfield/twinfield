@@ -6,7 +6,7 @@
 	"homepage": "http://pronamic.nl",
 	"license": "GPL",
 	"authors": [
-		{"name": "Remco Tolsma", "email": "emcotolsma@pronamic.nl"},
+		{"name": "Remco Tolsma", "email": "remcotolsma@pronamic.nl"},
 		{"name": "Leon Rowland", "email": "leon@pronamic.nl"}
 	],
 	"require": {
