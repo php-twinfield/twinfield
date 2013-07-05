@@ -1,5 +1,5 @@
 # TwinfieldPHP
-A PHP library for Twinfield Integration. Developed by [Remco Tolsma](http://remcotolsma.nl) and [Leon Rowland](http://leon.rowland.nl) from [Pronamic](http://pronamic.nl)
+A PHP library for Twinfield Integration. Developed by [Remco Tolsma](http://remcotolsma.nl/) and [Leon Rowland](http://leon.rowland.nl/) from [Pronamic](http://pronamic.nl/).
 
 ---
 
