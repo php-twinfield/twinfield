@@ -3,10 +3,10 @@
 namespace Pronamic\Twinfield\Invoice;
 
 class InvoiceTotals {
-	
+
 	private $valueExcl;
 	private $valueInc;
-	
+
 	public function getValueExcl() {
 		return $this->valueExcl;
 	}

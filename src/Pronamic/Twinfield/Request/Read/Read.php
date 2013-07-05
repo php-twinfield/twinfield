@@ -18,5 +18,3 @@ abstract class Read extends \DOMDocument {
 		$this->readElement->appendChild( $_element );
 	}
 }
-
-

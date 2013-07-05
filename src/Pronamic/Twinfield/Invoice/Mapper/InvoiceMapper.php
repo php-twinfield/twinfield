@@ -12,7 +12,7 @@ use \Pronamic\Twinfield\Customer\Customer;
 class InvoiceMapper {
 	public static function map( Response $response ) {
 		$responseDOM = $response->getResponseDocument();
-		
+
 		$invoiceTags = array(
 			'office'				 => 'setOffice',
 			'invoicetype'			 => 'setInvoiceType',
@@ -30,45 +30,45 @@ class InvoiceMapper {
 			'headertext'			 => 'setHeaderText',
 			'footertext'			 => 'setFooterText'
 		);
-		
+
 		$customerTags = array(
 			'customer' => 'setID'
 		);
-		
+
 		$totalsTags = array(
 			'valueexcl'	 => 'setValueExcl',
 			'valueinc'	 => 'setValueInc'
 		);
-		
+
 		// Generate new Invoice
 		$invoice = new Invoice();
-		
+
 		// Loop through all invoice tags
 		foreach($invoiceTags as $tag => $method) {
 			$_tag = $responseDOM->getElementsByTagName($tag)->item(0);
-			
+
 			if(isset($_tag) && isset($_tag->textContent))
 				$invoice->$method($_tag->textContent);
 		}
-		
+
 		// Make a custom, and loop through custom tags
 		$customer = new Customer();
 		foreach($customerTags as $tag => $method) {
 			$_tag = $responseDOM->getElementsByTagName($tag)->item(0);
-			
+
 			if(isset($_tag) && isset($_tag->textContent))
 				$customer->$method($_tag->textContent);
 		}
-		
+
 		// Make an InvoiceTotals and loop through custom tags
 		$invoiceTotals = new InvoiceTotals();
 		foreach($totalsTags as $tag => $method) {
 			$_tag = $responseDOM->getElementsByTagName($tag)->item(0);
-			
+
 			if(isset($_tag) && isset($_tag->textContent))
 				$invoiceTotals->$method($_tag->textContent);
 		}
-		
+
 		// Set the custom classes to the invoice
 		$invoice->setCustomer( $customer );
 		$invoice->setTotals($invoiceTotals);
@@ -90,17 +90,17 @@ class InvoiceMapper {
 			'freetext3' => 'setFreeText3',
 			'performancedate' => 'setPerformanceDate'
 		);
-		
+
 		foreach ( $responseDOM->getElementsByTagName( 'line' ) as $lineDOM ) {
 			$temp_line = new InvoiceLine();
-			
+
 			foreach($lineTags as $tag => $method) {
 				$_tag = $lineDOM->getElementsByTagName($tag)->item(0);
-				
+
 				if(isset($_tag) && isset($_tag->textContent))
 					$temp_line->$method($_tag->textContent);
 			}
-			
+
 			$invoice->addLine( $temp_line );
 			unset( $temp_line );
 		}

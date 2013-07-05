@@ -161,7 +161,7 @@ class InvoiceLine {
 		$this->freeText3 = $freeText3;
 		return $this;
 	}
-	
+
 	public function getUnitsPriceInc() {
 		return $this->unitsPriceInc;
 	}
@@ -179,6 +179,4 @@ class InvoiceLine {
 		$this->performanceDate = $performanceDate;
 		return $this;
 	}
-
-
 }

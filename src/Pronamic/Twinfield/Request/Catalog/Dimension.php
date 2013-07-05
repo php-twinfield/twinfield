@@ -18,6 +18,4 @@ class Dimension extends Catalog {
 	public function setDimType( $dimType ) {
 		$this->add( 'dimtype', $dimType );
 	}
-
-
 }
