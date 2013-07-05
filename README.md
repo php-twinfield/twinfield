@@ -76,7 +76,7 @@ $customerAddress
 Assign that address to the customer
 
 ```php
-$customer->addAddress($customer_address);
+$customer->addAddress($customerAddress);
 ```
 
 Now lets submit it!
