@@ -7,6 +7,9 @@ use \Pronamic\Twinfield\Secure\Config;
 use \Pronamic\Twinfield\Secure\Login;
 use \Pronamic\Twinfield\Secure\Service;
 
+// Response class
+use \Pronamic\Twinfield\Response\Response;
+
 /**
  * All Factories used by all components extend this factory for common
  * shared methods that help normalize the usage between different components.\
@@ -30,6 +33,13 @@ abstract class ParentFactory {
 	 */
 	private $login;
 
+	/**
+	 * Holds the response from a request.
+	 * 
+	 * @var \Pronamic\Twinfield\Response\Response
+	 */
+	private $response;
+	
 	/**
 	 * Pass in the Secure\Config class and it will automatically
 	 * make the Secure\Login for you.
@@ -111,7 +121,7 @@ abstract class ParentFactory {
 	 * @param \Pronamic\Twinfield\Response\Response $response
 	 * @return \Pronamic\Twinfield\Factory\ParentFactory
 	 */
-	public function setResponse(\Pronamic\Twinfield\Response\Response $response) {
+	public function setResponse(Response $response) {
 		$this->response = $response;
 		return $this;
 	}
