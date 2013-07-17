@@ -3,7 +3,7 @@ namespace Pronamic\Twinfield\Customer;
 
 use \Pronamic\Twinfield\Factory\ParentFactory;
 use \Pronamic\Twinfield\Customer\Mapper\CustomerMapper;
-use \Pronamic\Twinfield\Request as TwinfieldRequest;
+use \Pronamic\Twinfield\Request as Request;
 
 class CustomerFactory extends ParentFactory
 {
@@ -16,7 +16,7 @@ class CustomerFactory extends ParentFactory
             if(! $office)
                 $office = $this->getConfig()->getOffice();
 
-            $request_customer = new TwinfieldRequest\Read\Customer();
+            $request_customer = new Request\Read\Customer();
             $request_customer
                 ->setOffice($office)
                 ->setCode($code);
@@ -35,8 +35,10 @@ class CustomerFactory extends ParentFactory
         if($this->getLogin()->process()) {
             $service = $this->getService();
 
-            $request_customers = new TwinfieldRequest\Catalog\Dimension($this->getConfig()->getOffice());
-            $request_customers->setDimType('DEB');
+            $request_customers = new Request\Catalog\Dimension(
+                $this->getConfig()->getOffice(),
+                'DEB'
+            );
 
             $response = $service->send($request_customers);
             $this->setResponse($response);
