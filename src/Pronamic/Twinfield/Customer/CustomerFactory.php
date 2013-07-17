@@ -1,80 +1,85 @@
 <?php
-
 namespace Pronamic\Twinfield\Customer;
 
 use \Pronamic\Twinfield\Factory\ParentFactory;
 use \Pronamic\Twinfield\Customer\Mapper\CustomerMapper;
 use \Pronamic\Twinfield\Request as TwinfieldRequest;
 
-class CustomerFactory extends ParentFactory {
-	public function get($code, $office = null) {
-		if($this->getLogin()->process()) {
-			$service = $this->getService();
+class CustomerFactory extends ParentFactory
+{
 
-			if(!$office) $office = $this->getConfig()->getOffice();
+    public function get($code, $office = null)
+    {
+        if($this->getLogin()->process()) {
+            $service = $this->getService();
 
-			$request_customer = new TwinfieldRequest\Read\Customer();
-			$request_customer
-				->setOffice($office)
-				->setCode($code);
+            if(! $office)
+                $office = $this->getConfig()->getOffice();
 
-			$response = $service->send($request_customer);
-			$this->setResponse($response);
+            $request_customer = new TwinfieldRequest\Read\Customer();
+            $request_customer
+                ->setOffice($office)
+                ->setCode($code);
 
-			if($response->isSuccessful()) {
-				return CustomerMapper::map($response);
-			}
-		}
-	}
+            $response = $service->send($request_customer);
+            $this->setResponse($response);
 
-	public function listAll() {
-		if($this->getLogin()->process()) {
-			$service = $this->getService();
+            if($response->isSuccessful()) {
+                return CustomerMapper::map($response);
+            }
+        }
+    }
 
-			$request_customers = new TwinfieldRequest\Catalog\Dimension( $this->getConfig()->getOffice() );
-			$request_customers->setDimType('DEB');
+    public function listAll()
+    {
+        if($this->getLogin()->process()) {
+            $service = $this->getService();
 
-			$response = $service->send($request_customers);
-			$this->setResponse($response);
+            $request_customers = new TwinfieldRequest\Catalog\Dimension($this->getConfig()->getOffice());
+            $request_customers->setDimType('DEB');
 
-			if ($response->isSuccessful()) {
+            $response = $service->send($request_customers);
+            $this->setResponse($response);
 
-				$responseDOM = $response->getResponseDocument();
+            if($response->isSuccessful()) {
 
-				$customers = array();
+                $responseDOM = $response->getResponseDocument();
 
-				foreach($responseDOM->getElementsByTagName('dimension') as $customer) {
-					$customer_id = $customer->textContent;
+                $customers = array();
 
-					if(!is_numeric($customer_id)) continue;
+                foreach($responseDOM->getElementsByTagName('dimension') as $customer) {
+                    $customer_id = $customer->textContent;
 
-					$customers[$customer->textContent] = array(
-						'name' => $customer->getAttribute('name'),
-						'shortName' => $customer->getAttribute('shortname')
-					);
-				}
+                    if(! is_numeric($customer_id))
+                        continue;
 
-				return $customers;
-			}
+                    $customers[$customer->textContent] = array(
+                        'name'      => $customer->getAttribute('name'),
+                        'shortName' => $customer->getAttribute('shortname')
+                    );
+                }
 
-		}
-	}
+                return $customers;
+            }
+        }
+    }
 
-	public function send(Customer $customer) {
-		if($this->getLogin()->process()) {
-			$service = $this->getService();
+    public function send(Customer $customer)
+    {
+        if($this->getLogin()->process()) {
+            $service = $this->getService();
 
-			$customersDocument = new DOM\CustomersDocument();
-			$customersDocument->addCustomer($customer);
+            $customersDocument = new DOM\CustomersDocument();
+            $customersDocument->addCustomer($customer);
 
-			$response = $service->send($customersDocument);
-			$this->setResponse($response);
+            $response = $service->send($customersDocument);
+            $this->setResponse($response);
 
-			if($response->isSuccessful()) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-	}
+            if($response->isSuccessful()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 }
