@@ -113,7 +113,7 @@ class CustomerFactory extends ParentFactory
      * @access public
      * @return array | false
      */
-    public function listAll()
+    public function listAll($office = null, $dimType = 'DEB')
     {
         // Attempts to process the login
         if($this->getLogin()->process()) {
@@ -121,10 +121,14 @@ class CustomerFactory extends ParentFactory
             // Gets the secure service class
             $service = $this->getService();
 
+            // If no office present, use the config set value
+            if(! $office)
+                $office = $this->getConfig()->getOffice();
+            
             // Make a request to a list of all customers
             $request_customers = new Request\Catalog\Dimension(
-                $this->getConfig()->getOffice(), 
-                'DEB'
+                $office, 
+                $dimType
             );
 
             // Send the Request document and set the response to this instance.
