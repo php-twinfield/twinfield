@@ -6,6 +6,8 @@ namespace Pronamic\Twinfield\Response;
  *
  * Handles the response from a request.  Has the option
  * to determine if the response was a success or not.
+ * 
+ * Can return an array of error messages retrieved from the response
  *
  * @since 0.0.1
  *
