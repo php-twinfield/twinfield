@@ -1,6 +1,7 @@
 <?php
-
 namespace Pronamic\Twinfield\Secure;
+
+use Pronamic\Twinfield\SoapClient;
 
 /**
  * Login Class.
@@ -11,10 +12,10 @@ namespace Pronamic\Twinfield\Secure;
  * The username, password and organisation are retrieved from the options
  * on construct.
  *
- * @uses \Pronamic\Twinfield\Secure\Config		Holds all the config settings for this account
- * @uses \SoapClient							For both login and future interactions
- * @uses \SoapHeader							Generation of the secure header
- * @uses \DOMDocument							Handles the response from login
+ * @uses \Pronamic\Twinfield\Secure\Config    Holds all the config settings for this account
+ * @uses \SoapClient                          For both login and future interactions
+ * @uses \SoapHeader                          Generation of the secure header
+ * @uses \DOMDocument                         Handles the response from login
  *
  * @since 0.0.1
  *
@@ -24,142 +25,144 @@ namespace Pronamic\Twinfield\Secure;
  * @copyright (c) 2013, Leon Rowland
  * @version 0.0.1
  */
-use Pronamic\Twinfield\SoapClient;
+class Login
+{
+    protected $loginWSDL    = 'https://login.twinfield.com/webservices/session.asmx?wsdl';
+    protected $clusterWSDL  = '%s/webservices/processxml.asmx?wsdl';
+    protected $xmlNamespace = 'http://schemas.xmlsoap.org/soap/envelope/';
+    private $config;
 
-class Login {
+    /**
+     * The SoapClient used to login to Twinfield
+     *
+     * @access private
+     * @var SoapClient
+     */
+    private $soapLoginClient;
 
-	protected $loginWSDL = 'https://login.twinfield.com/webservices/session.asmx?wsdl';
-	protected $clusterWSDL = '%s/webservices/processxml.asmx?wsdl';
-	protected $xmlNamespace = 'http://schemas.xmlsoap.org/soap/envelope/';
+    /**
+     * The response from the login client, when
+     * successful
+     *
+     * @access private
+     * @var string
+     */
+    private $loginResponse;
 
-	private $config;
+    /**
+     * The sessionID for the successful login
+     *
+     * @access private
+     * @var string
+     */
+    private $sessionID;
 
-	/**
-	 * The SoapClient used to login to Twinfield
-	 *
-	 * @access private
-	 * @var SoapClient
-	 */
-	private $soapLoginClient;
+    /**
+     * The server cluster used for future XML
+     * requests with the new SoapClient
+     *
+     * @access private
+     * @var string
+     */
+    private $cluster;
 
-	/**
-	 * The response from the login client, when
-	 * successful
-	 *
-	 * @access private
-	 * @var string
-	 */
-	private $loginResponse;
+    /**
+     * If the login has been processed and was
+     * successful
+     *
+     * @access private
+     * @var boolean
+     */
+    private $processed = false;
 
-	/**
-	 * The sessionID for the successful login
-	 *
-	 * @access private
-	 * @var string
-	 */
-	private $sessionID;
+    public function __construct(Config $config)
+    {
+        $this->config = $config;
 
-	/**
-	 * The server cluster used for future XML
-	 * requests with the new SoapClient
-	 *
-	 * @access private
-	 * @var string
-	 */
-	private $cluster;
+        $this->soapLoginClient = new SoapClient($this->loginWSDL,
+            array('trace' => 1));
+    }
 
-	/**
-	 * If the login has been processed and was
-	 * successful
-	 *
-	 * @access private
-	 * @var boolean
-	 */
-	private $processed = false;
+    /**
+     * Will process the login.
+     *
+     * If successful, will set the session and cluster information
+     * to the class
+     *
+     * @since 0.0.1
+     *
+     * @access public
+     * @return boolean If successful or not
+     */
+    public function process()
+    {
+        // Process logon
+        $response = $this->soapLoginClient->Logon($this->config->getCredentials());
 
-	public function __construct( Config $config ) {
-		$this->config = $config;
+        // Check response is successful
+        if('Ok' == $response->LogonResult) {
+            // Response from the logon request
+            $this->loginResponse = $this->soapLoginClient->__getLastResponse();
 
-		$this->soapLoginClient = new SoapClient( $this->loginWSDL, array( 'trace' => 1 ) );
-	}
+            // Make a new DOM and load the response XML
+            $envelope = new \DOMDocument();
+            $envelope->loadXML($this->loginResponse);
 
-	/**
-	 * Will process the login.
-	 *
-	 * If successful, will set the session and cluster information
-	 * to the class
-	 *
-	 * @since 0.0.1
-	 *
-	 * @access public
-	 * @return boolean If successful or not
-	 */
-	public function process() {
-		// Process logon
-		$response = $this->soapLoginClient->Logon( $this->config->getCredentials() );
+            // Gets SessionID
+            $sessionID       = $envelope->getElementsByTagName('SessionID');
+            $this->sessionID = $sessionID->item(0)->textContent;
 
-		// Check response is successful
-		if ( 'Ok' == $response->LogonResult ) {
-			// Response from the logon request
-			$this->loginResponse = $this->soapLoginClient->__getLastResponse();
+            // Gets Cluster URL
+            $cluster       = $envelope->getElementsByTagName('cluster');
+            $this->cluster = $cluster->item(0)->textContent;
 
-			// Make a new DOM and load the response XML
-			$envelope = new \DOMDocument();
-			$envelope->loadXML( $this->loginResponse );
+            // This login object is processed!
+            $this->processed = true;
 
-			// Gets SessionID
-			$sessionID = $envelope->getElementsByTagName( 'SessionID' );
-			$this->sessionID = $sessionID->item( 0 )->textContent;
+            return true;
+        }
 
-			// Gets Cluster URL
-			$cluster = $envelope->getElementsByTagName( 'cluster' );
-			$this->cluster = $cluster->item( 0 )->textContent;
+        return false;
+    }
 
-			// This login object is processed!
-			$this->processed = true;
+    /**
+     * Gets a new instance of the soap header.
+     *
+     * Will automaticly login if haven't already on this object
+     *
+     * @since 0.0.1
+     *
+     * @access public
+     * @return \SoapHeader
+     */
+    public function getHeader()
+    {
+        if(! $this->processed)
+            $this->process();
 
-			return true;
-		}
+        return new \SoapHeader('http://www.twinfield.com/', 'Header',
+            array('SessionID' => $this->sessionID));
+    }
 
-		return false;
-	}
+    /**
+     * Gets the soap client with the headers attached
+     *
+     * Will automaticly login if haven't already on this object
+     *
+     * @since 0.0.1
+     *
+     * @access public
+     * @return \SoapClient
+     */
+    public function getClient()
+    {
+        if(! $this->processed)
+            $this->process();
 
-	/**
-	 * Gets a new instance of the soap header.
-	 *
-	 * Will automaticly login if haven't already on this object
-	 *
-	 * @since 0.0.1
-	 *
-	 * @access public
-	 * @return \SoapHeader
-	 */
-	public function getHeader() {
-		if ( ! $this->processed )
-			$this->process();
+        // Makes a new client, and assigns the header to it
+        $client = new SoapClient(sprintf($this->clusterWSDL, $this->cluster));
+        $client->__setSoapHeaders($this->getHeader());
 
-		return new \SoapHeader( 'http://www.twinfield.com/', 'Header', array( 'SessionID' => $this->sessionID ) );
-	}
-
-	/**
-	 * Gets the soap client with the headers attached
-	 *
-	 * Will automaticly login if haven't already on this object
-	 *
-	 * @since 0.0.1
-	 *
-	 * @access public
-	 * @return \SoapClient
-	 */
-	public function getClient() {
-		if ( ! $this->processed )
-			$this->process();
-
-		// Makes a new client, and assigns the header to it
-		$client = new SoapClient( sprintf( $this->clusterWSDL, $this->cluster ) );
-		$client->__setSoapHeaders( $this->getHeader() );
-
-		return $client;
-	}
-
+        return $client;
+    }
 }
