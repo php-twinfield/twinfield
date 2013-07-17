@@ -30,6 +30,13 @@ class Login
     protected $loginWSDL    = 'https://login.twinfield.com/webservices/session.asmx?wsdl';
     protected $clusterWSDL  = '%s/webservices/processxml.asmx?wsdl';
     protected $xmlNamespace = 'http://schemas.xmlsoap.org/soap/envelope/';
+    
+    /**
+     * Holds the passed in Config instance
+     * 
+     * @access private
+     * @var Pronamic\Twinfield\Secure\Config
+     */
     private $config;
 
     /**
@@ -128,7 +135,7 @@ class Login
     /**
      * Gets a new instance of the soap header.
      *
-     * Will automaticly login if haven't already on this object
+     * Will automaticly login if haven't already on this instance
      *
      * @since 0.0.1
      *
@@ -147,7 +154,7 @@ class Login
     /**
      * Gets the soap client with the headers attached
      *
-     * Will automaticly login if haven't already on this object
+     * Will automaticly login if haven't already on this instance
      *
      * @since 0.0.1
      *
