@@ -21,6 +21,6 @@ class Office extends Catalog
      */
     public function __construct()
     {
-        $this->add('type', 'office');
+        $this->add('type', 'offices');
     }
 }
