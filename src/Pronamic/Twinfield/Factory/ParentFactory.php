@@ -82,14 +82,10 @@ abstract class ParentFactory {
 	 * Secure\Config instance.
 	 * 
 	 * @access public
-	 * @return void
+	 * @return boolean
 	 */
 	public function makeLogin() {
-		try {
-			$this->login = new Login($this->getConfig());
-		} catch ( Exception $exc ) {
-			echo $exc->getTraceAsString();
-		}
+		return $this->login = new Login($this->getConfig());
 	}
 
 	/**
