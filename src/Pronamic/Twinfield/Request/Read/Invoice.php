@@ -19,6 +19,9 @@ class Invoice extends Read
      * are present.
      * 
      * @access public
+     * @param int $office
+     * @param string $code
+     * @param int $number
      */
     public function __construct($office = null, $code = null, $number = null)
     {
