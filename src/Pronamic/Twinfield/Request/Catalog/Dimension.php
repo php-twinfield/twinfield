@@ -3,7 +3,6 @@ namespace Pronamic\Twinfield\Request\Catalog;
 
 class Dimension extends Catalog
 {
-
     public function __construct($office = null, $dimType = null)
     {
         parent::__construct();
