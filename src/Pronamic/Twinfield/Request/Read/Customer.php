@@ -19,12 +19,19 @@ class Customer extends Read
      * 
      * @access public
      */
-    public function __construct()
+    public function __construct($office = null, $code = null, $dimType = 'DEB')
     {
         parent::__construct();
 
         $this->add('type', 'dimensions');
-        $this->add('dimtype', 'DEB');
+        
+        if(null !== $office)
+            $this->setOffice($office);
+        
+        if(null !== $code)
+            $this->setCode($code);
+        
+        $this->setDimType($dimType);
     }
 
     /**
@@ -50,6 +57,19 @@ class Customer extends Read
     public function setCode($code)
     {
         $this->add('code', $code);
+        return $this;
+    }
+    
+    /**
+     * Sets the dimtype for the request.
+     * 
+     * @access public
+     * @param string $dimType
+     * @return \Pronamic\Twinfield\Request\Read\Customer
+     */
+    public function setDimType($dimType)
+    {
+        $this->add('dimtype', $dimType);
         return $this;
     }
 }
