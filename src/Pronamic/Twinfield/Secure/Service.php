@@ -6,8 +6,11 @@ use \Pronamic\Twinfield\Response\Response;
 /**
  * Service Class
  *
- * This is the main class each components Service class extends.
- * It handles the request and response.
+ * This is the main service class. From here attempts are
+ * made to communicate with the Soap Service.
+ * 
+ * Requires an instance of the Login class before requests
+ * are made.
  *
  * @uses \DOMDocument
  * @uses \SoapClient
@@ -25,6 +28,8 @@ class Service
 {
     /**
      * Holds the login class for this service
+     * 
+     * @access private
      * @var \Pronamic\Twinfield\Secure\Login $login
      */
     private $login;
@@ -69,7 +74,7 @@ class Service
      * Sends a request with the secured client, and loads
      * the result response into Service->response
      *
-     * The response is also returned.
+     * An instance of Twinfield\Response\Response is also returned.
      *
      * @since 0.0.1
      *
