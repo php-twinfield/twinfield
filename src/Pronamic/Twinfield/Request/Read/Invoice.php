@@ -20,11 +20,20 @@ class Invoice extends Read
      * 
      * @access public
      */
-    public function __construct()
+    public function __construct($office = null, $code = null, $number = null)
     {
         parent::__construct();
 
         $this->add('type', 'salesinvoice');
+        
+        if(null !== $office)
+            $this->setOffice($office);
+        
+        if(null !== $code)
+            $this->setCode($code);
+        
+        if(null !== $number)
+            $this->setNumber($number);
     }
 
     /**
