@@ -27,8 +27,12 @@ class Dimension extends Catalog
         parent::__construct();
 
         $this->add('type', 'dimensions');
-        $this->setOffice($office);
-        $this->setDimType($dimType);
+        
+        if(null !== $office)
+            $this->setOffice($office);
+        
+        if(null !== $dimType)
+            $this->setDimType($dimType);
     }
 
     /**
