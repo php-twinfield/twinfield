@@ -48,12 +48,12 @@ abstract class Read extends \DOMDocument
      * See the documentation over what <read> requires to know
      * and what additional elements you need.
      * 
-     * @access public
+     * @access protected
      * @param string $element
      * @param mixed $value
      * @return void
      */
-    public function add($element, $value)
+    protected function add($element, $value)
     {
         $_element = $this->createElement($element, $value);
         $this->readElement->appendChild($_element);
