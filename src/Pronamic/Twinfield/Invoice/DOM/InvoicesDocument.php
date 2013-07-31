@@ -1,132 +1,160 @@
 <?php
-
 namespace Pronamic\Twinfield\Invoice\DOM;
 
-/**
- * The Document Holder for making new XML invoices.
- * Is an abstract class, and you don't call it directly.
- *
- * It is instead, extended by the Elements class for
- * each component.
- *
- * @uses \Pronamic\Twinfield\DOM\Document Is required to extend as part of the checking methods
- *
- * @since 0.0.1
- *
- * @package Pronamic\Twinfield
- * @subpackage Invoice
- * @author Leon Rowland <leon@rowland.nl>
- * @copyright (c) 2013, Leon Rowland
- * @version 0.0.1
- */
 use \Pronamic\Twinfield\Invoice\Invoice;
 
-class InvoicesDocument extends \DOMDocument {
+/**
+ * The Document Holder for making new XML invoices.  Is a child class
+ * of DOMDocument and makes the required DOM for the interaction in
+ * creating a new invoice.
+ *
+ * @package Pronamic\Twinfield
+ * @subpackage Invoice\DOM
+ * @author Leon Rowland <leon@rowland.nl>
+ * @copyright (c) 2013, Pronamic
+ * @version 0.0.1
+ */
+class InvoicesDocument extends \DOMDocument
+{
+    /**
+     * Holds the <salesinvoice> element
+     * that all additional elements should be a child of.
+     * @var \DOMElement
+     */
+    private $salesInvoicesElement;
 
-	private $salesInvoicesElement;
+    /**
+     * Creates the <salesinvoice> element and adds it to the property
+     * salesInvoicesElement
+     * 
+     * @access public
+     */
+    public function __construct()
+    {
+        parent::__construct();
 
-	public function __construct() {
-		parent::__construct();
+        // Make the main wrap element
+        $this->salesInvoicesElement = $this->createElement('salesinvoices');
+        $this->appendChild($this->salesInvoicesElement);
+    }
 
-		// Make the main wrap element
-		$this->salesInvoicesElement = $this->createElement( 'salesinvoices' );
-		$this->appendChild($this->salesInvoicesElement);
-	}
+    /**
+     * Creates a new <salesinvoice> element and assigns it to 
+     * this \DOMDocument and returns it.
+     * 
+     * @access public
+     * @return \DOMElement A <salesinvoice> DOMElement
+     */
+    public function getNewInvoice()
+    {
+        // Make the new salesinvoice element
+        $salesInvoiceElement = $this->createElement('salesinvoice');
 
-	/**
-	 * Creates the new \DOMElement for a salesinvoice,
-	 * assigns it to this \DOMDocument and returns it.
-	 *
-	 * @since 0.0.1
-	 *
-	 * @access public
-	 * @return \DOMElement A <salesinvoice> DOMElement
-	 */
-	public function getNewInvoice() {
-		// Make the new salesinvoice element
-		$salesInvoiceElement = $this->createElement('salesinvoice');
+        // Add to the main salesinvoices element
+        $this->salesInvoicesElement->appendChild($salesInvoiceElement);
 
-		// Add to the main salesinvoices element
-		$this->salesInvoicesElement->appendChild($salesInvoiceElement);
+        // Return the saleinvoice element
+        return $salesInvoiceElement;
+    }
 
-		// Return the saleinvoice element
-		return $salesInvoiceElement;
-	}
+    /**
+     * Turns a passed Invoice class into the required markup for interacting
+     * with Twinfield.
+     * 
+     * This method doesn't return anything, instead just adds the invoice
+     * to this DOMDocument instance for submission usage.
+     * 
+     * @access public
+     * @param \Pronamic\Twinfield\Invoice\Invoice $invoice
+     * @return void | [Adds to this instance]
+     */
+    public function addInvoice(Invoice $invoice)
+    {
+        // Make a new <salesinvoice> element
+        $invoiceElement = $this->getNewInvoice();
 
-	public function addInvoice(Invoice $invoice) {
-		$invoiceElement = $this->getNewInvoice();
+        // Makes a child header element
+        $headerElement = $this->createElement('header');
+        $invoiceElement->appendChild($headerElement);
+        
+        // Set customer element
+        $customer = $invoice->getCustomer();
 
-		// Makes header element
-		$headerElement = $this->createElement( 'header' );
-		$invoiceElement->appendChild( $headerElement );
+        // <customer>
+        $customerNode    = $this->createTextNode($customer->getID());
+        $customerElement = $this->createElement('customer');
+        $customerElement->appendChild($customerNode);
+        $headerElement->appendChild($customerElement);
 
-		// Set customer element
-		$customer = $invoice->getCustomer();
-		
-		$customerElement = $this->createElement( 'customer', $customer->getID() );
-		$invoiceTypeElement = $this->createElement( 'invoicetype', $invoice->getInvoiceType() );
-		$invoiceNumberElement = $this->createElement( 'invoicenumber', $invoice->getInvoiceNumber() );
-		$statusElement = $this->createElement( 'status', $invoice->getStatus() );
-		$currencyElement = $this->createElement( 'currency', $invoice->getCurrency() );
-		$periodElement = $this->createElement( 'period', $invoice->getPeriod() );
-		$invoiceDateElement = $this->createElement( 'invoicedate', $invoice->getInvoiceDate() );
-		$dueDateElement = $this->createElement( 'duedate', $invoice->getDueDate() );
-		$bankElement = $this->createElement( 'bank', $invoice->getBank() );
-		$invoiceAddressNumber = $this->createElement( 'invoiceaddressnumber', $invoice->getInvoiceAddressNumber() );
-		$deliverAddressNumber = $this->createElement( 'deliveraddressnumber', $invoice->getDeliverAddressNumber() );
-		$headerText = $this->createElement( 'headertext', $invoice->getHeaderText() );
-		$footerText = $this->createElement( 'footertext', $invoice->getFooterText() );
-		
-		$headerElement->appendChild( $customerElement );
-		$headerElement->appendChild( $invoiceTypeElement );
-		$headerElement->appendChild( $invoiceNumberElement );
-		$headerElement->appendChild( $statusElement );
-		$headerElement->appendChild( $currencyElement );
-		$headerElement->appendChild( $periodElement );
-		$headerElement->appendChild( $invoiceDateElement );
-		$headerElement->appendChild( $dueDateElement );
-		$headerElement->appendChild( $bankElement );
-		$headerElement->appendChild( $invoiceAddressNumber );
-		$headerElement->appendChild( $deliverAddressNumber );
-		$headerElement->appendChild( $headerText );
-		$headerElement->appendChild( $footerText );
-		
-		// Add orders
-		$linesElement = $this->createElement( 'lines' );
-		$invoiceElement->appendChild( $linesElement );
+        // Elements and their associated methods for invoice
+        $headerTags = array(
+            'invoicetype'          => 'getInvoiceType',
+            'invoicenumber'        => 'getInvoiceNumber',
+            'status'               => 'getStatus',
+            'currency'             => 'getCurrency',
+            'period'               => 'getPeriod',
+            'invoicedate'          => 'getInvoiceDate',
+            'duedate'              => 'getDueDate',
+            'bank'                 => 'getBank',
+            'invoiceaddressnumber' => 'getInvoiceAddressNumber',
+            'deliveraddressnumber' => 'getDeliverAddressNumber',
+            'headertext'           => 'getHeaderText',
+            'footertext'           => 'getFooterText'
+        );
+        
+        // Go through each element and use the assigned method
+        foreach($headerTags as $tag => $method) {
+            
+            // Make text node for method value
+            $node = $this->createTextNode($invoice->$method());
+            
+            // Make the actual element and assign the node
+            $element = $this->createElement($tag);
+            $element->appendChild($node);
+            
+            // Add the full element
+            $headerElement->appendChild($element);
+        }
 
-		// Loop through all orders, and add those elements
-		foreach ( $invoice->getLines() as $line ) {
+        // Add orders
+        $linesElement = $this->createElement('lines');
+        $invoiceElement->appendChild($linesElement);
+        
+        // Elements and their associated methods for lines
+        $lineTags = array(
+            'quantity'        => 'getQuantity',
+            'article'         => 'getArticle',
+            'subarticle'      => 'getSubArticle',
+            'description'     => 'getDescription',
+            'unitspriceexcl'  => 'getUnitsPriceExcl',
+            'units'           => 'getUnits',
+            'vatcode'         => 'getVatCode',
+            'freetext1'       => 'getFreeText1',
+            'freetext2'       => 'getFreeText2',
+            'freetext3'       => 'getFreeText3',
+            'performancedate' => 'getPerformanceDate'
+        );
 
-			// Make a new line element, and add to <lines>
-			$lineElement = $this->createElement( 'line' );
-			$linesElement->appendChild( $lineElement );
+        // Loop through all orders, and add those elements
+        foreach($invoice->getLines() as $line) {
 
-			// Set attributes
-			$quantityElement		 = $this->createElement( 'quantity', $line->getQuantity() );
-			$articleElement			 = $this->createElement( 'article', $line->getArticle() );
-			$subarticleElement		 = $this->createElement( 'subarticle', $line->getSubArticle() );
-			$descriptionElement		 = $this->createElement( 'description', $line->getDescription() );
-			$unitsPriceExclElement	 = $this->createElement( 'unitspriceexcl', $line->getUnitsPriceExcl() );
-			$unitsElement			 = $this->createElement( 'units', $line->getUnits() );
-			$vatCodeElement			 = $this->createElement( 'vatcode', $line->getVatCode() );
-			$freeText1Element		 = $this->createElement( 'freetext1', $line->getFreeText1() );
-			$freeText2Element		 = $this->createElement( 'freetext2', $line->getFreeText2() );
-			$freeText3Element		 = $this->createElement( 'freetext3', $line->getFreeText3() );
-			$performanceDateElement  = $this->createElement( 'performancedate', $line->getPerformanceDate() );
+            // Make a new line element, and add to <lines>
+            $lineElement = $this->createElement('line');
+            $linesElement->appendChild($lineElement);
 
-			// Add those attributes to the line
-			$lineElement->appendChild( $quantityElement );
-			$lineElement->appendChild( $articleElement );
-			$lineElement->appendChild( $subarticleElement );
-			$lineElement->appendChild( $descriptionElement );
-			$lineElement->appendChild( $unitsPriceExclElement );
-			$lineElement->appendChild( $unitsElement );
-			$lineElement->appendChild( $vatCodeElement );
-			$lineElement->appendChild( $freeText1Element );
-			$lineElement->appendChild( $freeText2Element );
-			$lineElement->appendChild( $freeText3Element );
-			$lineElement->appendChild( $performanceDateElement );
-		}
-	}
+            // Go through each element and use the assigned method
+            foreach($lineTags as $tag => $method) {
+                
+                // Make text node for method value
+                $node = $this->createTextNode($line->$method());
+                
+                // Make the actual element with tag
+                $element = $this->createElement($tag);
+                $element->appendChild($node);
+                
+                // Add the full element
+                $lineElement->appendChild($element);
+            }
+        }
+    }
 }

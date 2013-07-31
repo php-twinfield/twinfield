@@ -1,182 +1,214 @@
 <?php
-
 namespace Pronamic\Twinfield\Invoice;
 
-class InvoiceLine {
+class InvoiceLine
+{
+    private $ID;
+    private $quantity;
+    private $article;
+    private $subArticle;
+    private $description;
+    private $unitsPriceExcl;
+    private $unitsPriceInc;
+    private $units;
+    private $allowDiscountOrPremium;
+    private $valueExcl;
+    private $vatValue;
+    private $valueInc;
+    private $vatCode;
+    private $freeText1;
+    private $freeText2;
+    private $freeText3;
+    private $performanceDate;
 
-	private $ID;
+    public function __construct($quantity = null, $article = null, $freeText1 = null, $freeText2 = null)
+    {
+        $this->ID = uniqid();
 
-	private $quantity;
-	private $article;
-	private $subArticle;
-	private $description;
-	private $unitsPriceExcl;
-	private $unitsPriceInc;
-	private $units;
-	private $allowDiscountOrPremium;
-	private $valueExcl;
-	private $vatValue;
-	private $valueInc;
-	private $vatCode;
-	private $freeText1;
-	private $freeText2;
-	private $freeText3;
-	private $performanceDate;
+        $this->quantity  = $quantity;
+        $this->article   = $article;
+        $this->freeText1 = $freeText1;
+        $this->freeText2 = $freeText2;
+    }
 
-	public function __construct( $quantity = null, $article = null, $freeText1 = null, $freeText2 = null ) {
-		$this->ID = uniqid();
+    public function getID()
+    {
+        return $this->ID;
+    }
 
-		$this->quantity = $quantity;
-		$this->article = $article;
-		$this->freeText1 = $freeText1;
-		$this->freeText2 = $freeText2;
-	}
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
 
-	public function getID() {
-		return $this->ID;
-	}
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+        return $this;
+    }
 
-	public function getQuantity() {
-		return $this->quantity;
-	}
+    public function getArticle()
+    {
+        return $this->article;
+    }
 
-	public function setQuantity( $quantity ) {
-		$this->quantity = $quantity;
-		return $this;
-	}
+    public function setArticle($article)
+    {
+        $this->article = $article;
+        return $this;
+    }
 
-	public function getArticle() {
-		return $this->article;
-	}
+    public function getSubArticle()
+    {
+        return $this->subArticle;
+    }
 
-	public function setArticle( $article ) {
-		$this->article = $article;
-		return $this;
-	}
+    public function setSubArticle($subArticle)
+    {
+        $this->subArticle = $subArticle;
+        return $this;
+    }
 
-	public function getSubArticle() {
-		return $this->subArticle;
-	}
+    public function getDescription()
+    {
+        return $this->description;
+    }
 
-	public function setSubArticle( $subArticle ) {
-		$this->subArticle = $subArticle;
-		return $this;
-	}
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
 
-	public function getDescription() {
-		return $this->description;
-	}
+    public function getUnitsPriceExcl()
+    {
+        return $this->unitsPriceExcl;
+    }
 
-	public function setDescription( $description ) {
-		$this->description = $description;
-		return $this;
-	}
+    public function setUnitsPriceExcl($unitsPriceExcl)
+    {
+        $this->unitsPriceExcl = $unitsPriceExcl;
+        return $this;
+    }
 
-	public function getUnitsPriceExcl() {
-		return $this->unitsPriceExcl;
-	}
+    public function getUnits()
+    {
+        return $this->units;
+    }
 
-	public function setUnitsPriceExcl( $unitsPriceExcl ) {
-		$this->unitsPriceExcl = $unitsPriceExcl;
-		return $this;
-	}
+    public function setUnits($units)
+    {
+        $this->units = $units;
+        return $this;
+    }
 
-	public function getUnits() {
-		return $this->units;
-	}
+    public function getAllowDiscountOrPremium()
+    {
+        return $this->allowDiscountOrPremium;
+    }
 
-	public function setUnits( $units ) {
-		$this->units = $units;
-		return $this;
-	}
+    public function setAllowDiscountOrPremium($allowDiscountOrPremium)
+    {
+        $this->allowDiscountOrPremium = $allowDiscountOrPremium;
+        return $this;
+    }
 
-	public function getAllowDiscountOrPremium() {
-		return $this->allowDiscountOrPremium;
-	}
+    public function getValueExcl()
+    {
+        return $this->valueExcl;
+    }
 
-	public function setAllowDiscountOrPremium( $allowDiscountOrPremium ) {
-		$this->allowDiscountOrPremium = $allowDiscountOrPremium;
-		return $this;
-	}
+    public function setValueExcl($valueExcl)
+    {
+        $this->valueExcl = $valueExcl;
+        return $this;
+    }
 
-	public function getValueExcl() {
-		return $this->valueExcl;
-	}
+    public function getVatValue()
+    {
+        return $this->vatValue;
+    }
 
-	public function setValueExcl( $valueExcl ) {
-		$this->valueExcl = $valueExcl;
-		return $this;
-	}
+    public function setVatValue($vatValue)
+    {
+        $this->vatValue = $vatValue;
+        return $this;
+    }
 
-	public function getVatValue() {
-		return $this->vatValue;
-	}
+    public function getValueInc()
+    {
+        return $this->valueInc;
+    }
 
-	public function setVatValue( $vatValue ) {
-		$this->vatValue = $vatValue;
-		return $this;
-	}
+    public function setValueInc($valueInc)
+    {
+        $this->valueInc = $valueInc;
+        return $this;
+    }
 
-	public function getValueInc() {
-		return $this->valueInc;
-	}
+    public function getVatCode()
+    {
+        return $this->vatCode;
+    }
 
-	public function setValueInc( $valueInc ) {
-		$this->valueInc = $valueInc;
-		return $this;
-	}
+    public function setVatCode($vatCode)
+    {
+        $this->vatCode = $vatCode;
+        return $this;
+    }
 
-	public function getVatCode() {
-		return $this->vatCode;
-	}
+    public function getFreeText1()
+    {
+        return $this->freeText1;
+    }
 
-	public function setVatCode( $vatCode ) {
-		$this->vatCode = $vatCode;
-		return $this;
-	}
+    public function setFreeText1($freeText1)
+    {
+        $this->freeText1 = $freeText1;
+        return $this;
+    }
 
-	public function getFreeText1() {
-		return $this->freeText1;
-	}
+    public function getFreeText2()
+    {
+        return $this->freeText2;
+    }
 
-	public function setFreeText1( $freeText1 ) {
-		$this->freeText1 = $freeText1;
-		return $this;
-	}
+    public function setFreeText2($freeText2)
+    {
+        $this->freeText2 = $freeText2;
+        return $this;
+    }
 
-	public function getFreeText2() {
-		return $this->freeText2;
-	}
+    public function getFreeText3()
+    {
+        return $this->freeText3;
+    }
 
-	public function setFreeText2( $freeText2 ) {
-		$this->freeText2 = $freeText2;
-		return $this;
-	}
+    public function setFreeText3($freeText3)
+    {
+        $this->freeText3 = $freeText3;
+        return $this;
+    }
 
-	public function getFreeText3() {
-		return $this->freeText3;
-	}
+    public function getUnitsPriceInc()
+    {
+        return $this->unitsPriceInc;
+    }
 
-	public function setFreeText3( $freeText3 ) {
-		$this->freeText3 = $freeText3;
-		return $this;
-	}
+    public function setUnitsPriceInc($unitsPriceInc)
+    {
+        $this->unitsPriceInc = $unitsPriceInc;
+        return this;
+    }
 
-	public function getUnitsPriceInc() {
-		return $this->unitsPriceInc;
-	}
+    public function getPerformanceDate()
+    {
+        return $this->performanceDate;
+    }
 
-	public function setUnitsPriceInc( $unitsPriceInc ) {
-		$this->unitsPriceInc = $unitsPriceInc;
-		return this;
-	}
-
-	public function getPerformanceDate() {
-		return $this->performanceDate;
-	}
-
-	public function setPerformanceDate( $performanceDate ) {
-		$this->performanceDate = $performanceDate;
-		return $this;
-	}
+    public function setPerformanceDate($performanceDate)
+    {
+        $this->performanceDate = $performanceDate;
+        return $this;
+    }
 }

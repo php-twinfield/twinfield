@@ -1,25 +1,28 @@
 <?php
-
 namespace Pronamic\Twinfield\Invoice;
 
-class InvoiceTotals {
+class InvoiceTotals
+{
+    private $valueExcl;
+    private $valueInc;
 
-	private $valueExcl;
-	private $valueInc;
+    public function getValueExcl()
+    {
+        return $this->valueExcl;
+    }
 
-	public function getValueExcl() {
-		return $this->valueExcl;
-	}
+    public function setValueExcl($valueExcl)
+    {
+        $this->valueExcl = $valueExcl;
+    }
 
-	public function setValueExcl( $valueExcl ) {
-		$this->valueExcl = $valueExcl;
-	}
+    public function getValueInc()
+    {
+        return $this->valueInc;
+    }
 
-	public function getValueInc() {
-		return $this->valueInc;
-	}
-
-	public function setValueInc( $valueInc ) {
-		$this->valueInc = $valueInc;
-	}
+    public function setValueInc($valueInc)
+    {
+        $this->valueInc = $valueInc;
+    }
 }
