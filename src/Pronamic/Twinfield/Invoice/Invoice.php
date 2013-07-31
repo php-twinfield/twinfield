@@ -40,7 +40,6 @@ class Invoice
     private $headerText;
     private $footerText;
     private $totals;
-
     private $lines = array();
 
     public function addLine(InvoiceLine $line)
@@ -48,7 +47,7 @@ class Invoice
         $this->lines[$line->getID()] = $line;
         return $this;
     }
-    
+
     public function removeLine($uid)
     {
         if(array_key_exists($uid, $this->lines)) {
