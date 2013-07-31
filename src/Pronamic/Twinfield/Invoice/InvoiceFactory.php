@@ -53,7 +53,7 @@ class InvoiceFactory extends ParentFactory
      * \Pronamic\Twinfield\Invoice\Mapper\InvoiceMapper class.
      * 
      * @access public
-     * @param int $code
+     * @param string $code
      * @param int $invoiceNumber
      * @param string $office
      * @return type
