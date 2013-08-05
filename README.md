@@ -135,9 +135,9 @@ Other than that, fork away!
 
 ## Authors
 
-* [Pronamic](http://pronamic.nl)
-* [Remco Tolsma](http://remcotolsma.nl)
-* [Leon Rowland](http://leon.rowland.nl)
+* [Pronamic](http://pronamic.nl/)
+* [Remco Tolsma](http://remcotolsma.nl/)
+* [Leon Rowland](http://leon.rowland.nl/)
 
 ## License
 
