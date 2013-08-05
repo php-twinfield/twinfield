@@ -136,6 +136,7 @@ Other than that, fork away!
 ## Links
 
 * [Twinfield API Documentation site](https://c1.twinfield.com/webservices/documentation/)
+* [Twinfield Library for Python](https://bitbucket.org/vanschelven/twinfield)
 
 ## Authors
 
