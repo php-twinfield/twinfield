@@ -133,6 +133,10 @@ restructure or alteration please bring up in an issue first.
 
 Other than that, fork away!
 
+## Links
+
+* [Twinfield API Documentation site](https://c1.twinfield.com/webservices/documentation/)
+
 ## Authors
 
 * [Pronamic](http://pronamic.nl/)
