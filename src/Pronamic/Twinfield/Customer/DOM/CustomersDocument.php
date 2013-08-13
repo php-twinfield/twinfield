@@ -3,10 +3,31 @@ namespace Pronamic\Twinfield\Customer\DOM;
 
 use \Pronamic\Twinfield\Customer\Customer;
 
+/**
+ * The Document Holder for making new XML customers. Is a child class
+ * of DOMDocument and makes the required DOM tree for the interaction in
+ * creating a new customer.
+ * 
+ * @package Pronamic\Twinfield
+ * @subpackage Invoice\DOM
+ * @author Leon Rowland <leon@rowland.nl>
+ * @copyright (c) 2013, Pronamic
+ */
 class CustomersDocument extends \DOMDocument
 {
+    /**
+     * Holds the <dimension> element 
+     * that all additional elements should be a child of
+     * @var \DOMElement
+     */
     private $dimensionElement;
 
+    /**
+     * Creates the <dimension> element and adds it to the property
+     * dimensionElement
+     * 
+     * @access public
+     */
     public function __construct()
     {
         parent::__construct();
@@ -15,72 +36,98 @@ class CustomersDocument extends \DOMDocument
         $this->appendChild($this->dimensionElement);
     }
 
+    /**
+     * Turns a passed Customer class into the required markup for interacting
+     * with Twinfield.
+     * 
+     * This method doesn't return anything, instead just adds the invoice to 
+     * this DOMDOcument instance for submission usage.
+     * 
+     * @access public
+     * @param \Pronamic\Twinfield\Customer\Customer $customer
+     * @return void | [Adds to this instance]
+     */
     public function addCustomer(Customer $customer)
     {
-        // Makes code element
-        $codeElement = $this->createElement('code');
-        $codeElement->appendChild($this->createTextNode($customer->getID()));
-        $this->dimensionElement->appendChild($codeElement);
-
-        // Make name element
-        $nameElement = $this->createElement('name');
-        $nameElement->appendChild($this->createTextNode($customer->getName()));
-        $this->dimensionElement->appendChild($nameElement);
-
-        // Make type element
-        $typeElement = $this->createElement('type');
-        $typeElement->appendChild($this->createTextNode($customer->getType()));
-        $this->dimensionElement->appendChild($typeElement);
-
-        // Make website element
-        $websiteElement = $this->createElement('website');
-        $websiteElement->appendChild($this->createTextNode($customer->getWebsite()));
-        $this->dimensionElement->appendChild($websiteElement);
-
-        // Test coc element
-        $cocNumberElement = $this->createElement('cocnumber');
-        $cocNumberElement->appendChild($this->createTextNode($customer->getCocNumber()));
-        $this->dimensionElement->appendChild($cocNumberElement);
-
+        // Elements and their associated methods for customer
+        $customerTags = array(
+            'code'      => 'getID',
+            'name'      => 'getName',
+            'type'      => 'getType',
+            'website'   => 'getWebsite',
+            'cocnumber' => 'getCocNumber'
+        );
+        
+        // Go through each customer element and use the assigned method
+        foreach($customerTags as $tag => $method ) {
+            
+            // Make text node for method value
+            $node = $this->createTextNode($customer->$method());
+            
+            // Make the actual element and assign the node
+            $element = $this->createElement($tag);
+            $element->appendChild($node);
+            
+            // Add the full element
+            $this->dimensionElement->appendChild($element);
+        }
+        
+        // Check if the financial information should be supplied
         if($customer->getDueDays() > 0) {
-            // Make financial element
+            
+            // Financial elements and their methods
+            $financialsTags = array(
+                'duedays'      => 'getDueDays',
+                'payavailable' => 'getPayAvailable',
+                'paycode'      => 'getPayCode',
+                'vatcode'      => 'getVatCode',
+                'ebilling'     => 'getEBilling',
+                'ebillmail'    => 'getEBillMail'
+            );
+            
+            // Make the financial element
             $financialElement = $this->createElement('financials');
             $this->dimensionElement->appendChild($financialElement);
-
-            // Set financial child elements
-            $dueDaysElement = $this->createElement('duedays');
-            $dueDaysElement->appendChild($this->createTextNode($customer->getDueDays()));
-
-            $payAvailableElement = $this->createElement('payavailable');
-            $payAvailableElement->appendChild($this->createTextNode($customer->getPayAvailable()));
-
-            $payCodeElement = $this->createElement('paycode');
-            $payCodeElement->appendChild($this->createTextNode($customer->getPayCode()));
-
-            $vatCodeElement = $this->createElement('vatcode');
-            $vatCodeElement->appendChild($this->createTextNode($customer->getVatCode()));
-
-            $eBillingElement = $this->createElement('ebilling');
-            $eBillingElement->appendChild($this->createTextNode($customer->getEBilling()));
-
-            $eBillMailElement = $this->createElement('ebillmail');
-            $eBillMailElement->appendChild($this->createTextNode($customer->getEBillMail()));
-
-            // Add these to the financial element
-            $financialElement->appendChild($dueDaysElement);
-            $financialElement->appendChild($payAvailableElement);
-            $financialElement->appendChild($payCodeElement);
-            $financialElement->appendChild($vatCodeElement);
-            $financialElement->appendChild($eBillingElement);
-            $financialElement->appendChild($eBillMailElement);
+            
+            // Go through each financial element and use the assigned method
+            foreach($financialsTags as $tag => $method) {
+                
+                // Make the text node for the method value
+                $node = $this->createTextNode($customer->$method());
+                
+                // Make the actual element and assign the node
+                $element = $this->createElement($tag);
+                $element->appendChild($node);
+                
+                // Add the full element
+                $financialElement->appendChild($element);
+            }
         }
-
+        
+        // Address elements and their methods
+        $addressTags = array(
+            'name'      => 'getName',
+            'country'   => 'getCountry',
+            'city'      => 'getCity',
+            'postcode'  => 'getPostcode',
+            'telephone' => 'getTelephone',
+            'telefax'   => 'getFax',
+            'email'     => 'getEmail',
+            'field1'    => 'getField1',
+            'field2'    => 'getField2',
+            'field3'    => 'getField3',
+            'field4'    => 'getField4',
+            'field5'    => 'getField5',
+            'field6'    => 'getField6'
+        );
 
         // Make address element
         $addressesElement = $this->createElement('addresses');
         $this->dimensionElement->appendChild($addressesElement);
-
+        
+        // Go through each address assigned to the customer
         foreach($customer->getAddresses() as $address) {
+            
             // Makes new address element
             $addressElement = $this->createElement('address');
             $addressesElement->appendChild($addressElement);
@@ -88,61 +135,20 @@ class CustomersDocument extends \DOMDocument
             // Set attributes
             $addressElement->setAttribute('default', $address->getDefault());
             $addressElement->setAttribute('type', $address->getType());
-
-            // Build elements
-            $aNameElement = $this->createElement('name');
-            $aNameElement->appendChild($this->createTextNode($address->getName()));
-
-            $countryElement = $this->createElement('country');
-            $countryElement->appendChild($this->createTextNode($address->getCountry()));
-
-            $cityElement = $this->createElement('city');
-            $cityElement->appendChild($this->createTextNode($address->getCity()));
-
-            $postcodeElement = $this->createElement('postcode');
-            $postcodeElement->appendChild($this->createTextNode($address->getPostcode()));
-
-            $telephoneElement = $this->createElement('telephone');
-            $telephoneElement->appendChild($this->createTextNode($address->getTelephone()));
-
-            $faxElement = $this->createElement('telefax');
-            $faxElement->appendChild($this->createTextNode($address->getFax()));
-
-            $emailElement = $this->createElement('email');
-            $emailElement->appendChild($this->createTextNode($address->getEmail()));
-
-            $field1Element = $this->createElement('field1');
-            $field1Element->appendChild($this->createTextNode($address->getField1()));
-
-            $field2Element = $this->createElement('field2');
-            $field2Element->appendChild($this->createTextNode($address->getField2()));
-
-            $field3Element = $this->createElement('field3');
-            $field3Element->appendChild($this->createTextNode($address->getField3()));
-
-            $field4Element = $this->createElement('field4');
-            $field4Element->appendChild($this->createTextNode($address->getField4()));
-
-            $field5Element = $this->createElement('field5');
-            $field5Element->appendChild($this->createTextNode($address->getField5()));
-
-            $field6Element = $this->createElement('field6');
-            $field6Element->appendChild($this->createTextNode($address->getField6()));
-
-            // Add these elements to the address
-            $addressElement->appendChild($aNameElement);
-            $addressElement->appendChild($countryElement);
-            $addressElement->appendChild($cityElement);
-            $addressElement->appendChild($postcodeElement);
-            $addressElement->appendChild($telephoneElement);
-            $addressElement->appendChild($faxElement);
-            $addressElement->appendChild($emailElement);
-            $addressElement->appendChild($field1Element);
-            $addressElement->appendChild($field2Element);
-            $addressElement->appendChild($field3Element);
-            $addressElement->appendChild($field4Element);
-            $addressElement->appendChild($field5Element);
-            $addressElement->appendChild($field6Element);
+            
+            // Go through each address element and use the assigned method
+            foreach($addressTags as $tag => $method) {
+                
+                // Make the text node for the method value
+                $node = $this->createTextNode($address->$method());
+                
+                // Make the actual element and assign the text node
+                $element = $this->createElement($tag);
+                $element->appendChild($node);
+                
+                // Add the completed element
+                $addressElement->appendChild($element);
+            }
         }
     }
 }
