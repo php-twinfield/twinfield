@@ -91,7 +91,7 @@ if($customerFactory->send($customer)){
 
 	// you can get the responded XML document, and even turn that back into
 	// a new customer object
-	$successfulCustomer = \Pronamic\Twinfield\Customer\Mapper\CustomerMapper::map($customerFactory->getResponse()->getResponseDocument()->saveXML());
+	$successfulCustomer = \Pronamic\Twinfield\Customer\Mapper\CustomerMapper::map($customerFactory->getResponse());
 }
 ```
 
