@@ -1,6 +1,6 @@
-# TwinfieldPHP  [![Build Status](https://secure.travis-ci.org/pronamic/twinfield.png?branch=develop)](http://travis-ci.org/pronamic/twinfield)
+# Twinfield  [![Build Status](https://secure.travis-ci.org/pronamic/twinfield.png?branch=develop)](http://travis-ci.org/pronamic/twinfield)
 A PHP library for Twinfield Integration. Developed by [Remco Tolsma](http://remcotolsma.nl/) and [Leon Rowland](http://leon.rowland.nl/) from [Pronamic](http://pronamic.nl/).
-
+Use the Twinfield SOAP Service to have your PHP application communicate directly with your Twinfield account.
 ---
 
 ## Autoloading
@@ -9,11 +9,6 @@ The classes follow the PSR0 naming convention.
 
 
 ## Usage
-
-Currently the Library supports the following components from Twinfield
-
-* Customer
-* Invoice
 
 ### General Usage Information
 Components will have Factories to simplify the request and send process of Twinfield.
@@ -35,7 +30,7 @@ this will be the method for all components ( including Invoice currently )
 Typically it is as follows, if using the Factories
 
 * Add/Edit: Make Object, Make Factory, Give object in Submit method of related factory.
-* Retrieve: Make Factory, Supply all required params to respective listAll and get methods
+* Retrieve: Make Factory, Supply all required params to respective listAll() and get() methods
 
 #### Add/Edit
 
@@ -82,16 +77,17 @@ $customer->addAddress($customerAddress);
 Now lets submit it!
 
 ```php
-// config at the ready
+use \Pronamic\Twinfield\Customer as TwinfieldCustomer;
 
-$customerFactory = new \Pronamic\Twinfield\Customer\CustomerFactory($config);
+// Config object prepared and passed to the CustomerFactory
+$customerFactory = new TwinfieldCustomer\CustomerFactory($config);
 
+//$customer = new TwinfieldCustomer\Customer();
+
+// Attempt to send the Customer document
 if($customerFactory->send($customer)){
-	// then it was successful.
-
-	// you can get the responded XML document, and even turn that back into
-	// a new customer object
-	$successfulCustomer = \Pronamic\Twinfield\Customer\Mapper\CustomerMapper::map($customerFactory->getResponse());
+	// Use the Mapper to turn the response back into a TwinfieldCustomer\Customer
+	$successfulCustomer = TwinfieldCustomer\Mapper\CustomerMapper::map($customerFactory->getResponse());
 }
 ```
 
@@ -100,9 +96,10 @@ if($customerFactory->send($customer)){
 You can get all customers or get a single one currently.
 
 ```php
+use \Pronamic\Twinfield\Customer as TwinfieldCustomer;
 
-// config at the ready
-$customerFactory = new \Pronamic\Twinfield\Customer\CustomerFactory($config);
+// Config object prepared and passed into the CustomerFactory
+$customerFactory = new TwinfieldCustomer\CustomerFactory($config);
 
 $customers = $customerFactory->listAll();
 ```
@@ -120,7 +117,7 @@ The response from get() will be a \Pronamic\Twinfield\Customer\Customer object.
 #### Notes
 
 Advanced documentation coming soon. Detailing usage without the Factory class. Giving you more control
-with the response and data as well as more indepth examples and usage recommendations.
+with the response and data as well as more in-depth examples and usage recommendations.
 
 
 ## Contribute
@@ -130,10 +127,6 @@ the other 2 components have implemented.
 
 A large requirement is to maintain backwards compatibility so if you have any plans for large
 restructure or alteration please bring up in an issue first.
-
-Other than that, fork away!
-
-These are the following components that are missing:
 
 | Component                                                                                                       | get()              | listAll()          | send()             | Mapper             | Namespace                                                                                                               |
 | --------------------------------------------------------------------------------------------------------------- | :----------------: | :----------------: | :----------------: | :----------------: | ----------------------------------------------------------------------------------------------------------------------- |
@@ -160,7 +153,7 @@ These are the following components that are missing:
 
 ## License
 
-Copyright 2009-2011 Pronamic.
+Copyright 2009-2013 Pronamic.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
