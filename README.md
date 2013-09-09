@@ -133,6 +133,21 @@ restructure or alteration please bring up in an issue first.
 
 Other than that, fork away!
 
+These are the following components that are missing:
+
+| Component                                                                                                       | get()              | listAll()          | send()             |
+| --------------------------------------------------------------------------------------------------------------- | -------------------| ------------------ | ------------------ |
+| [Customer](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [Sales Invoices](https://c1.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices)               | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [Purchase Transactions](https://c1.twinfield.com/webservices/documentation/#/ApiReference/PurchaseTransactions) |                    |                    | :white_check_mark: |
+| [Articles](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles)                  |                    |                    |                    |
+| [Balance Sheets](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/BalanceSheets)       |                    |                    |                    |
+| [Suppliers](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers)                |                    |                    |                    |
+| [Dimension Groups](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionGroups)   |                    |                    |                    |
+| [Dimension Types](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionTypes)     |                    |                    |                    |
+| [Offices](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Offices)                    |                    |                    |                    |
+| [Sales Transactions](https://c1.twinfield.com/webservices/documentation/#/ApiReference/SalesTransactions)       |                    |                    |                    |
+
 ## Links
 
 * [Twinfield API Documentation site](https://c1.twinfield.com/webservices/documentation/)
