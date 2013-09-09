@@ -135,18 +135,20 @@ Other than that, fork away!
 
 These are the following components that are missing:
 
-| Component                                                                                                       | get()              | listAll()          | send()             | Mapper             |
-| --------------------------------------------------------------------------------------------------------------- | :----------------: | :----------------: | :----------------: | :----------------: |
-| [Customer](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| [Sales Invoices](https://c1.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices)               | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| [Purchase Transactions](https://c1.twinfield.com/webservices/documentation/#/ApiReference/PurchaseTransactions) |                    |                    | :white_check_mark: |                    |
-| [Articles](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles)                  |                    |                    |                    |                    |
-| [Balance Sheets](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/BalanceSheets)       |                    |                    |                    |                    |
-| [Suppliers](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers)                |                    |                    |                    |                    |
-| [Dimension Groups](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionGroups)   |                    |                    |                    |                    |
-| [Dimension Types](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionTypes)     |                    |                    |                    |                    |
-| [Offices](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Offices)                    |                    |                    |                    |                    |
-| [Sales Transactions](https://c1.twinfield.com/webservices/documentation/#/ApiReference/SalesTransactions)       |                    |                    |                    |                    |
+| Component                                                                                                       | get()              | listAll()          | send()             | Mapper             | Namespace                                                                                                               |
+| --------------------------------------------------------------------------------------------------------------- | :----------------: | :----------------: | :----------------: | :----------------: | ----------------------------------------------------------------------------------------------------------------------- |
+| [Customer](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | [Pronamic/Twinfield/Customer](https://github.com/pronamic/twinfield/tree/develop/src/Pronamic/Twinfield/Customer)       |
+| [Sales Invoices](https://c1.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices)               | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | [Pronamic/Twinfield/Invoice](https://github.com/pronamic/twinfield/tree/develop/src/Pronamic/Twinfield/Invoice)         |
+| [Purchase Transactions](https://c1.twinfield.com/webservices/documentation/#/ApiReference/PurchaseTransactions) |                    |                    | :white_check_mark: |                    | [Pronamic/Twinfield/Transaction](https://github.com/pronamic/twinfield/tree/develop/src/Pronamic/Twinfield/Transaction) |
+| [Articles](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles)                  |                    |                    |                    |                    | Pronamic/Twinfield/Article                                                                                              |
+| [Balance Sheets](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/BalanceSheets)       |                    |                    |                    |                    | Pronamic/Twinfield/BalanceSheet                                                                                         |
+| [Suppliers](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers)                |                    |                    |                    |                    | Pronamic/Twinfield/Supplier                                                                                             |
+| [Dimension Groups](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionGroups)   |                    |                    |                    |                    | Pronamic/Twinfield/Dimension/Group                                                                                      |
+| [Dimension Types](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionTypes)     |                    |                    |                    |                    | Pronamic/Twinfield/Dimension/Type                                                                                       |
+| [Offices](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Offices)                    |                    |                    |                    |                    | Pronamic/Twinfield/Office                                                                                               |
+| [Sales Transactions](https://c1.twinfield.com/webservices/documentation/#/ApiReference/SalesTransactions)       |                    |                    |                    |                    | Pronamic/Twinfield/SalesTransaction                                                                                     |
+
+We will probably be looking to rename the Transaction namespace in a later addition, to be more consistant. For now, these are the planned namespaces.
 
 ## Links
 
