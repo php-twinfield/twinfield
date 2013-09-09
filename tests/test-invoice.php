@@ -4,8 +4,7 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
     
     public function testInvoiceMapperRespondsWithInvoiceEntity() {
         
-        $responseXML = '
-            <?xml version="1.0"?>
+        $responseXML = '<?xml version="1.0"?>
             <salesinvoice result="1">
                 <header>
                     <office>11024</office>
