@@ -5,3 +5,4 @@ autoload.php
 .project
 .buildpath
 .settings
+/tests/accountdetails.php
