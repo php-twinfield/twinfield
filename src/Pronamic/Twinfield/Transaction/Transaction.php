@@ -13,6 +13,7 @@ class Transaction
     private $destiny;
     private $office;
     private $code;
+    private $currency;
     private $date;
     private $period;
     private $origin;
@@ -24,6 +25,7 @@ class Transaction
     private $customer;
     private $dueDate;
     private $invoiceNumber;
+    private $number;
     private $lines = array();
 
     /**
@@ -150,6 +152,28 @@ class Transaction
     public function setCustomer(\Pronamic\Twinfield\Customer\Customer $customer)
     {
         $this->customer = $customer;
+        return $this;
+    }
+    
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    public function setCurrency($currency)
+    {
+        $this->currency = $currency;
+        return $this;
+    }
+    
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    public function setNumber($number)
+    {
+        $this->number = $number;
         return $this;
     }
 }
