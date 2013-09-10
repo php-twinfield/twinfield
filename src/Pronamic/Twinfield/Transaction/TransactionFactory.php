@@ -35,7 +35,7 @@ class TransactionFactory extends ParentFactory
             $this->setResponse($response);
             
             if($response->isSuccessful()) {
-                return true;
+                return Mapper\TransactionMapper::map($response);
             } else {
                 return false;
             }
