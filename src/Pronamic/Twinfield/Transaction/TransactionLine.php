@@ -77,8 +77,8 @@ class TransactionLine
     {
         return $this->debitCredit;
     }
-
-    public function setDebitCredti($debitCredit)
+    
+    public function setDebitCredit($debitCredit)
     {
         $this->debitCredit = $debitCredit;
         return $this;
