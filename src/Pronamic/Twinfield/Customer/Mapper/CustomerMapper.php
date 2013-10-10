@@ -82,51 +82,57 @@ class CustomerMapper
                 $customer->$method($_tag->textContent);
         }
 
-        // Element tags and their methods for address
-        $address_tags = array(
-            'name'      => 'setName',
-            'country'   => 'setCountry',
-            'city'      => 'setCity',
-            'postcode'  => 'setPostcode',
-            'telephone' => 'setTelephone',
-            'telefax'   => 'setFax',
-            'email'     => 'setEmail',
-            'field1'    => 'setField1',
-            'field2'    => 'setField2',
-            'field3'    => 'setField3',
-            'field4'    => 'setField4',
-            'field5'    => 'setField5',
-            'field6'    => 'setField6',
-        );
+        $addressesDOMTag = $responseDOM->getElementsByTagName('addresses');
+        if (isset($addressesDOMTag) && $addressesDOMTag->length > 0) {
 
-        // Loop through each returned address for the customer
-        foreach($responseDOM->getElementsByTagName('address') as $addressDOM) {
-            
-            // Make a new tempory CustomerAddress class
-            $temp_address = new CustomerAddress();
+            // Element tags and their methods for address
+            $addressTags = array(
+                'name'      => 'setName',
+                'country'   => 'setCountry',
+                'city'      => 'setCity',
+                'postcode'  => 'setPostcode',
+                'telephone' => 'setTelephone',
+                'telefax'   => 'setFax',
+                'email'     => 'setEmail',
+                'field1'    => 'setField1',
+                'field2'    => 'setField2',
+                'field3'    => 'setField3',
+                'field4'    => 'setField4',
+                'field5'    => 'setField5',
+                'field6'    => 'setField6',
+            );
 
-            // Set the attributes ( id, type, default )
-            $temp_address
-                ->setID($addressDOM->getAttribute('id'))
-                ->setType($addressDOM->getAttribute('type'))
-                ->setDefault($addressDOM->getAttribute('default'));
+            $addressesDOM = $addressesDOMTag->item(0);
 
-            // Loop through the element tags. Determine if it exists and set it if it does
-            foreach($address_tags as $tag => $method) {
-                
-                // Get the dom element
-                $_tag = $addressDOM->getElementsByTagName($tag)->item(0);
+            // Loop through each returned address for the customer
+            foreach($addressesDOM->getElementsByTagName('address') as $addressDOM) {
 
-                // Check if the tag is set, and its content is set, to prevent DOMNode errors
-                if(isset($_tag) && isset($_tag->textContent))
-                    $temp_address->$method($_tag->textContent);
+                // Make a new tempory CustomerAddress class
+                $temp_address = new CustomerAddress();
+
+                // Set the attributes ( id, type, default )
+                $temp_address
+                    ->setID($addressDOM->getAttribute('id'))
+                    ->setType($addressDOM->getAttribute('type'))
+                    ->setDefault($addressDOM->getAttribute('default'));
+
+                // Loop through the element tags. Determine if it exists and set it if it does
+                foreach($addressTags as $tag => $method) {
+
+                    // Get the dom element
+                    $_tag = $addressDOM->getElementsByTagName($tag)->item(0);
+
+                    // Check if the tag is set, and its content is set, to prevent DOMNode errors
+                    if(isset($_tag) && isset($_tag->textContent))
+                        $temp_address->$method($_tag->textContent);
+                }
+
+                // Add the address to the customer
+                $customer->addAddress($temp_address);
+
+                // Clean that memory!
+                unset($temp_address);
             }
-
-            // Add the address to the customer
-            $customer->addAddress($temp_address);
-
-            // Clean that memory!
-            unset($temp_address);
         }
 
         $banksDOMTag = $responseDOM->getElementsByTagName('banks');
