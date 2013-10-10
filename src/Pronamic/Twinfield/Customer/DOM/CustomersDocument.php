@@ -150,5 +150,53 @@ class CustomersDocument extends \DOMDocument
                 $addressElement->appendChild($element);
             }
         }
+
+        $banks = $customer->getBanks();
+        if (!empty($banks)) {
+
+            // Bank elements and their methods
+            $bankTags = array(
+                'ascription'      => 'getAscription',
+                'accountnumber'   => 'getAccountnumber',
+                'address'         => 'getAddress',
+                'bankname'        => 'getBankname',
+                'biccode'         => 'getBiccode',
+                'city'            => 'getCity',
+                'country'         => 'getCountry',
+                'iban'            => 'getIban',
+                'natbiccode'      => 'getNatbiccode',
+                'postcode'        => 'getPostcode',
+                'state'           => 'getState'
+            );
+
+            // Make banks element
+            $banksElement = $this->createElement('banks');
+            $this->dimensionElement->appendChild($banksElement);
+
+            // Go through each bank assigned to the customer
+            foreach($banks as $bank) {
+
+                // Makes new bank element
+                $bankElement = $this->createElement('bank');
+                $banksElement->appendChild($bankElement);
+
+                // Set attributes
+                $bankElement->setAttribute('default', $bank->getDefault());
+
+                // Go through each bank element and use the assigned method
+                foreach($bankTags as $tag => $method) {
+
+                    // Make the text node for the method value
+                    $node = $this->createTextNode($bank->$method());
+
+                    // Make the actual element and assign the text node
+                    $element = $this->createElement($tag);
+                    $element->appendChild($node);
+
+                    // Add the completed element
+                    $bankElement->appendChild($element);
+                }
+            }
+        }
     }
 }

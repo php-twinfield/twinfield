@@ -3,6 +3,7 @@ namespace Pronamic\Twinfield\Customer\Mapper;
 
 use \Pronamic\Twinfield\Customer\Customer;
 use \Pronamic\Twinfield\Customer\CustomerAddress;
+use \Pronamic\Twinfield\Customer\CustomerBank;
 use \Pronamic\Twinfield\Response\Response;
 
 /**
@@ -126,6 +127,56 @@ class CustomerMapper
 
             // Clean that memory!
             unset($temp_address);
+        }
+
+        $banksDOMTag = $responseDOM->getElementsByTagName('banks');
+        if (isset($banksDOMTag) && $banksDOMTag->length > 0) {
+
+            // Element tags and their methods for bank
+            $bankTags = array(
+                'ascription'      => 'setAscription',
+                'accountnumber'   => 'setAccountnumber',
+                'address'         => 'setAddress',
+                'bankname'        => 'setBankname',
+                'biccode'         => 'setBiccode',
+                'city'            => 'setCity',
+                'country'         => 'setCountry',
+                'iban'            => 'setIban',
+                'natbiccode'      => 'setNatbiccode',
+                'postcode'        => 'setPostcode',
+                'state'           => 'setState'
+            );
+
+            $banksDOM = $banksDOMTag->item(0);
+
+            // Loop through each returned bank for the customer
+            foreach($banksDOM->getElementsByTagName('bank') as $bankDOM) {
+
+                // Make a new tempory CustomerBank class
+                $temp_bank = new CustomerBank();
+
+                // Set the attributes ( id, default )
+                $temp_bank
+                    ->setID($bankDOM->getAttribute('id'))
+                    ->setDefault($bankDOM->getAttribute('default'));
+
+                // Loop through the element tags. Determine if it exists and set it if it does
+                foreach($bankTags as $tag => $method) {
+
+                    // Get the dom element
+                    $_tag = $bankDOM->getElementsByTagName($tag)->item(0);
+
+                    // Check if the tag is set, and its content is set, to prevent DOMNode errors
+                    if(isset($_tag) && isset($_tag->textContent))
+                        $temp_bank->$method($_tag->textContent);
+                }
+
+                // Add the bank to the customer
+                $customer->addBank($temp_bank);
+
+                // Clean that memory!
+                unset($temp_bank);
+            }
         }
 
         return $customer;

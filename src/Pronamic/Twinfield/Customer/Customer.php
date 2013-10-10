@@ -26,6 +26,7 @@ class Customer {
 	private $eBilling = 'false';
 	private $eBillMail;
 	private $addresses = array();
+	private $banks = array();
 	private $groups;
 
 	public function getID() {
@@ -224,6 +225,15 @@ class Customer {
 
 	public function addAddress(CustomerAddress $address) {
 		$this->addresses[] = $address;
+		return $this;
+	}
+
+	public function getBanks() {
+		return $this->banks;
+	}
+
+	public function addBank(CustomerBank $bank) {
+		$this->banks[] = $bank;
 		return $this;
 	}
 
