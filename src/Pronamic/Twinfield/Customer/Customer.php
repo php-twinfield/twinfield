@@ -6,6 +6,7 @@ class Customer {
 
 	private $ID;
 	private $UID;
+	private $status;
 	private $name;
 	private $type;
 	private $inUse;
@@ -44,6 +45,15 @@ class Customer {
 
 	public function setUID( $UID ) {
 		$this->UID = $UID;
+		return $this;
+	}
+
+	public function getStatus() {
+		return $this->status;
+	}
+
+	public function setStatus( $status ) {
+		$this->status = $status;
 		return $this;
 	}
 

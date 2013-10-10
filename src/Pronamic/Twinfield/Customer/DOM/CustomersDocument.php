@@ -57,7 +57,11 @@ class CustomersDocument extends \DOMDocument
             'website'   => 'getWebsite',
             'cocnumber' => 'getCocNumber'
         );
-        
+
+        $status = $customer->getStatus();
+        if (!empty($status))
+            $this->dimensionElement->setAttribute('status', $customer->getStatus());
+
         // Go through each customer element and use the assigned method
         foreach($customerTags as $tag => $method ) {
             

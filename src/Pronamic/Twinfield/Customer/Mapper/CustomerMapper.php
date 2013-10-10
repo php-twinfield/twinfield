@@ -31,6 +31,10 @@ class CustomerMapper
         // Gets the raw DOMDocument response.
         $responseDOM = $response->getResponseDocument();
 
+        // Set the status attribute
+        $dimensionElement = $responseDOM->getElementsByTagName('dimension')->item(0);
+        $customer->setStatus($dimensionElement->getAttribute('status'));
+
         // Customer elements and their methods
         $customerTags = array(
             'code'              => 'setID',
