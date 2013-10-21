@@ -7,7 +7,8 @@ class CustomerBank {
     private $default;        # true/false    Is this the default bank account, only one default bank account is possible.
     private $ascription;     # string(40)    Account holder.
     private $accountnumber;  # string(40)    Account number.
-    private $address;        # node          Sets a part of the bank address.
+    private $addressField2;  # string(128)   Bank address.
+    private $addressField3;  # string(128)   Bank address number.
     private $bankname;       # string(40)    Bank name.
     private $biccode;        # string(16)    BIC code.
     private $city;           # string(40)    City.
@@ -53,12 +54,21 @@ class CustomerBank {
 		return $this;
 	}
 
-	public function getAddress() {
-		return $this->address;
+	public function getAddressField2() {
+		return $this->addressField2;
 	}
 
-	public function setAddress( $address ) {
-		$this->address = $address;
+	public function setAddressField2( $addressField2 ) {
+		$this->addressField2 = $addressField2;
+		return $this;
+	}
+
+	public function getAddressField3() {
+		return $this->addressField3;
+	}
+
+	public function setAddressField3( $addressField3 ) {
+		$this->addressField3 = $addressField3;
 		return $this;
 	}
 

@@ -146,7 +146,8 @@ class CustomerMapper
             $bankTags = array(
                 'ascription'      => 'setAscription',
                 'accountnumber'   => 'setAccountnumber',
-                'address'         => 'setAddress',
+                'field2'          => 'setAddressField2',
+                'field3'          => 'setAddressField3',
                 'bankname'        => 'setBankname',
                 'biccode'         => 'setBiccode',
                 'city'            => 'setCity',

@@ -166,7 +166,6 @@ class CustomersDocument extends \DOMDocument
             $bankTags = array(
                 'ascription'      => 'getAscription',
                 'accountnumber'   => 'getAccountnumber',
-                'address'         => 'getAddress',
                 'bankname'        => 'getBankname',
                 'biccode'         => 'getBiccode',
                 'city'            => 'getCity',
@@ -204,6 +203,24 @@ class CustomersDocument extends \DOMDocument
                     // Add the completed element
                     $bankElement->appendChild($element);
                 }
+
+                // Bank address fields
+
+                // Make the text nodes for the bank address fields
+                $field2Node = $this->createTextNode($bank->getAddressField2());
+                $field3Node = $this->createTextNode($bank->getAddressField3());
+
+                // Make the actual elements and assign the text nodes
+                $field2Element = $this->createElement('field2');
+                $field3Element = $this->createElement('field3');
+                $field2Element->appendChild($field2Node);
+                $field3Element->appendChild($field3Node);
+
+                // Combine the fields in an address element and add that to the bank element
+                $addressElement = $this->createElement('address');
+                $addressElement->appendChild($field2Element);
+                $addressElement->appendChild($field3Element);
+                $bankElement->appendChild($addressElement);
             }
         }
     }
