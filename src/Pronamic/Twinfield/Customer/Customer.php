@@ -4,7 +4,7 @@ namespace Pronamic\Twinfield\Customer;
 
 class Customer {
 
-	private $ID;
+	private $code;
 	private $UID;
 	private $name;
 	private $type;
@@ -28,13 +28,23 @@ class Customer {
 	private $addresses = array();
 	private $groups;
 
+    public function getCode() {
+        return $this->code;
+    }
+    
+    public function setCode($code) {
+        $this->code = $code;
+        return $this;
+    }
+    
 	public function getID() {
-		return $this->ID;
+        trigger_error('getID is a deprecated function: Use getCode', E_USER_NOTICE);
+		return $this->getCode();
 	}
 
 	public function setID( $ID ) {
-		$this->ID = $ID;
-		return $this;
+        trigger_error('setID is a deprecated function: Use setCode', E_USER_NOTICE);
+		return $this->setCode($ID);
 	}
 
 	public function getUID() {
