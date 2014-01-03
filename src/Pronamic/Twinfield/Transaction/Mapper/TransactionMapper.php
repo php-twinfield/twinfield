@@ -62,7 +62,7 @@ class TransactionMapper
             'customersupplier' => 'setCustomerSupplier',            
             'openvalue'        => 'setOpenValue',
             'openbasevalue'    => 'setOpenBaseValue',
-            'openrepvalue'     => 'setOpenRepValue',            
+            'repvalue'         => 'setRepValue',            
             'matchlevel'       => 'setMatchLevel',
             'matchstatus'      => 'setMatchStatus'
         );

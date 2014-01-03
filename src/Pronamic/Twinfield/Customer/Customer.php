@@ -6,6 +6,7 @@ class Customer {
 
 	private $code;
 	private $UID;
+	private $status;
 	private $name;
 	private $type;
 	private $inUse;
@@ -26,6 +27,7 @@ class Customer {
 	private $eBilling = 'false';
 	private $eBillMail;
 	private $addresses = array();
+	private $banks = array();
 	private $groups;
 
     public function getCode() {
@@ -53,6 +55,15 @@ class Customer {
 
 	public function setUID( $UID ) {
 		$this->UID = $UID;
+		return $this;
+	}
+
+	public function getStatus() {
+		return $this->status;
+	}
+
+	public function setStatus( $status ) {
+		$this->status = $status;
 		return $this;
 	}
 
@@ -234,6 +245,15 @@ class Customer {
 
 	public function addAddress(CustomerAddress $address) {
 		$this->addresses[] = $address;
+		return $this;
+	}
+
+	public function getBanks() {
+		return $this->banks;
+	}
+
+	public function addBank(CustomerBank $bank) {
+		$this->banks[] = $bank;
 		return $this;
 	}
 
