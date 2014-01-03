@@ -32,7 +32,7 @@ class CustomerMapper
 
         // Customer elements and their methods
         $customerTags = array(
-            'code'              => 'setID',
+            'code'              => 'setCode',
             'uid'               => 'setUID',
             'name'              => 'setName',
             'inuse'             => 'setInUse',
