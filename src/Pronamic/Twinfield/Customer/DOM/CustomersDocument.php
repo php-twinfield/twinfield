@@ -51,7 +51,7 @@ class CustomersDocument extends \DOMDocument
     {
         // Elements and their associated methods for customer
         $customerTags = array(
-            'code'      => 'getID',
+            'code'      => 'getCode',
             'name'      => 'getName',
             'type'      => 'getType',
             'website'   => 'getWebsite',
