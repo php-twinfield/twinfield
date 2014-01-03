@@ -210,4 +210,35 @@ class CustomerFactory extends ParentFactory
             }
         }
     }
+    
+    /**
+     * Returns the very next free code available for the Customer Code.  As adding a new customer still requires
+     * a code.  This method first retrieves all customers, sorts by key, gets the last element, and increments the code
+     * by one.
+     * 
+     * @access public
+     * @return int
+     */
+    public function getFirstFreeCode() 
+    {
+        // Get all customers
+        $customers = $this->listAll();
+        
+        // Check some customers exist
+        if(empty($customers))
+            return 0;
+        
+        // Get the keys
+        $customersKeys = array_keys($customers);
+        
+        // Sort the keys and reverse to get the last first
+        asort($customersKeys);
+        $customersKeys = array_reverse($customersKeys);
+        
+        // Get the first of the reversed keys
+        $latestCustomerCode = $customersKeys[0];
+        
+        // Increment by one and return.
+        return (int) ++$latestCustomerCode;
+    }
 }
