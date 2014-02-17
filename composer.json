@@ -10,7 +10,7 @@
 		{"name": "Leon Rowland", "email": "leon@pronamic.nl"}
 	],
 	"require": {
-		"php": ">=5.4"
+		"php": ">=5.3"
 	},
 	"autoload": {
 		"psr-0": { "Pronamic": "src/"}
