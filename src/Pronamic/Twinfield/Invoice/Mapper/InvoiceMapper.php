@@ -32,7 +32,7 @@ class InvoiceMapper
         );
 
         $customerTags = array(
-            'customer' => 'setID'
+            'customer' => 'setCode'
         );
 
         $totalsTags = array(
