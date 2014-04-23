@@ -145,6 +145,8 @@ restructure or alteration please bring up in an issue first.
 
 * [Twinfield API Documentation site](https://c1.twinfield.com/webservices/documentation/)
 * [Twinfield Library for Python](https://bitbucket.org/vanschelven/twinfield)
+* [Using Grunt for PHP](https://chrsm.org/post/using-grunt-for-php/)
+* [Using Grunt with PHP Quality Assurance Tools](http://mariehogebrandt.se/articles/using-grunt-php-quality-assurance-tools/)
 
 ## Authors
 

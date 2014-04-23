@@ -14,5 +14,8 @@
 	},
 	"autoload": {
 		"psr-0": { "Pronamic": "src/"}
+	},
+	"require-dev": {
+		"squizlabs/php_codesniffer": "*"
 	}
 }
