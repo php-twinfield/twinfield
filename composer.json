@@ -1,7 +1,7 @@
 {
 	"name": "pronamic/twinfield",
 	"type": "library",
-	"description": "Library for using the Twinfield Soap Service",
+	"description": "Library for using the Twinfield Soap Service.",
 	"keywords": ["twinfield"],
 	"homepage": "http://pronamic.nl",
 	"license": "GPL",
