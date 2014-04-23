@@ -31,12 +31,23 @@ module.exports = function( grunt ) {
 				configuration: 'phpunit.xml'
 			}
 		},
+		
+		// Shell
+		shell: {
+			securityChecker: {
+			    command: 'php vendor/bin/security-checker security:check',
+			    options: {
+			        stdout: true
+			    }
+			}
+		}
 	} );
 
 	grunt.loadNpmTasks( 'grunt-phpcs' );
 	grunt.loadNpmTasks( 'grunt-phplint' );
 	grunt.loadNpmTasks( 'grunt-phpunit' );
+	grunt.loadNpmTasks( 'grunt-shell' );
 
 	// Default task(s).
-	grunt.registerTask( 'default', [ 'phplint', 'phpcs', 'phpunit' ] );
+	grunt.registerTask( 'default', [ 'phplint', 'phpcs', 'phpunit', 'shell' ] );
 };
