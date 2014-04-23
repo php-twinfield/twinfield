@@ -76,5 +76,4 @@ class TransactionsDocument extends \DOMDocument
             $lineElement->appendChild($descriptionElement);
         }
     }
-
 }

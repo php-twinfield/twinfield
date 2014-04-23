@@ -61,14 +61,15 @@ class InvoiceFactory extends ParentFactory
     public function get($code, $invoiceNumber, $office = null)
     {
         // Attempts to process the login.
-        if($this->getLogin()->process()) {
+        if ($this->getLogin()->process()) {
 
             // Gets the secure service class
             $service = $this->getService();
 
             // No office passed, use the one from Config
-            if(!$office)
+            if (!$office) {
                 $office = $this->getConfig()->getOffice();
+            }
 
             // Make a request to read a single invoice. Set the required values
             $request_invoice = new Request\Read\Invoice();
@@ -82,7 +83,7 @@ class InvoiceFactory extends ParentFactory
             $this->setResponse($response);
 
             // Return a mapped invoice if successful or false if not.
-            if($response->isSuccessful()) {
+            if ($response->isSuccessful()) {
                 return InvoiceMapper::map($response);
             } else {
                 return false;
@@ -117,7 +118,7 @@ class InvoiceFactory extends ParentFactory
     public function send(Invoice $invoice)
     {
         // Attempts to process the login
-        if($this->getLogin()->process()) {
+        if ($this->getLogin()->process()) {
             
             // Gets the secure service
             $service = $this->getService();
@@ -131,7 +132,7 @@ class InvoiceFactory extends ParentFactory
             $this->setResponse($response);
 
             // Return a bool on status of response
-            if($response->isSuccessful()) {
+            if ($response->isSuccessful()) {
                 return true;
             } else {
                 return false;

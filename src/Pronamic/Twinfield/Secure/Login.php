@@ -86,8 +86,7 @@ class Login
     {
         $this->config = $config;
 
-        $this->soapLoginClient = new SoapClient($this->loginWSDL,
-            array('trace' => 1));
+        $this->soapLoginClient = new SoapClient($this->loginWSDL, array('trace' => 1));
     }
 
     /**
@@ -107,7 +106,7 @@ class Login
         $response = $this->soapLoginClient->Logon($this->config->getCredentials());
 
         // Check response is successful
-        if('Ok' == $response->LogonResult) {
+        if ('Ok' == $response->LogonResult) {
             // Response from the logon request
             $this->loginResponse = $this->soapLoginClient->__getLastResponse();
 
@@ -144,11 +143,15 @@ class Login
      */
     public function getHeader()
     {
-        if(! $this->processed)
+        if (! $this->processed) {
             $this->process();
+        }
 
-        return new \SoapHeader('http://www.twinfield.com/', 'Header',
-            array('SessionID' => $this->sessionID));
+        return new \SoapHeader(
+            'http://www.twinfield.com/',
+            'Header',
+            array('SessionID' => $this->sessionID)
+        );
     }
 
     /**
@@ -163,8 +166,9 @@ class Login
      */
     public function getClient()
     {
-        if(! $this->processed)
+        if (! $this->processed) {
             $this->process();
+        }
 
         // Makes a new client, and assigns the header to it
         $client = new SoapClient(sprintf($this->clusterWSDL, $this->cluster));

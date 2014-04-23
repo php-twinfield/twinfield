@@ -87,7 +87,7 @@ class Response
         $errors = array();
 
         $rowNodes = $xpath->query('//*[@msgtype="error"]');
-        foreach($rowNodes as $rowNode) {
+        foreach ($rowNodes as $rowNode) {
             $errors[] = $rowNode->getAttribute('msg');
         }
 

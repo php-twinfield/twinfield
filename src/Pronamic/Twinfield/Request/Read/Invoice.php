@@ -29,14 +29,17 @@ class Invoice extends Read
 
         $this->add('type', 'salesinvoice');
         
-        if(null !== $office)
+        if (null !== $office) {
             $this->setOffice($office);
+        }
         
-        if(null !== $code)
+        if (null !== $code) {
             $this->setCode($code);
+        }
         
-        if(null !== $number)
+        if (null !== $number) {
             $this->setNumber($number);
+        }
     }
 
     /**

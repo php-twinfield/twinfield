@@ -60,14 +60,15 @@ class CustomerFactory extends ParentFactory
     public function get($code, $office = null)
     {
         // Attempts to process the login
-        if($this->getLogin()->process()) {
+        if ($this->getLogin()->process()) {
             
             // Get the secure service class
             $service = $this->getService();
 
             // No office passed, get the office from the Config
-            if(! $office)
+            if (! $office) {
                 $office = $this->getConfig()->getOffice();
+            }
 
             // Make a request to read a single customer. Set the required values
             $request_customer = new Request\Read\Customer();
@@ -80,7 +81,7 @@ class CustomerFactory extends ParentFactory
             $this->setResponse($response);
 
             // Return a mapped Customer if successful or false if not.
-            if($response->isSuccessful()) {
+            if ($response->isSuccessful()) {
                 return CustomerMapper::map($response);
             } else {
                 return false;
@@ -116,18 +117,19 @@ class CustomerFactory extends ParentFactory
     public function listAll($office = null, $dimType = 'DEB')
     {
         // Attempts to process the login
-        if($this->getLogin()->process()) {
+        if ($this->getLogin()->process()) {
             
             // Gets the secure service class
             $service = $this->getService();
 
             // If no office present, use the config set value
-            if(! $office)
+            if (! $office) {
                 $office = $this->getConfig()->getOffice();
+            }
             
             // Make a request to a list of all customers
             $request_customers = new Request\Catalog\Dimension(
-                $office, 
+                $office,
                 $dimType
             );
 
@@ -136,7 +138,7 @@ class CustomerFactory extends ParentFactory
             $this->setResponse($response);
 
             // Loop through the results if successful
-            if($response->isSuccessful()) {
+            if ($response->isSuccessful()) {
 
                 // Get the raw response document
                 $responseDOM = $response->getResponseDocument();
@@ -145,11 +147,12 @@ class CustomerFactory extends ParentFactory
                 $customers = array();
 
                 // Store in an array by customer id
-                foreach($responseDOM->getElementsByTagName('dimension') as $customer) {
+                foreach ($responseDOM->getElementsByTagName('dimension') as $customer) {
                     $customer_id = $customer->textContent;
 
-                    if(! is_numeric($customer_id))
+                    if (! is_numeric($customer_id)) {
                         continue;
+                    }
 
                     $customers[$customer->textContent] = array(
                         'name'      => $customer->getAttribute('name'),
@@ -189,7 +192,7 @@ class CustomerFactory extends ParentFactory
     public function send(Customer $customer)
     {
         // Attempts the process login
-        if($this->getLogin()->process()) {
+        if ($this->getLogin()->process()) {
             
             // Gets the secure service
             $service = $this->getService();
@@ -203,7 +206,7 @@ class CustomerFactory extends ParentFactory
             $this->setResponse($response);
 
             // Return a bool on status of response.
-            if($response->isSuccessful()) {
+            if ($response->isSuccessful()) {
                 return true;
             } else {
                 return false;
@@ -219,14 +222,15 @@ class CustomerFactory extends ParentFactory
      * @access public
      * @return int
      */
-    public function getFirstFreeCode() 
+    public function getFirstFreeCode()
     {
         // Get all customers
         $customers = $this->listAll();
         
         // Check some customers exist
-        if(empty($customers))
+        if (empty($customers)) {
             return 0;
+        }
         
         // Get the keys
         $customersKeys = array_keys($customers);

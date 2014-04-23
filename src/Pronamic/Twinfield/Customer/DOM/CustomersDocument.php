@@ -59,11 +59,12 @@ class CustomersDocument extends \DOMDocument
         );
 
         $status = $customer->getStatus();
-        if (!empty($status))
+        if (!empty($status)) {
             $this->dimensionElement->setAttribute('status', $status);
+        }
 
         // Go through each customer element and use the assigned method
-        foreach($customerTags as $tag => $method ) {
+        foreach ($customerTags as $tag => $method) {
             
             // Make text node for method value
             $node = $this->createTextNode($customer->$method());
@@ -77,7 +78,7 @@ class CustomersDocument extends \DOMDocument
         }
         
         // Check if the financial information should be supplied
-        if($customer->getDueDays() > 0) {
+        if ($customer->getDueDays() > 0) {
             
             // Financial elements and their methods
             $financialsTags = array(
@@ -94,7 +95,7 @@ class CustomersDocument extends \DOMDocument
             $this->dimensionElement->appendChild($financialElement);
             
             // Go through each financial element and use the assigned method
-            foreach($financialsTags as $tag => $method) {
+            foreach ($financialsTags as $tag => $method) {
                 
                 // Make the text node for the method value
                 $node = $this->createTextNode($customer->$method());
@@ -133,7 +134,7 @@ class CustomersDocument extends \DOMDocument
             $this->dimensionElement->appendChild($addressesElement);
 
             // Go through each address assigned to the customer
-            foreach($addresses as $address) {
+            foreach ($addresses as $address) {
 
                 // Makes new address element
                 $addressElement = $this->createElement('address');
@@ -144,7 +145,7 @@ class CustomersDocument extends \DOMDocument
                 $addressElement->setAttribute('type', $address->getType());
 
                 // Go through each address element and use the assigned method
-                foreach($addressTags as $tag => $method) {
+                foreach ($addressTags as $tag => $method) {
 
                     // Make the text node for the method value
                     $node = $this->createTextNode($address->$method());
@@ -181,7 +182,7 @@ class CustomersDocument extends \DOMDocument
             $this->dimensionElement->appendChild($banksElement);
 
             // Go through each bank assigned to the customer
-            foreach($banks as $bank) {
+            foreach ($banks as $bank) {
 
                 // Makes new bank element
                 $bankElement = $this->createElement('bank');
@@ -191,7 +192,7 @@ class CustomersDocument extends \DOMDocument
                 $bankElement->setAttribute('default', $bank->getDefault());
 
                 // Go through each bank element and use the assigned method
-                foreach($bankTags as $tag => $method) {
+                foreach ($bankTags as $tag => $method) {
 
                     // Make the text node for the method value
                     $node = $this->createTextNode($bank->$method());

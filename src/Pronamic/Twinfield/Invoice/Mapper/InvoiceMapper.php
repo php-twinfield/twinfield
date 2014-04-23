@@ -44,29 +44,32 @@ class InvoiceMapper
         $invoice = new Invoice();
 
         // Loop through all invoice tags
-        foreach($invoiceTags as $tag => $method) {
+        foreach ($invoiceTags as $tag => $method) {
             $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
 
-            if(isset($_tag) && isset($_tag->textContent))
+            if (isset($_tag) && isset($_tag->textContent)) {
                 $invoice->$method($_tag->textContent);
+            }
         }
 
         // Make a custom, and loop through custom tags
         $customer = new Customer();
-        foreach($customerTags as $tag => $method) {
+        foreach ($customerTags as $tag => $method) {
             $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
 
-            if(isset($_tag) && isset($_tag->textContent))
+            if (isset($_tag) && isset($_tag->textContent)) {
                 $customer->$method($_tag->textContent);
+            }
         }
 
         // Make an InvoiceTotals and loop through custom tags
         $invoiceTotals = new InvoiceTotals();
-        foreach($totalsTags as $tag => $method) {
+        foreach ($totalsTags as $tag => $method) {
             $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
 
-            if(isset($_tag) && isset($_tag->textContent))
+            if (isset($_tag) && isset($_tag->textContent)) {
                 $invoiceTotals->$method($_tag->textContent);
+            }
         }
 
         // Set the custom classes to the invoice
@@ -91,14 +94,15 @@ class InvoiceMapper
             'performancedate'        => 'setPerformanceDate'
         );
 
-        foreach($responseDOM->getElementsByTagName('line') as $lineDOM) {
+        foreach ($responseDOM->getElementsByTagName('line') as $lineDOM) {
             $temp_line = new InvoiceLine();
 
-            foreach($lineTags as $tag => $method) {
+            foreach ($lineTags as $tag => $method) {
                 $_tag = $lineDOM->getElementsByTagName($tag)->item(0);
 
-                if(isset($_tag) && isset($_tag->textContent))
+                if (isset($_tag) && isset($_tag->textContent)) {
                     $temp_line->$method($_tag->textContent);
+                }
             }
 
             $invoice->addLine($temp_line);

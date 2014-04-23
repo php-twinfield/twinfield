@@ -50,7 +50,7 @@ class Invoice
 
     public function removeLine($uid)
     {
-        if(array_key_exists($uid, $this->lines)) {
+        if (array_key_exists($uid, $this->lines)) {
             unset($this->lines[$uid]);
             return true;
         } else {

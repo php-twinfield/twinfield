@@ -10,8 +10,8 @@ class TransactionLine
 {
     private $type;
     
-    private $dim1;    
-    private $dim2;    
+    private $dim1;
+    private $dim2;
     private $value;
     private $debitCredit;
     private $description;

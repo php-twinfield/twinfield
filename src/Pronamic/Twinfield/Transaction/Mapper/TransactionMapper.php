@@ -40,44 +40,46 @@ class TransactionMapper
         $transaction->setRaiseWarning($raiseWarning);
         
         // Go through each tag and call the method if a value is set
-        foreach($transactionTags as $tag => $method) {
+        foreach ($transactionTags as $tag => $method) {
             $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
             
-            if(isset($_tag) && isset($_tag->textContent))
+            if (isset($_tag) && isset($_tag->textContent)) {
                 $transaction->$method($_tag->textContent);
+            }
         }
         
         $lineTags = array(
             'dim1'             => 'setDim1',
-            'dim2'             => 'setDim2',            
-            'value'            => 'setValue',            
-            'debitcredit'      => 'setDebitCredit',            
+            'dim2'             => 'setDim2',
+            'value'            => 'setValue',
+            'debitcredit'      => 'setDebitCredit',
             'description'      => 'setDescription',
             'rate'             => 'setRate',
             'basevalue'        => 'setBaseValue',
-            'reprate'          => 'setRepRate',            
+            'reprate'          => 'setRepRate',
             'vatcode'          => 'setVatCode',
             'vattotal'         => 'setVatTotal',
-            'vatbasetotal'     => 'setVatBaseTotal',            
-            'customersupplier' => 'setCustomerSupplier',            
+            'vatbasetotal'     => 'setVatBaseTotal',
+            'customersupplier' => 'setCustomerSupplier',
             'openvalue'        => 'setOpenValue',
             'openbasevalue'    => 'setOpenBaseValue',
-            'repvalue'         => 'setRepValue',            
+            'repvalue'         => 'setRepValue',
             'matchlevel'       => 'setMatchLevel',
             'matchstatus'      => 'setMatchStatus'
         );
         
-        foreach($responseDOM->getElementsByTagName('line') as $lineDOM) {
+        foreach ($responseDOM->getElementsByTagName('line') as $lineDOM) {
             $temp_line = new TransactionLine();
             
             $lineType = $lineDOM->getAttribute('type');
             $temp_line->setType($lineType);
             
-            foreach($lineTags as $tag => $method) {
+            foreach ($lineTags as $tag => $method) {
                 $_tag = $lineDOM->getElementsByTagName($tag)->item(0);
                 
-                if(isset($_tag) && isset($_tag->textContent))
+                if (isset($_tag) && isset($_tag->textContent)) {
                     $temp_line->$method($_tag->textContent);
+                }
             }
             
             $transaction->addLine($temp_line);
@@ -87,5 +89,4 @@ class TransactionMapper
         
         return $transaction;
     }
-
 }

@@ -25,11 +25,13 @@ class Customer extends Read
 
         $this->add('type', 'dimensions');
         
-        if(null !== $office)
+        if (null !== $office) {
             $this->setOffice($office);
+        }
         
-        if(null !== $code)
+        if (null !== $code) {
             $this->setCode($code);
+        }
         
         $this->setDimType($dimType);
     }

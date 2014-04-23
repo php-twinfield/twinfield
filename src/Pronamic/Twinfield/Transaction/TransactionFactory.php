@@ -15,13 +15,14 @@ class TransactionFactory extends ParentFactory
     
     public function get($code, $number, $office = null)
     {
-        if($this->getLogin()->process()) {
+        if ($this->getLogin()->process()) {
             
             // Get the secure service
             $service = $this->getService();
             
-            if(!$office)
+            if (!$office) {
                 $office = $this->getConfig()->getOffice();
+            }
             
             // Make a request to read a single transaction
             $request_transaction = new Request\Read\Transaction();
@@ -34,7 +35,7 @@ class TransactionFactory extends ParentFactory
             $response = $service->send($request_transaction);
             $this->setResponse($response);
             
-            if($response->isSuccessful()) {
+            if ($response->isSuccessful()) {
                 return Mapper\TransactionMapper::map($response);
             } else {
                 return false;
@@ -69,5 +70,4 @@ class TransactionFactory extends ParentFactory
             }
         }
     }
-
 }

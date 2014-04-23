@@ -53,14 +53,15 @@ class CustomerMapper
         );
 
         // Loop through all the tags
-        foreach($customerTags as $tag => $method) {
+        foreach ($customerTags as $tag => $method) {
             
             // Get the dom element
             $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
 
             // If it has a value, set it to the associated method
-            if(isset($_tag) && isset($_tag->textContent))
+            if (isset($_tag) && isset($_tag->textContent)) {
                 $customer->$method($_tag->textContent);
+            }
         }
 
         // Financial elements and their methods
@@ -76,14 +77,15 @@ class CustomerMapper
         $financialElement = $responseDOM->getElementsByTagName('financials')->item(0);
 
         // Go through each financial element and add to the assigned method
-        foreach($financialsTags as $tag => $method) {
+        foreach ($financialsTags as $tag => $method) {
             
             // Get the dom element
             $_tag = $financialElement->getElementsByTagName($tag)->item(0);
 
             // If it has a value, set it to the associated method
-            if(isset($_tag) && isset($_tag->textContent))
+            if (isset($_tag) && isset($_tag->textContent)) {
                 $customer->$method($_tag->textContent);
+            }
         }
 
         $addressesDOMTag = $responseDOM->getElementsByTagName('addresses');
@@ -109,7 +111,7 @@ class CustomerMapper
             $addressesDOM = $addressesDOMTag->item(0);
 
             // Loop through each returned address for the customer
-            foreach($addressesDOM->getElementsByTagName('address') as $addressDOM) {
+            foreach ($addressesDOM->getElementsByTagName('address') as $addressDOM) {
 
                 // Make a new tempory CustomerAddress class
                 $temp_address = new CustomerAddress();
@@ -121,14 +123,15 @@ class CustomerMapper
                     ->setDefault($addressDOM->getAttribute('default'));
 
                 // Loop through the element tags. Determine if it exists and set it if it does
-                foreach($addressTags as $tag => $method) {
+                foreach ($addressTags as $tag => $method) {
 
                     // Get the dom element
                     $_tag = $addressDOM->getElementsByTagName($tag)->item(0);
 
                     // Check if the tag is set, and its content is set, to prevent DOMNode errors
-                    if(isset($_tag) && isset($_tag->textContent))
+                    if (isset($_tag) && isset($_tag->textContent)) {
                         $temp_address->$method($_tag->textContent);
+                    }
                 }
 
                 // Add the address to the customer
@@ -161,7 +164,7 @@ class CustomerMapper
             $banksDOM = $banksDOMTag->item(0);
 
             // Loop through each returned bank for the customer
-            foreach($banksDOM->getElementsByTagName('bank') as $bankDOM) {
+            foreach ($banksDOM->getElementsByTagName('bank') as $bankDOM) {
 
                 // Make a new tempory CustomerBank class
                 $temp_bank = new CustomerBank();
@@ -172,14 +175,15 @@ class CustomerMapper
                     ->setDefault($bankDOM->getAttribute('default'));
 
                 // Loop through the element tags. Determine if it exists and set it if it does
-                foreach($bankTags as $tag => $method) {
+                foreach ($bankTags as $tag => $method) {
 
                     // Get the dom element
                     $_tag = $bankDOM->getElementsByTagName($tag)->item(0);
 
                     // Check if the tag is set, and its content is set, to prevent DOMNode errors
-                    if(isset($_tag) && isset($_tag->textContent))
+                    if (isset($_tag) && isset($_tag->textContent)) {
                         $temp_bank->$method($_tag->textContent);
+                    }
                 }
 
                 // Add the bank to the customer
