@@ -7,8 +7,7 @@ namespace Pronamic\Twinfield\Request\Read;
  * 
  * @package Pronamic\Twinfield
  * @subpackage Request\Read
- * @author Leon Rowland <leon@rowland.nl>
- * @copyright (c) 2013, Pronamic
+ * @author Willem van de Sande <W.vandeSande@MailCoupon.nl>
  * @version 0.0.1
  */
 class Article extends Read

@@ -20,7 +20,7 @@ use \Pronamic\Twinfield\Request as Request;
  * 
  * @package Pronamic\Twinfield
  * @subpackage Article
- * @author Willem van de Sande <w.vandeSande@MailCoupon.nl>
+ * @author Willem van de Sande <W.vandeSande@MailCoupon.nl>
  * @version 0.0.1
  */
 class ArticleFactory extends ParentFactory
