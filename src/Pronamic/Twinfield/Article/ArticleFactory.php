@@ -108,7 +108,7 @@ class ArticleFactory extends ParentFactory
      * getResponseDocument()->asXML() into the ArticleMapper::map method.
      * 
      * @access public
-     * @param \Pronamic\Twinfield\Article\Article $articl
+     * @param \Pronamic\Twinfield\Article\Article $article
      * @return boolean
      */
     public function send(Article $article)
