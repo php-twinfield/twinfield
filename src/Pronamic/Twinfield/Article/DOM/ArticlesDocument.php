@@ -50,8 +50,8 @@ class ArticlesDocument extends \DOMDocument
     {
         // Article->header elements and their methods
         $articleTags = array(
-            'code'              => 'getCode',
             'office'            => 'getOffice',
+            'code'              => 'getCode',
             'type'              => 'getType',
             'name'              => 'getName',
             'shortname'         => 'getShortName',
@@ -59,13 +59,13 @@ class ArticlesDocument extends \DOMDocument
             'unitnameplural'    => 'getUnitNamePlural',
             'vatcode'         => 'getVatCode',
             'allowchangevatcode' => 'getAllowChangeVatCode',
-            'performancetype'   => 'getPerformanceType',
-            'allowchangeperformancetype' => 'getAllowChangePerformanceType',
-            'percentage'        => 'getPercentage',
             'allowdiscountorpremium' => 'getAllowDiscountorPremium',
             'allowchangeunitsprice' => 'getAllowChangeUnitsPrice',
             'allowdecimalquantity' => 'getAllowDecimalQuantity',
-            
+            /*'performancetype'   => 'getPerformanceType',
+            'allowchangeperformancetype' => 'getAllowChangePerformanceType',
+            'percentage'        => 'getPercentage',
+            */
         );
         
         // Make header element
@@ -83,12 +83,15 @@ class ArticlesDocument extends \DOMDocument
             // Make text node for method value
             $node = $this->createTextNode($article->$method());
             
-            // Make the actual element and assign the node
-            $element = $this->createElement($tag);
-            $element->appendChild($node);
-            
-            // Add the full element
-            $headerElement->appendChild($element);
+            //check if there is a value in $node
+            if (!empty($node)) {
+                // Make the actual element and assign the node
+                $element = $this->createElement($tag);
+                $element->appendChild($node);
+                
+                // Add the full element
+                $headerElement->appendChild($element);
+            }
         }
 
         $lines = $article->getLines();

@@ -42,7 +42,7 @@ class ArticleMapper
             'shortname'         => 'setShortName',
             'unitnamesingular'  => 'setUnitNameSingular',
             'unitnameplural'    => 'setUnitNamePlural',
-            'vatnumber'         => 'setVatNumber',
+            'vatcode'         => 'setVatCode',
             'allowchangevatcode' => 'setAllowChangeVatCode',
             'performancetype'   => 'setPerformanceType',
             'allowchangeperformancetype' => 'setAllowChangePerformanceType',
@@ -54,7 +54,7 @@ class ArticleMapper
         );
         
         // Loop through all the tags
-        foreach($headerTags as $tag => $method) {
+        foreach($articleTags as $tag => $method) {
             
             // Get the dom element
             $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
@@ -66,11 +66,7 @@ class ArticleMapper
 
         $linesDOMTag = $responseDOM->getElementsByTagName('lines');            
         if (isset($linesDOMTag) && $linesDOMTag->length > 0) {
-            
-            $articleLine->setStatus($linesDOMTag->getAttribute('status'))
-                    ->setInUse($linesDOMTag->getAttribute('inuse'));
         
-
             // Element tags and their methods for lines
             $lineTags = array(
                 'unitspriceexcl'  => 'setUnitsPriceExcl',
@@ -88,11 +84,10 @@ class ArticleMapper
             foreach($linesDOM->getElementsByTagName('line') as $lineDOM) {
 
                 // Make a new tempory ArticleLine class
-                $temp_line = new ArticleLine();
+                $articleLine = new ArticleLine();
 
                 // Set the attributes ( id,status,inuse)
-                $temp_line
-                    ->setID($lineDOM->getAttribute('id'))
+                $articleLine->setID($lineDOM->getAttribute('id'))
                     ->setStatus($lineDOM->getAttribute('status'))
                     ->setInUse($lineDOM->getAttribute('inuse'));
 
@@ -104,14 +99,14 @@ class ArticleMapper
 
                     // Check if the tag is set, and its content is set, to prevent DOMNode errors
                     if(isset($_tag) && isset($_tag->textContent))
-                        $temp_line->$method($_tag->textContent);
+                        $articleLine->$method($_tag->textContent);
                 }
 
                 // Add the bank to the customer
-                $article->addLine($temp_line);
+                $article->addLine($articleLine);
 
                 // Clean that memory!
-                unset($temp_line);
+                unset($ArticleLine);
             }
         }
 

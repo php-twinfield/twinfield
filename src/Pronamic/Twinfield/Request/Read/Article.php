@@ -21,6 +21,8 @@ class Article extends Read
     {
         parent::__construct();
         
+        $this->add('type', 'article');
+        
         if(null !== $office)
             $this->setOffice($office);
         
