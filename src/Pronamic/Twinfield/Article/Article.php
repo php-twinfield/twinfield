@@ -15,7 +15,7 @@ class Article {
 	private $vatCode;
 	private $allowChangeVatCode = false;
 	private $performanceType;
-	private $allowChangePerformanceType = false;
+	private $allowChangePerformanceType;
 	private $percentage = false;
 	private $allowDiscountorPremium = true;
 	private $allowChangeUnitsPrice = false;

@@ -62,10 +62,10 @@ class ArticlesDocument extends \DOMDocument
             'allowdiscountorpremium' => 'getAllowDiscountorPremium',
             'allowchangeunitsprice' => 'getAllowChangeUnitsPrice',
             'allowdecimalquantity' => 'getAllowDecimalQuantity',
-            /*'performancetype'   => 'getPerformanceType',
-            'allowchangeperformancetype' => 'getAllowChangePerformanceType',
+            'performancetype'   => 'getPerformanceType',
+            //'allowchangeperformancetype' => 'getAllowChangePerformanceType',
             'percentage'        => 'getPercentage',
-            */
+            
         );
         
         // Make header element
@@ -84,7 +84,7 @@ class ArticlesDocument extends \DOMDocument
             $node = $this->createTextNode($article->$method());
             
             //check if there is a value in $node
-            if (!empty($node)) {
+            if (isset($node)) {
                 // Make the actual element and assign the node
                 $element = $this->createElement($tag);
                 $element->appendChild($node);
