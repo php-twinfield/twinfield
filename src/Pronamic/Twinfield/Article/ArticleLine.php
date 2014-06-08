@@ -95,11 +95,11 @@ class ArticleLine {
 	}
 	
 	public function getFreeText1() {
-		return $this->subCode;
+		return $this->freeText1;
 	}
 
-	public function setFreeText1( $FreeText1 ) {
-		$this->FreeText1 = $FreeText1;
+	public function setFreeText1( $freeText1 ) {
+		$this->freeText1 = $freeText1;
 		return $this;
 	}
 }

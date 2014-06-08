@@ -57,7 +57,7 @@ class ArticlesDocument extends \DOMDocument
             'shortname'         => 'getShortName',
             'unitnamesingular'  => 'getUnitNameSingular',
             'unitnameplural'    => 'getUnitNamePlural',
-            'vatnumber'         => 'getVatNumber',
+            'vatcode'         => 'getVatCode',
             'allowchangevatcode' => 'getAllowChangeVatCode',
             'performancetype'   => 'getPerformanceType',
             'allowchangeperformancetype' => 'getAllowChangePerformanceType',
@@ -69,8 +69,8 @@ class ArticlesDocument extends \DOMDocument
         );
         
         // Make header element
-        $addressesElement = $this->createElement('header');
-        $this->dimensionElement->appendChild($headerElement);
+        $headerElement = $this->createElement('header');
+        $this->articleElement->appendChild($headerElement);
         
         $status = $article->getStatus();
         
@@ -92,7 +92,7 @@ class ArticlesDocument extends \DOMDocument
         }
 
         $lines = $article->getLines();
-        if (!empty($Lines)) {
+        if (!empty($lines)) {
 
              // Element tags and their methods for lines
             $lineTags = array(
@@ -107,7 +107,7 @@ class ArticlesDocument extends \DOMDocument
             
             // Make addresses element
             $linesElement = $this->createElement('lines');
-            $this->dimensionElement->appendChild($linesElement);
+            $this->articleElement->appendChild($linesElement);
 
             // Go through each line assigned to the article
             foreach($lines as $line) {
@@ -116,11 +116,20 @@ class ArticlesDocument extends \DOMDocument
                 $lineElement = $this->createElement('line');
                 $linesElement->appendChild($lineElement);
 
-                // Set attributes
-                $lineElement->setAttribute('status', $line->getStatus());
-                $lineElement->setAttribute('id', $line->getID());
-                $lineElement->setAttribute('inuse', $line->getInUse());
+                $status = $line->getStatus ();
+                $id = $line->getID ();
+                $inUse = $line->getInUse ();
+                
+                if (!empty($status))
+                    $lineElement->setAttribute('status', $status);
+                
+                if (!empty($id))
+                    $lineElement->setAttribute('id', $id);
+                
+                if (!empty($inUse))
+                    $lineElement->setAttribute('inuse', $inUse);
 
+            
                 // Go through each line element and use the assigned method
                 foreach($lineTags as $tag => $method) {
 

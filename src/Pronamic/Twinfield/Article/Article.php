@@ -52,13 +52,13 @@ class Article {
 	}
 
 	public function getStatus() {
-	      return $this->code;
+	      return $this->status;
 	}
     
 	public function setStatus($status) {
-	      $this->status = $status;
-        return $this;
-    }
+	     $this->status = $status;
+	     return $this;
+	}
 	public function getType() {
 		return $this->type;
 	}
@@ -104,12 +104,12 @@ class Article {
 		return $this;
 	}
 
-	public function getVatNumber() {
-		return $this->vatNumber;
+	public function getVatCode() {
+		return $this->vatCode;
 	}
 
-	public function setVatNumber( $vatNumber ) {
-		$this->vatNumber = $vatNumber;
+	public function setVatCode( $vatCode ) {
+		$this->vatCode = $vatCode;
 		return $this;
 	}
 	
