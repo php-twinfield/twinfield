@@ -83,15 +83,13 @@ class ArticlesDocument extends \DOMDocument
             // Make text node for method value
             $node = $this->createTextNode($article->$method());
             
-            //check if there is a value in $node
-            if (isset($node)) {
-                // Make the actual element and assign the node
-                $element = $this->createElement($tag);
-                $element->appendChild($node);
-                
-                // Add the full element
-                $headerElement->appendChild($element);
-            }
+        
+            // Make the actual element and assign the node
+            $element = $this->createElement($tag);
+            $element->appendChild($node);
+            
+            // Add the full element
+            $headerElement->appendChild($element);
         }
 
         $lines = $article->getLines();

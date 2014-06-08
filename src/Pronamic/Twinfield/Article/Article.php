@@ -13,13 +13,13 @@ class Article {
 	private $unitNameSingular;
 	private $unitNamePlural;
 	private $vatCode;
-	private $allowChangeVatCode = false;
+	private $allowChangeVatCode = 'false';
 	private $performanceType;
 	private $allowChangePerformanceType;
 	private $percentage = false;
-	private $allowDiscountorPremium = true;
-	private $allowChangeUnitsPrice = false;
-	private $allowDecimalQuantity = false;
+	private $allowDiscountorPremium = 'true';
+	private $allowChangeUnitsPrice = 'false';
+	private $allowDecimalQuantity = 'false';
 	private $lines = [];
 	
 	
