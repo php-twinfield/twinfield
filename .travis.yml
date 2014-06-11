@@ -1,0 +1,12 @@
+language: php
+php:
+- 5.3
+- 5.4
+- 5.5
+script: phpunit
+env:
+  global:
+  - secure: OMfpboPnwddx6vj3s7cHINPQ7l8E7XdIe1KSlCbuOSgzkuHpXB1Btkb/HYxMHdXKgZ1wk5uHGCovTdEmP33PwdA5BxCUHhkN0YtpVDvxBSu/j8i5nymFEjih5bfk08kZpu8EwiPqKyBOTkGvE4/tiZ4oCodettlWc9eWMmL32nk=
+  - secure: OU19F9P+TBPGJ1HeMc50lLxO29cAYzm01fQ3cnW03LeroQbwHxRV8fLMosrcJ+lnc3bd7kkz3P0s+w0tIzPHhjlE0OVUFD2+xAFVMtPwzOjEy7+tHkcXvTO25CPzRWB55uafWALnor/mPGV/8yqqQicSG+DlKtM2M2J72SttfP0=
+  - secure: PH1qhvlF56boIe7yLzgWn6sqrUZivsMN0OjIjKgN7g3dTM5K+y7DW9O7D+NzT2hDDqzSdD4prUB47A3mT6KDeLXBDORiqZTFnY5QwEsqlAP9ItYpkxDKYwT1u5U9yGDNS1Ru89vKxJrLsbmEe0iZF78ala1PZgY1hJW/tf38kbM=
+  - secure: djdOBlD/JS2LUVRhQLAaIdC3f8vuNKMw0eKZp6Pztt2mSIRpy52mitOEUzcg1vqO2Cny8NK33lZeM4c9Q3Es24sy4cJKloA+g7tFmmgewb7zT5ULFm0EDy9Hq2Gzl6MN63/w7QJMXoEc6//wwuz9oT8uunbFimsKkv74C7uoMe4=
