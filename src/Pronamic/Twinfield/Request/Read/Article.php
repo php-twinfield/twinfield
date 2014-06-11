@@ -24,10 +24,14 @@ class Article extends Read
         $this->add('type', 'article');
         
         if(null !== $office)
+        {
             $this->setOffice($office);
+        }
         
         if(null !== $code)
+        {
             $this->setCode($code);
+        }
         
     }
 

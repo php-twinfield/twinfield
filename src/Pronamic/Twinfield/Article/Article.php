@@ -2,8 +2,9 @@
 
 namespace Pronamic\Twinfield\Article;
 
-class Article {
-
+class Article
+{
+	
 	private $code;
 	private $office;
 	private $status;
@@ -21,166 +22,202 @@ class Article {
 	private $allowChangeUnitsPrice = 'false';
 	private $allowDecimalQuantity = 'false';
 	private $lines = [];
-	
-	
-    public function getCode() {
+        
+    public function getCode()
+	{
         return $this->code;
     }
     
-    public function setCode($code) {
+    public function setCode($code)
+	{
         $this->code = $code;
         return $this;
     }
-    
-	public function getID() {
-        trigger_error('getID is a deprecated function: Use getCode', E_USER_NOTICE);
+
+	public function getID()
+	{
+		trigger_error('getID is a deprecated function: Use getCode', E_USER_NOTICE);
 		return $this->getCode();
 	}
-
-	public function setID( $ID ) {
-        trigger_error('setID is a deprecated function: Use setCode', E_USER_NOTICE);
+	
+	public function setID($ID)
+	{
+		trigger_error('setID is a deprecated function: Use setCode', E_USER_NOTICE);
 		return $this->setCode($ID);
 	}
-
-	public function getOffice() {
+	
+	public function getOffice()
+	{
 		return $this->office;
 	}
-
-	public function setOffice( $office ) {
+	
+	public function setOffice($office)
+	{
 		$this->office = $office;
 		return $this;
 	}
+	
+	public function getStatus()
+	{
+		return $this->status;
+	}
+	
+	public function setStatus($status)
+	{
+		$this->status = $status;
+		return $this;
+	}
 
-	public function getStatus() {
-	      return $this->status;
-	}
-    
-	public function setStatus($status) {
-	     $this->status = $status;
-	     return $this;
-	}
-	public function getType() {
+	public function getType()
+	{
 		return $this->type;
 	}
-
-	public function setType( $type ) {
+	
+	public function setType($type)
+	{
 		$this->type = $type;
 		return $this;
 	}
-
-	public function getName() {
+	
+	public function getName()
+	{
 		return $this->name;
 	}
-
-	public function setName( $name ) {
+	
+	public function setName($name)
+	{
 		$this->name = $name;
 		return $this;
 	}
-
-	public function getShortName() {
+	
+	public function getShortName()
+	{
 		return $this->shortName;
 	}
-
-	public function setShortName( $shortName ) {
+	
+	public function setShortName($shortName)
+	{
 		$this->shortName = $shortName;
 		return $this;
 	}
 	
-	public function getUnitNameSingular() {
+	public function getUnitNameSingular()
+	{
 		return $this->unitNameSingular;
 	}
-
-	public function setUnitNameSingular( $unitNameSingular ) {
+	
+	public function setUnitNameSingular($unitNameSingular)
+	{
 		$this->unitNameSingular = $unitNameSingular;
 		return $this;
 	}
 	
-	public function getUnitNamePlural() {
+	public function getUnitNamePlural()
+	{
 		return $this->unitNamePlural;
 	}
-
-	public function setUnitNamePlural( $unitNamePlural ) {
+	
+	public function setUnitNamePlural($unitNamePlural)
+	{
 		$this->unitNamePlural = $unitNamePlural;
 		return $this;
 	}
-
-	public function getVatCode() {
+	
+	public function getVatCode()
+	{
 		return $this->vatCode;
 	}
-
-	public function setVatCode( $vatCode ) {
+	
+	public function setVatCode($vatCode)
+	{
 		$this->vatCode = $vatCode;
 		return $this;
-	}
+    }
 	
-	public function getAllowChangeVatCode() {
+	public function getAllowChangeVatCode()
+	{
 		return $this->allowChangeVatCode;
 	}
-
-	public function setAllowChangeVatCode( $allowChangeVatCode ) {
-	$this->allowChangeVatCode = var_export ($allowChangeVatCode, true);
+	
+	public function setAllowChangeVatCode($allowChangeVatCode)
+	{
+		$this->allowChangeVatCode = var_export ($allowChangeVatCode, true);
 		return $this;
 	}
 	
-	public function getPerformanceType() {
+	public function getPerformanceType()
+	{
 		return $this->performanceType;
 	}
-
-	public function setPerformanceType( $performanceType ) {
+	
+	public function setPerformanceType($performanceType)
+	{
 		$this->performanceType = $performanceType;
 		return $this;
 	}
 	
-	public function getAllowChangePerformanceType() {
+	public function getAllowChangePerformanceType()
+	{
 		return $this->allowChangePerformanceType;
 	}
-
-	public function setAllowChangePerformanceType( $allowChangePerformanceType ) {
+	
+	public function setAllowChangePerformanceType($allowChangePerformanceType)
+	{
 		$this->allowChangePerformanceType = var_export ($allowChangePerformanceType, true);
 		return $this;
 	}
 	
-	public function getPercentage () {
+	public function getPercentage ()
+	{
 		return $this->percentage;
 	}
-
-	public function setPercentage( $percentage ) {
+	
+	public function setPercentage($percentage)
+	{
 		$this->percentage = $percentage;
 		return $this;
 	}
 	
-	public function getAllowDiscountorPremium () {
+	public function getAllowDiscountorPremium ()
+	{
 		return $this->allowDiscountorPremium;
 	}
-
-	public function setAllowDiscountorPremium( $allowDiscountorPremium ) {
+	
+	public function setAllowDiscountorPremium($allowDiscountorPremium)
+	{
 		$this->allowDiscountorPremium = var_export ($allowDiscountorPremium, true);
 		return $this;
 	}
 	
-	public function getAllowChangeUnitsPrice  () {
+	public function getAllowChangeUnitsPrice  ()
+	{
 		return $this->allowChangeUnitsPrice ;
 	}
-
-	public function setAllowChangeUnitsPrice ( $allowChangeUnitsPrice  ) {
+	
+	public function setAllowChangeUnitsPrice ($allowChangeUnitsPrice)
+	{
 		$this->allowChangeUnitsPrice = var_export ($allowChangeUnitsPrice, true);
 		return $this;
 	}
 	
-	public function getAllowDecimalQuantity () {
+	public function getAllowDecimalQuantity ()
+	{
 		return $this->allowDecimalQuantity;
 	}
-
-	public function setAllowDecimalQuantity ( $allowDecimalQuantity ) {
+	
+	public function setAllowDecimalQuantity ($allowDecimalQuantity)
+	{
 		$this->allowDecimalQuantity = var_export ($allowDecimalQuantity, true);
 		return $this;
 	}
 	
-	public function getLines() {
+	public function getLines()
+	{
 		return $this->lines;
 	}
-
-	public function addLine(ArticleLine $line) {
+	
+	public function addLine(ArticleLine $line)
+	{
 		$this->lines[] = $line;
 		return $this;
 	}

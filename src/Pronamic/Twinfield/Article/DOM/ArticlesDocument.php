@@ -57,7 +57,7 @@ class ArticlesDocument extends \DOMDocument
             'shortname'         => 'getShortName',
             'unitnamesingular'  => 'getUnitNameSingular',
             'unitnameplural'    => 'getUnitNamePlural',
-            'vatcode'         => 'getVatCode',
+            'vatcode'           => 'getVatCode',
             'allowchangevatcode' => 'getAllowChangeVatCode',
             'allowdiscountorpremium' => 'getAllowDiscountorPremium',
             'allowchangeunitsprice' => 'getAllowChangeUnitsPrice',
@@ -75,11 +75,13 @@ class ArticlesDocument extends \DOMDocument
         $status = $article->getStatus();
         
         if (!empty($status))
+        {
             $headerElement->setAttribute('status', $status);
+        }
 
         // Go through each Article element and use the assigned method
-        foreach($articleTags as $tag => $method ) {
-            
+        foreach ($articleTags as $tag => $method)
+        {
             // Make text node for method value
             $node = $this->createTextNode($article->$method());
             
@@ -93,10 +95,11 @@ class ArticlesDocument extends \DOMDocument
         }
 
         $lines = $article->getLines();
-        if (!empty($lines)) {
-
+        
+        if (!empty($lines))
+        {
              // Element tags and their methods for lines
-            $lineTags = array(
+            $lineTags = [
                 'unitspriceexcl'  => 'getUnitsPriceExcl',
                 'unitspriceinc'   => 'getUnitsPriceInc',
                 'units'           => 'getUnits',
@@ -104,35 +107,42 @@ class ArticlesDocument extends \DOMDocument
                 'shortname'       => 'getShortName',
                 'subcode'         => 'getSubCode',
                 'freetext1'       => 'getFreeText1',
-            );
+            ];
             
             // Make addresses element
             $linesElement = $this->createElement('lines');
             $this->articleElement->appendChild($linesElement);
 
             // Go through each line assigned to the article
-            foreach($lines as $line) {
-
+            foreach ($lines as $line)
+            {
                 // Makes new articleLine element
                 $lineElement = $this->createElement('line');
                 $linesElement->appendChild($lineElement);
 
-                $status = $line->getStatus ();
-                $id = $line->getID ();
-                $inUse = $line->getInUse ();
+                $status = $line->getStatus();
+                $id = $line->getID();
+                $inUse = $line->getInUse();
                 
                 if (!empty($status))
+                {
                     $lineElement->setAttribute('status', $status);
+                }
                 
                 if (!empty($id))
+                {
                     $lineElement->setAttribute('id', $id);
+                }
                 
                 if (!empty($inUse))
+                {
                     $lineElement->setAttribute('inuse', $inUse);
+                }
 
             
                 // Go through each line element and use the assigned method
-                foreach($lineTags as $tag => $method) {
+                foreach ($lineTags as $tag => $method)
+                {
 
                     // Make the text node for the method value
                     $node = $this->createTextNode($line->$method());

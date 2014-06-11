@@ -59,14 +59,17 @@ class ArticleFactory extends ParentFactory
     public function get($code, $office = null)
     {
         // Attempts to process the login
-        if($this->getLogin()->process()) {
+        if ($this->getLogin()->process())
+        {
             
             // Get the secure service class
             $service = $this->getService();
 
             // No office passed, get the office from the Config
-            if(! $office)
+            if (! $office)
+            {
                 $office = $this->getConfig()->getOffice();
+            }
 
             // Make a request to read a single Article. Set the required values
             $request_article = new Request\Read\Article();
@@ -79,7 +82,8 @@ class ArticleFactory extends ParentFactory
             $this->setResponse($response);
 
             // Return a mapped article if successful or false if not.
-            if($response->isSuccessful()) {
+            if ($response->isSuccessful())
+            {
                 return ArticleMapper::map($response);
             } else {
                 return false;
@@ -114,7 +118,8 @@ class ArticleFactory extends ParentFactory
     public function send(Article $article)
     {
         // Attempts the process login
-        if($this->getLogin()->process()) {
+        if ($this->getLogin()->process())
+        {
             
             // Gets the secure service
             $service = $this->getService();
@@ -128,7 +133,8 @@ class ArticleFactory extends ParentFactory
             $this->setResponse($response);
 
             // Return a bool on status of response.
-            if($response->isSuccessful()) {
+            if($response->isSuccessful())
+            {
                 return true;
             } else {
                 return false;

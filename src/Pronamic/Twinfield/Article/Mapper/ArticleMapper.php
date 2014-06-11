@@ -34,7 +34,7 @@ class ArticleMapper
         $article->setStatus($dimensionElement->getAttribute('status'));
 
         // Article elements and their methods
-        $articleTags = array(
+        $articleTags = [
             'code'              => 'setCode',
             'office'            => 'setOffice',
             'type'              => 'setType',
@@ -42,7 +42,7 @@ class ArticleMapper
             'shortname'         => 'setShortName',
             'unitnamesingular'  => 'setUnitNameSingular',
             'unitnameplural'    => 'setUnitNamePlural',
-            'vatcode'         => 'setVatCode',
+            'vatcode'           => 'setVatCode',
             'allowchangevatcode' => 'setAllowChangeVatCode',
             'performancetype'   => 'setPerformanceType',
             'allowchangeperformancetype' => 'setAllowChangePerformanceType',
@@ -51,24 +51,29 @@ class ArticleMapper
             'allowchangeunitsprice' => 'setAllowChangeUnitsPrice',
             'allowdecimalquantity' => 'setAllowDecimalQuantity',
             
-        );
+        ];
         
         // Loop through all the tags
-        foreach($articleTags as $tag => $method) {
+        foreach($articleTags as $tag => $method)
+        {
             
             // Get the dom element
             $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
 
             // If it has a value, set it to the associated method
             if(isset($_tag) && isset($_tag->textContent))
+            {
                 $article->$method($_tag->textContent);
+            }
         }
-
-        $linesDOMTag = $responseDOM->getElementsByTagName('lines');            
-        if (isset($linesDOMTag) && $linesDOMTag->length > 0) {
+        
+        $linesDOMTag = $responseDOM->getElementsByTagName('lines');
+        
+        if (isset($linesDOMTag) && $linesDOMTag->length > 0)
+        {
         
             // Element tags and their methods for lines
-            $lineTags = array(
+            $lineTags = [
                 'unitspriceexcl'  => 'setUnitsPriceExcl',
                 'unitspriceinc'   => 'setUnitsPriceInc',
                 'units'           => 'setUnits',
@@ -76,12 +81,13 @@ class ArticleMapper
                 'shortname'       => 'setShortName',
                 'subcode'         => 'setSubCode',
                 'freetext1'       => 'setFreeText1',
-            );
+            ];
 
             $linesDOM = $linesDOMTag->item(0);
 
             // Loop through each returned line for the article
-            foreach($linesDOM->getElementsByTagName('line') as $lineDOM) {
+            foreach($linesDOM->getElementsByTagName('line') as $lineDOM)
+            {
 
                 // Make a new tempory ArticleLine class
                 $articleLine = new ArticleLine();
@@ -99,7 +105,9 @@ class ArticleMapper
 
                     // Check if the tag is set, and its content is set, to prevent DOMNode errors
                     if(isset($_tag) && isset($_tag->textContent))
+                    {
                         $articleLine->$method($_tag->textContent);
+                    }
                 }
 
                 // Add the bank to the customer
