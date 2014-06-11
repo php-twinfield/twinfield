@@ -25,10 +25,10 @@ class ArticleMapper
     {
         // Generate new Article object
         $article = new Article();
-        
+
         // Gets the raw DOMDocument response.
         $responseDOM = $response->getResponseDocument();
-        
+
         // Set the status attribute
         $dimensionElement = $responseDOM->getElementsByTagName('header')->item(0);
         $article->setStatus($dimensionElement->getAttribute('status'));
@@ -50,28 +50,22 @@ class ArticleMapper
             'allowdiscountorpremium' => 'setAllowDiscountorPremium',
             'allowchangeunitsprice' => 'setAllowChangeUnitsPrice',
             'allowdecimalquantity' => 'setAllowDecimalQuantity',
-            
         ];
-        
+
         // Loop through all the tags
-        foreach($articleTags as $tag => $method)
-        {
-            
+        foreach ($articleTags as $tag => $method) {
             // Get the dom element
             $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
 
             // If it has a value, set it to the associated method
-            if(isset($_tag) && isset($_tag->textContent))
-            {
+            if (isset($_tag) && isset($_tag->textContent)) {
                 $article->$method($_tag->textContent);
             }
         }
-        
+
         $linesDOMTag = $responseDOM->getElementsByTagName('lines');
-        
-        if (isset($linesDOMTag) && $linesDOMTag->length > 0)
-        {
-        
+
+        if (isset($linesDOMTag) && $linesDOMTag->length > 0) {
             // Element tags and their methods for lines
             $lineTags = [
                 'unitspriceexcl'  => 'setUnitsPriceExcl',
@@ -86,8 +80,7 @@ class ArticleMapper
             $linesDOM = $linesDOMTag->item(0);
 
             // Loop through each returned line for the article
-            foreach($linesDOM->getElementsByTagName('line') as $lineDOM)
-            {
+            foreach ($linesDOM->getElementsByTagName('line') as $lineDOM) {
 
                 // Make a new tempory ArticleLine class
                 $articleLine = new ArticleLine();
@@ -98,14 +91,13 @@ class ArticleMapper
                     ->setInUse($lineDOM->getAttribute('inuse'));
 
                 // Loop through the element tags. Determine if it exists and set it if it does
-                foreach($lineTags as $tag => $method) {
+                foreach ($lineTags as $tag => $method) {
 
                     // Get the dom element
                     $_tag = $lineDOM->getElementsByTagName($tag)->item(0);
 
                     // Check if the tag is set, and its content is set, to prevent DOMNode errors
-                    if(isset($_tag) && isset($_tag->textContent))
-                    {
+                    if (isset($_tag) && isset($_tag->textContent)) {
                         $articleLine->$method($_tag->textContent);
                     }
                 }
@@ -114,10 +106,9 @@ class ArticleMapper
                 $article->addLine($articleLine);
 
                 // Clean that memory!
-                unset($ArticleLine);
+                unset ($ArticleLine);
             }
         }
-
         return $article;
     }
 }

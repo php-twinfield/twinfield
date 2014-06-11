@@ -20,19 +20,16 @@ class Article extends Read
     public function __construct($office = null, $code = null)
     {
         parent::__construct();
-        
+
         $this->add('type', 'article');
         
-        if(null !== $office)
-        {
+        if (null !== $office) {
             $this->setOffice($office);
         }
-        
-        if(null !== $code)
-        {
+
+        if (null !== $code) {
             $this->setCode($code);
         }
-        
     }
 
     /**
