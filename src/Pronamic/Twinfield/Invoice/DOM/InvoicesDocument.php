@@ -81,7 +81,7 @@ class InvoicesDocument extends \DOMDocument
         $customer = $invoice->getCustomer();
 
         // <customer>
-        $customerNode    = $this->createTextNode($customer->getID());
+        $customerNode    = $this->createTextNode($customer->getCode());
         $customerElement = $this->createElement('customer');
         $customerElement->appendChild($customerNode);
         $headerElement->appendChild($customerElement);
