@@ -6,7 +6,7 @@ Use the Twinfield SOAP Service to have your PHP application communicate directly
 
 ## Autoloading
 
-The classes follow the PSR0 naming convention.
+The classes follow the PSR2 naming convention.
 
 
 ## Usage
@@ -141,6 +141,13 @@ restructure or alteration please bring up in an issue first.
 | [Dimension Types](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionTypes)     |                    |                    |                    |                    | Pronamic/Twinfield/Dimension/Type                                                                                       |
 | [Offices](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Offices)                    |                    |                    |                    |                    | Pronamic/Twinfield/Office                                                                                               |
 
+
+## Build
+
+*	npm install
+*	composer install
+
+
 ## Links
 
 * [Twinfield API Documentation site](https://c1.twinfield.com/webservices/documentation/)
@@ -148,11 +155,12 @@ restructure or alteration please bring up in an issue first.
 * [Using Grunt for PHP](https://chrsm.org/post/using-grunt-for-php/)
 * [Using Grunt with PHP Quality Assurance Tools](http://mariehogebrandt.se/articles/using-grunt-php-quality-assurance-tools/)
 
+
 ## Authors
 
-* [Pronamic](http://pronamic.nl/)
-* [Remco Tolsma](http://remcotolsma.nl/)
-* [Leon Rowland](http://leon.rowland.nl/)
+*	[Pronamic](http://pronamic.nl/)
+*	[Remco Tolsma](http://remcotolsma.nl/)
+
 
 ## License
 
