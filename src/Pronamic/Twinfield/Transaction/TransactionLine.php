@@ -1,5 +1,4 @@
 <?php
-
 namespace Pronamic\Twinfield\Transaction;
 
 /**
@@ -9,14 +8,25 @@ namespace Pronamic\Twinfield\Transaction;
  */
 class TransactionLine
 {
-
     private $type;
+    
     private $dim1;
     private $dim2;
     private $value;
-    private $vatCode;
     private $debitCredit;
     private $description;
+    private $vatCode;
+    private $rate;
+    private $baseValue;
+    private $repRate;
+    private $repValue;
+    private $vatTotal;
+    private $vatBaseTotal;
+    private $matchLevel;
+    private $customerSupplier;
+    private $openValue;
+    private $openBaseValue;
+    private $matchStatus;
 
     public function getType()
     {
@@ -77,8 +87,8 @@ class TransactionLine
     {
         return $this->debitCredit;
     }
-
-    public function setDebitCredti($debitCredit)
+    
+    public function setDebitCredit($debitCredit)
     {
         $this->debitCredit = $debitCredit;
         return $this;
@@ -95,4 +105,124 @@ class TransactionLine
         return $this;
     }
 
+    public function getRate()
+    {
+        return $this->rate;
+    }
+
+    public function setRate($rate)
+    {
+        $this->rate = $rate;
+        return $this;
+    }
+
+    public function getBaseValue()
+    {
+        return $this->baseValue;
+    }
+
+    public function setBaseValue($baseValue)
+    {
+        $this->baseValue = $baseValue;
+        return $this;
+    }
+
+    public function getRepRate()
+    {
+        return $this->repRate;
+    }
+
+    public function setRepRate($repRate)
+    {
+        $this->repRate = $repRate;
+        return $this;
+    }
+
+    public function getRepValue()
+    {
+        return $this->repValue;
+    }
+
+    public function setRepValue($repValue)
+    {
+        $this->repValue = $repValue;
+        return $this;
+    }
+
+    public function getVatTotal()
+    {
+        return $this->vatTotal;
+    }
+
+    public function setVatTotal($vatTotal)
+    {
+        $this->vatTotal = $vatTotal;
+        return $this;
+    }
+
+    public function getVatBaseTotal()
+    {
+        return $this->vatBaseTotal;
+    }
+
+    public function setVatBaseTotal($vatBaseTotal)
+    {
+        $this->vatBaseTotal = $vatBaseTotal;
+        return $this;
+    }
+
+    public function getMatchLevel()
+    {
+        return $this->matchLevel;
+    }
+
+    public function setMatchLevel($matchLevel)
+    {
+        $this->matchLevel = $matchLevel;
+        return $this;
+    }
+
+    public function getCustomerSupplier()
+    {
+        return $this->customerSupplier;
+    }
+
+    public function setCustomerSupplier($customerSupplier)
+    {
+        $this->customerSupplier = $customerSupplier;
+        return $this;
+    }
+
+    public function getOpenValue()
+    {
+        return $this->openValue;
+    }
+
+    public function setOpenValue($openValue)
+    {
+        $this->openValue = $openValue;
+        return $this;
+    }
+
+    public function getOpenBaseValue()
+    {
+        return $this->openBaseValue;
+    }
+
+    public function setOpenBaseValue($openBaseValue)
+    {
+        $this->openBaseValue = $openBaseValue;
+        return $this;
+    }
+
+    public function getMatchStatus()
+    {
+        return $this->matchStatus;
+    }
+
+    public function setMatchStatus($matchStatus)
+    {
+        $this->matchStatus = $matchStatus;
+        return $this;
+    }
 }

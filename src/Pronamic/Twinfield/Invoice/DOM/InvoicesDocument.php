@@ -81,7 +81,7 @@ class InvoicesDocument extends \DOMDocument
         $customer = $invoice->getCustomer();
 
         // <customer>
-        $customerNode    = $this->createTextNode($customer->getID());
+        $customerNode    = $this->createTextNode($customer->getCode());
         $customerElement = $this->createElement('customer');
         $customerElement->appendChild($customerNode);
         $headerElement->appendChild($customerElement);
@@ -103,7 +103,7 @@ class InvoicesDocument extends \DOMDocument
         );
         
         // Go through each element and use the assigned method
-        foreach($headerTags as $tag => $method) {
+        foreach ($headerTags as $tag => $method) {
             
             // Make text node for method value
             $node = $this->createTextNode($invoice->$method());
@@ -136,14 +136,14 @@ class InvoicesDocument extends \DOMDocument
         );
 
         // Loop through all orders, and add those elements
-        foreach($invoice->getLines() as $line) {
+        foreach ($invoice->getLines() as $line) {
 
             // Make a new line element, and add to <lines>
             $lineElement = $this->createElement('line');
             $linesElement->appendChild($lineElement);
 
             // Go through each element and use the assigned method
-            foreach($lineTags as $tag => $method) {
+            foreach ($lineTags as $tag => $method) {
                 
                 // Make text node for method value
                 $node = $this->createTextNode($line->$method());

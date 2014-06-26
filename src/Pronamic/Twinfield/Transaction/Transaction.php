@@ -9,13 +9,23 @@ namespace Pronamic\Twinfield\Transaction;
  */
 class Transaction
 {
-
+    private $raiseWarning;
     private $destiny;
     private $office;
     private $code;
+    private $currency;
     private $date;
+    private $period;
+    private $origin;
+    
+    /**
+     *
+     * @var \Pronamic\Twinfield\Customer\Customer
+     */
+    private $customer;
     private $dueDate;
     private $invoiceNumber;
+    private $number;
     private $lines = array();
 
     /**
@@ -100,5 +110,70 @@ class Transaction
         $this->invoiceNumber = $invoiceNumber;
         return $this;
     }
+    
+    public function getRaiseWarning()
+    {
+        return $this->raiseWarning;
+    }
 
+    public function setRaiseWarning($raiseWarning)
+    {
+        $this->raiseWarning = $raiseWarning;
+        return $this;
+    }
+
+    public function getPeriod()
+    {
+        return $this->period;
+    }
+
+    public function setPeriod($period)
+    {
+        $this->period = $period;
+        return $this;
+    }
+
+    public function getOrigin()
+    {
+        return $this->origin;
+    }
+
+    public function setOrigin($origin)
+    {
+        $this->origin = $origin;
+        return $this;
+    }
+
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(\Pronamic\Twinfield\Customer\Customer $customer)
+    {
+        $this->customer = $customer;
+        return $this;
+    }
+    
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    public function setCurrency($currency)
+    {
+        $this->currency = $currency;
+        return $this;
+    }
+    
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    public function setNumber($number)
+    {
+        $this->number = $number;
+        return $this;
+    }
 }

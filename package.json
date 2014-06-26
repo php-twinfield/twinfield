@@ -1,0 +1,41 @@
+{
+  "name": "twinfield",
+  "version": "1.0.0",
+  "description": "Library for using the Twinfield Soap Service.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pronamic/twinfield.git"
+  },
+  "keywords": [
+    "twinfield",
+    "api",
+    "administration",
+    "accounting",
+    "accountant"
+  ],
+  "author": {
+    "name": "Pronamic",
+    "email": "info@pronamic.nl",
+    "url": "http://www.pronamic.nl/"
+  },
+  "contributors": [
+    {
+      "name": "Remco Tolsma",
+      "email": "info@remcotolsma.nl",
+      "url": "http://www.remcotolsma.nl/"
+    }
+  ],
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/pronamic/twinfield/issues",
+    "email": "support@pronamic.nl"
+  },
+  "homepage": "https://github.com/pronamic/twinfield",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-phpcs": "^0.2.2",
+    "grunt-phplint": "0.0.5",
+    "grunt-phpunit": "~0.3.3",
+    "grunt-shell": "^0.6.4"
+  }
+}

@@ -28,11 +28,13 @@ class Dimension extends Catalog
 
         $this->add('type', 'dimensions');
         
-        if(null !== $office)
+        if (null !== $office) {
             $this->setOffice($office);
+        }
         
-        if(null !== $dimType)
+        if (null !== $dimType) {
             $this->setDimType($dimType);
+        }
     }
 
     /**

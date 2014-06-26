@@ -2,21 +2,20 @@
 namespace Pronamic\Twinfield\Request\Read;
 
 /**
- * Used to request a specific invoice from a certain
- * code, number and office.
+ * Used to request a specific transaction from a certain
+ * office, code and number.
  * 
  * @package Pronamic\Twinfield
  * @subpackage Request\Read
  * @author Leon Rowland <leon@rowland.nl>
- * @copyright (c) 2013, Pronamic 
+ * @copyright (c) 2013, Pronamic
  * @version 0.0.1
  */
-class Invoice extends Read
+class Transaction extends Read
 {
     /**
-     * Sets the <type> to salesinvoice for the request
-     * and sets the office, code and number if they
-     * are present.
+     * Sets the <type> to transaction for the request and
+     * sets the office, code and number if they are present.
      * 
      * @access public
      * @param int $office
@@ -26,8 +25,8 @@ class Invoice extends Read
     public function __construct($office = null, $code = null, $number = null)
     {
         parent::__construct();
-
-        $this->add('type', 'salesinvoice');
+        
+        $this->add('type', 'transaction');
         
         if (null !== $office) {
             $this->setOffice($office);
@@ -41,44 +40,43 @@ class Invoice extends Read
             $this->setNumber($number);
         }
     }
-
+    
     /**
-     * Sets the office code for this salesinvoice
-     * request. It is an optional field.
+     * Sets the office code for this transaction request.
      * 
      * @access public
      * @param int $office
-     * @return \Pronamic\Twinfield\Request\Read\Invoice
+     * @return \Pronamic\Twinfield\Request\Read\Transaction
      */
     public function setOffice($office)
     {
         $this->add('office', $office);
         return $this;
     }
-
-   /**
-    * Sets the code for this salesinvoice request.
-    * 
-    * @access public
-    * @param string $code
-    * @return \Pronamic\Twinfield\Request\Read\Invoice
-    */
+    
+    /**
+     * Sets the code for this transaction request.
+     * 
+     * @access public
+     * @param string $code
+     * @return \Pronamic\Twinfield\Request\Read\Transaction
+     */
     public function setCode($code)
     {
         $this->add('code', $code);
         return $this;
     }
-
+    
     /**
-     * Sets the invoicenumber for this request.
+     * Sets the number for this transaction request
      * 
      * @access public
      * @param int $number
-     * @return \Pronamic\Twinfield\Request\Read\Invoice
+     * @return \Pronamic\Twinfield\Request\Read\Transaction
      */
     public function setNumber($number)
     {
-        $this->add('invoicenumber', $number);
+        $this->add('number', $number);
         return $this;
     }
 }
