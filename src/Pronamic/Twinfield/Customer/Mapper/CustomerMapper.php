@@ -87,6 +87,35 @@ class CustomerMapper
                 $customer->$method($_tag->textContent);
             }
         }
+        
+        // Credit management elements
+        $creditManagementElement = $responseDOM->getElementsByTagName('creditmanagement')->item(0);
+        
+        // Credit management elements and their methods
+        $creditManagementTags = array(
+            'responsibleuser'   => 'setResponsibleUser',
+            'basecreditlimit'   => 'setBaseCreditLimit',
+            'sendreminder'      => 'setSendReminder',
+            'reminderemail'     => 'setReminderEmail',
+            'blocked'           => 'setBlocked',
+            'freetext1'         => 'setFreeText1',
+            'freetext2'         => 'setFreeText2',
+            'comment'           => 'setComment'
+        );
+        
+        $customer->setCreditManagement(new \Pronamic\Twinfield\Customer\CustomerCreditManagement());
+        
+        // Go through each financial element and add to the assigned method
+        foreach ($creditManagementTags as $tag => $method) {
+            
+            // Get the dom element
+            $_tag = $creditManagementElement->getElementsByTagName($tag)->item(0);
+
+            // If it has a value, set it to the associated method
+            if (isset($_tag) && isset($_tag->textContent)) {
+                $customer->getCreditManagement()->$method($_tag->textContent);
+            }
+        }
 
         $addressesDOMTag = $responseDOM->getElementsByTagName('addresses');
         if (isset($addressesDOMTag) && $addressesDOMTag->length > 0) {
