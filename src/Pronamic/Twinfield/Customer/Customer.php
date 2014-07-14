@@ -26,6 +26,7 @@ class Customer
     private $vatCode;
     private $eBilling = 'false';
     private $eBillMail;
+    private $creditManagement;
     private $addresses = array();
     private $banks = array();
     private $groups;
@@ -281,6 +282,21 @@ class Customer
     public function setEBillMail($eBillMail)
     {
         $this->eBillMail = $eBillMail;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return CustomerCreditManagement
+     */
+    public function getCreditManagement()
+    {
+        return $this->creditManagement;
+    }
+
+    public function setCreditManagement(CustomerCreditManagement $creditManagement)
+    {
+        $this->creditManagement = $creditManagement;
         return $this;
     }
 

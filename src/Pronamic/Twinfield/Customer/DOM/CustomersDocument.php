@@ -30,7 +30,7 @@ class CustomersDocument extends \DOMDocument
      */
     public function __construct()
     {
-        parent::__construct();
+        parent::__construct('1.0', 'UTF-8');
 
         $this->dimensionElement = $this->createElement('dimension');
         $this->appendChild($this->dimensionElement);
@@ -106,6 +106,44 @@ class CustomersDocument extends \DOMDocument
                 
                 // Add the full element
                 $financialElement->appendChild($element);
+            }
+        }
+        
+        //check if creditmanagement should be set
+        if ($customer->getCreditManagement() !== null) {
+            
+            // Credit management elements and their methods
+            $creditManagementTags = array(
+                'responsibleuser'   => 'getResponsibleUser',
+                'basecreditlimit'   => 'getBaseCreditLimit',
+                'sendreminder'      => 'getSendReminder',
+                'reminderemail'     => 'getReminderEmail',
+                'blocked'           => 'getBlocked',
+                'freetext1'         => 'getFreeText1',
+                'freetext2'         => 'getFreeText2',
+                'comment'           => 'getComment'
+            );
+            
+            // Make the creditmanagement element
+            $creditManagementElement = $this->createElement('creditmanagement');
+            $this->dimensionElement->appendChild($creditManagementElement);
+            
+            // Go through each credit management element and use the assigned method
+            foreach ($creditManagementTags as $tag => $method) {
+                
+                // Make the text node for the method value
+                $nodeValue = $customer->getCreditManagement()->$method();
+                if (is_bool($nodeValue)) {
+                    $nodeValue = ($nodeValue) ? 'true' : 'false';
+                }
+                $node = $this->createTextNode($nodeValue);
+                
+                // Make the actual element and assign the node
+                $element = $this->createElement($tag);
+                $element->appendChild($node);
+                
+                // Add the full element
+                $creditManagementElement->appendChild($element);
             }
         }
 
