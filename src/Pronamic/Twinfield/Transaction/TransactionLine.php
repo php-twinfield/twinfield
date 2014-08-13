@@ -22,11 +22,18 @@ class TransactionLine
     private $repValue;
     private $vatTotal;
     private $vatBaseTotal;
+    private $performanceType;
+    private $performanceCountry;
+    private $performanceVatNumber;
+    private $performanceDate;
     private $matchLevel;
     private $customerSupplier;
     private $openValue;
     private $openBaseValue;
     private $matchStatus;
+    
+    const PERFORMANCETYPE_SERVICES = 'services';
+    const PERFORMANCETYPE_GOODS = 'goods';
 
     public function getType()
     {
@@ -168,6 +175,50 @@ class TransactionLine
     public function setVatBaseTotal($vatBaseTotal)
     {
         $this->vatBaseTotal = $vatBaseTotal;
+        return $this;
+    }
+    
+    public function getPerformanceType()
+    {
+        return $this->performanceType;
+    }
+
+    public function setPerformanceType($performanceType)
+    {
+        $this->performanceType = $performanceType;
+        return $this;
+    }
+
+    public function getPerformanceCountry()
+    {
+        return $this->performanceCountry;
+    }
+
+    public function setPerformanceCountry($performanceCountry)
+    {
+        $this->performanceCountry = $performanceCountry;
+        return $this;
+    }
+
+    public function getPerformanceVatNumber()
+    {
+        return $this->performanceVatNumber;
+    }
+
+    public function setPerformanceVatNumber($performanceVatNumber)
+    {
+        $this->performanceVatNumber = $performanceVatNumber;
+        return $this;
+    }
+
+    public function getPerformanceDate()
+    {
+        return $this->performanceDate;
+    }
+
+    public function setPerformanceDate($performanceDate)
+    {
+        $this->performanceDate = $performanceDate;
         return $this;
     }
 

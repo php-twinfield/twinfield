@@ -69,6 +69,12 @@ class TransactionsDocument extends \DOMDocument
             $lineElement->appendChild($dim1Element);
             $lineElement->appendChild($dim2Element);
             $lineElement->appendChild($valueElement);
+            
+            if (!empty($transactionLine->getPerformanceType())) {
+                $perfElement = $this->createElement('performancetype', $transactionLine->getPerformanceType());
+                $lineElement->appendChild($perfElement);
+            }
+            
             if ($transactionLine->getType() != 'total') {
                 $lineElement->appendChild($vatCodeElement);
             }
