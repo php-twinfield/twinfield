@@ -152,6 +152,7 @@ class CustomersDocument extends \DOMDocument
             // Address elements and their methods
             $addressTags = array(
                 'name'      => 'getName',
+				'contact'   => 'getContact',
                 'country'   => 'getCountry',
                 'city'      => 'getCity',
                 'postcode'  => 'getPostcode',
