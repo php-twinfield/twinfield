@@ -188,24 +188,26 @@ class Customer
 
     public function getCocNumber()
     {
+        trigger_error('setCocNumber is a deprecated method: get from CustomerAddress::field05', E_USER_NOTICE);
         return $this->cocNumber;
     }
 
     public function setCocNumber($cocNumber)
     {
+        trigger_error('setCocNumber is a deprecated method: add to CustomerAddress::field05', E_USER_NOTICE);
         $this->cocNumber = $cocNumber;
         return $this;
     }
 
     public function getVatNumber()
     {
-        trigger_error('setVatNumber is a deprecated function: add to CustomerAddress::field04', E_USER_NOTICE);
+        trigger_error('setVatNumber is a deprecated method: add to CustomerAddress::field04', E_USER_NOTICE);
         return $this->vatNumber;
     }
 
     public function setVatNumber($vatNumber)
     {
-        trigger_error('setVatNumber is a deprecated function: get CustomerAddress::field04', E_USER_NOTICE);
+        trigger_error('setVatNumber is a deprecated method: get CustomerAddress::field04', E_USER_NOTICE);
         $this->vatNumber = $vatNumber;
         return $this;
     }
