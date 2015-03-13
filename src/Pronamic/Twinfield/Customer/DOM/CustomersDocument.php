@@ -55,7 +55,6 @@ class CustomersDocument extends \DOMDocument
             'name'      => 'getName',
             'type'      => 'getType',
             'website'   => 'getWebsite',
-            'cocnumber' => 'getCocNumber'
         );
 
         $status = $customer->getStatus();
