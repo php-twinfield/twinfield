@@ -47,8 +47,6 @@ class CustomerMapper
             'endperiod'         => 'setEndPeriod',
             'endyear'           => 'setEndYear',
             'website'           => 'setWebsite',
-            'cocnumber'         => 'setCocNumber',
-            'vatnumber'         => 'setVatNumber',
             'editdimensionname' => 'setEditDimensionName'
         );
 
