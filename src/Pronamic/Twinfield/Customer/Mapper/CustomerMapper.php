@@ -121,7 +121,7 @@ class CustomerMapper
             // Element tags and their methods for address
             $addressTags = array(
                 'name'      => 'setName',
-				'contact'	=> 'setContact',
+                'contact'   => 'setContact',
                 'country'   => 'setCountry',
                 'city'      => 'setCity',
                 'postcode'  => 'setPostcode',
