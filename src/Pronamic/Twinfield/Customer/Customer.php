@@ -44,13 +44,13 @@ class Customer
     
     public function getID()
     {
-        trigger_error('getID is a deprecated function: Use getCode', E_USER_NOTICE);
+        trigger_error('getID is a deprecated method: Use getCode', E_USER_NOTICE);
         return $this->getCode();
     }
 
     public function setID($ID)
     {
-        trigger_error('setID is a deprecated function: Use setCode', E_USER_NOTICE);
+        trigger_error('setID is a deprecated method: Use setCode', E_USER_NOTICE);
         return $this->setCode($ID);
     }
 
