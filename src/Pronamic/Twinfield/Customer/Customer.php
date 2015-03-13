@@ -199,11 +199,13 @@ class Customer
 
     public function getVatNumber()
     {
+        trigger_error('setVatNumber is a deprecated function: add to CustomerAddress::field04', E_USER_NOTICE);
         return $this->vatNumber;
     }
 
     public function setVatNumber($vatNumber)
     {
+        trigger_error('setVatNumber is a deprecated function: get CustomerAddress::field04', E_USER_NOTICE);
         $this->vatNumber = $vatNumber;
         return $this;
     }
