@@ -8,6 +8,7 @@ class CustomerAddress
     private $type;
     private $default;
     private $name;
+    private $contact;
     private $country;
     private $city;
     private $postcode;
@@ -62,6 +63,17 @@ class CustomerAddress
     public function setName($name)
     {
         $this->name = $name;
+        return $this;
+    }
+
+    public function getContact()
+    {
+        return $this->contact;
+    }
+
+    public function setContact($contact)
+    {
+        $this->contact = $contact;
         return $this;
     }
 
