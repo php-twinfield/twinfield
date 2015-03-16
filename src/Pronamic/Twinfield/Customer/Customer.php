@@ -44,13 +44,13 @@ class Customer
     
     public function getID()
     {
-        trigger_error('getID is a deprecated function: Use getCode', E_USER_NOTICE);
+        trigger_error('getID is a deprecated method: Use getCode', E_USER_NOTICE);
         return $this->getCode();
     }
 
     public function setID($ID)
     {
-        trigger_error('setID is a deprecated function: Use setCode', E_USER_NOTICE);
+        trigger_error('setID is a deprecated method: Use setCode', E_USER_NOTICE);
         return $this->setCode($ID);
     }
 
@@ -188,22 +188,26 @@ class Customer
 
     public function getCocNumber()
     {
+        trigger_error('setCocNumber is a deprecated method: get from CustomerAddress::field05', E_USER_NOTICE);
         return $this->cocNumber;
     }
 
     public function setCocNumber($cocNumber)
     {
+        trigger_error('setCocNumber is a deprecated method: add to CustomerAddress::field05', E_USER_NOTICE);
         $this->cocNumber = $cocNumber;
         return $this;
     }
 
     public function getVatNumber()
     {
+        trigger_error('setVatNumber is a deprecated method: add to CustomerAddress::field04', E_USER_NOTICE);
         return $this->vatNumber;
     }
 
     public function setVatNumber($vatNumber)
     {
+        trigger_error('setVatNumber is a deprecated method: get CustomerAddress::field04', E_USER_NOTICE);
         $this->vatNumber = $vatNumber;
         return $this;
     }

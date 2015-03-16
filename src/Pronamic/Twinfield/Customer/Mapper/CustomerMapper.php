@@ -47,8 +47,6 @@ class CustomerMapper
             'endperiod'         => 'setEndPeriod',
             'endyear'           => 'setEndYear',
             'website'           => 'setWebsite',
-            'cocnumber'         => 'setCocNumber',
-            'vatnumber'         => 'setVatNumber',
             'editdimensionname' => 'setEditDimensionName'
         );
 
@@ -123,6 +121,7 @@ class CustomerMapper
             // Element tags and their methods for address
             $addressTags = array(
                 'name'      => 'setName',
+                'contact'   => 'setContact',
                 'country'   => 'setCountry',
                 'city'      => 'setCity',
                 'postcode'  => 'setPostcode',
