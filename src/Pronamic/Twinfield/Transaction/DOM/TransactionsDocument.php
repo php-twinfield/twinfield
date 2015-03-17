@@ -11,8 +11,19 @@ use Pronamic\Twinfield\Transaction\Transaction;
  */
 class TransactionsDocument extends \DOMDocument
 {
+    /**
+     * Holds the <transactions> element
+     * that all additional elements should be a child of.
+     * @var \DOMElement
+     */
     private $transactionsElement;
 
+    /**
+     * Creates the <transasctions> element and adds it to the property
+     * transactionsElement
+     * 
+     * @access public
+     */
     public function __construct()
     {
         parent::__construct();
@@ -21,6 +32,18 @@ class TransactionsDocument extends \DOMDocument
         $this->appendChild($this->transactionsElement);
     }
 
+
+    /**
+     * Turns a passed Transaction class into the required markup for interacting
+     * with Twinfield.
+     * 
+     * This method doesn't return anything, instead just adds the transaction
+     * to this DOMDocument instance for submission usage.
+     * 
+     * @access public
+     * @param \Pronamic\Twinfield\Transaction\Transaction $transaction
+     * @return void | [Adds to this instance]
+     */
     public function addTransaction(Transaction $transaction)
     {
         // Transaction
@@ -64,11 +87,19 @@ class TransactionsDocument extends \DOMDocument
                 $vatCodeElement = $this->createElement('vatcode', $transactionLine->getVatCode());
             }
             
-            $descriptionElement = $this->createElement('description', $transactionLine->getDescription());
+            $descriptionNode = $this->createTextNode($transactionLine->getDescription());
+            $descriptionElement = $this->createElement('description');
+            $descriptionElement->appendChild($descriptionNode);
 
             $lineElement->appendChild($dim1Element);
             $lineElement->appendChild($dim2Element);
             $lineElement->appendChild($valueElement);
+            
+            if (!empty($transactionLine->getPerformanceType())) {
+                $perfElement = $this->createElement('performancetype', $transactionLine->getPerformanceType());
+                $lineElement->appendChild($perfElement);
+            }
+            
             if ($transactionLine->getType() != 'total') {
                 $lineElement->appendChild($vatCodeElement);
             }
