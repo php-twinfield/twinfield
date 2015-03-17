@@ -140,7 +140,7 @@ class Article
 
     public function setAllowChangeVatCode($allowChangeVatCode)
     {
-        $this->allowChangeVatCode = var_export($allowChangeVatCode, true);
+        $this->allowChangeVatCode = $allowChangeVatCode;
         return $this;
     }
 
@@ -163,7 +163,7 @@ class Article
     public function setAllowChangePerformanceType($allowChangePerformanceType)
     {
         $this->allowChangePerformanceType
-            = var_export($allowChangePerformanceType, true);
+            = $allowChangePerformanceType;
         return $this;
     }
 
@@ -185,7 +185,7 @@ class Article
 
     public function setAllowDiscountorPremium($allowDiscountorPremium)
     {
-        $this->allowDiscountorPremium = var_export($allowDiscountorPremium, true);
+        $this->allowDiscountorPremium = $allowDiscountorPremium;
         return $this;
     }
 
@@ -196,7 +196,7 @@ class Article
 
     public function setAllowChangeUnitsPrice($allowChangeUnitsPrice)
     {
-        $this->allowChangeUnitsPrice = var_export($allowChangeUnitsPrice, true);
+        $this->allowChangeUnitsPrice = $allowChangeUnitsPrice;
         return $this;
     }
 
@@ -207,7 +207,7 @@ class Article
 
     public function setAllowDecimalQuantity($allowDecimalQuantity)
     {
-        $this->allowDecimalQuantity = var_export($allowDecimalQuantity, true);
+        $this->allowDecimalQuantity = $allowDecimalQuantity;
         return $this;
     }
 
