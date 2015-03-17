@@ -241,7 +241,7 @@ class Customer
 
     public function setPayAvailable($payAvailable)
     {
-        $this->payAvailable = var_export($payAvailable, true);
+        $this->payAvailable = $payAvailable;
         return $this;
     }
 
@@ -274,7 +274,7 @@ class Customer
 
     public function setEBilling($eBilling)
     {
-        $this->eBilling = var_export($eBilling, true);
+        $this->eBilling = $eBilling;
         return $this;
     }
 
