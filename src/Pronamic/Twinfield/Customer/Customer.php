@@ -315,6 +315,12 @@ class Customer
         return $this;
     }
 
+    public function removeAddress($index)
+    {
+        unset($this->adressess[$index]);
+        return $this;
+    }
+
     public function getBanks()
     {
         return $this->banks;
@@ -334,6 +340,12 @@ class Customer
     public function setGroups($groups)
     {
         $this->groups = $groups;
+        return $this;
+    }
+
+    public function removeBank($index)
+    {
+        unset($this->banks[$index]);
         return $this;
     }
 }

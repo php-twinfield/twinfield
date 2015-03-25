@@ -221,4 +221,10 @@ class Article
         $this->lines[] = $line;
         return $this;
     }
+
+    public function deleteLine($index)
+    {
+        unset($this->lines[$index]);
+        return $this;
+    }
 }
