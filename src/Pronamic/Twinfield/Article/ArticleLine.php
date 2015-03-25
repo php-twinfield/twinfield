@@ -4,7 +4,7 @@ namespace Pronamic\Twinfield\Article;
 
 class ArticleLine
 {
-    private $ID = uniqid();
+    private $ID;
     private $status;
     private $inUse;
     private $unitsPriceExcl;
