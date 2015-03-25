@@ -224,7 +224,11 @@ class Article
 
     public function removeLine($index)
     {
-        unset($this->lines[$index]);
-        return $this;
+        if(array_key_exists($index, $this->lines)){
+            unset($this->lines[$index]);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
