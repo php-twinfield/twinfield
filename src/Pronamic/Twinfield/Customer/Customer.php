@@ -332,7 +332,7 @@ class Customer
 
     public function addBank(CustomerBank $bank)
     {
-        $this->banks[] = $bank;
+        $this->banks[$bank->getID] = $bank;
         return $this;
     }
 

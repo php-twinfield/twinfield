@@ -19,6 +19,11 @@ class CustomerBank
     private $postcode;       # string(16)   Postcode.
     private $state;          # string(40)   State.
 
+    public function __construct()
+    {
+        $this->ID = uniqid();
+    }
+
     public function getID()
     {
         return $this->ID;
