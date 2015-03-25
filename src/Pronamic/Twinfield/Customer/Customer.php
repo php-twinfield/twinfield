@@ -317,8 +317,12 @@ class Customer
 
     public function removeAddress($index)
     {
-        unset($this->adressess[$index]);
-        return $this;
+        if (array_key_exists($index, $this->addressess)) {
+            unset($this->adressess[$index]);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function getBanks()
@@ -334,8 +338,12 @@ class Customer
 
     public function removeBank($index)
     {
-        unset($this->banks[$index]);
-        return $this;
+        if (array_key_exists($index, $this->banks)) {
+            unset($this->banks[$index]);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function getGroups()
