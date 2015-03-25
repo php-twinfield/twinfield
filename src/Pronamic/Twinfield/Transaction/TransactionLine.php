@@ -8,8 +8,8 @@ namespace Pronamic\Twinfield\Transaction;
  */
 class TransactionLine
 {
+    private $ID;
     private $type;
-    
     private $dim1;
     private $dim2;
     private $value;
@@ -34,6 +34,16 @@ class TransactionLine
     
     const PERFORMANCETYPE_SERVICES = 'services';
     const PERFORMANCETYPE_GOODS = 'goods';
+
+    public function __construct()
+    {
+        $this->ID = uniqid();
+    }
+
+    public function getID()
+    {
+        return $this->ID;
+    }
 
     public function getType()
     {
