@@ -97,6 +97,8 @@ class InvoiceMapper
         foreach ($responseDOM->getElementsByTagName('line') as $lineDOM) {
             $temp_line = new InvoiceLine();
 
+            $temp_line->setID($lineDOM->getAttribute('id'));
+
             foreach ($lineTags as $tag => $method) {
                 $_tag = $lineDOM->getElementsByTagName($tag)->item(0);
 

@@ -315,9 +315,9 @@ class Customer
         return $this;
     }
 
-    public function deleteAddress($index)
+    public function removeAddress($index)
     {
-        unset($this->banks[$index]);
+        unset($this->adressess[$index]);
         return $this;
     }
 
@@ -332,7 +332,7 @@ class Customer
         return $this;
     }
 
-    public function deleteBank($index)
+    public function removeBank($index)
     {
         unset($this->banks[$index]);
         return $this;
