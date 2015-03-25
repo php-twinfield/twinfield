@@ -222,7 +222,7 @@ class Article
         return $this;
     }
 
-    public function deleteLine($index)
+    public function removeLine($index)
     {
         unset($this->lines[$index]);
         return $this;

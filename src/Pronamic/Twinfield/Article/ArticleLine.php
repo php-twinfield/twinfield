@@ -4,7 +4,7 @@ namespace Pronamic\Twinfield\Article;
 
 class ArticleLine
 {
-    private $ID;
+    private $ID = uniqid();
     private $status;
     private $inUse;
     private $unitsPriceExcl;
@@ -14,6 +14,11 @@ class ArticleLine
     private $shortName;
     private $subCode;
     private $freeText1;
+
+    public __construct()
+    {
+        $this->ID = uniqid();
+    }
 
     public function getID()
     {
