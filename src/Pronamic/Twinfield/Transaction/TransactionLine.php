@@ -45,6 +45,12 @@ class TransactionLine
         return $this->ID;
     }
 
+    public function setID($ID)
+    {
+        $this->ID = $ID;
+        return $this;
+    }
+
     public function getType()
     {
         return $this->type;
