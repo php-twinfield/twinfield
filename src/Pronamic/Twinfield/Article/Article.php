@@ -218,7 +218,7 @@ class Article
 
     public function addLine(ArticleLine $line)
     {
-        $this->lines[] = $line;
+        $this->lines[$line->getID()] = $line;
         return $this;
     }
 
