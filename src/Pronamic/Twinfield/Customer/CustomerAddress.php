@@ -22,6 +22,11 @@ class CustomerAddress
     private $field5;
     private $field6;
 
+    public function __construct()
+    {
+        $this->ID = uniqid();
+    }
+
     public function getID()
     {
         return $this->ID;

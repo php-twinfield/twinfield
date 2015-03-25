@@ -311,7 +311,7 @@ class Customer
 
     public function addAddress(CustomerAddress $address)
     {
-        $this->addresses[] = $address;
+        $this->addresses[$address->getID()] = $address;
         return $this;
     }
 
