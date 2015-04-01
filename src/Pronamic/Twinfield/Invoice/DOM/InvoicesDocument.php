@@ -140,7 +140,7 @@ class InvoicesDocument extends \DOMDocument
 
             // Make a new line element, and add to <lines>
             $lineElement = $this->createElement('line');
-            $lineElement->setAttribute('id', $transactionLine->getID());
+            $lineElement->setAttribute('id', $line->getID());
             $linesElement->appendChild($lineElement);
 
             // Go through each element and use the assigned method
