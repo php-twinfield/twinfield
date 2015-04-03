@@ -70,10 +70,13 @@ class TransactionMapper
         
         foreach ($responseDOM->getElementsByTagName('line') as $lineDOM) {
             $temp_line = new TransactionLine();
-            
+
             $lineType = $lineDOM->getAttribute('type');
             $temp_line->setType($lineType);
-            
+
+            $lineID = $lineDOM->getAttribute('id');
+            $temp_line->setID($lineID);
+
             foreach ($lineTags as $tag => $method) {
                 $_tag = $lineDOM->getElementsByTagName($tag)->item(0);
                 

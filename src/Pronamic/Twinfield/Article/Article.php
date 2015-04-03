@@ -218,7 +218,17 @@ class Article
 
     public function addLine(ArticleLine $line)
     {
-        $this->lines[] = $line;
+        $this->lines[$line->getID()] = $line;
         return $this;
+    }
+
+    public function removeLine($index)
+    {
+        if(array_key_exists($index, $this->lines)){
+            unset($this->lines[$index]);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -36,13 +36,23 @@ class Transaction
      */
     public function addLine(TransactionLine $line)
     {
-        array_push($this->lines, $line);
+        $this->lines[$line->getID()] = $line;
         return $this;
     }
 
     public function getLines()
     {
         return $this->lines;
+    }
+
+    public function removeLine($index)
+    {
+        if(array_key_exists($index, $this->lines)){
+            unset($this->lines[$index]);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function getDestiny()

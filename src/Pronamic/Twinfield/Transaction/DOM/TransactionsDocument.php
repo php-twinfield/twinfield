@@ -75,6 +75,7 @@ class TransactionsDocument extends \DOMDocument
 
             $lineElement = $this->createElement('line');
             $lineElement->setAttribute('type', $transactionLine->getType());
+            $lineElement->setAttribute('id', $transactionLine->getID());
             $linesElement->appendChild($lineElement);
 
             $dim1Element = $this->createElement('dim1', $transactionLine->getDim1());

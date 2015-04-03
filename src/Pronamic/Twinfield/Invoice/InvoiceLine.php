@@ -36,6 +36,12 @@ class InvoiceLine
         return $this->ID;
     }
 
+    public function setID($ID)
+    {
+        $this->ID = $ID;
+        return $this;
+    }
+
     public function getQuantity()
     {
         return $this->quantity;

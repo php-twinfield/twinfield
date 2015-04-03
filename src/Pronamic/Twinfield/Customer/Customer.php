@@ -311,8 +311,18 @@ class Customer
 
     public function addAddress(CustomerAddress $address)
     {
-        $this->addresses[] = $address;
+        $this->addresses[$address->getID()] = $address;
         return $this;
+    }
+
+    public function removeAddress($index)
+    {
+        if (array_key_exists($index, $this->addressess)) {
+            unset($this->adressess[$index]);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function getBanks()
@@ -322,8 +332,18 @@ class Customer
 
     public function addBank(CustomerBank $bank)
     {
-        $this->banks[] = $bank;
+        $this->banks[$bank->getID()] = $bank;
         return $this;
+    }
+
+    public function removeBank($index)
+    {
+        if (array_key_exists($index, $this->banks)) {
+            unset($this->banks[$index]);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function getGroups()
