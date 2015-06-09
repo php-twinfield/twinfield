@@ -85,9 +85,9 @@ class Service
     public function send(\DOMDocument $document)
     {
         // Get the secureclient and send this documents xml
-        $this->result = $this->login->getClient()->ProcessXmlString(array(
-            'xmlRequest' => $document->saveXML()
-        ));
+        $this->result = $this->login->getClient()->ProcessXmlString(
+            array('xmlRequest' => $document->saveXML())
+        );
 
         // Make a new DOMDocument, and load the response into it
         $this->response = new \DOMDocument();

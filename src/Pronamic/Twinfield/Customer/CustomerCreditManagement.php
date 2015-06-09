@@ -8,7 +8,7 @@ class CustomerCreditManagement
     private $baseCreditLimit = 0;   #amount             The credit limit amount.
     private $sendReminder = true;   #true/email/false   Determines if and how a customer will be reminded.
     private $reminderEmail;         #string(200)        Mandatory if sendreminder is email.
-    private $blocked = false;       #true/false         Indicates if related projects for this customer are blocked in time & expenses.
+    private $blocked = false;       #true/false         Are related projects for this cust. blocked in time & expenses.
     private $freeText1;             #true/false         Right of use.
     private $freeText2;             #string(40)         Segment code.
     private $freeText3;             #                   Not in use
@@ -112,5 +112,4 @@ class CustomerCreditManagement
         $this->comment = $comment;
         return $this;
     }
-
 }
