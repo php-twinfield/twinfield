@@ -15,7 +15,7 @@ class ArticleLine
     private $subCode;
     private $freeText1;
 
-    public __construct()
+    public function __construct()
     {
         $this->ID = uniqid();
     }
