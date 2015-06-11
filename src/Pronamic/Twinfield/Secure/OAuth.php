@@ -175,6 +175,9 @@ class OAuth
     public function __construct($options)
     {
         $this->options = $options;
+        if (!function_exists('curl_version')){
+            trigger_error("curl not installed", E_USER_ERROR);
+        }
         if (!$this->hasOption('clientToken')) {
             trigger_error("clientToken option missing", E_USER_ERROR);
         }
