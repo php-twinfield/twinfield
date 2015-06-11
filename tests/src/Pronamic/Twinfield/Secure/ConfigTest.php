@@ -90,4 +90,18 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->object->setCredentials('testUsername', 'testPassword', 'testOrganisation', 1001);
         $this->assertSame($this->object->getOffice(), 1001);
     }
+
+    /**
+     * @covers Pronamic\Twinfield\Secure\Config::getClientID
+     * @todo   Implement testGetClientID().
+     */
+    public function testGetClientID()
+    {
+        $this->object->setOAuthParameters('testClientToken', 'testClientSecret', 'testRedirectURL', 'testOrganisation', 'testOffice');
+        $this->assertSame($this->object->getClientToken(), 'testClientToken');
+        $this->assertSame($this->object->getClientSecret(), 'testClientSecret');
+        $this->assertSame($this->object->getRedirectURL(), 'testRedirectURL');
+        $this->assertSame($this->object->getOrganisation(), 'testOrganisation');
+        $this->assertSame($this->object->getOffice(), 'testOffice');
+    }
 }

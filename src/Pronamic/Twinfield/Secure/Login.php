@@ -85,7 +85,6 @@ class Login
     public function __construct(Config $config)
     {
         $this->config = $config;
-
         $this->soapLoginClient = new SoapClient($this->loginWSDL, array('trace' => 1));
     }
 
@@ -103,10 +102,17 @@ class Login
     public function process()
     {
         // Process logon
-        $response = $this->soapLoginClient->Logon($this->config->getCredentials());
+        if ($this->config->getClientToken() != '') {
+            print_pre($this->config->getCredentials(), 'credentials');
+            $response = $this->soapLoginClient->OAuthLogon($this->config->getCredentials());
+            $result = $response->OAuthLogonResult;
+        } else {
+            $response = $this->soapLoginClient->Logon($this->config->getCredentials());
+            $result = $response->LogonResult;
+        }
 
         // Check response is successful
-        if ('Ok' == $response->LogonResult) {
+        if ($result == 'Ok') {
             // Response from the logon request
             $this->loginResponse = $this->soapLoginClient->__getLastResponse();
 
@@ -121,7 +127,6 @@ class Login
             // Gets Cluster URL
             $cluster       = $envelope->getElementsByTagName('cluster');
             $this->cluster = $cluster->item(0)->textContent;
-
             // This login object is processed!
             $this->processed = true;
 
