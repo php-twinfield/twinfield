@@ -23,6 +23,16 @@ $config = new \Pronamic\Twinfield\Secure\Config();
 $config->setCredentials('Username', 'Password', 'Organization', 'Office');
 ```
 
+* or, when using OAuth:
+
+```php
+$config = new \Pronamic\Twinfield\Secure\Config();
+$config->setOAuthParameters('clientID', 'clientSecret', 'returnURL', 'Organization', 'Office', true);
+//the true parameter at the end tells the system to automatically redirect to twinfield to login
+```
+
+
+
 Now, to the current modules
 
 In the following example, we will use the Customer component as showcase. Although 
