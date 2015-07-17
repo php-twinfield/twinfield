@@ -1,9 +1,10 @@
 <?php
+
 namespace Pronamic\Twinfield\Transaction;
 
 /**
- * TransactionLine class
- * 
+ * TransactionLine class.
+ *
  * @author Dylan Schoenmakers <dylan@opifer.nl>
  */
 class TransactionLine
@@ -20,6 +21,7 @@ class TransactionLine
     private $baseValue;
     private $repRate;
     private $repValue;
+    private $vatValue;
     private $vatTotal;
     private $vatBaseTotal;
     private $performanceType;
@@ -31,7 +33,7 @@ class TransactionLine
     private $openValue;
     private $openBaseValue;
     private $matchStatus;
-    
+
     const PERFORMANCETYPE_SERVICES = 'services';
     const PERFORMANCETYPE_GOODS = 'goods';
 
@@ -48,6 +50,7 @@ class TransactionLine
     public function setID($ID)
     {
         $this->ID = $ID;
+
         return $this;
     }
 
@@ -59,6 +62,7 @@ class TransactionLine
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -70,6 +74,7 @@ class TransactionLine
     public function setDim1($dim1)
     {
         $this->dim1 = $dim1;
+
         return $this;
     }
 
@@ -81,6 +86,7 @@ class TransactionLine
     public function setDim2($dim2)
     {
         $this->dim2 = $dim2;
+
         return $this;
     }
 
@@ -92,6 +98,7 @@ class TransactionLine
     public function setValue($value)
     {
         $this->value = $value;
+
         return $this;
     }
 
@@ -103,6 +110,7 @@ class TransactionLine
     public function setVatCode($vatCode)
     {
         $this->vatCode = $vatCode;
+
         return $this;
     }
 
@@ -110,10 +118,11 @@ class TransactionLine
     {
         return $this->debitCredit;
     }
-    
+
     public function setDebitCredit($debitCredit)
     {
         $this->debitCredit = $debitCredit;
+
         return $this;
     }
 
@@ -125,6 +134,7 @@ class TransactionLine
     public function setDescription($description)
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -136,6 +146,7 @@ class TransactionLine
     public function setRate($rate)
     {
         $this->rate = $rate;
+
         return $this;
     }
 
@@ -147,6 +158,7 @@ class TransactionLine
     public function setBaseValue($baseValue)
     {
         $this->baseValue = $baseValue;
+
         return $this;
     }
 
@@ -158,6 +170,7 @@ class TransactionLine
     public function setRepRate($repRate)
     {
         $this->repRate = $repRate;
+
         return $this;
     }
 
@@ -169,6 +182,19 @@ class TransactionLine
     public function setRepValue($repValue)
     {
         $this->repValue = $repValue;
+
+        return $this;
+    }
+
+    public function getVatValue()
+    {
+        return $this->vatValue;
+    }
+
+    public function setVatValue($vatValue)
+    {
+        $this->vatValue = $vatValue;
+
         return $this;
     }
 
@@ -180,6 +206,7 @@ class TransactionLine
     public function setVatTotal($vatTotal)
     {
         $this->vatTotal = $vatTotal;
+
         return $this;
     }
 
@@ -191,9 +218,10 @@ class TransactionLine
     public function setVatBaseTotal($vatBaseTotal)
     {
         $this->vatBaseTotal = $vatBaseTotal;
+
         return $this;
     }
-    
+
     public function getPerformanceType()
     {
         return $this->performanceType;
@@ -202,6 +230,7 @@ class TransactionLine
     public function setPerformanceType($performanceType)
     {
         $this->performanceType = $performanceType;
+
         return $this;
     }
 
@@ -213,6 +242,7 @@ class TransactionLine
     public function setPerformanceCountry($performanceCountry)
     {
         $this->performanceCountry = $performanceCountry;
+
         return $this;
     }
 
@@ -224,6 +254,7 @@ class TransactionLine
     public function setPerformanceVatNumber($performanceVatNumber)
     {
         $this->performanceVatNumber = $performanceVatNumber;
+
         return $this;
     }
 
@@ -235,6 +266,7 @@ class TransactionLine
     public function setPerformanceDate($performanceDate)
     {
         $this->performanceDate = $performanceDate;
+
         return $this;
     }
 
@@ -246,6 +278,7 @@ class TransactionLine
     public function setMatchLevel($matchLevel)
     {
         $this->matchLevel = $matchLevel;
+
         return $this;
     }
 
@@ -257,6 +290,7 @@ class TransactionLine
     public function setCustomerSupplier($customerSupplier)
     {
         $this->customerSupplier = $customerSupplier;
+
         return $this;
     }
 
@@ -268,6 +302,7 @@ class TransactionLine
     public function setOpenValue($openValue)
     {
         $this->openValue = $openValue;
+
         return $this;
     }
 
@@ -279,6 +314,7 @@ class TransactionLine
     public function setOpenBaseValue($openBaseValue)
     {
         $this->openBaseValue = $openBaseValue;
+
         return $this;
     }
 
@@ -290,6 +326,7 @@ class TransactionLine
     public function setMatchStatus($matchStatus)
     {
         $this->matchStatus = $matchStatus;
+
         return $this;
     }
 }

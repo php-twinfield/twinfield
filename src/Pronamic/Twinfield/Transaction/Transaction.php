@@ -2,12 +2,14 @@
 
 namespace Pronamic\Twinfield\Transaction;
 
+use Pronamic\Twinfield\BaseObject;
+
 /**
- * Transaction class
- * 
+ * Transaction class.
+ *
  * @author Dylan Schoenmakers <dylan@opifer.nl>
  */
-class Transaction
+class Transaction extends BaseObject
 {
     private $raiseWarning;
     private $destiny;
@@ -17,9 +19,8 @@ class Transaction
     private $date;
     private $period;
     private $origin;
-    
+
     /**
-     *
      * @var \Pronamic\Twinfield\Customer\Customer
      */
     private $customer;
@@ -29,14 +30,16 @@ class Transaction
     private $lines = array();
 
     /**
-     * Add a TransactionLine to this Transaction
-     * 
+     * Add a TransactionLine to this Transaction.
+     *
      * @param \Pronamic\Twinfield\Transaction\TransactionLine $line
+     *
      * @return \Pronamic\Twinfield\Transaction\Transaction
      */
     public function addLine(TransactionLine $line)
     {
         $this->lines[$line->getID()] = $line;
+
         return $this;
     }
 
@@ -49,6 +52,7 @@ class Transaction
     {
         if (array_key_exists($index, $this->lines)) {
             unset($this->lines[$index]);
+
             return true;
         } else {
             return false;
@@ -63,6 +67,7 @@ class Transaction
     public function setDestiny($destiny)
     {
         $this->destiny = $destiny;
+
         return $this;
     }
 
@@ -74,6 +79,7 @@ class Transaction
     public function setOffice($office)
     {
         $this->office = $office;
+
         return $this;
     }
 
@@ -85,6 +91,7 @@ class Transaction
     public function setCode($code)
     {
         $this->code = $code;
+
         return $this;
     }
 
@@ -96,6 +103,7 @@ class Transaction
     public function setDate($date)
     {
         $this->date = $date;
+
         return $this;
     }
 
@@ -107,6 +115,7 @@ class Transaction
     public function setDueDate($dueDate)
     {
         $this->dueDate = $dueDate;
+
         return $this;
     }
 
@@ -118,9 +127,10 @@ class Transaction
     public function setInvoiceNumber($invoiceNumber)
     {
         $this->invoiceNumber = $invoiceNumber;
+
         return $this;
     }
-    
+
     public function getRaiseWarning()
     {
         return $this->raiseWarning;
@@ -129,6 +139,7 @@ class Transaction
     public function setRaiseWarning($raiseWarning)
     {
         $this->raiseWarning = $raiseWarning;
+
         return $this;
     }
 
@@ -140,6 +151,7 @@ class Transaction
     public function setPeriod($period)
     {
         $this->period = $period;
+
         return $this;
     }
 
@@ -151,6 +163,7 @@ class Transaction
     public function setOrigin($origin)
     {
         $this->origin = $origin;
+
         return $this;
     }
 
@@ -162,9 +175,10 @@ class Transaction
     public function setCustomer(\Pronamic\Twinfield\Customer\Customer $customer)
     {
         $this->customer = $customer;
+
         return $this;
     }
-    
+
     public function getCurrency()
     {
         return $this->currency;
@@ -173,9 +187,10 @@ class Transaction
     public function setCurrency($currency)
     {
         $this->currency = $currency;
+
         return $this;
     }
-    
+
     public function getNumber()
     {
         return $this->number;
@@ -184,6 +199,7 @@ class Transaction
     public function setNumber($number)
     {
         $this->number = $number;
+
         return $this;
     }
 }
