@@ -55,6 +55,14 @@ class Config
      */
     private $oauth = null;
 
+
+    /**
+     * Holds the optional soap client options
+     *
+     * @var Array
+     */
+    private $soapClientOptions = array();
+
     /**
      * Sets the oAuth details for this config object.
      *
@@ -239,5 +247,16 @@ class Config
     public function getRedirectURL()
     {
         return $this->oauthCredentials['redirectURL'];
+    }
+
+    public function getSoapClientOptions()
+    {
+        return $this->soapClientOptions;
+    }
+
+    public function setSoapClientOptions(Array $options)
+    {
+        $this->soapClientOptions = $options;
+        return $this;
     }
 }

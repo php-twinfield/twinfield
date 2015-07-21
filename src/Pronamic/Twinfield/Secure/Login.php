@@ -176,7 +176,7 @@ class Login
         }
 
         // Makes a new client, and assigns the header to it
-        $client = new SoapClient(sprintf($this->clusterWSDL, $this->cluster));
+        $client = new SoapClient(sprintf($this->clusterWSDL, $this->cluster), $this->config->getSoapClientOptions());
         $client->__setSoapHeaders($this->getHeader());
 
         return $client;
