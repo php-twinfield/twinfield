@@ -5,8 +5,8 @@ namespace Pronamic\Twinfield\Transaction\DOM;
 use Pronamic\Twinfield\Transaction\Transaction;
 
 /**
- * TransactionsDocument class
- * 
+ * TransactionsDocument class.
+ *
  * @author Dylan Schoenmakers <dylan@opifer.nl>
  */
 class TransactionsDocument extends \DOMDocument
@@ -14,15 +14,14 @@ class TransactionsDocument extends \DOMDocument
     /**
      * Holds the <transactions> element
      * that all additional elements should be a child of.
+     *
      * @var \DOMElement
      */
     private $transactionsElement;
 
     /**
      * Creates the <transasctions> element and adds it to the property
-     * transactionsElement
-     * 
-     * @access public
+     * transactionsElement.
      */
     public function __construct()
     {
@@ -32,17 +31,14 @@ class TransactionsDocument extends \DOMDocument
         $this->appendChild($this->transactionsElement);
     }
 
-
     /**
      * Turns a passed Transaction class into the required markup for interacting
      * with Twinfield.
-     * 
+     *
      * This method doesn't return anything, instead just adds the transaction
      * to this DOMDocument instance for submission usage.
-     * 
-     * @access public
+     *
      * @param \Pronamic\Twinfield\Transaction\Transaction $transaction
-     * @return void | [Adds to this instance]
      */
     public function addTransaction(Transaction $transaction)
     {
@@ -72,7 +68,6 @@ class TransactionsDocument extends \DOMDocument
 
         // Lines
         foreach ($transaction->getLines() as $transactionLine) {
-
             $lineElement = $this->createElement('line');
             $lineElement->setAttribute('type', $transactionLine->getType());
             $lineElement->setAttribute('id', $transactionLine->getID());
@@ -83,11 +78,11 @@ class TransactionsDocument extends \DOMDocument
             $value = $transactionLine->getValue();
             $value = number_format($value, 2, '.', '');
             $valueElement = $this->createElement('value', $value);
-            
+
             if ($transactionLine->getType() != 'total') {
                 $vatCodeElement = $this->createElement('vatcode', $transactionLine->getVatCode());
             }
-            
+
             $descriptionNode = $this->createTextNode($transactionLine->getDescription());
             $descriptionElement = $this->createElement('description');
             $descriptionElement->appendChild($descriptionNode);
@@ -95,16 +90,21 @@ class TransactionsDocument extends \DOMDocument
             $lineElement->appendChild($dim1Element);
             $lineElement->appendChild($dim2Element);
             $lineElement->appendChild($valueElement);
-            
+
             if (!empty($transactionLine->getPerformanceType())) {
                 $perfElement = $this->createElement('performancetype', $transactionLine->getPerformanceType());
                 $lineElement->appendChild($perfElement);
             }
-            
+
+            if (!empty($transactionLine->getVatValue())) {
+                $vatElement = $this->createElement('vatvalue', $transactionLine->getVatValue());
+                $lineElement->appendChild($vatElement);
+            }
+
             if ($transactionLine->getType() != 'total') {
                 $lineElement->appendChild($vatCodeElement);
             }
-            
+
             $lineElement->appendChild($descriptionElement);
         }
     }
