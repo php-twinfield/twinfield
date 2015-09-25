@@ -103,7 +103,6 @@ class Login
     {
         // Process logon
         if ($this->config->getClientToken() != '') {
-            print_pre($this->config->getCredentials(), 'credentials');
             $response = $this->soapLoginClient->OAuthLogon($this->config->getCredentials());
             $result = $response->OAuthLogonResult;
         } else {
