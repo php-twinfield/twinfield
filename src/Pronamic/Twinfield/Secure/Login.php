@@ -62,7 +62,7 @@ class Login
      * @access private
      * @var string
      */
-    private $sessionID;
+    public $sessionID;
 
     /**
      * The server cluster used for future XML
@@ -71,7 +71,7 @@ class Login
      * @access private
      * @var string
      */
-    private $cluster;
+    public $cluster;
 
     /**
      * If the login has been processed and was
@@ -161,21 +161,23 @@ class Login
     /**
      * Gets the soap client with the headers attached
      *
-     * Will automaticly login if haven't already on this instance
+     * Will automatically login if haven't already on this instance
      *
      * @since 0.0.1
      *
+	 * @param string|null $wsdl the wsdl to use. If null, the clusterWSDL is used.
      * @access public
      * @return \SoapClient
      */
-    public function getClient()
+    public function getClient($wsdl = null)
     {
         if (! $this->processed) {
             $this->process();
         }
+		$wsdl = is_null($wsdl) ? $this->clusterWSDL : $wsdl;
 
         // Makes a new client, and assigns the header to it
-        $client = new SoapClient(sprintf($this->clusterWSDL, $this->cluster), $this->config->getSoapClientOptions());
+        $client = new SoapClient(sprintf($wsdl, $this->cluster), $this->config->getSoapClientOptions());
         $client->__setSoapHeaders($this->getHeader());
 
         return $client;
