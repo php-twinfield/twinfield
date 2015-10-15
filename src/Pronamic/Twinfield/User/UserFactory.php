@@ -26,7 +26,21 @@ class UserFactory extends FinderFactory
     const MUTUAL_OFFICES_DISABLED = 0;
     const MUTUAL_OFFICES_ENABLED = 1;
 
-	public function listAllUsers($officeCode = null, $accessRules = null, $mutualOffices = null, $pattern = '*',
+    /**
+     * List all users.
+     * @param string $officeCode the office code, if only users from one office should be listed
+     * @param integer $accessRules
+     * @param integer $mutualOffices
+     * @param string $pattern The search pattern. May contain wildcards * and ?
+     * @param int $field The search field determines which field or fields will be searched. The available fields
+     * depends on the finder type. Passing a value outside the specified values will cause an error.
+     * @param int $firstRow First row to return, useful for paging
+     * @param int $maxRows Maximum number of rows to return, useful for paging
+     * @param array $options The Finder options. Passing an unsupported name or value causes an error. It's possible to
+     * add multiple options. An option name may be used once, specifying an option multiple times will cause an error.
+     * @return User[] the users found
+     */
+	public function listAll($officeCode = null, $accessRules = null, $mutualOffices = null, $pattern = '*',
         $field = 0, $firstRow = 1, $maxRows = 100, $options = array())
 	{
         if(!is_null($officeCode)) {
