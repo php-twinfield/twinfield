@@ -22,6 +22,12 @@ namespace Pronamic\Twinfield\Secure;
 class Config
 {
     /**
+     * @var string the address of the cluster. There is no need to set cluster in the scenario of logging in, the right
+     * cluster will then be provided. In calls based on using existing credentials though, the cluster should be
+     * provided.
+     */
+    public $cluster;
+    /**
      * Holds all the login details for this
      * config object
      *

@@ -71,7 +71,7 @@ class Login
      * @access private
      * @var string
      */
-    public $cluster;
+    public $cluster = 'https://c3.twinfield.com';
 
     /**
      * If the login has been processed and was
@@ -85,6 +85,7 @@ class Login
     public function __construct(Config $config)
     {
         $this->config = $config;
+        $this->cluster = !is_null($config->cluster) ? $config->cluster : $this->cluster;
         $this->soapLoginClient = new SoapClient($this->loginWSDL, array('trace' => 1));
     }
 
@@ -109,7 +110,6 @@ class Login
             $response = $this->soapLoginClient->Logon($this->config->getCredentials());
             $result = $response->LogonResult;
         }
-
         // Check response is successful
         if ($result == 'Ok') {
             // Response from the logon request
@@ -147,7 +147,7 @@ class Login
      */
     public function getHeader()
     {
-        if (! $this->processed) {
+        if (! $this->processed || is_null($this->cluster)) {
             $this->process();
         }
 
@@ -175,10 +175,10 @@ class Login
             $this->process();
         }
 		$wsdl = is_null($wsdl) ? $this->clusterWSDL : $wsdl;
-
+        $header = $this->getHeader();
         // Makes a new client, and assigns the header to it
         $client = new SoapClient(sprintf($wsdl, $this->cluster), $this->config->getSoapClientOptions());
-        $client->__setSoapHeaders($this->getHeader());
+        $client->__setSoapHeaders($header);
 
         return $client;
     }

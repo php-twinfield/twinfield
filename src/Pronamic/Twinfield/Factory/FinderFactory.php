@@ -1,4 +1,5 @@
 <?php
+
 namespace Pronamic\Twinfield\Factory;
 
 /**
@@ -12,7 +13,7 @@ namespace Pronamic\Twinfield\Factory;
  * @author Emile Bons <emile@emilebons.nl>
  * @package Pronamic\Twinfield
  */
-abstract class FinderFactory extends ParentFactory
+abstract class FinderFactory extends ProcessXmlFactory
 {
 	const SEARCH_FIELD_CODE_OR_NAME = 0;
 	const SEARCH_FIELD_CODE = 1;
@@ -67,7 +68,6 @@ abstract class FinderFactory extends ParentFactory
     const TYPE_VAT_GROUPS = 'VTB';
     const TYPE_VAT_GROUPS_COUNTRIES = 'VGM';
     const TYPE_TRANSLATIONS = 'XLT';
-
 
 	/**
 	 * @var string the WSDL location of the finder service
