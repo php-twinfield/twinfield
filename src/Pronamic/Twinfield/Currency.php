@@ -1,20 +1,25 @@
 <?php
 
-namespace Pronamic\Twinfield\User;
+namespace Pronamic\Twinfield;
 
-
-class User
+/**
+ * Class Currency
+ *
+ * @author Emile Bons <emile@emilebons.nl>
+ * @package Pronamic\Twinfield
+ */
+class Currency
 {
     /**
-     * @var string the code of the user
+     * @var string the code of the currency, e.g. 'EUR'
      */
     private $code;
     /**
-     * @var string the name of the user
+     * @var string the name of the currency, e.g. 'Euro'
      */
     private $name;
     /**
-     * @var string the short name of the user
+     * @var string the short name of the currency, e.g. 'Euro'
      */
     private $shortName;
 
@@ -43,19 +48,19 @@ class User
     }
 
     /**
-     * @param string $code
+     * @param string $value
      */
-    public function setCode($code)
+    public function setCode($value)
     {
-        $this->code = $code;
+        $this->code = $value;
     }
 
     /**
-     * @param string $name
+     * @param string $value
      */
-    public function setName($name)
+    public function setName($value)
     {
-        $this->name = $name;
+        $this->name = $value;
     }
 
     /**
@@ -65,5 +70,4 @@ class User
     {
         $this->shortName = $value;
     }
-
 }
