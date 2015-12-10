@@ -20,7 +20,7 @@ class TransactionMapper
         $responseDOM = $response->getResponseDocument();
 
         // All tags for the transaction
-        $transactionTags = [
+        $transactionTags = array(
             'code'          => 'setCode',
             'currency'      => 'setCurrency',
             'date'          => 'setDate',
@@ -33,10 +33,10 @@ class TransactionMapper
             'freetext1'     => 'setFreetext1',
             'freetext2'     => 'setFreetext2',
             'freetext3'     => 'setFreetext3',
-        ];
+        );
 
         // Make new Transaction Object
-        $transactions = [];
+        $transactions = array();
 
         // Get the top level transaction element
         $transactionElements
@@ -78,7 +78,7 @@ class TransactionMapper
                 }
             }
 
-            $lineTags = [
+            $lineTags = array(
                 'dim1'             => 'setDim1',
                 'dim2'             => 'setDim2',
                 'value'            => 'setValue',
@@ -97,7 +97,7 @@ class TransactionMapper
                 'repvalue'         => 'setRepValue',
                 'matchlevel'       => 'setMatchLevel',
                 'matchstatus'      => 'setMatchStatus',
-            ];
+            );
 
             foreach (
                 $transactionElement->getElementsByTagName('line') as $lineDOM

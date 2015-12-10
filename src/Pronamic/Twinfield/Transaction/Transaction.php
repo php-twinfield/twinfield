@@ -30,7 +30,7 @@ class Transaction extends BaseObject
     private $freetext1;
     private $freetext2;
     private $freetext3;
-    private $lines = [];
+    private $lines = array();
 
     /**
      * Add a TransactionLine to this Transaction.
