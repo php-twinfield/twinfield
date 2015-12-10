@@ -27,7 +27,10 @@ class Transaction extends BaseObject
     private $dueDate;
     private $invoiceNumber;
     private $number;
-    private $lines = array();
+    private $freetext1;
+    private $freetext2;
+    private $freetext3;
+    private $lines = [];
 
     /**
      * Add a TransactionLine to this Transaction.
@@ -199,6 +202,66 @@ class Transaction extends BaseObject
     public function setNumber($number)
     {
         $this->number = $number;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFreetext1()
+    {
+        return $this->freetext1;
+    }
+
+    /**
+     * @param mixed $freetext1
+     *
+     * @return Transaction
+     */
+    public function setFreetext1($freetext1)
+    {
+        $this->freetext1 = $freetext1;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFreetext2()
+    {
+        return $this->freetext2;
+    }
+
+    /**
+     * @param mixed $freetext2
+     *
+     * @return Transaction
+     */
+    public function setFreetext2($freetext2)
+    {
+        $this->freetext2 = $freetext2;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFreetext3()
+    {
+        return $this->freetext3;
+    }
+
+    /**
+     * @param mixed $freetext3
+     *
+     * @return Transaction
+     */
+    public function setFreetext3($freetext3)
+    {
+        $this->freetext3 = $freetext3;
 
         return $this;
     }

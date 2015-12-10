@@ -2,36 +2,46 @@
 
 namespace Pronamic\Twinfield\Transaction\Mapper;
 
+use Pronamic\Twinfield\Message\Message;
+use Pronamic\Twinfield\Response\Response;
 use Pronamic\Twinfield\Transaction\Transaction;
 use Pronamic\Twinfield\Transaction\TransactionLine;
-use Pronamic\Twinfield\Response\Response;
-use Pronamic\Twinfield\Message\Message;
 
 class TransactionMapper
 {
+    /**
+     * @param Response $response
+     *
+     * @return Transaction{}
+     */
     public static function map(Response $response)
     {
         // Get the raw DOMDocument response
         $responseDOM = $response->getResponseDocument();
 
         // All tags for the transaction
-        $transactionTags = array(
-            'code' => 'setCode',
-            'currency' => 'setCurrency',
-            'date' => 'setDate',
-            'period' => 'setPeriod',
+        $transactionTags = [
+            'code'          => 'setCode',
+            'currency'      => 'setCurrency',
+            'date'          => 'setDate',
+            'period'        => 'setPeriod',
             'invoicenumber' => 'setInvoiceNumber',
-            'office' => 'setOffice',
-            'duedate' => 'setDueDate',
-            'origin' => 'setOrigin',
-            'number' => 'setNumber',
-        );
+            'office'        => 'setOffice',
+            'duedate'       => 'setDueDate',
+            'origin'        => 'setOrigin',
+            'number'        => 'setNumber',
+            'freetext1'     => 'setFreetext1',
+            'freetext2'     => 'setFreetext2',
+            'freetext3'     => 'setFreetext3',
+        ];
 
         // Make new Transaction Object
-        $transactions = array();
+        $transactions = [];
 
         // Get the top level transaction element
-        $transactionElements = $responseDOM->getElementsByTagName('transaction');
+        $transactionElements
+            = $responseDOM->getElementsByTagName('transaction');
+
         foreach ($transactionElements as $transactionElement) {
 
             // create new transaction
@@ -51,7 +61,8 @@ class TransactionMapper
 
             // Go through each tag and call the method if a value is set
             foreach ($transactionTags as $tag => $method) {
-                $_tag = $transactionElement->getElementsByTagName($tag)->item(0);
+                $_tag = $transactionElement->getElementsByTagName($tag)
+                    ->item(0);
 
                 if (isset($_tag) && isset($_tag->textContent)) {
                     $transaction->$method($_tag->textContent);
@@ -67,28 +78,30 @@ class TransactionMapper
                 }
             }
 
-            $lineTags = array(
-                'dim1' => 'setDim1',
-                'dim2' => 'setDim2',
-                'value' => 'setValue',
-                'debitcredit' => 'setDebitCredit',
-                'description' => 'setDescription',
-                'rate' => 'setRate',
-                'basevalue' => 'setBaseValue',
-                'reprate' => 'setRepRate',
-                'vatcode' => 'setVatCode',
-                'vattotal' => 'setVatTotal',
-                'vatvalue' => 'setVatValue',
-                'vatbasetotal' => 'setVatBaseTotal',
+            $lineTags = [
+                'dim1'             => 'setDim1',
+                'dim2'             => 'setDim2',
+                'value'            => 'setValue',
+                'debitcredit'      => 'setDebitCredit',
+                'description'      => 'setDescription',
+                'rate'             => 'setRate',
+                'basevalue'        => 'setBaseValue',
+                'reprate'          => 'setRepRate',
+                'vatcode'          => 'setVatCode',
+                'vattotal'         => 'setVatTotal',
+                'vatvalue'         => 'setVatValue',
+                'vatbasetotal'     => 'setVatBaseTotal',
                 'customersupplier' => 'setCustomerSupplier',
-                'openvalue' => 'setOpenValue',
-                'openbasevalue' => 'setOpenBaseValue',
-                'repvalue' => 'setRepValue',
-                'matchlevel' => 'setMatchLevel',
-                'matchstatus' => 'setMatchStatus',
-            );
+                'basevalueopen'    => 'setBaseValueOpen',
+                'valueopen'        => 'setValueOpen',
+                'repvalue'         => 'setRepValue',
+                'matchlevel'       => 'setMatchLevel',
+                'matchstatus'      => 'setMatchStatus',
+            ];
 
-            foreach ($transactionElement->getElementsByTagName('line') as $lineDOM) {
+            foreach (
+                $transactionElement->getElementsByTagName('line') as $lineDOM
+            ) {
                 $temp_line = new TransactionLine();
 
                 $lineType = $lineDOM->getAttribute('type');

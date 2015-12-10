@@ -30,8 +30,8 @@ class TransactionLine
     private $performanceDate;
     private $matchLevel;
     private $customerSupplier;
-    private $openValue;
-    private $openBaseValue;
+    private $valueOpen;
+    private $baseValueOpen;
     private $matchStatus;
 
     const PERFORMANCETYPE_SERVICES = 'services';
@@ -306,17 +306,6 @@ class TransactionLine
         return $this;
     }
 
-    public function getOpenBaseValue()
-    {
-        return $this->openBaseValue;
-    }
-
-    public function setOpenBaseValue($openBaseValue)
-    {
-        $this->openBaseValue = $openBaseValue;
-
-        return $this;
-    }
 
     public function getMatchStatus()
     {
@@ -326,6 +315,46 @@ class TransactionLine
     public function setMatchStatus($matchStatus)
     {
         $this->matchStatus = $matchStatus;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValueOpen()
+    {
+        return $this->valueOpen;
+    }
+
+    /**
+     * @param mixed $valueOpen
+     *
+     * @return TransactionLine
+     */
+    public function setValueOpen($valueOpen)
+    {
+        $this->valueOpen = $valueOpen;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBaseValueOpen()
+    {
+        return $this->baseValueOpen;
+    }
+
+    /**
+     * @param mixed $baseValueOpen
+     *
+     * @return TransactionLine
+     */
+    public function setBaseValueOpen($baseValueOpen)
+    {
+        $this->baseValueOpen = $baseValueOpen;
 
         return $this;
     }
