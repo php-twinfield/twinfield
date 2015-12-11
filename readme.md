@@ -171,6 +171,7 @@ restructure or alteration please bring up in an issue first.
 
 *	[Pronamic](http://pronamic.nl/)
 *	[Remco Tolsma](http://remcotolsma.nl/)
+*   [Emile Bons](http://www.emilebons.nl)
 
 
 ## License
