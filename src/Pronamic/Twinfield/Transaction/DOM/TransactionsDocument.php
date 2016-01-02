@@ -91,13 +91,15 @@ class TransactionsDocument extends \DOMDocument
             $lineElement->appendChild($dim2Element);
             $lineElement->appendChild($valueElement);
 
-            if (!empty($transactionLine->getPerformanceType())) {
-                $perfElement = $this->createElement('performancetype', $transactionLine->getPerformanceType());
+            $performanceType = $transactionLine->getPerformanceType();
+            if (!empty($performanceType)) {
+                $perfElement = $this->createElement('performancetype', $performanceType);
                 $lineElement->appendChild($perfElement);
             }
 
-            if (!empty($transactionLine->getVatValue())) {
-                $vatElement = $this->createElement('vatvalue', $transactionLine->getVatValue());
+            $vatValue = $transactionLine->getVatValue();
+            if (!empty($vatValue)) {
+                $vatElement = $this->createElement('vatvalue', $vatValue);
                 $lineElement->appendChild($vatElement);
             }
 
