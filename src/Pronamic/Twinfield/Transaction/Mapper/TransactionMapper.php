@@ -35,6 +35,7 @@ class TransactionMapper
             'freetext3'     => 'setFreetext3',
         );
 
+
         // Make new Transaction Object
         $transactions = array();
 
