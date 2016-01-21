@@ -17,6 +17,7 @@
 	},
 	"require-dev": {
 		"squizlabs/php_codesniffer": "*",
-		"sensiolabs/security-checker": "1.3.x-dev"
+		"sensiolabs/security-checker": "1.3.x-dev",
+		"phpunit/phpunit": "^5.1"
 	}
 }
