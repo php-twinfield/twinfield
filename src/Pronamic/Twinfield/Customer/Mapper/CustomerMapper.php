@@ -47,7 +47,8 @@ class CustomerMapper
             'endperiod'         => 'setEndPeriod',
             'endyear'           => 'setEndYear',
             'website'           => 'setWebsite',
-            'editdimensionname' => 'setEditDimensionName'
+            'editdimensionname' => 'setEditDimensionName',
+            'office'            => 'setOffice',
         );
 
         // Loop through all the tags

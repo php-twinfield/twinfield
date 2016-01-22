@@ -55,6 +55,7 @@ class CustomersDocument extends \DOMDocument
             'name'      => 'getName',
             'type'      => 'getType',
             'website'   => 'getWebsite',
+            'office'    => 'getOffice',
         );
 
         $status = $customer->getStatus();
