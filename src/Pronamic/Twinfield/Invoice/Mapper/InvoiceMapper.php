@@ -91,7 +91,8 @@ class InvoiceMapper
             'freetext1'              => 'setFreeText1',
             'freetext2'              => 'setFreeText2',
             'freetext3'              => 'setFreeText3',
-            'performancedate'        => 'setPerformanceDate'
+            'performancedate'        => 'setPerformanceDate',
+            'dim1'                   => 'setDim1',
         );
 
         foreach ($responseDOM->getElementsByTagName('line') as $lineDOM) {
