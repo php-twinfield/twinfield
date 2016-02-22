@@ -2,7 +2,6 @@
 
 namespace Pronamic\Twinfield\VatCode;
 
-use app\vendor\emilebons\twinfield\src\Pronamic\Twinfield\VatCode\VatCode;
 use Pronamic\Twinfield\Factory\FinderFactory;
 
 /**
