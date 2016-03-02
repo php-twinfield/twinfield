@@ -31,7 +31,7 @@ class Customer
     private $addresses = array();
     private $banks = array();
     private $groups;
-    private $office;
+
 
     public function getOffice()
     {
@@ -42,17 +42,6 @@ class Customer
     {
         $this->office = $office;
 
-        return $this;
-    }
-
-    public function getOffice()
-    {
-        return $this->office;
-    }
-
-    public function setOffice($office)
-    {
-        $this->office = $office;
         return $this;
     }
 
