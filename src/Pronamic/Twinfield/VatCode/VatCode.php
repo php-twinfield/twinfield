@@ -1,6 +1,6 @@
 <?php
 
-namespace app\vendor\emilebons\twinfield\src\Pronamic\Twinfield\VatCode;
+namespace Pronamic\Twinfield\VatCode;
 
 /**
  * Class VatCode

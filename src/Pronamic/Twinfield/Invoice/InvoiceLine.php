@@ -20,6 +20,7 @@ class InvoiceLine
     private $freeText2;
     private $freeText3;
     private $performanceDate;
+    private $dim1;
 
     public function __construct($quantity = null, $article = null, $freeText1 = null, $freeText2 = null)
     {
@@ -217,4 +218,17 @@ class InvoiceLine
         $this->performanceDate = $performanceDate;
         return $this;
     }
+
+    public function getDim1()
+    {
+        return $this->dim1;
+    }
+
+    public function setDim1($dim1)
+    {
+        $this->dim1 = $dim1;
+        return $this;
+    }
+
+
 }

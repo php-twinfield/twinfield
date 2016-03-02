@@ -132,7 +132,8 @@ class InvoicesDocument extends \DOMDocument
             'freetext1'       => 'getFreeText1',
             'freetext2'       => 'getFreeText2',
             'freetext3'       => 'getFreeText3',
-            'performancedate' => 'getPerformanceDate'
+            'performancedate' => 'getPerformanceDate',
+            'dim1'            => 'getDim1',
         );
 
         // Loop through all orders, and add those elements
