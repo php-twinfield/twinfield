@@ -3,6 +3,7 @@
 namespace Pronamic\Twinfield\Transaction\DOM;
 
 use Pronamic\Twinfield\Transaction\Transaction;
+use Pronamic\Twinfield\Transaction\TransactionLine;
 
 /**
  * TransactionsDocument class.
@@ -54,18 +55,27 @@ class TransactionsDocument extends \DOMDocument
         $officeElement = $this->createElement('office', $transaction->getOffice());
         $codeElement = $this->createElement('code', $transaction->getCode());
         $dateElement = $this->createElement('date', $transaction->getDate());
-        $dueDateElement = $this->createElement('duedate', $transaction->getDueDate());
-        $invoiceNumberElement = $this->createElement('invoicenumber', $transaction->getInvoiceNumber());
+        if ($transaction->getInvoiceNumber() !== null) {
+            $invoiceNumberElement = $this->createElement('invoicenumber', $transaction->getInvoiceNumber());
+            $headerElement->appendChild($invoiceNumberElement);
+        }
 
-        if ($transaction->getFreetext1() === null) {
+        if ($transaction->getDueDate() !== null) {
+            $dueDateElement = $this->createElement('duedate', $transaction->getDueDate());
+            $headerElement->appendChild($dueDateElement);
+        }
+
+        if ($transaction->getFreetext1() !== null) {
             $freetext1Element = $this->createElement('freetext1', $transaction->getFreetext1());
             $headerElement->appendChild($freetext1Element);
         }
-        if ($transaction->getFreetext2() === null) {
+
+        if ($transaction->getFreetext2() !== null) {
             $freetext2Element = $this->createElement('freetext2', $transaction->getFreetext2());
             $headerElement->appendChild($freetext2Element);
         }
-        if ($transaction->getFreetext3() === null) {
+
+        if ($transaction->getFreetext3() !== null) {
             $freetext3Element = $this->createElement('freetext3', $transaction->getFreetext3());
             $headerElement->appendChild($freetext3Element);
         }
@@ -73,13 +83,12 @@ class TransactionsDocument extends \DOMDocument
         $headerElement->appendChild($officeElement);
         $headerElement->appendChild($codeElement);
         $headerElement->appendChild($dateElement);
-        $headerElement->appendChild($dueDateElement);
-        $headerElement->appendChild($invoiceNumberElement);
 
         $linesElement = $this->createElement('lines');
         $transactionElement->appendChild($linesElement);
 
         // Lines
+        /** @var TransactionLine $transactionLine */
         foreach ($transaction->getLines() as $transactionLine) {
             $lineElement = $this->createElement('line');
             $lineElement->setAttribute('type', $transactionLine->getType());
@@ -118,6 +127,13 @@ class TransactionsDocument extends \DOMDocument
 
             if ($transactionLine->getType() != 'total') {
                 $lineElement->appendChild($vatCodeElement);
+            }
+
+            $lineElement->appendChild($descriptionElement);
+
+            if ($transactionLine->getType() == 'detail' && $transactionLine->getInvoiceNumber() !== null) {
+                $invoiceNumberElement = $this->createElement('invoicenumber', $transactionLine->getDim1());
+                $lineElement->appendChild($invoiceNumberElement);
             }
 
             $lineElement->appendChild($descriptionElement);

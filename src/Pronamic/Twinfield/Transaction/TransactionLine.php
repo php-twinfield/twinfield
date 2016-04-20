@@ -33,6 +33,7 @@ class TransactionLine
     private $valueOpen;
     private $baseValueOpen;
     private $matchStatus;
+    private $invoiceNumber;
 
     const PERFORMANCETYPE_SERVICES = 'services';
     const PERFORMANCETYPE_GOODS = 'goods';
@@ -357,5 +358,25 @@ class TransactionLine
         $this->baseValueOpen = $baseValueOpen;
 
         return $this;
+    }
+
+    /**
+     * Gets the value of invoiceNumber
+     *
+     * @return mixed
+     */
+    public function getInvoiceNumber()
+    {
+        return $this->invoiceNumber;
+    }
+
+    /**
+     * Sets the value of invoiceNumber
+     *
+     * @param mixed $invoiceNumber
+     */
+    public function setInvoiceNumber($invoiceNumber)
+    {
+        $this->invoiceNumber = $invoiceNumber;
     }
 }
