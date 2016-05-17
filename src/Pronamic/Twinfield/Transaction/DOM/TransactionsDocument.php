@@ -46,6 +46,14 @@ class TransactionsDocument extends \DOMDocument
         // Transaction
         $transactionElement = $this->createElement('transaction');
         $transactionElement->setAttribute('destiny', $transaction->getDestiny());
+        if ($transaction->getRaiseWarning() !== null) {
+            $transactionElement->setAttribute('raisewarning', $transaction->getRaiseWarning());
+        }
+        if ($transaction->getAutoBalanceVat() !== null) {
+            $transactionElement->setAttribute('autobalancevat', $transaction->getAutoBalanceVat());
+        }
+
+
         $this->transactionsElement->appendChild($transactionElement);
 
         // Header
