@@ -12,6 +12,7 @@ use Pronamic\Twinfield\BaseObject;
 class Transaction extends BaseObject
 {
     private $raiseWarning;
+    private $autoBalanceVat;
     private $destiny;
     private $office;
     private $code;
@@ -264,5 +265,25 @@ class Transaction extends BaseObject
         $this->freetext3 = $freetext3;
 
         return $this;
+    }
+
+    /**
+     * Gets the value of autoBalanceVat
+     *
+     * @return mixed
+     */
+    public function getAutoBalanceVat()
+    {
+        return $this->autoBalanceVat;
+    }
+
+    /**
+     * Sets the value of autoBalanceVat
+     *
+     * @param mixed $autoBalanceVat
+     */
+    public function setAutoBalanceVat($autoBalanceVat)
+    {
+        $this->autoBalanceVat = $autoBalanceVat;
     }
 }
