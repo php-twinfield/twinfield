@@ -88,6 +88,7 @@ class InvoicesDocument extends \DOMDocument
 
         // Elements and their associated methods for invoice
         $headerTags = array(
+            'office'               => 'getOffice',
             'invoicetype'          => 'getInvoiceType',
             'invoicenumber'        => 'getInvoiceNumber',
             'status'               => 'getStatus',
