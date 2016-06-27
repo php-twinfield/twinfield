@@ -113,43 +113,6 @@ class SuppliersDocument extends \DOMDocument
             }
         }
 
-        //check if creditmanagement should be set
-        if ($supplier->getCreditManagement() !== null) {
-
-            // Credit management elements and their methods
-            $creditManagementTags = array(
-                'responsibleuser'   => 'getResponsibleUser',
-                'basecreditlimit'   => 'getBaseCreditLimit',
-                'sendreminder'      => 'getSendReminder',
-                'reminderemail'     => 'getReminderEmail',
-                'blocked'           => 'getBlocked',
-                'freetext1'         => 'getFreeText1',
-                'freetext2'         => 'getFreeText2',
-                'comment'           => 'getComment'
-            );
-
-            // Make the creditmanagement element
-            $creditManagementElement = $this->createElement('creditmanagement');
-            $this->dimensionElement->appendChild($creditManagementElement);
-
-            // Go through each credit management element and use the assigned method
-            foreach ($creditManagementTags as $tag => $method) {
-
-                // Make the text node for the method value
-                $nodeValue = $supplier->getCreditManagement()->$method();
-                if (is_bool($nodeValue)) {
-                    $nodeValue = ($nodeValue) ? 'true' : 'false';
-                }
-                $node = $this->createTextNode($nodeValue);
-
-                // Make the actual element and assign the node
-                $element = $this->createElement($tag);
-                $element->appendChild($node);
-
-                // Add the full element
-                $creditManagementElement->appendChild($element);
-            }
-        }
 
         $addresses = $supplier->getAddresses();
         if (!empty($addresses)) {

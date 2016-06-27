@@ -303,21 +303,6 @@ class Supplier
         return $this;
     }
 
-    /**
-     *
-     * @return SupplierCreditManagement
-     */
-    public function getCreditManagement()
-    {
-        return $this->creditManagement;
-    }
-
-    public function setCreditManagement(SupplierCreditManagement $creditManagement)
-    {
-        $this->creditManagement = $creditManagement;
-        return $this;
-    }
-
     public function getAddresses()
     {
         return $this->addresses;
