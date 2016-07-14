@@ -64,9 +64,15 @@ class TransactionsDocument extends \DOMDocument
         $codeElement = $this->createElement('code', $transaction->getCode());
         $dateElement = $this->createElement('date', $transaction->getDate());
         $periodElement = $this->createElement('period', $transaction->getPeriod());
+
         if ($transaction->getNumber() !== null) {
             $numberElement = $this->createElement('number', $transaction->getNumber());
             $headerElement->appendChild($numberElement);
+        }
+
+        if ($transaction->getCurrency() !== null) {
+            $currencyElement = $this->createElement('currency', $transaction->getCurrency());
+            $headerElement->appendChild($currencyElement);
         }
 
         if ($transaction->getInvoiceNumber() !== null) {
