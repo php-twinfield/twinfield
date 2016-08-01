@@ -142,6 +142,18 @@ class TransactionsDocument extends \DOMDocument
                 $lineElement->appendChild($perfElement);
             }
 
+            $performanceCountry = $transactionLine->getPerformanceCountry();
+            if (!empty($performanceCountry)) {
+                $perfCountryElement = $this->createElement('performancecountry', $performanceCountry);
+                $lineElement->appendChild($perfCountryElement);
+            }
+
+            $performanceVatNumber = $transactionLine->getPerformanceVatNumber();
+            if (!empty($performanceVatNumber)) {
+                $perfVatNumberElement = $this->createElement('performancevatnumber', $performanceVatNumber);
+                $lineElement->appendChild($perfVatNumberElement);
+            }
+
             $vatValue = $transactionLine->getVatValue();
             if (!empty($vatValue)) {
                 $vatElement = $this->createElement('vatvalue', $vatValue);
