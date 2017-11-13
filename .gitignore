@@ -1,7 +1,6 @@
-# Composer #
-############
+# Dependencies
+/node_modules
 /vendor
 
-# Grunt #
-#########
-/node_modules
+# IDE files
+.idea
