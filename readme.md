@@ -1,5 +1,5 @@
-# Twinfield  [![Build Status](https://secure.travis-ci.org/pronamic/twinfield.png?branch=develop)](http://travis-ci.org/pronamic/twinfield)
-A PHP library for Twinfield Integration. Developed by [Remco Tolsma](http://remcotolsma.nl/) and [Leon Rowland](http://leon.rowland.nl/) from [Pronamic](http://pronamic.nl/).
+# Twinfield  [![Build Status](https://secure.travis-ci.org/php-twinfield/twinfield.png?branch=develop)](http://travis-ci.org/php-twinfield/twinfield)
+A PHP library for Twinfield Integration.
 Use the Twinfield SOAP Service to have your PHP application communicate directly with your Twinfield account.
 
 ---
@@ -51,11 +51,11 @@ Make your Customer object
 $customer = new \Pronamic\Twinfield\Customer\Customer();
 $customer
 	->setID(10666)
-	->setName('Leon Rowland')
+	->setName('John Doe')
 	->setType('DEB')
-	->setWebsite('http://leon.rowland.nl')
+	->setWebsite('https://www.example.com/')
 	->setEBilling(true)
-	->setEBillMail('leon@rowland.nl')
+	->setEBillMail('johndoe@example.com')
 	->setVatCode('VL')
 	->setDueDays(10)
 	->setCocNumber('12341234');
@@ -76,7 +76,7 @@ $customerAddress
 	->setCountry('NL')
 	->setTelephone('010-12345')
 	->setFax('010-1234')
-	->setEmail('test@email.com');
+	->setEmail('johndoe@example.com');
 ```
 
 Assign that address to the customer
@@ -169,9 +169,9 @@ restructure or alteration please bring up in an issue first.
 
 ## Authors
 
-*	[Pronamic](http://pronamic.nl/)
-*	[Remco Tolsma](http://remcotolsma.nl/)
-*   [Emile Bons](http://www.emilebons.nl)
+*	[Pronamic](https://www.pronamic.nl/)
+*	[Remco Tolsma](https://www.remcotolsma.nl/)
+*   [Emile Bons](http://www.emilebons.nl/)
 
 
 ## License
