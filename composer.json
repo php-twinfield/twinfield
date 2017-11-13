@@ -9,6 +9,12 @@
 		{"name": "Remco Tolsma", "email": "remcotolsma@pronamic.nl"},
 		{"name": "Leon Rowland", "email": "leon@pronamic.nl"}
 	],
+	"conflict": {
+        "pronamic/twinfield": "*"
+    },
+	"replace": {
+        "pronamic/twinfield": "*"
+    },
 	"require": {
 		"php": ">=5.4"
 	},
