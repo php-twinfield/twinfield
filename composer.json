@@ -1,9 +1,9 @@
 {
-	"name": "pronamic/twinfield",
+	"name": "php-twinfield/twinfield",
 	"type": "library",
 	"description": "Library for using the Twinfield Soap Service.",
 	"keywords": ["twinfield"],
-	"homepage": "http://pronamic.nl",
+	"homepage": "https://github.com/php-twinfield/twinfield",
 	"license": "GPL",
 	"authors": [
 		{"name": "Remco Tolsma", "email": "remcotolsma@pronamic.nl"},
@@ -17,7 +17,7 @@
 	},
 	"require-dev": {
 		"squizlabs/php_codesniffer": "*",
-		"sensiolabs/security-checker": "1.3.x-dev",
+		"sensiolabs/security-checker": "^4.1",
 		"phpunit/phpunit": "^5.1"
 	}
 }
