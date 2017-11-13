@@ -1,4 +1,4 @@
-# Twinfield  [![Build Status](https://secure.travis-ci.org/php-twinfield/twinfield.png?branch=develop)](http://travis-ci.org/php-twinfield/twinfield)
+# Twinfield  [![Build Status](https://secure.travis-ci.org/php-twinfield/twinfield.png?branch=master)](http://travis-ci.org/php-twinfield/twinfield)
 A PHP library for Twinfield Integration.
 Use the Twinfield SOAP Service to have your PHP application communicate directly with your Twinfield account.
 
