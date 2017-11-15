@@ -90,7 +90,7 @@ class Login
     }
 
     /**
-     * Will process the login.
+     * Will process the login if no session exists yet.
      *
      * If successful, will set the session and cluster information
      * to the class
@@ -102,6 +102,10 @@ class Login
      */
     public function process()
     {
+        if ($this->processed) {
+            return true;
+        }
+
         // Process logon
         if ($this->config->getClientToken() != '') {
             $response = $this->soapLoginClient->OAuthLogon($this->config->getCredentials());
@@ -110,6 +114,7 @@ class Login
             $response = $this->soapLoginClient->Logon($this->config->getCredentials());
             $result = $response->LogonResult;
         }
+
         // Check response is successful
         if ($result == 'Ok') {
             // Response from the logon request
