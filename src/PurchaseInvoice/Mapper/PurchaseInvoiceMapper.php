@@ -2,7 +2,7 @@
 
 namespace PhpTwinfield\PurchaseInvoice\Mapper;
 
-use \PhpTwinfield\Currency;
+use \PhpTwinfield\Currency\Currency;
 use \PhpTwinfield\PurchaseInvoice\PurchaseInvoice;
 use \PhpTwinfield\User\User;
 
