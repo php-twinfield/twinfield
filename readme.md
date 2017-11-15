@@ -13,20 +13,20 @@ The classes follow the PSR2 naming convention.
 
 ### General Usage Information
 Components will have Factories to simplify the request and send process of Twinfield.
-Each factory will require just the \Pronamic\Twinfield\Secure\Config() class with
+Each factory will require just the \PhpTwinfield\Secure\Config() class with
 the filled in details.
 
 An example of the usage of the Configuration class.
 
 ```php
-$config = new \Pronamic\Twinfield\Secure\Config();
+$config = new \PhpTwinfield\Secure\Config();
 $config->setCredentials('Username', 'Password', 'Organization', 'Office');
 ```
 
 * or, when using OAuth:
 
 ```php
-$config = new \Pronamic\Twinfield\Secure\Config();
+$config = new \PhpTwinfield\Secure\Config();
 $config->setOAuthParameters('clientID', 'clientSecret', 'returnURL', 'Organization', 'Office', true);
 //the true parameter at the end tells the system to automatically redirect to twinfield to login
 ```
@@ -48,7 +48,7 @@ Typically it is as follows, if using the Factories
 Make your Customer object
 
 ```php
-$customer = new \Pronamic\Twinfield\Customer\Customer();
+$customer = new \PhpTwinfield\Customer\Customer();
 $customer
     ->setID(10666)
     ->setName('John Doe')
@@ -64,7 +64,7 @@ $customer
 Customers can have addresses associated with them
 
 ```php
-$customerAddress = new \Pronamic\Twinfield\Customer\CustomerAddress();
+$customerAddress = new \PhpTwinfield\Customer\CustomerAddress();
 $customerAddress
     ->setDefault(false)
     ->setType('invoice')
@@ -88,7 +88,7 @@ $customer->addAddress($customerAddress);
 Now lets submit it!
 
 ```php
-use \Pronamic\Twinfield\Customer as TwinfieldCustomer;
+use \PhpTwinfield\Customer as TwinfieldCustomer;
 
 // Config object prepared and passed to the CustomerFactory
 $customerFactory = new TwinfieldCustomer\CustomerFactory($config);
@@ -107,7 +107,7 @@ if($customerFactory->send($customer)){
 You can get all customers or get a single one currently.
 
 ```php
-use \Pronamic\Twinfield\Customer as TwinfieldCustomer;
+use \PhpTwinfield\Customer as TwinfieldCustomer;
 
 // Config object prepared and passed into the CustomerFactory
 $customerFactory = new TwinfieldCustomer\CustomerFactory($config);
@@ -122,7 +122,7 @@ At the moment, listAll will return an array of just name and short name.
 $customer = $customerFactory->get('customerCode', 'office[optional]');
 ```
 
-The response from get() will be a \Pronamic\Twinfield\Customer\Customer object.
+The response from get() will be a \PhpTwinfield\Customer\Customer object.
 
 
 #### Notes
@@ -155,14 +155,12 @@ restructure or alteration please bring up in an issue first.
 
 ## Build
 
-* npm install
 * composer install
 
 
 ## Links
 
 * [Twinfield API Documentation site](https://c3.twinfield.com/webservices/documentation/)
-* [Twinfield Library for Python](https://bitbucket.org/vanschelven/twinfield)
 
 
 ## Authors

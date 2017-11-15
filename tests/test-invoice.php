@@ -58,10 +58,9 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
         $responseDocument = new DOMDocument();
         $responseDocument->loadXML($responseXML);
         
-        $invoice_response = new \Pronamic\Twinfield\Response\Response($responseDocument);
-        $invoice = Pronamic\Twinfield\Invoice\Mapper\InvoiceMapper::map($invoice_response);
+        $invoice_response = new \PhpTwinfield\Response\Response($responseDocument);
+        $invoice = \PhpTwinfield\Invoice\Mapper\InvoiceMapper::map($invoice_response);
         
-        $this->assertTrue($invoice instanceof \Pronamic\Twinfield\Invoice\Invoice);
-        
+        $this->assertTrue($invoice instanceof \PhpTwinfield\Invoice\Invoice);
     }
 }
