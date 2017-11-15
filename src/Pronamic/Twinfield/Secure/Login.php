@@ -165,7 +165,7 @@ class Login
      *
      * @since 0.0.1
      *
-	 * @param string|null $wsdl the wsdl to use. If null, the clusterWSDL is used.
+     * @param string|null $wsdl the wsdl to use. If null, the clusterWSDL is used.
      * @access public
      * @return \SoapClient
      */
@@ -174,7 +174,7 @@ class Login
         if (! $this->processed) {
             $this->process();
         }
-		$wsdl = is_null($wsdl) ? $this->clusterWSDL : $wsdl;
+        $wsdl = is_null($wsdl) ? $this->clusterWSDL : $wsdl;
         $header = $this->getHeader();
         // Makes a new client, and assigns the header to it
         $client = new SoapClient(sprintf($wsdl, $this->cluster), $this->config->getSoapClientOptions());

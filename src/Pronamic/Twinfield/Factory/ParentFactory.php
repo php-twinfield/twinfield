@@ -66,14 +66,14 @@ abstract class ParentFactory
         return $this;
     }
 
-	/**
-	 * @param string $wsdl the resource location
-	 * @return \SoapClient
-	 */
-	public function getClient($wsdl)
-	{
-		return $this->getLogin()->getClient('%s'.$wsdl);
-	}
+    /**
+     * @param string $wsdl the resource location
+     * @return \SoapClient
+     */
+    public function getClient($wsdl)
+    {
+        return $this->getLogin()->getClient('%s'.$wsdl);
+    }
 
     /**
      * Returns this instances Secure\Config instance.

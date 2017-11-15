@@ -40,9 +40,9 @@ class UserFactory extends FinderFactory
      * add multiple options. An option name may be used once, specifying an option multiple times will cause an error.
      * @return User[] the users found
      */
-	public function listAll($officeCode = null, $accessRules = null, $mutualOffices = null, $pattern = '*',
+    public function listAll($officeCode = null, $accessRules = null, $mutualOffices = null, $pattern = '*',
         $field = 0, $firstRow = 1, $maxRows = 100, $options = array())
-	{
+    {
         if(!is_null($officeCode)) {
             $options['office'] = $officeCode;
         }
@@ -52,7 +52,7 @@ class UserFactory extends FinderFactory
         if(!is_null($mutualOffices)) {
             $options['mutualOffices'] = $mutualOffices;
         }
-		$response = $this->searchFinder(self::TYPE_USERS, $pattern, $field, $firstRow, $maxRows, $options);
+        $response = $this->searchFinder(self::TYPE_USERS, $pattern, $field, $firstRow, $maxRows, $options);
         $users = [];
         foreach($response->data->Items->ArrayOfString as $userArray)
         {
@@ -62,5 +62,5 @@ class UserFactory extends FinderFactory
             $users[] = $user;
         }
         return $users;
-	}
+    }
 }
