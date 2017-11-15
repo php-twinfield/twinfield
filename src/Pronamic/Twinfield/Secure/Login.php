@@ -35,7 +35,7 @@ class Login
      * Holds the passed in Config instance
      * 
      * @access private
-     * @var Pronamic\Twinfield\Secure\Config
+     * @var \Pronamic\Twinfield\Secure\Config
      */
     private $config;
 

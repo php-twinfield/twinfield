@@ -91,11 +91,12 @@ abstract class ParentFactory
      * Secure\Config instance.
      * 
      * @access public
-     * @return boolean
+     * @return Login
      */
     public function makeLogin()
     {
-        return $this->login = new Login($this->getConfig());
+        $this->login = new Login($this->getConfig());
+        return $this->login;
     }
 
     /**
