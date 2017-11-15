@@ -104,5 +104,4 @@ abstract class FinderFactory extends ProcessXmlFactory
             'options' => $options,
         ]);
     }
-
 }

@@ -38,13 +38,13 @@ class PurchaseInvoiceMapper
 
         foreach ($purchaseInvoiceTags as $tag => $method) {
             $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
-            if(isset($_tag) && isset($_tag->textContent)) {
+            if (isset($_tag) && isset($_tag->textContent)) {
                 $purchaseInvoice->$method($_tag->textContent);
             }
         }
 
         $currencyTag = $responseDOM->getElementsByTagName('currency')->item(0);
-        if(isset($currencyTag)) {
+        if (isset($currencyTag)) {
             $currency = new Currency();
             $currency->setCode($currencyTag->textContent);
             $currency->setName($currencyTag->attributes->getNamedItem('name')->textContent);
@@ -53,7 +53,7 @@ class PurchaseInvoiceMapper
         }
 
         $userTag = $responseDOM->getElementsByTagName('user')->item(0);
-        if(isset($userTag)) {
+        if (isset($userTag)) {
             $user = new User();
             $user->setCode($userTag->textContent);
             $user->setName($userTag->attributes->getNamedItem('name')->textContent);

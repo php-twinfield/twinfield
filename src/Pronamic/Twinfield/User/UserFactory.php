@@ -40,22 +40,30 @@ class UserFactory extends FinderFactory
      * add multiple options. An option name may be used once, specifying an option multiple times will cause an error.
      * @return User[] the users found
      */
-    public function listAll($officeCode = null, $accessRules = null, $mutualOffices = null, $pattern = '*',
-        $field = 0, $firstRow = 1, $maxRows = 100, $options = array())
-    {
-        if(!is_null($officeCode)) {
+    public function listAll(
+        $officeCode = null,
+        $accessRules = null,
+        $mutualOffices = null,
+        $pattern = '*',
+        $field = 0,
+        $firstRow = 1,
+        $maxRows = 100,
+        $options = array()
+    ) {
+        if (!is_null($officeCode)) {
             $options['office'] = $officeCode;
         }
-        if(!is_null($accessRules)) {
+        if (!is_null($accessRules)) {
             $options['accessRules'] = $accessRules;
         }
-        if(!is_null($mutualOffices)) {
+        if (!is_null($mutualOffices)) {
             $options['mutualOffices'] = $mutualOffices;
         }
+
         $response = $this->searchFinder(self::TYPE_USERS, $pattern, $field, $firstRow, $maxRows, $options);
         $users = [];
-        foreach($response->data->Items->ArrayOfString as $userArray)
-        {
+
+        foreach ($response->data->Items->ArrayOfString as $userArray) {
             $user = new User();
             $user->setCode($userArray->string[0]);
             $user->setName($userArray->string[1]);
