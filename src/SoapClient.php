@@ -28,7 +28,7 @@ class SoapClient extends \SoapClient
         while (!$result && $retry_count < $max_retries) {
             try {
                 $result = parent::__call($function_name, $arguments);
-            } catch (SoapFault $fault) {
+            } catch (\SoapFault $fault) {
                 sleep(1);
                 $retry_count++;
             }
@@ -36,7 +36,7 @@ class SoapClient extends \SoapClient
 
         // Throw the error after 5 attempts
         if ($retry_count == $max_retries) {
-            throw new \SoapFault('Failed after 5 attempts');
+            throw new \SoapFault('', 'Failed after 5 attempts');
         }
 
         return $result;

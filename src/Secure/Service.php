@@ -76,11 +76,8 @@ class Service
      *
      * An instance of Twinfield\Response\Response is also returned.
      *
-     * @since 0.0.1
-     *
-     * @access public
-     * @param Document $document A class that extended Secure\Document
-     * @return \DOMDocument The response from the request
+     * @param \DOMDocument $document A class that extended Secure\Document
+     * @return Response The response from the request
      */
     public function send(\DOMDocument $document)
     {

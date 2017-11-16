@@ -164,17 +164,12 @@ class Login
     }
 
     /**
-     * Gets the soap client with the headers attached
+     * Gets the soap client with the headers attached. Will automatically login if haven't already on this instance.
      *
-     * Will automatically login if haven't already on this instance
-     *
-     * @since 0.0.1
-     *
-     * @param string|null $wsdl the wsdl to use. If null, the clusterWSDL is used.
-     * @access public
-     * @return \SoapClient
+     * @param null|string $wsdl
+     * @return SoapClient
      */
-    public function getClient($wsdl = null)
+    public function getClient(?string $wsdl = null): SoapClient
     {
         if (! $this->processed) {
             $this->process();
