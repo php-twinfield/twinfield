@@ -2,7 +2,7 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
-use PhpTwinfield\SoapClient;
+use PhpTwinfield\Secure\SoapClient;
 
 /**
  * Use the finder web service in order to get all kind of master data from Twinfield.

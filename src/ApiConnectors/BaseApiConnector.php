@@ -6,7 +6,7 @@ use PhpTwinfield\Secure\Config;
 use PhpTwinfield\Secure\Login;
 use PhpTwinfield\Secure\Service;
 use PhpTwinfield\Response\Response;
-use PhpTwinfield\SoapClient;
+use PhpTwinfield\Secure\SoapClient;
 
 /**
  * All Factories used by all components extend this factory for common shared methods that help normalize the usage

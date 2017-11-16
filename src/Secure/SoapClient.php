@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpTwinfield;
+namespace PhpTwinfield\Secure;
 
 /**
  * Twinfield Soap Client.

@@ -1,8 +1,6 @@
 <?php
 namespace PhpTwinfield\Secure;
 
-use \PhpTwinfield\SoapClient;
-
 /**
  * Login Class.
  *
