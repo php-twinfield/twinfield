@@ -2,9 +2,9 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
-use PhpTwinfield\Article\Article;
-use PhpTwinfield\Article\DOM\ArticlesDocument;
-use PhpTwinfield\Article\Mapper\ArticleMapper;
+use PhpTwinfield\Article;
+use PhpTwinfield\Article\ArticlesDocument;
+use PhpTwinfield\Article\ArticleMapper;
 use PhpTwinfield\Request as Request;
 
 /**

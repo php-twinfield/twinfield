@@ -2,9 +2,9 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
-use PhpTwinfield\Customer\Customer;
-use PhpTwinfield\Customer\DOM\CustomersDocument;
-use PhpTwinfield\Customer\Mapper\CustomerMapper;
+use PhpTwinfield\Customer;
+use PhpTwinfield\Customer\CustomersDocument;
+use PhpTwinfield\Customer\CustomerMapper;
 use PhpTwinfield\Request as Request;
 
 /**

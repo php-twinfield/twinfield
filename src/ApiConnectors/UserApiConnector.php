@@ -2,7 +2,7 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
-use PhpTwinfield\User\User;
+use PhpTwinfield\User;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about

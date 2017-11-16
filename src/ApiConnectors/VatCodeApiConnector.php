@@ -2,7 +2,7 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
-use PhpTwinfield\VatCode\VatCode;
+use PhpTwinfield\VatCode;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about

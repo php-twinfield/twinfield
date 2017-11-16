@@ -2,9 +2,9 @@
 
 namespace PhpTwinfield\PurchaseInvoice\Mapper;
 
-use \PhpTwinfield\Currency\Currency;
+use \PhpTwinfield\Currency;
 use \PhpTwinfield\PurchaseInvoice\PurchaseInvoice;
-use \PhpTwinfield\User\User;
+use \PhpTwinfield\User;
 
 /**
  * Class PurchaseInvoiceMapper

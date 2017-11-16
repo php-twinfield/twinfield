@@ -2,8 +2,8 @@
 
 namespace PhpTwinfield\PurchaseInvoice;
 
-use \PhpTwinfield\Currency\Currency;
-use \PhpTwinfield\User\User;
+use \PhpTwinfield\Currency;
+use \PhpTwinfield\User;
 
 /**
  * Class PurchaseInvoice

@@ -2,10 +2,10 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
-use PhpTwinfield\Supplier\DOM\SuppliersDocument;
-use PhpTwinfield\Supplier\Mapper\SupplierMapper;
 use PhpTwinfield\Request as Request;
-use PhpTwinfield\Supplier\Supplier;
+use PhpTwinfield\Supplier;
+use PhpTwinfield\Supplier\SuppliersDocument;
+use PhpTwinfield\Supplier\SupplierMapper;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about

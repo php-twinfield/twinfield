@@ -3,9 +3,9 @@
 namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Request as Request;
-use PhpTwinfield\Transaction\DOM\TransactionsDocument;
-use PhpTwinfield\Transaction\Mapper\TransactionMapper;
-use PhpTwinfield\Transaction\Transaction;
+use PhpTwinfield\Transaction\TransactionsDocument;
+use PhpTwinfield\Transaction\TransactionMapper;
+use PhpTwinfield\Transaction;
 
 /**
  * A facade to make interaction with the Twinfield service easier when trying to retrieve or set information about

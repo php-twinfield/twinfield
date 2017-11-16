@@ -1,8 +1,8 @@
 <?php
 namespace PhpTwinfield\Secure;
 
-use \PhpTwinfield\Customer\Customer;
-use \PhpTwinfield\Customer\DOM\CustomersDocument;
+use \PhpTwinfield\Customer;
+use \PhpTwinfield\Customer\CustomersDocument;
 
 class CustomerOfficeTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +29,7 @@ class CustomerOfficeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \PhpTwinfield\Customer\Customer::setOffice()
+     * @covers \PhpTwinfield\Customer::setOffice()
      * @todo   Implement testSetOffice().
      */
     public function testSetOffice()

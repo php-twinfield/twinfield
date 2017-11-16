@@ -59,8 +59,8 @@ class InvoiceTest extends PHPUnit_Framework_TestCase {
         $responseDocument->loadXML($responseXML);
         
         $invoice_response = new \PhpTwinfield\Response\Response($responseDocument);
-        $invoice = \PhpTwinfield\Invoice\Mapper\InvoiceMapper::map($invoice_response);
+        $invoice = \PhpTwinfield\Invoice\InvoiceMapper::map($invoice_response);
         
-        $this->assertTrue($invoice instanceof \PhpTwinfield\Invoice\Invoice);
+        $this->assertTrue($invoice instanceof \PhpTwinfield\Invoice);
     }
 }
