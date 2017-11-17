@@ -4,7 +4,7 @@ namespace PhpTwinfield\IntegrationTests;
 
 use PhpTwinfield\ApiConnectors\CustomerApiConnector;
 use PhpTwinfield\Customer;
-use PhpTwinfield\Customer\CustomersDocument;
+use PhpTwinfield\DomDocuments\CustomersDocument;
 use PhpTwinfield\CustomerAddress;
 use PhpTwinfield\CustomerBank;
 use PhpTwinfield\Response\Response;

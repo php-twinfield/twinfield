@@ -1,9 +1,9 @@
 <?php
-namespace PhpTwinfield\Article;
+namespace PhpTwinfield\Mappers;
 
-use \PhpTwinfield\Article;
-use \PhpTwinfield\ArticleLine;
-use \PhpTwinfield\Response\Response;
+use PhpTwinfield\Article;
+use PhpTwinfield\ArticleLine;
+use PhpTwinfield\Response\Response;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.

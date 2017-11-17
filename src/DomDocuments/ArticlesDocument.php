@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpTwinfield\Article;
+namespace PhpTwinfield\DomDocuments;
 
-use \PhpTwinfield\Article;
+use PhpTwinfield\Article;
 
 /**
  * The Document Holder for making new XML Article. Is a child class

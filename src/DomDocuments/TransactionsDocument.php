@@ -1,9 +1,9 @@
 <?php
 
-namespace PhpTwinfield\Transaction;
+namespace PhpTwinfield\DomDocuments;
 
-use \PhpTwinfield\Transaction;
-use \PhpTwinfield\TransactionLine;
+use PhpTwinfield\Transaction;
+use PhpTwinfield\TransactionLine;
 
 /**
  * TransactionsDocument class.

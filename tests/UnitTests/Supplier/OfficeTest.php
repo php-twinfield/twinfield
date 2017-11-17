@@ -1,8 +1,8 @@
 <?php
 namespace PhpTwinfield\Secure;
 
-use \PhpTwinfield\Supplier;
-use \PhpTwinfield\Supplier\SuppliersDocument;
+use PhpTwinfield\Supplier;
+use PhpTwinfield\DomDocuments\SuppliersDocument;
 
 class SupplierOfficeTest extends \PHPUnit_Framework_TestCase
 {

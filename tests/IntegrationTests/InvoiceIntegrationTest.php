@@ -5,7 +5,7 @@ namespace PhpTwinfield\IntegrationTests;
 use PhpTwinfield\ApiConnectors\InvoiceApiConnector;
 use PhpTwinfield\Customer;
 use PhpTwinfield\Invoice;
-use PhpTwinfield\Invoice\InvoicesDocument;
+use PhpTwinfield\DomDocuments\InvoicesDocument;
 use PhpTwinfield\InvoiceLine;
 use PhpTwinfield\InvoiceTotals;
 use PhpTwinfield\Response\Response;

@@ -1,7 +1,7 @@
 <?php
-namespace PhpTwinfield\Supplier;
+namespace PhpTwinfield\DomDocuments;
 
-use \PhpTwinfield\Supplier;
+use PhpTwinfield\Customer;
 
 /**
  * The Document Holder for making new XML customers. Is a child class
@@ -13,7 +13,7 @@ use \PhpTwinfield\Supplier;
  * @author Leon Rowland <leon@rowland.nl>
  * @copyright (c) 2013, Pronamic
  */
-class SuppliersDocument extends \DOMDocument
+class CustomersDocument extends \DOMDocument
 {
     /**
      * Holds the <dimension> element
@@ -37,20 +37,20 @@ class SuppliersDocument extends \DOMDocument
     }
 
     /**
-     * Turns a passed Supplier class into the required markup for interacting
+     * Turns a passed Customer class into the required markup for interacting
      * with Twinfield.
      *
      * This method doesn't return anything, instead just adds the invoice to
      * this DOMDOcument instance for submission usage.
      *
      * @access public
-     * @param Supplier $supplier
+     * @param Customer $customer
      * @return void | [Adds to this instance]
      */
-    public function addSupplier(Supplier $supplier)
+    public function addCustomer(Customer $customer)
     {
         // Elements and their associated methods for customer
-        $supplierTags = array(
+        $customerTags = array(
             'code'      => 'getCode',
             'name'      => 'getName',
             'type'      => 'getType',
@@ -58,20 +58,20 @@ class SuppliersDocument extends \DOMDocument
             'office'    => 'getOffice',
         );
 
-        if ($supplier->getOffice()) {
-            $supplierTags['office'] = 'getOffice';
+        if ($customer->getOffice()) {
+            $customerTags['office'] = 'getOffice';
         }
 
-        $status = $supplier->getStatus();
+        $status = $customer->getStatus();
         if (!empty($status)) {
             $this->dimensionElement->setAttribute('status', $status);
         }
 
         // Go through each customer element and use the assigned method
-        foreach ($supplierTags as $tag => $method) {
+        foreach ($customerTags as $tag => $method) {
 
             // Make text node for method value
-            $node = $this->createTextNode($supplier->$method());
+            $node = $this->createTextNode($customer->$method());
 
             // Make the actual element and assign the node
             $element = $this->createElement($tag);
@@ -82,7 +82,7 @@ class SuppliersDocument extends \DOMDocument
         }
 
         // Check if the financial information should be supplied
-        if ($supplier->getDueDays() > 0) {
+        if ($customer->getDueDays() > 0) {
 
             // Financial elements and their methods
             $financialsTags = array(
@@ -102,7 +102,7 @@ class SuppliersDocument extends \DOMDocument
             foreach ($financialsTags as $tag => $method) {
 
                 // Make the text node for the method value
-                $node = $this->createTextNode($supplier->$method());
+                $node = $this->createTextNode($customer->$method());
 
                 // Make the actual element and assign the node
                 $element = $this->createElement($tag);
@@ -113,8 +113,45 @@ class SuppliersDocument extends \DOMDocument
             }
         }
 
+        //check if creditmanagement should be set
+        if ($customer->getCreditManagement() !== null) {
 
-        $addresses = $supplier->getAddresses();
+            // Credit management elements and their methods
+            $creditManagementTags = array(
+                'responsibleuser'   => 'getResponsibleUser',
+                'basecreditlimit'   => 'getBaseCreditLimit',
+                'sendreminder'      => 'getSendReminder',
+                'reminderemail'     => 'getReminderEmail',
+                'blocked'           => 'getBlocked',
+                'freetext1'         => 'getFreeText1',
+                'freetext2'         => 'getFreeText2',
+                'comment'           => 'getComment'
+            );
+
+            // Make the creditmanagement element
+            $creditManagementElement = $this->createElement('creditmanagement');
+            $this->dimensionElement->appendChild($creditManagementElement);
+
+            // Go through each credit management element and use the assigned method
+            foreach ($creditManagementTags as $tag => $method) {
+
+                // Make the text node for the method value
+                $nodeValue = $customer->getCreditManagement()->$method();
+                if (is_bool($nodeValue)) {
+                    $nodeValue = ($nodeValue) ? 'true' : 'false';
+                }
+                $node = $this->createTextNode($nodeValue);
+
+                // Make the actual element and assign the node
+                $element = $this->createElement($tag);
+                $element->appendChild($node);
+
+                // Add the full element
+                $creditManagementElement->appendChild($element);
+            }
+        }
+
+        $addresses = $customer->getAddresses();
         if (!empty($addresses)) {
 
             // Address elements and their methods
@@ -166,7 +203,7 @@ class SuppliersDocument extends \DOMDocument
             }
         }
 
-        $banks = $supplier->getBanks();
+        $banks = $customer->getBanks();
         if (!empty($banks)) {
 
             // Bank elements and their methods

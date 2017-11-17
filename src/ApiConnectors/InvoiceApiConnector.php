@@ -3,8 +3,8 @@
 namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Invoice;
-use PhpTwinfield\Invoice\InvoicesDocument;
-use PhpTwinfield\Invoice\InvoiceMapper;
+use PhpTwinfield\DomDocuments\InvoicesDocument;
+use PhpTwinfield\Mappers\InvoiceMapper;
 use PhpTwinfield\Request as Request;
 
 /**

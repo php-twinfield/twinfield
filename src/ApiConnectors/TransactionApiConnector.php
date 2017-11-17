@@ -3,8 +3,8 @@
 namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Request as Request;
-use PhpTwinfield\Transaction\TransactionsDocument;
-use PhpTwinfield\Transaction\TransactionMapper;
+use PhpTwinfield\DomDocuments\TransactionsDocument;
+use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Transaction;
 
 /**

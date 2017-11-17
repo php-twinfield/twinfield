@@ -1,10 +1,10 @@
 <?php
-namespace PhpTwinfield\Customer;
+namespace PhpTwinfield\Mappers;
 
-use \PhpTwinfield\Customer;
-use \PhpTwinfield\CustomerAddress;
-use \PhpTwinfield\CustomerBank;
-use \PhpTwinfield\Response\Response;
+use PhpTwinfield\Customer;
+use PhpTwinfield\CustomerAddress;
+use PhpTwinfield\CustomerBank;
+use PhpTwinfield\Response\Response;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.

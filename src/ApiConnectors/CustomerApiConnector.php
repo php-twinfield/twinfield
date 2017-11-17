@@ -3,8 +3,8 @@
 namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Customer;
-use PhpTwinfield\Customer\CustomersDocument;
-use PhpTwinfield\Customer\CustomerMapper;
+use PhpTwinfield\DomDocuments\CustomersDocument;
+use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Request as Request;
 
 /**

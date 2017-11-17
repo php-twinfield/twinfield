@@ -1,11 +1,11 @@
 <?php
 
-namespace PhpTwinfield\Transaction;
+namespace PhpTwinfield\Mappers;
 
-use \PhpTwinfield\Message\Message;
-use \PhpTwinfield\Response\Response;
-use \PhpTwinfield\Transaction;
-use \PhpTwinfield\TransactionLine;
+use PhpTwinfield\Message\Message;
+use PhpTwinfield\Response\Response;
+use PhpTwinfield\Transaction;
+use PhpTwinfield\TransactionLine;
 
 class TransactionMapper
 {

@@ -1,7 +1,7 @@
 <?php
 namespace PhpTwinfield\Secure;
 
-use \PhpTwinfield\Response\Response;
+use PhpTwinfield\Response\Response;
 
 /**
  * Service Class

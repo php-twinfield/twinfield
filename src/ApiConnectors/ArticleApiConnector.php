@@ -3,8 +3,8 @@
 namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Article;
-use PhpTwinfield\Article\ArticlesDocument;
-use PhpTwinfield\Article\ArticleMapper;
+use PhpTwinfield\DomDocuments\ArticlesDocument;
+use PhpTwinfield\Mappers\ArticleMapper;
 use PhpTwinfield\Request as Request;
 
 /**

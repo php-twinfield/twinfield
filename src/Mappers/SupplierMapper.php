@@ -1,10 +1,10 @@
 <?php
-namespace PhpTwinfield\Supplier;
+namespace PhpTwinfield\Mappers;
 
-use \PhpTwinfield\Supplier;
-use \PhpTwinfield\SupplierAddress;
-use \PhpTwinfield\SupplierBank;
-use \PhpTwinfield\Response\Response;
+use PhpTwinfield\Supplier;
+use PhpTwinfield\SupplierAddress;
+use PhpTwinfield\SupplierBank;
+use PhpTwinfield\Response\Response;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.

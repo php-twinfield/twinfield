@@ -1,7 +1,7 @@
 <?php
-namespace PhpTwinfield\Invoice;
+namespace PhpTwinfield\DomDocuments;
 
-use \PhpTwinfield\Invoice;
+use PhpTwinfield\Invoice;
 
 /**
  * The Document Holder for making new XML invoices.  Is a child class

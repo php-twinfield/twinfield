@@ -1,8 +1,8 @@
 <?php
 namespace PhpTwinfield\Secure;
 
-use \PhpTwinfield\Customer;
-use \PhpTwinfield\Customer\CustomersDocument;
+use PhpTwinfield\Customer;
+use PhpTwinfield\DomDocuments\CustomersDocument;
 
 class CustomerOfficeTest extends \PHPUnit_Framework_TestCase
 {
