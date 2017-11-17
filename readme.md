@@ -4,158 +4,96 @@ Use the Twinfield SOAP Service to have your PHP application communicate directly
 
 ---
 
-## Autoloading
 
-The classes follow the PSR2 naming convention.
+## Installation
+
+Install this Twinfield PHP library with Composer:
+
+```bash
+composer require php-twinfield/twinfield
+```
 
 
 ## Usage
 
-### General Usage Information
-Components will have Factories to simplify the request and send process of Twinfield.
-Each factory will require just the \PhpTwinfield\Secure\Config() class with
-the filled in details.
-
-An example of the usage of the Configuration class.
+### Authentication
+You need to set up a `\PhpTwinfield\Secure\Config` class with your credentials. An example using basic username and
+password authentication:
 
 ```php
 $config = new \PhpTwinfield\Secure\Config();
 $config->setCredentials('Username', 'Password', 'Organization', 'Office');
 ```
 
-* or, when using OAuth:
+Another example, using OAuth:
 
 ```php
 $config = new \PhpTwinfield\Secure\Config();
+
+// The true parameter at the end tells the system to automatically redirect to twinfield to login.
 $config->setOAuthParameters('clientID', 'clientSecret', 'returnURL', 'Organization', 'Office', true);
-//the true parameter at the end tells the system to automatically redirect to twinfield to login
 ```
 
+### Getting data from the API
+In order to communicate with the Twinfield API, you need to create an `ApiConnector` instance for the corresponding
+resource and use the `get()` or `list()` method.
 
-
-Now, to the current modules
-
-In the following example, we will use the Customer component as showcase. Although 
-this will be the method for all components ( including Invoice currently )
-
-Typically it is as follows, if using the Factories
-
-* Add/Edit: Make Object, Make Factory, Give object in Submit method of related factory.
-* Retrieve: Make Factory, Supply all required params to respective listAll() and get() methods
-
-#### Add/Edit
-
-Make your Customer object
+An example:
 
 ```php
-$customer = new \PhpTwinfield\Customer\Customer();
+$customerApiConnector = new \PhpTwinfield\ApiConnectors\CustomerApiConnector($config);
+
+// Get one customer.
+$customer = $customerApiConnector->get('1001');
+
+// Get a list of all customers.
+$customer = $customerApiConnector->listAll();
+```
+
+### Creating or updating objects
+If you want to create or update a customer or any other object, it's just as easy:
+
+```php
+$customer_factory = new \PhpTwinfield\ApiConnectors\CustomerApiConnector($config);
+
+// First, create the objects you want to send.
+$customer = new \PhpTwinfield\Customer();
 $customer
-    ->setID(10666)
+    ->setCode('1001')
     ->setName('John Doe')
     ->setType('DEB')
-    ->setWebsite('https://www.example.com/')
-    ->setEBilling(true)
-    ->setEBillMail('johndoe@example.com')
-    ->setVatCode('VL')
-    ->setDueDays(10)
-    ->setCocNumber('12341234');
-```
+    ->setEBilling(false);
 
-Customers can have addresses associated with them
-
-```php
-$customerAddress = new \PhpTwinfield\Customer\CustomerAddress();
-$customerAddress
-    ->setDefault(false)
+$customer_address = new \PhpTwinfield\CustomerAddress();
+$customer_address
     ->setType('invoice')
-    ->setField1('Testing field 1')
-    ->setField2('Testing field 2')
-    ->setField3('Testing field 3')
+    ->setDefault(false)
     ->setPostcode('1212 AB')
     ->setCity('TestCity')
     ->setCountry('NL')
     ->setTelephone('010-12345')
     ->setFax('010-1234')
     ->setEmail('johndoe@example.com');
+$customer->addAddress($customer_address);
+
+// And secondly, send it to Twinfield.
+$customer_factory->send($customer);
 ```
 
-Assign that address to the customer
+### Supported resources
+Not all resources from the Twinfield API are currently implemented. Feel free to create a pull request when you need
+support for another resource.
 
-```php
-$customer->addAddress($customerAddress);
-```
-
-Now lets submit it!
-
-```php
-use \PhpTwinfield\Customer as TwinfieldCustomer;
-
-// Config object prepared and passed to the CustomerFactory
-$customerFactory = new TwinfieldCustomer\CustomerFactory($config);
-
-//$customer = new TwinfieldCustomer\Customer();
-
-// Attempt to send the Customer document
-if($customerFactory->send($customer)){
-    // Use the Mapper to turn the response back into a TwinfieldCustomer\Customer
-    $successfulCustomer = TwinfieldCustomer\Mapper\CustomerMapper::map($customerFactory->getResponse());
-}
-```
-
-#### Retrieve/Request
-
-You can get all customers or get a single one currently.
-
-```php
-use \PhpTwinfield\Customer as TwinfieldCustomer;
-
-// Config object prepared and passed into the CustomerFactory
-$customerFactory = new TwinfieldCustomer\CustomerFactory($config);
-
-$customers = $customerFactory->listAll();
-```
-
-At the moment, listAll will return an array of just name and short name.
-
-```php
-
-$customer = $customerFactory->get('customerCode', 'office[optional]');
-```
-
-The response from get() will be a \PhpTwinfield\Customer\Customer object.
-
-
-#### Notes
-
-Advanced documentation coming soon. Detailing usage without the Factory class. Giving you more control
-with the response and data as well as more in-depth examples and usage recommendations.
-
-
-## Contribute
-
-You can contribute to the development of this project. Try and keep to the way of doing things as
-the other 2 components have implemented.
-
-A large requirement is to maintain backwards compatibility so if you have any plans for large
-restructure or alteration please bring up in an issue first.
-
-| Component                                                                                                       | get()              | listAll()          | send()             | Mapper             | Namespace                                                                                                               |
-| --------------------------------------------------------------------------------------------------------------- | :----------------: | :----------------: | :----------------: | :----------------: | ----------------------------------------------------------------------------------------------------------------------- |
-| [Customer](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | [Pronamic/Twinfield/Customer](https://github.com/pronamic/twinfield/tree/develop/src/Pronamic/Twinfield/Customer)       |
-| [Sales Invoices](https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices)               | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | [Pronamic/Twinfield/Invoice](https://github.com/pronamic/twinfield/tree/develop/src/Pronamic/Twinfield/Invoice)         |
-| Transactions:<br> [Purchase](https://c3.twinfield.com/webservices/documentation/#/ApiReference/PurchaseTransactions), [Sale](https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesTransactions), [Journal](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/JournalTransactions) |                    |                    | :white_check_mark: |                    | [Pronamic/Twinfield/Transaction](https://github.com/pronamic/twinfield/tree/develop/src/Pronamic/Twinfield/Transaction) |
-| [Articles](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles)                  |                    |                    |                    |                    | Pronamic/Twinfield/Article                                                                                              |
-| [Balance Sheets](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/BalanceSheets)       |                    |                    |                    |                    | Pronamic/Twinfield/BalanceSheet                                                                                         |
-| [Suppliers](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers)                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | Pronamic/Twinfield/Supplier                                                                                             |
-| [Dimension Groups](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionGroups)   |                    |                    |                    |                    | Pronamic/Twinfield/Dimension/Group                                                                                      |
-| [Dimension Types](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionTypes)     |                    |                    |                    |                    | Pronamic/Twinfield/Dimension/Type                                                                                       |
-| [Offices](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Offices)                    |                    | :white_check_mark: |                    |                    | Pronamic/Twinfield/Office                                                                                               |
-| [Vat types](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Finder)             |                    | :white_check_mark: |                    |                    | Pronamic/Twinfield/VatCode                                                                                              |
-
-
-## Build
-
-* composer install
+| Component                                                                                                       | get()              | listAll()          | send()             | Mapper             |
+| --------------------------------------------------------------------------------------------------------------- | :----------------: | :----------------: | :----------------: | :----------------: |
+| [Articles](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles)                  | :white_check_mark: |                    | :white_check_mark: | :white_check_mark: |
+| [Customer](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [Sales Invoices](https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices)               | :white_check_mark: |                    | :white_check_mark: | :white_check_mark: |
+| [Offices](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Offices)                    |                    | :white_check_mark: |                    |                    |
+| [Suppliers](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers)                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Transactions:<br> [Purchase](https://c3.twinfield.com/webservices/documentation/#/ApiReference/PurchaseTransactions), [Sale](https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesTransactions), [Journal](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/JournalTransactions) | :white_check_mark: |                    | :white_check_mark: | :white_check_mark: |
+| [Users](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Users)                        |                    | :white_check_mark: |                    |                    |
+| [Vat types](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/VAT)                      |                    | :white_check_mark: |                    |                    |
 
 
 ## Links
