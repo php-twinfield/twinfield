@@ -311,7 +311,7 @@ class Customer
      *
      * @return CustomerCreditManagement
      */
-    public function getCreditManagement()
+    public function getCreditManagement(): ?CustomerCreditManagement
     {
         return $this->creditManagement;
     }

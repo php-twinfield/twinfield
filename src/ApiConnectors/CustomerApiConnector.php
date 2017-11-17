@@ -97,7 +97,7 @@ class CustomerApiConnector extends BaseApiConnector
                 foreach ($responseDOM->getElementsByTagName('dimension') as $customer) {
                     $customer_id = $customer->textContent;
 
-                    if (!is_numeric($customer_id)) {
+                    if ($customer_id == $dimType) {
                         continue;
                     }
 

@@ -20,6 +20,7 @@ namespace PhpTwinfield;
  *
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices
  * @todo Add documentation and typehints to all properties.
+ * @todo Add support for VatLines.
  */
 class Invoice
 {
@@ -63,7 +64,7 @@ class Invoice
         return $this->lines;
     }
 
-    public function getCustomer()
+    public function getCustomer(): Customer
     {
         return $this->customer;
     }
@@ -80,7 +81,7 @@ class Invoice
         return $this;
     }
 
-    public function getTotals()
+    public function getTotals(): InvoiceTotals
     {
         return $this->totals;
     }

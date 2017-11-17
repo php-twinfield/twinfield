@@ -1,0 +1,90 @@
+<dimension status="active" result="1">
+    <office name="001" shortname="001">001</office>
+    <type name="Debiteuren" shortname="Debiteuren">DEB</type>
+    <name>Customer 0</name>
+    <shortname></shortname>
+    <website>http://www.example.com</website>
+    <cocnumber></cocnumber>
+    <vatnumber></vatnumber>
+    <financials>
+        <matchtype>customersupplier</matchtype>
+        <duedays>30</duedays>
+        <payavailable>true</payavailable>
+        <meansofpayment>paymentfile</meansofpayment>
+        <paycode name="SEPA NL Incasso" shortname="SEPA NL Incasso">SEPANLDD</paycode>
+        <level>2</level>
+        <accounttype>inherit</accounttype>
+        <subanalyse>false</subanalyse>
+        <ebilling>false</ebilling>
+        <relationsreference></relationsreference>
+        <substitutionlevel>1</substitutionlevel>
+        <substitutewith>1300</substitutewith>
+        <vatobligatory>false</vatobligatory>
+        <performancetype />
+        <collectmandate>
+            <id></id>
+            <signaturedate></signaturedate>
+            <firstrundate></firstrundate>
+        </collectmandate>
+        <collectionschema></collectionschema>
+        <vatcode name="" shortname="" type="">VN</vatcode>
+        <vattype name="" shortname=""></vattype>
+        <childvalidations>
+            <childvalidation type="code" level="1">1300</childvalidation>
+        </childvalidations>
+    </financials>
+    <addresses>
+        <address id="1" type="invoice" default="true">
+            <name>Customer 0</name>
+            <country name="Nederland" shortname="">NL</country>
+            <city>Place</city>
+            <postcode>1000</postcode>
+            <telephone>010-123452000</telephone>
+            <telefax>010-12342000</telefax>
+            <email>info@example.com</email>
+            <contact></contact>
+            <field1>Customer 1</field1>
+            <field2>Streetname part 1 - 1</field2>
+            <field3>Streetname part 1 - 2</field3>
+            <field4>NL099887766B01</field4>
+            <field5>99887766</field5>
+            <field6></field6>
+        </address>
+    </addresses>
+    <banks>
+        <bank default="true" id="-1" destination="1">
+            <ascription>Customer 1</ascription>
+            <accountnumber>123456789</accountnumber>
+            <bankname>ABN Amro</bankname>
+            <biccode>ABNANL2A</biccode>
+            <city>Place</city>
+            <country>NL</country>
+            <iban>NL02ABNA0123456789</iban>
+            <natbiccode></natbiccode>
+            <postcode></postcode>
+            <state></state>
+            <address />
+        </bank>
+    </banks>
+    <code>1097</code>
+    <uid>c5027760-476e-4081-85fb-351c983aea54</uid>
+    <inuse>false</inuse>
+    <behaviour>normal</behaviour>
+    <touched>0</touched>
+    <beginperiod>0</beginperiod>
+    <beginyear>0</beginyear>
+    <endperiod>0</endperiod>
+    <endyear>0</endyear>
+    <editdimensionname>true</editdimensionname>
+    <creditmanagement>
+        <responsibleuser name="" shortname=""></responsibleuser>
+        <basecreditlimit>0.00</basecreditlimit>
+        <sendreminder>true</sendreminder>
+        <reminderemail></reminderemail>
+        <blocked locked="false" modified="">false</blocked>
+        <freetext1></freetext1>
+        <freetext2></freetext2>
+        <freetext3></freetext3>
+        <comment></comment>
+    </creditmanagement>
+</dimension>

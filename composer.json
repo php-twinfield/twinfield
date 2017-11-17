@@ -33,7 +33,7 @@
   },
   "autoload-dev": {
     "classmap": [
-      "tests/src/"
+      "tests/"
     ]
   },
   "require-dev": {

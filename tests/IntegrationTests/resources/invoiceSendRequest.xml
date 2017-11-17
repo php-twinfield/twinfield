@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<salesinvoices>
+    <salesinvoice>
+        <header>
+            <customer>1000</customer>
+            <office>11024</office>
+            <invoicetype>FACTUUR</invoicetype>
+            <invoicenumber>5</invoicenumber>
+            <status>concept</status>
+            <currency>EUR</currency>
+            <period>2012/8</period>
+            <invoicedate>20120831</invoicedate>
+            <duedate></duedate>
+            <bank>BNK</bank>
+            <invoiceaddressnumber>1</invoiceaddressnumber>
+            <deliveraddressnumber>1</deliveraddressnumber>
+            <headertext></headertext>
+            <footertext></footertext>
+        </header>
+        <lines>
+            <line id="1">
+                <quantity>1</quantity>
+                <article>4</article>
+                <subarticle>118</subarticle>
+                <description>CoalesceFunctioningOnImpatienceTShirt</description>
+                <unitspriceexcl>15.00</unitspriceexcl>
+                <units>1</units>
+                <vatcode>VN</vatcode>
+                <freetext1></freetext1>
+                <freetext2></freetext2>
+                <freetext3></freetext3>
+                <performancedate></performancedate>
+                <dim1>8020</dim1>
+            </line>
+        </lines>
+    </salesinvoice>
+</salesinvoices>

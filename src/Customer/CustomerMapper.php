@@ -40,10 +40,12 @@ class CustomerMapper
             'code'              => 'setCode',
             'uid'               => 'setUID',
             'name'              => 'setName',
+            'type'              => 'setType',
             'inuse'             => 'setInUse',
             'behaviour'         => 'setBehaviour',
             'touched'           => 'setTouched',
             'beginperiod'       => 'setBeginPeriod',
+            'beginyear'         => 'setBeginYear',
             'endperiod'         => 'setEndPeriod',
             'endyear'           => 'setEndYear',
             'website'           => 'setWebsite',
@@ -69,7 +71,8 @@ class CustomerMapper
             'payavailable' => 'setPayAvailable',
             'paycode'      => 'setPayCode',
             'ebilling'     => 'setEBilling',
-            'ebillmail'    => 'setEBillMail'
+            'ebillmail'    => 'setEBillMail',
+            'vatcode'      => 'setVatCode',
         );
 
         // Financial elements
@@ -99,6 +102,7 @@ class CustomerMapper
             'blocked'           => 'setBlocked',
             'freetext1'         => 'setFreeText1',
             'freetext2'         => 'setFreeText2',
+            'freetext3'         => 'setFreeText3',
             'comment'           => 'setComment'
         );
         
