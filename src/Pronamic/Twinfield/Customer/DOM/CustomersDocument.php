@@ -69,12 +69,13 @@ class CustomersDocument extends \DOMDocument
 
         // Go through each customer element and use the assigned method
         foreach ($customerTags as $tag => $method) {
-            if ($tag === 'code' && empty($customer->$method())) {
+            $value = $customer->$method();
+            if ($tag === 'code' && empty($value)) {
                 continue; // Do not add code to XML when not set to allow Twinfield to create code
             }
 
             // Make text node for method value
-            $node = $this->createTextNode($customer->$method());
+            $node = $this->createTextNode($value);
 
             // Make the actual element and assign the node
             $element = $this->createElement($tag);
