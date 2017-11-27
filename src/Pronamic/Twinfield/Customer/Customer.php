@@ -331,8 +331,8 @@ class Customer
 
     public function removeAddress($index)
     {
-        if (array_key_exists($index, $this->addressess)) {
-            unset($this->adressess[$index]);
+        if (array_key_exists($index, $this->addresses)) {
+            unset($this->addresses[$index]);
             return true;
         } else {
             return false;
