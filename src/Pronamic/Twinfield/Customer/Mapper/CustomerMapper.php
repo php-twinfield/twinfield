@@ -4,11 +4,12 @@ namespace Pronamic\Twinfield\Customer\Mapper;
 use \Pronamic\Twinfield\Customer\Customer;
 use \Pronamic\Twinfield\Customer\CustomerAddress;
 use \Pronamic\Twinfield\Customer\CustomerBank;
+use Pronamic\Twinfield\Customer\CustomerCollectMandate;
 use \Pronamic\Twinfield\Response\Response;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
- * 
+ *
  * @package Pronamic\Twinfield
  * @subpackage Mapper
  * @author Leon Rowland <leon@rowland.nl>
@@ -18,7 +19,7 @@ class CustomerMapper
 {
     /**
      * Maps a Response object to a clean Customer entity.
-     * 
+     *
      * @access public
      * @param \Pronamic\Twinfield\Response\Response $response
      * @return \Pronamic\Twinfield\Customer\Customer
@@ -27,7 +28,7 @@ class CustomerMapper
     {
         // Generate new customer object
         $customer = new Customer();
-        
+
         // Gets the raw DOMDocument response.
         $responseDOM = $response->getResponseDocument();
 
@@ -53,7 +54,7 @@ class CustomerMapper
 
         // Loop through all the tags
         foreach ($customerTags as $tag => $method) {
-            
+
             // Get the dom element
             $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
 
@@ -77,7 +78,7 @@ class CustomerMapper
 
         // Go through each financial element and add to the assigned method
         foreach ($financialsTags as $tag => $method) {
-            
+
             // Get the dom element
             $_tag = $financialElement->getElementsByTagName($tag)->item(0);
 
@@ -86,10 +87,31 @@ class CustomerMapper
                 $customer->$method($_tag->textContent);
             }
         }
-        
+
+        // Collect mandate elements and their methods
+        $collectMandateElement = $financialElement->getElementsByTagName('collectmandate')->item(0);
+
+        // Collect mandate elements and their methods
+        $collectMandateTags = array(
+            'signaturedate'  => 'setSignatureDate',
+            'firstrundate'   => 'setFirstRunDate'
+        );
+
+        $customer->setCollectMandate(new CustomerCollectMandate());
+
+        foreach ($collectMandateTags as $tag => $method) {
+            // Get the dom element
+            $_tag = $collectMandateElement->getElementsByTagName($tag)->item(0);
+
+            // If it has a value, set it to the associated method
+            if (isset($_tag) && isset($_tag->textContent)) {
+                $customer->getCollectMandate()->$method($_tag->textContent);
+            }
+        }
+
         // Credit management elements
         $creditManagementElement = $responseDOM->getElementsByTagName('creditmanagement')->item(0);
-        
+
         // Credit management elements and their methods
         $creditManagementTags = array(
             'responsibleuser'   => 'setResponsibleUser',
@@ -101,12 +123,12 @@ class CustomerMapper
             'freetext2'         => 'setFreeText2',
             'comment'           => 'setComment'
         );
-        
+
         $customer->setCreditManagement(new \Pronamic\Twinfield\Customer\CustomerCreditManagement());
-        
+
         // Go through each financial element and add to the assigned method
         foreach ($creditManagementTags as $tag => $method) {
-            
+
             // Get the dom element
             $_tag = $creditManagementElement->getElementsByTagName($tag)->item(0);
 

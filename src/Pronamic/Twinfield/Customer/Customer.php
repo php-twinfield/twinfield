@@ -31,7 +31,7 @@ class Customer
     private $addresses = array();
     private $banks = array();
     private $groups;
-
+    private $collectMandate;
 
     public function getOffice()
     {
@@ -368,6 +368,20 @@ class Customer
     public function setGroups($groups)
     {
         $this->groups = $groups;
+        return $this;
+    }
+
+    /**
+     * @return CustomerCollectMandate
+     */
+    public function getCollectMandate()
+    {
+        return $this->collectMandate;
+    }
+
+    public function setCollectMandate(CustomerCollectMandate $collectMandate)
+    {
+        $this->collectMandate = $collectMandate;
         return $this;
     }
 }

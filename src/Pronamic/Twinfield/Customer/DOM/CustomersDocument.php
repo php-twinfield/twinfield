@@ -69,6 +69,9 @@ class CustomersDocument extends \DOMDocument
 
         // Go through each customer element and use the assigned method
         foreach ($customerTags as $tag => $method) {
+            if ($tag === 'code' && empty($customer->$method())) {
+                continue; // Do not add code to XML when not set to allow Twinfield to create code
+            }
 
             // Make text node for method value
             $node = $this->createTextNode($customer->$method());
@@ -83,7 +86,6 @@ class CustomersDocument extends \DOMDocument
 
         // Check if the financial information should be supplied
         if ($customer->getDueDays() > 0) {
-
             // Financial elements and their methods
             $financialsTags = array(
                 'duedays'      => 'getDueDays',
@@ -96,7 +98,6 @@ class CustomersDocument extends \DOMDocument
 
             // Make the financial element
             $financialElement = $this->createElement('financials');
-            $this->dimensionElement->appendChild($financialElement);
 
             // Go through each financial element and use the assigned method
             foreach ($financialsTags as $tag => $method) {
@@ -108,9 +109,46 @@ class CustomersDocument extends \DOMDocument
                 $element = $this->createElement($tag);
                 $element->appendChild($node);
 
-                // Add the full element
+                // Append to the financial element
                 $financialElement->appendChild($element);
             }
+        }
+
+        // Check if the collect mandate information should be supplied
+        if ($customer->getCollectMandate() !== null) {
+            // Check "financials" already created, otherwise create element
+            if (! isset($financialElement)) {
+                $financialElement = $this->createElement('financials');
+            }
+
+            // collectmandate tags and their methods
+            $collectMandateTags = array(
+                'signaturedate' => 'getSignatureDate',
+                'firstrundate'  => 'getFirstRunDate',
+            );
+
+            // Create collect mandate element
+            $collectMandateElement = $this->createElement('collectmandate');
+
+            foreach ($collectMandateTags as $tag => $method) {
+                // Make the text node for the method value
+                $node = $this->createTextNode($customer->getCollectMandate()->{$method}());
+
+                // Make the actual element and assign the node
+                $element = $this->createElement($tag);
+                $element->appendChild($node);
+
+                // Append to the collectmandate element
+                $collectMandateElement->appendChild($element);
+            }
+
+            /// Append collectmandate to financials
+            $financialElement->appendChild($collectMandateElement);
+        }
+
+        // If financials element is created append it to dimension element
+        if (isset($financialElement)) {
+            $this->dimensionElement->appendChild($financialElement);
         }
 
         //check if creditmanagement should be set
