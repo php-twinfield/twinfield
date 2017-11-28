@@ -24,6 +24,7 @@ class TransactionMapper
      * @param Response $response
      *
      * @return BaseTransaction[]
+     * @throws Exception
      */
     public static function map(string $transactionClassName, Response $response): array
     {
@@ -86,6 +87,8 @@ class TransactionMapper
             $transactionLineClassName = $transaction->getLineClassName();
 
             foreach ($transactionElement->getElementsByTagName('line') as $lineElement) {
+                self::checkForMessage($transaction, $lineElement);
+
                 /** @var BaseTransactionLine $transactionLine */
                 $transactionLine = new $transactionLineClassName();
 
@@ -146,7 +149,7 @@ class TransactionMapper
         return $transactions;
     }
 
-    private static function getField(BaseTransaction $transaction, \DOMNode $element, string $fieldTagName): ?string
+    private static function getField(BaseTransaction $transaction, \DOMElement $element, string $fieldTagName): ?string
     {
         $fieldElement = $element->getElementsByTagName($fieldTagName)->item(0);
 
@@ -154,15 +157,20 @@ class TransactionMapper
             return null;
         }
 
-        if ($fieldElement->hasAttribute('msg')) {
+        self::checkForMessage($transaction, $fieldElement);
+
+        return $fieldElement->textContent;
+    }
+
+    private static function checkForMessage(BaseTransaction $transaction, \DOMElement $element): void
+    {
+        if ($element->hasAttribute('msg')) {
             $message = new Message();
-            $message->setType($fieldElement->getAttribute('msgtype'));
-            $message->setMessage($fieldElement->getAttribute('msg'));
-            $message->setField($fieldTagName);
+            $message->setType($element->getAttribute('msgtype'));
+            $message->setMessage($element->getAttribute('msg'));
+            $message->setField($element->nodeName);
 
             $transaction->addMessage($message);
         }
-
-        return $fieldElement->textContent;
     }
 }
