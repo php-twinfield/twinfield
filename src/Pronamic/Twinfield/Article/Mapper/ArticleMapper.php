@@ -34,7 +34,7 @@ class ArticleMapper
         $article->setStatus($dimensionElement->getAttribute('status'));
 
         // Article elements and their methods
-        $articleTags = [
+        $articleTags = array(
             'code'              => 'setCode',
             'office'            => 'setOffice',
             'type'              => 'setType',
@@ -50,7 +50,7 @@ class ArticleMapper
             'allowdiscountorpremium' => 'setAllowDiscountorPremium',
             'allowchangeunitsprice' => 'setAllowChangeUnitsPrice',
             'allowdecimalquantity' => 'setAllowDecimalQuantity',
-        ];
+        );
 
         // Loop through all the tags
         foreach ($articleTags as $tag => $method) {
@@ -67,7 +67,7 @@ class ArticleMapper
 
         if (isset($linesDOMTag) && $linesDOMTag->length > 0) {
             // Element tags and their methods for lines
-            $lineTags = [
+            $lineTags = array(
                 'unitspriceexcl'  => 'setUnitsPriceExcl',
                 'unitspriceinc'   => 'setUnitsPriceInc',
                 'units'           => 'setUnits',
@@ -75,7 +75,7 @@ class ArticleMapper
                 'shortname'       => 'setShortName',
                 'subcode'         => 'setSubCode',
                 'freetext1'       => 'setFreeText1',
-            ];
+            );
 
             $linesDOM = $linesDOMTag->item(0);
 

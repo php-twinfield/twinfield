@@ -61,7 +61,7 @@ class UserFactory extends FinderFactory
         }
 
         $response = $this->searchFinder(self::TYPE_USERS, $pattern, $field, $firstRow, $maxRows, $options);
-        $users = [];
+        $users = array();
 
         foreach ($response->data->Items->ArrayOfString as $userArray) {
             $user = new User();

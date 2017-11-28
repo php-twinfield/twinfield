@@ -95,13 +95,13 @@ abstract class FinderFactory extends ProcessXmlFactory
      */
     public function searchFinder($type, $pattern = '*', $field = 0, $firstRow = 1, $maxRows = 100, $options = array())
     {
-        return $this->getFinder()->Search([
+        return $this->getFinder()->Search(array(
             'type' => $type,
             'pattern' => $pattern,
             'field' => $field,
             'firstRow' => $firstRow,
             'maxRows' => $maxRows,
             'options' => $options,
-        ]);
+        ));
     }
 }

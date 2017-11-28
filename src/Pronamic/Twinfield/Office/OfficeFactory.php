@@ -34,7 +34,7 @@ class OfficeFactory extends FinderFactory
     public function listAll($pattern = '*', $field = 0, $firstRow = 1, $maxRows = 100, $options = array())
     {
         $response = $this->searchFinder(self::TYPE_OFFICES, $pattern, $field, $firstRow, $maxRows, $options);
-        $offices = [];
+        $offices = array();
         foreach ($response->data->Items->ArrayOfString as $officeArray) {
             $office = new Office();
             $office->setCode($officeArray->string[0]);

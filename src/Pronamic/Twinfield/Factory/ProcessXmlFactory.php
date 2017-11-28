@@ -90,7 +90,7 @@ class ProcessXmlFactory extends ParentFactory
      */
     public function processXmlString($xmlRequest)
     {
-        return $this->getProcessXmlClient()->ProcessXmlString(['xmlRequest' => $xmlRequest]);
+        return $this->getProcessXmlClient()->ProcessXmlString(array('xmlRequest' => $xmlRequest));
     }
 
     /**

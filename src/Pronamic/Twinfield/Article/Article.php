@@ -20,7 +20,7 @@ class Article
     private $allowDiscountorPremium = 'true';
     private $allowChangeUnitsPrice = 'false';
     private $allowDecimalQuantity = 'false';
-    private $lines = [];
+    private $lines = array();
 
     public function getCode()
     {

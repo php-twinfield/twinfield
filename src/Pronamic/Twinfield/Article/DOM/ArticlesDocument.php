@@ -95,7 +95,7 @@ class ArticlesDocument extends \DOMDocument
 
         if (!empty($lines)) {
              // Element tags and their methods for lines
-            $lineTags = [
+            $lineTags = array(
                 'unitspriceexcl'  => 'getUnitsPriceExcl',
                 'unitspriceinc'   => 'getUnitsPriceInc',
                 'units'           => 'getUnits',
@@ -103,7 +103,7 @@ class ArticlesDocument extends \DOMDocument
                 'shortname'       => 'getShortName',
                 'subcode'         => 'getSubCode',
                 'freetext1'       => 'getFreeText1',
-            ];
+            );
 
             // Make addresses element
             $linesElement = $this->createElement('lines');
