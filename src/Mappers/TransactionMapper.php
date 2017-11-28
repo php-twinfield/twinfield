@@ -2,131 +2,167 @@
 
 namespace PhpTwinfield\Mappers;
 
+use PhpTwinfield\Exception;
+use PhpTwinfield\JournalTransaction;
+use PhpTwinfield\JournalTransactionLine;
 use PhpTwinfield\Message\Message;
 use PhpTwinfield\Response\Response;
-use PhpTwinfield\Transaction;
-use PhpTwinfield\TransactionLine;
+use PhpTwinfield\BaseTransaction;
+use PhpTwinfield\BaseTransactionLine;
+use PhpTwinfield\SalesTransaction;
+use PhpTwinfield\Transactions\TransactionFields\DueDateField;
+use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
+use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
+use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
+use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
+use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
 
 class TransactionMapper
 {
     /**
+     * @param string   $transactionClassName
      * @param Response $response
      *
-     * @return Transaction{}
+     * @return BaseTransaction[]
      */
-    public static function map(Response $response)
+    public static function map(string $transactionClassName, Response $response): array
     {
-        // Get the raw DOMDocument response
-        $responseDOM = $response->getResponseDocument();
+        if (!is_a($transactionClassName, BaseTransaction::class, true)) {
+            throw Exception::invalidTransactionClassName($transactionClassName);
+        }
 
-        // All tags for the transaction
-        $transactionTags = array(
-            'code'          => 'setCode',
-            'currency'      => 'setCurrency',
-            'date'          => 'setDate',
-            'period'        => 'setPeriod',
-            'invoicenumber' => 'setInvoiceNumber',
-            'office'        => 'setOffice',
-            'duedate'       => 'setDueDate',
-            'origin'        => 'setOrigin',
-            'number'        => 'setNumber',
-            'freetext1'     => 'setFreetext1',
-            'freetext2'     => 'setFreetext2',
-            'freetext3'     => 'setFreetext3',
-        );
+        $transactions = [];
+        $responseDom  = $response->getResponseDocument();
 
+        foreach ($responseDom->getElementsByTagName('transaction') as $transactionElement) {
+            /** @var BaseTransaction $transaction */
+            $transaction = new $transactionClassName();
 
-        // Make new Transaction Object
-        $transactions = array();
+            $transaction
+                ->setResult($transactionElement->getAttribute('result'))
+                ->setDestiny($transactionElement->getAttribute('location'));
 
-        // Get the top level transaction element
-        $transactionElements
-            = $responseDOM->getElementsByTagName('transaction');
-
-        foreach ($transactionElements as $transactionElement) {
-
-            // create new transaction
-            $transaction = new Transaction();
-
-            // set the result
-            $result = $transactionElement->getAttribute('result');
-            $transaction->setResult($result);
-
-            // Set the destiny/location
-            $location = $transactionElement->getAttribute('location');
-            $transaction->setDestiny($location);
-
-            // Set the raise warning
-            $raiseWarning = $transactionElement->getAttribute('raisewarning');
-            $transaction->setRaiseWarning($raiseWarning);
-
-            // Go through each tag and call the method if a value is set
-            foreach ($transactionTags as $tag => $method) {
-                $_tag = $transactionElement->getElementsByTagName($tag)
-                    ->item(0);
-
-                if (isset($_tag) && isset($_tag->textContent)) {
-                    $transaction->$method($_tag->textContent);
-                }
-
-                // msg
-                if (isset($_tag) && $_tag->hasAttribute('msg')) {
-                    $message = new Message();
-                    $message->setType($_tag->getAttribute('msgtype'));
-                    $message->setMessage($_tag->getAttribute('msg'));
-                    $message->setField($tag);
-                    $transaction->addMessage($message);
-                }
+            $autoBalanceVat = $transactionElement->getAttribute('autobalancevat');
+            if (!empty($autoBalanceVat)) {
+                $transaction->setAutoBalanceVat($autoBalanceVat);
             }
 
-            $lineTags = array(
-                'dim1'             => 'setDim1',
-                'dim2'             => 'setDim2',
-                'value'            => 'setValue',
-                'debitcredit'      => 'setDebitCredit',
-                'description'      => 'setDescription',
-                'rate'             => 'setRate',
-                'basevalue'        => 'setBaseValue',
-                'reprate'          => 'setRepRate',
-                'vatcode'          => 'setVatCode',
-                'vattotal'         => 'setVatTotal',
-                'vatvalue'         => 'setVatValue',
-                'vatbasetotal'     => 'setVatBaseTotal',
-                'customersupplier' => 'setCustomerSupplier',
-                'basevalueopen'    => 'setBaseValueOpen',
-                'valueopen'        => 'setValueOpen',
-                'repvalue'         => 'setRepValue',
-                'matchlevel'       => 'setMatchLevel',
-                'matchstatus'      => 'setMatchStatus',
-            );
+            $raiseWarning = $transactionElement->getAttribute('raisewarning');
+            if (!empty($raiseWarning)) {
+                $transaction->setRaiseWarning($raiseWarning);
+            }
 
-            foreach ($transactionElement->getElementsByTagName('line') as $lineDOM) {
-                $temp_line = new TransactionLine();
+            $transaction
+                ->setOffice(self::getField($transaction, $transactionElement, 'office'))
+                ->setCode(self::getField($transaction, $transactionElement, 'code'))
+                ->setNumber(self::getField($transaction, $transactionElement, 'number'))
+                ->setPeriod(self::getField($transaction, $transactionElement, 'period'))
+                ->setCurrency(self::getField($transaction, $transactionElement, 'currency'))
+                ->setDate(self::getField($transaction, $transactionElement, 'date'))
+                ->setOrigin(self::getField($transaction, $transactionElement, 'origin'))
+                ->setFreetext1(self::getField($transaction, $transactionElement, 'freetext1'))
+                ->setFreetext2(self::getField($transaction, $transactionElement, 'freetext2'))
+                ->setFreetext3(self::getField($transaction, $transactionElement, 'freetext3'));
 
-                $lineType = $lineDOM->getAttribute('type');
-                $temp_line->setType($lineType);
+            if (in_array(DueDateField::class, class_uses($transaction))) {
+                $transaction->setDueDate(self::getField($transaction, $transactionElement, 'duedate'));
+            }
+            if (in_array(InvoiceNumberField::class, class_uses($transaction))) {
+                $transaction->setInvoiceNumber(self::getField($transaction, $transactionElement, 'invoicenumber'));
+            }
+            if (in_array(PaymentReferenceField::class, class_uses($transaction))) {
+                $transaction
+                    ->setPaymentReference(self::getField($transaction, $transactionElement, 'paymentreference'));
+            }
 
-                $lineID = $lineDOM->getAttribute('id');
-                $temp_line->setID($lineID);
+            if ($transaction instanceof SalesTransaction) {
+                $transaction->setOriginReference(self::getField($transaction, $transactionElement, 'originreference'));
+            }
+            if ($transaction instanceof JournalTransaction) {
+                $transaction->setRegime(self::getField($transaction, $transactionElement, 'regime'));
+            }
 
-                foreach ($lineTags as $tag => $method) {
-                    $_tag = $lineDOM->getElementsByTagName($tag)->item(0);
+            // Parse the transaction lines
+            $transactionLineClassName = $transaction->getLineClassName();
 
-                    if (isset($_tag) && isset($_tag->textContent)) {
-                        $temp_line->$method($_tag->textContent);
+            foreach ($transactionElement->getElementsByTagName('line') as $lineElement) {
+                /** @var BaseTransactionLine $transactionLine */
+                $transactionLine = new $transactionLineClassName();
+
+                $transactionLine
+                    ->setType($lineElement->getAttribute('type'))
+                    ->setId($lineElement->getAttribute('id'))
+                    ->setDim1(self::getField($transaction, $lineElement, 'dim1'))
+                    ->setDim2(self::getField($transaction, $lineElement, 'dim2'))
+                    ->setDebitCredit(self::getField($transaction, $lineElement, 'debitcredit'))
+                    ->setValue(self::getField($transaction, $lineElement, 'value'))
+                    ->setBaseValue(self::getField($transaction, $lineElement, 'basevalue'))
+                    ->setRate(self::getField($transaction, $lineElement, 'rate'))
+                    ->setRepValue(self::getField($transaction, $lineElement, 'repvalue'))
+                    ->setRepRate(self::getField($transaction, $lineElement, 'reprate'))
+                    ->setDescription(self::getField($transaction, $lineElement, 'description'))
+                    ->setMatchStatus(self::getField($transaction, $lineElement, 'matchstatus'))
+                    ->setMatchLevel(self::getField($transaction, $lineElement, 'matchlevel'))
+                    ->setBaseValueOpen(self::getField($transaction, $lineElement, 'basevalueopen'))
+                    ->setVatCode(self::getField($transaction, $lineElement, 'vatcode'))
+                    ->setVatValue(self::getField($transaction, $lineElement, 'vatvalue'));
+
+                // TODO - according to the docs, the field is called <basevalueopen>, but the examples use <openbasevalue>.
+                if (!$transactionLine->getBaseValueOpen()) {
+                    $transactionLine->setBaseValueOpen(self::getField($transaction, $lineElement, 'openbasevalue'));
+                }
+
+                if (in_array(PerformanceFields::class, class_uses($transactionLine))) {
+                    $transactionLine
+                        ->setPerformanceType(self::getField($transaction, $lineElement, 'performancetype'))
+                        ->setPerformanceCountry(self::getField($transaction, $lineElement, 'performancecountry'))
+                        ->setPerformanceVatNumber(self::getField($transaction, $lineElement, 'performancevatnumber'))
+                        ->setPerformanceDate(self::getField($transaction, $lineElement, 'performancedate'));
+                }
+                if (in_array(ValueOpenField::class, class_uses($transactionLine))) {
+                    $transactionLine->setValueOpen(self::getField($transaction, $lineElement, 'valueopen'));
+
+                    // TODO - according to the docs, the field is called <valueopen>, but the examples use <openvalue>.
+                    if (!$transactionLine->getValueOpen()) {
+                        $transactionLine->setValueOpen(self::getField($transaction, $lineElement, 'openvalue'));
                     }
                 }
+                if (in_array(VatTotalFields::class, class_uses($transactionLine))) {
+                    $transactionLine
+                        ->setVatTotal(self::getField($transaction, $lineElement, 'vattotal'))
+                        ->setVatBaseTotal(self::getField($transaction, $lineElement, 'vatbasetotal'));
+                }
 
-                $transaction->addLine($temp_line);
-                unset($lineType);
-                unset($temp_line);
+                if ($transactionLine instanceof JournalTransactionLine) {
+                    $transactionLine->setInvoiceNumber(self::getField($transaction, $lineElement, 'invoicenumber'));
+                }
+
+                $transaction->addLine($transactionLine);
             }
 
-            // add
             $transactions[] = $transaction;
         }
 
-        // for backwards compatibility, return only the first instance if there is only one
-        return count($transactions) == 1 ? $transactions[0] : $transactions;
+        return $transactions;
+    }
+
+    private static function getField(BaseTransaction $transaction, \DOMNode $element, string $fieldTagName): ?string
+    {
+        $fieldElement = $element->getElementsByTagName($fieldTagName)->item(0);
+
+        if (!isset($fieldElement)) {
+            return null;
+        }
+
+        if ($fieldElement->hasAttribute('msg')) {
+            $message = new Message();
+            $message->setType($fieldElement->getAttribute('msgtype'));
+            $message->setMessage($fieldElement->getAttribute('msg'));
+            $message->setField($fieldTagName);
+
+            $transaction->addMessage($message);
+        }
+
+        return $fieldElement->textContent;
     }
 }

@@ -8,6 +8,7 @@ use PhpTwinfield\Invoice;
 use PhpTwinfield\DomDocuments\InvoicesDocument;
 use PhpTwinfield\InvoiceLine;
 use PhpTwinfield\InvoiceTotals;
+use PhpTwinfield\Mappers\InvoiceMapper;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\Login;
 use PhpTwinfield\Secure\Service;
@@ -16,8 +17,9 @@ use PhpTwinfield\Secure\Service;
  * @covers Invoice
  * @covers InvoiceLine
  * @covers InvoiceTotals
- * @covers Invoice\InvoicesDocument
- * @covers Invoice\InvoiceMapper
+ * @covers InvoicesDocument
+ * @covers InvoiceMapper
+ * @covers InvoiceApiConnector
  */
 class InvoiceIntegrationTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,0 +1,63 @@
+<transaction raisewarning="false" result="1" location="temporary">
+    <header>
+        <code name="Inkoopfactuur" shortname="Inkoop">INK</code>
+        <currency name="Euro" shortname="Euro">EUR</currency>
+        <date>20130502</date>
+        <period>2013/05</period>
+        <invoicenumber>20130-5481</invoicenumber>
+        <paymentreference>+++100/0160/01495+++</paymentreference>
+        <office name="001" shortname="001">001</office>
+        <duedate>20130506</duedate>
+        <origin>import</origin>
+        <user name="Marcel EN" shortname="Marcel EN">MDCEN</user>
+        <number>201300021</number>
+    </header>
+    <lines>
+        <line type="total" id="1">
+            <dim1 name="Crediteuren" shortname="Crediteuren" type="BAS" inuse="true" vatcode="" vatobligatory="false">1600</dim1>
+            <dim2 name="Supplier 0" shortname="" type="CRD" inuse="true" vatcode="" vatobligatory="false">2000</dim2>
+            <value>121.00</value>
+            <debitcredit>credit</debitcredit>
+            <description />
+            <rate>1</rate>
+            <basevalue>121.00</basevalue>
+            <reprate>1.293600000</reprate>
+            <repvalue>156.53</repvalue>
+            <vattotal>21.00</vattotal>
+            <vatbasetotal>21.00</vatbasetotal>
+            <matchlevel>2</matchlevel>
+            <customersupplier>2</customersupplier>
+            <openvalue>121.00</openvalue>
+            <openbasevalue>121.00</openbasevalue>
+            <openrepvalue>156.53</openrepvalue>
+            <matchstatus>available</matchstatus>
+        </line>
+        <line type="detail" id="2">
+            <dim1 name="Omzet (19%)" shortname="Omzet (19%)" type="PNL" inuse="true" vatcode="" vatobligatory="false">8020</dim1>
+            <value>100.00</value>
+            <debitcredit>debit</debitcredit>
+            <description>Outfit</description>
+            <vatcode name="BTW Hoog" shortname="I Hoog">IH</vatcode>
+            <rate>1</rate>
+            <basevalue>100.00</basevalue>
+            <reprate>1.293600000</reprate>
+            <repvalue>129.36</repvalue>
+            <vatvalue>21.00</vatvalue>
+            <vatbasevalue>21.00</vatbasevalue>
+            <matchstatus>notmatchable</matchstatus>
+        </line>
+        <line id="3" type="vat">
+            <dim1 name="Te vord OB 19%" shortname="Te vord OB 19%" type="BAS" inuse="true" vatcode="" vatobligatory="false">1510</dim1>
+            <value>21.00</value>
+            <vatcode>IH</vatcode>
+            <debitcredit>debit</debitcredit>
+            <vatturnover>100.00</vatturnover>
+            <vatbaseturnover>100.00</vatbaseturnover>
+            <baseline>1</baseline>
+            <rate>1</rate>
+            <basevalue>21.00</basevalue>
+            <reprate>1.293600000</reprate>
+            <repvalue>27.17</repvalue>
+        </line>
+    </lines>
+</transaction>

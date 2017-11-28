@@ -7,6 +7,7 @@ use PhpTwinfield\Customer;
 use PhpTwinfield\DomDocuments\CustomersDocument;
 use PhpTwinfield\CustomerAddress;
 use PhpTwinfield\CustomerBank;
+use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\Login;
 use PhpTwinfield\Secure\Service;
@@ -16,8 +17,9 @@ use PhpTwinfield\Secure\Service;
  * @covers CustomerAddress
  * @covers CustomerBank
  * @covers CustomerCreditManagement
- * @covers Customer\CustomersDocument
- * @covers Customer\CustomerMapper
+ * @covers CustomersDocument
+ * @covers CustomerMapper
+ * @covers CustomerApiConnector
  */
 class CustomerIntegrationTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,0 +1,30 @@
+<transactions>
+    <transaction destiny="temporary" raisewarning="false">
+        <header>
+            <code>INK</code>
+            <currency>EUR</currency>
+            <date>20130502</date>
+            <period>2013/05</period>
+            <invoicenumber>20130-5481</invoicenumber>
+            <paymentreference>+++100/0160/01495+++</paymentreference>
+            <office>001</office>
+            <duedate>20130506</duedate>
+        </header>
+        <lines>
+            <line type="total" id="1">
+                <dim1>1600</dim1>
+                <dim2>2000</dim2>
+                <value>121.00</value>
+                <debitcredit>credit</debitcredit>
+                <description />
+            </line>
+            <line type="detail" id="2">
+                <dim1>8020</dim1>
+                <value>100.00</value>
+                <debitcredit>debit</debitcredit>
+                <description>Outfit</description>
+                <vatcode>IH</vatcode>
+            </line>
+        </lines>
+    </transaction>
+</transactions>

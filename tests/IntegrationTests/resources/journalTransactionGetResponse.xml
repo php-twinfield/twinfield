@@ -1,0 +1,44 @@
+<transaction result="1" location="temporary">
+    <header>
+        <office name="001" shortname="001">0-0-1-NL-001</office>
+        <code name="Memoriaal" shortname="Memo">MEMO</code>
+        <currency name="Euro" shortname="Euro">EUR</currency>
+        <date>20131104</date>
+        <origin>import</origin>
+        <user name="Marcel" shortname="Marcel">MARCEL</user>
+        <period>2013/11</period>
+        <number>201300003</number>
+    </header>
+    <lines>
+        <line type="detail" id="1">
+            <dim1 name="Payment difference" shortname="Payment difference" type="BAS" inuse="true" vatcode="" vatobligatory="false">4008</dim1>
+            <debitcredit>debit</debitcredit>
+            <value>435.55</value>
+            <rate>1</rate>
+            <basevalue>435.55</basevalue>
+            <reprate>1.500000000</reprate>
+            <repvalue>653.33</repvalue>
+            <invoicenumber></invoicenumber>
+            <matchstatus>notmatchable</matchstatus>
+        </line>
+        <line type="detail" id="2">
+            <dim1 name="Debiteuren" shortname="Debiteuren" type="BAS" inuse="true" vatcode="" vatobligatory="false">1300</dim1>
+            <dim2 name="Customer 0" shortname="" type="DEB" inuse="true" vatcode="" vatobligatory="false">1000</dim2>
+            <debitcredit>credit</debitcredit>
+            <value>435.55</value>
+            <invoicenumber>11001770</invoicenumber>
+            <description>Invoice paid</description>
+            <duedate>20131108</duedate>
+            <rate>1</rate>
+            <basevalue>435.55</basevalue>
+            <reprate>1.500000000</reprate>
+            <repvalue>653.33</repvalue>
+            <matchlevel>2</matchlevel>
+            <customersupplier>2</customersupplier>
+            <openvalue>435.55</openvalue>
+            <openbasevalue>435.55</openbasevalue>
+            <openrepvalue>653.33</openrepvalue>
+            <matchstatus>available</matchstatus>
+        </line>
+    </lines>
+</transaction>

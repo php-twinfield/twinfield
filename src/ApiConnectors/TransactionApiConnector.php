@@ -5,7 +5,7 @@ namespace PhpTwinfield\ApiConnectors;
 use PhpTwinfield\Request as Request;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Mappers\TransactionMapper;
-use PhpTwinfield\Transaction;
+use PhpTwinfield\BaseTransaction;
 
 /**
  * A facade to make interaction with the Twinfield service easier when trying to retrieve or set information about
@@ -18,13 +18,14 @@ class TransactionApiConnector extends BaseApiConnector
     /**
      * Requests a specific transaction by code, transactionNumber and optionally the office.
      *
+     * @param string      $transactionClassName
      * @param string      $code
      * @param string      $transactionNumber
-     * @param string|null $office            Optional. If no office has been passed it will instead take the default
-     *                                       office from the passed in Config class.
-     * @return Transaction|bool
+     * @param string|null $office               Optional. If no office has been passed it will instead take the default
+     *                                          office from the passed in Config class.
+     * @return BaseTransaction|bool
      */
-    public function get($code, $transactionNumber, $office = null)
+    public function get(string $transactionClassName, string $code, string $transactionNumber, ?string $office = null)
     {
         if ($this->getLogin()->process()) {
             // Get the secure service
@@ -46,7 +47,7 @@ class TransactionApiConnector extends BaseApiConnector
             $this->setResponse($response);
 
             if ($response->isSuccessful()) {
-                return TransactionMapper::map($response);
+                return TransactionMapper::map($transactionClassName, $response);
             }
         }
 
@@ -59,7 +60,7 @@ class TransactionApiConnector extends BaseApiConnector
      * If you want to map the response back into an invoice use getResponse()->getResponseDocument()->asXML() into the
      * InvoiceMapper::map() method.
      *
-     * @param Transaction[] $transactions
+     * @param BaseTransaction[] $transactions
      * @return bool
      */
     public function send(array $transactions): bool
