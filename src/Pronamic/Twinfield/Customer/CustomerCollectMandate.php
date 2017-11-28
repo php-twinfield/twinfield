@@ -4,8 +4,28 @@ namespace Pronamic\Twinfield\Customer;
 
 class CustomerCollectMandate
 {
+    private $id;
     private $signatureDate;
     private $firstRunDate;
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return CustomerCollectMandate
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * @return string

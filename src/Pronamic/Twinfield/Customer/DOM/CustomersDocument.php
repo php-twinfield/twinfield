@@ -124,6 +124,7 @@ class CustomersDocument extends \DOMDocument
 
             // collectmandate tags and their methods
             $collectMandateTags = array(
+                'id'            => 'getId',
                 'signaturedate' => 'getSignatureDate',
                 'firstrundate'  => 'getFirstRunDate',
             );
@@ -132,8 +133,13 @@ class CustomersDocument extends \DOMDocument
             $collectMandateElement = $this->createElement('collectmandate');
 
             foreach ($collectMandateTags as $tag => $method) {
+                $value = $customer->getCollectMandate()->{$method}();
+                if (empty($value)) {
+                    continue;
+                }
+
                 // Make the text node for the method value
-                $node = $this->createTextNode($customer->getCollectMandate()->{$method}());
+                $node = $this->createTextNode($value);
 
                 // Make the actual element and assign the node
                 $element = $this->createElement($tag);

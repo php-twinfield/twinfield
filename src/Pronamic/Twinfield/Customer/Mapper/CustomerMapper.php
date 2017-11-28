@@ -93,6 +93,7 @@ class CustomerMapper
 
         // Collect mandate elements and their methods
         $collectMandateTags = array(
+            'id'             => 'setId',
             'signaturedate'  => 'setSignatureDate',
             'firstrundate'   => 'setFirstRunDate'
         );
