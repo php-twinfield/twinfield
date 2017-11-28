@@ -100,9 +100,7 @@ class TransactionMapper
                 'matchstatus'      => 'setMatchStatus',
             );
 
-            foreach (
-                $transactionElement->getElementsByTagName('line') as $lineDOM
-            ) {
+            foreach ($transactionElement->getElementsByTagName('line') as $lineDOM) {
                 $temp_line = new TransactionLine();
 
                 $lineType = $lineDOM->getAttribute('type');

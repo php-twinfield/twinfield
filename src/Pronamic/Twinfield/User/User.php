@@ -65,5 +65,4 @@ class User
     {
         $this->shortName = $value;
     }
-
 }

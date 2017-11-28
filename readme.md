@@ -1,4 +1,4 @@
-# Twinfield  [![Build Status](https://secure.travis-ci.org/php-twinfield/twinfield.png?branch=develop)](http://travis-ci.org/php-twinfield/twinfield)
+# Twinfield  [![Build Status](https://travis-ci.org/php-twinfield/twinfield.svg?branch=master)](http://travis-ci.org/php-twinfield/twinfield)
 A PHP library for Twinfield Integration.
 Use the Twinfield SOAP Service to have your PHP application communicate directly with your Twinfield account.
 
@@ -50,15 +50,15 @@ Make your Customer object
 ```php
 $customer = new \Pronamic\Twinfield\Customer\Customer();
 $customer
-	->setID(10666)
-	->setName('John Doe')
-	->setType('DEB')
-	->setWebsite('https://www.example.com/')
-	->setEBilling(true)
-	->setEBillMail('johndoe@example.com')
-	->setVatCode('VL')
-	->setDueDays(10)
-	->setCocNumber('12341234');
+    ->setID(10666)
+    ->setName('John Doe')
+    ->setType('DEB')
+    ->setWebsite('https://www.example.com/')
+    ->setEBilling(true)
+    ->setEBillMail('johndoe@example.com')
+    ->setVatCode('VL')
+    ->setDueDays(10)
+    ->setCocNumber('12341234');
 ```
 
 Customers can have addresses associated with them
@@ -66,17 +66,17 @@ Customers can have addresses associated with them
 ```php
 $customerAddress = new \Pronamic\Twinfield\Customer\CustomerAddress();
 $customerAddress
-	->setDefault(false)
-	->setType('invoice')
-	->setField1('Testing field 1')
-	->setField2('Testing field 2')
-	->setField3('Testing field 3')
-	->setPostcode('1212 AB')
-	->setCity('TestCity')
-	->setCountry('NL')
-	->setTelephone('010-12345')
-	->setFax('010-1234')
-	->setEmail('johndoe@example.com');
+    ->setDefault(false)
+    ->setType('invoice')
+    ->setField1('Testing field 1')
+    ->setField2('Testing field 2')
+    ->setField3('Testing field 3')
+    ->setPostcode('1212 AB')
+    ->setCity('TestCity')
+    ->setCountry('NL')
+    ->setTelephone('010-12345')
+    ->setFax('010-1234')
+    ->setEmail('johndoe@example.com');
 ```
 
 Assign that address to the customer
@@ -97,8 +97,8 @@ $customerFactory = new TwinfieldCustomer\CustomerFactory($config);
 
 // Attempt to send the Customer document
 if($customerFactory->send($customer)){
-	// Use the Mapper to turn the response back into a TwinfieldCustomer\Customer
-	$successfulCustomer = TwinfieldCustomer\Mapper\CustomerMapper::map($customerFactory->getResponse());
+    // Use the Mapper to turn the response back into a TwinfieldCustomer\Customer
+    $successfulCustomer = TwinfieldCustomer\Mapper\CustomerMapper::map($customerFactory->getResponse());
 }
 ```
 
@@ -141,37 +141,36 @@ restructure or alteration please bring up in an issue first.
 
 | Component                                                                                                       | get()              | listAll()          | send()             | Mapper             | Namespace                                                                                                               |
 | --------------------------------------------------------------------------------------------------------------- | :----------------: | :----------------: | :----------------: | :----------------: | ----------------------------------------------------------------------------------------------------------------------- |
-| [Customer](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | [Pronamic/Twinfield/Customer](https://github.com/pronamic/twinfield/tree/develop/src/Pronamic/Twinfield/Customer)       |
-| [Sales Invoices](https://c1.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices)               | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | [Pronamic/Twinfield/Invoice](https://github.com/pronamic/twinfield/tree/develop/src/Pronamic/Twinfield/Invoice)         |
-| Transactions: [Purchase](https://c1.twinfield.com/webservices/documentation/#/ApiReference/PurchaseTransactions) [Sale](https://c1.twinfield.com/webservices/documentation/#/ApiReference/SalesTransactions) |                    |                    | :white_check_mark: |                    | [Pronamic/Twinfield/Transaction](https://github.com/pronamic/twinfield/tree/develop/src/Pronamic/Twinfield/Transaction) |
-| [Articles](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles)                  |                    |                    |                    |                    | Pronamic/Twinfield/Article                                                                                              |
-| [Balance Sheets](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/BalanceSheets)       |                    |                    |                    |                    | Pronamic/Twinfield/BalanceSheet                                                                                         |
-| [Suppliers](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers)                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | Pronamic/Twinfield/Supplier                                                                                             |
-| [Dimension Groups](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionGroups)   |                    |                    |                    |                    | Pronamic/Twinfield/Dimension/Group                                                                                      |
-| [Dimension Types](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionTypes)     |                    |                    |                    |                    | Pronamic/Twinfield/Dimension/Type                                                                                       |
-| [Offices](https://c1.twinfield.com/webservices/documentation/#/ApiReference/Masters/Offices)                    |                    | :white_check_mark: |                    |                    | Pronamic/Twinfield/Office                                                                                               |
+| [Customer](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | [Pronamic/Twinfield/Customer](https://github.com/pronamic/twinfield/tree/develop/src/Pronamic/Twinfield/Customer)       |
+| [Sales Invoices](https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices)               | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | [Pronamic/Twinfield/Invoice](https://github.com/pronamic/twinfield/tree/develop/src/Pronamic/Twinfield/Invoice)         |
+| Transactions:<br> [Purchase](https://c3.twinfield.com/webservices/documentation/#/ApiReference/PurchaseTransactions), [Sale](https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesTransactions), [Journal](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/JournalTransactions) |                    |                    | :white_check_mark: |                    | [Pronamic/Twinfield/Transaction](https://github.com/pronamic/twinfield/tree/develop/src/Pronamic/Twinfield/Transaction) |
+| [Articles](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles)                  |                    |                    |                    |                    | Pronamic/Twinfield/Article                                                                                              |
+| [Balance Sheets](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/BalanceSheets)       |                    |                    |                    |                    | Pronamic/Twinfield/BalanceSheet                                                                                         |
+| [Suppliers](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers)                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | Pronamic/Twinfield/Supplier                                                                                             |
+| [Dimension Groups](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionGroups)   |                    |                    |                    |                    | Pronamic/Twinfield/Dimension/Group                                                                                      |
+| [Dimension Types](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionTypes)     |                    |                    |                    |                    | Pronamic/Twinfield/Dimension/Type                                                                                       |
+| [Offices](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Offices)                    |                    | :white_check_mark: |                    |                    | Pronamic/Twinfield/Office                                                                                               |
 | [Vat types](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Finder)             |                    | :white_check_mark: |                    |                    | Pronamic/Twinfield/VatCode                                                                                              |
 
 
 ## Build
 
-*	npm install
-*	composer install
+* npm install
+* composer install
 
 
 ## Links
 
-* [Twinfield API Documentation site](https://c1.twinfield.com/webservices/documentation/)
+* [Twinfield API Documentation site](https://c3.twinfield.com/webservices/documentation/)
 * [Twinfield Library for Python](https://bitbucket.org/vanschelven/twinfield)
-* [Using Grunt for PHP](https://chrsm.org/post/using-grunt-for-php/)
-* [Using Grunt with PHP Quality Assurance Tools](http://mariehogebrandt.se/articles/using-grunt-php-quality-assurance-tools/)
 
 
 ## Authors
 
-*	[Pronamic](https://www.pronamic.nl/)
-*	[Remco Tolsma](https://www.remcotolsma.nl/)
-*   [Emile Bons](http://www.emilebons.nl/)
+* [Pronamic](https://www.pronamic.nl/)
+* [Mollie](https://www.mollie.com/)
+* [Remco Tolsma](https://www.remcotolsma.nl/)
+* [Emile Bons](http://www.emilebons.nl/)
 
 
 ## License

@@ -1,9 +1,8 @@
-# Dependencies
-/node_modules/
-/vendor/
-
-# IDE files
 /.settings/
 /.idea/
 /.buildpath
 /.project
+/.idea
+/composer.lock
+/node_modules/
+/vendor/

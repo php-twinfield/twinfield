@@ -35,9 +35,8 @@ class VatCodeFactory extends FinderFactory
     {
         $response = $this->searchFinder(self::TYPE_VAT_CODES, $pattern, $field, $firstRow, $maxRows, $options);
         $vatCodes = [];
-        if($response->data->TotalRows !== 0) {
-            foreach($response->data->Items->ArrayOfString as $vatCodeArray)
-            {
+        if ($response->data->TotalRows !== 0) {
+            foreach ($response->data->Items->ArrayOfString as $vatCodeArray) {
                 $vatCode = new VatCode();
                 $vatCode->setCode($vatCodeArray->string[0]);
                 $vatCode->setName($vatCodeArray->string[1]);

@@ -7,38 +7,432 @@ use Pronamic\Twinfield\BaseObject;
 /**
  * Transaction class.
  *
+ * For now only Sales and Purchase transactions are supported.
+ *
+ * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesTransactions
+ * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/PurchaseTransactions
+ *
  * @author Dylan Schoenmakers <dylan@opifer.nl>
+ *
+ * @todo Add $originReference
+ * @todo Add $modificationDate
+ * @todo Add $user
+ * @todo Add $inputDate
+ * @todo Add $paymentReference
  */
 class Transaction extends BaseObject
 {
-    private $raiseWarning;
-    private $autoBalanceVat;
+    /**
+     * Journal transaction will be saved as 'provisional'.
+     * @const string
+     */
+    const DESTINY_TEMPORARY = 'temporary';
+
+    /**
+     * Journal transaction will be saved as 'final'.
+     * @const string
+     */
+    const DESTINY_FINAL = 'final';
+
+    /**
+     * @var string Either self::DESTINY_TEMPORARY or self::DESTINY_FINAL.
+     */
     private $destiny;
+
+    /**
+     * @var string Either 'true' or 'false'.
+     */
+    private $autoBalanceVat;
+
+    /**
+     * @var string Either 'true' or 'false'.
+     */
+    private $raiseWarning;
+
+    /**
+     * @var string The office code.
+     */
     private $office;
+
+    /**
+     * @var string The transaction type code.
+     */
     private $code;
-    private $currency;
-    private $date;
+
+    /**
+     * @var int The transaction number.
+     */
+    private $number;
+
+    /**
+     * @var string Period in 'YYYY/PP' format (e.g. '2013/05').
+     */
     private $period;
+
+    /**
+     * @var string The currency code.
+     */
+    private $currency;
+
+    /**
+     * @var string The date in 'YYYYMMDD' format.
+     */
+    private $date;
+
+    /**
+     * @var string The sales transaction origin.
+     */
     private $origin;
 
     /**
+     * @var string The due date in 'YYYYMMDD' format.
+     */
+    private $dueDate;
+
+    /**
+     * @var string The invoice number.
+     */
+    private $invoiceNumber;
+
+    /**
+     * @var string
+     */
+    private $freetext1;
+
+    /**
+     * @var string
+     */
+    private $freetext2;
+
+    /**
+     * @var string
+     */
+    private $freetext3;
+
+    /**
+     * @var TransactionLine[]
+     */
+    private $lines = array();
+
+    /**
      * @var \Pronamic\Twinfield\Customer\Customer
+     * @deprecated Not used.
      */
     private $customer;
-    private $dueDate;
-    private $invoiceNumber;
-    private $number;
-    private $freetext1;
-    private $freetext2;
-    private $freetext3;
-    private $lines = array();
+
+    /**
+     * @return string Either self::DESTINY_TEMPORARY or self::DESTINY_FINAL.
+     */
+    public function getDestiny()
+    {
+        return $this->destiny;
+    }
+
+    /**
+     * @param string $destiny Either self::DESTINY_TEMPORARY or self::DESTINY_FINAL.
+     * @return $this
+     */
+    public function setDestiny($destiny)
+    {
+        $this->destiny = $destiny;
+
+        return $this;
+    }
+
+    /**
+     * Should VAT be rounded ('true') or not ('false')? Rounding will only be done with a maximum of two cents.
+     *
+     * @return string Either 'true' or 'false'.
+     */
+    public function getAutoBalanceVat()
+    {
+        return $this->autoBalanceVat;
+    }
+
+    /**
+     * Should VAT be rounded ('true') or not ('false')? Rounding will only be done with a maximum of two cents.
+     *
+     * @param string $autoBalanceVat String 'true' or 'false'.
+     * @return $this
+     */
+    public function setAutoBalanceVat($autoBalanceVat)
+    {
+        $this->autoBalanceVat = $autoBalanceVat;
+
+        return $this;
+    }
+
+    /**
+     * @return string Either 'true' or 'false'.
+     */
+    public function getRaiseWarning()
+    {
+        return $this->raiseWarning;
+    }
+
+    /**
+     * Should warnings be given ('true') or not ('false')? Default 'true'.
+     *
+     * @param string $raiseWarning String 'true' or 'false'.
+     * @return $this
+     */
+    public function setRaiseWarning($raiseWarning)
+    {
+        $this->raiseWarning = $raiseWarning;
+
+        return $this;
+    }
+
+    /**
+     * @return string The office code.
+     */
+    public function getOffice()
+    {
+        return $this->office;
+    }
+
+    /**
+     * @param string $office The office code.
+     * @return $this
+     */
+    public function setOffice($office)
+    {
+        $this->office = $office;
+
+        return $this;
+    }
+
+    /**
+     * @return string The transaction type code.
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param string $code The transaction type code.
+     * @return $this
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * @return int The transaction number.
+     */
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    /**
+     * When creating a new sales transaction, don't include this tag as the transaction number is determined by the
+     * system. When updating a sales transaction, the related transaction number should be provided.
+     *
+     * @param int $number The transaction number.
+     * @return $this
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    /**
+     * @return string Period in 'YYYY/PP' format (e.g. '2013/05'). If this tag is not included or if it is left empty,
+     *                the period is determined by the system based on the provided transaction date.
+     */
+    public function getPeriod()
+    {
+        return $this->period;
+    }
+
+    /**
+     * @param string $period Period in 'YYYY/PP' format (e.g. '2013/05'). If this tag is not included or if it is left
+     *                       empty, the period is determined by the system based on the provided transaction date.
+     * @return $this
+     */
+    public function setPeriod($period)
+    {
+        $this->period = $period;
+
+        return $this;
+    }
+
+    /**
+     * @return string The currency code.
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param string $currency The currency code.
+     * @return $this
+     */
+    public function setCurrency($currency)
+    {
+        $this->currency = $currency;
+
+        return $this;
+    }
+
+    /**
+     * @return string The date in 'YYYYMMDD' format.
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param string $date The date in 'YYYYMMDD' format.
+     * @return $this
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * @return string The sales transaction origin. Read-only attribute.
+     */
+    public function getOrigin()
+    {
+        return $this->origin;
+    }
+
+    /**
+     * @param string $origin The sales transaction origin. Read-only attribute.
+     * @return $this
+     */
+    public function setOrigin($origin)
+    {
+        $this->origin = $origin;
+
+        return $this;
+    }
+
+    /**
+     * @return string The due date in 'YYYYMMDD' format.
+     */
+    public function getDueDate()
+    {
+        return $this->dueDate;
+    }
+
+    /**
+     * @param string $dueDate The due date in 'YYYYMMDD' format.
+     * @return $this
+     */
+    public function setDueDate($dueDate)
+    {
+        $this->dueDate = $dueDate;
+
+        return $this;
+    }
+
+    /**
+     * @return string The invoice number.
+     */
+    public function getInvoiceNumber()
+    {
+        return $this->invoiceNumber;
+    }
+
+    /**
+     * @param string $invoiceNumber The invoice number.
+     * @return $this
+     */
+    public function setInvoiceNumber($invoiceNumber)
+    {
+        $this->invoiceNumber = $invoiceNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFreetext1()
+    {
+        return $this->freetext1;
+    }
+
+    /**
+     * @param string $freetext1
+     *
+     * @return $this
+     */
+    public function setFreetext1($freetext1)
+    {
+        $this->freetext1 = $freetext1;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFreetext2()
+    {
+        return $this->freetext2;
+    }
+
+    /**
+     * @param string $freetext2
+     *
+     * @return $this
+     */
+    public function setFreetext2($freetext2)
+    {
+        $this->freetext2 = $freetext2;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFreetext3()
+    {
+        return $this->freetext3;
+    }
+
+    /**
+     * @param string $freetext3
+     *
+     * @return $this
+     */
+    public function setFreetext3($freetext3)
+    {
+        $this->freetext3 = $freetext3;
+
+        return $this;
+    }
+
+    /**
+     * @return TransactionLine[]
+     */
+    public function getLines()
+    {
+        return $this->lines;
+    }
 
     /**
      * Add a TransactionLine to this Transaction.
      *
-     * @param \Pronamic\Twinfield\Transaction\TransactionLine $line
+     * @param TransactionLine $line
      *
-     * @return \Pronamic\Twinfield\Transaction\Transaction
+     * @return Transaction
      */
     public function addLine(TransactionLine $line)
     {
@@ -47,11 +441,10 @@ class Transaction extends BaseObject
         return $this;
     }
 
-    public function getLines()
-    {
-        return $this->lines;
-    }
-
+    /**
+     * @param string $index The ID of the line to remove.
+     * @return bool False if the index doesn't exist.
+     */
     public function removeLine($index)
     {
         if (array_key_exists($index, $this->lines)) {
@@ -63,227 +456,24 @@ class Transaction extends BaseObject
         }
     }
 
-    public function getDestiny()
-    {
-        return $this->destiny;
-    }
-
-    public function setDestiny($destiny)
-    {
-        $this->destiny = $destiny;
-
-        return $this;
-    }
-
-    public function getOffice()
-    {
-        return $this->office;
-    }
-
-    public function setOffice($office)
-    {
-        $this->office = $office;
-
-        return $this;
-    }
-
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    public function setCode($code)
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    public function getDueDate()
-    {
-        return $this->dueDate;
-    }
-
-    public function setDueDate($dueDate)
-    {
-        $this->dueDate = $dueDate;
-
-        return $this;
-    }
-
-    public function getInvoiceNumber()
-    {
-        return $this->invoiceNumber;
-    }
-
-    public function setInvoiceNumber($invoiceNumber)
-    {
-        $this->invoiceNumber = $invoiceNumber;
-
-        return $this;
-    }
-
-    public function getRaiseWarning()
-    {
-        return $this->raiseWarning;
-    }
-
-    public function setRaiseWarning($raiseWarning)
-    {
-        $this->raiseWarning = $raiseWarning;
-
-        return $this;
-    }
-
-    public function getPeriod()
-    {
-        return $this->period;
-    }
-
-    public function setPeriod($period)
-    {
-        $this->period = $period;
-
-        return $this;
-    }
-
-    public function getOrigin()
-    {
-        return $this->origin;
-    }
-
-    public function setOrigin($origin)
-    {
-        $this->origin = $origin;
-
-        return $this;
-    }
-
+    /**
+     * @return \Pronamic\Twinfield\Customer\Customer
+     * @deprecated Not used.
+     */
     public function getCustomer()
     {
         return $this->customer;
     }
 
+    /**
+     * @param \Pronamic\Twinfield\Customer\Customer $customer
+     * @return $this
+     * @deprecated Not used.
+     */
     public function setCustomer(\Pronamic\Twinfield\Customer\Customer $customer)
     {
         $this->customer = $customer;
 
         return $this;
-    }
-
-    public function getCurrency()
-    {
-        return $this->currency;
-    }
-
-    public function setCurrency($currency)
-    {
-        $this->currency = $currency;
-
-        return $this;
-    }
-
-    public function getNumber()
-    {
-        return $this->number;
-    }
-
-    public function setNumber($number)
-    {
-        $this->number = $number;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFreetext1()
-    {
-        return $this->freetext1;
-    }
-
-    /**
-     * @param mixed $freetext1
-     *
-     * @return Transaction
-     */
-    public function setFreetext1($freetext1)
-    {
-        $this->freetext1 = $freetext1;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFreetext2()
-    {
-        return $this->freetext2;
-    }
-
-    /**
-     * @param mixed $freetext2
-     *
-     * @return Transaction
-     */
-    public function setFreetext2($freetext2)
-    {
-        $this->freetext2 = $freetext2;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFreetext3()
-    {
-        return $this->freetext3;
-    }
-
-    /**
-     * @param mixed $freetext3
-     *
-     * @return Transaction
-     */
-    public function setFreetext3($freetext3)
-    {
-        $this->freetext3 = $freetext3;
-
-        return $this;
-    }
-
-    /**
-     * Gets the value of autoBalanceVat
-     *
-     * @return mixed
-     */
-    public function getAutoBalanceVat()
-    {
-        return $this->autoBalanceVat;
-    }
-
-    /**
-     * Sets the value of autoBalanceVat
-     *
-     * @param mixed $autoBalanceVat
-     */
-    public function setAutoBalanceVat($autoBalanceVat)
-    {
-        $this->autoBalanceVat = $autoBalanceVat;
     }
 }

@@ -43,7 +43,7 @@ class TransactionFactory extends ParentFactory
     }
 
     /**
-     * @param \Pronamic\Twinfield\Transaction\Transaction $transaction|Array Either one instance or an array of transaction instances
+     * @param Transaction $transaction|Array Either one instance or an array of transaction instances
      *
      * @return bool
      */

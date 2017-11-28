@@ -1,29 +1,44 @@
 {
-	"name": "php-twinfield/twinfield",
-	"type": "library",
-	"description": "Library for using the Twinfield Soap Service.",
-	"keywords": ["twinfield"],
-	"homepage": "https://github.com/php-twinfield/twinfield",
-	"license": "GPL",
-	"authors": [
-		{"name": "Remco Tolsma", "email": "remcotolsma@pronamic.nl"},
-		{"name": "Leon Rowland", "email": "leon@pronamic.nl"}
-	],
-	"conflict": {
-        "pronamic/twinfield": "*"
+  "name": "php-twinfield/twinfield",
+  "type": "library",
+  "description": "Library for using the Twinfield Soap Service.",
+  "keywords": [
+    "twinfield"
+  ],
+  "homepage": "https://github.com/php-twinfield/twinfield",
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "name": "Remco Tolsma",
+      "email": "remcotolsma@pronamic.nl"
     },
-	"replace": {
-        "pronamic/twinfield": "*"
-    },
-	"require": {
-		"php": ">=5.4"
-	},
-	"autoload": {
-		"psr-0": { "Pronamic": "src/"}
-	},
-	"require-dev": {
-		"squizlabs/php_codesniffer": "*",
-		"sensiolabs/security-checker": "^4.1",
-		"phpunit/phpunit": "^5.1"
-	}
+    {
+      "name": "Leon Rowland",
+      "email": "leon@pronamic.nl"
+    }
+  ],
+  "conflict": {
+    "pronamic/twinfield": "*"
+  },
+  "replace": {
+    "pronamic/twinfield": "*"
+  },
+  "require": {
+    "php": ">=5.6"
+  },
+  "autoload": {
+    "psr-0": {
+      "Pronamic": "src/"
+    }
+  },
+  "autoload-dev": {
+    "classmap": [
+      "tests/src/"
+    ]
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "*",
+    "sensiolabs/security-checker": "^4.1",
+    "phpunit/phpunit": "^3.7 || ^4.8 || ^5.4"
+  }
 }

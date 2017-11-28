@@ -229,6 +229,4 @@ class InvoiceLine
         $this->dim1 = $dim1;
         return $this;
     }
-
-
 }

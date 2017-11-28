@@ -50,5 +50,4 @@ class VatCode
     {
         $this->name = $name;
     }
-
 }
