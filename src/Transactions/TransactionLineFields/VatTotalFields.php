@@ -11,7 +11,7 @@ use PhpTwinfield\Exception;
 trait VatTotalFields
 {
     /**
-     * @var float|nulls Only if line type is total. The total VAT amount in the currency of the sales transaction.
+     * @var float|null Only if line type is total. The total VAT amount in the currency of the sales transaction.
      */
     protected $vatTotal;
 

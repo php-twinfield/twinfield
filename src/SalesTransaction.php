@@ -16,8 +16,8 @@ class SalesTransaction extends BaseTransaction
     use PaymentReferenceField;
 
     /**
-     * @var string The sales transaction origin reference (id). Provided in form of Guid. Read-only attribute.
-     *             Sample: "f386393c-e4ba-439a-add4-3b366535d7bf".
+     * @var string|null The sales transaction origin reference (id). Provided in form of Guid. Read-only attribute.
+     *                  Sample: "f386393c-e4ba-439a-add4-3b366535d7bf".
      */
     private $originReference;
 
@@ -31,7 +31,7 @@ class SalesTransaction extends BaseTransaction
         return $this->originReference;
     }
 
-    public function setOriginReference(string $originReference): BaseTransaction
+    public function setOriginReference(?string $originReference): BaseTransaction
     {
         $this->originReference = $originReference;
 
@@ -42,10 +42,10 @@ class SalesTransaction extends BaseTransaction
      * When creating a new sales transaction, don't include this tag as the transaction number is determined by the
      * system. When updating a sales transaction, the related transaction number should be provided.
      *
-     * @param int $number
+     * @param int|null $number
      * @return $this
      */
-    public function setNumber(int $number): BaseTransaction
+    public function setNumber(?int $number): BaseTransaction
     {
         return parent::setNumber($number);
     }

@@ -7,7 +7,7 @@ use PhpTwinfield\BaseTransaction;
 trait DueDateField
 {
     /**
-     * @var string The due date in 'YYYYMMDD' format.
+     * @var string|null The due date in 'YYYYMMDD' format.
      */
     private $dueDate;
 
@@ -16,7 +16,7 @@ trait DueDateField
         return $this->dueDate;
     }
 
-    public function setDueDate(string $dueDate): BaseTransaction
+    public function setDueDate(?string $dueDate): BaseTransaction
     {
         $this->dueDate = $dueDate;
 

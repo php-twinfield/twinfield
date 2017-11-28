@@ -36,17 +36,17 @@ abstract class BaseTransactionLine
     const PERFORMANCETYPE_GOODS    = 'goods';
 
     /**
-     * @var string Either self::TYPE_TOTAL, self::TYPE_DETAIL or self::TYPE_VAT.
+     * @var string|null Either self::TYPE_TOTAL, self::TYPE_DETAIL or self::TYPE_VAT.
      */
     protected $type;
 
     /**
-     * @var string The line ID.
+     * @var string|null The line ID.
      */
     protected $id;
 
     /**
-     * @var string Meaning changes per transaction type, see explanation in sub classes.
+     * @var string|null Meaning changes per transaction type, see explanation in sub classes.
      */
     protected $dim1;
 
@@ -56,36 +56,36 @@ abstract class BaseTransactionLine
     protected $dim2;
 
     /**
-     * @var string Either self::DEBIT or self::CREDIT. Meaning changes per transaction type, see explanation in sub
-     *             classes.
+     * @var string|null Either self::DEBIT or self::CREDIT. Meaning changes per transaction type, see explanation in sub
+     *                  classes.
      */
     protected $debitCredit;
 
     /**
-     * @var float Meaning changes per transaction type, see explanation in sub classes.
+     * @var float|null Meaning changes per transaction type, see explanation in sub classes.
      */
     protected $value;
 
     /**
-     * @var float Amount in the base currency.
+     * @var float|null Amount in the base currency.
      * @todo This field is currently read-only in this library.
      */
     protected $baseValue;
 
     /**
-     * @var float The exchange rate used for the calculation of the base amount.
+     * @var float|null The exchange rate used for the calculation of the base amount.
      * @todo This field is currently read-only in this library.
      */
     protected $rate;
 
     /**
-     * @var float Amount in the reporting currency.
+     * @var float|null Amount in the reporting currency.
      * @todo This field is currently read-only in this library.
      */
     protected $repValue;
 
     /**
-     * @var float The exchange rate used for the calculation of the reporting amount.
+     * @var float|null The exchange rate used for the calculation of the reporting amount.
      * @todo This field is currently read-only in this library.
      */
     protected $repRate;
@@ -128,7 +128,7 @@ abstract class BaseTransactionLine
         return $this->type;
     }
 
-    public function setType(string $type): self
+    public function setType(?string $type): self
     {
         $this->type = $type;
 
@@ -140,7 +140,7 @@ abstract class BaseTransactionLine
         return $this->id;
     }
 
-    public function setId(string $id): self
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
@@ -152,7 +152,7 @@ abstract class BaseTransactionLine
         return $this->dim1;
     }
 
-    public function setDim1(string $dim1): self
+    public function setDim1(?string $dim1): self
     {
         $this->dim1 = $dim1;
 
@@ -176,7 +176,7 @@ abstract class BaseTransactionLine
         return $this->debitCredit;
     }
 
-    public function setDebitCredit(string $debitCredit): self
+    public function setDebitCredit(?string $debitCredit): self
     {
         $this->debitCredit = $debitCredit;
 
@@ -188,7 +188,7 @@ abstract class BaseTransactionLine
         return $this->value;
     }
 
-    public function setValue(float $value): self
+    public function setValue(?float $value): self
     {
         $this->value = $value;
 
@@ -200,7 +200,7 @@ abstract class BaseTransactionLine
         return $this->baseValue;
     }
 
-    public function setBaseValue(float $baseValue): self
+    public function setBaseValue(?float $baseValue): self
     {
         $this->baseValue = $baseValue;
 
@@ -212,7 +212,7 @@ abstract class BaseTransactionLine
         return $this->rate;
     }
 
-    public function setRate(float $rate): self
+    public function setRate(?float $rate): self
     {
         $this->rate = $rate;
 
@@ -224,7 +224,7 @@ abstract class BaseTransactionLine
         return $this->repValue;
     }
 
-    public function setRepValue(float $repValue): self
+    public function setRepValue(?float $repValue): self
     {
         $this->repValue = $repValue;
 
@@ -236,7 +236,7 @@ abstract class BaseTransactionLine
         return $this->repRate;
     }
 
-    public function setRepRate(float $repRate): self
+    public function setRepRate(?float $repRate): self
     {
         $this->repRate = $repRate;
 

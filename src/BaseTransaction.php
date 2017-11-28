@@ -13,54 +13,54 @@ abstract class BaseTransaction extends BaseObject
     const DESTINY_FINAL     = 'final';
 
     /**
-     * @var string Either self::DESTINY_TEMPORARY or self::DESTINY_FINAL.
+     * @var string|null Either self::DESTINY_TEMPORARY or self::DESTINY_FINAL.
      */
     private $destiny;
 
     /**
-     * @var string Should VAT be rounded ('true') or not ('false')? Rounding will only be done with a maximum of two
-     *             cents. Either 'true' or 'false'.
+     * @var string|null Should VAT be rounded ('true') or not ('false')? Rounding will only be done with a maximum of
+     *                  two cents. Either 'true' or 'false'.
      */
     private $autoBalanceVat;
 
     /**
-     * @var string Should warnings be given ('true') or not ('false')? Either 'true' or 'false', default 'true'.
+     * @var string|null Should warnings be given ('true') or not ('false')? Either 'true' or 'false', default 'true'.
      */
     private $raiseWarning;
 
     /**
-     * @var string The office code.
+     * @var string|null The office code.
      */
     private $office;
 
     /**
-     * @var string The transaction type code.
+     * @var string|null The transaction type code.
      */
     private $code;
 
     /**
-     * @var int The transaction number.
+     * @var int|null The transaction number.
      */
     private $number;
 
     /**
-     * @var string Period in 'YYYY/PP' format (e.g. '2013/05'). If this tag is not included or if it is left empty, the
-     *             period is determined by the system based on the provided transaction date.
+     * @var string|null Period in 'YYYY/PP' format (e.g. '2013/05'). If this tag is not included or if it is left empty,
+     *                  the period is determined by the system based on the provided transaction date.
      */
     private $period;
 
     /**
-     * @var string The currency code.
+     * @var string|null The currency code.
      */
     private $currency;
 
     /**
-     * @var string The date in 'YYYYMMDD' format.
+     * @var string|null The date in 'YYYYMMDD' format.
      */
     private $date;
 
     /**
-     * @var string The sales transaction origin. Read-only attribute.
+     * @var string|null The sales transaction origin. Read-only attribute.
      */
     private $origin;
 
@@ -95,7 +95,7 @@ abstract class BaseTransaction extends BaseObject
         return $this->destiny;
     }
 
-    public function setDestiny(string $destiny): self
+    public function setDestiny(?string $destiny): self
     {
         $this->destiny = $destiny;
 
@@ -107,7 +107,7 @@ abstract class BaseTransaction extends BaseObject
         return $this->autoBalanceVat;
     }
 
-    public function setAutoBalanceVat(string $autoBalanceVat): self
+    public function setAutoBalanceVat(?string $autoBalanceVat): self
     {
         $this->autoBalanceVat = $autoBalanceVat;
 
@@ -119,7 +119,7 @@ abstract class BaseTransaction extends BaseObject
         return $this->raiseWarning;
     }
 
-    public function setRaiseWarning(string $raiseWarning): self
+    public function setRaiseWarning(?string $raiseWarning): self
     {
         $this->raiseWarning = $raiseWarning;
 
@@ -131,7 +131,7 @@ abstract class BaseTransaction extends BaseObject
         return $this->office;
     }
 
-    public function setOffice(string $office): self
+    public function setOffice(?string $office): self
     {
         $this->office = $office;
 
@@ -143,7 +143,7 @@ abstract class BaseTransaction extends BaseObject
         return $this->code;
     }
 
-    public function setCode(string $code): self
+    public function setCode(?string $code): self
     {
         $this->code = $code;
 
@@ -155,7 +155,7 @@ abstract class BaseTransaction extends BaseObject
         return $this->number;
     }
 
-    public function setNumber(int $number): self
+    public function setNumber(?int $number): self
     {
         $this->number = $number;
 
@@ -167,7 +167,7 @@ abstract class BaseTransaction extends BaseObject
         return $this->period;
     }
 
-    public function setPeriod(string $period): self
+    public function setPeriod(?string $period): self
     {
         $this->period = $period;
 
@@ -179,7 +179,7 @@ abstract class BaseTransaction extends BaseObject
         return $this->currency;
     }
 
-    public function setCurrency(string $currency): self
+    public function setCurrency(?string $currency): self
     {
         $this->currency = $currency;
 
@@ -191,7 +191,7 @@ abstract class BaseTransaction extends BaseObject
         return $this->date;
     }
 
-    public function setDate(string $date): self
+    public function setDate(?string $date): self
     {
         $this->date = $date;
 
@@ -203,7 +203,7 @@ abstract class BaseTransaction extends BaseObject
         return $this->origin;
     }
 
-    public function setOrigin(string $origin): self
+    public function setOrigin(?string $origin): self
     {
         $this->origin = $origin;
 
@@ -262,7 +262,7 @@ abstract class BaseTransaction extends BaseObject
         return $this;
     }
 
-    public function removeLine(string $lineId): bool
+    public function removeLine(string $lineId): void
     {
         if (!array_key_exists($lineId, $this->lines)) {
             throw Exception::transactionLineDoesNotExist($lineId);

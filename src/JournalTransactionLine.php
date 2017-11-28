@@ -16,7 +16,7 @@ class JournalTransactionLine extends BaseTransactionLine
      */
     private $invoiceNumber;
 
-    public function setType(string $type): BaseTransactionLine
+    public function setType(?string $type): BaseTransactionLine
     {
         // Only 'detail' and 'vat' are supported.
         if ($type == self::TYPE_TOTAL) {
@@ -32,10 +32,10 @@ class JournalTransactionLine extends BaseTransactionLine
      * If line type = vat the VAT balance account. When an empty dim1 is entered, by default the general ledger account
      * will be taken as entered at the VAT code in Twinfield.
      *
-     * @param string $dim1
+     * @param string|null $dim1
      * @return JournalTransactionLine
      */
-    public function setDim1(string $dim1): BaseTransactionLine
+    public function setDim1(?string $dim1): BaseTransactionLine
     {
         return parent::setDim1($dim1);
     }
@@ -47,6 +47,7 @@ class JournalTransactionLine extends BaseTransactionLine
      *
      * @param string|null $dim2
      * @return JournalTransactionLine
+     * @throws Exception
      */
     public function setDim2(?string $dim2): BaseTransactionLine
     {
@@ -62,10 +63,10 @@ class JournalTransactionLine extends BaseTransactionLine
      *
      * If line type = vat VAT amount.
      *
-     * @param float $value
+     * @param float|null $value
      * @return JournalTransactionLine
      */
-    public function setValue(float $value): BaseTransactionLine
+    public function setValue(?float $value): BaseTransactionLine
     {
         return parent::setValue($value);
     }
@@ -90,6 +91,7 @@ class JournalTransactionLine extends BaseTransactionLine
      *
      * @param string|null $matchStatus
      * @return JournalTransactionLine
+     * @throws Exception
      */
     public function setMatchStatus(?string $matchStatus): BaseTransactionLine
     {
@@ -109,6 +111,7 @@ class JournalTransactionLine extends BaseTransactionLine
      *
      * @param int|null $matchLevel
      * @return JournalTransactionLine
+     * @throws Exception
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
     {
@@ -124,6 +127,7 @@ class JournalTransactionLine extends BaseTransactionLine
      *
      * @param float|null $baseValueOpen
      * @return JournalTransactionLine
+     * @throws Exception
      */
     public function setBaseValueOpen(?float $baseValueOpen): BaseTransactionLine
     {

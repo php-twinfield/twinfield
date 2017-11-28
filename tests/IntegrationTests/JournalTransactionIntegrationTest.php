@@ -3,8 +3,6 @@
 namespace PhpTwinfield\IntegrationTests;
 
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
-use PhpTwinfield\BaseTransaction;
-use PhpTwinfield\BaseTransactionLine;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Response\Response;
@@ -82,7 +80,7 @@ class JournalTransactionIntegrationTest extends \PHPUnit_Framework_TestCase
         $journalTransaction  = reset($journalTransactions);
 
         $this->assertInstanceOf(JournalTransaction::class, $journalTransaction);
-        $this->assertSame(BaseTransaction::DESTINY_TEMPORARY, $journalTransaction->getDestiny());
+        $this->assertSame(JournalTransaction::DESTINY_TEMPORARY, $journalTransaction->getDestiny());
         $this->assertNull($journalTransaction->getAutoBalanceVat());
         $this->assertNull($journalTransaction->getRaiseWarning());
         $this->assertSame('0-0-1-NL-001', $journalTransaction->getOffice());
@@ -103,18 +101,18 @@ class JournalTransactionIntegrationTest extends \PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey('1', $journalTransactionLines);
         $detailLine1 = $journalTransactionLines['1'];
-        $this->assertSame(BaseTransactionLine::TYPE_DETAIL, $detailLine1->getType());
+        $this->assertSame(JournalTransactionLine::TYPE_DETAIL, $detailLine1->getType());
         $this->assertSame('1', $detailLine1->getId());
         $this->assertSame('4008', $detailLine1->getDim1());
         $this->assertNull($detailLine1->getDim2());
-        $this->assertSame(BaseTransactionLine::DEBIT, $detailLine1->getDebitCredit());
+        $this->assertSame(JournalTransactionLine::DEBIT, $detailLine1->getDebitCredit());
         $this->assertSame(435.55, $detailLine1->getValue());
         $this->assertSame(435.55, $detailLine1->getBaseValue());
         $this->assertSame(1.0, $detailLine1->getRate());
         $this->assertSame(653.33, $detailLine1->getRepValue());
         $this->assertSame(1.500000000, $detailLine1->getRepRate());
         $this->assertNull($detailLine1->getDescription());
-        $this->assertSame(BaseTransactionLine::MATCHSTATUS_NOTMATCHABLE, $detailLine1->getMatchStatus());
+        $this->assertSame(JournalTransactionLine::MATCHSTATUS_NOTMATCHABLE, $detailLine1->getMatchStatus());
         $this->assertNull($detailLine1->getMatchLevel());
         $this->assertNull($detailLine1->getBaseValueOpen());
         $this->assertNull($detailLine1->getVatCode());
@@ -127,18 +125,18 @@ class JournalTransactionIntegrationTest extends \PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey('2', $journalTransactionLines);
         $detailLine2 = $journalTransactionLines['2'];
-        $this->assertSame(BaseTransactionLine::TYPE_DETAIL, $detailLine2->getType());
+        $this->assertSame(JournalTransactionLine::TYPE_DETAIL, $detailLine2->getType());
         $this->assertSame('2', $detailLine2->getId());
         $this->assertSame('1300', $detailLine2->getDim1());
         $this->assertSame('1000', $detailLine2->getDim2());
-        $this->assertSame(BaseTransactionLine::CREDIT, $detailLine2->getDebitCredit());
+        $this->assertSame(JournalTransactionLine::CREDIT, $detailLine2->getDebitCredit());
         $this->assertSame(435.55, $detailLine2->getValue());
         $this->assertSame(435.55, $detailLine2->getBaseValue());
         $this->assertSame(1.0, $detailLine2->getRate());
         $this->assertSame(653.33, $detailLine2->getRepValue());
         $this->assertSame(1.500000000, $detailLine2->getRepRate());
         $this->assertSame('Invoice paid', $detailLine2->getDescription());
-        $this->assertSame(BaseTransactionLine::MATCHSTATUS_AVAILABLE, $detailLine2->getMatchStatus());
+        $this->assertSame(JournalTransactionLine::MATCHSTATUS_AVAILABLE, $detailLine2->getMatchStatus());
         $this->assertSame(2, $detailLine2->getMatchLevel());
         $this->assertSame(435.55, $detailLine2->getBaseValueOpen());
         $this->assertNull($detailLine2->getVatCode());
@@ -162,19 +160,19 @@ class JournalTransactionIntegrationTest extends \PHPUnit_Framework_TestCase
 
         $detailLine1 = new JournalTransactionLine();
         $detailLine1
-            ->setType(BaseTransactionLine::TYPE_DETAIL)
+            ->setType(JournalTransactionLine::TYPE_DETAIL)
             ->setId('1')
             ->setDim1('4008')
-            ->setDebitCredit(BaseTransactionLine::DEBIT)
+            ->setDebitCredit(JournalTransactionLine::DEBIT)
             ->setValue(435.55);
 
         $detailLine2 = new JournalTransactionLine();
         $detailLine2
-            ->setType(BaseTransactionLine::TYPE_DETAIL)
+            ->setType(JournalTransactionLine::TYPE_DETAIL)
             ->setId('2')
             ->setDim1('1300')
             ->setDim2('1000')
-            ->setDebitCredit(BaseTransactionLine::CREDIT)
+            ->setDebitCredit(JournalTransactionLine::CREDIT)
             ->setValue(435.55)
             ->setInvoiceNumber('11001770')
             ->setDescription('Invoice paid');

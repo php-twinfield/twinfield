@@ -7,7 +7,7 @@ use PhpTwinfield\BaseTransaction;
 trait InvoiceNumberField
 {
     /**
-     * @var string The invoice number.
+     * @var string|null The invoice number.
      */
     private $invoiceNumber;
 
@@ -16,7 +16,7 @@ trait InvoiceNumberField
         return $this->invoiceNumber;
     }
 
-    public function setInvoiceNumber(string $invoiceNumber): BaseTransaction
+    public function setInvoiceNumber(?string $invoiceNumber): BaseTransaction
     {
         $this->invoiceNumber = $invoiceNumber;
 

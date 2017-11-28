@@ -21,10 +21,10 @@ class SalesTransactionLine extends BaseTransactionLine
      * If line type = vat the VAT balance account. When an empty dim1 is entered, by default the general ledger account
      * will be taken as entered at the VAT code in Twinfield.
      *
-     * @param string $dim1
+     * @param string|null $dim1
      * @return SalesTransactionLine
      */
-    public function setDim1(string $dim1): BaseTransactionLine
+    public function setDim1(?string $dim1): BaseTransactionLine
     {
         return parent::setDim1($dim1);
     }
@@ -38,6 +38,7 @@ class SalesTransactionLine extends BaseTransactionLine
      *
      * @param string|null $dim2
      * @return SalesTransactionLine
+     * @throws Exception
      */
     public function setDim2(?string $dim2): BaseTransactionLine
     {
@@ -57,10 +58,10 @@ class SalesTransactionLine extends BaseTransactionLine
      * - In case of a 'normal' sales transaction credit.
      * - In case of a credit sales transaction debit.
      *
-     * @param string $debitCredit
+     * @param string|null $debitCredit
      * @return SalesTransactionLine
      */
-    public function setDebitCredit(string $debitCredit): BaseTransactionLine
+    public function setDebitCredit(?string $debitCredit): BaseTransactionLine
     {
         return parent::setDebitCredit($debitCredit);
     }
@@ -72,10 +73,10 @@ class SalesTransactionLine extends BaseTransactionLine
      *
      * If line type = vat VAT amount.
      *
-     * @param float $value
+     * @param float|null $value
      * @return SalesTransactionLine
      */
-    public function setValue(float $value): BaseTransactionLine
+    public function setValue(?float $value): BaseTransactionLine
     {
         return parent::setValue($value);
     }
@@ -85,6 +86,7 @@ class SalesTransactionLine extends BaseTransactionLine
      *
      * @param string|null $matchStatus
      * @return SalesTransactionLine
+     * @throws Exception
      */
     public function setMatchStatus(?string $matchStatus): BaseTransactionLine
     {
@@ -104,6 +106,7 @@ class SalesTransactionLine extends BaseTransactionLine
      *
      * @param int|null $matchLevel
      * @return SalesTransactionLine
+     * @throws Exception
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
     {
@@ -119,6 +122,7 @@ class SalesTransactionLine extends BaseTransactionLine
      *
      * @param float|null $baseValueOpen
      * @return SalesTransactionLine
+     * @throws Exception
      */
     public function setBaseValueOpen(?float $baseValueOpen): BaseTransactionLine
     {

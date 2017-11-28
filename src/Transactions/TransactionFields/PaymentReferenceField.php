@@ -7,7 +7,7 @@ use PhpTwinfield\BaseTransaction;
 trait PaymentReferenceField
 {
     /**
-     * @var string Payment reference of the transaction.
+     * @var string|null Payment reference of the transaction.
      */
     private $paymentReference;
 
@@ -16,7 +16,7 @@ trait PaymentReferenceField
         return $this->paymentReference;
     }
 
-    public function setPaymentReference(string $paymentReference): BaseTransaction
+    public function setPaymentReference(?string $paymentReference): BaseTransaction
     {
         $this->paymentReference = $paymentReference;
 
