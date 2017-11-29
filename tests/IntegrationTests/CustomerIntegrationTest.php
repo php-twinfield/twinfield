@@ -88,9 +88,9 @@ class CustomerIntegrationTest extends \PHPUnit_Framework_TestCase
 
         // Financials
         $this->assertSame('30', $customer->getDueDays());
-        $this->assertSame('true', $customer->getPayAvailable());
+        $this->assertSame(true, $customer->getPayAvailable());
         $this->assertSame('SEPANLDD', $customer->getPayCode());
-        $this->assertSame('false', $customer->getEBilling());
+        $this->assertSame(false, $customer->getEBilling());
         $this->assertSame('VN', $customer->getVatCode());
 
         // Addresses
@@ -158,9 +158,9 @@ class CustomerIntegrationTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('', $creditmanagement->getResponsibleUser());
         $this->assertSame('0.00', $creditmanagement->getBaseCreditLimit());
-        $this->assertSame('true', $creditmanagement->getSendReminder());
+        $this->assertSame(true, $creditmanagement->getSendReminder());
         $this->assertSame('', $creditmanagement->getReminderEmail());
-        $this->assertSame('false', $creditmanagement->getBlocked());
+        $this->assertSame(false, $creditmanagement->getBlocked());
         $this->assertSame('', $creditmanagement->getFreeText1());
         $this->assertSame('', $creditmanagement->getFreeText2());
         $this->assertSame('', $creditmanagement->getFreeText3());
@@ -200,7 +200,7 @@ class CustomerIntegrationTest extends \PHPUnit_Framework_TestCase
         $customer->setType('DEB');
         $customer->setName('Customer 0');
         $customer->setDueDays('30');
-        $customer->setPayAvailable('true');
+        $customer->setPayAvailable(true);
         $customer->setPayCode('SEPANLDD');
 
         $address = new CustomerAddress();

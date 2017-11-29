@@ -82,7 +82,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(PurchaseTransaction::class, $purchaseTransaction);
         $this->assertSame(PurchaseTransaction::DESTINY_TEMPORARY, $purchaseTransaction->getDestiny());
         $this->assertNull($purchaseTransaction->getAutoBalanceVat());
-        $this->assertSame('false', $purchaseTransaction->getRaiseWarning());
+        $this->assertSame(false, $purchaseTransaction->getRaiseWarning());
         $this->assertSame('001', $purchaseTransaction->getOffice());
         $this->assertSame('INK', $purchaseTransaction->getCode());
         $this->assertSame(201300021, $purchaseTransaction->getNumber());
@@ -173,7 +173,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit_Framework_TestCase
         $purchaseTransaction = new PurchaseTransaction();
         $purchaseTransaction
             ->setDestiny(PurchaseTransaction::DESTINY_TEMPORARY)
-            ->setRaiseWarning('false')
+            ->setRaiseWarning(false)
             ->setCode('INK')
             ->setCurrency('EUR')
             ->setDate('20130502')

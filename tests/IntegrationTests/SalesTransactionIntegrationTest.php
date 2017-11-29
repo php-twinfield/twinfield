@@ -82,7 +82,7 @@ class SalesTransactionIntegrationTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(SalesTransaction::class, $salesTransaction);
         $this->assertSame(SalesTransaction::DESTINY_TEMPORARY, $salesTransaction->getDestiny());
         $this->assertNull($salesTransaction->getAutoBalanceVat());
-        $this->assertSame('false', $salesTransaction->getRaiseWarning());
+        $this->assertSame(false, $salesTransaction->getRaiseWarning());
         $this->assertSame('001', $salesTransaction->getOffice());
         $this->assertSame('SLS', $salesTransaction->getCode());
         $this->assertSame(201300095, $salesTransaction->getNumber());
@@ -186,7 +186,7 @@ class SalesTransactionIntegrationTest extends \PHPUnit_Framework_TestCase
         $salesTransaction = new SalesTransaction();
         $salesTransaction
             ->setDestiny(SalesTransaction::DESTINY_TEMPORARY)
-            ->setRaiseWarning('false')
+            ->setRaiseWarning(false)
             ->setCode('SLS')
             ->setCurrency('EUR')
             ->setDate('20130502')

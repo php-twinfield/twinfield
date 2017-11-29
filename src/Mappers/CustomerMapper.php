@@ -86,7 +86,12 @@ class CustomerMapper
 
             // If it has a value, set it to the associated method
             if (isset($_tag) && isset($_tag->textContent)) {
-                $customer->$method($_tag->textContent);
+                $value = $_tag->textContent;
+                if ($value == 'true' || $value == 'false') {
+                    $value = $value == 'true';
+                }
+
+                $customer->$method($value);
             }
         }
         
@@ -116,7 +121,12 @@ class CustomerMapper
 
             // If it has a value, set it to the associated method
             if (isset($_tag) && isset($_tag->textContent)) {
-                $customer->getCreditManagement()->$method($_tag->textContent);
+                $value = $_tag->textContent;
+                if ($value == 'true' || $value == 'false') {
+                    $value = $value == 'true';
+                }
+
+                $customer->getCreditManagement()->$method($value);
             }
         }
 

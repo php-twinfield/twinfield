@@ -52,10 +52,10 @@ class TransactionsDocument extends \DOMDocument
         $transactionElement = $this->createElement('transaction');
         $transactionElement->setAttribute('destiny', $transaction->getDestiny());
         if ($transaction->getRaiseWarning() !== null) {
-            $transactionElement->setAttribute('raisewarning', $transaction->getRaiseWarning());
+            $transactionElement->setAttribute('raisewarning', $transaction->getRaiseWarning() ? 'true' : 'false');
         }
         if ($transaction->getAutoBalanceVat() !== null) {
-            $transactionElement->setAttribute('autobalancevat', $transaction->getAutoBalanceVat());
+            $transactionElement->setAttribute('autobalancevat', $transaction->getAutoBalanceVat() ? 'true' : 'false');
         }
 
         $this->transactionsElement->appendChild($transactionElement);

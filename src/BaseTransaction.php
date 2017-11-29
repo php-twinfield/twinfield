@@ -18,13 +18,12 @@ abstract class BaseTransaction extends BaseObject
     private $destiny;
 
     /**
-     * @var string|null Should VAT be rounded ('true') or not ('false')? Rounding will only be done with a maximum of
-     *                  two cents. Either 'true' or 'false'.
+     * @var bool|null Should VAT be rounded or not? Rounding will only be done with a maximum of two cents.
      */
     private $autoBalanceVat;
 
     /**
-     * @var string|null Should warnings be given ('true') or not ('false')? Either 'true' or 'false', default 'true'.
+     * @var bool|null Should warnings be given or not?
      */
     private $raiseWarning;
 
@@ -102,24 +101,24 @@ abstract class BaseTransaction extends BaseObject
         return $this;
     }
 
-    public function getAutoBalanceVat(): ?string
+    public function getAutoBalanceVat(): ?bool
     {
         return $this->autoBalanceVat;
     }
 
-    public function setAutoBalanceVat(?string $autoBalanceVat): self
+    public function setAutoBalanceVat(?bool $autoBalanceVat): self
     {
         $this->autoBalanceVat = $autoBalanceVat;
 
         return $this;
     }
 
-    public function getRaiseWarning(): ?string
+    public function getRaiseWarning(): ?bool
     {
         return $this->raiseWarning;
     }
 
-    public function setRaiseWarning(?string $raiseWarning): self
+    public function setRaiseWarning(?bool $raiseWarning): self
     {
         $this->raiseWarning = $raiseWarning;
 

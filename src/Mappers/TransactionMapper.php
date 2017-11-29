@@ -45,12 +45,12 @@ class TransactionMapper
 
             $autoBalanceVat = $transactionElement->getAttribute('autobalancevat');
             if (!empty($autoBalanceVat)) {
-                $transaction->setAutoBalanceVat($autoBalanceVat);
+                $transaction->setAutoBalanceVat($autoBalanceVat == 'true');
             }
 
             $raiseWarning = $transactionElement->getAttribute('raisewarning');
             if (!empty($raiseWarning)) {
-                $transaction->setRaiseWarning($raiseWarning);
+                $transaction->setRaiseWarning($raiseWarning == 'true');
             }
 
             $transaction
