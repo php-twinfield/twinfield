@@ -61,7 +61,7 @@ class SupplierApiConnector extends BaseApiConnector
     /**
      * Requests all customers from the List Dimension Type.
      *
-     * @param null|string $office
+     * @param string|null $office
      * @param string      $dimType
      * @return array A multidimensional array in the following form:
      *               [$supplierId => ['name' => $name, 'shortName' => $shortName], ...]

@@ -89,168 +89,267 @@ abstract class BaseTransaction extends BaseObject
      */
     abstract public function getLineClassName(): string;
 
+    /**
+     * @return string|null
+     */
     public function getDestiny(): ?string
     {
         return $this->destiny;
     }
 
-    public function setDestiny(?string $destiny): self
+    /**
+     * @param string|null $destiny
+     * @return $this
+     */
+    public function setDestiny(?string $destiny): BaseTransaction
     {
         $this->destiny = $destiny;
 
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getAutoBalanceVat(): ?bool
     {
         return $this->autoBalanceVat;
     }
 
-    public function setAutoBalanceVat(?bool $autoBalanceVat): self
+    /**
+     * @param bool|null $autoBalanceVat
+     * @return $this
+     */
+    public function setAutoBalanceVat(?bool $autoBalanceVat): BaseTransaction
     {
         $this->autoBalanceVat = $autoBalanceVat;
 
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getRaiseWarning(): ?bool
     {
         return $this->raiseWarning;
     }
 
-    public function setRaiseWarning(?bool $raiseWarning): self
+    /**
+     * @param bool|null $raiseWarning
+     * @return $this
+     */
+    public function setRaiseWarning(?bool $raiseWarning): BaseTransaction
     {
         $this->raiseWarning = $raiseWarning;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getOffice(): ?string
     {
         return $this->office;
     }
 
-    public function setOffice(?string $office): self
+    /**
+     * @param string|null $office
+     * @return $this
+     */
+    public function setOffice(?string $office): BaseTransaction
     {
         $this->office = $office;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
-    public function setCode(?string $code): self
+    /**
+     * @param string|null $code
+     * @return $this
+     */
+    public function setCode(?string $code): BaseTransaction
     {
         $this->code = $code;
 
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getNumber(): ?int
     {
         return $this->number;
     }
 
-    public function setNumber(?int $number): self
+    /**
+     * @param int|null $number
+     * @return $this
+     */
+    public function setNumber(?int $number): BaseTransaction
     {
         $this->number = $number;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPeriod(): ?string
     {
         return $this->period;
     }
 
-    public function setPeriod(?string $period): self
+    /**
+     * @param string|null $period
+     * @return $this
+     */
+    public function setPeriod(?string $period): BaseTransaction
     {
         $this->period = $period;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getCurrency(): ?string
     {
         return $this->currency;
     }
 
-    public function setCurrency(?string $currency): self
+    /**
+     * @param string|null $currency
+     * @return $this
+     */
+    public function setCurrency(?string $currency): BaseTransaction
     {
         $this->currency = $currency;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDate(): ?string
     {
         return $this->date;
     }
 
-    public function setDate(?string $date): self
+    /**
+     * @param string|null $date
+     * @return $this
+     */
+    public function setDate(?string $date): BaseTransaction
     {
         $this->date = $date;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getOrigin(): ?string
     {
         return $this->origin;
     }
 
-    public function setOrigin(?string $origin): self
+    /**
+     * @param string|null $origin
+     * @return $this
+     */
+    public function setOrigin(?string $origin): BaseTransaction
     {
         $this->origin = $origin;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getFreetext1(): ?string
     {
         return $this->freetext1;
     }
 
-    public function setFreetext1(?string $freetext1): self
+    /**
+     * @param string|null $freetext1
+     * @return $this
+     */
+    public function setFreetext1(?string $freetext1): BaseTransaction
     {
         $this->freetext1 = $freetext1;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getFreetext2(): ?string
     {
         return $this->freetext2;
     }
 
-    public function setFreetext2(?string $freetext2): self
+    /**
+     * @param string|null $freetext2
+     * @return $this
+     */
+    public function setFreetext2(?string $freetext2): BaseTransaction
     {
         $this->freetext2 = $freetext2;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getFreetext3(): ?string
     {
         return $this->freetext3;
     }
 
-    public function setFreetext3(?string $freetext3): self
+    /**
+     * @param string|null $freetext3
+     * @return $this
+     */
+    public function setFreetext3(?string $freetext3): BaseTransaction
     {
         $this->freetext3 = $freetext3;
 
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function getLines(): array
     {
         return $this->lines;
     }
 
-    public function addLine(BaseTransactionLine $line): self
+    /**
+     * @param BaseTransactionLine $line
+     * @return $this
+     * @throws Exception
+     */
+    public function addLine(BaseTransactionLine $line): BaseTransaction
     {
         if (!is_a($line, $this->getLineClassName())) {
             throw Exception::invalidLineClassForTransaction($line, $this);
@@ -261,6 +360,10 @@ abstract class BaseTransaction extends BaseObject
         return $this;
     }
 
+    /**
+     * @param string $lineId
+     * @throws Exception
+     */
     public function removeLine(string $lineId): void
     {
         if (!array_key_exists($lineId, $this->lines)) {

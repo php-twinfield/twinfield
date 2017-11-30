@@ -164,7 +164,7 @@ class Login
     /**
      * Gets the soap client with the headers attached. Will automatically login if haven't already on this instance.
      *
-     * @param null|string $wsdl
+     * @param string|null $wsdl
      * @return SoapClient
      */
     public function getClient(?string $wsdl = null): SoapClient

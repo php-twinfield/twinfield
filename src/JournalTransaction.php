@@ -19,17 +19,27 @@ class JournalTransaction extends BaseTransaction
      */
     private $regime;
 
+    /**
+     * @return string
+     */
     public function getLineClassName(): string
     {
         return JournalTransactionLine::class;
     }
 
+    /**
+     * @return string|null
+     */
     public function getRegime(): ?string
     {
         return $this->regime;
     }
 
-    public function setRegime(?string $regime): BaseTransaction
+    /**
+     * @param string|null $regime
+     * @return $this
+     */
+    public function setRegime(?string $regime): JournalTransaction
     {
         $this->regime = $regime;
 

@@ -2,8 +2,6 @@
 
 namespace PhpTwinfield\Transactions\TransactionFields;
 
-use PhpTwinfield\BaseTransaction;
-
 trait DueDateField
 {
     /**
@@ -11,12 +9,19 @@ trait DueDateField
      */
     private $dueDate;
 
+    /**
+     * @return string|null
+     */
     public function getDueDate(): ?string
     {
         return $this->dueDate;
     }
 
-    public function setDueDate(?string $dueDate): BaseTransaction
+    /**
+     * @param string|null $dueDate
+     * @return $this
+     */
+    public function setDueDate(?string $dueDate): self
     {
         $this->dueDate = $dueDate;
 

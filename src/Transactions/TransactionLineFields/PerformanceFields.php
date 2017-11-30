@@ -32,14 +32,25 @@ trait PerformanceFields
      */
     protected $performanceDate;
 
+    /**
+     * @return string|null
+     */
     abstract public function getType(): ?string;
 
+    /**
+     * @return string|null
+     */
     public function getPerformanceType(): ?string
     {
         return $this->performanceType;
     }
 
-    public function setPerformanceType(?string $performanceType): BaseTransactionLine
+    /**
+     * @param string|null $performanceType
+     * @return $this
+     * @throws Exception
+     */
+    public function setPerformanceType(?string $performanceType): self
     {
         if (
             $performanceType !== null &&
@@ -53,12 +64,20 @@ trait PerformanceFields
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPerformanceCountry(): ?string
     {
         return $this->performanceCountry;
     }
 
-    public function setPerformanceCountry(?string $performanceCountry): BaseTransactionLine
+    /**
+     * @param string|null $performanceCountry
+     * @return $this
+     * @throws Exception
+     */
+    public function setPerformanceCountry(?string $performanceCountry): self
     {
         if (
             $performanceCountry !== null &&
@@ -72,12 +91,20 @@ trait PerformanceFields
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPerformanceVatNumber(): ?string
     {
         return $this->performanceVatNumber;
     }
 
-    public function setPerformanceVatNumber(?string $performanceVatNumber): BaseTransactionLine
+    /**
+     * @param string|null $performanceVatNumber
+     * @return $this
+     * @throws Exception
+     */
+    public function setPerformanceVatNumber(?string $performanceVatNumber): self
     {
         if (
             $performanceVatNumber !== null &&
@@ -91,12 +118,20 @@ trait PerformanceFields
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPerformanceDate(): ?string
     {
         return $this->performanceDate;
     }
 
-    public function setPerformanceDate(?string $performanceDate): BaseTransactionLine
+    /**
+     * @param string|null $performanceDate
+     * @return $this
+     * @throws Exception
+     */
+    public function setPerformanceDate(?string $performanceDate): self
     {
         if (
             $performanceDate !== null &&

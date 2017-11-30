@@ -21,17 +21,27 @@ class SalesTransaction extends BaseTransaction
      */
     private $originReference;
 
+    /**
+     * @return string
+     */
     public function getLineClassName(): string
     {
         return SalesTransactionLine::class;
     }
 
-    public function getOriginReference(): string
+    /**
+     * @return string|null
+     */
+    public function getOriginReference(): ?string
     {
         return $this->originReference;
     }
 
-    public function setOriginReference(?string $originReference): BaseTransaction
+    /**
+     * @param string|null $originReference
+     * @return $this
+     */
+    public function setOriginReference(?string $originReference): SalesTransaction
     {
         $this->originReference = $originReference;
 

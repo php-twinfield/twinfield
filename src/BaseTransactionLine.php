@@ -123,180 +123,286 @@ abstract class BaseTransactionLine
      */
     protected $vatValue;
 
+    /**
+     * @return string|null
+     */
     public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function setType(?string $type): self
+    /**
+     * @param string|null $type
+     * @return $this
+     */
+    public function setType(?string $type): BaseTransactionLine
     {
         $this->type = $type;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    public function setId(?string $id): self
+    /**
+     * @param string|null $id
+     * @return $this
+     */
+    public function setId(?string $id): BaseTransactionLine
     {
         $this->id = $id;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDim1(): ?string
     {
         return $this->dim1;
     }
 
-    public function setDim1(?string $dim1): self
+    /**
+     * @param string|null $dim1
+     * @return $this
+     */
+    public function setDim1(?string $dim1): BaseTransactionLine
     {
         $this->dim1 = $dim1;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDim2(): ?string
     {
         return $this->dim2;
     }
 
-    public function setDim2(?string $dim2): self
+    /**
+     * @param string|null $dim2
+     * @return $this
+     */
+    public function setDim2(?string $dim2): BaseTransactionLine
     {
         $this->dim2 = $dim2;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDebitCredit(): ?string
     {
         return $this->debitCredit;
     }
 
-    public function setDebitCredit(?string $debitCredit): self
+    /**
+     * @param string|null $debitCredit
+     * @return $this
+     */
+    public function setDebitCredit(?string $debitCredit): BaseTransactionLine
     {
         $this->debitCredit = $debitCredit;
 
         return $this;
     }
 
+    /**
+     * @return float|null
+     */
     public function getValue(): ?float
     {
         return $this->value;
     }
 
-    public function setValue(?float $value): self
+    /**
+     * @param float|null $value
+     * @return $this
+     */
+    public function setValue(?float $value): BaseTransactionLine
     {
         $this->value = $value;
 
         return $this;
     }
 
+    /**
+     * @return float|null
+     */
     public function getBaseValue(): ?float
     {
         return $this->baseValue;
     }
 
-    public function setBaseValue(?float $baseValue): self
+    /**
+     * @param float|null $baseValue
+     * @return $this
+     */
+    public function setBaseValue(?float $baseValue): BaseTransactionLine
     {
         $this->baseValue = $baseValue;
 
         return $this;
     }
 
+    /**
+     * @return float|null
+     */
     public function getRate(): ?float
     {
         return $this->rate;
     }
 
-    public function setRate(?float $rate): self
+    /**
+     * @param float|null $rate
+     * @return $this
+     */
+    public function setRate(?float $rate): BaseTransactionLine
     {
         $this->rate = $rate;
 
         return $this;
     }
 
+    /**
+     * @return float|null
+     */
     public function getRepValue(): ?float
     {
         return $this->repValue;
     }
 
-    public function setRepValue(?float $repValue): self
+    /**
+     * @param float|null $repValue
+     * @return $this
+     */
+    public function setRepValue(?float $repValue): BaseTransactionLine
     {
         $this->repValue = $repValue;
 
         return $this;
     }
 
+    /**
+     * @return float|null
+     */
     public function getRepRate(): ?float
     {
         return $this->repRate;
     }
 
-    public function setRepRate(?float $repRate): self
+    /**
+     * @param float|null $repRate
+     * @return $this
+     */
+    public function setRepRate(?float $repRate): BaseTransactionLine
     {
         $this->repRate = $repRate;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setDescription(?string $description): self
+    /**
+     * @param string|null $description
+     * @return $this
+     */
+    public function setDescription(?string $description): BaseTransactionLine
     {
         $this->description = $description;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getMatchStatus(): ?string
     {
         return $this->matchStatus;
     }
 
-    public function setMatchStatus(?string $matchStatus): self
+    /**
+     * @param string|null $matchStatus
+     * @return $this
+     */
+    public function setMatchStatus(?string $matchStatus): BaseTransactionLine
     {
         $this->matchStatus = $matchStatus;
 
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getMatchLevel(): ?int
     {
         return $this->matchLevel;
     }
 
-    public function setMatchLevel(?int $matchLevel): self
+    /**
+     * @param int|null $matchLevel
+     * @return $this
+     */
+    public function setMatchLevel(?int $matchLevel): BaseTransactionLine
     {
         $this->matchLevel = $matchLevel;
 
         return $this;
     }
 
+    /**
+     * @return float|null
+     */
     public function getBaseValueOpen(): ?float
     {
         return $this->baseValueOpen;
     }
 
-    public function setBaseValueOpen(?float $baseValueOpen): self
+    /**
+     * @param float|null $baseValueOpen
+     * @return $this
+     */
+    public function setBaseValueOpen(?float $baseValueOpen): BaseTransactionLine
     {
         $this->baseValueOpen = $baseValueOpen;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getVatCode(): ?string
     {
         return $this->vatCode;
     }
 
-    public function setVatCode(?string $vatCode): self
+    /**
+     * @param string|null $vatCode
+     * @return $this
+     * @throws Exception
+     */
+    public function setVatCode(?string $vatCode): BaseTransactionLine
     {
         if ($vatCode !== null && !in_array($this->getType(), [self::TYPE_DETAIL, self::TYPE_VAT])) {
             throw Exception::invalidFieldForLineType('vatCode', $this);
@@ -307,12 +413,20 @@ abstract class BaseTransactionLine
         return $this;
     }
 
+    /**
+     * @return float|null
+     */
     public function getVatValue(): ?float
     {
         return $this->vatValue;
     }
 
-    public function setVatValue(?float $vatValue): self
+    /**
+     * @param float|null $vatValue
+     * @return $this
+     * @throws Exception
+     */
+    public function setVatValue(?float $vatValue): BaseTransactionLine
     {
         if ($vatValue !== null && $this->getType() != self::TYPE_DETAIL) {
             throw Exception::invalidFieldForLineType('vatValue', $this);

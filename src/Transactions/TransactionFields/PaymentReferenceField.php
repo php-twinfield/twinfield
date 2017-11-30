@@ -2,8 +2,6 @@
 
 namespace PhpTwinfield\Transactions\TransactionFields;
 
-use PhpTwinfield\BaseTransaction;
-
 trait PaymentReferenceField
 {
     /**
@@ -11,12 +9,19 @@ trait PaymentReferenceField
      */
     private $paymentReference;
 
-    public function getPaymentReference(): string
+    /**
+     * @return string|null
+     */
+    public function getPaymentReference(): ?string
     {
         return $this->paymentReference;
     }
 
-    public function setPaymentReference(?string $paymentReference): BaseTransaction
+    /**
+     * @param string|null $paymentReference
+     * @return $this
+     */
+    public function setPaymentReference(?string $paymentReference): self
     {
         $this->paymentReference = $paymentReference;
 

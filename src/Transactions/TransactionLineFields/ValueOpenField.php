@@ -14,14 +14,25 @@ trait ValueOpenField
      */
     protected $valueOpen;
 
+    /**
+     * @return string|null
+     */
     abstract public function getType(): ?string;
 
+    /**
+     * @return float|null
+     */
     public function getValueOpen(): ?float
     {
         return $this->valueOpen;
     }
 
-    public function setValueOpen(?float $valueOpen): BaseTransactionLine
+    /**
+     * @param float|null $valueOpen
+     * @return $this
+     * @throws Exception
+     */
+    public function setValueOpen(?float $valueOpen): self
     {
         if ($valueOpen !== null && $this->getType() != BaseTransactionLine::TYPE_TOTAL) {
             throw Exception::invalidFieldForLineType('valueOpen', $this);

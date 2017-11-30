@@ -23,7 +23,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
      * will be taken as entered at the VAT code in Twinfield.
      *
      * @param string|null $dim1
-     * @return PurchaseTransactionLine
+     * @return $this
      */
     public function setDim1(?string $dim1): BaseTransactionLine
     {
@@ -38,7 +38,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
      * If line type = vat the cost center or empty.
      *
      * @param string|null $dim2
-     * @return PurchaseTransactionLine
+     * @return $this
      */
     public function setDim2(?string $dim2): BaseTransactionLine
     {
@@ -55,7 +55,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
      * - In case of a credit purchase transaction credit.
      *
      * @param string|null $debitCredit
-     * @return PurchaseTransactionLine
+     * @return $this
      */
     public function setDebitCredit(?string $debitCredit): BaseTransactionLine
     {
@@ -70,7 +70,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
      * If line type = vat VAT amount.
      *
      * @param float|null $value
-     * @return PurchaseTransactionLine
+     * @return $this
      */
     public function setValue(?float $value): BaseTransactionLine
     {
@@ -81,7 +81,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
      * Payment status of the purchase transaction. If line type detail or vat always notmatchable. Read-only attribute.
      *
      * @param string|null $matchStatus
-     * @return PurchaseTransactionLine
+     * @return $this
      * @throws Exception
      */
     public function setMatchStatus(?string $matchStatus): BaseTransactionLine
@@ -101,7 +101,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
      * Only if line type is total. The level of the matchable dimension. Read-only attribute.
      *
      * @param int|null $matchLevel
-     * @return PurchaseTransactionLine
+     * @return $this
      * @throws Exception
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
@@ -117,7 +117,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
      * Only if line type is total. The amount still to be paid in base currency. Read-only attribute.
      *
      * @param float|null $baseValueOpen
-     * @return PurchaseTransactionLine
+     * @return $this
      * @throws Exception
      */
     public function setBaseValueOpen(?float $baseValueOpen): BaseTransactionLine

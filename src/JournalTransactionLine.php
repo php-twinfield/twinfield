@@ -16,6 +16,11 @@ class JournalTransactionLine extends BaseTransactionLine
      */
     private $invoiceNumber;
 
+    /**
+     * @param string|null $type
+     * @return $this
+     * @throws Exception
+     */
     public function setType(?string $type): BaseTransactionLine
     {
         // Only 'detail' and 'vat' are supported.
@@ -33,7 +38,7 @@ class JournalTransactionLine extends BaseTransactionLine
      * will be taken as entered at the VAT code in Twinfield.
      *
      * @param string|null $dim1
-     * @return JournalTransactionLine
+     * @return $this
      */
     public function setDim1(?string $dim1): BaseTransactionLine
     {
@@ -46,7 +51,7 @@ class JournalTransactionLine extends BaseTransactionLine
      * If line type = vat empty.
      *
      * @param string|null $dim2
-     * @return JournalTransactionLine
+     * @return $this
      * @throws Exception
      */
     public function setDim2(?string $dim2): BaseTransactionLine
@@ -64,18 +69,26 @@ class JournalTransactionLine extends BaseTransactionLine
      * If line type = vat VAT amount.
      *
      * @param float|null $value
-     * @return JournalTransactionLine
+     * @return $this
      */
     public function setValue(?float $value): BaseTransactionLine
     {
         return parent::setValue($value);
     }
 
+    /**
+     * @return string|null
+     */
     public function getInvoiceNumber(): ?string
     {
         return $this->invoiceNumber;
     }
 
+    /**
+     * @param string|null $invoiceNumber
+     * @return $this
+     * @throws Exception
+     */
     public function setInvoiceNumber(?string $invoiceNumber): BaseTransactionLine
     {
         if ($invoiceNumber !== null && $this->getType() != self::TYPE_DETAIL) {
@@ -90,7 +103,7 @@ class JournalTransactionLine extends BaseTransactionLine
      * Payment status of the journal transaction. If line type vat always notmatchable. Read-only attribute.
      *
      * @param string|null $matchStatus
-     * @return JournalTransactionLine
+     * @return $this
      * @throws Exception
      */
     public function setMatchStatus(?string $matchStatus): BaseTransactionLine
@@ -110,7 +123,7 @@ class JournalTransactionLine extends BaseTransactionLine
      * Only if line type is detail. The level of the matchable dimension. Read-only attribute.
      *
      * @param int|null $matchLevel
-     * @return JournalTransactionLine
+     * @return $this
      * @throws Exception
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
@@ -126,7 +139,7 @@ class JournalTransactionLine extends BaseTransactionLine
      * Only if line type is detail. The amount still owed in base currency. Read-only attribute.
      *
      * @param float|null $baseValueOpen
-     * @return JournalTransactionLine
+     * @return $this
      * @throws Exception
      */
     public function setBaseValueOpen(?float $baseValueOpen): BaseTransactionLine

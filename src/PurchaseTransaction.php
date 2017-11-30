@@ -15,6 +15,9 @@ class PurchaseTransaction extends BaseTransaction
     use InvoiceNumberField;
     use PaymentReferenceField;
 
+    /**
+     * @return string
+     */
     public function getLineClassName(): string
     {
         return PurchaseTransactionLine::class;

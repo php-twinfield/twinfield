@@ -2,8 +2,6 @@
 
 namespace PhpTwinfield\Transactions\TransactionFields;
 
-use PhpTwinfield\BaseTransaction;
-
 trait InvoiceNumberField
 {
     /**
@@ -11,12 +9,19 @@ trait InvoiceNumberField
      */
     private $invoiceNumber;
 
+    /**
+     * @return string|null
+     */
     public function getInvoiceNumber(): ?string
     {
         return $this->invoiceNumber;
     }
 
-    public function setInvoiceNumber(?string $invoiceNumber): BaseTransaction
+    /**
+     * @param string|null $invoiceNumber
+     * @return $this
+     */
+    public function setInvoiceNumber(?string $invoiceNumber): self
     {
         $this->invoiceNumber = $invoiceNumber;
 

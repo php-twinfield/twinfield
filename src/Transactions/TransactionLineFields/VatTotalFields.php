@@ -20,14 +20,25 @@ trait VatTotalFields
      */
     protected $vatBaseTotal;
 
+    /**
+     * @return string|null
+     */
     abstract public function getType(): ?string;
 
+    /**
+     * @return float|null
+     */
     public function getVatTotal(): ?float
     {
         return $this->vatTotal;
     }
 
-    public function setVatTotal(?float $vatTotal): BaseTransactionLine
+    /**
+     * @param float|null $vatTotal
+     * @return $this
+     * @throws Exception
+     */
+    public function setVatTotal(?float $vatTotal): self
     {
         if ($vatTotal !== null && $this->getType() != BaseTransactionLine::TYPE_TOTAL) {
             throw Exception::invalidFieldForLineType('vatTotal', $this);
@@ -38,12 +49,20 @@ trait VatTotalFields
         return $this;
     }
 
+    /**
+     * @return float|null
+     */
     public function getVatBaseTotal(): ?float
     {
         return $this->vatBaseTotal;
     }
 
-    public function setVatBaseTotal(?float $vatBaseTotal): BaseTransactionLine
+    /**
+     * @param float|null $vatBaseTotal
+     * @return $this
+     * @throws Exception
+     */
+    public function setVatBaseTotal(?float $vatBaseTotal): self
     {
         if ($vatBaseTotal !== null && $this->getType() != BaseTransactionLine::TYPE_TOTAL) {
             throw Exception::invalidFieldForLineType('vatBaseTotal', $this);

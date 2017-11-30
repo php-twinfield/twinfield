@@ -22,7 +22,7 @@ class SalesTransactionLine extends BaseTransactionLine
      * will be taken as entered at the VAT code in Twinfield.
      *
      * @param string|null $dim1
-     * @return SalesTransactionLine
+     * @return $this
      */
     public function setDim1(?string $dim1): BaseTransactionLine
     {
@@ -37,7 +37,7 @@ class SalesTransactionLine extends BaseTransactionLine
      * If line type = vat empty.
      *
      * @param string|null $dim2
-     * @return SalesTransactionLine
+     * @return $this
      * @throws Exception
      */
     public function setDim2(?string $dim2): BaseTransactionLine
@@ -59,7 +59,7 @@ class SalesTransactionLine extends BaseTransactionLine
      * - In case of a credit sales transaction debit.
      *
      * @param string|null $debitCredit
-     * @return SalesTransactionLine
+     * @return $this
      */
     public function setDebitCredit(?string $debitCredit): BaseTransactionLine
     {
@@ -74,7 +74,7 @@ class SalesTransactionLine extends BaseTransactionLine
      * If line type = vat VAT amount.
      *
      * @param float|null $value
-     * @return SalesTransactionLine
+     * @return $this
      */
     public function setValue(?float $value): BaseTransactionLine
     {
@@ -85,7 +85,7 @@ class SalesTransactionLine extends BaseTransactionLine
      * Payment status of the sales transaction. If line type detail or vat always notmatchable. Read-only attribute.
      *
      * @param string|null $matchStatus
-     * @return SalesTransactionLine
+     * @return $this
      * @throws Exception
      */
     public function setMatchStatus(?string $matchStatus): BaseTransactionLine
@@ -105,7 +105,7 @@ class SalesTransactionLine extends BaseTransactionLine
      * Only if line type is total. The level of the matchable dimension. Read-only attribute.
      *
      * @param int|null $matchLevel
-     * @return SalesTransactionLine
+     * @return $this
      * @throws Exception
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
@@ -121,7 +121,7 @@ class SalesTransactionLine extends BaseTransactionLine
      * Only if line type is total. The amount still owed in base currency. Read-only attribute.
      *
      * @param float|null $baseValueOpen
-     * @return SalesTransactionLine
+     * @return $this
      * @throws Exception
      */
     public function setBaseValueOpen(?float $baseValueOpen): BaseTransactionLine
