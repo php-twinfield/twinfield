@@ -4,7 +4,7 @@ namespace PhpTwinfield\Secure;
 use PhpTwinfield\Customer;
 use PhpTwinfield\DomDocuments\CustomersDocument;
 
-class CustomerOfficeTest extends \PHPUnit_Framework_TestCase
+class CustomerOfficeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Config

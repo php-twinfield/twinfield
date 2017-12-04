@@ -4,7 +4,7 @@ namespace PhpTwinfield\Secure;
 use PhpTwinfield\Supplier;
 use PhpTwinfield\DomDocuments\SuppliersDocument;
 
-class SupplierOfficeTest extends \PHPUnit_Framework_TestCase
+class SupplierOfficeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Config

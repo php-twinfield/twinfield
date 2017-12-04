@@ -21,7 +21,7 @@ use PhpTwinfield\Secure\Service;
  * @covers CustomerMapper
  * @covers CustomerApiConnector
  */
-class CustomerIntegrationTest extends \PHPUnit_Framework_TestCase
+class CustomerIntegrationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Login|\PHPUnit_Framework_MockObject_MockObject

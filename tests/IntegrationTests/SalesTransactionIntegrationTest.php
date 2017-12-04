@@ -18,7 +18,7 @@ use PhpTwinfield\Secure\Service;
  * @covers TransactionMapper
  * @covers TransactionApiConnector
  */
-class SalesTransactionIntegrationTest extends \PHPUnit_Framework_TestCase
+class SalesTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Login|\PHPUnit_Framework_MockObject_MockObject
