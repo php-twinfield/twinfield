@@ -154,7 +154,11 @@ class ElectronicBankStatement
     public function setTransactions(array $transactions): void
     {
         Assert::allIsInstanceOf($transactions, ElectronicBankStatementTransaction::class);
+        Assert::notEmpty($this->startvalue);
+
         $this->transactions = $transactions;
+
+        $this->closevalue = $this->startvalue;
 
         foreach ($transactions as $transaction) {
             $this->closevalue = $this->closevalue->add($transaction->getValue());

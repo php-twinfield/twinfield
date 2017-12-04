@@ -25,7 +25,8 @@
   },
   "require": {
     "php": ">=7.1",
-    "moneyphp/money": "^3.0"
+    "moneyphp/money": "^3.0",
+    "webmozart/assert": "^1.2"
   },
   "autoload": {
     "psr-4": {
