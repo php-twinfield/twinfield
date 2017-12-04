@@ -24,7 +24,8 @@
     "pronamic/twinfield": "*"
   },
   "require": {
-    "php": ">=7.1"
+    "php": ">=7.1",
+    "money/money": "^2.0"
   },
   "autoload": {
     "psr-4": {
