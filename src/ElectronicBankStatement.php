@@ -4,7 +4,11 @@ namespace PhpTwinfield;
 
 use Money\Currency;
 use Money\Money;
+use Webmozart\Assert\Assert;
 
+/**
+ * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankStatements
+ */
 class ElectronicBankStatement
 {
     /**
@@ -137,7 +141,7 @@ class ElectronicBankStatement
     }
 
     /**
-     * @return array
+     * @return array|ElectronicBankStatementTransaction[]
      */
     public function getTransactions(): array
     {
@@ -145,10 +149,11 @@ class ElectronicBankStatement
     }
 
     /**
-     * @param array $transactions
+     * @param array|ElectronicBankStatementTransaction[] $transactions
      */
     public function setTransactions(array $transactions): void
     {
+        Assert::allIsInstanceOf($transactions, ElectronicBankStatementTransaction::class);
         $this->transactions = $transactions;
     }
 
@@ -182,7 +187,7 @@ class ElectronicBankStatement
         $this->statementnumber = $statementnumber;
     }
 
-    public function getOffice(): Office
+    public function getOffice(): ?Office
     {
         return $this->office;
     }
