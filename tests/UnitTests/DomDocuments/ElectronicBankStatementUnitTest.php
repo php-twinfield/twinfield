@@ -14,7 +14,6 @@ class ElectronicBankStatementUnitTest extends \PHPUnit\Framework\TestCase
         $statement = new ElectronicBankStatement();
         $statement->setIban("NL91ABNA0417164300");
         $statement->setStartvalue(Money::EUR(768));
-        $statement->setClosevalue(Money::EUR(15118));
         $statement->setDate(new \DateTime("2013-11-08"));
         $statement->setStatementnumber(2);
 
@@ -60,5 +59,30 @@ class ElectronicBankStatementUnitTest extends \PHPUnit\Framework\TestCase
 </statement>
 XML
 , $domdocument->saveXML());
+    }
+
+    public function testImportDuplicateIsSet()
+    {
+        $statement = new ElectronicBankStatement();
+        $statement->setImportDuplicate(true);
+        $statement->setDate(new \DateTimeImmutable("2017-11-30"));
+        $statement->setStartvalue(Money::EUR(0));
+        $statement->setStatementnumber(236);
+
+        $domdocument = new ElectronicBankStatementDocument();
+        $domdocument->addStatement($statement);
+
+        $this->assertXmlStringEqualsXmlString(<<<XML
+<?xml version="1.0"?>
+<statement target="electronicstatements" importduplicate="1">
+	<date>20171130</date>
+	<currency>EUR</currency>
+	<statementnumber>236</statementnumber>
+	<startvalue>0.00</startvalue>
+	<closevalue>0.00</closevalue>
+	<transactions />
+</statement>
+XML
+            ,$domdocument->saveXML());
     }
 }

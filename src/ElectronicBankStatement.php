@@ -155,6 +155,10 @@ class ElectronicBankStatement
     {
         Assert::allIsInstanceOf($transactions, ElectronicBankStatementTransaction::class);
         $this->transactions = $transactions;
+
+        foreach ($transactions as $transaction) {
+            $this->closevalue = $this->closevalue->add($transaction->getValue());
+        }
     }
 
     public function getDate(): \DateTimeInterface
@@ -170,11 +174,6 @@ class ElectronicBankStatement
     public function getCurrency(): Currency
     {
         return $this->currency;
-    }
-
-    protected function setCurrency(Currency $currency): void
-    {
-        $this->currency = $currency;
     }
 
     public function getStatementnumber(): int
@@ -204,18 +203,13 @@ class ElectronicBankStatement
 
     public function setStartvalue(Money $startvalue): void
     {
-        $this->setCurrency($startvalue->getCurrency());
+        $this->currency   = $startvalue->getCurrency();
         $this->startvalue = $startvalue;
+        $this->closevalue = $startvalue;
     }
 
     public function getClosevalue(): Money
     {
         return $this->closevalue;
-    }
-
-    public function setClosevalue(Money $closevalue): void
-    {
-        $this->setCurrency($closevalue->getCurrency());
-        $this->closevalue = $closevalue;
     }
 }

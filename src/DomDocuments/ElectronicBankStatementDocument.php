@@ -14,6 +14,10 @@ class ElectronicBankStatementDocument extends \DOMDocument
         $root = $this->createElement("statement");
         $root->appendChild(new \DOMAttr("target", "electronicstatements"));
 
+        if ($statement->isImportDuplicate()) {
+            $root->appendChild(new \DOMAttr("importduplicate", "1"));
+        }
+
         if ($statement->getIban()) {
             $root->appendChild($this->createElement("iban", $statement->getIban()));
         } elseif ($statement->getAccount()) {
