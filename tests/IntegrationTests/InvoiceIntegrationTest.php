@@ -21,7 +21,7 @@ use PhpTwinfield\Secure\Service;
  * @covers InvoiceMapper
  * @covers InvoiceApiConnector
  */
-class InvoiceIntegrationTest extends \PHPUnit_Framework_TestCase
+class InvoiceIntegrationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Login|\PHPUnit_Framework_MockObject_MockObject

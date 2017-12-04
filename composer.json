@@ -24,7 +24,9 @@
     "pronamic/twinfield": "*"
   },
   "require": {
-    "php": ">=7.1"
+    "php": ">=7.1",
+    "moneyphp/money": "^3.0",
+    "webmozart/assert": "^1.2"
   },
   "autoload": {
     "psr-4": {
@@ -39,6 +41,6 @@
   "require-dev": {
     "squizlabs/php_codesniffer": "*",
     "sensiolabs/security-checker": "^4.1",
-    "phpunit/phpunit": "^3.7 || ^4.8 || ^5.4"
+    "phpunit/phpunit": "^6.5"
   }
 }

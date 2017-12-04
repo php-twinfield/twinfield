@@ -108,7 +108,7 @@ class CustomerMapper
             'freetext1'         => 'setFreeText1',
             'freetext2'         => 'setFreeText2',
             'freetext3'         => 'setFreeText3',
-            'comment'           => 'setComment'
+            'comment'           => 'setComment',
         );
         
         $customer->setCreditManagement(new \PhpTwinfield\CustomerCreditManagement());
@@ -201,12 +201,13 @@ class CustomerMapper
                 'iban'            => 'setIban',
                 'natbiccode'      => 'setNatbiccode',
                 'postcode'        => 'setPostcode',
-                'state'           => 'setState'
+                'state'           => 'setState',
             );
 
             $banksDOM = $banksDOMTag->item(0);
 
             // Loop through each returned bank for the customer
+            /** @var \DOMElement $bankDOM */
             foreach ($banksDOM->getElementsByTagName('bank') as $bankDOM) {
 
                 // Make a new tempory CustomerBank class
