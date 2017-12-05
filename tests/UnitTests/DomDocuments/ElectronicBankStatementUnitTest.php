@@ -33,30 +33,32 @@ class ElectronicBankStatementUnitTest extends \PHPUnit\Framework\TestCase
         $domdocument->addStatement($statement);
 
         $this->assertXmlStringEqualsXmlString(<<<XML
-<statement target="electronicstatements">
-	<iban>NL91ABNA0417164300</iban>
-	<date>20131108</date>
-	<currency>EUR</currency>
-	<statementnumber>2</statementnumber>
-	<startvalue>7.68</startvalue>
-	<closevalue>151.18</closevalue>
-	<transactions>
-		<transaction>
-			<type>N100</type>
-			<reference></reference>
-			<debitcredit>credit</debitcredit>
-			<value>151.00</value>
-			<description>Invoice 3722838</description>
-		</transaction>
-		<transaction>
-			<type>N999</type>
-			<reference></reference>
-			<debitcredit>debit</debitcredit>
-			<value>7.50</value>
-			<description>Costs *300</description>
-		</transaction>
-	</transactions>
-</statement>
+<statements>
+    <statement target="electronicstatements">
+        <iban>NL91ABNA0417164300</iban>
+        <date>20131108</date>
+        <currency>EUR</currency>
+        <statementnumber>2</statementnumber>
+        <startvalue>7.68</startvalue>
+        <closevalue>151.18</closevalue>
+        <transactions>
+            <transaction>
+                <type>N100</type>
+                <reference></reference>
+                <debitcredit>credit</debitcredit>
+                <value>151.00</value>
+                <description>Invoice 3722838</description>
+            </transaction>
+            <transaction>
+                <type>N999</type>
+                <reference></reference>
+                <debitcredit>debit</debitcredit>
+                <value>7.50</value>
+                <description>Costs *300</description>
+            </transaction>
+        </transactions>
+    </statement>
+</statements>
 XML
 , $domdocument->saveXML());
     }
@@ -74,14 +76,16 @@ XML
 
         $this->assertXmlStringEqualsXmlString(<<<XML
 <?xml version="1.0"?>
-<statement target="electronicstatements" importduplicate="1">
-	<date>20171130</date>
-	<currency>EUR</currency>
-	<statementnumber>236</statementnumber>
-	<startvalue>0.00</startvalue>
-	<closevalue>0.00</closevalue>
-	<transactions />
-</statement>
+<statements>
+    <statement target="electronicstatements" importduplicate="1">
+        <date>20171130</date>
+        <currency>EUR</currency>
+        <statementnumber>236</statementnumber>
+        <startvalue>0.00</startvalue>
+        <closevalue>0.00</closevalue>
+        <transactions />
+    </statement>
+</statements>
 XML
             ,$domdocument->saveXML());
     }

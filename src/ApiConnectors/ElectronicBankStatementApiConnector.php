@@ -9,6 +9,7 @@ use PhpTwinfield\ElectronicBankStatement;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Request as Request;
+use Webmozart\Assert\Assert;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about
@@ -22,8 +23,23 @@ class ElectronicBankStatementApiConnector extends BaseApiConnector
      */
     public function send(ElectronicBankStatement $statement): void
     {
+        $this->sendAll([$statement]);
+    }
+
+    /**
+     * @param array $statements
+     * @throws Exception
+     */
+    public function sendAll(array $statements)
+    {
+        Assert::allIsInstanceOf($statements, ElectronicBankStatement::class);
+        Assert::notEmpty($statements);
+
         $document = new ElectronicBankStatementDocument();
-        $document->addStatement($statement);
+
+        foreach ($statements as $statement) {
+            $document->addStatement($statement);
+        }
 
         $this->sendDocument($document);
     }
