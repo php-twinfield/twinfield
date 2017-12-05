@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield;
 
+use Webmozart\Assert\Assert;
+
 /**
  * @todo $modificationDate The date/time on which the sales transaction was modified the last time. Read-only attribute.
  * @todo $user The user who created the sales transaction. Read-only attribute.
@@ -337,10 +339,26 @@ abstract class BaseTransaction extends BaseObject
     }
 
     /**
-     * @return array
+     * @return BaseTransactionLine[]
      */
     public function getLines(): array
     {
+        /*
+         * When creating the XML that is send to Twinfield, the total lines should always be put first.
+         * Twinfield returns an error when the total line is not the first line.
+         */
+        uasort($this->lines, function(BaseTransactionLine $a, BaseTransactionLine $b): int {
+            if ($a->getType() === BaseTransactionLine::TYPE_TOTAL) {
+                return -1;
+            }
+
+            if ($b->getType() === BaseTransactionLine::TYPE_TOTAL) {
+                return 1;
+            }
+
+            return $a->getId() <=> $b->getId();
+        });
+
         return $this->lines;
     }
 
@@ -354,6 +372,8 @@ abstract class BaseTransaction extends BaseObject
         if (!is_a($line, $this->getLineClassName())) {
             throw Exception::invalidLineClassForTransaction($line, $this);
         }
+
+        Assert::notNull($line->getId());
 
         $this->lines[$line->getId()] = $line;
 
