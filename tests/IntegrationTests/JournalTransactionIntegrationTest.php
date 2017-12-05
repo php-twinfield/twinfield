@@ -6,6 +6,7 @@ use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Mappers\TransactionMapper;
+use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\JournalTransaction;
 use PhpTwinfield\JournalTransactionLine;
@@ -84,7 +85,7 @@ class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(Destiny::TEMPORARY(), $journalTransaction->getDestiny());
         $this->assertNull($journalTransaction->isAutoBalanceVat());
         $this->assertNull($journalTransaction->getRaiseWarning());
-        $this->assertSame('0-0-1-NL-001', $journalTransaction->getOffice());
+        $this->assertEquals(Office::fromCode('0-0-1-NL-001'), $journalTransaction->getOffice());
         $this->assertSame('MEMO', $journalTransaction->getCode());
         $this->assertSame(201300003, $journalTransaction->getNumber());
         $this->assertSame('2013/11', $journalTransaction->getPeriod());
@@ -157,7 +158,7 @@ class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
             ->setCode('MEMO')
             ->setCurrency('EUR')
             ->setDate('20131104')
-            ->setOffice('001');
+            ->setOffice(Office::fromCode('001'));
 
         $detailLine1 = new JournalTransactionLine();
         $detailLine1

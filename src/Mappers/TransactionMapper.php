@@ -7,6 +7,7 @@ use PhpTwinfield\Exception;
 use PhpTwinfield\JournalTransaction;
 use PhpTwinfield\JournalTransactionLine;
 use PhpTwinfield\Message\Message;
+use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\BaseTransactionLine;
@@ -55,8 +56,11 @@ class TransactionMapper
                 $transaction->setRaiseWarning($raiseWarning == 'true');
             }
 
+            $office = new Office();
+            $office->setCode(self::getField($transaction, $transactionElement, 'office'));
+
             $transaction
-                ->setOffice(self::getField($transaction, $transactionElement, 'office'))
+                ->setOffice($office)
                 ->setCode(self::getField($transaction, $transactionElement, 'code'))
                 ->setNumber(self::getField($transaction, $transactionElement, 'number'))
                 ->setPeriod(self::getField($transaction, $transactionElement, 'period'))

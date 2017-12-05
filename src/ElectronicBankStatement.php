@@ -2,8 +2,7 @@
 
 namespace PhpTwinfield;
 
-use Money\Currency;
-use Money\Money;
+use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
 use Webmozart\Assert\Assert;
 
 /**
@@ -11,6 +10,8 @@ use Webmozart\Assert\Assert;
  */
 class ElectronicBankStatement
 {
+    use StartAndCloseValueFields;
+
     /**
      * Optional attribute to indicate whether duplicates may be imported or not.
      *
@@ -54,13 +55,6 @@ class ElectronicBankStatement
     private $date;
 
     /**
-     * Currency code. Set to the currency of the corresponding bank day book when left empty.
-     *
-     * @var Currency
-     */
-    private $currency;
-
-    /**
      * Number of the bank statement. When left empty, last available bank statement number increased by one.
      *
      * @var int
@@ -73,20 +67,6 @@ class ElectronicBankStatement
      * @var Office
      */
     private $office;
-
-    /**
-     * Opening balance. If not provided, the opening balance will be based on the previous bank statement.
-     *
-     * @var Money
-     */
-    private $startvalue;
-
-    /**
-     * Closing balance. If not provided, the closing balance will be based on the opening balance and the total amount of the transactions.
-     *
-     * @var Money
-     */
-    private $closevalue;
 
     public function getAccount(): ?string
     {
@@ -175,11 +155,6 @@ class ElectronicBankStatement
         $this->date = $date;
     }
 
-    public function getCurrency(): Currency
-    {
-        return $this->currency;
-    }
-
     public function getStatementnumber(): int
     {
         return $this->statementnumber;
@@ -198,22 +173,5 @@ class ElectronicBankStatement
     public function setOffice(Office $office): void
     {
         $this->office = $office;
-    }
-
-    public function getStartvalue(): Money
-    {
-        return $this->startvalue;
-    }
-
-    public function setStartvalue(Money $startvalue): void
-    {
-        $this->currency   = $startvalue->getCurrency();
-        $this->startvalue = $startvalue;
-        $this->closevalue = $startvalue;
-    }
-
-    public function getClosevalue(): Money
-    {
-        return $this->closevalue;
     }
 }

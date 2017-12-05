@@ -4,6 +4,8 @@ namespace PhpTwinfield;
 
 use PhpTwinfield\Transactions\TransactionFields\AutoBalanceVatField;
 use PhpTwinfield\Transactions\TransactionFields\DestinyField;
+use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
+use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 
 /**
  * @todo $modificationDate The date/time on which the sales transaction was modified the last time. Read-only attribute.
@@ -13,18 +15,14 @@ use PhpTwinfield\Transactions\TransactionFields\DestinyField;
 abstract class BaseTransaction extends BaseObject
 {
     use DestinyField;
-
     use AutoBalanceVatField;
+    use OfficeField;
+    use FreeTextFields;
 
     /**
      * @var bool|null Should warnings be given or not?
      */
     private $raiseWarning;
-
-    /**
-     * @var string|null The office code.
-     */
-    private $office;
 
     /**
      * @var string|null The transaction type code.
@@ -58,21 +56,6 @@ abstract class BaseTransaction extends BaseObject
     private $origin;
 
     /**
-     * @var string|null
-     */
-    private $freetext1;
-
-    /**
-     * @var string|null
-     */
-    private $freetext2;
-
-    /**
-     * @var string|null
-     */
-    private $freetext3;
-
-    /**
      * @var BaseTransactionLine[]
      */
     private $lines = [];
@@ -98,25 +81,6 @@ abstract class BaseTransaction extends BaseObject
     public function setRaiseWarning(?bool $raiseWarning): BaseTransaction
     {
         $this->raiseWarning = $raiseWarning;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getOffice(): ?string
-    {
-        return $this->office;
-    }
-
-    /**
-     * @param string|null $office
-     * @return $this
-     */
-    public function setOffice(?string $office): BaseTransaction
-    {
-        $this->office = $office;
 
         return $this;
     }
@@ -231,63 +195,6 @@ abstract class BaseTransaction extends BaseObject
     public function setOrigin(?string $origin): BaseTransaction
     {
         $this->origin = $origin;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getFreetext1(): ?string
-    {
-        return $this->freetext1;
-    }
-
-    /**
-     * @param string|null $freetext1
-     * @return $this
-     */
-    public function setFreetext1(?string $freetext1): BaseTransaction
-    {
-        $this->freetext1 = $freetext1;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getFreetext2(): ?string
-    {
-        return $this->freetext2;
-    }
-
-    /**
-     * @param string|null $freetext2
-     * @return $this
-     */
-    public function setFreetext2(?string $freetext2): BaseTransaction
-    {
-        $this->freetext2 = $freetext2;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getFreetext3(): ?string
-    {
-        return $this->freetext3;
-    }
-
-    /**
-     * @param string|null $freetext3
-     * @return $this
-     */
-    public function setFreetext3(?string $freetext3): BaseTransaction
-    {
-        $this->freetext3 = $freetext3;
 
         return $this;
     }

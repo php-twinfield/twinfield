@@ -6,6 +6,7 @@ use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Mappers\TransactionMapper;
+use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\SalesTransaction;
 use PhpTwinfield\SalesTransactionLine;
@@ -84,7 +85,7 @@ class SalesTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(Destiny::TEMPORARY(), $salesTransaction->getDestiny());
         $this->assertNull($salesTransaction->isAutoBalanceVat());
         $this->assertSame(false, $salesTransaction->getRaiseWarning());
-        $this->assertSame('001', $salesTransaction->getOffice());
+        $this->assertEquals(Office::fromCode('001'), $salesTransaction->getOffice());
         $this->assertSame('SLS', $salesTransaction->getCode());
         $this->assertSame(201300095, $salesTransaction->getNumber());
         $this->assertSame('2013/05', $salesTransaction->getPeriod());
@@ -194,7 +195,7 @@ class SalesTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
             ->setPeriod('2013/05')
             ->setInvoiceNumber('20130-6000')
             ->setPaymentReference('+++100/0160/01495+++')
-            ->setOffice('001')
+            ->setOffice(Office::fromCode('001'))
             ->setDueDate('20130506');
 
         $totalLine = new SalesTransactionLine();

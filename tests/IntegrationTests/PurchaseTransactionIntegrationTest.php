@@ -6,6 +6,7 @@ use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Mappers\TransactionMapper;
+use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\PurchaseTransaction;
 use PhpTwinfield\PurchaseTransactionLine;
@@ -84,7 +85,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(Destiny::TEMPORARY(), $purchaseTransaction->getDestiny());
         $this->assertNull($purchaseTransaction->isAutoBalanceVat());
         $this->assertSame(false, $purchaseTransaction->getRaiseWarning());
-        $this->assertSame('001', $purchaseTransaction->getOffice());
+        $this->assertEquals(Office::fromCode('001'), $purchaseTransaction->getOffice());
         $this->assertSame('INK', $purchaseTransaction->getCode());
         $this->assertSame(201300021, $purchaseTransaction->getNumber());
         $this->assertSame('2013/05', $purchaseTransaction->getPeriod());
@@ -181,7 +182,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
             ->setPeriod('2013/05')
             ->setInvoiceNumber('20130-5481')
             ->setPaymentReference('+++100/0160/01495+++')
-            ->setOffice('001')
+            ->setOffice(Office::fromCode('001'))
             ->setDueDate('20130506');
 
         $totalLine = new PurchaseTransactionLine();
