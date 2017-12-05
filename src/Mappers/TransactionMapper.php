@@ -36,6 +36,7 @@ class TransactionMapper
         $transactions = [];
         $responseDom  = $response->getResponseDocument();
 
+        /** @var \DOMElement $transactionElement */
         foreach ($responseDom->getElementsByTagName('transaction') as $transactionElement) {
             /** @var BaseTransaction $transaction */
             $transaction = new $transactionClassName();

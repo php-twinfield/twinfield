@@ -54,8 +54,8 @@ class TransactionsDocument extends \DOMDocument
         if ($transaction->getRaiseWarning() !== null) {
             $transactionElement->setAttribute('raisewarning', $transaction->getRaiseWarning() ? 'true' : 'false');
         }
-        if ($transaction->getAutoBalanceVat() !== null) {
-            $transactionElement->setAttribute('autobalancevat', $transaction->getAutoBalanceVat() ? 'true' : 'false');
+        if ($transaction->isAutoBalanceVat() !== null) {
+            $transactionElement->setAttribute('autobalancevat', $transaction->isAutoBalanceVat() ? 'true' : 'false');
         }
 
         $this->transactionsElement->appendChild($transactionElement);

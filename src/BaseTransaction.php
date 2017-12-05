@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Transactions\TransactionFields\AutoBalanceVatField;
 use PhpTwinfield\Transactions\TransactionFields\DestinyField;
 
 /**
@@ -13,10 +14,7 @@ abstract class BaseTransaction extends BaseObject
 {
     use DestinyField;
 
-    /**
-     * @var bool|null Should VAT be rounded or not? Rounding will only be done with a maximum of two cents.
-     */
-    private $autoBalanceVat;
+    use AutoBalanceVatField;
 
     /**
      * @var bool|null Should warnings be given or not?
@@ -84,25 +82,6 @@ abstract class BaseTransaction extends BaseObject
      *                BaseTransactionLine.
      */
     abstract public function getLineClassName(): string;
-
-    /**
-     * @return bool|null
-     */
-    public function getAutoBalanceVat(): ?bool
-    {
-        return $this->autoBalanceVat;
-    }
-
-    /**
-     * @param bool|null $autoBalanceVat
-     * @return $this
-     */
-    public function setAutoBalanceVat(?bool $autoBalanceVat): BaseTransaction
-    {
-        $this->autoBalanceVat = $autoBalanceVat;
-
-        return $this;
-    }
 
     /**
      * @return bool|null

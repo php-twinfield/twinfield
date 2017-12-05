@@ -82,7 +82,7 @@ class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $this->assertInstanceOf(JournalTransaction::class, $journalTransaction);
         $this->assertEquals(Destiny::TEMPORARY(), $journalTransaction->getDestiny());
-        $this->assertNull($journalTransaction->getAutoBalanceVat());
+        $this->assertNull($journalTransaction->isAutoBalanceVat());
         $this->assertNull($journalTransaction->getRaiseWarning());
         $this->assertSame('0-0-1-NL-001', $journalTransaction->getOffice());
         $this->assertSame('MEMO', $journalTransaction->getCode());

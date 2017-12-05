@@ -82,7 +82,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $this->assertInstanceOf(PurchaseTransaction::class, $purchaseTransaction);
         $this->assertEquals(Destiny::TEMPORARY(), $purchaseTransaction->getDestiny());
-        $this->assertNull($purchaseTransaction->getAutoBalanceVat());
+        $this->assertNull($purchaseTransaction->isAutoBalanceVat());
         $this->assertSame(false, $purchaseTransaction->getRaiseWarning());
         $this->assertSame('001', $purchaseTransaction->getOffice());
         $this->assertSame('INK', $purchaseTransaction->getCode());

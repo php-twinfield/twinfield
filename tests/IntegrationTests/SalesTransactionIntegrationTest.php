@@ -82,7 +82,7 @@ class SalesTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $this->assertInstanceOf(SalesTransaction::class, $salesTransaction);
         $this->assertEquals(Destiny::TEMPORARY(), $salesTransaction->getDestiny());
-        $this->assertNull($salesTransaction->getAutoBalanceVat());
+        $this->assertNull($salesTransaction->isAutoBalanceVat());
         $this->assertSame(false, $salesTransaction->getRaiseWarning());
         $this->assertSame('001', $salesTransaction->getOffice());
         $this->assertSame('SLS', $salesTransaction->getCode());
