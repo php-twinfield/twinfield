@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
 
 /**
@@ -17,14 +18,14 @@ class JournalTransactionLine extends BaseTransactionLine
     private $invoiceNumber;
 
     /**
-     * @param string|null $type
+     * @param LineType $type
      * @return $this
      * @throws Exception
      */
-    public function setType(?string $type): BaseTransactionLine
+    public function setType(LineType $type): BaseTransactionLine
     {
         // Only 'detail' and 'vat' are supported.
-        if ($type == self::TYPE_TOTAL) {
+        if ($type == LineType::TOTAL()) {
             throw Exception::invalidLineTypeForTransaction($type, $this);
         }
 
@@ -56,8 +57,8 @@ class JournalTransactionLine extends BaseTransactionLine
      */
     public function setDim2(?string $dim2): BaseTransactionLine
     {
-        if ($dim2 !== null && $this->getType() == self::TYPE_VAT) {
-            throw Exception::invalidDimensionForLineType(2, $this->getType());
+        if ($dim2 !== null && $this->getType() == LineType::VAT()) {
+            throw Exception::invalidDimensionForLineType(2, $this);
         }
 
         return parent::setDim2($dim2);
@@ -91,7 +92,7 @@ class JournalTransactionLine extends BaseTransactionLine
      */
     public function setInvoiceNumber(?string $invoiceNumber): BaseTransactionLine
     {
-        if ($invoiceNumber !== null && $this->getType() != self::TYPE_DETAIL) {
+        if ($invoiceNumber !== null && $this->getType() != LineType::DETAIL()) {
             throw Exception::invalidFieldForLineType('invoiceNumber', $this);
         }
 
@@ -110,7 +111,7 @@ class JournalTransactionLine extends BaseTransactionLine
     {
         if (
             $matchStatus !== null &&
-            $this->getType() == self::TYPE_VAT &&
+            $this->getType() == LineType::VAT() &&
             $matchStatus != self::MATCHSTATUS_NOTMATCHABLE
         ) {
             throw Exception::invalidMatchStatusForLineType($matchStatus, $this);
@@ -128,7 +129,7 @@ class JournalTransactionLine extends BaseTransactionLine
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
     {
-        if ($matchLevel !== null && $this->getType() != self::TYPE_DETAIL) {
+        if ($matchLevel !== null && $this->getType() != LineType::DETAIL()) {
             throw Exception::invalidFieldForLineType('matchLevel', $this);
         }
 
@@ -144,7 +145,7 @@ class JournalTransactionLine extends BaseTransactionLine
      */
     public function setBaseValueOpen(?float $baseValueOpen): BaseTransactionLine
     {
-        if ($baseValueOpen !== null && $this->getType() != self::TYPE_DETAIL) {
+        if ($baseValueOpen !== null && $this->getType() != LineType::DETAIL()) {
             throw Exception::invalidFieldForLineType('baseValueOpen', $this);
         }
 

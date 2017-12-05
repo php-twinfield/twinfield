@@ -6,6 +6,7 @@ use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
@@ -106,7 +107,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $this->assertArrayHasKey('1', $purchaseTransactionLines);
         $totalLine = $purchaseTransactionLines['1'];
-        $this->assertSame(PurchaseTransactionLine::TYPE_TOTAL, $totalLine->getType());
+        $this->assertEquals(LineType::TOTAL(), $totalLine->getType());
         $this->assertSame('1', $totalLine->getId());
         $this->assertSame('1600', $totalLine->getDim1());
         $this->assertSame('2000', $totalLine->getDim2());
@@ -128,7 +129,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $this->assertArrayHasKey('2', $purchaseTransactionLines);
         $detailLine = $purchaseTransactionLines['2'];
-        $this->assertSame(PurchaseTransactionLine::TYPE_DETAIL, $detailLine->getType());
+        $this->assertEquals(LineType::DETAIL(), $detailLine->getType());
         $this->assertSame('2', $detailLine->getId());
         $this->assertSame('8020', $detailLine->getDim1());
         $this->assertNull($detailLine->getDim2());
@@ -150,7 +151,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $this->assertArrayHasKey('3', $purchaseTransactionLines);
         $vatLine = $purchaseTransactionLines['3'];
-        $this->assertSame(PurchaseTransactionLine::TYPE_VAT, $vatLine->getType());
+        $this->assertEquals(LineType::VAT(), $vatLine->getType());
         $this->assertSame('3', $vatLine->getId());
         $this->assertSame('1510', $vatLine->getDim1());
         $this->assertNull($vatLine->getDim2());
@@ -188,7 +189,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $totalLine = new PurchaseTransactionLine();
         $totalLine
-            ->setType(PurchaseTransactionLine::TYPE_TOTAL)
+            ->setType(LineType::TOTAL())
             ->setId('1')
             ->setDim1('1600')
             ->setDim2('2000')
@@ -198,7 +199,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $detailLine = new PurchaseTransactionLine();
         $detailLine
-            ->setType(PurchaseTransactionLine::TYPE_DETAIL)
+            ->setType(LineType::DETAIL())
             ->setId('2')
             ->setDim1('8020')
             ->setValue(100.00)

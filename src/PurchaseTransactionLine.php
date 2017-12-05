@@ -3,6 +3,7 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
 
@@ -89,7 +90,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
     {
         if (
             $matchStatus !== null &&
-            in_array($this->getType(), [self::TYPE_DETAIL, self::TYPE_VAT]) &&
+            in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()]) &&
             $matchStatus != self::MATCHSTATUS_NOTMATCHABLE
         ) {
             throw Exception::invalidMatchStatusForLineType($matchStatus, $this);
@@ -107,7 +108,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
     {
-        if ($matchLevel !== null && $this->getType() != self::TYPE_TOTAL) {
+        if ($matchLevel !== null && $this->getType() != LineType::TOTAL()) {
             throw Exception::invalidFieldForLineType('matchLevel', $this);
         }
 
@@ -123,7 +124,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
      */
     public function setBaseValueOpen(?float $baseValueOpen): BaseTransactionLine
     {
-        if ($baseValueOpen !== null && $this->getType() != self::TYPE_TOTAL) {
+        if ($baseValueOpen !== null && $this->getType() != LineType::TOTAL()) {
             throw Exception::invalidFieldForLineType('baseValueOpen', $this);
         }
 

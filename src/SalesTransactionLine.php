@@ -3,9 +3,11 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
+use SebastianBergmann\Diff\Line;
 
 class SalesTransactionLine extends BaseTransactionLine
 {
@@ -43,8 +45,8 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setDim2(?string $dim2): BaseTransactionLine
     {
-        if ($dim2 !== null && $this->getType() == self::TYPE_VAT) {
-            throw Exception::invalidDimensionForLineType(2, $this->getType());
+        if ($dim2 !== null && $this->getType() == LineType::VAT()) {
+            throw Exception::invalidDimensionForLineType(2, $this);
         }
 
         return parent::setDim2($dim2);
@@ -93,7 +95,7 @@ class SalesTransactionLine extends BaseTransactionLine
     {
         if (
             $matchStatus !== null &&
-            in_array($this->getType(), [self::TYPE_DETAIL, self::TYPE_VAT]) &&
+            in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()]) &&
             $matchStatus != self::MATCHSTATUS_NOTMATCHABLE
         ) {
             throw Exception::invalidMatchStatusForLineType($matchStatus, $this);
@@ -111,7 +113,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
     {
-        if ($matchLevel !== null && $this->getType() != self::TYPE_TOTAL) {
+        if ($matchLevel !== null && $this->getType() != LineType::TOTAL()) {
             throw Exception::invalidFieldForLineType('matchLevel', $this);
         }
 
@@ -127,7 +129,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setBaseValueOpen(?float $baseValueOpen): BaseTransactionLine
     {
-        if ($baseValueOpen !== null && $this->getType() != self::TYPE_TOTAL) {
+        if ($baseValueOpen !== null && $this->getType() != LineType::TOTAL()) {
             throw Exception::invalidFieldForLineType('baseValueOpen', $this);
         }
 

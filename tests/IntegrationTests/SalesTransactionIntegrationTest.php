@@ -6,6 +6,7 @@ use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
@@ -107,7 +108,7 @@ class SalesTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $this->assertArrayHasKey('1', $salesTransactionLines);
         $totalLine = $salesTransactionLines['1'];
-        $this->assertSame(SalesTransactionLine::TYPE_TOTAL, $totalLine->getType());
+        $this->assertEquals(LineType::TOTAL(), $totalLine->getType());
         $this->assertSame('1', $totalLine->getId());
         $this->assertSame('1300', $totalLine->getDim1());
         $this->assertSame('1000', $totalLine->getDim2());
@@ -133,7 +134,7 @@ class SalesTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $this->assertArrayHasKey('2', $salesTransactionLines);
         $detailLine = $salesTransactionLines['2'];
-        $this->assertSame(SalesTransactionLine::TYPE_DETAIL, $detailLine->getType());
+        $this->assertEquals(LineType::DETAIL(), $detailLine->getType());
         $this->assertSame('2', $detailLine->getId());
         $this->assertSame('8020', $detailLine->getDim1());
         $this->assertNull($detailLine->getDim2());
@@ -159,7 +160,7 @@ class SalesTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $this->assertArrayHasKey('3', $salesTransactionLines);
         $vatLine = $salesTransactionLines['3'];
-        $this->assertSame(SalesTransactionLine::TYPE_VAT, $vatLine->getType());
+        $this->assertEquals(LineType::VAT(), $vatLine->getType());
         $this->assertSame('3', $vatLine->getId());
         $this->assertSame('1530', $vatLine->getDim1());
         $this->assertNull($vatLine->getDim2());
@@ -201,7 +202,7 @@ class SalesTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $totalLine = new SalesTransactionLine();
         $totalLine
-            ->setType(SalesTransactionLine::TYPE_TOTAL)
+            ->setType(LineType::TOTAL())
             ->setId('1')
             ->setDim1('1300')
             ->setDim2('1000')
@@ -211,7 +212,7 @@ class SalesTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $detailLine = new SalesTransactionLine();
         $detailLine
-            ->setType(SalesTransactionLine::TYPE_DETAIL)
+            ->setType(LineType::DETAIL())
             ->setId('2')
             ->setDim1('8020')
             ->setValue(100.00)

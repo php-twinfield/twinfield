@@ -3,6 +3,7 @@
 namespace PhpTwinfield\Transactions\TransactionLineFields;
 
 use PhpTwinfield\BaseTransactionLine;
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Exception;
 
 /**
@@ -21,9 +22,9 @@ trait VatTotalFields
     protected $vatBaseTotal;
 
     /**
-     * @return string|null
+     * @return LineType
      */
-    abstract public function getType(): ?string;
+    abstract public function getType(): LineType;
 
     /**
      * @return float|null
@@ -40,7 +41,7 @@ trait VatTotalFields
      */
     public function setVatTotal(?float $vatTotal): self
     {
-        if ($vatTotal !== null && $this->getType() != BaseTransactionLine::TYPE_TOTAL) {
+        if ($vatTotal !== null && $this->getType() != LineType::TOTAL()) {
             throw Exception::invalidFieldForLineType('vatTotal', $this);
         }
 
@@ -64,7 +65,7 @@ trait VatTotalFields
      */
     public function setVatBaseTotal(?float $vatBaseTotal): self
     {
-        if ($vatBaseTotal !== null && $this->getType() != BaseTransactionLine::TYPE_TOTAL) {
+        if ($vatBaseTotal !== null && $this->getType() != LineType::TOTAL()) {
             throw Exception::invalidFieldForLineType('vatBaseTotal', $this);
         }
 

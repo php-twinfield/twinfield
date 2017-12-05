@@ -6,6 +6,7 @@ use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
@@ -104,7 +105,7 @@ class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $this->assertArrayHasKey('1', $journalTransactionLines);
         $detailLine1 = $journalTransactionLines['1'];
-        $this->assertSame(JournalTransactionLine::TYPE_DETAIL, $detailLine1->getType());
+        $this->assertEquals(LineType::DETAIL(), $detailLine1->getType());
         $this->assertSame('1', $detailLine1->getId());
         $this->assertSame('4008', $detailLine1->getDim1());
         $this->assertNull($detailLine1->getDim2());
@@ -128,7 +129,7 @@ class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $this->assertArrayHasKey('2', $journalTransactionLines);
         $detailLine2 = $journalTransactionLines['2'];
-        $this->assertSame(JournalTransactionLine::TYPE_DETAIL, $detailLine2->getType());
+        $this->assertEquals(LineType::DETAIL(), $detailLine2->getType());
         $this->assertSame('2', $detailLine2->getId());
         $this->assertSame('1300', $detailLine2->getDim1());
         $this->assertSame('1000', $detailLine2->getDim2());
@@ -163,7 +164,7 @@ class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $detailLine1 = new JournalTransactionLine();
         $detailLine1
-            ->setType(JournalTransactionLine::TYPE_DETAIL)
+            ->setType(LineType::DETAIL())
             ->setId('1')
             ->setDim1('4008')
             ->setDebitCredit(DebitCredit::DEBIT())
@@ -171,7 +172,7 @@ class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
 
         $detailLine2 = new JournalTransactionLine();
         $detailLine2
-            ->setType(JournalTransactionLine::TYPE_DETAIL)
+            ->setType(LineType::DETAIL())
             ->setId('2')
             ->setDim1('1300')
             ->setDim2('1000')

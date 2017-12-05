@@ -2,7 +2,9 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionLineFields\DebitCreditField;
+use SebastianBergmann\Diff\Line;
 
 /**
  * @todo $dim3 Meaning differs per transaction type.
@@ -23,10 +25,6 @@ abstract class BaseTransactionLine
 {
     use DebitCreditField;
 
-    public const TYPE_DETAIL = 'detail';
-    public const TYPE_VAT    = 'vat';
-    public const TYPE_TOTAL  = 'total';
-
     public const MATCHSTATUS_AVAILABLE    = 'available';
     public const MATCHSTATUS_MATCHED      = 'matched';
     public const MATCHSTATUS_PROPOSED     = 'proposed';
@@ -37,7 +35,7 @@ abstract class BaseTransactionLine
     const PERFORMANCETYPE_GOODS    = 'goods';
 
     /**
-     * @var string|null Either self::TYPE_TOTAL, self::TYPE_DETAIL or self::TYPE_VAT.
+     * @var LineType
      */
     protected $type;
 
@@ -118,19 +116,16 @@ abstract class BaseTransactionLine
      */
     protected $vatValue;
 
-    /**
-     * @return string|null
-     */
-    public function getType(): ?string
+    public function getType(): LineType
     {
         return $this->type;
     }
 
     /**
-     * @param string|null $type
+     * @param LineType $type
      * @return $this
      */
-    public function setType(?string $type): BaseTransactionLine
+    public function setType(LineType $type): BaseTransactionLine
     {
         $this->type = $type;
 
@@ -380,7 +375,7 @@ abstract class BaseTransactionLine
      */
     public function setVatCode(?string $vatCode): BaseTransactionLine
     {
-        if ($vatCode !== null && !in_array($this->getType(), [self::TYPE_DETAIL, self::TYPE_VAT])) {
+        if ($vatCode !== null && !in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()])) {
             throw Exception::invalidFieldForLineType('vatCode', $this);
         }
 
@@ -404,7 +399,7 @@ abstract class BaseTransactionLine
      */
     public function setVatValue(?float $vatValue): BaseTransactionLine
     {
-        if ($vatValue !== null && $this->getType() != self::TYPE_DETAIL) {
+        if ($vatValue !== null && $this->getType() != LineType::DETAIL()) {
             throw Exception::invalidFieldForLineType('vatValue', $this);
         }
 
