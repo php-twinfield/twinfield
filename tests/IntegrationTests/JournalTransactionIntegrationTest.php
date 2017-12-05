@@ -4,6 +4,7 @@ namespace PhpTwinfield\IntegrationTests;
 
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
+use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Office;
@@ -107,7 +108,7 @@ class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('1', $detailLine1->getId());
         $this->assertSame('4008', $detailLine1->getDim1());
         $this->assertNull($detailLine1->getDim2());
-        $this->assertSame(JournalTransactionLine::DEBIT, $detailLine1->getDebitCredit());
+        $this->assertEquals(DebitCredit::DEBIT(), $detailLine1->getDebitCredit());
         $this->assertSame(435.55, $detailLine1->getValue());
         $this->assertSame(435.55, $detailLine1->getBaseValue());
         $this->assertSame(1.0, $detailLine1->getRate());
@@ -131,7 +132,7 @@ class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('2', $detailLine2->getId());
         $this->assertSame('1300', $detailLine2->getDim1());
         $this->assertSame('1000', $detailLine2->getDim2());
-        $this->assertSame(JournalTransactionLine::CREDIT, $detailLine2->getDebitCredit());
+        $this->assertEquals(DebitCredit::CREDIT(), $detailLine2->getDebitCredit());
         $this->assertSame(435.55, $detailLine2->getValue());
         $this->assertSame(435.55, $detailLine2->getBaseValue());
         $this->assertSame(1.0, $detailLine2->getRate());
@@ -165,7 +166,7 @@ class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
             ->setType(JournalTransactionLine::TYPE_DETAIL)
             ->setId('1')
             ->setDim1('4008')
-            ->setDebitCredit(JournalTransactionLine::DEBIT)
+            ->setDebitCredit(DebitCredit::DEBIT())
             ->setValue(435.55);
 
         $detailLine2 = new JournalTransactionLine();
@@ -174,7 +175,7 @@ class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
             ->setId('2')
             ->setDim1('1300')
             ->setDim2('1000')
-            ->setDebitCredit(JournalTransactionLine::CREDIT)
+            ->setDebitCredit(DebitCredit::CREDIT())
             ->setValue(435.55)
             ->setInvoiceNumber('11001770')
             ->setDescription('Invoice paid');

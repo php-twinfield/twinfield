@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
 
@@ -54,10 +55,10 @@ class PurchaseTransactionLine extends BaseTransactionLine
      * - In case of a 'normal' purchase transaction debit.
      * - In case of a credit purchase transaction credit.
      *
-     * @param string|null $debitCredit
+     * @param DebitCredit $debitCredit
      * @return $this
      */
-    public function setDebitCredit(?string $debitCredit): BaseTransactionLine
+    public function setDebitCredit(DebitCredit $debitCredit): BaseTransactionLine
     {
         return parent::setDebitCredit($debitCredit);
     }

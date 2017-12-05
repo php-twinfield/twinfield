@@ -4,6 +4,7 @@ namespace PhpTwinfield\IntegrationTests;
 
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
+use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Office;
@@ -109,7 +110,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('1', $totalLine->getId());
         $this->assertSame('1600', $totalLine->getDim1());
         $this->assertSame('2000', $totalLine->getDim2());
-        $this->assertSame(PurchaseTransactionLine::CREDIT, $totalLine->getDebitCredit());
+        $this->assertEquals(DebitCredit::CREDIT(), $totalLine->getDebitCredit());
         $this->assertSame(121.00, $totalLine->getValue());
         $this->assertSame(121.00, $totalLine->getBaseValue());
         $this->assertSame(1.0, $totalLine->getRate());
@@ -131,7 +132,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('2', $detailLine->getId());
         $this->assertSame('8020', $detailLine->getDim1());
         $this->assertNull($detailLine->getDim2());
-        $this->assertSame(PurchaseTransactionLine::DEBIT, $detailLine->getDebitCredit());
+        $this->assertEquals(DebitCredit::DEBIT(), $detailLine->getDebitCredit());
         $this->assertSame(100.00, $detailLine->getValue());
         $this->assertSame(100.00, $detailLine->getBaseValue());
         $this->assertSame(1.0, $detailLine->getRate());
@@ -153,7 +154,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('3', $vatLine->getId());
         $this->assertSame('1510', $vatLine->getDim1());
         $this->assertNull($vatLine->getDim2());
-        $this->assertSame(PurchaseTransactionLine::DEBIT, $vatLine->getDebitCredit());
+        $this->assertEquals(DebitCredit::DEBIT(), $vatLine->getDebitCredit());
         $this->assertSame(21.00, $vatLine->getValue());
         $this->assertSame(21.00, $vatLine->getBaseValue());
         $this->assertSame(1.0, $vatLine->getRate());
@@ -192,7 +193,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
             ->setDim1('1600')
             ->setDim2('2000')
             ->setValue(121.00)
-            ->setDebitCredit(PurchaseTransactionLine::CREDIT)
+            ->setDebitCredit(DebitCredit::CREDIT())
             ->setDescription('');
 
         $detailLine = new PurchaseTransactionLine();
@@ -201,7 +202,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
             ->setId('2')
             ->setDim1('8020')
             ->setValue(100.00)
-            ->setDebitCredit(PurchaseTransactionLine::DEBIT)
+            ->setDebitCredit(DebitCredit::DEBIT())
             ->setDescription('Outfit')
             ->setVatCode('IH');
 

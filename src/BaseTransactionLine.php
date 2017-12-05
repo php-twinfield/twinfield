@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Transactions\TransactionLineFields\DebitCreditField;
+
 /**
  * @todo $dim3 Meaning differs per transaction type.
  * @todo $relation Only if line type is total (or detail for Journal transactions). Read-only attribute.
@@ -19,12 +21,11 @@ namespace PhpTwinfield;
  */
 abstract class BaseTransactionLine
 {
+    use DebitCreditField;
+
     public const TYPE_DETAIL = 'detail';
     public const TYPE_VAT    = 'vat';
     public const TYPE_TOTAL  = 'total';
-
-    public const DEBIT  = 'debit';
-    public const CREDIT = 'credit';
 
     public const MATCHSTATUS_AVAILABLE    = 'available';
     public const MATCHSTATUS_MATCHED      = 'matched';
@@ -54,12 +55,6 @@ abstract class BaseTransactionLine
      * @var string|null Meaning changes per transaction type, see explanation in sub classes.
      */
     protected $dim2;
-
-    /**
-     * @var string|null Either self::DEBIT or self::CREDIT. Meaning changes per transaction type, see explanation in sub
-     *                  classes.
-     */
-    protected $debitCredit;
 
     /**
      * @var float|null Meaning changes per transaction type, see explanation in sub classes.
@@ -195,25 +190,6 @@ abstract class BaseTransactionLine
     public function setDim2(?string $dim2): BaseTransactionLine
     {
         $this->dim2 = $dim2;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDebitCredit(): ?string
-    {
-        return $this->debitCredit;
-    }
-
-    /**
-     * @param string|null $debitCredit
-     * @return $this
-     */
-    public function setDebitCredit(?string $debitCredit): BaseTransactionLine
-    {
-        $this->debitCredit = $debitCredit;
 
         return $this;
     }

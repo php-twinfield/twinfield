@@ -5,14 +5,22 @@ namespace PhpTwinfield\Transactions\TransactionFields;
 trait FreeTextFields
 {
     /**
+     * Free text field 1 as entered on the transaction type.
+     *
      * @var string|null
      */
     private $freetext1;
+
     /**
+     * Free text field 2 as entered on the transaction type.
+     *
      * @var string|null
      */
     private $freetext2;
+
     /**
+     * Free text field 3 as entered on the transaction type.
+     *
      * @var string|null
      */
     private $freetext3;
