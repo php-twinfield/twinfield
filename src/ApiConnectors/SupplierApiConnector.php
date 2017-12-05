@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\Exception;
+use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
 use PhpTwinfield\Supplier;
 use PhpTwinfield\DomDocuments\SuppliersDocument;
@@ -23,95 +25,62 @@ class SupplierApiConnector extends BaseApiConnector
      * Requests a specific supplier based off the passed in code and optionally the office.
      *
      * @param string $code
-     * @param string $office Optional. If no office has been passed it will instead take the default office from the
-     *                       passed in config class.
-     * @return Supplier|bool The requested supplier or false if it can't be found.
+     * @param Office $office
+     * @return Supplier The requested supplier
+     * @throws Exception
      */
-    public function get($code, $office = null)
+    public function get($code, Office $office): Supplier
     {
-        // Attempts to process the login
-        if ($this->getLogin()->process()) {
-            // Get the secure service class
-            $service = $this->createService();
+        // Make a request to read a single customer. Set the required values
+        $request_customer = new Request\Read\Supplier();
+        $request_customer
+            ->setOffice($office->getCode())
+            ->setCode($code);
 
-            // No office passed, get the office from the Config
-            if (!$office) {
-                $office = $this->getConfig()->getOffice();
-            }
+        $response = $this->sendDocument($request_customer);
 
-            // Make a request to read a single customer. Set the required values
-            $request_customer = new Request\Read\Supplier();
-            $request_customer
-                ->setOffice($office)
-                ->setCode($code);
-
-            // Send the Request document and set the response to this instance.
-            $response = $service->send($request_customer);
-            $this->setResponse($response);
-
-            // Return a mapped Supplier if successful or false if not.
-            if ($response->isSuccessful()) {
-                return SupplierMapper::map($response);
-            }
-        }
-
-        return false;
+        return SupplierMapper::map($response);
     }
 
     /**
      * Requests all customers from the List Dimension Type.
      *
-     * @param string|null $office
-     * @param string      $dimType
+     * @param Office $office
+     * @param string $dimType
      * @return array A multidimensional array in the following form:
      *               [$supplierId => ['name' => $name, 'shortName' => $shortName], ...]
+     * @throws Exception
      */
-    public function listAll(?string $office = null, string $dimType = 'CRD'): array
+    public function listAll(Office $office, string $dimType = 'CRD'): array
     {
-        // Attempts to process the login
-        if ($this->getLogin()->process()) {
-            // Gets the secure service class
-            $service = $this->createService();
 
-            // If no office present, use the config set value
-            if (!$office) {
-                $office = $this->getConfig()->getOffice();
+        // Make a request to a list of all customers
+        $request_customers = new Request\Catalog\Dimension($office->getCode(), $dimType);
+
+        // Send the Request document and set the response to this instance.
+        $response = $this->sendDocument($request_customers);
+
+        // Get the raw response document
+        $responseDOM = $response->getResponseDocument();
+
+        // Prepared empty customer array
+        $suppliers = [];
+
+        // Store in an array by customer id
+        foreach ($responseDOM->getElementsByTagName('dimension') as $supplier) {
+            $supplier_id = $supplier->textContent;
+
+            if (!is_numeric($supplier_id)) {
+                continue;
             }
 
-            // Make a request to a list of all customers
-            $request_customers = new Request\Catalog\Dimension($office, $dimType);
-
-            // Send the Request document and set the response to this instance.
-            $response = $service->send($request_customers);
-            $this->setResponse($response);
-
-            // Loop through the results if successful
-            if ($response->isSuccessful()) {
-                // Get the raw response document
-                $responseDOM = $response->getResponseDocument();
-
-                // Prepared empty customer array
-                $suppliers = [];
-
-                // Store in an array by customer id
-                foreach ($responseDOM->getElementsByTagName('dimension') as $supplier) {
-                    $supplier_id = $supplier->textContent;
-
-                    if (!is_numeric($supplier_id)) {
-                        continue;
-                    }
-
-                    $suppliers[$supplier->textContent] = array(
-                        'name' => $supplier->getAttribute('name'),
-                        'shortName' => $supplier->getAttribute('shortname')
-                    );
-                }
-
-                return $suppliers;
-            }
+            $suppliers[$supplier->textContent] = array(
+                'name' => $supplier->getAttribute('name'),
+                'shortName' => $supplier->getAttribute('shortname'),
+            );
         }
 
-        return [];
+        return $suppliers;
     }
 
     /**
@@ -121,27 +90,14 @@ class SupplierApiConnector extends BaseApiConnector
      * SupplierMapper::map() method.
      *
      * @param Supplier $supplier
-     * @return bool
+     * @throws Exception
      */
-    public function send(Supplier $supplier): bool
+    public function send(Supplier $supplier): void
     {
-        // Attempts the process login
-        if ($this->getLogin()->process()) {
-            // Gets the secure service
-            $service = $this->createService();
+        // Gets a new instance of SuppliersDocument and sets the $supplier
+        $suppliersDocument = new SuppliersDocument();
+        $suppliersDocument->addSupplier($supplier);
 
-            // Gets a new instance of SuppliersDocument and sets the $supplier
-            $suppliersDocument = new SuppliersDocument();
-            $suppliersDocument->addSupplier($supplier);
-
-            // Send the DOM document request and set the response
-            $response = $service->send($suppliersDocument);
-            $this->setResponse($response);
-
-            // Return a bool on status of response.
-            return $response->isSuccessful();
-        }
-
-        return false;
+        $this->sendDocument($suppliersDocument);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield\Secure;
 
+use PhpTwinfield\Response\Response;
+
 /**
  * Twinfield Soap Client.
  *
@@ -9,36 +11,38 @@ namespace PhpTwinfield\Secure;
  */
 class SoapClient extends \SoapClient
 {
-    /**
-     * Overides the call method, to keep making
-     * requests if it times out.
-     *
-     * @param string $function_name
-     * @param mixed $arguments
-     * @return SoapClient
-     * @throws \SoapFault
-     */
-    public function __call($function_name, $arguments)
+    public function __construct(string $wsdl, array $options = [])
     {
-        $result      = false;
-        $max_retries = 5;
-        $retry_count = 0;
+        /*
+         * Relies heavily on __getLastResponse() etc.
+         */
+        $options["trace"]       = true;
+        $options["compression"] = SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP;
+        $options["cache_wsdl"]  = WSDL_CACHE_BOTH;
+        $options["keep_alive"]  = true;
 
-        // Keep making the same request until you have reached 5 attempts.
-        while (!$result && $retry_count < $max_retries) {
-            try {
-                $result = parent::__call($function_name, $arguments);
-            } catch (\SoapFault $fault) {
-                sleep(1);
-                $retry_count++;
-            }
-        }
+        parent::__construct($wsdl, $options);
+    }
 
-        // Throw the error after 5 attempts
-        if ($retry_count == $max_retries) {
-            throw new \SoapFault('', 'Failed after 5 attempts');
-        }
+    /**
+     * Sends a request with the secured client, and loads
+     * the result response into Service->response
+     *
+     * An instance of Twinfield\Response\Response is also returned.
+     *
+     * @param \DOMDocument $document A class that extended Secure\Document
+     * @return Response The response from the request
+     */
+    public function send(\DOMDocument $document): Response
+    {
+        $result = $this->ProcessXmlString(
+            array('xmlRequest' => $document->saveXML())
+        );
 
-        return $result;
+        // Make a new DOMDocument, and load the response into it
+        $responseDocument = new \DOMDocument();
+        $responseDocument->loadXML($result->ProcessXmlStringResult);
+
+        return new Response($responseDocument);
     }
 }

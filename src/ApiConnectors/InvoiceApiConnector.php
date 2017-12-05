@@ -2,9 +2,11 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\Exception;
 use PhpTwinfield\Invoice;
 use PhpTwinfield\DomDocuments\InvoicesDocument;
 use PhpTwinfield\Mappers\InvoiceMapper;
+use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
 
 /**
@@ -22,42 +24,25 @@ class InvoiceApiConnector extends BaseApiConnector
     /**
      * Requires a specific invoice based off the passed in code, invoiceNumber and optionally the office.
      *
-     * @param string      $code
-     * @param string      $invoiceNumber
-     * @param string|null $office        Optional. If no office has been passed it will instead take the default office
-     *                                   from the passed in Config class.
+     * @param string $code
+     * @param string $invoiceNumber
+     * @param Office $office
      * @return Invoice|bool The requested invoice or false if it can't be found.
+     * @throws Exception
      */
-    public function get(string $code, string $invoiceNumber, ?string $office = null)
+    public function get(string $code, string $invoiceNumber, Office $office)
     {
-        // Attempts to process the login.
-        if ($this->getLogin()->process()) {
-            // Gets the secure service class
-            $service = $this->createService();
+        // Make a request to read a single invoice. Set the required values
+        $request_invoice = new Request\Read\Invoice();
+        $request_invoice
+            ->setCode($code)
+            ->setNumber($invoiceNumber)
+            ->setOffice($office->getCode());
 
-            // No office passed, use the one from Config
-            if (!$office) {
-                $office = $this->getConfig()->getOffice();
-            }
+        // Send the Request document and set the response to this instance
+        $response = $this->sendDocument($request_invoice);
 
-            // Make a request to read a single invoice. Set the required values
-            $request_invoice = new Request\Read\Invoice();
-            $request_invoice
-                ->setCode($code)
-                ->setNumber($invoiceNumber)
-                ->setOffice($office);
-
-            // Send the Request document and set the response to this instance
-            $response = $service->send($request_invoice);
-            $this->setResponse($response);
-
-            // Return a mapped invoice if successful or false if not.
-            if ($response->isSuccessful()) {
-                return InvoiceMapper::map($response);
-            }
-        }
-
-        return false;
+        return InvoiceMapper::map($response);
     }
 
     /**
@@ -67,27 +52,15 @@ class InvoiceApiConnector extends BaseApiConnector
      * InvoiceMapper::map() method.
      *
      * @param Invoice $invoice
-     * @return bool
+     * @throws Exception
      */
-    public function send(Invoice $invoice): bool
+    public function send(Invoice $invoice): void
     {
-        // Attempts to process the login
-        if ($this->getLogin()->process()) {
-            // Gets the secure service
-            $service = $this->createService();
+        // Gets a new instance of InvoicesDocument and sets the invoice
+        $invoicesDocument = new InvoicesDocument();
+        $invoicesDocument->addInvoice($invoice);
 
-            // Gets a new instance of InvoicesDocument and sets the invoice
-            $invoicesDocument = new InvoicesDocument();
-            $invoicesDocument->addInvoice($invoice);
-
-            // Sends the DOM document request and sets the response
-            $response = $service->send($invoicesDocument);
-            $this->setResponse($response);
-
-            // Return a bool on status of response
-            return $response->isSuccessful();
-        }
-
-        return false;
+        // Sends the DOM document request and sets the response
+        $this->sendDocument($invoicesDocument);
     }
 }

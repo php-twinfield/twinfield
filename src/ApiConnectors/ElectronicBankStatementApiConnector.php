@@ -17,28 +17,14 @@ use PhpTwinfield\Request as Request;
 class ElectronicBankStatementApiConnector extends BaseApiConnector
 {
     /**
-     * Sends an ElectronicBankStatement instance to Twinfield to update or add.
-     *
+     * @param ElectronicBankStatement $statement
      * @throws Exception
      */
-    public function send(ElectronicBankStatement $electronicBankStatement): void
+    public function send(ElectronicBankStatement $statement): void
     {
-        // Attempts the process login
-        if ($this->getLogin()->process()) {
-            // Gets the secure service
-            $service = $this->createService();
+        $document = new ElectronicBankStatementDocument();
+        $document->addStatement($statement);
 
-            // Gets a new instance of CustomersDocument and sets the $customer
-            $ebsDocument = new ElectronicBankStatementDocument();
-            $ebsDocument->addStatement($electronicBankStatement);
-
-            // Send the DOM document request and set the response
-            $response = $service->send($ebsDocument);
-            $this->setResponse($response);
-
-            if (!$response->isSuccessful()) {
-                throw new Exception(implode(", ", $response->getErrorMessages()));
-            }
-        }
+        $this->sendDocument($document);
     }
 }

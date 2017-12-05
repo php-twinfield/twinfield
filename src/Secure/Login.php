@@ -1,6 +1,8 @@
 <?php
 namespace PhpTwinfield\Secure;
 
+use Webmozart\Assert\Assert;
+
 /**
  * Login Class.
  *
@@ -25,10 +27,9 @@ namespace PhpTwinfield\Secure;
  */
 class Login
 {
-    protected $loginWSDL    = 'https://login.twinfield.com/webservices/session.asmx?wsdl';
+    private const LOGIN_WSDL = 'https://login.twinfield.com/webservices/session.asmx?wsdl';
     protected $clusterWSDL  = '%s/webservices/processxml.asmx?wsdl';
-    protected $xmlNamespace = 'http://schemas.xmlsoap.org/soap/envelope/';
-    
+
     /**
      * Holds the passed in Config instance
      * 
@@ -46,21 +47,12 @@ class Login
     private $soapLoginClient;
 
     /**
-     * The response from the login client, when
-     * successful
-     *
-     * @access private
-     * @var string
-     */
-    private $loginResponse;
-
-    /**
      * The sessionID for the successful login
      *
      * @access private
      * @var string
      */
-    public $sessionID;
+    private $sessionID;
 
     /**
      * The server cluster used for future XML
@@ -69,7 +61,7 @@ class Login
      * @access private
      * @var string
      */
-    public $cluster = 'https://c3.twinfield.com';
+    private $cluster = 'https://c3.twinfield.com';
 
     /**
      * If the login has been processed and was
@@ -84,7 +76,7 @@ class Login
     {
         $this->config = $config;
         $this->cluster = !is_null($config->cluster) ? $config->cluster : $this->cluster;
-        $this->soapLoginClient = new SoapClient($this->loginWSDL, array('trace' => 1));
+        $this->soapLoginClient = new SoapClient(self::LOGIN_WSDL);
     }
 
     /**
@@ -98,14 +90,14 @@ class Login
      * @access public
      * @return boolean If successful or not
      */
-    public function process()
+    protected function process()
     {
         if ($this->processed) {
             return true;
         }
 
         // Process logon
-        if ($this->config->getClientToken() != '') {
+        if (!empty($this->config->getClientToken())) {
             $response = $this->soapLoginClient->OAuthLogon($this->config->getCredentials());
             $result = $response->OAuthLogonResult;
         } else {
@@ -116,11 +108,11 @@ class Login
         // Check response is successful
         if ($result == 'Ok') {
             // Response from the logon request
-            $this->loginResponse = $this->soapLoginClient->__getLastResponse();
+            $loginResponse = $this->soapLoginClient->__getLastResponse();
 
             // Make a new DOM and load the response XML
             $envelope = new \DOMDocument();
-            $envelope->loadXML($this->loginResponse);
+            $envelope->loadXML($loginResponse);
 
             // Gets SessionID
             $sessionID       = $envelope->getElementsByTagName('SessionID');
@@ -135,24 +127,12 @@ class Login
             return true;
         }
 
-        return false;
+        return false; // todo throw
     }
 
-    /**
-     * Gets a new instance of the soap header.
-     *
-     * Will automaticly login if haven't already on this instance
-     *
-     * @since 0.0.1
-     *
-     * @access public
-     * @return \SoapHeader
-     */
-    public function getHeader()
+    private function getHeader(): \SoapHeader
     {
-        if (! $this->processed || is_null($this->cluster)) {
-            $this->process();
-        }
+        Assert::notEmpty($this->sessionID);
 
         return new \SoapHeader(
             'http://www.twinfield.com/',
