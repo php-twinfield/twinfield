@@ -9,7 +9,6 @@ use PhpTwinfield\Response\Response;
 use PhpTwinfield\PurchaseTransaction;
 use PhpTwinfield\PurchaseTransactionLine;
 use PhpTwinfield\Secure\Login;
-use PhpTwinfield\Secure\Service;
 
 /**
  * @covers PurchaseTransaction
@@ -18,18 +17,8 @@ use PhpTwinfield\Secure\Service;
  * @covers TransactionMapper
  * @covers TransactionApiConnector
  */
-class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
+class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 {
-    /**
-     * @var Login|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $login;
-
-    /**
-     * @var Service|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $service;
-
     /**
      * @var TransactionApiConnector|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -38,46 +27,22 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
     protected function setUp()
     {
         parent::setUp();
-
-        $this->login   = $this->createMock(Login::class);
-        $this->service = $this->createMock(Service::class);
-
-        $this->login
-            ->expects($this->any())
-            ->method('process')
-            ->willReturn(true);
-
-        $this->transactionApiConnector = $this->createPartialMock(
-            TransactionApiConnector::class,
-            ['getLogin', 'createService']
-        );
-
-        $this->transactionApiConnector
-            ->expects($this->any())
-            ->method('createService')
-            ->willReturn($this->service);
-
-        $this->transactionApiConnector
-            ->expects($this->any())
-            ->method('getLogin')
-            ->willReturn($this->login);
+        $this->transactionApiConnector = new TransactionApiConnector($this->login);
     }
 
     public function testGetPurchaseTransactionWorks()
     {
         $domDocument = new \DOMDocument();
-        $domDocument->loadXML(file_get_contents(realpath(__DIR__ . '/resources/purchaseTransactionGetResponse.xml')));
+        $domDocument->loadXML(file_get_contents(__DIR__ . '/resources/purchaseTransactionGetResponse.xml'));
         $response = new Response($domDocument);
 
-        $this->service
-            ->expects($this->any())
+        $this->client
+            ->expects($this->once())
             ->method('send')
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Transaction::class))
             ->willReturn($response);
 
-        /** @var PurchaseTransaction[] $purchaseTransactions */
-        $purchaseTransactions = $this->transactionApiConnector->get(PurchaseTransaction::class, 'INK', '201300021', '001');
-        $purchaseTransaction  = reset($purchaseTransactions);
+        $purchaseTransaction = $this->transactionApiConnector->get(PurchaseTransaction::class, 'INK', '201300021', $this->office);
 
         $this->assertInstanceOf(PurchaseTransaction::class, $purchaseTransaction);
         $this->assertSame(PurchaseTransaction::DESTINY_TEMPORARY, $purchaseTransaction->getDestiny());
@@ -207,17 +172,17 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
             ->addLine($totalLine)
             ->addLine($detailLine);
 
-        $this->service
+        $this->client
             ->expects($this->once())
             ->method('send')
             ->with($this->isInstanceOf(TransactionsDocument::class))
             ->willReturnCallback(function (TransactionsDocument $transactionsDocument) {
                 $this->assertXmlStringEqualsXmlString(
-                    file_get_contents(realpath(__DIR__ . '/resources/purchaseTransactionSendRequest.xml')),
+                    file_get_contents(__DIR__ . '/resources/purchaseTransactionSendRequest.xml'),
                     $transactionsDocument->saveXML()
                 );
 
-                return new Response($transactionsDocument);
+                return $this->getSuccessfulResponse();
             });
 
         $this->transactionApiConnector->send([$purchaseTransaction]);

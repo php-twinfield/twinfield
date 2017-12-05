@@ -18,26 +18,16 @@ use PhpTwinfield\Secure\SoapClient;
 abstract class BaseApiConnector
 {
     /**
-     * Holds the secure login class
-     *
-     * @var Login
-     */
-    private $login;
-
-    /**
      * @var SoapClient
      */
     private $client;
 
     /**
-     * Pass in the Secure\Config class and it will automatically make the Secure\Login for you.
-     *
-     * @param Config $config
+     * @param Login $login
      */
-    public function __construct(Config $config)
+    public function __construct(Login $login)
     {
-        $this->login  = new Login($config);
-        $this->client = $this->login->getClient();
+        $this->client = $login->getClient();
     }
 
     /**

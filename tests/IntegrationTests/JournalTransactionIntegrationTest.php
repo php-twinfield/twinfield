@@ -18,18 +18,8 @@ use PhpTwinfield\Secure\Service;
  * @covers TransactionMapper
  * @covers TransactionApiConnector
  */
-class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
+class JournalTransactionIntegrationTest extends BaseIntegrationTest
 {
-    /**
-     * @var Login|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $login;
-
-    /**
-     * @var Service|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $service;
-
     /**
      * @var TransactionApiConnector|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -39,28 +29,7 @@ class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
 
-        $this->login   = $this->createMock(Login::class);
-        $this->service = $this->createMock(Service::class);
-
-        $this->login
-            ->expects($this->any())
-            ->method('process')
-            ->willReturn(true);
-
-        $this->transactionApiConnector = $this->createPartialMock(
-            TransactionApiConnector::class,
-            ['getLogin', 'createService']
-        );
-
-        $this->transactionApiConnector
-            ->expects($this->any())
-            ->method('createService')
-            ->willReturn($this->service);
-
-        $this->transactionApiConnector
-            ->expects($this->any())
-            ->method('getLogin')
-            ->willReturn($this->login);
+        $this->transactionApiConnector = new TransactionApiConnector($this->login);
     }
 
     public function testGetJournalTransactionWorks()
@@ -69,15 +38,14 @@ class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
         $domDocument->loadXML(file_get_contents(realpath(__DIR__ . '/resources/journalTransactionGetResponse.xml')));
         $response = new Response($domDocument);
 
-        $this->service
-            ->expects($this->any())
+        $this->client
+            ->expects($this->once())
             ->method('send')
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Transaction::class))
             ->willReturn($response);
 
         /** @var JournalTransaction[] $journalTransactions */
-        $journalTransactions = $this->transactionApiConnector->get(JournalTransaction::class, 'MEMO', '201300003', '0-0-1-NL-001');
-        $journalTransaction  = reset($journalTransactions);
+        $journalTransaction = $this->transactionApiConnector->get(JournalTransaction::class, 'MEMO', '201300003', $this->office);
 
         $this->assertInstanceOf(JournalTransaction::class, $journalTransaction);
         $this->assertSame(JournalTransaction::DESTINY_TEMPORARY, $journalTransaction->getDestiny());
@@ -181,17 +149,17 @@ class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
             ->addLine($detailLine1)
             ->addLine($detailLine2);
 
-        $this->service
+        $this->client
             ->expects($this->once())
             ->method('send')
             ->with($this->isInstanceOf(TransactionsDocument::class))
-            ->willReturnCallback(function (TransactionsDocument $transactionsDocument) {
+            ->willReturnCallback(function (TransactionsDocument $transactionsDocument): Response {
                 $this->assertXmlStringEqualsXmlString(
-                    file_get_contents(realpath(__DIR__ . '/resources/journalTransactionSendRequest.xml')),
+                    file_get_contents(__DIR__ . '/resources/journalTransactionSendRequest.xml'),
                     $transactionsDocument->saveXML()
                 );
 
-                return new Response($transactionsDocument);
+                return $this->getSuccessfulResponse();
             });
 
         $this->transactionApiConnector->send([$journalTransaction]);

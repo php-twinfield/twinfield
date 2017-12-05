@@ -1,6 +1,8 @@
 <?php
 namespace PhpTwinfield\Request\Read;
 
+use PhpTwinfield\Office;
+
 /**
  * Used to request a specific transaction from a certain
  * office, code and number.
@@ -45,12 +47,12 @@ class Transaction extends Read
      * Sets the office code for this transaction request.
      * 
      * @access public
-     * @param int $office
+     * @param Office $office
      * @return \PhpTwinfield\Request\Read\Transaction
      */
-    public function setOffice($office)
+    public function setOffice(Office $office)
     {
-        $this->add('office', $office);
+        $this->add('office', $office->getCode());
         return $this;
     }
     

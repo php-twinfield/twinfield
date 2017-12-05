@@ -57,7 +57,7 @@ class Response
      *
      * @return bool
      */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         $responseValue = $this->responseDocument->documentElement->getAttribute('result');
 
@@ -95,7 +95,7 @@ class Response
      *
      * @return array
      */
-    public function getErrorMessages()
+    public function getErrorMessages(): array
     {
         return $this->getMessages('error');
     }

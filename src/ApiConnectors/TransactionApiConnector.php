@@ -19,7 +19,7 @@ use Webmozart\Assert\Assert;
 class TransactionApiConnector extends BaseApiConnector
 {
     /**
-     * Requests a specific transaction by code, transactionNumber and optionally the office.
+     * Requests a specific transaction by code, transactionNumber and the office.
      *
      * @param string $transactionClassName
      * @param string $code
@@ -44,7 +44,7 @@ class TransactionApiConnector extends BaseApiConnector
         // Send the Request document and set the response to this instance
         $response = $this->sendDocument($request_transaction);
 
-        return TransactionMapper::map($transactionClassName, $response);
+        return TransactionMapper::map($transactionClassName, $response)[0];
     }
 
     /**

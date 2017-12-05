@@ -1,6 +1,8 @@
 <?php
 namespace PhpTwinfield\Request\Catalog;
 
+use PhpTwinfield\Office;
+
 /**
  * Used to request a list of information about dimensions
  * from a certain office code and dimtype.
@@ -22,7 +24,7 @@ class Dimension extends Catalog
      * @param string $office
      * @param string $dimType
      */
-    public function __construct($office = null, $dimType = null)
+    public function __construct(Office $office = null, $dimType = null)
     {
         parent::__construct();
 
@@ -41,11 +43,11 @@ class Dimension extends Catalog
      * Sets the officecode for the dimension request.
      * 
      * @access public
-     * @param int $office
+     * @param Office $office
      */
-    public function setOffice($office)
+    public function setOffice(Office $office)
     {
-        $this->add('office', $office);
+        $this->add('office', $office->getCode());
     }
 
     /**

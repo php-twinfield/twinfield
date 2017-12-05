@@ -21,18 +21,8 @@ use PhpTwinfield\Secure\Service;
  * @covers InvoiceMapper
  * @covers InvoiceApiConnector
  */
-class InvoiceIntegrationTest extends \PHPUnit\Framework\TestCase
+class InvoiceIntegrationTest extends BaseIntegrationTest
 {
-    /**
-     * @var Login|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $login;
-
-    /**
-     * @var Service|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $service;
-
     /**
      * @var InvoiceApiConnector|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -42,28 +32,7 @@ class InvoiceIntegrationTest extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
 
-        $this->login   = $this->createMock(Login::class);
-        $this->service = $this->createMock(Service::class);
-
-        $this->login
-            ->expects($this->any())
-            ->method('process')
-            ->willReturn(true);
-
-        $this->invoiceApiConnector = $this->createPartialMock(
-            InvoiceApiConnector::class,
-            ['getLogin', 'createService']
-        );
-
-        $this->invoiceApiConnector
-            ->expects($this->any())
-            ->method('createService')
-            ->willReturn($this->service);
-
-        $this->invoiceApiConnector
-            ->expects($this->any())
-            ->method('getLogin')
-            ->willReturn($this->login);
+        $this->invoiceApiConnector = new InvoiceApiConnector($this->login);
     }
 
     public function testGetInvoiceWorks()
@@ -72,13 +41,13 @@ class InvoiceIntegrationTest extends \PHPUnit\Framework\TestCase
         $domDocument->loadXML(file_get_contents(realpath(__DIR__ . '/resources/invoiceGetResponse.xml')));
         $response = new Response($domDocument);
 
-        $this->service
-            ->expects($this->any())
+        $this->client
+            ->expects($this->once())
             ->method('send')
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Invoice::class))
             ->willReturn($response);
 
-        $invoice = $this->invoiceApiConnector->get('FACTUUR', '5', '11024');
+        $invoice = $this->invoiceApiConnector->get('FACTUUR', '5', $this->office);
 
         $this->assertInstanceOf(Invoice::class, $invoice);
         $this->assertSame('11024', $invoice->getOffice());
@@ -165,17 +134,17 @@ class InvoiceIntegrationTest extends \PHPUnit\Framework\TestCase
         $totals->setValueInc('15.00');
         $invoice->setTotals($totals);
 
-        $this->service
+        $this->client
             ->expects($this->once())
             ->method('send')
             ->with($this->isInstanceOf(InvoicesDocument::class))
-            ->willReturnCallback(function (InvoicesDocument $invoicesDocument) {
+            ->willReturnCallback(function (InvoicesDocument $invoicesDocument): Response {
                 $this->assertXmlStringEqualsXmlString(
-                    file_get_contents(realpath(__DIR__ . '/resources/invoiceSendRequest.xml')),
+                    file_get_contents(__DIR__ . '/resources/invoiceSendRequest.xml'),
                     $invoicesDocument->saveXML()
                 );
 
-                return new Response($invoicesDocument);
+                return $this->getSuccessfulResponse();
             });
 
         $this->invoiceApiConnector->send($invoice);
