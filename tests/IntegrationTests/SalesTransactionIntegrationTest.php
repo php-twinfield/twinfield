@@ -4,6 +4,7 @@ namespace PhpTwinfield\IntegrationTests;
 
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
+use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\SalesTransaction;
@@ -80,7 +81,7 @@ class SalesTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
         $salesTransaction  = reset($salesTransactions);
 
         $this->assertInstanceOf(SalesTransaction::class, $salesTransaction);
-        $this->assertSame(SalesTransaction::DESTINY_TEMPORARY, $salesTransaction->getDestiny());
+        $this->assertEquals(Destiny::TEMPORARY(), $salesTransaction->getDestiny());
         $this->assertNull($salesTransaction->getAutoBalanceVat());
         $this->assertSame(false, $salesTransaction->getRaiseWarning());
         $this->assertSame('001', $salesTransaction->getOffice());
@@ -185,7 +186,7 @@ class SalesTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
     {
         $salesTransaction = new SalesTransaction();
         $salesTransaction
-            ->setDestiny(SalesTransaction::DESTINY_TEMPORARY)
+            ->setDestiny(Destiny::TEMPORARY())
             ->setRaiseWarning(false)
             ->setCode('SLS')
             ->setCurrency('EUR')

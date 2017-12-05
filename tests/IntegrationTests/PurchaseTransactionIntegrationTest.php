@@ -4,6 +4,7 @@ namespace PhpTwinfield\IntegrationTests;
 
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
+use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\PurchaseTransaction;
@@ -80,7 +81,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
         $purchaseTransaction  = reset($purchaseTransactions);
 
         $this->assertInstanceOf(PurchaseTransaction::class, $purchaseTransaction);
-        $this->assertSame(PurchaseTransaction::DESTINY_TEMPORARY, $purchaseTransaction->getDestiny());
+        $this->assertEquals(Destiny::TEMPORARY(), $purchaseTransaction->getDestiny());
         $this->assertNull($purchaseTransaction->getAutoBalanceVat());
         $this->assertSame(false, $purchaseTransaction->getRaiseWarning());
         $this->assertSame('001', $purchaseTransaction->getOffice());
@@ -172,7 +173,7 @@ class PurchaseTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
     {
         $purchaseTransaction = new PurchaseTransaction();
         $purchaseTransaction
-            ->setDestiny(PurchaseTransaction::DESTINY_TEMPORARY)
+            ->setDestiny(Destiny::TEMPORARY())
             ->setRaiseWarning(false)
             ->setCode('INK')
             ->setCurrency('EUR')

@@ -4,6 +4,7 @@ namespace PhpTwinfield\IntegrationTests;
 
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
+use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\JournalTransaction;
@@ -80,7 +81,7 @@ class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
         $journalTransaction  = reset($journalTransactions);
 
         $this->assertInstanceOf(JournalTransaction::class, $journalTransaction);
-        $this->assertSame(JournalTransaction::DESTINY_TEMPORARY, $journalTransaction->getDestiny());
+        $this->assertEquals(Destiny::TEMPORARY(), $journalTransaction->getDestiny());
         $this->assertNull($journalTransaction->getAutoBalanceVat());
         $this->assertNull($journalTransaction->getRaiseWarning());
         $this->assertSame('0-0-1-NL-001', $journalTransaction->getOffice());
@@ -152,7 +153,7 @@ class JournalTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
     {
         $journalTransaction = new JournalTransaction();
         $journalTransaction
-            ->setDestiny(JournalTransaction::DESTINY_TEMPORARY)
+            ->setDestiny(Destiny::TEMPORARY())
             ->setCode('MEMO')
             ->setCurrency('EUR')
             ->setDate('20131104')

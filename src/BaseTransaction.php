@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Transactions\TransactionFields\DestinyField;
+
 /**
  * @todo $modificationDate The date/time on which the sales transaction was modified the last time. Read-only attribute.
  * @todo $user The user who created the sales transaction. Read-only attribute.
@@ -9,13 +11,7 @@ namespace PhpTwinfield;
  */
 abstract class BaseTransaction extends BaseObject
 {
-    const DESTINY_TEMPORARY = 'temporary'; // Also called 'provisional'
-    const DESTINY_FINAL     = 'final';
-
-    /**
-     * @var string|null Either self::DESTINY_TEMPORARY or self::DESTINY_FINAL.
-     */
-    private $destiny;
+    use DestinyField;
 
     /**
      * @var bool|null Should VAT be rounded or not? Rounding will only be done with a maximum of two cents.
@@ -88,25 +84,6 @@ abstract class BaseTransaction extends BaseObject
      *                BaseTransactionLine.
      */
     abstract public function getLineClassName(): string;
-
-    /**
-     * @return string|null
-     */
-    public function getDestiny(): ?string
-    {
-        return $this->destiny;
-    }
-
-    /**
-     * @param string|null $destiny
-     * @return $this
-     */
-    public function setDestiny(?string $destiny): BaseTransaction
-    {
-        $this->destiny = $destiny;
-
-        return $this;
-    }
 
     /**
      * @return bool|null

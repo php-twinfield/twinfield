@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\Mappers;
 
+use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Exception;
 use PhpTwinfield\JournalTransaction;
 use PhpTwinfield\JournalTransactionLine;
@@ -41,7 +42,7 @@ class TransactionMapper
 
             $transaction
                 ->setResult($transactionElement->getAttribute('result'))
-                ->setDestiny($transactionElement->getAttribute('location'));
+                ->setDestiny(new Destiny($transactionElement->getAttribute('location')));
 
             $autoBalanceVat = $transactionElement->getAttribute('autobalancevat');
             if (!empty($autoBalanceVat)) {
