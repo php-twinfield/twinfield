@@ -17,6 +17,9 @@
       "email": "leon@pronamic.nl"
     }
   ],
+  "config": {
+    "sort-packages": true
+  },
   "conflict": {
     "pronamic/twinfield": "*"
   },
@@ -25,6 +28,8 @@
   },
   "require": {
     "php": ">=7.1",
+    "ext-dom": "*",
+    "ext-soap": "*",
     "moneyphp/money": "^3.0",
     "webmozart/assert": "^1.2"
   },
