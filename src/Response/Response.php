@@ -68,9 +68,9 @@ class Response
      * Will return an array of all messages found by type
      * in the response document.
      *
-     * @return array
+     * @return string[]
      */
-    private function getMessages($type)
+    private function getMessages(string $type): array
     {
         $xpath = new \DOMXPath($this->responseDocument);
 

@@ -53,14 +53,13 @@ class CustomerApiConnector extends BaseApiConnector
      *
      * @throws Exception
      */
-    public function listAll(Office $office, string $dimType = 'DEB'): array
+    public function listAll(Office $office): array
     {
         // Make a request to a list of all customers
-        $request_customers = new Request\Catalog\Dimension($office, $dimType);
+        $request_customers = new Request\Catalog\Dimension($office, "DEB");
 
         // Send the Request document and set the response to this instance.
         $response = $this->sendDocument($request_customers);
-
 
         // Get the raw response document
         $responseDOM = $response->getResponseDocument();
@@ -73,7 +72,7 @@ class CustomerApiConnector extends BaseApiConnector
         foreach ($responseDOM->getElementsByTagName('dimension') as $customer) {
             $customer_id = $customer->textContent;
 
-            if ($customer_id == $dimType) {
+            if ($customer_id == "DEB") {
                 continue;
             }
 
