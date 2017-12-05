@@ -162,6 +162,6 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
                 return $this->getSuccessfulResponse();
             });
 
-        $this->transactionApiConnector->send([$journalTransaction]);
+        $this->transactionApiConnector->send($journalTransaction);
     }
 }

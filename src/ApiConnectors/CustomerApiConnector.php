@@ -8,6 +8,7 @@ use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
+use Webmozart\Assert\Assert;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about
@@ -102,6 +103,9 @@ class CustomerApiConnector extends BaseApiConnector
      */
     public function sendAll(array $customers): void
     {
+        Assert::allIsInstanceOf($customers, Customer::class);
+        Assert::notEmpty($customers);
+
         // Gets a new instance of CustomersDocument and sets the $customer
         $customersDocument = new CustomersDocument();
 

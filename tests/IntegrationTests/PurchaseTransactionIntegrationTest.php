@@ -185,6 +185,6 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
                 return $this->getSuccessfulResponse();
             });
 
-        $this->transactionApiConnector->send([$purchaseTransaction]);
+        $this->transactionApiConnector->send($purchaseTransaction);
     }
 }

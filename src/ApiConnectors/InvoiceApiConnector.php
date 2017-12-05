@@ -8,6 +8,7 @@ use PhpTwinfield\DomDocuments\InvoicesDocument;
 use PhpTwinfield\Mappers\InvoiceMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
+use Webmozart\Assert\Assert;
 
 /**
  * A facade to make interaction with the Twinfield service easier when trying to retrieve or set information about
@@ -48,17 +49,29 @@ class InvoiceApiConnector extends BaseApiConnector
     /**
      * Sends a \PhpTwinfield\Invoice\Invoice instance to Twinfield to update or add.
      *
-     * If you want to map the response back into an invoice use getResponse()->getResponseDocument()->asXML() into the
-     * InvoiceMapper::map() method.
-     *
      * @param Invoice $invoice
      * @throws Exception
      */
     public function send(Invoice $invoice): void
     {
+        $this->sendAll([$invoice]);
+    }
+
+    /**
+     * @param Invoice[] $invoices
+     * @throws Exception
+     */
+    public function sendAll(array $invoices): void
+    {
+        Assert::allIsInstanceOf($invoices, Invoice::class);
+        Assert::notEmpty($invoices);
+
         // Gets a new instance of InvoicesDocument and sets the invoice
         $invoicesDocument = new InvoicesDocument();
-        $invoicesDocument->addInvoice($invoice);
+
+        foreach ($invoices as $invoice) {
+            $invoicesDocument->addInvoice($invoice);
+        }
 
         // Sends the DOM document request and sets the response
         $this->sendDocument($invoicesDocument);

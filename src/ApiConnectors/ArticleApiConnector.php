@@ -8,6 +8,7 @@ use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\ArticleMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
+use Webmozart\Assert\Assert;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about
@@ -44,19 +45,31 @@ class ArticleApiConnector extends BaseApiConnector
     }
 
     /**
-     * Sends a \PhpTwinfield\Article\Article instance to Twinfield to update or add.
-     *
-     * If you want to map the response back into an Article use getResponse()->getResponseDocument()->asXML() into the
-     * ArticleMapper::map() method.
+     * Sends an Article instance to Twinfield to update or add.
      *
      * @param Article $article
      * @throws Exception
      */
     public function send(Article $article): void
     {
+        $this->sendAll([$article]);
+    }
+
+    /**
+     * @param Article[] $articles
+     * @throws Exception
+     */
+    public function sendAll(array $articles): void
+    {
+        Assert::allIsInstanceOf($articles, Article::class);
+        Assert::notEmpty($articles);
+
         // Gets a new instance of ArticlesDocument and sets the $article
         $articlesDocument = new ArticlesDocument();
-        $articlesDocument->addArticle($article);
+
+        foreach ($articles as $article) {
+            $articlesDocument->addArticle($article);
+        }
 
         // Send the DOM document request and set the response
         $this->sendDocument($articlesDocument);

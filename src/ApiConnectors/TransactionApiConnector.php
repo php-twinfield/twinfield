@@ -48,17 +48,24 @@ class TransactionApiConnector extends BaseApiConnector
     }
 
     /**
+     * @param BaseTransaction $transaction
+     * @throws Exception
+     */
+    public function send(BaseTransaction $transaction): void
+    {
+        $this->sendAll([$transaction]);
+    }
+
+    /**
      * Sends a list of Transaction instances to Twinfield to add or update.
-     *
-     * If you want to map the response back into an invoice use getResponse()->getResponseDocument()->asXML() into the
-     * InvoiceMapper::map() method.
      *
      * @param BaseTransaction[] $transactions
      * @throws Exception
      */
-    public function send(array $transactions): void
+    public function sendAll(array $transactions): void
     {
         Assert::allIsInstanceOf($transactions, BaseTransaction::class);
+        Assert::notEmpty($transactions);
 
         $transactionsDocument = new TransactionsDocument();
 

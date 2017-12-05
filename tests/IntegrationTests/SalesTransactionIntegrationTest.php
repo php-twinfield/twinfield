@@ -200,6 +200,6 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
                 return $this->getSuccessfulResponse();
             });
 
-        $this->transactionApiConnector->send([$salesTransaction]);
+        $this->transactionApiConnector->send($salesTransaction);
     }
 }

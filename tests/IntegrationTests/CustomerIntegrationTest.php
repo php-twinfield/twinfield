@@ -169,7 +169,6 @@ class CustomerIntegrationTest extends BaseIntegrationTest
     {
         $customer = new Customer();
         $customer->setOffice('001');
-        $customer->setType('DEB');
         $customer->setName('Customer 0');
         $customer->setDueDays('30');
         $customer->setPayAvailable(true);
