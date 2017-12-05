@@ -30,7 +30,7 @@ class SoapClient extends \SoapClient
      *
      * An instance of Twinfield\Response\Response is also returned.
      *
-     * @param \DOMDocument $document A class that extended Secure\Document
+     * @param \DOMDocument $document
      * @return Response The response from the request
      */
     public function send(\DOMDocument $document): Response

@@ -13,7 +13,13 @@ class Customer
     private $UID;
     private $status;
     private $name;
-    private $type;
+
+    /**
+     * Dimension type of customers is DEB.
+     *
+     * @var string
+     */
+    private $type = "DEB";
     private $inUse;
     private $behaviour;
     private $touched;
@@ -108,12 +114,6 @@ class Customer
     public function getType()
     {
         return $this->type;
-    }
-
-    public function setType($type)
-    {
-        $this->type = $type;
-        return $this;
     }
 
     public function getInUse()

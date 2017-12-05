@@ -93,9 +93,21 @@ class CustomerApiConnector extends BaseApiConnector
      */
     public function send(Customer $customer): void
     {
+        $this->sendAll([$customer]);
+    }
+
+    /**
+     * @param Customer[] $customers
+     * @throws Exception
+     */
+    public function sendAll(array $customers): void
+    {
         // Gets a new instance of CustomersDocument and sets the $customer
         $customersDocument = new CustomersDocument();
-        $customersDocument->addCustomer($customer);
+
+        foreach ($customers as $customer) {
+            $customersDocument->addCustomer($customer);
+        }
 
         // Send the DOM document request and set the response
         $this->sendDocument($customersDocument);

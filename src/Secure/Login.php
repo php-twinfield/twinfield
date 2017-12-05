@@ -76,7 +76,7 @@ class Login
     {
         $this->config = $config;
         $this->cluster = !is_null($config->cluster) ? $config->cluster : $this->cluster;
-        $this->soapLoginClient = new SoapClient(self::LOGIN_WSDL);
+        $this->soapLoginClient = new SoapClient(self::LOGIN_WSDL, $config->getSoapClientOptions());
     }
 
     /**
