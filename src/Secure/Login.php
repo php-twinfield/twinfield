@@ -28,7 +28,7 @@ use Webmozart\Assert\Assert;
 class Login
 {
     private const LOGIN_WSDL = 'https://login.twinfield.com/webservices/session.asmx?wsdl';
-    protected $clusterWSDL  = '%s/webservices/processxml.asmx?wsdl';
+    private const CLUSTER_WSDL_TEMPLATE = '%s/webservices/processxml.asmx?wsdl';
 
     /**
      * Holds the passed in Config instance
@@ -144,18 +144,20 @@ class Login
     /**
      * Gets the soap client with the headers attached. Will automatically login if haven't already on this instance.
      *
-     * @param string|null $wsdl
+     * @param string|null $wsdl_template
      * @return SoapClient
      */
-    public function getClient(?string $wsdl = null): SoapClient
+    public function getClient(?string $wsdl_template = null): SoapClient
     {
         if (! $this->processed) {
             $this->process();
         }
-        $wsdl = is_null($wsdl) ? $this->clusterWSDL : $wsdl;
+        $wsdl_template = null === $wsdl_template ? self::CLUSTER_WSDL_TEMPLATE : $wsdl_template;
+
         $header = $this->getHeader();
+
         // Makes a new client, and assigns the header to it
-        $client = new SoapClient(sprintf($wsdl, $this->cluster), $this->config->getSoapClientOptions());
+        $client = new SoapClient(sprintf($wsdl_template, $this->cluster), $this->config->getSoapClientOptions());
         $client->__setSoapHeaders($header);
 
         return $client;
