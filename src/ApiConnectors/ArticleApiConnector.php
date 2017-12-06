@@ -19,7 +19,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Willem van de Sande <W.vandeSande@MailCoupon.nl>
  */
-class ArticleApiConnector extends BaseApiConnector
+class ArticleApiConnector extends ProcessXmlApiConnector
 {
     /**
      * Requests a specific Article based off the passed in code and optionally the office.

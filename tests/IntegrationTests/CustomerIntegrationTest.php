@@ -46,7 +46,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
 
         $this->client
             ->expects($this->once())
-            ->method('send')
+            ->method("sendDOMDocument")
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Customer::class))
             ->willReturn($response);
 
@@ -147,7 +147,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
 
         $this->client
             ->expects($this->once())
-            ->method('send')
+            ->method("sendDOMDocument")
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Catalog\Dimension::class))
             ->willReturn($response);
 
@@ -208,7 +208,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
 
         $this->client
             ->expects($this->once())
-            ->method('send')
+            ->method("sendDOMDocument")
             ->with($this->isInstanceOf(CustomersDocument::class))
             ->willReturnCallback(function (CustomersDocument $customersDocument): Response {
                 $this->assertXmlStringEqualsXmlString(

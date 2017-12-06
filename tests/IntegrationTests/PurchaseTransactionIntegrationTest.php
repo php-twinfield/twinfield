@@ -38,7 +38,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->client
             ->expects($this->once())
-            ->method('send')
+            ->method("sendDOMDocument")
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Transaction::class))
             ->willReturn($response);
 
@@ -174,7 +174,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->client
             ->expects($this->once())
-            ->method('send')
+            ->method("sendDOMDocument")
             ->with($this->isInstanceOf(TransactionsDocument::class))
             ->willReturnCallback(function (TransactionsDocument $transactionsDocument) {
                 $this->assertXmlStringEqualsXmlString(

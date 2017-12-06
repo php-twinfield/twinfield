@@ -16,7 +16,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Dylan Schoenmakers <dylan@opifer.nl>
  */
-class TransactionApiConnector extends BaseApiConnector
+class TransactionApiConnector extends ProcessXmlApiConnector
 {
     /**
      * Requests a specific transaction by code, transactionNumber and the office.
