@@ -57,7 +57,7 @@ class Response
      *
      * @return bool
      */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         $responseValue = $this->responseDocument->documentElement->getAttribute('result');
 
@@ -68,9 +68,9 @@ class Response
      * Will return an array of all messages found by type
      * in the response document.
      *
-     * @return array
+     * @return string[]
      */
-    private function getMessages($type)
+    private function getMessages(string $type): array
     {
         $xpath = new \DOMXPath($this->responseDocument);
 
@@ -95,7 +95,7 @@ class Response
      *
      * @return array
      */
-    public function getErrorMessages()
+    public function getErrorMessages(): array
     {
         return $this->getMessages('error');
     }

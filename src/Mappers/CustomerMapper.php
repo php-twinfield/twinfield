@@ -40,7 +40,6 @@ class CustomerMapper
             'code'              => 'setCode',
             'uid'               => 'setUID',
             'name'              => 'setName',
-            'type'              => 'setType',
             'inuse'             => 'setInUse',
             'behaviour'         => 'setBehaviour',
             'touched'           => 'setTouched',

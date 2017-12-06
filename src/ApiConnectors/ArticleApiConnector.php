@@ -4,8 +4,11 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Article;
 use PhpTwinfield\DomDocuments\ArticlesDocument;
+use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\ArticleMapper;
+use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
+use Webmozart\Assert\Assert;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about
@@ -22,69 +25,53 @@ class ArticleApiConnector extends BaseApiConnector
      * Requests a specific Article based off the passed in code and optionally the office.
      *
      * @param string $code
-     * @param string $office Optional. If no office has been passed it will instead take the default office from the
+     * @param Office $office If no office has been passed it will instead take the default office from the
      *                       passed in config class.
      * @return Article|bool The requested article or false if it can't be found.
+     * @throws Exception
      */
-    public function get(string $code, ?string $office = null)
+    public function get(string $code, Office $office): Article
     {
-        // Attempts to process the login
-        if ($this->getLogin()->process()) {
-            // Get the secure service class
-            $service = $this->createService();
+        // Make a request to read a single Article. Set the required values
+        $request_article = new Request\Read\Article();
+        $request_article
+            ->setOffice($office->getCode())
+            ->setCode($code);
 
-            // No office passed, get the office from the Config
-            if (!$office) {
-                $office = $this->getConfig()->getOffice();
-            }
+        // Send the Request document and set the response to this instance.
+        $response = $this->sendDocument($request_article);
 
-            // Make a request to read a single Article. Set the required values
-            $request_article = new Request\Read\Article();
-            $request_article
-                ->setOffice($office)
-                ->setCode($code);
-
-            // Send the Request document and set the response to this instance.
-            $response = $service->send($request_article);
-            $this->setResponse($response);
-
-            // Return a mapped article if successful or false if not.
-            if ($response->isSuccessful()) {
-                return ArticleMapper::map($response);
-            }
-        }
-
-        return false;
+        return ArticleMapper::map($response);
     }
 
     /**
-     * Sends a \PhpTwinfield\Article\Article instance to Twinfield to update or add.
-     *
-     * If you want to map the response back into an Article use getResponse()->getResponseDocument()->asXML() into the
-     * ArticleMapper::map() method.
+     * Sends an Article instance to Twinfield to update or add.
      *
      * @param Article $article
-     * @return bool
+     * @throws Exception
      */
-    public function send(Article $article): bool
+    public function send(Article $article): void
     {
-        // Attempts the process login
-        if ($this->getLogin()->process()) {
-            // Gets the secure service
-            $service = $this->createService();
+        $this->sendAll([$article]);
+    }
 
-            // Gets a new instance of ArticlesDocument and sets the $article
-            $articlesDocument = new ArticlesDocument();
+    /**
+     * @param Article[] $articles
+     * @throws Exception
+     */
+    public function sendAll(array $articles): void
+    {
+        Assert::allIsInstanceOf($articles, Article::class);
+        Assert::notEmpty($articles);
+
+        // Gets a new instance of ArticlesDocument and sets the $article
+        $articlesDocument = new ArticlesDocument();
+
+        foreach ($articles as $article) {
             $articlesDocument->addArticle($article);
-
-            // Send the DOM document request and set the response
-            $response = $service->send($articlesDocument);
-            $this->setResponse($response);
-
-            // Return a bool on status of response.
-            return $response->isSuccessful();
         }
 
-        return false;
+        // Send the DOM document request and set the response
+        $this->sendDocument($articlesDocument);
     }
 }

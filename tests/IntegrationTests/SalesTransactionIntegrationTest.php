@@ -22,18 +22,8 @@ use PhpTwinfield\Secure\Service;
  * @covers TransactionMapper
  * @covers TransactionApiConnector
  */
-class SalesTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
+class SalesTransactionIntegrationTest extends BaseIntegrationTest
 {
-    /**
-     * @var Login|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $login;
-
-    /**
-     * @var Service|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $service;
-
     /**
      * @var TransactionApiConnector|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -43,28 +33,7 @@ class SalesTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
 
-        $this->login   = $this->createMock(Login::class);
-        $this->service = $this->createMock(Service::class);
-
-        $this->login
-            ->expects($this->any())
-            ->method('process')
-            ->willReturn(true);
-
-        $this->transactionApiConnector = $this->createPartialMock(
-            TransactionApiConnector::class,
-            ['getLogin', 'createService']
-        );
-
-        $this->transactionApiConnector
-            ->expects($this->any())
-            ->method('createService')
-            ->willReturn($this->service);
-
-        $this->transactionApiConnector
-            ->expects($this->any())
-            ->method('getLogin')
-            ->willReturn($this->login);
+        $this->transactionApiConnector = new TransactionApiConnector($this->login);
     }
 
     public function testGetSalesTransactionWorks()
@@ -73,15 +42,13 @@ class SalesTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
         $domDocument->loadXML(file_get_contents(realpath(__DIR__ . '/resources/salesTransactionGetResponse.xml')));
         $response = new Response($domDocument);
 
-        $this->service
-            ->expects($this->any())
+        $this->client
+            ->expects($this->once())
             ->method('send')
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Transaction::class))
             ->willReturn($response);
 
-        /** @var SalesTransaction[] $salesTransactions */
-        $salesTransactions = $this->transactionApiConnector->get(SalesTransaction::class, 'SLS', '201300095', '001');
-        $salesTransaction  = reset($salesTransactions);
+        $salesTransaction = $this->transactionApiConnector->get(SalesTransaction::class, 'SLS', '201300095', $this->office);
 
         $this->assertInstanceOf(SalesTransaction::class, $salesTransaction);
         $this->assertEquals(Destiny::TEMPORARY(), $salesTransaction->getDestiny());
@@ -224,7 +191,7 @@ class SalesTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
             ->addLine($totalLine)
             ->addLine($detailLine);
 
-        $this->service
+        $this->client
             ->expects($this->once())
             ->method('send')
             ->with($this->isInstanceOf(TransactionsDocument::class))
@@ -234,9 +201,9 @@ class SalesTransactionIntegrationTest extends \PHPUnit\Framework\TestCase
                     $transactionsDocument->saveXML()
                 );
 
-                return new Response($transactionsDocument);
+                return $this->getSuccessfulResponse();
             });
 
-        $this->transactionApiConnector->send([$salesTransaction]);
+        $this->transactionApiConnector->send($salesTransaction);
     }
 }

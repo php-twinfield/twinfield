@@ -9,6 +9,7 @@ use PhpTwinfield\ElectronicBankStatement;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Request as Request;
+use Webmozart\Assert\Assert;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about
@@ -17,28 +18,29 @@ use PhpTwinfield\Request as Request;
 class ElectronicBankStatementApiConnector extends BaseApiConnector
 {
     /**
-     * Sends an ElectronicBankStatement instance to Twinfield to update or add.
-     *
+     * @param ElectronicBankStatement $statement
      * @throws Exception
      */
-    public function send(ElectronicBankStatement $electronicBankStatement): void
+    public function send(ElectronicBankStatement $statement): void
     {
-        // Attempts the process login
-        if ($this->getLogin()->process()) {
-            // Gets the secure service
-            $service = $this->createService();
+        $this->sendAll([$statement]);
+    }
 
-            // Gets a new instance of CustomersDocument and sets the $customer
-            $ebsDocument = new ElectronicBankStatementDocument();
-            $ebsDocument->addStatement($electronicBankStatement);
+    /**
+     * @param array $statements
+     * @throws Exception
+     */
+    public function sendAll(array $statements)
+    {
+        Assert::allIsInstanceOf($statements, ElectronicBankStatement::class);
+        Assert::notEmpty($statements);
 
-            // Send the DOM document request and set the response
-            $response = $service->send($ebsDocument);
-            $this->setResponse($response);
+        $document = new ElectronicBankStatementDocument();
 
-            if (!$response->isSuccessful()) {
-                throw new Exception(implode(", ", $response->getErrorMessages()));
-            }
+        foreach ($statements as $statement) {
+            $document->addStatement($statement);
         }
+
+        $this->sendDocument($document);
     }
 }

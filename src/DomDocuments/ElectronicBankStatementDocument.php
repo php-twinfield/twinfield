@@ -9,39 +9,52 @@ use PhpTwinfield\Util;
  */
 class ElectronicBankStatementDocument extends \DOMDocument
 {
-    public function addStatement(ElectronicBankStatement $statement)
+    /**
+     * @var \DOMElement
+     */
+    private $root;
+
+    public function __construct($version = "1.0", $encoding = "UTF-8")
     {
-        $root = $this->createElement("statement");
-        $root->appendChild(new \DOMAttr("target", "electronicstatements"));
+        parent::__construct($version, $encoding);
 
-        if ($statement->isImportDuplicate()) {
-            $root->appendChild(new \DOMAttr("importduplicate", "1"));
+        $this->root = $this->createElement("statements");
+        $this->appendChild($this->root);
+    }
+
+    public function addStatement(ElectronicBankStatement $electronicBankStatement)
+    {
+        $statement = $this->createElement("statement");
+        $statement->appendChild(new \DOMAttr("target", "electronicstatements"));
+
+        if ($electronicBankStatement->isImportDuplicate()) {
+            $statement->appendChild(new \DOMAttr("importduplicate", "1"));
         }
 
-        if ($statement->getIban()) {
-            $root->appendChild($this->createElement("iban", $statement->getIban()));
-        } elseif ($statement->getAccount()) {
-            $root->appendChild($this->createElement("account", $statement->getAccount()));
-        } elseif ($statement->getCode()) {
-            $root->appendChild($this->createElement("code", $statement->getCode()));
+        if ($electronicBankStatement->getIban()) {
+            $statement->appendChild($this->createElement("iban", $electronicBankStatement->getIban()));
+        } elseif ($electronicBankStatement->getAccount()) {
+            $statement->appendChild($this->createElement("account", $electronicBankStatement->getAccount()));
+        } elseif ($electronicBankStatement->getCode()) {
+            $statement->appendChild($this->createElement("code", $electronicBankStatement->getCode()));
         }
 
-        $root->appendChild($this->createElement("date", $statement->getDate()->format("Ymd")));
+        $statement->appendChild($this->createElement("date", $electronicBankStatement->getDate()->format("Ymd")));
 
-        $root->appendChild($this->createElement("currency", $statement->getCurrency()));
+        $statement->appendChild($this->createElement("currency", $electronicBankStatement->getCurrency()));
 
-        $root->appendChild($this->createElement("statementnumber", $statement->getStatementnumber()));
+        $statement->appendChild($this->createElement("statementnumber", $electronicBankStatement->getStatementnumber()));
 
-        if ($statement->getOffice()) {
-            $root->appendChild($this->createElement("office", $statement->getOffice()->getCode()));
+        if ($electronicBankStatement->getOffice()) {
+            $statement->appendChild($this->createElement("office", $electronicBankStatement->getOffice()->getCode()));
         }
 
-        $root->appendChild($this->createElement("startvalue", Util::formatMoney($statement->getStartvalue())));
-        $root->appendChild($this->createElement("closevalue", Util::formatMoney($statement->getClosevalue())));
+        $statement->appendChild($this->createElement("startvalue", Util::formatMoney($electronicBankStatement->getStartvalue())));
+        $statement->appendChild($this->createElement("closevalue", Util::formatMoney($electronicBankStatement->getClosevalue())));
 
         $transactions = $this->createElement("transactions");
 
-        foreach ($statement->getTransactions() as $transaction) {
+        foreach ($electronicBankStatement->getTransactions() as $transaction) {
 
             $node = $this->createElement("transaction");
 
@@ -60,8 +73,8 @@ class ElectronicBankStatementDocument extends \DOMDocument
             $transactions->appendChild($node);
         }
 
-        $root->appendChild($transactions);
+        $statement->appendChild($transactions);
 
-        $this->appendChild($root);
+        $this->root->appendChild($statement);
     }
 }
