@@ -55,6 +55,11 @@ class Login
     private $sessionID;
 
     /**
+     * @var SoapClient
+     */
+    private $soapProcessClient;
+
+    /**
      * The server cluster used for future XML
      * requests with the new SoapClient
      *
@@ -90,7 +95,7 @@ class Login
      * @access public
      * @return boolean If successful or not
      */
-    protected function process()
+    protected function login()
     {
         if ($this->processed) {
             return true;
@@ -130,36 +135,30 @@ class Login
         return false; // todo throw
     }
 
-    private function getHeader(): \SoapHeader
-    {
-        Assert::notEmpty($this->sessionID);
-
-        return new \SoapHeader(
-            'http://www.twinfield.com/',
-            'Header',
-            array('SessionID' => $this->sessionID)
-        );
-    }
-
     /**
      * Gets the soap client with the headers attached. Will automatically login if haven't already on this instance.
      *
-     * @param string|null $wsdl_template
      * @return SoapClient
      */
-    public function getClient(?string $wsdl_template = null): SoapClient
+    public function getClient(): SoapClient
     {
-        if (! $this->processed) {
-            $this->process();
+        $this->login();
+
+        if (null === $this->soapProcessClient) {
+
+            // Makes a new client, and assigns the header to it
+            $this->soapProcessClient = new SoapClient(
+                sprintf(self::CLUSTER_WSDL_TEMPLATE, $this->cluster),
+                $this->config->getSoapClientOptions()
+            );
+
+            $this->soapProcessClient->__setSoapHeaders(new \SoapHeader(
+                'http://www.twinfield.com/',
+                'Header',
+                array('SessionID' => $this->sessionID)
+            ));
         }
-        $wsdl_template = null === $wsdl_template ? self::CLUSTER_WSDL_TEMPLATE : $wsdl_template;
 
-        $header = $this->getHeader();
-
-        // Makes a new client, and assigns the header to it
-        $client = new SoapClient(sprintf($wsdl_template, $this->cluster), $this->config->getSoapClientOptions());
-        $client->__setSoapHeaders($header);
-
-        return $client;
+        return $this->soapProcessClient;
     }
 }
