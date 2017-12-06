@@ -5,6 +5,7 @@ namespace PhpTwinfield\Transactions\BankTransactionLine;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 
 class Total extends Base
 {
@@ -46,7 +47,7 @@ class Total extends Base
      * @param DebitCredit $debitCredit
      * @return Total
      */
-    public function setDebitCredit(DebitCredit $debitCredit): self
+    public function setDebitCredit(DebitCredit $debitCredit): ValueFields
     {
         return parent::setDebitCredit($debitCredit);
     }

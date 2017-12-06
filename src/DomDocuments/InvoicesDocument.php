@@ -14,28 +14,11 @@ use PhpTwinfield\Invoice;
  * @copyright (c) 2013, Pronamic
  * @version 0.0.1
  */
-class InvoicesDocument extends \DOMDocument
+class InvoicesDocument extends BaseDocument
 {
-    /**
-     * Holds the <salesinvoice> element
-     * that all additional elements should be a child of.
-     * @var \DOMElement
-     */
-    private $salesInvoicesElement;
-
-    /**
-     * Creates the <salesinvoice> element and adds it to the property
-     * salesInvoicesElement
-     * 
-     * @access public
-     */
-    public function __construct()
+    final protected function getRootTagName(): string
     {
-        parent::__construct();
-
-        // Make the main wrap element
-        $this->salesInvoicesElement = $this->createElement('salesinvoices');
-        $this->appendChild($this->salesInvoicesElement);
+        return "salesinvoices";
     }
 
     /**
@@ -141,6 +124,6 @@ class InvoicesDocument extends \DOMDocument
             }
         }
 
-        $this->salesInvoicesElement->appendChild($invoiceElement);
+        $this->rootElement->appendChild($invoiceElement);
     }
 }

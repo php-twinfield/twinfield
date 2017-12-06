@@ -9,32 +9,18 @@ use PhpTwinfield\Transactions\TransactionFields\DueDateField;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
+use PhpTwinfield\Util;
 
 /**
  * TransactionsDocument class.
  *
  * @author Dylan Schoenmakers <dylan@opifer.nl>
  */
-class TransactionsDocument extends \DOMDocument
+class TransactionsDocument extends BaseDocument
 {
-    /**
-     * Holds the <transactions> element
-     * that all additional elements should be a child of.
-     *
-     * @var \DOMElement
-     */
-    private $transactionsElement;
-
-    /**
-     * Creates the <transasctions> element and adds it to the property
-     * transactionsElement.
-     */
-    public function __construct()
+    final protected function getRootTagName(): string
     {
-        parent::__construct();
-
-        $this->transactionsElement = $this->createElement('transactions');
-        $this->appendChild($this->transactionsElement);
+        return "transactions";
     }
 
     /**
@@ -52,13 +38,13 @@ class TransactionsDocument extends \DOMDocument
         $transactionElement = $this->createElement('transaction');
         $transactionElement->setAttribute('destiny', $transaction->getDestiny());
         if ($transaction->getRaiseWarning() !== null) {
-            $transactionElement->setAttribute('raisewarning', $transaction->getRaiseWarning() ? 'true' : 'false');
+            $transactionElement->appendChild($this->createBooleanAttribute('raisewarning', $transaction->getRaiseWarning()));
         }
         if ($transaction->isAutoBalanceVat() !== null) {
-            $transactionElement->setAttribute('autobalancevat', $transaction->isAutoBalanceVat() ? 'true' : 'false');
+            $transactionElement->appendChild($this->createBooleanAttribute('autobalancevat', $transaction->isAutoBalanceVat()));
         }
 
-        $this->transactionsElement->appendChild($transactionElement);
+        $this->rootElement->appendChild($transactionElement);
 
         // Header
         $headerElement = $this->createElement('header');
@@ -112,20 +98,7 @@ class TransactionsDocument extends \DOMDocument
             $headerElement->appendChild($dueDateElement);
         }
 
-        if ($transaction->getFreetext1() !== null) {
-            $freetext1Element = $this->createElement('freetext1', $transaction->getFreetext1());
-            $headerElement->appendChild($freetext1Element);
-        }
-
-        if ($transaction->getFreetext2() !== null) {
-            $freetext2Element = $this->createElement('freetext2', $transaction->getFreetext2());
-            $headerElement->appendChild($freetext2Element);
-        }
-
-        if ($transaction->getFreetext3() !== null) {
-            $freetext3Element = $this->createElement('freetext3', $transaction->getFreetext3());
-            $headerElement->appendChild($freetext3Element);
-        }
+        $this->appendFreeTextFields($headerElement, $transaction);
 
         $linesElement = $this->createElement('lines');
         $transactionElement->appendChild($linesElement);
@@ -147,13 +120,7 @@ class TransactionsDocument extends \DOMDocument
                 $lineElement->appendChild($dim2Element);
             }
 
-            $value = $transactionLine->getValue();
-            $value = number_format($value, 2, '.', '');
-            $valueElement = $this->createElement('value', $value);
-            $lineElement->appendChild($valueElement);
-
-            $debitCreditElement = $this->createElement('debitcredit', $transactionLine->getDebitCredit());
-            $lineElement->appendChild($debitCreditElement);
+            $this->appendValueValues($lineElement, $transactionLine);
 
             if (in_array(PerformanceFields::class, class_uses($transactionLine))) {
                 $performanceType = $transactionLine->getPerformanceType();

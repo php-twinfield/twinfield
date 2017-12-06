@@ -7,6 +7,7 @@ use PhpTwinfield\Transactions\TransactionFields\AutoBalanceVatField;
 use PhpTwinfield\Transactions\TransactionFields\DestinyField;
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
+use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
 use Webmozart\Assert\Assert;
 
 /**
@@ -19,6 +20,7 @@ abstract class BaseTransaction extends BaseObject
     use DestinyField;
     use AutoBalanceVatField;
     use OfficeField;
+    use PeriodField;
     use FreeTextFields;
 
     /**
@@ -35,12 +37,6 @@ abstract class BaseTransaction extends BaseObject
      * @var int|null The transaction number.
      */
     private $number;
-
-    /**
-     * @var string|null Period in 'YYYY/PP' format (e.g. '2013/05'). If this tag is not included or if it is left empty,
-     *                  the period is determined by the system based on the provided transaction date.
-     */
-    private $period;
 
     /**
      * @var string|null The currency code.
@@ -121,25 +117,6 @@ abstract class BaseTransaction extends BaseObject
     public function setNumber(?int $number): BaseTransaction
     {
         $this->number = $number;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPeriod(): ?string
-    {
-        return $this->period;
-    }
-
-    /**
-     * @param string|null $period
-     * @return $this
-     */
-    public function setPeriod(?string $period): BaseTransaction
-    {
-        $this->period = $period;
 
         return $this;
     }

@@ -1,6 +1,8 @@
 <?php
 namespace PhpTwinfield;
 
+use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
+
 /**
  * Invoice Class
  *
@@ -24,13 +26,14 @@ namespace PhpTwinfield;
  */
 class Invoice
 {
+    use PeriodField;
+
     private $customer;
     private $invoiceType;
     private $office;
     private $invoiceNumber;
     private $status;
     private $currency;
-    private $period;
     private $invoiceDate;
     private $dueDate;
     private $performanceDate;
@@ -138,17 +141,6 @@ class Invoice
     public function setCurrency($currency)
     {
         $this->currency = $currency;
-        return $this;
-    }
-
-    public function getPeriod()
-    {
-        return $this->period;
-    }
-
-    public function setPeriod($period)
-    {
-        $this->period = $period;
         return $this;
     }
 

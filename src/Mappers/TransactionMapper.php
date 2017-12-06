@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\Mappers;
 
+use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Enums\LineType;
@@ -105,8 +106,8 @@ class TransactionMapper
                     ->setId($lineElement->getAttribute('id'))
                     ->setDim1(self::getField($transaction, $lineElement, 'dim1'))
                     ->setDim2(self::getField($transaction, $lineElement, 'dim2'))
+                    ->setValue(Money::EUR(100 * self::getField($transaction, $lineElement, 'value')))
                     ->setDebitCredit(new DebitCredit(self::getField($transaction, $lineElement, 'debitcredit')))
-                    ->setValue(self::getField($transaction, $lineElement, 'value'))
                     ->setBaseValue(self::getField($transaction, $lineElement, 'basevalue'))
                     ->setRate(self::getField($transaction, $lineElement, 'rate'))
                     ->setRepValue(self::getField($transaction, $lineElement, 'repvalue'))

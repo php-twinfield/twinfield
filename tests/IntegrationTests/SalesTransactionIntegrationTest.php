@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\IntegrationTests;
 
+use Money\Money;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\DebitCredit;
@@ -80,7 +81,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame('1300', $totalLine->getDim1());
         $this->assertSame('1000', $totalLine->getDim2());
         $this->assertEquals(DebitCredit::DEBIT(), $totalLine->getDebitCredit());
-        $this->assertSame(121.00, $totalLine->getValue());
+        $this->assertEquals(Money::EUR(12100), $totalLine->getValue());
         $this->assertSame(121.00, $totalLine->getBaseValue());
         $this->assertSame(1.0, $totalLine->getRate());
         $this->assertSame(156.53, $totalLine->getRepValue());
@@ -106,7 +107,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame('8020', $detailLine->getDim1());
         $this->assertNull($detailLine->getDim2());
         $this->assertEquals(DebitCredit::CREDIT(), $detailLine->getDebitCredit());
-        $this->assertSame(100.00, $detailLine->getValue());
+        $this->assertEquals(Money::EUR(10000), $detailLine->getValue());
         $this->assertSame(100.00, $detailLine->getBaseValue());
         $this->assertSame(1.0, $detailLine->getRate());
         $this->assertSame(129.36, $detailLine->getRepValue());
@@ -132,7 +133,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame('1530', $vatLine->getDim1());
         $this->assertNull($vatLine->getDim2());
         $this->assertEquals(DebitCredit::CREDIT(), $vatLine->getDebitCredit());
-        $this->assertSame(21.00, $vatLine->getValue());
+        $this->assertEquals(Money::EUR(2100), $vatLine->getValue());
         $this->assertSame(21.00, $vatLine->getBaseValue());
         $this->assertSame(1.0, $vatLine->getRate());
         $this->assertSame(27.17, $vatLine->getRepValue());
@@ -173,8 +174,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
             ->setId('1')
             ->setDim1('1300')
             ->setDim2('1000')
-            ->setValue(121.00)
-            ->setDebitCredit(DebitCredit::DEBIT())
+            ->setValue(Money::EUR(-12100))
             ->setDescription('');
 
         $detailLine = new SalesTransactionLine();
@@ -182,8 +182,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
             ->setType(LineType::DETAIL())
             ->setId('2')
             ->setDim1('8020')
-            ->setValue(100.00)
-            ->setDebitCredit(DebitCredit::CREDIT())
+            ->setValue(Money::EUR(10000))
             ->setDescription('Outfit')
             ->setVatCode('VH');
 

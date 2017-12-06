@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield;
 
+use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
@@ -76,10 +77,10 @@ class SalesTransactionLine extends BaseTransactionLine
      *
      * If line type = vat VAT amount.
      *
-     * @param float|null $value
+     * @param Money $value
      * @return $this
      */
-    public function setValue(?float $value): BaseTransactionLine
+    public function setValue(Money $value): BaseTransactionLine
     {
         return parent::setValue($value);
     }

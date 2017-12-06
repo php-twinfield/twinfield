@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
 use Webmozart\Assert\Assert;
 
@@ -141,7 +142,11 @@ class ElectronicBankStatement
         $this->closevalue = $this->startvalue;
 
         foreach ($transactions as $transaction) {
-            $this->closevalue = $this->closevalue->add($transaction->getValue());
+            if ($transaction->getDebitCredit() == DebitCredit::CREDIT()) {
+                $this->closevalue = $this->closevalue->add($transaction->getValue());
+            } else {
+                $this->closevalue = $this->closevalue->subtract($transaction->getValue());
+            }
         }
     }
 

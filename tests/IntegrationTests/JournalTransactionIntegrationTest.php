@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\IntegrationTests;
 
+use Money\Money;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\DebitCredit;
@@ -78,7 +79,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame('4008', $detailLine1->getDim1());
         $this->assertNull($detailLine1->getDim2());
         $this->assertEquals(DebitCredit::DEBIT(), $detailLine1->getDebitCredit());
-        $this->assertSame(435.55, $detailLine1->getValue());
+        $this->assertEquals(Money::EUR(43555), $detailLine1->getValue());
         $this->assertSame(435.55, $detailLine1->getBaseValue());
         $this->assertSame(1.0, $detailLine1->getRate());
         $this->assertSame(653.33, $detailLine1->getRepValue());
@@ -102,7 +103,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame('1300', $detailLine2->getDim1());
         $this->assertSame('1000', $detailLine2->getDim2());
         $this->assertEquals(DebitCredit::CREDIT(), $detailLine2->getDebitCredit());
-        $this->assertSame(435.55, $detailLine2->getValue());
+        $this->assertEquals(Money::EUR(43555), $detailLine2->getValue());
         $this->assertSame(435.55, $detailLine2->getBaseValue());
         $this->assertSame(1.0, $detailLine2->getRate());
         $this->assertSame(653.33, $detailLine2->getRepValue());
@@ -135,8 +136,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
             ->setType(LineType::DETAIL())
             ->setId('1')
             ->setDim1('4008')
-            ->setDebitCredit(DebitCredit::DEBIT())
-            ->setValue(435.55);
+            ->setValue(Money::EUR(-43555));
 
         $detailLine2 = new JournalTransactionLine();
         $detailLine2
@@ -144,8 +144,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
             ->setId('2')
             ->setDim1('1300')
             ->setDim2('1000')
-            ->setDebitCredit(DebitCredit::CREDIT())
-            ->setValue(435.55)
+            ->setValue(Money::EUR(43555))
             ->setInvoiceNumber('11001770')
             ->setDescription('Invoice paid');
 

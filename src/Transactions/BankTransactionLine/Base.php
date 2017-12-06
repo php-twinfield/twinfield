@@ -5,11 +5,11 @@ namespace PhpTwinfield\Transactions\BankTransactionLine;
 use Money\Money;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Office;
-use PhpTwinfield\Transactions\TransactionLineFields\DebitCreditField;
+use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 
 abstract class Base
 {
-    use DebitCreditField;
+    use ValueFields;
 
     /**
      * @var string
@@ -33,10 +33,6 @@ abstract class Base
      * @var LineType
      */
     private $type;
-    /**
-     * @var Money
-     */
-    private $value;
 
     /**
      * @var string
@@ -65,7 +61,7 @@ abstract class Base
     /**
      * @return string
      */
-    final public function getDim1(): string
+    final public function getDim1(): ?string
     {
         return $this->dim1;
     }
@@ -73,7 +69,7 @@ abstract class Base
     /**
      * @return string
      */
-    final public function getDim2(): string
+    final public function getDim2(): ?string
     {
         return $this->dim2;
     }
@@ -81,7 +77,7 @@ abstract class Base
     /**
      * @return string
      */
-    final public function getDim3(): string
+    final public function getDim3(): ?string
     {
         return $this->dim3;
     }
@@ -100,22 +96,6 @@ abstract class Base
     final protected function setType(LineType $type): void
     {
         $this->type = $type;
-    }
-
-    /**
-     * @return Money
-     */
-    public function getValue(): Money
-    {
-        return $this->value;
-    }
-
-    /**
-     * @param Money $value
-     */
-    public function setValue(Money $value): void
-    {
-        $this->value = $value;
     }
 
     /**

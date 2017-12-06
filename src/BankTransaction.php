@@ -1,19 +1,23 @@
 <?php
 
-namespace PhpTwinfield\Transactions;
+namespace PhpTwinfield;
 
+use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Transactions\BankTransactionLine\Base;
 use PhpTwinfield\Transactions\TransactionFields\AutoBalanceVatField;
 use PhpTwinfield\Transactions\TransactionFields\DestinyField;
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
+use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
 use Webmozart\Assert\Assert;
 
 class BankTransaction
 {
     use DestinyField;
     use AutoBalanceVatField;
+    use PeriodField;
     use OfficeField;
 
     use StartAndCloseValueFields;
@@ -42,13 +46,6 @@ class BankTransaction
      * @var int
      */
     private $number;
-
-    /**
-     * Period in YYYY/PP format. If this tag is not included or if it is left empty, the period is determined by the system based on the provided transaction date.
-     *
-     * @var string
-     */
-    private $period;
 
     /**
      * Transaction date.
@@ -82,9 +79,9 @@ class BankTransaction
     private $modificationDate;
 
     /**
-     * @var BankTransactionLine\Base[]
+     * @var Transactions\BankTransactionLine\Base[]
      */
-    private $transactions;
+    private $transactions = [];
 
     /**
      * The bank transaction origin.
@@ -103,7 +100,7 @@ class BankTransaction
     }
 
     /**
-     * @return BankTransactionLine\Base[]
+     * @return Transactions\BankTransactionLine\Base[]
      */
     public function getTransactions(): array
     {
@@ -111,11 +108,11 @@ class BankTransaction
     }
 
     /**
-     * @param BankTransactionLine\Base[] $transactions
+     * @param Transactions\BankTransactionLine\Base[] $transactions
      */
     public function setTransactions(array $transactions): void
     {
-        Assert::allIsInstanceOf($transactions, BankTransactionLine\Base::class);
+        Assert::allIsInstanceOf($transactions, Transactions\BankTransactionLine\Base::class);
         Assert::notEmpty($this->startvalue);
 
         $this->transactions = $transactions;
@@ -123,7 +120,22 @@ class BankTransaction
         $this->closevalue = $this->startvalue;
 
         foreach ($transactions as $transaction) {
-            $this->closevalue = $this->closevalue->add($transaction->getValue());
+            if ($transaction->getDebitCredit() == DebitCredit::CREDIT()) {
+                $this->closevalue = $this->closevalue->add($transaction->getValue());
+            } else {
+                $this->closevalue = $this->closevalue->subtract($transaction->getValue());
+            }
         }
+    }
+
+    /**
+     * When creating a new bank transaction, don't include this tag as the transaction number is determined by the
+     * system. When updating a bank transaction, the related transaction number should be provided.
+     *
+     * @return int
+     */
+    public function getNumber(): ?int
+    {
+        return $this->number;
     }
 }
