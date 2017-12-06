@@ -19,7 +19,7 @@ namespace PhpTwinfield\Secure;
  * @copyright (c) 2013, Leon Rowland
  * @version 0.0.1
  */
-class Config
+final class Config
 {
     /**
      * @var string the address of the cluster. There is no need to set cluster in the scenario of logging in, the right
@@ -27,6 +27,7 @@ class Config
      * provided.
      */
     public $cluster;
+
     /**
      * Holds all the login details for this
      * config object
@@ -65,7 +66,7 @@ class Config
     /**
      * Holds the optional soap client options
      *
-     * @var Array
+     * @var array
      */
     private $soapClientOptions = array();
 
@@ -78,11 +79,11 @@ class Config
      * @param string $rURL
      * @param string $org
      * @param string $office
-     * @param string $autoRedirect
-     * @param string $clearSession
+     * @param bool $autoRedirect
+     * @param bool $clearSession
      * @return void
      */
-    public function setOAuthParameters($ct, $cs, $rURL, $org, $office, $autoRedirect = false, $clearSession = false)
+    public function setOAuthParameters($ct, $cs, $rURL, $org, $office, bool $autoRedirect = false, bool $clearSession = false)
     {
         $this->oauthCredentials['clientToken'] = $ct;
         $this->oauthCredentials['clientSecret'] = $cs;
@@ -260,7 +261,15 @@ class Config
         return $this->soapClientOptions;
     }
 
-    public function setSoapClientOptions(Array $options)
+    /**
+     * Set options that will be passed to the SoapClient constructor.
+     *
+     * Use this for setting a stream context or a proxy.
+     *
+     * @param array $options
+     * @return $this
+     */
+    public function setSoapClientOptions(array $options)
     {
         $this->soapClientOptions = $options;
         return $this;

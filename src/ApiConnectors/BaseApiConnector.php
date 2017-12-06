@@ -2,10 +2,11 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\Exception;
+use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\Config;
 use PhpTwinfield\Secure\Login;
 use PhpTwinfield\Secure\Service;
-use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\SoapClient;
 
 /**
@@ -17,72 +18,38 @@ use PhpTwinfield\Secure\SoapClient;
 abstract class BaseApiConnector
 {
     /**
-     * Holds the secure config class
-     *
-     * @var Config
+     * @var SoapClient
      */
-    private $config;
+    private $client;
 
     /**
-     * Holds the secure login class
-     *
-     * @var Login
+     * @param Login $login
      */
-    private $login;
-
-    /**
-     * Holds the response from a request.
-     *
-     * @var Response
-     */
-    private $response;
-
-    /**
-     * Pass in the Secure\Config class and it will automatically make the Secure\Login for you.
-     *
-     * @param Config $config
-     */
-    public function __construct(Config $config)
+    public function __construct(Login $login)
     {
-        $this->config = $config;
-        $this->login = new Login($config);
+        $this->client = $login->getClient();
     }
 
     /**
-     * Returns the response that was last set.
-     */
-    public function getResponse(): Response
-    {
-        return $this->response;
-    }
-
-    protected function getClient(string $wsdl): SoapClient
-    {
-        return $this->getLogin()->getClient('%s' . $wsdl);
-    }
-
-    /**
-     * Should be called by the child classes. Will set the response document from an attempted SOAP request.
+     * Send a DOMDocument to the Twinfield service.
      *
-     * @param Response $response
+     * A document can be both an object for storage or a search / retrieval request.
+     *
+     * If there is an error, an exception is thrown.
+     *
+     * @param \DOMDocument $DOMDocument
+     * @return Response
+     * @throws Exception
      */
-    protected function setResponse(Response $response): void
+    protected function sendDocument(\DOMDocument $DOMDocument): Response
     {
-        $this->response = $response;
-    }
+        // Send the DOM document request and set the response
+        $response = $this->client->send($DOMDocument);
 
-    protected function getConfig(): Config
-    {
-        return $this->config;
-    }
+        if (!$response->isSuccessful()) {
+            throw new Exception(implode(", ", $response->getErrorMessages()));
+        }
 
-    protected function getLogin(): Login
-    {
-        return $this->login;
-    }
-
-    protected function createService(): Service
-    {
-        return new Service($this->getLogin());
+        return $response;
     }
 }

@@ -2,10 +2,13 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\Exception;
+use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\BaseTransaction;
+use Webmozart\Assert\Assert;
 
 /**
  * A facade to make interaction with the Twinfield service easier when trying to retrieve or set information about
@@ -16,72 +19,61 @@ use PhpTwinfield\BaseTransaction;
 class TransactionApiConnector extends BaseApiConnector
 {
     /**
-     * Requests a specific transaction by code, transactionNumber and optionally the office.
+     * Requests a specific transaction by code, transactionNumber and the office.
      *
-     * @param string      $transactionClassName
-     * @param string      $code
-     * @param string      $transactionNumber
-     * @param string|null $office               Optional. If no office has been passed it will instead take the default
-     *                                          office from the passed in Config class.
-     * @return BaseTransaction|bool
+     * @param string $transactionClassName
+     * @param string $code
+     * @param string $transactionNumber
+     * @param Office $office
+     * @throws Exception
+     * @return BaseTransaction
      */
-    public function get(string $transactionClassName, string $code, string $transactionNumber, ?string $office = null)
+    public function get(
+        string $transactionClassName,
+        string $code,
+        string $transactionNumber,
+        Office $office
+    ): BaseTransaction {
+        // Make a request to read a single transaction
+        $request_transaction = new Request\Read\Transaction();
+        $request_transaction
+            ->setCode($code)
+            ->setNumber($transactionNumber)
+            ->setOffice($office);
+
+        // Send the Request document and set the response to this instance
+        $response = $this->sendDocument($request_transaction);
+
+        return TransactionMapper::map($transactionClassName, $response)[0];
+    }
+
+    /**
+     * @param BaseTransaction $transaction
+     * @throws Exception
+     */
+    public function send(BaseTransaction $transaction): void
     {
-        if ($this->getLogin()->process()) {
-            // Get the secure service
-            $service = $this->createService();
-
-            if (!$office) {
-                $office = $this->getConfig()->getOffice();
-            }
-
-            // Make a request to read a single transaction
-            $request_transaction = new Request\Read\Transaction();
-            $request_transaction
-                ->setCode($code)
-                ->setNumber($transactionNumber)
-                ->setOffice($office);
-
-            // Send the Request document and set the response to this instance
-            $response = $service->send($request_transaction);
-            $this->setResponse($response);
-
-            if ($response->isSuccessful()) {
-                return TransactionMapper::map($transactionClassName, $response);
-            }
-        }
-
-        return false;
+        $this->sendAll([$transaction]);
     }
 
     /**
      * Sends a list of Transaction instances to Twinfield to add or update.
      *
-     * If you want to map the response back into an invoice use getResponse()->getResponseDocument()->asXML() into the
-     * InvoiceMapper::map() method.
-     *
      * @param BaseTransaction[] $transactions
-     * @return bool
+     * @throws Exception
      */
-    public function send(array $transactions): bool
+    public function sendAll(array $transactions): void
     {
-        if ($this->getLogin()->process()) {
-            // Gets the secure service
-            $service = $this->createService();
+        Assert::allIsInstanceOf($transactions, BaseTransaction::class);
+        Assert::notEmpty($transactions);
 
-            $transactionsDocument = new TransactionsDocument();
+        $transactionsDocument = new TransactionsDocument();
 
-            foreach ($transactions as $transaction) {
-                $transactionsDocument->addTransaction($transaction);
-            }
-
-            // Send the DOM document request and set the response
-            $response = $service->send($transactionsDocument);
-            $this->setResponse($response);
-
-            return $response->isSuccessful();
+        foreach ($transactions as $transaction) {
+            $transactionsDocument->addTransaction($transaction);
         }
 
-        return false;
+        // Send the DOM document request and set the response
+        $this->sendDocument($transactionsDocument);
     }
 }

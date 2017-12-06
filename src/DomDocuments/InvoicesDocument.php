@@ -39,25 +39,6 @@ class InvoicesDocument extends \DOMDocument
     }
 
     /**
-     * Creates a new <salesinvoice> element and assigns it to 
-     * this \DOMDocument and returns it.
-     * 
-     * @access public
-     * @return \DOMElement A <salesinvoice> DOMElement
-     */
-    public function getNewInvoice()
-    {
-        // Make the new salesinvoice element
-        $salesInvoiceElement = $this->createElement('salesinvoice');
-
-        // Add to the main salesinvoices element
-        $this->salesInvoicesElement->appendChild($salesInvoiceElement);
-
-        // Return the saleinvoice element
-        return $salesInvoiceElement;
-    }
-
-    /**
      * Turns a passed Invoice class into the required markup for interacting
      * with Twinfield.
      * 
@@ -71,7 +52,7 @@ class InvoicesDocument extends \DOMDocument
     public function addInvoice(Invoice $invoice)
     {
         // Make a new <salesinvoice> element
-        $invoiceElement = $this->getNewInvoice();
+        $invoiceElement = $this->createElement('salesinvoice');
 
         // Makes a child header element
         $headerElement = $this->createElement('header');
@@ -159,5 +140,7 @@ class InvoicesDocument extends \DOMDocument
                 $lineElement->appendChild($element);
             }
         }
+
+        $this->salesInvoicesElement->appendChild($invoiceElement);
     }
 }
