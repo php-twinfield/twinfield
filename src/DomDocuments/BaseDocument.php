@@ -2,8 +2,10 @@
 
 namespace PhpTwinfield\DomDocuments;
 
+use PhpTwinfield\Enums\PerformanceType;
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
+use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 use PhpTwinfield\Util;
 use Webmozart\Assert\Assert;
@@ -87,5 +89,19 @@ abstract class BaseDocument extends \DOMDocument
         /** @var ValueFields $object */
         $element->appendChild($this->createElement("debitcredit", $object->getDebitCredit()));
         $element->appendChild($this->createElement("value", Util::formatMoney($object->getValue())));
+    }
+
+    protected function appendPerformanceTypeFields(\DOMElement $element, $object): void
+    {
+        Assert::true(Util::objectUses(PerformanceFields::class, $object));
+
+        /** @var PerformanceFields $object */
+        $element->appendChild($this->createElement("performancetype", $object->getPerformanceType()));
+        $element->appendChild($this->createElement("performancecountry", $object->getPerformanceCountry()));
+        $element->appendChild($this->createElement("performancevatnumber", $object->getPerformanceVatNumber()));
+
+        if ($object->getPerformanceType() == PerformanceType::SERVICES()) {
+            $element->appendChild($this->createElement("performancedate", $object->getPerformanceDate()));
+        }
     }
 }

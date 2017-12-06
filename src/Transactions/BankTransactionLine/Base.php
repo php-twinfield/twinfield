@@ -101,7 +101,7 @@ abstract class Base
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -133,7 +133,7 @@ abstract class Base
     /**
      * @return string
      */
-    public function getFreeChar(): string
+    public function getFreeChar(): ?string
     {
         return $this->freeChar;
     }
@@ -149,7 +149,7 @@ abstract class Base
     /**
      * @return string
      */
-    public function getComment(): string
+    public function getComment(): ?string
     {
         return $this->comment;
     }

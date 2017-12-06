@@ -24,6 +24,50 @@ class Detail extends Base
     private $vatValue;
 
     /**
+     * @param mixed $vatCode
+     * @return Detail
+     */
+    public function setVatCode($vatCode)
+    {
+        $this->vatCode = $vatCode;
+
+        return $this;
+    }
+
+    /**
+     * @param Money $vatValue
+     * @return Detail
+     */
+    public function setVatValue(Money $vatValue): Detail
+    {
+        $this->vatValue = $vatValue;
+
+        return $this;
+    }
+
+    /**
+     * @param Money $vatBaseValue
+     * @return Detail
+     */
+    public function setVatBaseValue(Money $vatBaseValue): Detail
+    {
+        $this->vatBaseValue = $vatBaseValue;
+
+        return $this;
+    }
+
+    /**
+     * @param Money $vatRepValue
+     * @return Detail
+     */
+    public function setVatRepValue(Money $vatRepValue): Detail
+    {
+        $this->vatRepValue = $vatRepValue;
+
+        return $this;
+    }
+
+    /**
      * VAT amount in base currency.
      *
      * @var Money
@@ -91,5 +135,37 @@ class Detail extends Base
     public function setValue(Money $money): void
     {
         parent::setValue($money);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVatCode()
+    {
+        return $this->vatCode;
+    }
+
+    /**
+     * @return Money
+     */
+    public function getVatValue(): Money
+    {
+        return $this->vatValue;
+    }
+
+    /**
+     * @return Money
+     */
+    public function getVatBaseValue(): Money
+    {
+        return $this->vatBaseValue;
+    }
+
+    /**
+     * @return Money
+     */
+    public function getVatRepValue(): Money
+    {
+        return $this->vatRepValue;
     }
 }

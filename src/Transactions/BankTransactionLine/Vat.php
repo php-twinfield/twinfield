@@ -12,7 +12,7 @@ class Vat extends Base
     use PerformanceFields;
 
     /**
-     * @var mixed
+     * @var string
      */
     private $vatCode;
 
@@ -73,5 +73,37 @@ class Vat extends Base
     public function setValue(Money $money): void
     {
         parent::setValue($money);
+    }
+
+    /**
+     * @return Money
+     */
+    public function getVatTurnover(): Money
+    {
+        return $this->vatTurnover;
+    }
+
+    /**
+     * @return Money
+     */
+    public function getVatBaseTurnover(): Money
+    {
+        return $this->vatBaseTurnover;
+    }
+
+    /**
+     * @return Money
+     */
+    public function getVatRepTurnover(): Money
+    {
+        return $this->vatRepTurnover;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVatCode(): string
+    {
+        return $this->vatCode;
     }
 }

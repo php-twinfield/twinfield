@@ -4,6 +4,7 @@ namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\BankTransaction;
 use PhpTwinfield\Transactions\BankTransactionLine;
+use PhpTwinfield\Util;
 
 /**
  * Class BankTransactionDocument
@@ -81,9 +82,38 @@ class BankTransactionDocument extends BaseDocument
 
         $this->appendValueValues($transaction, $line);
 
+        if ($line->getDescription()) {
+            $transaction->appendChild($this->createElement("description", $line->getDescription()));
+        }
 
+        if ($line instanceof BankTransactionLine\Total) {
+            $transaction->appendChild($this->createElement("vattotal", Util::formatMoney($line->getVatTotal())));
+            $transaction->appendChild($this->createElement("vatbasetotal", Util::formatMoney($line->getVatBaseTotal())));
+            $transaction->appendChild($this->createElement("vatreptotal", Util::formatMoney($line->getVatRepTotal())));
+        }
+
+        if ($line instanceof BankTransactionLine\Vat || $line instanceof BankTransactionLine\Detail) {
+            $transaction->appendChild($this->createElement("vatcode", $line->getVatCode()));
+        }
+
+        if ($line instanceof BankTransactionLine\Detail) {
+            $transaction->appendChild($this->createElement("vatvalue", Util::formatMoney($line->getVatValue())));
+            $transaction->appendChild($this->createElement("vatbasevalue", Util::formatMoney($line->getVatBaseValue())));
+            $transaction->appendChild($this->createElement("vatrepvalue", Util::formatMoney($line->getVatRepValue())));
+        }
+
+        if ($line instanceof BankTransactionLine\Detail || $line instanceof BankTransactionLine\Vat) {
+            $this->appendPerformanceTypeFields($transaction, $line);
+        }
+
+        if ($line->getFreeChar()) {
+            $transaction->appendChild($this->createElement("freechar", $line->getFreeChar()));
+        }
+
+        if ($line->getComment()) {
+            $transaction->appendChild($this->createElement("comment", $line->getComment()));
+        }
 
         return $transaction;
-
     }
 }
