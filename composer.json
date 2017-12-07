@@ -44,7 +44,6 @@
     ]
   },
   "require-dev": {
-    "squizlabs/php_codesniffer": "*",
     "sensiolabs/security-checker": "^4.1",
     "phpunit/phpunit": "^6.5"
   }

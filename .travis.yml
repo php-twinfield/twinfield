@@ -12,7 +12,7 @@ cache:
     - $HOME/.composer/cache
 
 install:
-- travis_retry composer install --no-interaction
+- travis_retry composer install --no-interaction --classmap-authoritative
 
 script:
 - composer validate --strict
