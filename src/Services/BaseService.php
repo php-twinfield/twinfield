@@ -5,6 +5,8 @@ namespace PhpTwinfield\Services;
 /**
  * Twinfield Soap Client.
  *
+ * If you add new WSDL files (services), implement the SOAP functions as convenience methods on these.
+ *
  * @author Leon Rowland <leon@rowland.nl>
  */
 abstract class BaseService extends \SoapClient
