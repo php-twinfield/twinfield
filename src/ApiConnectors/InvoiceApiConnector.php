@@ -20,7 +20,7 @@ use Webmozart\Assert\Assert;
  * @author Leon Rowland <leon@rowland.nl>
  * @copyright (c) 2013, Pronamic
  */
-class InvoiceApiConnector extends BaseApiConnector
+class InvoiceApiConnector extends ProcessXmlApiConnector
 {
     /**
      * Requires a specific invoice based off the passed in code, invoiceNumber and optionally the office.

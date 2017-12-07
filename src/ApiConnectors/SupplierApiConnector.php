@@ -19,7 +19,7 @@ use PhpTwinfield\Mappers\SupplierMapper;
  * @author Leon Rowland <leon@rowland.nl>
  * @copyright (c) 2013, Pronamic
  */
-class SupplierApiConnector extends BaseApiConnector
+class SupplierApiConnector extends ProcessXmlApiConnector
 {
     /**
      * Requests a specific supplier based off the passed in code and optionally the office.

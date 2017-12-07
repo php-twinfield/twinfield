@@ -13,7 +13,7 @@ use PhpTwinfield\User;
  *
  * @author Emile Bons <emile@emilebons.nl>
  */
-class UserApiConnector extends BaseFinderApiConnector
+class UserApiConnector extends FinderApiConnector
 {
     const ACCESS_RULES_DISABLED = 0;
     const ACCESS_RULES_ENABLED = 1;
@@ -59,7 +59,7 @@ class UserApiConnector extends BaseFinderApiConnector
             $options['mutualOffices'] = $mutualOffices;
         }
 
-        $response = $this->searchFinder(self::TYPE_USERS, $pattern, $field, $firstRow, $maxRows, $options);
+        $response = $this->service->searchFinder(self::TYPE_USERS, $pattern, $field, $firstRow, $maxRows, $options);
 
         if ($response->data->TotalRows == 0) {
             return [];

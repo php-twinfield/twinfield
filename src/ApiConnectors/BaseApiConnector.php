@@ -2,54 +2,31 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Exception;
-use PhpTwinfield\Response\Response;
-use PhpTwinfield\Secure\Config;
 use PhpTwinfield\Secure\Login;
-use PhpTwinfield\Secure\Service;
-use PhpTwinfield\Secure\SoapClient;
+use PhpTwinfield\Services\BaseService;
 
-/**
- * All Factories used by all components extend this factory for common shared methods that help normalize the usage
- * between different components.
- *
- * @author Leon Rowland <leon@rowland.nl>
- */
 abstract class BaseApiConnector
 {
     /**
-     * @var SoapClient
+     * @var BaseService
      */
-    private $client;
+    protected $service;
+
+    /**
+     * The service that is needed by this connector.
+     *
+     * @return Services
+     */
+    abstract protected function getRequiredWebservice(): Services;
 
     /**
      * @param Login $login
+     * @throws Exception
      */
     public function __construct(Login $login)
     {
-        $this->client = $login->getClient();
-    }
-
-    /**
-     * Send a DOMDocument to the Twinfield service.
-     *
-     * A document can be both an object for storage or a search / retrieval request.
-     *
-     * If there is an error, an exception is thrown.
-     *
-     * @param \DOMDocument $DOMDocument
-     * @return Response
-     * @throws Exception
-     */
-    protected function sendDocument(\DOMDocument $DOMDocument): Response
-    {
-        // Send the DOM document request and set the response
-        $response = $this->client->send($DOMDocument);
-
-        if (!$response->isSuccessful()) {
-            throw new Exception(implode(", ", $response->getErrorMessages()));
-        }
-
-        return $response;
+        $this->service = $login->getAuthenticatedClient($this->getRequiredWebservice());
     }
 }

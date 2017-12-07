@@ -13,7 +13,7 @@ use PhpTwinfield\Office;
  *
  * @author Emile Bons <emile@emilebons.nl>
  */
-class OfficeApiConnector extends BaseFinderApiConnector
+class OfficeApiConnector extends FinderApiConnector
 {
     /**
      * List all offices.
@@ -37,7 +37,7 @@ class OfficeApiConnector extends BaseFinderApiConnector
         int $maxRows = 100,
         array $options = []
     ): array {
-        $response = $this->searchFinder(self::TYPE_OFFICES, $pattern, $field, $firstRow, $maxRows, $options);
+        $response = $this->service->searchFinder(self::TYPE_OFFICES, $pattern, $field, $firstRow, $maxRows, $options);
 
         if ($response->data->TotalRows == 0) {
             return [];
