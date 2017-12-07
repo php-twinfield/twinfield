@@ -2,14 +2,14 @@
 
 namespace PhpTwinfield\Transactions\TransactionLineFields;
 
-use PhpTwinfield\BaseTransactionLine;
+use Money\Money;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Exception;
 
 trait ValueOpenField
 {
     /**
-     * @var float|null Only if line type is total. Read-only attribute.
+     * @var Money|null Only if line type is total. Read-only attribute.
      *                 Sales transactions: The amount still owed in the currency of the sales transaction.
      *                 Purchase transaction: The amount still to be paid in the currency of the purchase transaction.
      */
@@ -18,21 +18,21 @@ trait ValueOpenField
     abstract public function getType(): LineType;
 
     /**
-     * @return float|null
+     * @return Money|null
      */
-    public function getValueOpen(): ?float
+    public function getValueOpen(): ?Money
     {
         return $this->valueOpen;
     }
 
     /**
-     * @param float|null $valueOpen
+     * @param Money|null $valueOpen
      * @return $this
      * @throws Exception
      */
-    public function setValueOpen(?float $valueOpen): self
+    public function setValueOpen(?Money $valueOpen): self
     {
-        if ($valueOpen !== null && $this->getType() != LineType::TOTAL()) {
+        if ($valueOpen !== null && !$this->getType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('valueOpen', $this);
         }
 

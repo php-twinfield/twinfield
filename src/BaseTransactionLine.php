@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield;
 
+use Money\Money;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 use SebastianBergmann\Diff\Line;
@@ -55,7 +56,7 @@ abstract class BaseTransactionLine
     protected $dim2;
 
     /**
-     * @var float|null Amount in the base currency.
+     * @var Money|null Amount in the base currency.
      * @todo This field is currently read-only in this library.
      */
     protected $baseValue;
@@ -67,7 +68,7 @@ abstract class BaseTransactionLine
     protected $rate;
 
     /**
-     * @var float|null Amount in the reporting currency.
+     * @var Money|null Amount in the reporting currency.
      * @todo This field is currently read-only in this library.
      */
     protected $repValue;
@@ -97,7 +98,7 @@ abstract class BaseTransactionLine
     protected $matchLevel;
 
     /**
-     * @var float|null Meaning differs per transaction type. Read-only attribute. See explanatio in the sub classes.
+     * @var Money|null Meaning differs per transaction type. Read-only attribute. See explanatio in the sub classes.
      */
     protected $baseValueOpen;
 
@@ -107,7 +108,7 @@ abstract class BaseTransactionLine
     protected $vatCode;
 
     /**
-     * @var float|null Only if line type is detail. VAT amount in the currency of the transaction.
+     * @var Money|null Only if line type is detail. VAT amount in the currency of the transaction.
      */
     protected $vatValue;
 
@@ -185,18 +186,18 @@ abstract class BaseTransactionLine
     }
 
     /**
-     * @return float|null
+     * @return Money|null
      */
-    public function getBaseValue(): ?float
+    public function getBaseValue(): ?Money
     {
         return $this->baseValue;
     }
 
     /**
-     * @param float|null $baseValue
+     * @param Money|null $baseValue
      * @return $this
      */
-    public function setBaseValue(?float $baseValue): BaseTransactionLine
+    public function setBaseValue(?Money $baseValue): BaseTransactionLine
     {
         $this->baseValue = $baseValue;
 
@@ -223,18 +224,18 @@ abstract class BaseTransactionLine
     }
 
     /**
-     * @return float|null
+     * @return Money|null
      */
-    public function getRepValue(): ?float
+    public function getRepValue(): ?Money
     {
         return $this->repValue;
     }
 
     /**
-     * @param float|null $repValue
+     * @param Money|null $repValue
      * @return $this
      */
-    public function setRepValue(?float $repValue): BaseTransactionLine
+    public function setRepValue(?Money $repValue): BaseTransactionLine
     {
         $this->repValue = $repValue;
 
@@ -318,18 +319,18 @@ abstract class BaseTransactionLine
     }
 
     /**
-     * @return float|null
+     * @return Money|null
      */
-    public function getBaseValueOpen(): ?float
+    public function getBaseValueOpen(): ?Money
     {
         return $this->baseValueOpen;
     }
 
     /**
-     * @param float|null $baseValueOpen
+     * @param Money|null $baseValueOpen
      * @return $this
      */
-    public function setBaseValueOpen(?float $baseValueOpen): BaseTransactionLine
+    public function setBaseValueOpen(?Money $baseValueOpen): BaseTransactionLine
     {
         $this->baseValueOpen = $baseValueOpen;
 
@@ -361,21 +362,21 @@ abstract class BaseTransactionLine
     }
 
     /**
-     * @return float|null
+     * @return Money|null
      */
-    public function getVatValue(): ?float
+    public function getVatValue(): ?Money
     {
         return $this->vatValue;
     }
 
     /**
-     * @param float|null $vatValue
+     * @param Money|null $vatValue
      * @return $this
      * @throws Exception
      */
-    public function setVatValue(?float $vatValue): BaseTransactionLine
+    public function setVatValue(?Money $vatValue): BaseTransactionLine
     {
-        if ($vatValue !== null && $this->getType() != LineType::DETAIL()) {
+        if ($vatValue !== null && !$this->getType()->equals(LineType::DETAIL())) {
             throw Exception::invalidFieldForLineType('vatValue', $this);
         }
 

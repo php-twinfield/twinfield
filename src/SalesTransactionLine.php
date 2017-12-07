@@ -45,7 +45,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setDim2(?string $dim2): BaseTransactionLine
     {
-        if ($dim2 !== null && $this->getType() == LineType::VAT()) {
+        if ($dim2 !== null && $this->getType()->equals(LineType::VAT())) {
             throw Exception::invalidDimensionForLineType(2, $this);
         }
 
@@ -113,7 +113,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
     {
-        if ($matchLevel !== null && $this->getType() != LineType::TOTAL()) {
+        if ($matchLevel !== null && !$this->getType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('matchLevel', $this);
         }
 
@@ -123,13 +123,13 @@ class SalesTransactionLine extends BaseTransactionLine
     /**
      * Only if line type is total. The amount still owed in base currency. Read-only attribute.
      *
-     * @param float|null $baseValueOpen
+     * @param Money|null $baseValueOpen
      * @return $this
      * @throws Exception
      */
-    public function setBaseValueOpen(?float $baseValueOpen): BaseTransactionLine
+    public function setBaseValueOpen(?Money $baseValueOpen): BaseTransactionLine
     {
-        if ($baseValueOpen !== null && $this->getType() != LineType::TOTAL()) {
+        if ($baseValueOpen !== null && !$this->getType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('baseValueOpen', $this);
         }
 

@@ -26,7 +26,7 @@ class JournalTransactionLine extends BaseTransactionLine
     public function setType(LineType $type): BaseTransactionLine
     {
         // Only 'detail' and 'vat' are supported.
-        if ($type == LineType::TOTAL()) {
+        if ($type->equals(LineType::TOTAL())) {
             throw Exception::invalidLineTypeForTransaction($type, $this);
         }
 
@@ -58,7 +58,7 @@ class JournalTransactionLine extends BaseTransactionLine
      */
     public function setDim2(?string $dim2): BaseTransactionLine
     {
-        if ($dim2 !== null && $this->getType() == LineType::VAT()) {
+        if ($dim2 !== null && $this->getType()->equals(LineType::VAT())) {
             throw Exception::invalidDimensionForLineType(2, $this);
         }
 
@@ -94,7 +94,7 @@ class JournalTransactionLine extends BaseTransactionLine
      */
     public function setInvoiceNumber(?string $invoiceNumber): BaseTransactionLine
     {
-        if ($invoiceNumber !== null && $this->getType() != LineType::DETAIL()) {
+        if ($invoiceNumber !== null && !$this->getType()->equals(LineType::DETAIL())) {
             throw Exception::invalidFieldForLineType('invoiceNumber', $this);
         }
 
@@ -113,7 +113,7 @@ class JournalTransactionLine extends BaseTransactionLine
     {
         if (
             $matchStatus !== null &&
-            $this->getType() == LineType::VAT() &&
+            $this->getType()->equals(LineType::VAT()) &&
             $matchStatus != self::MATCHSTATUS_NOTMATCHABLE
         ) {
             throw Exception::invalidMatchStatusForLineType($matchStatus, $this);
@@ -131,7 +131,7 @@ class JournalTransactionLine extends BaseTransactionLine
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
     {
-        if ($matchLevel !== null && $this->getType() != LineType::DETAIL()) {
+        if ($matchLevel !== null && !$this->getType()->equals(LineType::DETAIL())) {
             throw Exception::invalidFieldForLineType('matchLevel', $this);
         }
 
@@ -141,13 +141,13 @@ class JournalTransactionLine extends BaseTransactionLine
     /**
      * Only if line type is detail. The amount still owed in base currency. Read-only attribute.
      *
-     * @param float|null $baseValueOpen
+     * @param Money|null $baseValueOpen
      * @return $this
      * @throws Exception
      */
-    public function setBaseValueOpen(?float $baseValueOpen): BaseTransactionLine
+    public function setBaseValueOpen(?Money $baseValueOpen): BaseTransactionLine
     {
-        if ($baseValueOpen !== null && $this->getType() != LineType::DETAIL()) {
+        if ($baseValueOpen !== null && !$this->getType()->equals(LineType::DETAIL())) {
             throw Exception::invalidFieldForLineType('baseValueOpen', $this);
         }
 

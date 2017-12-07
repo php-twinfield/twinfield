@@ -109,20 +109,24 @@ class TransactionMapper
                     ->setDim2(self::getField($transaction, $lineElement, 'dim2'))
                     ->setValue(Money::EUR(100 * self::getField($transaction, $lineElement, 'value')))
                     ->setDebitCredit(new DebitCredit(self::getField($transaction, $lineElement, 'debitcredit')))
-                    ->setBaseValue(self::getField($transaction, $lineElement, 'basevalue'))
+                    ->setBaseValue(Money::EUR(100 * self::getField($transaction, $lineElement, 'basevalue')))
                     ->setRate(self::getField($transaction, $lineElement, 'rate'))
-                    ->setRepValue(self::getField($transaction, $lineElement, 'repvalue'))
+                    ->setRepValue(Money::EUR(100 * self::getField($transaction, $lineElement, 'repvalue')))
                     ->setRepRate(self::getField($transaction, $lineElement, 'reprate'))
                     ->setDescription(self::getField($transaction, $lineElement, 'description'))
                     ->setMatchStatus(self::getField($transaction, $lineElement, 'matchstatus'))
                     ->setMatchLevel(self::getField($transaction, $lineElement, 'matchlevel'))
-                    ->setBaseValueOpen(self::getField($transaction, $lineElement, 'basevalueopen'))
-                    ->setVatCode(self::getField($transaction, $lineElement, 'vatcode'))
-                    ->setVatValue(self::getField($transaction, $lineElement, 'vatvalue'));
+                    ->setVatCode(self::getField($transaction, $lineElement, 'vatcode'));
 
                 // TODO - according to the docs, the field is called <basevalueopen>, but the examples use <openbasevalue>.
-                if (!$transactionLine->getBaseValueOpen()) {
-                    $transactionLine->setBaseValueOpen(self::getField($transaction, $lineElement, 'openbasevalue'));
+                $baseValueOpen = self::getField($transaction, $lineElement, 'basevalueopen') ?: self::getField($transaction, $lineElement, 'openbasevalue');
+                if ($baseValueOpen) {
+                    $transactionLine->setBaseValueOpen(Money::EUR(100 * $baseValueOpen));
+                }
+
+                $vatValue = self::getField($transaction, $lineElement, 'vatvalue');
+                if ($vatValue) {
+                    $transactionLine->setVatValue(Money::EUR(100 * $vatValue));
                 }
 
                 if (in_array(PerformanceFields::class, class_uses($transactionLine))) {
@@ -133,17 +137,22 @@ class TransactionMapper
                         ->setPerformanceDate(self::getField($transaction, $lineElement, 'performancedate'));
                 }
                 if (in_array(ValueOpenField::class, class_uses($transactionLine))) {
-                    $transactionLine->setValueOpen(self::getField($transaction, $lineElement, 'valueopen'));
-
                     // TODO - according to the docs, the field is called <valueopen>, but the examples use <openvalue>.
-                    if (!$transactionLine->getValueOpen()) {
-                        $transactionLine->setValueOpen(self::getField($transaction, $lineElement, 'openvalue'));
+                    $valueOpen = self::getField($transaction, $lineElement, 'valueopen') ?: self::getField($transaction, $lineElement, 'openvalue');
+                    if ($valueOpen) {
+                        $transactionLine->setValueOpen(Money::EUR(100 * $valueOpen));
                     }
                 }
                 if (in_array(VatTotalFields::class, class_uses($transactionLine))) {
-                    $transactionLine
-                        ->setVatTotal(self::getField($transaction, $lineElement, 'vattotal'))
-                        ->setVatBaseTotal(self::getField($transaction, $lineElement, 'vatbasetotal'));
+                    $vatTotal = self::getField($transaction, $lineElement, 'vattotal');
+                    if ($vatTotal) {
+                        $transactionLine->setVatTotal(Money::EUR(100 * $vatTotal));
+                    }
+
+                    $vatBaseTotal = self::getField($transaction, $lineElement, 'vatbasetotal');
+                    if ($vatBaseTotal) {
+                        $transactionLine->setVatBaseTotal(Money::EUR(100 * $vatBaseTotal));
+                    }
                 }
 
                 if ($transactionLine instanceof JournalTransactionLine) {
