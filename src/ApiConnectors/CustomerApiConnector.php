@@ -20,7 +20,7 @@ use Webmozart\Assert\Assert;
  * @author Leon Rowland <leon@rowland.nl>
  * @copyright (c) 2013, Pronamic
  */
-class CustomerApiConnector extends BaseApiConnector
+class CustomerApiConnector extends ProcessXmlApiConnector
 {
     /**
      * Requests a specific customer based off the passed in code and optionally the office.

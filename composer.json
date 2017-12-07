@@ -31,7 +31,8 @@
     "ext-dom": "*",
     "ext-soap": "*",
     "moneyphp/money": "^3.0",
-    "webmozart/assert": "^1.2"
+    "webmozart/assert": "^1.2",
+    "myclabs/php-enum": "^1.5"
   },
   "autoload": {
     "psr-4": {

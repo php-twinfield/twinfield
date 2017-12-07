@@ -43,7 +43,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $this->client
             ->expects($this->once())
-            ->method('send')
+            ->method("sendDOMDocument")
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Invoice::class))
             ->willReturn($response);
 
@@ -136,7 +136,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $this->client
             ->expects($this->once())
-            ->method('send')
+            ->method("sendDOMDocument")
             ->with($this->isInstanceOf(InvoicesDocument::class))
             ->willReturnCallback(function (InvoicesDocument $invoicesDocument): Response {
                 $this->assertXmlStringEqualsXmlString(
