@@ -14,7 +14,7 @@ class ElectronicBankStatementUnitTest extends \PHPUnit\Framework\TestCase
         $statement = new ElectronicBankStatement();
         $statement->setIban("NL91ABNA0417164300");
         $statement->setStartvalue(Money::EUR(768));
-        $statement->setDate(new \DateTime("2013-11-08"));
+        $statement->setDate(new \DateTimeImmutable("2013-11-08"));
         $statement->setStatementnumber(2);
 
         $transaction1 = new ElectronicBankStatementTransaction();

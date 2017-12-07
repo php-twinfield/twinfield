@@ -2,29 +2,54 @@
 
 namespace PhpTwinfield\Transactions\TransactionFields;
 
+use PhpTwinfield\Exception;
+use PhpTwinfield\Util;
+
+/**
+ * @package PhpTwinfield\Transactions\TransactionLineFields
+ * @see Util::formatDate()
+ * @see Util::parseDate()
+ */
 trait DueDateField
 {
     /**
-     * @var string|null The due date in 'YYYYMMDD' format.
+     * @var \DateTimeInterface|null
      */
     private $dueDate;
 
     /**
-     * @return string|null
+     * @return \DateTimeInterface|null
      */
-    public function getDueDate(): ?string
+    public function getDueDate(): ?\DateTimeInterface
     {
         return $this->dueDate;
     }
 
     /**
-     * @param string|null $dueDate
+     * @param \DateTimeInterface $date
      * @return $this
      */
-    public function setDueDate(?string $dueDate): self
+    public function setDueDate(\DateTimeInterface $date)
     {
-        $this->dueDate = $dueDate;
-
+        $this->dueDate = $date;
         return $this;
+    }
+
+    /**
+     * @param string $dateString
+     * @return $this
+     * @throws Exception
+     */
+    public function setDueDateFromString(string $dateString)
+    {
+        return $this->setDueDate(Util::parseDate($dateString));
+    }
+
+    public function getDueDateAsString(): ?string
+    {
+        if ($this->getDueDate() !== null) {
+            return Util::formatDate($this->getDueDate());
+        }
+        return null;
     }
 }

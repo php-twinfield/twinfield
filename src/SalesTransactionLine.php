@@ -8,7 +8,6 @@ use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
-use SebastianBergmann\Diff\Line;
 
 class SalesTransactionLine extends BaseTransactionLine
 {

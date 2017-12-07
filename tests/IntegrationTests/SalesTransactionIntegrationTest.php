@@ -60,12 +60,12 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame(201300095, $salesTransaction->getNumber());
         $this->assertSame('2013/05', $salesTransaction->getPeriod());
         $this->assertSame('EUR', $salesTransaction->getCurrency());
-        $this->assertSame('20130502', $salesTransaction->getDate());
+        $this->assertEquals(new \DateTimeImmutable('2013-05-02'), $salesTransaction->getDate());
         $this->assertSame('import', $salesTransaction->getOrigin());
         $this->assertNull($salesTransaction->getFreetext1());
         $this->assertNull($salesTransaction->getFreetext2());
         $this->assertNull($salesTransaction->getFreetext3());
-        $this->assertSame('20130506', $salesTransaction->getDueDate());
+        $this->assertEquals(new \DateTimeImmutable('2013-05-06'), $salesTransaction->getDueDate());
         $this->assertSame('20130-6000', $salesTransaction->getInvoiceNumber());
         $this->assertSame('+++100/0160/01495+++', $salesTransaction->getPaymentReference());
         $this->assertSame('', $salesTransaction->getOriginReference());
@@ -161,12 +161,12 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
             ->setRaiseWarning(false)
             ->setCode('SLS')
             ->setCurrency('EUR')
-            ->setDate('20130502')
+            ->setDate(new \DateTimeImmutable('2013-05-02'))
             ->setPeriod('2013/05')
             ->setInvoiceNumber('20130-6000')
             ->setPaymentReference('+++100/0160/01495+++')
             ->setOffice(Office::fromCode('001'))
-            ->setDueDate('20130506');
+            ->setDueDate(new \DateTimeImmutable('2013-05-06'));
 
         $totalLine = new SalesTransactionLine();
         $totalLine

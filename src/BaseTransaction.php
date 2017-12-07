@@ -7,6 +7,7 @@ use PhpTwinfield\Transactions\TransactionFields\AutoBalanceVatField;
 use PhpTwinfield\Transactions\TransactionFields\DestinyField;
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
+use PhpTwinfield\Transactions\TransactionLineFields\DateField;
 use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
 use Webmozart\Assert\Assert;
 
@@ -22,6 +23,7 @@ abstract class BaseTransaction extends BaseObject
     use OfficeField;
     use PeriodField;
     use FreeTextFields;
+    use DateField;
 
     /**
      * @var bool|null Should warnings be given or not?
@@ -42,11 +44,6 @@ abstract class BaseTransaction extends BaseObject
      * @var string|null The currency code.
      */
     private $currency;
-
-    /**
-     * @var string|null The date in 'YYYYMMDD' format.
-     */
-    private $date;
 
     /**
      * @var string|null The sales transaction origin. Read-only attribute.
@@ -136,25 +133,6 @@ abstract class BaseTransaction extends BaseObject
     public function setCurrency(?string $currency): BaseTransaction
     {
         $this->currency = $currency;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDate(): ?string
-    {
-        return $this->date;
-    }
-
-    /**
-     * @param string|null $date
-     * @return $this
-     */
-    public function setDate(?string $date): BaseTransaction
-    {
-        $this->date = $date;
 
         return $this;
     }

@@ -59,7 +59,7 @@ class InvoicesDocument extends BaseDocument
             'currency'             => 'getCurrency',
             'period'               => 'getPeriod',
             'invoicedate'          => 'getInvoiceDate',
-            'duedate'              => 'getDueDate',
+            'duedate'              => 'getDueDateAsString',
             'bank'                 => 'getBank',
             'invoiceaddressnumber' => 'getInvoiceAddressNumber',
             'deliveraddressnumber' => 'getDeliverAddressNumber',

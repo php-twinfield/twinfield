@@ -61,7 +61,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame(201300003, $journalTransaction->getNumber());
         $this->assertSame('2013/11', $journalTransaction->getPeriod());
         $this->assertSame('EUR', $journalTransaction->getCurrency());
-        $this->assertSame('20131104', $journalTransaction->getDate());
+        $this->assertEquals(new \DateTimeImmutable('2013-11-04'), $journalTransaction->getDate());
         $this->assertSame('import', $journalTransaction->getOrigin());
         $this->assertNull($journalTransaction->getFreetext1());
         $this->assertNull($journalTransaction->getFreetext2());
@@ -128,7 +128,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
             ->setDestiny(Destiny::TEMPORARY())
             ->setCode('MEMO')
             ->setCurrency('EUR')
-            ->setDate('20131104')
+            ->setDate(new \DateTimeImmutable('2013-11-04'))
             ->setOffice(Office::fromCode('001'));
 
         $detailLine1 = new JournalTransactionLine();

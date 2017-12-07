@@ -63,7 +63,7 @@ class TransactionsDocument extends BaseDocument
             $headerElement->appendChild($currencyElement);
         }
 
-        $dateElement = $this->createElement('date', $transaction->getDate());
+        $dateElement = $this->createElement('date', Util::formatDate($transaction->getDate()));
         $headerElement->appendChild($dateElement);
 
         if ($transaction->getPeriod() !== null) {
@@ -90,11 +90,10 @@ class TransactionsDocument extends BaseDocument
         $officeElement = $this->createElement('office', $transaction->getOffice());
         $headerElement->appendChild($officeElement);
 
-        if (
-            in_array(DueDateField::class, class_uses($transaction)) &&
+        if (Util::objectUses(DueDateField::class, $transaction) &&
             $transaction->getDueDate() !== null
         ) {
-            $dueDateElement = $this->createElement('duedate', $transaction->getDueDate());
+            $dueDateElement = $this->createElement('duedate', Util::formatDate($transaction->getDueDate()));
             $headerElement->appendChild($dueDateElement);
         }
 

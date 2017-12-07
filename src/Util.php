@@ -19,6 +19,35 @@ final class Util
     }
 
     /**
+     * Format a date according to Twinfield specifications.
+     *
+     * @param \DateTimeInterface $date
+     * @return string
+     */
+    public static function formatDate(\DateTimeInterface $date): string
+    {
+        return $date->format("Ymd");
+    }
+
+    /**
+     * Parse a date string from a Twinfield XML.
+     *
+     * @param string $dateString
+     * @return \DateTimeImmutable
+     * @throws Exception
+     */
+    public static function parseDate(string $dateString): \DateTimeImmutable
+    {
+        $date = \DateTimeImmutable::createFromFormat("Ymd|", $dateString);
+
+        if (false === $date) {
+            throw new Exception("Invalid date, expected in yyyymmdd format, got \"{$dateString}\".");
+        }
+
+        return $date;
+    }
+
+    /**
      * Get all the traits an object uses, includes traits from all parent classes.
      *
      * @param string $trait

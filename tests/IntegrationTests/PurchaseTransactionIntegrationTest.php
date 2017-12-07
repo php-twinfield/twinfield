@@ -47,6 +47,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Transaction::class))
             ->willReturn($response);
 
+        /** @var PurchaseTransaction $purchaseTransaction */
         $purchaseTransaction = $this->transactionApiConnector->get(PurchaseTransaction::class, 'INK', '201300021', $this->office);
 
         $this->assertInstanceOf(PurchaseTransaction::class, $purchaseTransaction);
@@ -58,12 +59,12 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame(201300021, $purchaseTransaction->getNumber());
         $this->assertSame('2013/05', $purchaseTransaction->getPeriod());
         $this->assertSame('EUR', $purchaseTransaction->getCurrency());
-        $this->assertSame('20130502', $purchaseTransaction->getDate());
+        $this->assertEquals(new \DateTimeImmutable('2013-05-02'), $purchaseTransaction->getDate());
         $this->assertSame('import', $purchaseTransaction->getOrigin());
         $this->assertNull($purchaseTransaction->getFreetext1());
         $this->assertNull($purchaseTransaction->getFreetext2());
         $this->assertNull($purchaseTransaction->getFreetext3());
-        $this->assertSame('20130506', $purchaseTransaction->getDueDate());
+        $this->assertEquals(new \DateTimeImmutable('2013-05-06'), $purchaseTransaction->getDueDate());
         $this->assertSame('20130-5481', $purchaseTransaction->getInvoiceNumber());
         $this->assertSame('+++100/0160/01495+++', $purchaseTransaction->getPaymentReference());
 
@@ -146,12 +147,12 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
             ->setRaiseWarning(false)
             ->setCode('INK')
             ->setCurrency('EUR')
-            ->setDate('20130502')
+            ->setDate(new \DateTimeImmutable('2013-05-02'))
             ->setPeriod('2013/05')
             ->setInvoiceNumber('20130-5481')
             ->setPaymentReference('+++100/0160/01495+++')
             ->setOffice(Office::fromCode('001'))
-            ->setDueDate('20130506');
+            ->setDueDate(new \DateTimeImmutable('2013-05-06'));
 
         $totalLine = new PurchaseTransactionLine();
         $totalLine

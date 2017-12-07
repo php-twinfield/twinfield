@@ -3,7 +3,9 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
+use PhpTwinfield\Transactions\TransactionLineFields\DateField;
 use Webmozart\Assert\Assert;
 
 /**
@@ -12,6 +14,8 @@ use Webmozart\Assert\Assert;
 class ElectronicBankStatement
 {
     use StartAndCloseValueFields;
+    use DateField;
+    use OfficeField;
 
     /**
      * Optional attribute to indicate whether duplicates may be imported or not.
@@ -49,25 +53,11 @@ class ElectronicBankStatement
     private $code;
 
     /**
-     * Bank statement date. Set to the current date when left empty.
-     *
-     * @var \DateTimeInterface
-     */
-    private $date;
-
-    /**
      * Number of the bank statement. When left empty, last available bank statement number increased by one.
      *
      * @var int
      */
     private $statementnumber;
-
-    /**
-     * Optional. Office in which the bank statement should be imported.
-     *
-     * @var Office
-     */
-    private $office;
 
     public function getAccount(): ?string
     {
@@ -150,16 +140,6 @@ class ElectronicBankStatement
         }
     }
 
-    public function getDate(): \DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): void
-    {
-        $this->date = $date;
-    }
-
     public function getStatementnumber(): int
     {
         return $this->statementnumber;
@@ -168,15 +148,5 @@ class ElectronicBankStatement
     public function setStatementnumber(int $statementnumber): void
     {
         $this->statementnumber = $statementnumber;
-    }
-
-    public function getOffice(): ?Office
-    {
-        return $this->office;
-    }
-
-    public function setOffice(Office $office): void
-    {
-        $this->office = $office;
     }
 }
