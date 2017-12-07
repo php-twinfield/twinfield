@@ -2,6 +2,9 @@
 
 namespace PhpTwinfield;
 
+use Money\Money;
+use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
@@ -42,8 +45,8 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setDim2(?string $dim2): BaseTransactionLine
     {
-        if ($dim2 !== null && $this->getType() == self::TYPE_VAT) {
-            throw Exception::invalidDimensionForLineType(2, $this->getType());
+        if ($dim2 !== null && $this->getType() == LineType::VAT()) {
+            throw Exception::invalidDimensionForLineType(2, $this);
         }
 
         return parent::setDim2($dim2);
@@ -58,10 +61,10 @@ class SalesTransactionLine extends BaseTransactionLine
      * - In case of a 'normal' sales transaction credit.
      * - In case of a credit sales transaction debit.
      *
-     * @param string|null $debitCredit
+     * @param DebitCredit::DEBIT() $debitCredit
      * @return $this
      */
-    public function setDebitCredit(?string $debitCredit): BaseTransactionLine
+    public function setDebitCredit(DebitCredit $debitCredit): BaseTransactionLine
     {
         return parent::setDebitCredit($debitCredit);
     }
@@ -73,10 +76,10 @@ class SalesTransactionLine extends BaseTransactionLine
      *
      * If line type = vat VAT amount.
      *
-     * @param float|null $value
+     * @param Money $value
      * @return $this
      */
-    public function setValue(?float $value): BaseTransactionLine
+    public function setValue(Money $value): BaseTransactionLine
     {
         return parent::setValue($value);
     }
@@ -92,7 +95,7 @@ class SalesTransactionLine extends BaseTransactionLine
     {
         if (
             $matchStatus !== null &&
-            in_array($this->getType(), [self::TYPE_DETAIL, self::TYPE_VAT]) &&
+            in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()]) &&
             $matchStatus != self::MATCHSTATUS_NOTMATCHABLE
         ) {
             throw Exception::invalidMatchStatusForLineType($matchStatus, $this);
@@ -110,7 +113,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
     {
-        if ($matchLevel !== null && $this->getType() != self::TYPE_TOTAL) {
+        if ($matchLevel !== null && $this->getType() != LineType::TOTAL()) {
             throw Exception::invalidFieldForLineType('matchLevel', $this);
         }
 
@@ -126,7 +129,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setBaseValueOpen(?float $baseValueOpen): BaseTransactionLine
     {
-        if ($baseValueOpen !== null && $this->getType() != self::TYPE_TOTAL) {
+        if ($baseValueOpen !== null && $this->getType() != LineType::TOTAL()) {
             throw Exception::invalidFieldForLineType('baseValueOpen', $this);
         }
 

@@ -2,8 +2,10 @@
 
 namespace PhpTwinfield;
 
-use Money\Currency;
-use Money\Money;
+use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Transactions\TransactionFields\OfficeField;
+use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
+use PhpTwinfield\Transactions\TransactionLineFields\DateField;
 use Webmozart\Assert\Assert;
 
 /**
@@ -11,6 +13,10 @@ use Webmozart\Assert\Assert;
  */
 class ElectronicBankStatement
 {
+    use StartAndCloseValueFields;
+    use DateField;
+    use OfficeField;
+
     /**
      * Optional attribute to indicate whether duplicates may be imported or not.
      *
@@ -47,46 +53,11 @@ class ElectronicBankStatement
     private $code;
 
     /**
-     * Bank statement date. Set to the current date when left empty.
-     *
-     * @var \DateTimeInterface
-     */
-    private $date;
-
-    /**
-     * Currency code. Set to the currency of the corresponding bank day book when left empty.
-     *
-     * @var Currency
-     */
-    private $currency;
-
-    /**
      * Number of the bank statement. When left empty, last available bank statement number increased by one.
      *
      * @var int
      */
     private $statementnumber;
-
-    /**
-     * Optional. Office in which the bank statement should be imported.
-     *
-     * @var Office
-     */
-    private $office;
-
-    /**
-     * Opening balance. If not provided, the opening balance will be based on the previous bank statement.
-     *
-     * @var Money
-     */
-    private $startvalue;
-
-    /**
-     * Closing balance. If not provided, the closing balance will be based on the opening balance and the total amount of the transactions.
-     *
-     * @var Money
-     */
-    private $closevalue;
 
     public function getAccount(): ?string
     {
@@ -161,23 +132,12 @@ class ElectronicBankStatement
         $this->closevalue = $this->startvalue;
 
         foreach ($transactions as $transaction) {
-            $this->closevalue = $this->closevalue->add($transaction->getValue());
+            if ($transaction->getDebitCredit() == DebitCredit::CREDIT()) {
+                $this->closevalue = $this->closevalue->add($transaction->getValue());
+            } else {
+                $this->closevalue = $this->closevalue->subtract($transaction->getValue());
+            }
         }
-    }
-
-    public function getDate(): \DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): void
-    {
-        $this->date = $date;
-    }
-
-    public function getCurrency(): Currency
-    {
-        return $this->currency;
     }
 
     public function getStatementnumber(): int
@@ -188,32 +148,5 @@ class ElectronicBankStatement
     public function setStatementnumber(int $statementnumber): void
     {
         $this->statementnumber = $statementnumber;
-    }
-
-    public function getOffice(): ?Office
-    {
-        return $this->office;
-    }
-
-    public function setOffice(Office $office): void
-    {
-        $this->office = $office;
-    }
-
-    public function getStartvalue(): Money
-    {
-        return $this->startvalue;
-    }
-
-    public function setStartvalue(Money $startvalue): void
-    {
-        $this->currency   = $startvalue->getCurrency();
-        $this->startvalue = $startvalue;
-        $this->closevalue = $startvalue;
-    }
-
-    public function getClosevalue(): Money
-    {
-        return $this->closevalue;
     }
 }

@@ -9,14 +9,14 @@
         <lines>
             <line type="detail" id="1">
                 <dim1>4008</dim1>
-                <value>435.55</value>
                 <debitcredit>debit</debitcredit>
+                <value>435.55</value>
             </line>
             <line type="detail" id="2">
                 <dim1>1300</dim1>
                 <dim2>1000</dim2>
-                <value>435.55</value>
                 <debitcredit>credit</debitcredit>
+                <value>435.55</value>
                 <invoicenumber>11001770</invoicenumber>
                 <description>Invoice paid</description>
             </line>

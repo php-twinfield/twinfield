@@ -19,6 +19,13 @@ class Office
      */
     private $name;
 
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
+    }
+
     public function getCode(): string
     {
         return $this->code;
@@ -47,5 +54,10 @@ class Office
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    public function __toString()
+    {
+        return $this->getCode();
     }
 }

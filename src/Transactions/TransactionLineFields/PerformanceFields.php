@@ -3,13 +3,14 @@
 namespace PhpTwinfield\Transactions\TransactionLineFields;
 
 use PhpTwinfield\BaseTransactionLine;
+use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Enums\PerformanceType;
 use PhpTwinfield\Exception;
 
 trait PerformanceFields
 {
     /**
-     * @var string|null One of the BaseTransactionLine::PERFORMANCETYPE_* constants. Only if line type is detail or vat.
-     *                  Mandatory in case of an ICT VAT code. The performance type.
+     * @var PerformanceType|null Only if line type is detail or vat. Mandatory in case of an ICT VAT code.
      */
     protected $performanceType;
 
@@ -32,29 +33,26 @@ trait PerformanceFields
      */
     protected $performanceDate;
 
-    /**
-     * @return string|null
-     */
-    abstract public function getType(): ?string;
+    abstract public function getType(): LineType;
 
     /**
-     * @return string|null
+     * @return PerformanceType|null
      */
-    public function getPerformanceType(): ?string
+    public function getPerformanceType(): ?PerformanceType
     {
         return $this->performanceType;
     }
 
     /**
-     * @param string|null $performanceType
+     * @param PerformanceType|null $performanceType
      * @return $this
      * @throws Exception
      */
-    public function setPerformanceType(?string $performanceType): self
+    public function setPerformanceType(?PerformanceType $performanceType): self
     {
         if (
             $performanceType !== null &&
-            !in_array($this->getType(), [BaseTransactionLine::TYPE_DETAIL, BaseTransactionLine::TYPE_VAT])
+            !in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()])
         ) {
             throw Exception::invalidFieldForLineType('performanceType', $this);
         }
@@ -81,7 +79,7 @@ trait PerformanceFields
     {
         if (
             $performanceCountry !== null &&
-            !in_array($this->getType(), [BaseTransactionLine::TYPE_DETAIL, BaseTransactionLine::TYPE_VAT])
+            !in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()])
         ) {
             throw Exception::invalidFieldForLineType('performanceCountry', $this);
         }
@@ -108,7 +106,7 @@ trait PerformanceFields
     {
         if (
             $performanceVatNumber !== null &&
-            !in_array($this->getType(), [BaseTransactionLine::TYPE_DETAIL, BaseTransactionLine::TYPE_VAT])
+            !in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()])
         ) {
             throw Exception::invalidFieldForLineType('performanceVatNumber', $this);
         }
@@ -135,7 +133,7 @@ trait PerformanceFields
     {
         if (
             $performanceDate !== null &&
-            !in_array($this->getType(), [BaseTransactionLine::TYPE_DETAIL, BaseTransactionLine::TYPE_VAT])
+            !in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()])
         ) {
             throw Exception::invalidFieldForLineType('performanceDate', $this);
         }

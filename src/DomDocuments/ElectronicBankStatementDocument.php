@@ -7,19 +7,11 @@ use PhpTwinfield\Util;
 
 /**
  */
-class ElectronicBankStatementDocument extends \DOMDocument
+class ElectronicBankStatementDocument extends BaseDocument
 {
-    /**
-     * @var \DOMElement
-     */
-    private $root;
-
-    public function __construct($version = "1.0", $encoding = "UTF-8")
+    final protected function getRootTagName(): string
     {
-        parent::__construct($version, $encoding);
-
-        $this->root = $this->createElement("statements");
-        $this->appendChild($this->root);
+        return "statements";
     }
 
     public function addStatement(ElectronicBankStatement $electronicBankStatement)
@@ -41,16 +33,13 @@ class ElectronicBankStatementDocument extends \DOMDocument
 
         $statement->appendChild($this->createElement("date", $electronicBankStatement->getDate()->format("Ymd")));
 
-        $statement->appendChild($this->createElement("currency", $electronicBankStatement->getCurrency()));
+        $this->appendStartCloseValues($statement, $electronicBankStatement);
 
         $statement->appendChild($this->createElement("statementnumber", $electronicBankStatement->getStatementnumber()));
 
         if ($electronicBankStatement->getOffice()) {
             $statement->appendChild($this->createElement("office", $electronicBankStatement->getOffice()->getCode()));
         }
-
-        $statement->appendChild($this->createElement("startvalue", Util::formatMoney($electronicBankStatement->getStartvalue())));
-        $statement->appendChild($this->createElement("closevalue", Util::formatMoney($electronicBankStatement->getClosevalue())));
 
         $transactions = $this->createElement("transactions");
 
@@ -66,8 +55,7 @@ class ElectronicBankStatementDocument extends \DOMDocument
 
             $node->appendChild($this->createElement("type", $transaction->getType()));
             $node->appendChild($this->createElement("reference", $transaction->getReference()));
-            $node->appendChild($this->createElement("debitcredit", $transaction->getDebitcredit()));
-            $node->appendChild($this->createElement("value", Util::formatMoney($transaction->getValue()->absolute())));
+            $this->appendValueValues($node, $transaction);
             $node->appendChild($this->createElement("description", $transaction->getDescription()));
 
             $transactions->appendChild($node);
@@ -75,6 +63,6 @@ class ElectronicBankStatementDocument extends \DOMDocument
 
         $statement->appendChild($transactions);
 
-        $this->root->appendChild($statement);
+        $this->rootElement->appendChild($statement);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\DomDocuments;
+namespace PhpTwinfield\UnitTests;
 
 use Money\Money;
 use PhpTwinfield\DomDocuments\ElectronicBankStatementDocument;
@@ -14,7 +14,7 @@ class ElectronicBankStatementUnitTest extends \PHPUnit\Framework\TestCase
         $statement = new ElectronicBankStatement();
         $statement->setIban("NL91ABNA0417164300");
         $statement->setStartvalue(Money::EUR(768));
-        $statement->setDate(new \DateTime("2013-11-08"));
+        $statement->setDate(new \DateTimeImmutable("2013-11-08"));
         $statement->setStatementnumber(2);
 
         $transaction1 = new ElectronicBankStatementTransaction();
@@ -38,9 +38,9 @@ class ElectronicBankStatementUnitTest extends \PHPUnit\Framework\TestCase
         <iban>NL91ABNA0417164300</iban>
         <date>20131108</date>
         <currency>EUR</currency>
-        <statementnumber>2</statementnumber>
         <startvalue>7.68</startvalue>
         <closevalue>151.18</closevalue>
+        <statementnumber>2</statementnumber>
         <transactions>
             <transaction>
                 <type>N100</type>
@@ -80,9 +80,9 @@ XML
     <statement target="electronicstatements" importduplicate="1">
         <date>20171130</date>
         <currency>EUR</currency>
-        <statementnumber>236</statementnumber>
         <startvalue>0.00</startvalue>
         <closevalue>0.00</closevalue>
+        <statementnumber>236</statementnumber>
         <transactions />
     </statement>
 </statements>

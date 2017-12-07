@@ -2,9 +2,14 @@
 
 namespace PhpTwinfield\IntegrationTests;
 
+use Money\Money;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
+use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Enums\Destiny;
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Mappers\TransactionMapper;
+use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\SalesTransaction;
 use PhpTwinfield\SalesTransactionLine;
@@ -47,20 +52,20 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $salesTransaction = $this->transactionApiConnector->get(SalesTransaction::class, 'SLS', '201300095', $this->office);
 
         $this->assertInstanceOf(SalesTransaction::class, $salesTransaction);
-        $this->assertSame(SalesTransaction::DESTINY_TEMPORARY, $salesTransaction->getDestiny());
-        $this->assertNull($salesTransaction->getAutoBalanceVat());
+        $this->assertEquals(Destiny::TEMPORARY(), $salesTransaction->getDestiny());
+        $this->assertNull($salesTransaction->isAutoBalanceVat());
         $this->assertSame(false, $salesTransaction->getRaiseWarning());
-        $this->assertSame('001', $salesTransaction->getOffice());
+        $this->assertEquals(Office::fromCode('001'), $salesTransaction->getOffice());
         $this->assertSame('SLS', $salesTransaction->getCode());
         $this->assertSame(201300095, $salesTransaction->getNumber());
         $this->assertSame('2013/05', $salesTransaction->getPeriod());
         $this->assertSame('EUR', $salesTransaction->getCurrency());
-        $this->assertSame('20130502', $salesTransaction->getDate());
+        $this->assertEquals(new \DateTimeImmutable('2013-05-02'), $salesTransaction->getDate());
         $this->assertSame('import', $salesTransaction->getOrigin());
         $this->assertNull($salesTransaction->getFreetext1());
         $this->assertNull($salesTransaction->getFreetext2());
         $this->assertNull($salesTransaction->getFreetext3());
-        $this->assertSame('20130506', $salesTransaction->getDueDate());
+        $this->assertEquals(new \DateTimeImmutable('2013-05-06'), $salesTransaction->getDueDate());
         $this->assertSame('20130-6000', $salesTransaction->getInvoiceNumber());
         $this->assertSame('+++100/0160/01495+++', $salesTransaction->getPaymentReference());
         $this->assertSame('', $salesTransaction->getOriginReference());
@@ -71,12 +76,12 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertArrayHasKey('1', $salesTransactionLines);
         $totalLine = $salesTransactionLines['1'];
-        $this->assertSame(SalesTransactionLine::TYPE_TOTAL, $totalLine->getType());
+        $this->assertEquals(LineType::TOTAL(), $totalLine->getType());
         $this->assertSame('1', $totalLine->getId());
         $this->assertSame('1300', $totalLine->getDim1());
         $this->assertSame('1000', $totalLine->getDim2());
-        $this->assertSame(SalesTransactionLine::DEBIT, $totalLine->getDebitCredit());
-        $this->assertSame(121.00, $totalLine->getValue());
+        $this->assertEquals(DebitCredit::DEBIT(), $totalLine->getDebitCredit());
+        $this->assertEquals(Money::EUR(12100), $totalLine->getValue());
         $this->assertSame(121.00, $totalLine->getBaseValue());
         $this->assertSame(1.0, $totalLine->getRate());
         $this->assertSame(156.53, $totalLine->getRepValue());
@@ -97,12 +102,12 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertArrayHasKey('2', $salesTransactionLines);
         $detailLine = $salesTransactionLines['2'];
-        $this->assertSame(SalesTransactionLine::TYPE_DETAIL, $detailLine->getType());
+        $this->assertEquals(LineType::DETAIL(), $detailLine->getType());
         $this->assertSame('2', $detailLine->getId());
         $this->assertSame('8020', $detailLine->getDim1());
         $this->assertNull($detailLine->getDim2());
-        $this->assertSame(SalesTransactionLine::CREDIT, $detailLine->getDebitCredit());
-        $this->assertSame(100.00, $detailLine->getValue());
+        $this->assertEquals(DebitCredit::CREDIT(), $detailLine->getDebitCredit());
+        $this->assertEquals(Money::EUR(10000), $detailLine->getValue());
         $this->assertSame(100.00, $detailLine->getBaseValue());
         $this->assertSame(1.0, $detailLine->getRate());
         $this->assertSame(129.36, $detailLine->getRepValue());
@@ -123,12 +128,12 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertArrayHasKey('3', $salesTransactionLines);
         $vatLine = $salesTransactionLines['3'];
-        $this->assertSame(SalesTransactionLine::TYPE_VAT, $vatLine->getType());
+        $this->assertEquals(LineType::VAT(), $vatLine->getType());
         $this->assertSame('3', $vatLine->getId());
         $this->assertSame('1530', $vatLine->getDim1());
         $this->assertNull($vatLine->getDim2());
-        $this->assertSame(SalesTransactionLine::CREDIT, $vatLine->getDebitCredit());
-        $this->assertSame(21.00, $vatLine->getValue());
+        $this->assertEquals(DebitCredit::CREDIT(), $vatLine->getDebitCredit());
+        $this->assertEquals(Money::EUR(2100), $vatLine->getValue());
         $this->assertSame(21.00, $vatLine->getBaseValue());
         $this->assertSame(1.0, $vatLine->getRate());
         $this->assertSame(27.17, $vatLine->getRepValue());
@@ -152,34 +157,32 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
     {
         $salesTransaction = new SalesTransaction();
         $salesTransaction
-            ->setDestiny(SalesTransaction::DESTINY_TEMPORARY)
+            ->setDestiny(Destiny::TEMPORARY())
             ->setRaiseWarning(false)
             ->setCode('SLS')
             ->setCurrency('EUR')
-            ->setDate('20130502')
+            ->setDate(new \DateTimeImmutable('2013-05-02'))
             ->setPeriod('2013/05')
             ->setInvoiceNumber('20130-6000')
             ->setPaymentReference('+++100/0160/01495+++')
-            ->setOffice('001')
-            ->setDueDate('20130506');
+            ->setOffice(Office::fromCode('001'))
+            ->setDueDate(new \DateTimeImmutable('2013-05-06'));
 
         $totalLine = new SalesTransactionLine();
         $totalLine
-            ->setType(SalesTransactionLine::TYPE_TOTAL)
+            ->setType(LineType::TOTAL())
             ->setId('1')
             ->setDim1('1300')
             ->setDim2('1000')
-            ->setValue(121.00)
-            ->setDebitCredit(SalesTransactionLine::DEBIT)
+            ->setValue(Money::EUR(-12100))
             ->setDescription('');
 
         $detailLine = new SalesTransactionLine();
         $detailLine
-            ->setType(SalesTransactionLine::TYPE_DETAIL)
+            ->setType(LineType::DETAIL())
             ->setId('2')
             ->setDim1('8020')
-            ->setValue(100.00)
-            ->setDebitCredit(SalesTransactionLine::CREDIT)
+            ->setValue(Money::EUR(10000))
             ->setDescription('Outfit')
             ->setVatCode('VH');
 

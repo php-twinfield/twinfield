@@ -2,6 +2,13 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Transactions\TransactionFields\AutoBalanceVatField;
+use PhpTwinfield\Transactions\TransactionFields\DestinyField;
+use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
+use PhpTwinfield\Transactions\TransactionFields\OfficeField;
+use PhpTwinfield\Transactions\TransactionLineFields\DateField;
+use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
 use Webmozart\Assert\Assert;
 
 /**
@@ -11,28 +18,17 @@ use Webmozart\Assert\Assert;
  */
 abstract class BaseTransaction extends BaseObject
 {
-    const DESTINY_TEMPORARY = 'temporary'; // Also called 'provisional'
-    const DESTINY_FINAL     = 'final';
-
-    /**
-     * @var string|null Either self::DESTINY_TEMPORARY or self::DESTINY_FINAL.
-     */
-    private $destiny;
-
-    /**
-     * @var bool|null Should VAT be rounded or not? Rounding will only be done with a maximum of two cents.
-     */
-    private $autoBalanceVat;
+    use DestinyField;
+    use AutoBalanceVatField;
+    use OfficeField;
+    use PeriodField;
+    use FreeTextFields;
+    use DateField;
 
     /**
      * @var bool|null Should warnings be given or not?
      */
     private $raiseWarning;
-
-    /**
-     * @var string|null The office code.
-     */
-    private $office;
 
     /**
      * @var string|null The transaction type code.
@@ -45,40 +41,14 @@ abstract class BaseTransaction extends BaseObject
     private $number;
 
     /**
-     * @var string|null Period in 'YYYY/PP' format (e.g. '2013/05'). If this tag is not included or if it is left empty,
-     *                  the period is determined by the system based on the provided transaction date.
-     */
-    private $period;
-
-    /**
      * @var string|null The currency code.
      */
     private $currency;
 
     /**
-     * @var string|null The date in 'YYYYMMDD' format.
-     */
-    private $date;
-
-    /**
      * @var string|null The sales transaction origin. Read-only attribute.
      */
     private $origin;
-
-    /**
-     * @var string|null
-     */
-    private $freetext1;
-
-    /**
-     * @var string|null
-     */
-    private $freetext2;
-
-    /**
-     * @var string|null
-     */
-    private $freetext3;
 
     /**
      * @var BaseTransactionLine[]
@@ -90,44 +60,6 @@ abstract class BaseTransaction extends BaseObject
      *                BaseTransactionLine.
      */
     abstract public function getLineClassName(): string;
-
-    /**
-     * @return string|null
-     */
-    public function getDestiny(): ?string
-    {
-        return $this->destiny;
-    }
-
-    /**
-     * @param string|null $destiny
-     * @return $this
-     */
-    public function setDestiny(?string $destiny): BaseTransaction
-    {
-        $this->destiny = $destiny;
-
-        return $this;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getAutoBalanceVat(): ?bool
-    {
-        return $this->autoBalanceVat;
-    }
-
-    /**
-     * @param bool|null $autoBalanceVat
-     * @return $this
-     */
-    public function setAutoBalanceVat(?bool $autoBalanceVat): BaseTransaction
-    {
-        $this->autoBalanceVat = $autoBalanceVat;
-
-        return $this;
-    }
 
     /**
      * @return bool|null
@@ -144,25 +76,6 @@ abstract class BaseTransaction extends BaseObject
     public function setRaiseWarning(?bool $raiseWarning): BaseTransaction
     {
         $this->raiseWarning = $raiseWarning;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getOffice(): ?string
-    {
-        return $this->office;
-    }
-
-    /**
-     * @param string|null $office
-     * @return $this
-     */
-    public function setOffice(?string $office): BaseTransaction
-    {
-        $this->office = $office;
 
         return $this;
     }
@@ -208,25 +121,6 @@ abstract class BaseTransaction extends BaseObject
     /**
      * @return string|null
      */
-    public function getPeriod(): ?string
-    {
-        return $this->period;
-    }
-
-    /**
-     * @param string|null $period
-     * @return $this
-     */
-    public function setPeriod(?string $period): BaseTransaction
-    {
-        $this->period = $period;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
     public function getCurrency(): ?string
     {
         return $this->currency;
@@ -239,25 +133,6 @@ abstract class BaseTransaction extends BaseObject
     public function setCurrency(?string $currency): BaseTransaction
     {
         $this->currency = $currency;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDate(): ?string
-    {
-        return $this->date;
-    }
-
-    /**
-     * @param string|null $date
-     * @return $this
-     */
-    public function setDate(?string $date): BaseTransaction
-    {
-        $this->date = $date;
 
         return $this;
     }
@@ -282,63 +157,6 @@ abstract class BaseTransaction extends BaseObject
     }
 
     /**
-     * @return string|null
-     */
-    public function getFreetext1(): ?string
-    {
-        return $this->freetext1;
-    }
-
-    /**
-     * @param string|null $freetext1
-     * @return $this
-     */
-    public function setFreetext1(?string $freetext1): BaseTransaction
-    {
-        $this->freetext1 = $freetext1;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getFreetext2(): ?string
-    {
-        return $this->freetext2;
-    }
-
-    /**
-     * @param string|null $freetext2
-     * @return $this
-     */
-    public function setFreetext2(?string $freetext2): BaseTransaction
-    {
-        $this->freetext2 = $freetext2;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getFreetext3(): ?string
-    {
-        return $this->freetext3;
-    }
-
-    /**
-     * @param string|null $freetext3
-     * @return $this
-     */
-    public function setFreetext3(?string $freetext3): BaseTransaction
-    {
-        $this->freetext3 = $freetext3;
-
-        return $this;
-    }
-
-    /**
      * @return BaseTransactionLine[]
      */
     public function getLines(): array
@@ -348,11 +166,11 @@ abstract class BaseTransaction extends BaseObject
          * Twinfield returns an error when the total line is not the first line.
          */
         uasort($this->lines, function(BaseTransactionLine $a, BaseTransactionLine $b): int {
-            if ($a->getType() === BaseTransactionLine::TYPE_TOTAL) {
+            if ($a->getType() == LineType::TOTAL()) {
                 return -1;
             }
 
-            if ($b->getType() === BaseTransactionLine::TYPE_TOTAL) {
+            if ($b->getType() == LineType::TOTAL()) {
                 return 1;
             }
 

@@ -2,10 +2,15 @@
 
 namespace PhpTwinfield\Mappers;
 
+use Money\Money;
+use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Enums\Destiny;
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Exception;
 use PhpTwinfield\JournalTransaction;
 use PhpTwinfield\JournalTransactionLine;
 use PhpTwinfield\Message\Message;
+use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\BaseTransactionLine;
@@ -16,6 +21,7 @@ use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
+use PhpTwinfield\Util;
 
 class TransactionMapper
 {
@@ -35,13 +41,14 @@ class TransactionMapper
         $transactions = [];
         $responseDom  = $response->getResponseDocument();
 
+        /** @var \DOMElement $transactionElement */
         foreach ($responseDom->getElementsByTagName('transaction') as $transactionElement) {
             /** @var BaseTransaction $transaction */
             $transaction = new $transactionClassName();
 
             $transaction
                 ->setResult($transactionElement->getAttribute('result'))
-                ->setDestiny($transactionElement->getAttribute('location'));
+                ->setDestiny(new Destiny($transactionElement->getAttribute('location')));
 
             $autoBalanceVat = $transactionElement->getAttribute('autobalancevat');
             if (!empty($autoBalanceVat)) {
@@ -53,25 +60,28 @@ class TransactionMapper
                 $transaction->setRaiseWarning($raiseWarning == 'true');
             }
 
+            $office = new Office();
+            $office->setCode(self::getField($transaction, $transactionElement, 'office'));
+
             $transaction
-                ->setOffice(self::getField($transaction, $transactionElement, 'office'))
+                ->setOffice($office)
                 ->setCode(self::getField($transaction, $transactionElement, 'code'))
                 ->setNumber(self::getField($transaction, $transactionElement, 'number'))
                 ->setPeriod(self::getField($transaction, $transactionElement, 'period'))
                 ->setCurrency(self::getField($transaction, $transactionElement, 'currency'))
-                ->setDate(self::getField($transaction, $transactionElement, 'date'))
+                ->setDateFromString(self::getField($transaction, $transactionElement, 'date'))
                 ->setOrigin(self::getField($transaction, $transactionElement, 'origin'))
                 ->setFreetext1(self::getField($transaction, $transactionElement, 'freetext1'))
                 ->setFreetext2(self::getField($transaction, $transactionElement, 'freetext2'))
                 ->setFreetext3(self::getField($transaction, $transactionElement, 'freetext3'));
 
-            if (in_array(DueDateField::class, class_uses($transaction))) {
-                $transaction->setDueDate(self::getField($transaction, $transactionElement, 'duedate'));
+            if (Util::objectUses(DueDateField::class, $transaction)) {
+                $transaction->setDueDateFromString(self::getField($transaction, $transactionElement, 'duedate'));
             }
-            if (in_array(InvoiceNumberField::class, class_uses($transaction))) {
+            if (Util::objectUses(InvoiceNumberField::class, $transaction)) {
                 $transaction->setInvoiceNumber(self::getField($transaction, $transactionElement, 'invoicenumber'));
             }
-            if (in_array(PaymentReferenceField::class, class_uses($transaction))) {
+            if (Util::objectUses(PaymentReferenceField::class, $transaction)) {
                 $transaction
                     ->setPaymentReference(self::getField($transaction, $transactionElement, 'paymentreference'));
             }
@@ -93,12 +103,12 @@ class TransactionMapper
                 $transactionLine = new $transactionLineClassName();
 
                 $transactionLine
-                    ->setType($lineElement->getAttribute('type'))
+                    ->setType(new LineType($lineElement->getAttribute('type')))
                     ->setId($lineElement->getAttribute('id'))
                     ->setDim1(self::getField($transaction, $lineElement, 'dim1'))
                     ->setDim2(self::getField($transaction, $lineElement, 'dim2'))
-                    ->setDebitCredit(self::getField($transaction, $lineElement, 'debitcredit'))
-                    ->setValue(self::getField($transaction, $lineElement, 'value'))
+                    ->setValue(Money::EUR(100 * self::getField($transaction, $lineElement, 'value')))
+                    ->setDebitCredit(new DebitCredit(self::getField($transaction, $lineElement, 'debitcredit')))
                     ->setBaseValue(self::getField($transaction, $lineElement, 'basevalue'))
                     ->setRate(self::getField($transaction, $lineElement, 'rate'))
                     ->setRepValue(self::getField($transaction, $lineElement, 'repvalue'))

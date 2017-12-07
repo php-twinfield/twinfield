@@ -2,9 +2,14 @@
 
 namespace PhpTwinfield\IntegrationTests;
 
+use Money\Money;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
+use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Enums\Destiny;
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Mappers\TransactionMapper;
+use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\JournalTransaction;
 use PhpTwinfield\JournalTransactionLine;
@@ -48,15 +53,15 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $journalTransaction = $this->transactionApiConnector->get(JournalTransaction::class, 'MEMO', '201300003', $this->office);
 
         $this->assertInstanceOf(JournalTransaction::class, $journalTransaction);
-        $this->assertSame(JournalTransaction::DESTINY_TEMPORARY, $journalTransaction->getDestiny());
-        $this->assertNull($journalTransaction->getAutoBalanceVat());
+        $this->assertEquals(Destiny::TEMPORARY(), $journalTransaction->getDestiny());
+        $this->assertNull($journalTransaction->isAutoBalanceVat());
         $this->assertNull($journalTransaction->getRaiseWarning());
-        $this->assertSame('0-0-1-NL-001', $journalTransaction->getOffice());
+        $this->assertEquals(Office::fromCode('0-0-1-NL-001'), $journalTransaction->getOffice());
         $this->assertSame('MEMO', $journalTransaction->getCode());
         $this->assertSame(201300003, $journalTransaction->getNumber());
         $this->assertSame('2013/11', $journalTransaction->getPeriod());
         $this->assertSame('EUR', $journalTransaction->getCurrency());
-        $this->assertSame('20131104', $journalTransaction->getDate());
+        $this->assertEquals(new \DateTimeImmutable('2013-11-04'), $journalTransaction->getDate());
         $this->assertSame('import', $journalTransaction->getOrigin());
         $this->assertNull($journalTransaction->getFreetext1());
         $this->assertNull($journalTransaction->getFreetext2());
@@ -69,12 +74,12 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertArrayHasKey('1', $journalTransactionLines);
         $detailLine1 = $journalTransactionLines['1'];
-        $this->assertSame(JournalTransactionLine::TYPE_DETAIL, $detailLine1->getType());
+        $this->assertEquals(LineType::DETAIL(), $detailLine1->getType());
         $this->assertSame('1', $detailLine1->getId());
         $this->assertSame('4008', $detailLine1->getDim1());
         $this->assertNull($detailLine1->getDim2());
-        $this->assertSame(JournalTransactionLine::DEBIT, $detailLine1->getDebitCredit());
-        $this->assertSame(435.55, $detailLine1->getValue());
+        $this->assertEquals(DebitCredit::DEBIT(), $detailLine1->getDebitCredit());
+        $this->assertEquals(Money::EUR(43555), $detailLine1->getValue());
         $this->assertSame(435.55, $detailLine1->getBaseValue());
         $this->assertSame(1.0, $detailLine1->getRate());
         $this->assertSame(653.33, $detailLine1->getRepValue());
@@ -93,12 +98,12 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertArrayHasKey('2', $journalTransactionLines);
         $detailLine2 = $journalTransactionLines['2'];
-        $this->assertSame(JournalTransactionLine::TYPE_DETAIL, $detailLine2->getType());
+        $this->assertEquals(LineType::DETAIL(), $detailLine2->getType());
         $this->assertSame('2', $detailLine2->getId());
         $this->assertSame('1300', $detailLine2->getDim1());
         $this->assertSame('1000', $detailLine2->getDim2());
-        $this->assertSame(JournalTransactionLine::CREDIT, $detailLine2->getDebitCredit());
-        $this->assertSame(435.55, $detailLine2->getValue());
+        $this->assertEquals(DebitCredit::CREDIT(), $detailLine2->getDebitCredit());
+        $this->assertEquals(Money::EUR(43555), $detailLine2->getValue());
         $this->assertSame(435.55, $detailLine2->getBaseValue());
         $this->assertSame(1.0, $detailLine2->getRate());
         $this->assertSame(653.33, $detailLine2->getRepValue());
@@ -120,28 +125,26 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
     {
         $journalTransaction = new JournalTransaction();
         $journalTransaction
-            ->setDestiny(JournalTransaction::DESTINY_TEMPORARY)
+            ->setDestiny(Destiny::TEMPORARY())
             ->setCode('MEMO')
             ->setCurrency('EUR')
-            ->setDate('20131104')
-            ->setOffice('001');
+            ->setDate(new \DateTimeImmutable('2013-11-04'))
+            ->setOffice(Office::fromCode('001'));
 
         $detailLine1 = new JournalTransactionLine();
         $detailLine1
-            ->setType(JournalTransactionLine::TYPE_DETAIL)
+            ->setType(LineType::DETAIL())
             ->setId('1')
             ->setDim1('4008')
-            ->setDebitCredit(JournalTransactionLine::DEBIT)
-            ->setValue(435.55);
+            ->setValue(Money::EUR(-43555));
 
         $detailLine2 = new JournalTransactionLine();
         $detailLine2
-            ->setType(JournalTransactionLine::TYPE_DETAIL)
+            ->setType(LineType::DETAIL())
             ->setId('2')
             ->setDim1('1300')
             ->setDim2('1000')
-            ->setDebitCredit(JournalTransactionLine::CREDIT)
-            ->setValue(435.55)
+            ->setValue(Money::EUR(43555))
             ->setInvoiceNumber('11001770')
             ->setDescription('Invoice paid');
 

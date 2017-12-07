@@ -3,6 +3,7 @@
 namespace PhpTwinfield\Transactions\TransactionLineFields;
 
 use PhpTwinfield\BaseTransactionLine;
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Exception;
 
 trait ValueOpenField
@@ -14,10 +15,7 @@ trait ValueOpenField
      */
     protected $valueOpen;
 
-    /**
-     * @return string|null
-     */
-    abstract public function getType(): ?string;
+    abstract public function getType(): LineType;
 
     /**
      * @return float|null
@@ -34,7 +32,7 @@ trait ValueOpenField
      */
     public function setValueOpen(?float $valueOpen): self
     {
-        if ($valueOpen !== null && $this->getType() != BaseTransactionLine::TYPE_TOTAL) {
+        if ($valueOpen !== null && $this->getType() != LineType::TOTAL()) {
             throw Exception::invalidFieldForLineType('valueOpen', $this);
         }
 

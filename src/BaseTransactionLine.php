@@ -2,6 +2,10 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
+use SebastianBergmann\Diff\Line;
+
 /**
  * @todo $dim3 Meaning differs per transaction type.
  * @todo $relation Only if line type is total (or detail for Journal transactions). Read-only attribute.
@@ -19,12 +23,7 @@ namespace PhpTwinfield;
  */
 abstract class BaseTransactionLine
 {
-    public const TYPE_DETAIL = 'detail';
-    public const TYPE_VAT    = 'vat';
-    public const TYPE_TOTAL  = 'total';
-
-    public const DEBIT  = 'debit';
-    public const CREDIT = 'credit';
+    use ValueFields;
 
     public const MATCHSTATUS_AVAILABLE    = 'available';
     public const MATCHSTATUS_MATCHED      = 'matched';
@@ -36,7 +35,7 @@ abstract class BaseTransactionLine
     const PERFORMANCETYPE_GOODS    = 'goods';
 
     /**
-     * @var string|null Either self::TYPE_TOTAL, self::TYPE_DETAIL or self::TYPE_VAT.
+     * @var LineType
      */
     protected $type;
 
@@ -54,17 +53,6 @@ abstract class BaseTransactionLine
      * @var string|null Meaning changes per transaction type, see explanation in sub classes.
      */
     protected $dim2;
-
-    /**
-     * @var string|null Either self::DEBIT or self::CREDIT. Meaning changes per transaction type, see explanation in sub
-     *                  classes.
-     */
-    protected $debitCredit;
-
-    /**
-     * @var float|null Meaning changes per transaction type, see explanation in sub classes.
-     */
-    protected $value;
 
     /**
      * @var float|null Amount in the base currency.
@@ -123,19 +111,16 @@ abstract class BaseTransactionLine
      */
     protected $vatValue;
 
-    /**
-     * @return string|null
-     */
-    public function getType(): ?string
+    public function getType(): LineType
     {
         return $this->type;
     }
 
     /**
-     * @param string|null $type
+     * @param LineType $type
      * @return $this
      */
-    public function setType(?string $type): BaseTransactionLine
+    public function setType(LineType $type): BaseTransactionLine
     {
         $this->type = $type;
 
@@ -195,44 +180,6 @@ abstract class BaseTransactionLine
     public function setDim2(?string $dim2): BaseTransactionLine
     {
         $this->dim2 = $dim2;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDebitCredit(): ?string
-    {
-        return $this->debitCredit;
-    }
-
-    /**
-     * @param string|null $debitCredit
-     * @return $this
-     */
-    public function setDebitCredit(?string $debitCredit): BaseTransactionLine
-    {
-        $this->debitCredit = $debitCredit;
-
-        return $this;
-    }
-
-    /**
-     * @return float|null
-     */
-    public function getValue(): ?float
-    {
-        return $this->value;
-    }
-
-    /**
-     * @param float|null $value
-     * @return $this
-     */
-    public function setValue(?float $value): BaseTransactionLine
-    {
-        $this->value = $value;
 
         return $this;
     }
@@ -404,7 +351,7 @@ abstract class BaseTransactionLine
      */
     public function setVatCode(?string $vatCode): BaseTransactionLine
     {
-        if ($vatCode !== null && !in_array($this->getType(), [self::TYPE_DETAIL, self::TYPE_VAT])) {
+        if ($vatCode !== null && !in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()])) {
             throw Exception::invalidFieldForLineType('vatCode', $this);
         }
 
@@ -428,7 +375,7 @@ abstract class BaseTransactionLine
      */
     public function setVatValue(?float $vatValue): BaseTransactionLine
     {
-        if ($vatValue !== null && $this->getType() != self::TYPE_DETAIL) {
+        if ($vatValue !== null && $this->getType() != LineType::DETAIL()) {
             throw Exception::invalidFieldForLineType('vatValue', $this);
         }
 

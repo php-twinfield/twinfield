@@ -14,14 +14,14 @@
             <line type="total" id="1">
                 <dim1>1600</dim1>
                 <dim2>2000</dim2>
-                <value>121.00</value>
                 <debitcredit>credit</debitcredit>
+                <value>121.00</value>
                 <description />
             </line>
             <line type="detail" id="2">
                 <dim1>8020</dim1>
-                <value>100.00</value>
                 <debitcredit>debit</debitcredit>
+                <value>100.00</value>
                 <description>Outfit</description>
                 <vatcode>IH</vatcode>
             </line>

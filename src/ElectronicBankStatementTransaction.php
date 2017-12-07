@@ -3,17 +3,13 @@
 namespace PhpTwinfield;
 
 use Money\Money;
+use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 
 class ElectronicBankStatementTransaction
 {
-    /**
-     * money is paid by bank
-     */
-    private const DEBIT = "debit";
-    /**
-     * money is received by bank
-     */
-    private const CREDIT = "credit";
+    use ValueFields;
+
     /**
      * Contra account number in BBAN format. Either use contraaccount or contraiban or leave empty.
      *
@@ -32,20 +28,13 @@ class ElectronicBankStatementTransaction
      * @var string
      */
     private $type;
+
     /**
      * Reference for own use.
      *
      * @var string
      */
     private $reference;
-    /**
-     * @var
-     */
-    private $debitcredit;
-    /**
-     * @var Money
-     */
-    private $value;
 
     /**
      * @var string
@@ -124,27 +113,6 @@ class ElectronicBankStatementTransaction
     public function setReference(string $reference): void
     {
         $this->reference = $reference;
-    }
-
-    public function getDebitcredit(): string
-    {
-        return $this->debitcredit;
-    }
-
-    public function getValue(): Money
-    {
-        return $this->value;
-    }
-
-    public function setValue(Money $value): void
-    {
-        if ($value->isPositive()) {
-            $this->debitcredit = self::CREDIT;
-        } else {
-            $this->debitcredit = self::DEBIT;
-        }
-
-        $this->value = $value;
     }
 
     public function getDescription(): string
