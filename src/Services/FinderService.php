@@ -4,6 +4,11 @@ namespace PhpTwinfield\Services;
 
 class FinderService extends BaseService
 {
+    protected function WSDL(): string
+    {
+        return '/webservices/finder.asmx?wsdl';
+    }
+
     /**
      * @param string $type One of the self::TYPE_* constants.
      * @param string $pattern The search pattern. May contain wildcards * and ?
