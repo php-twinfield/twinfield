@@ -1,6 +1,12 @@
 <?php
 namespace PhpTwinfield\Secure;
 
+use PhpTwinfield\Exception;
+use PhpTwinfield\Enums\Services;
+use PhpTwinfield\Services\BaseService;
+use PhpTwinfield\Services\LoginService;
+use Webmozart\Assert\Assert;
+
 /**
  * Login Class.
  *
@@ -25,10 +31,6 @@ namespace PhpTwinfield\Secure;
  */
 class Login
 {
-    protected $loginWSDL    = 'https://login.twinfield.com/webservices/session.asmx?wsdl';
-    protected $clusterWSDL  = '%s/webservices/processxml.asmx?wsdl';
-    protected $xmlNamespace = 'http://schemas.xmlsoap.org/soap/envelope/';
-    
     /**
      * Holds the passed in Config instance
      * 
@@ -41,18 +43,9 @@ class Login
      * The SoapClient used to login to Twinfield
      *
      * @access private
-     * @var SoapClient
+     * @var LoginService
      */
-    private $soapLoginClient;
-
-    /**
-     * The response from the login client, when
-     * successful
-     *
-     * @access private
-     * @var string
-     */
-    private $loginResponse;
+    private $loginService;
 
     /**
      * The sessionID for the successful login
@@ -60,7 +53,7 @@ class Login
      * @access private
      * @var string
      */
-    public $sessionID;
+    private $sessionID;
 
     /**
      * The server cluster used for future XML
@@ -69,115 +62,61 @@ class Login
      * @access private
      * @var string
      */
-    public $cluster = 'https://c3.twinfield.com';
-
-    /**
-     * If the login has been processed and was
-     * successful
-     *
-     * @access private
-     * @var boolean
-     */
-    private $processed = false;
+    private $cluster = 'https://c3.twinfield.com';
 
     public function __construct(Config $config)
     {
         $this->config = $config;
         $this->cluster = !is_null($config->cluster) ? $config->cluster : $this->cluster;
-        $this->soapLoginClient = new SoapClient($this->loginWSDL, array('trace' => 1));
+        $this->loginService = new LoginService(null, $config->getSoapClientOptions());
     }
 
     /**
-     * Will process the login if no session exists yet.
-     *
-     * If successful, will set the session and cluster information
-     * to the class
-     *
-     * @since 0.0.1
-     *
-     * @access public
-     * @return boolean If successful or not
+     * @throws Exception
      */
-    public function process()
+    protected function login()
     {
-        if ($this->processed) {
-            return true;
+        if ($this->sessionID) {
+            return;
         }
 
-        // Process logon
-        if ($this->config->getClientToken() != '') {
-            $response = $this->soapLoginClient->OAuthLogon($this->config->getCredentials());
-            $result = $response->OAuthLogonResult;
-        } else {
-            $response = $this->soapLoginClient->Logon($this->config->getCredentials());
-            $result = $response->LogonResult;
-        }
-
-        // Check response is successful
-        if ($result == 'Ok') {
-            // Response from the logon request
-            $this->loginResponse = $this->soapLoginClient->__getLastResponse();
-
-            // Make a new DOM and load the response XML
-            $envelope = new \DOMDocument();
-            $envelope->loadXML($this->loginResponse);
-
-            // Gets SessionID
-            $sessionID       = $envelope->getElementsByTagName('SessionID');
-            $this->sessionID = $sessionID->item(0)->textContent;
-
-            // Gets Cluster URL
-            $cluster       = $envelope->getElementsByTagName('cluster');
-            $this->cluster = $cluster->item(0)->textContent;
-            // This login object is processed!
-            $this->processed = true;
-
-            return true;
-        }
-
-        return false;
+        [$this->sessionID, $this->cluster] = $this->loginService->getSessionIdAndCluster($this->config);
     }
 
     /**
-     * Gets a new instance of the soap header.
-     *
-     * Will automaticly login if haven't already on this instance
-     *
-     * @since 0.0.1
-     *
-     * @access public
-     * @return \SoapHeader
+     * @var BaseService[]
      */
-    public function getHeader()
-    {
-        if (! $this->processed || is_null($this->cluster)) {
-            $this->process();
-        }
-
-        return new \SoapHeader(
-            'http://www.twinfield.com/',
-            'Header',
-            array('SessionID' => $this->sessionID)
-        );
-    }
+    private $authenticatedClients = [];
 
     /**
-     * Gets the soap client with the headers attached. Will automatically login if haven't already on this instance.
+     * Get an authenticated client for a specific service/
      *
-     * @param null|string $wsdl
-     * @return SoapClient
+     * @param Services $service
+     * @throws Exception
+     * @return BaseService
      */
-    public function getClient(?string $wsdl = null): SoapClient
+    public function getAuthenticatedClient(Services $service): BaseService
     {
-        if (! $this->processed) {
-            $this->process();
-        }
-        $wsdl = is_null($wsdl) ? $this->clusterWSDL : $wsdl;
-        $header = $this->getHeader();
-        // Makes a new client, and assigns the header to it
-        $client = new SoapClient(sprintf($wsdl, $this->cluster), $this->config->getSoapClientOptions());
-        $client->__setSoapHeaders($header);
+        $this->login();
 
-        return $client;
+        $key = $service->getKey();
+
+        if (!array_key_exists($key, $this->authenticatedClients)) {
+
+            $classname = $service->getValue();
+
+            $this->authenticatedClients[$key] = new $classname(
+                "{$this->cluster}{$service->getValue()}",
+                $this->config->getSoapClientOptions() + ["cluster" => $this->cluster]
+            );
+
+            $this->authenticatedClients[$key]->__setSoapHeaders(new \SoapHeader(
+                'http://www.twinfield.com/',
+                'Header',
+                array('SessionID' => $this->sessionID)
+            ));
+        }
+
+        return $this->authenticatedClients[$key];
     }
 }

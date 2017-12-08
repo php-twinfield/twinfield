@@ -83,7 +83,12 @@ class SupplierMapper
 
             // If it has a value, set it to the associated method
             if (isset($_tag) && isset($_tag->textContent)) {
-                $supplier->$method($_tag->textContent);
+                $value = $_tag->textContent;
+                if ($value == 'true' || $value == 'false') {
+                    $value = $value == 'true';
+                }
+
+                $supplier->$method($value);
             }
         }
         

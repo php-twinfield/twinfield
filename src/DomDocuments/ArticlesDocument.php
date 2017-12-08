@@ -81,7 +81,11 @@ class ArticlesDocument extends \DOMDocument
         // Go through each Article element and use the assigned method
         foreach ($articleTags as $tag => $method) {
             // Make text node for method value
-            $node = $this->createTextNode($article->$method());
+            $nodeValue = $article->$method();
+            if (is_bool($nodeValue)) {
+                $nodeValue = ($nodeValue) ? 'true' : 'false';
+            }
+            $node = $this->createTextNode($nodeValue);
 
             // Make the actual element and assign the node
             $element = $this->createElement($tag);

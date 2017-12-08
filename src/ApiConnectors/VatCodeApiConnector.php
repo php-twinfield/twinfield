@@ -13,7 +13,7 @@ use PhpTwinfield\VatCode;
  *
  * @author Emile Bons <emile@emilebons.nl>
  */
-class VatCodeApiConnector extends BaseFinderApiConnector
+class VatCodeApiConnector extends FinderApiConnector
 {
     /**
      * List all VAT codes.
@@ -37,7 +37,7 @@ class VatCodeApiConnector extends BaseFinderApiConnector
         int $maxRows = 100,
         array $options = []
     ): array {
-        $response = $this->searchFinder(self::TYPE_VAT_CODES, $pattern, $field, $firstRow, $maxRows, $options);
+        $response = $this->service->searchFinder(self::TYPE_VAT_CODES, $pattern, $field, $firstRow, $maxRows, $options);
 
         if ($response->data->TotalRows == 0) {
             return [];

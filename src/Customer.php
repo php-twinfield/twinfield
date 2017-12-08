@@ -13,7 +13,13 @@ class Customer
     private $UID;
     private $status;
     private $name;
-    private $type;
+
+    /**
+     * Dimension type of customers is DEB.
+     *
+     * @var string
+     */
+    private $type = "DEB";
     private $inUse;
     private $behaviour;
     private $touched;
@@ -26,10 +32,10 @@ class Customer
     private $vatNumber;
     private $editDimensionName;
     private $dueDays = 0;
-    private $payAvailable = 'false';
+    private $payAvailable = false;
     private $payCode;
     private $vatCode;
-    private $eBilling = 'false';
+    private $eBilling = false;
     private $eBillMail;
     private $creditManagement;
     private $addresses = array();
@@ -108,12 +114,6 @@ class Customer
     public function getType()
     {
         return $this->type;
-    }
-
-    public function setType($type)
-    {
-        $this->type = $type;
-        return $this;
     }
 
     public function getInUse()
@@ -252,12 +252,12 @@ class Customer
         return $this;
     }
 
-    public function getPayAvailable()
+    public function getPayAvailable(): bool
     {
         return $this->payAvailable;
     }
 
-    public function setPayAvailable($payAvailable)
+    public function setPayAvailable(bool $payAvailable): self
     {
         $this->payAvailable = $payAvailable;
         return $this;
@@ -285,12 +285,12 @@ class Customer
         return $this;
     }
 
-    public function getEBilling()
+    public function getEBilling(): bool
     {
         return $this->eBilling;
     }
 
-    public function setEBilling($eBilling)
+    public function setEBilling(bool $eBilling): self
     {
         $this->eBilling = $eBilling;
         return $this;

@@ -21,7 +21,7 @@ class InvoiceMapper
             'currency'             => 'setCurrency',
             'period'               => 'setPeriod',
             'invoicedate'          => 'setInvoiceDate',
-            'duedate'              => 'setDueDate',
+            'duedate'              => 'setDueDateFromString',
             'performancedate'      => 'setPerformanceDate',
             'paymentmethod'        => 'setPaymentMethod',
             'bank'                 => 'setBank',

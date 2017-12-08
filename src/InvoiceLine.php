@@ -1,12 +1,16 @@
 <?php
 namespace PhpTwinfield;
 
+use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
+
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices
  * @todo Add documentation and typehints to all properties.
  */
 class InvoiceLine
 {
+    use FreeTextFields;
+
     private $ID;
     private $quantity;
     private $article;
@@ -20,9 +24,6 @@ class InvoiceLine
     private $vatValue;
     private $valueInc;
     private $vatCode;
-    private $freeText1;
-    private $freeText2;
-    private $freeText3;
     private $performanceDate;
     private $dim1;
 
@@ -32,8 +33,8 @@ class InvoiceLine
 
         $this->quantity  = $quantity;
         $this->article   = $article;
-        $this->freeText1 = $freeText1;
-        $this->freeText2 = $freeText2;
+        $this->setFreeText1($freeText1);
+        $this->setFreeText2($freeText2);
     }
 
     public function getID()
@@ -165,39 +166,6 @@ class InvoiceLine
     public function setVatCode($vatCode)
     {
         $this->vatCode = $vatCode;
-        return $this;
-    }
-
-    public function getFreeText1()
-    {
-        return $this->freeText1;
-    }
-
-    public function setFreeText1($freeText1)
-    {
-        $this->freeText1 = $freeText1;
-        return $this;
-    }
-
-    public function getFreeText2()
-    {
-        return $this->freeText2;
-    }
-
-    public function setFreeText2($freeText2)
-    {
-        $this->freeText2 = $freeText2;
-        return $this;
-    }
-
-    public function getFreeText3()
-    {
-        return $this->freeText3;
-    }
-
-    public function setFreeText3($freeText3)
-    {
-        $this->freeText3 = $freeText3;
         return $this;
     }
 

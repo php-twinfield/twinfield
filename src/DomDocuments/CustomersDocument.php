@@ -2,6 +2,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Customer;
+use PhpTwinfield\CustomerBank;
 
 /**
  * The Document Holder for making new XML customers. Is a child class
@@ -40,14 +41,9 @@ class CustomersDocument extends \DOMDocument
      * Turns a passed Customer class into the required markup for interacting
      * with Twinfield.
      *
-     * This method doesn't return anything, instead just adds the invoice to
-     * this DOMDOcument instance for submission usage.
-     *
-     * @access public
      * @param Customer $customer
-     * @return void | [Adds to this instance]
      */
-    public function addCustomer(Customer $customer)
+    public function addCustomer(Customer $customer): void
     {
         // Elements and their associated methods for customer
         $customerTags = array(
@@ -91,7 +87,7 @@ class CustomersDocument extends \DOMDocument
                 'paycode'      => 'getPayCode',
                 'vatcode'      => 'getVatCode',
                 'ebilling'     => 'getEBilling',
-                'ebillmail'    => 'getEBillMail'
+                'ebillmail'    => 'getEBillMail',
             );
 
             // Make the financial element
@@ -102,7 +98,11 @@ class CustomersDocument extends \DOMDocument
             foreach ($financialsTags as $tag => $method) {
 
                 // Make the text node for the method value
-                $node = $this->createTextNode($customer->$method());
+                $nodeValue = $customer->$method();
+                if (is_bool($nodeValue)) {
+                    $nodeValue = ($nodeValue) ? 'true' : 'false';
+                }
+                $node = $this->createTextNode($nodeValue);
 
                 // Make the actual element and assign the node
                 $element = $this->createElement($tag);
@@ -125,7 +125,7 @@ class CustomersDocument extends \DOMDocument
                 'blocked'           => 'getBlocked',
                 'freetext1'         => 'getFreeText1',
                 'freetext2'         => 'getFreeText2',
-                'comment'           => 'getComment'
+                'comment'           => 'getComment',
             );
 
             // Make the creditmanagement element
@@ -169,7 +169,7 @@ class CustomersDocument extends \DOMDocument
                 'field3'    => 'getField3',
                 'field4'    => 'getField4',
                 'field5'    => 'getField5',
-                'field6'    => 'getField6'
+                'field6'    => 'getField6',
             );
 
             // Make addresses element
@@ -217,7 +217,7 @@ class CustomersDocument extends \DOMDocument
                 'iban'            => 'getIban',
                 'natbiccode'      => 'getNatbiccode',
                 'postcode'        => 'getPostcode',
-                'state'           => 'getState'
+                'state'           => 'getState',
             );
 
             // Make banks element
@@ -225,6 +225,7 @@ class CustomersDocument extends \DOMDocument
             $this->dimensionElement->appendChild($banksElement);
 
             // Go through each bank assigned to the customer
+            /** @var CustomerBank $bank */
             foreach ($banks as $bank) {
 
                 // Makes new bank element

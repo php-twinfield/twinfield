@@ -1,6 +1,9 @@
 <?php
 namespace PhpTwinfield;
 
+use PhpTwinfield\Transactions\TransactionFields\DueDateField;
+use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
+
 /**
  * Invoice Class
  *
@@ -24,15 +27,16 @@ namespace PhpTwinfield;
  */
 class Invoice
 {
+    use PeriodField;
+    use DueDateField;
+
     private $customer;
     private $invoiceType;
     private $office;
     private $invoiceNumber;
     private $status;
     private $currency;
-    private $period;
     private $invoiceDate;
-    private $dueDate;
     private $performanceDate;
     private $paymentMethod;
     private $bank;
@@ -141,17 +145,6 @@ class Invoice
         return $this;
     }
 
-    public function getPeriod()
-    {
-        return $this->period;
-    }
-
-    public function setPeriod($period)
-    {
-        $this->period = $period;
-        return $this;
-    }
-
     public function getInvoiceDate()
     {
         return $this->invoiceDate;
@@ -160,17 +153,6 @@ class Invoice
     public function setInvoiceDate($invoiceDate)
     {
         $this->invoiceDate = $invoiceDate;
-        return $this;
-    }
-
-    public function getDueDate()
-    {
-        return $this->dueDate;
-    }
-
-    public function setDueDate($dueDate)
-    {
-        $this->dueDate = $dueDate;
         return $this;
     }
 

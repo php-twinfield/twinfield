@@ -14,47 +14,11 @@ use PhpTwinfield\Invoice;
  * @copyright (c) 2013, Pronamic
  * @version 0.0.1
  */
-class InvoicesDocument extends \DOMDocument
+class InvoicesDocument extends BaseDocument
 {
-    /**
-     * Holds the <salesinvoice> element
-     * that all additional elements should be a child of.
-     * @var \DOMElement
-     */
-    private $salesInvoicesElement;
-
-    /**
-     * Creates the <salesinvoice> element and adds it to the property
-     * salesInvoicesElement
-     * 
-     * @access public
-     */
-    public function __construct()
+    final protected function getRootTagName(): string
     {
-        parent::__construct();
-
-        // Make the main wrap element
-        $this->salesInvoicesElement = $this->createElement('salesinvoices');
-        $this->appendChild($this->salesInvoicesElement);
-    }
-
-    /**
-     * Creates a new <salesinvoice> element and assigns it to 
-     * this \DOMDocument and returns it.
-     * 
-     * @access public
-     * @return \DOMElement A <salesinvoice> DOMElement
-     */
-    public function getNewInvoice()
-    {
-        // Make the new salesinvoice element
-        $salesInvoiceElement = $this->createElement('salesinvoice');
-
-        // Add to the main salesinvoices element
-        $this->salesInvoicesElement->appendChild($salesInvoiceElement);
-
-        // Return the saleinvoice element
-        return $salesInvoiceElement;
+        return "salesinvoices";
     }
 
     /**
@@ -71,7 +35,7 @@ class InvoicesDocument extends \DOMDocument
     public function addInvoice(Invoice $invoice)
     {
         // Make a new <salesinvoice> element
-        $invoiceElement = $this->getNewInvoice();
+        $invoiceElement = $this->createElement('salesinvoice');
 
         // Makes a child header element
         $headerElement = $this->createElement('header');
@@ -95,7 +59,7 @@ class InvoicesDocument extends \DOMDocument
             'currency'             => 'getCurrency',
             'period'               => 'getPeriod',
             'invoicedate'          => 'getInvoiceDate',
-            'duedate'              => 'getDueDate',
+            'duedate'              => 'getDueDateAsString',
             'bank'                 => 'getBank',
             'invoiceaddressnumber' => 'getInvoiceAddressNumber',
             'deliveraddressnumber' => 'getDeliverAddressNumber',
@@ -159,5 +123,7 @@ class InvoicesDocument extends \DOMDocument
                 $lineElement->appendChild($element);
             }
         }
+
+        $this->rootElement->appendChild($invoiceElement);
     }
 }

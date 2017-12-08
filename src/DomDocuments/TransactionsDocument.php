@@ -2,34 +2,25 @@
 
 namespace PhpTwinfield\DomDocuments;
 
-use PhpTwinfield\Transaction;
-use PhpTwinfield\TransactionLine;
+use PhpTwinfield\BaseTransaction;
+use PhpTwinfield\BaseTransactionLine;
+use PhpTwinfield\JournalTransactionLine;
+use PhpTwinfield\Transactions\TransactionFields\DueDateField;
+use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
+use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
+use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
+use PhpTwinfield\Util;
 
 /**
  * TransactionsDocument class.
  *
  * @author Dylan Schoenmakers <dylan@opifer.nl>
  */
-class TransactionsDocument extends \DOMDocument
+class TransactionsDocument extends BaseDocument
 {
-    /**
-     * Holds the <transactions> element
-     * that all additional elements should be a child of.
-     *
-     * @var \DOMElement
-     */
-    private $transactionsElement;
-
-    /**
-     * Creates the <transasctions> element and adds it to the property
-     * transactionsElement.
-     */
-    public function __construct()
+    final protected function getRootTagName(): string
     {
-        parent::__construct();
-
-        $this->transactionsElement = $this->createElement('transactions');
-        $this->appendChild($this->transactionsElement);
+        return "transactions";
     }
 
     /**
@@ -39,31 +30,28 @@ class TransactionsDocument extends \DOMDocument
      * This method doesn't return anything, instead just adds the transaction
      * to this DOMDocument instance for submission usage.
      *
-     * @param Transaction $transaction
+     * @param BaseTransaction $transaction
      */
-    public function addTransaction(Transaction $transaction)
+    public function addTransaction(BaseTransaction $transaction)
     {
         // Transaction
         $transactionElement = $this->createElement('transaction');
         $transactionElement->setAttribute('destiny', $transaction->getDestiny());
         if ($transaction->getRaiseWarning() !== null) {
-            $transactionElement->setAttribute('raisewarning', $transaction->getRaiseWarning());
+            $transactionElement->appendChild($this->createBooleanAttribute('raisewarning', $transaction->getRaiseWarning()));
         }
-        if ($transaction->getAutoBalanceVat() !== null) {
-            $transactionElement->setAttribute('autobalancevat', $transaction->getAutoBalanceVat());
+        if ($transaction->isAutoBalanceVat() !== null) {
+            $transactionElement->appendChild($this->createBooleanAttribute('autobalancevat', $transaction->isAutoBalanceVat()));
         }
 
-
-        $this->transactionsElement->appendChild($transactionElement);
+        $this->rootElement->appendChild($transactionElement);
 
         // Header
         $headerElement = $this->createElement('header');
         $transactionElement->appendChild($headerElement);
 
-        $officeElement = $this->createElement('office', $transaction->getOffice());
         $codeElement = $this->createElement('code', $transaction->getCode());
-        $dateElement = $this->createElement('date', $transaction->getDate());
-        $periodElement = $this->createElement('period', $transaction->getPeriod());
+        $headerElement->appendChild($codeElement);
 
         if ($transaction->getNumber() !== null) {
             $numberElement = $this->createElement('number', $transaction->getNumber());
@@ -75,83 +63,88 @@ class TransactionsDocument extends \DOMDocument
             $headerElement->appendChild($currencyElement);
         }
 
-        if ($transaction->getInvoiceNumber() !== null) {
+        $dateElement = $this->createElement('date', Util::formatDate($transaction->getDate()));
+        $headerElement->appendChild($dateElement);
+
+        if ($transaction->getPeriod() !== null) {
+            $periodElement = $this->createElement('period', $transaction->getPeriod());
+            $headerElement->appendChild($periodElement);
+        }
+
+        if (
+            in_array(InvoiceNumberField::class, class_uses($transaction)) &&
+            $transaction->getInvoiceNumber() !== null
+        ) {
             $invoiceNumberElement = $this->createElement('invoicenumber', $transaction->getInvoiceNumber());
             $headerElement->appendChild($invoiceNumberElement);
         }
 
-        if ($transaction->getDueDate() !== null) {
-            $dueDateElement = $this->createElement('duedate', $transaction->getDueDate());
+        if (
+            in_array(PaymentReferenceField::class, class_uses($transaction)) &&
+            $transaction->getPaymentReference() !== null
+        ) {
+            $paymentReferenceElement = $this->createElement('paymentreference', $transaction->getPaymentReference());
+            $headerElement->appendChild($paymentReferenceElement);
+        }
+
+        $officeElement = $this->createElement('office', $transaction->getOffice());
+        $headerElement->appendChild($officeElement);
+
+        if (Util::objectUses(DueDateField::class, $transaction) &&
+            $transaction->getDueDate() !== null
+        ) {
+            $dueDateElement = $this->createElement('duedate', Util::formatDate($transaction->getDueDate()));
             $headerElement->appendChild($dueDateElement);
         }
 
-        if ($transaction->getFreetext1() !== null) {
-            $freetext1Element = $this->createElement('freetext1', $transaction->getFreetext1());
-            $headerElement->appendChild($freetext1Element);
-        }
-
-        if ($transaction->getFreetext2() !== null) {
-            $freetext2Element = $this->createElement('freetext2', $transaction->getFreetext2());
-            $headerElement->appendChild($freetext2Element);
-        }
-
-        if ($transaction->getFreetext3() !== null) {
-            $freetext3Element = $this->createElement('freetext3', $transaction->getFreetext3());
-            $headerElement->appendChild($freetext3Element);
-        }
-
-        $headerElement->appendChild($officeElement);
-        $headerElement->appendChild($codeElement);
-        $headerElement->appendChild($dateElement);
-        $headerElement->appendChild($periodElement);
+        $this->appendFreeTextFields($headerElement, $transaction);
 
         $linesElement = $this->createElement('lines');
         $transactionElement->appendChild($linesElement);
 
         // Lines
-        /** @var TransactionLine $transactionLine */
+        /** @var BaseTransactionLine $transactionLine */
         foreach ($transaction->getLines() as $transactionLine) {
             $lineElement = $this->createElement('line');
             $lineElement->setAttribute('type', $transactionLine->getType());
-            $lineElement->setAttribute('id', $transactionLine->getID());
+            $lineElement->setAttribute('id', $transactionLine->getId());
             $linesElement->appendChild($lineElement);
 
             $dim1Element = $this->createElement('dim1', $transactionLine->getDim1());
-            $dim2Element = $this->createElement('dim2', $transactionLine->getDim2());
-            $debitCreditElement = $this->createElement('debitcredit', $transactionLine->getDebitCredit());
-            $value = $transactionLine->getValue();
-            $value = number_format($value, 2, '.', '');
-            $valueElement = $this->createElement('value', $value);
-
-            if ($transactionLine->getType() != 'total' && $transactionLine->getVatCode() !== null) {
-                $vatCodeElement = $this->createElement('vatcode', $transactionLine->getVatCode());
-            }
-
-            $descriptionNode = $this->createTextNode($transactionLine->getDescription());
-            $descriptionElement = $this->createElement('description');
-            $descriptionElement->appendChild($descriptionNode);
-
             $lineElement->appendChild($dim1Element);
-            $lineElement->appendChild($dim2Element);
-            $lineElement->appendChild($valueElement);
-            $lineElement->appendChild($debitCreditElement);
 
-            $performanceType = $transactionLine->getPerformanceType();
-            if (!empty($performanceType)) {
-                $perfElement = $this->createElement('performancetype', $performanceType);
-                $lineElement->appendChild($perfElement);
+            $dim2 = $transactionLine->getDim2();
+            if (!empty($dim2)) {
+                $dim2Element = $this->createElement('dim2', $dim2);
+                $lineElement->appendChild($dim2Element);
             }
 
-            $performanceCountry = $transactionLine->getPerformanceCountry();
-            if (!empty($performanceCountry)) {
-                $perfCountryElement = $this->createElement('performancecountry', $performanceCountry);
-                $lineElement->appendChild($perfCountryElement);
-            }
+            $this->appendValueValues($lineElement, $transactionLine);
 
-            $performanceVatNumber = $transactionLine->getPerformanceVatNumber();
-            if (!empty($performanceVatNumber)) {
-                $perfVatNumberElement = $this->createElement('performancevatnumber', $performanceVatNumber);
-                $lineElement->appendChild($perfVatNumberElement);
+            if (in_array(PerformanceFields::class, class_uses($transactionLine))) {
+                $performanceType = $transactionLine->getPerformanceType();
+                if (!empty($performanceType)) {
+                    $perfElement = $this->createElement('performancetype', $performanceType);
+                    $lineElement->appendChild($perfElement);
+                }
+
+                $performanceCountry = $transactionLine->getPerformanceCountry();
+                if (!empty($performanceCountry)) {
+                    $perfCountryElement = $this->createElement('performancecountry', $performanceCountry);
+                    $lineElement->appendChild($perfCountryElement);
+                }
+
+                $performanceVatNumber = $transactionLine->getPerformanceVatNumber();
+                if (!empty($performanceVatNumber)) {
+                    $perfVatNumberElement = $this->createElement('performancevatnumber', $performanceVatNumber);
+                    $lineElement->appendChild($perfVatNumberElement);
+                }
+
+                $performanceDate = $transactionLine->getPerformanceDate();
+                if (!empty($performanceDate)) {
+                    $perfDateElement = $this->createElement('performancedate', $performanceDate);
+                    $lineElement->appendChild($perfDateElement);
+                }
             }
 
             $vatValue = $transactionLine->getVatValue();
@@ -160,18 +153,26 @@ class TransactionsDocument extends \DOMDocument
                 $lineElement->appendChild($vatElement);
             }
 
-            if ($transactionLine->getType() != 'total' && $transactionLine->getVatCode() !== null) {
-                $lineElement->appendChild($vatCodeElement);
-            }
-
-            $lineElement->appendChild($descriptionElement);
-
-            if ($transactionLine->getType() == 'detail' && $transactionLine->getInvoiceNumber() !== null) {
+            if (
+                $transactionLine instanceof JournalTransactionLine &&
+                $transactionLine->getType() == 'detail' &&
+                $transactionLine->getInvoiceNumber() !== null
+            ) {
                 $invoiceNumberElement = $this->createElement('invoicenumber', $transactionLine->getInvoiceNumber());
                 $lineElement->appendChild($invoiceNumberElement);
             }
 
-            $lineElement->appendChild($descriptionElement);
+            if ($transactionLine->getDescription() !== null) {
+                $descriptionNode = $this->createTextNode($transactionLine->getDescription());
+                $descriptionElement = $this->createElement('description');
+                $descriptionElement->appendChild($descriptionNode);
+                $lineElement->appendChild($descriptionElement);
+            }
+
+            if ($transactionLine->getType() != 'total' && $transactionLine->getVatCode() !== null) {
+                $vatCodeElement = $this->createElement('vatcode', $transactionLine->getVatCode());
+                $lineElement->appendChild($vatCodeElement);
+            }
         }
     }
 }

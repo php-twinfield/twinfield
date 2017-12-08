@@ -17,13 +17,13 @@ class Article
     private $unitNameSingular;
     private $unitNamePlural;
     private $vatCode;
-    private $allowChangeVatCode = 'false';
+    private $allowChangeVatCode = false;
     private $performanceType;
     private $allowChangePerformanceType;
     private $percentage;
-    private $allowDiscountorPremium = 'true';
-    private $allowChangeUnitsPrice = 'false';
-    private $allowDecimalQuantity = 'false';
+    private $allowDiscountorPremium = true;
+    private $allowChangeUnitsPrice = false;
+    private $allowDecimalQuantity = false;
     private $lines = [];
 
     public function getCode()
@@ -125,12 +125,12 @@ class Article
         return $this;
     }
 
-    public function getAllowChangeVatCode()
+    public function getAllowChangeVatCode(): bool
     {
         return $this->allowChangeVatCode;
     }
 
-    public function setAllowChangeVatCode($allowChangeVatCode)
+    public function setAllowChangeVatCode(bool $allowChangeVatCode): self
     {
         $this->allowChangeVatCode = $allowChangeVatCode;
         return $this;
@@ -159,7 +159,7 @@ class Article
         return $this;
     }
 
-    public function getPercentage ()
+    public function getPercentage()
     {
         return $this->percentage;
     }
@@ -170,34 +170,34 @@ class Article
         return $this;
     }
 
-    public function getAllowDiscountorPremium ()
+    public function getAllowDiscountorPremium(): bool
     {
         return $this->allowDiscountorPremium;
     }
 
-    public function setAllowDiscountorPremium($allowDiscountorPremium)
+    public function setAllowDiscountorPremium(bool $allowDiscountorPremium): self
     {
         $this->allowDiscountorPremium = $allowDiscountorPremium;
         return $this;
     }
 
-    public function getAllowChangeUnitsPrice  ()
+    public function getAllowChangeUnitsPrice(): bool
     {
-        return $this->allowChangeUnitsPrice ;
+        return $this->allowChangeUnitsPrice;
     }
 
-    public function setAllowChangeUnitsPrice($allowChangeUnitsPrice)
+    public function setAllowChangeUnitsPrice(bool $allowChangeUnitsPrice): self
     {
         $this->allowChangeUnitsPrice = $allowChangeUnitsPrice;
         return $this;
     }
 
-    public function getAllowDecimalQuantity ()
+    public function getAllowDecimalQuantity(): bool
     {
         return $this->allowDecimalQuantity;
     }
 
-    public function setAllowDecimalQuantity($allowDecimalQuantity)
+    public function setAllowDecimalQuantity(bool $allowDecimalQuantity): self
     {
         $this->allowDecimalQuantity = $allowDecimalQuantity;
         return $this;

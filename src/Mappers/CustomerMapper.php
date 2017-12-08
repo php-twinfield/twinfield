@@ -40,7 +40,6 @@ class CustomerMapper
             'code'              => 'setCode',
             'uid'               => 'setUID',
             'name'              => 'setName',
-            'type'              => 'setType',
             'inuse'             => 'setInUse',
             'behaviour'         => 'setBehaviour',
             'touched'           => 'setTouched',
@@ -86,7 +85,12 @@ class CustomerMapper
 
             // If it has a value, set it to the associated method
             if (isset($_tag) && isset($_tag->textContent)) {
-                $customer->$method($_tag->textContent);
+                $value = $_tag->textContent;
+                if ($value == 'true' || $value == 'false') {
+                    $value = $value == 'true';
+                }
+
+                $customer->$method($value);
             }
         }
         
@@ -103,7 +107,7 @@ class CustomerMapper
             'freetext1'         => 'setFreeText1',
             'freetext2'         => 'setFreeText2',
             'freetext3'         => 'setFreeText3',
-            'comment'           => 'setComment'
+            'comment'           => 'setComment',
         );
         
         $customer->setCreditManagement(new \PhpTwinfield\CustomerCreditManagement());
@@ -116,7 +120,12 @@ class CustomerMapper
 
             // If it has a value, set it to the associated method
             if (isset($_tag) && isset($_tag->textContent)) {
-                $customer->getCreditManagement()->$method($_tag->textContent);
+                $value = $_tag->textContent;
+                if ($value == 'true' || $value == 'false') {
+                    $value = $value == 'true';
+                }
+
+                $customer->getCreditManagement()->$method($value);
             }
         }
 
@@ -191,12 +200,13 @@ class CustomerMapper
                 'iban'            => 'setIban',
                 'natbiccode'      => 'setNatbiccode',
                 'postcode'        => 'setPostcode',
-                'state'           => 'setState'
+                'state'           => 'setState',
             );
 
             $banksDOM = $banksDOMTag->item(0);
 
             // Loop through each returned bank for the customer
+            /** @var \DOMElement $bankDOM */
             foreach ($banksDOM->getElementsByTagName('bank') as $bankDOM) {
 
                 // Make a new tempory CustomerBank class

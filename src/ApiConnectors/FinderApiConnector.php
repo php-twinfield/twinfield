@@ -2,7 +2,8 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
-use PhpTwinfield\Secure\SoapClient;
+use PhpTwinfield\Enums\Services;
+use PhpTwinfield\Services\FinderService;
 
 /**
  * Use the finder web service in order to get all kind of master data from Twinfield.
@@ -15,14 +16,12 @@ use PhpTwinfield\Secure\SoapClient;
  * @author Emile Bons <emile@emilebons.nl>
  * @package PhpTwinfield
  */
-abstract class BaseFinderApiConnector extends BaseApiConnector
+abstract class FinderApiConnector extends BaseApiConnector
 {
     /**
-     * The WSDL location of the finder service.
-     *
-     * @const string
+     * @var FinderService
      */
-    private const WSDL = '/webservices/finder.asmx?wsdl';
+    protected $service;
 
     public const SEARCH_FIELD_CODE_OR_NAME = 0;
     public const SEARCH_FIELD_CODE = 1;
@@ -79,42 +78,8 @@ abstract class BaseFinderApiConnector extends BaseApiConnector
     public const TYPE_VAT_GROUPS_COUNTRIES = 'VGM';
     public const TYPE_TRANSLATIONS = 'XLT';
 
-    /**
-     * @return SoapClient the finder web service. Used to get all kind of master data from Twinfield.
-     */
-    private function getFinder(): SoapClient
+    final protected function getRequiredWebservice(): Services
     {
-        return $this->getClient(self::WSDL);
-    }
-
-    /**
-     * @param string $type     One of the self::TYPE_* constants.
-     * @param string $pattern  The search pattern. May contain wildcards * and ?
-     * @param int    $field    One of the self::SEARCH_FIELD_* constants. The search field determines which field or
-     *                         fields will be searched. The available fields depends on the finder type. Passing a value
-     *                         outside the specified values will cause an error.
-     * @param int    $firstRow First row to return, useful for paging.
-     * @param int    $maxRows  Maximum number of rows to return, useful for paging.
-     * @param array  $options  The Finder options. Passing an unsupported name or value causes an error. It's possible
-     *                         to add multiple options. An option name may be used once, specifying an option multiple
-     *                         times will cause an error.
-     * @return \stdClass
-     */
-    protected function searchFinder(
-        string $type,
-        string $pattern = '*',
-        int $field = 0,
-        int $firstRow = 1,
-        int $maxRows = 100,
-        array $options = []
-    ): \stdClass {
-        return $this->getFinder()->Search([
-            'type' => $type,
-            'pattern' => $pattern,
-            'field' => $field,
-            'firstRow' => $firstRow,
-            'maxRows' => $maxRows,
-            'options' => $options,
-        ]);
+        return Services::FINDER();
     }
 }

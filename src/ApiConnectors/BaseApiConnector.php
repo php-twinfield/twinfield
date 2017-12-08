@@ -2,87 +2,31 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
-use PhpTwinfield\Secure\Config;
+use PhpTwinfield\Enums\Services;
+use PhpTwinfield\Exception;
 use PhpTwinfield\Secure\Login;
-use PhpTwinfield\Secure\Service;
-use PhpTwinfield\Response\Response;
-use PhpTwinfield\Secure\SoapClient;
+use PhpTwinfield\Services\BaseService;
 
-/**
- * All Factories used by all components extend this factory for common shared methods that help normalize the usage
- * between different components.
- *
- * @author Leon Rowland <leon@rowland.nl>
- */
 abstract class BaseApiConnector
 {
     /**
-     * Holds the secure config class
-     *
-     * @var Config
+     * @var BaseService
      */
-    private $config;
+    protected $service;
 
     /**
-     * Holds the secure login class
+     * The service that is needed by this connector.
      *
-     * @var Login
+     * @return Services
      */
-    private $login;
+    abstract protected function getRequiredWebservice(): Services;
 
     /**
-     * Holds the response from a request.
-     *
-     * @var Response
+     * @param Login $login
+     * @throws Exception
      */
-    private $response;
-
-    /**
-     * Pass in the Secure\Config class and it will automatically make the Secure\Login for you.
-     *
-     * @param Config $config
-     */
-    public function __construct(Config $config)
+    public function __construct(Login $login)
     {
-        $this->config = $config;
-        $this->login = new Login($config);
-    }
-
-    /**
-     * Returns the response that was last set.
-     */
-    public function getResponse(): Response
-    {
-        return $this->response;
-    }
-
-    protected function getClient(string $wsdl): SoapClient
-    {
-        return $this->getLogin()->getClient('%s' . $wsdl);
-    }
-
-    /**
-     * Should be called by the child classes. Will set the response document from an attempted SOAP request.
-     *
-     * @param Response $response
-     */
-    protected function setResponse(Response $response): void
-    {
-        $this->response = $response;
-    }
-
-    protected function getConfig(): Config
-    {
-        return $this->config;
-    }
-
-    protected function getLogin(): Login
-    {
-        return $this->login;
-    }
-
-    protected function createService(): Service
-    {
-        return new Service($this->getLogin());
+        $this->service = $login->getAuthenticatedClient($this->getRequiredWebservice());
     }
 }

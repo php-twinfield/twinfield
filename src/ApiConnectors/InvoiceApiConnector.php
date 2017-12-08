@@ -2,10 +2,13 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\Exception;
 use PhpTwinfield\Invoice;
 use PhpTwinfield\DomDocuments\InvoicesDocument;
 use PhpTwinfield\Mappers\InvoiceMapper;
+use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
+use Webmozart\Assert\Assert;
 
 /**
  * A facade to make interaction with the Twinfield service easier when trying to retrieve or set information about
@@ -17,77 +20,60 @@ use PhpTwinfield\Request as Request;
  * @author Leon Rowland <leon@rowland.nl>
  * @copyright (c) 2013, Pronamic
  */
-class InvoiceApiConnector extends BaseApiConnector
+class InvoiceApiConnector extends ProcessXmlApiConnector
 {
     /**
      * Requires a specific invoice based off the passed in code, invoiceNumber and optionally the office.
      *
-     * @param string      $code
-     * @param string      $invoiceNumber
-     * @param string|null $office        Optional. If no office has been passed it will instead take the default office
-     *                                   from the passed in Config class.
+     * @param string $code
+     * @param string $invoiceNumber
+     * @param Office $office
      * @return Invoice|bool The requested invoice or false if it can't be found.
+     * @throws Exception
      */
-    public function get(string $code, string $invoiceNumber, ?string $office = null)
+    public function get(string $code, string $invoiceNumber, Office $office)
     {
-        // Attempts to process the login.
-        if ($this->getLogin()->process()) {
-            // Gets the secure service class
-            $service = $this->createService();
+        // Make a request to read a single invoice. Set the required values
+        $request_invoice = new Request\Read\Invoice();
+        $request_invoice
+            ->setCode($code)
+            ->setNumber($invoiceNumber)
+            ->setOffice($office->getCode());
 
-            // No office passed, use the one from Config
-            if (!$office) {
-                $office = $this->getConfig()->getOffice();
-            }
+        // Send the Request document and set the response to this instance
+        $response = $this->sendDocument($request_invoice);
 
-            // Make a request to read a single invoice. Set the required values
-            $request_invoice = new Request\Read\Invoice();
-            $request_invoice
-                ->setCode($code)
-                ->setNumber($invoiceNumber)
-                ->setOffice($office);
-
-            // Send the Request document and set the response to this instance
-            $response = $service->send($request_invoice);
-            $this->setResponse($response);
-
-            // Return a mapped invoice if successful or false if not.
-            if ($response->isSuccessful()) {
-                return InvoiceMapper::map($response);
-            }
-        }
-
-        return false;
+        return InvoiceMapper::map($response);
     }
 
     /**
      * Sends a \PhpTwinfield\Invoice\Invoice instance to Twinfield to update or add.
      *
-     * If you want to map the response back into an invoice use getResponse()->getResponseDocument()->asXML() into the
-     * InvoiceMapper::map() method.
-     *
      * @param Invoice $invoice
-     * @return bool
+     * @throws Exception
      */
-    public function send(Invoice $invoice): bool
+    public function send(Invoice $invoice): void
     {
-        // Attempts to process the login
-        if ($this->getLogin()->process()) {
-            // Gets the secure service
-            $service = $this->createService();
+        $this->sendAll([$invoice]);
+    }
 
-            // Gets a new instance of InvoicesDocument and sets the invoice
-            $invoicesDocument = new InvoicesDocument();
+    /**
+     * @param Invoice[] $invoices
+     * @throws Exception
+     */
+    public function sendAll(array $invoices): void
+    {
+        Assert::allIsInstanceOf($invoices, Invoice::class);
+        Assert::notEmpty($invoices);
+
+        // Gets a new instance of InvoicesDocument and sets the invoice
+        $invoicesDocument = new InvoicesDocument();
+
+        foreach ($invoices as $invoice) {
             $invoicesDocument->addInvoice($invoice);
-
-            // Sends the DOM document request and sets the response
-            $response = $service->send($invoicesDocument);
-            $this->setResponse($response);
-
-            // Return a bool on status of response
-            return $response->isSuccessful();
         }
 
-        return false;
+        // Sends the DOM document request and sets the response
+        $this->sendDocument($invoicesDocument);
     }
 }

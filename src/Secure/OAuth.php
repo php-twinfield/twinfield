@@ -3,7 +3,7 @@ namespace PhpTwinfield\Secure;
 
 /**
  * Twinfield OAuth Client.
- * 
+ *
  * @package PhpTwinfield
  * @author Mischa Molhoek <mischamolhoek@gmail.com>
  * @copyright (c) 2015, Pronamic
@@ -15,7 +15,7 @@ class OAuth
     private $initiationURL = 'https://login.twinfield.com/oauth/initiate.aspx';
     private $authenticationURL = "https://login.twinfield.com/oauth/login.aspx?oauth_token=%s";
     private $finalizationURL = 'https://login.twinfield.com/oauth/finalize.aspx';
-    private $sessionName = 'PronamicTwinfieldOauthSession';
+    private $sessionName = 'TwinfieldOauthSession';
     private $temp_token = '';
     private $needToRedirect = true;
     private $autoRedirect = false;

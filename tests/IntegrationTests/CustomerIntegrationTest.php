@@ -7,29 +7,24 @@ use PhpTwinfield\Customer;
 use PhpTwinfield\DomDocuments\CustomersDocument;
 use PhpTwinfield\CustomerAddress;
 use PhpTwinfield\CustomerBank;
+use PhpTwinfield\Mappers\CustomerMapper;
+use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\Login;
 use PhpTwinfield\Secure\Service;
+use PhpTwinfield\Secure\SoapClient;
 
 /**
  * @covers Customer
  * @covers CustomerAddress
  * @covers CustomerBank
  * @covers CustomerCreditManagement
- * @covers Customer\CustomersDocument
- * @covers Customer\CustomerMapper
+ * @covers CustomersDocument
+ * @covers CustomerMapper
+ * @covers CustomerApiConnector
  */
-class CustomerIntegrationTest extends \PHPUnit_Framework_TestCase
+class CustomerIntegrationTest extends BaseIntegrationTest
 {
-    /**
-     * @var Login|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $login;
-
-    /**
-     * @var Service|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $service;
 
     /**
      * @var CustomerApiConnector|\PHPUnit_Framework_MockObject_MockObject
@@ -40,28 +35,7 @@ class CustomerIntegrationTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->login   = $this->createMock(Login::class);
-        $this->service = $this->createMock(Service::class);
-
-        $this->login
-            ->expects($this->any())
-            ->method('process')
-            ->willReturn(true);
-
-        $this->customerApiConnector = $this->createPartialMock(
-            CustomerApiConnector::class,
-            ['getLogin', 'createService']
-        );
-
-        $this->customerApiConnector
-            ->expects($this->any())
-            ->method('createService')
-            ->willReturn($this->service);
-
-        $this->customerApiConnector
-            ->expects($this->any())
-            ->method('getLogin')
-            ->willReturn($this->login);
+        $this->customerApiConnector = new CustomerApiConnector($this->login);
     }
 
     public function testGetCustomerWorks()
@@ -70,13 +44,13 @@ class CustomerIntegrationTest extends \PHPUnit_Framework_TestCase
         $domDocument->loadXML(file_get_contents(realpath(__DIR__ . '/resources/customerGetResponse.xml')));
         $response = new Response($domDocument);
 
-        $this->service
-            ->expects($this->any())
-            ->method('send')
+        $this->client
+            ->expects($this->once())
+            ->method("sendDOMDocument")
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Customer::class))
             ->willReturn($response);
 
-        $customer = $this->customerApiConnector->get('CODE', 'OFFICE');
+        $customer = $this->customerApiConnector->get('CODE', $this->office);
 
         $this->assertInstanceOf(Customer::class, $customer);
         $this->assertSame('001', $customer->getOffice());
@@ -86,9 +60,9 @@ class CustomerIntegrationTest extends \PHPUnit_Framework_TestCase
 
         // Financials
         $this->assertSame('30', $customer->getDueDays());
-        $this->assertSame('true', $customer->getPayAvailable());
+        $this->assertSame(true, $customer->getPayAvailable());
         $this->assertSame('SEPANLDD', $customer->getPayCode());
-        $this->assertSame('false', $customer->getEBilling());
+        $this->assertSame(false, $customer->getEBilling());
         $this->assertSame('VN', $customer->getVatCode());
 
         // Addresses
@@ -156,9 +130,9 @@ class CustomerIntegrationTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('', $creditmanagement->getResponsibleUser());
         $this->assertSame('0.00', $creditmanagement->getBaseCreditLimit());
-        $this->assertSame('true', $creditmanagement->getSendReminder());
+        $this->assertSame(true, $creditmanagement->getSendReminder());
         $this->assertSame('', $creditmanagement->getReminderEmail());
-        $this->assertSame('false', $creditmanagement->getBlocked());
+        $this->assertSame(false, $creditmanagement->getBlocked());
         $this->assertSame('', $creditmanagement->getFreeText1());
         $this->assertSame('', $creditmanagement->getFreeText2());
         $this->assertSame('', $creditmanagement->getFreeText3());
@@ -171,13 +145,13 @@ class CustomerIntegrationTest extends \PHPUnit_Framework_TestCase
         $domDocument->loadXML(file_get_contents(realpath(__DIR__ . '/resources/customerListResponse.xml')));
         $response = new Response($domDocument);
 
-        $this->service
-            ->expects($this->any())
-            ->method('send')
+        $this->client
+            ->expects($this->once())
+            ->method("sendDOMDocument")
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Catalog\Dimension::class))
             ->willReturn($response);
 
-        $customers = $this->customerApiConnector->listAll('OFFICE');
+        $customers = $this->customerApiConnector->listAll($this->office);
 
         $this->assertCount(3, $customers);
 
@@ -195,10 +169,9 @@ class CustomerIntegrationTest extends \PHPUnit_Framework_TestCase
     {
         $customer = new Customer();
         $customer->setOffice('001');
-        $customer->setType('DEB');
         $customer->setName('Customer 0');
         $customer->setDueDays('30');
-        $customer->setPayAvailable('true');
+        $customer->setPayAvailable(true);
         $customer->setPayCode('SEPANLDD');
 
         $address = new CustomerAddress();
@@ -233,17 +206,17 @@ class CustomerIntegrationTest extends \PHPUnit_Framework_TestCase
         $bank->setState('');
         $customer->addBank($bank);
 
-        $this->service
+        $this->client
             ->expects($this->once())
-            ->method('send')
+            ->method("sendDOMDocument")
             ->with($this->isInstanceOf(CustomersDocument::class))
-            ->willReturnCallback(function (CustomersDocument $customersDocument) {
+            ->willReturnCallback(function (CustomersDocument $customersDocument): Response {
                 $this->assertXmlStringEqualsXmlString(
-                    file_get_contents(realpath(__DIR__ . '/resources/customerSendRequest.xml')),
+                    file_get_contents(__DIR__ . '/resources/customerSendRequest.xml'),
                     $customersDocument->saveXML()
                 );
 
-                return new Response($customersDocument);
+                return $this->getSuccessfulResponse();
             });
 
         $this->customerApiConnector->send($customer);
