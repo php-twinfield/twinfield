@@ -49,8 +49,16 @@ class BankTransactionDocument extends BaseDocument
             $header->appendChild($this->createElement("number", $bankTransaction->getNumber()));
         }
 
-        if ($bankTransaction->getPeriod()) {
+        if ($bankTransaction->getPeriod() !== null) {
             $header->appendChild($this->createElement("period", $bankTransaction->getPeriod()));
+        }
+
+        if ($bankTransaction->getDate() !== null) {
+            $header->appendChild($this->createElement("date", Util::formatDate($bankTransaction->getDate())));
+        }
+
+        if ($bankTransaction->getStatementnumber() !== null)  {
+            $header->appendChild($this->createElement("statementnumber", $bankTransaction->getStatementnumber()));
         }
 
         $this->appendStartCloseValues($header, $bankTransaction);

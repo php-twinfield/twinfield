@@ -9,11 +9,11 @@ trait StatementNumberField
      *
      * Or: Number of the bank statement. Don't confuse this number with the transaction number.
      *
-     * @var int
+     * @var int|null
      */
     private $statementnumber;
 
-    public function getStatementnumber(): int
+    public function getStatementnumber(): ?int
     {
         return $this->statementnumber;
     }
