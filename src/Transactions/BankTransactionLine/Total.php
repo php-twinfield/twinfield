@@ -45,9 +45,9 @@ class Total extends Base
      * withdrawal credit.
      *
      * @param DebitCredit $debitCredit
-     * @return Total
+     * @return $this
      */
-    public function setDebitCredit(DebitCredit $debitCredit): ValueFields
+    public function setDebitCredit(DebitCredit $debitCredit)
     {
         return parent::setDebitCredit($debitCredit);
     }
