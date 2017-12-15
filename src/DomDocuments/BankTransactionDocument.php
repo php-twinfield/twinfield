@@ -43,7 +43,12 @@ class BankTransactionDocument extends BaseDocument
         }
 
         $header = $this->createElement("header");
-        $header->appendChild($this->createElement("office", $bankTransaction->getOffice()->getCode()));
+
+        if ($bankTransaction->getCode() !== null) {
+            $header->appendChild($this->createElement("code", $bankTransaction->getCode()));
+        }
+
+        $header->appendChild($this->createElement("office", $bankTransaction->getOffice()));
 
         if ($bankTransaction->getNumber() !== null) {
             $header->appendChild($this->createElement("number", $bankTransaction->getNumber()));
