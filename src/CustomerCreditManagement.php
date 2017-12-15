@@ -8,15 +8,15 @@ namespace PhpTwinfield;
  */
 class CustomerCreditManagement
 {
-    private $responsibleUser;       #string(16)         The credit manager.
-    private $baseCreditLimit = 0;   #amount             The credit limit amount.
-    private $sendReminder = true;   #true/email/false   Determines if and how a customer will be reminded.
-    private $reminderEmail;         #string(200)        Mandatory if sendreminder is email.
-    private $blocked = false;       #true/false         Are related projects for this cust. blocked in time & expenses.
-    private $freeText1;             #true/false         Right of use.
-    private $freeText2;             #string(40)         Segment code.
-    private $freeText3;             #                   Not in use
-    private $comment;               #string()           Comment.
+    public $responsibleUser;       #string(16)         The credit manager.
+    public $baseCreditLimit = 0;   #amount             The credit limit amount.
+    public $sendReminder = true;   #true/email/false   Determines if and how a customer will be reminded.
+    public $reminderEmail;         #string(200)        Mandatory if sendreminder is email.
+    public $blocked = false;       #true/false         Are related projects for this cust. blocked in time & expenses.
+    public $freeText1;             #true/false         Right of use.
+    public $freeText2;             #string(40)         Segment code.
+    public $freeText3;             #                   Not in use
+    public $comment;               #string()           Comment.
 
     public function getResponsibleUser()
     {

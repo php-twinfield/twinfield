@@ -12,12 +12,12 @@ class VatCode
     /**
      * @var string The code of the VAT code.
      */
-    private $code;
+    public $code;
 
     /**
      * @var string The name of the VAT code.
      */
-    private $name;
+    public $name;
 
     public function getCode(): string
     {

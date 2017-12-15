@@ -28,32 +28,32 @@ abstract class BaseTransaction extends BaseObject
     /**
      * @var bool|null Should warnings be given or not?
      */
-    private $raiseWarning;
+    public $raiseWarning;
 
     /**
      * @var string|null The transaction type code.
      */
-    private $code;
+    public $code;
 
     /**
      * @var int|null The transaction number.
      */
-    private $number;
+    public $number;
 
     /**
      * @var string|null The currency code.
      */
-    private $currency;
+    public $currency;
 
     /**
      * @var string|null The sales transaction origin. Read-only attribute.
      */
-    private $origin;
+    public $origin;
 
     /**
      * @var BaseTransactionLine[]
      */
-    private $lines = [];
+    public $lines = [];
 
     /**
      * @return string The class name for transaction lines supported by this transaction. Must be a sub class of

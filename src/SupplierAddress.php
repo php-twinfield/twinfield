@@ -8,23 +8,23 @@ namespace PhpTwinfield;
  */
 class SupplierAddress
 {
-    private $ID;
-    private $type;
-    private $default;
-    private $name;
-    private $contact;
-    private $country;
-    private $city;
-    private $postcode;
-    private $telephone;
-    private $fax;
-    private $email;
-    private $field1;
-    private $field2;
-    private $field3;
-    private $field4;
-    private $field5;
-    private $field6;
+    public $ID;
+    public $type;
+    public $default;
+    public $name;
+    public $contact;
+    public $country;
+    public $city;
+    public $postcode;
+    public $telephone;
+    public $fax;
+    public $email;
+    public $field1;
+    public $field2;
+    public $field3;
+    public $field4;
+    public $field5;
+    public $field6;
 
     public function __construct()
     {

@@ -8,20 +8,20 @@ namespace PhpTwinfield;
  */
 class CustomerBank
 {
-    private $ID;             # integer      Sequence number of the bank account line.
-    private $default;        # true/false   Is this the default bank account, only one default bank account is possible.
-    private $ascription;     # string(40)   Account holder.
-    private $accountnumber;  # string(40)   Account number.
-    private $addressField2;  # string(128)  Bank address.
-    private $addressField3;  # string(128)  Bank address number.
-    private $bankname;       # string(40)   Bank name.
-    private $biccode;        # string(16)   BIC code.
-    private $city;           # string(40)   City.
-    private $country;        # string(2)    Bank country code. The ISO country codes are used.
-    private $iban;           # string(40)   IBAN account number.
-    private $natbiccode;     # string(20)   National bank code.
-    private $postcode;       # string(16)   Postcode.
-    private $state;          # string(40)   State.
+    public $ID;             # integer      Sequence number of the bank account line.
+    public $default;        # true/false   Is this the default bank account, only one default bank account is possible.
+    public $ascription;     # string(40)   Account holder.
+    public $accountnumber;  # string(40)   Account number.
+    public $addressField2;  # string(128)  Bank address.
+    public $addressField3;  # string(128)  Bank address number.
+    public $bankname;       # string(40)   Bank name.
+    public $biccode;        # string(16)   BIC code.
+    public $city;           # string(40)   City.
+    public $country;        # string(2)    Bank country code. The ISO country codes are used.
+    public $iban;           # string(40)   IBAN account number.
+    public $natbiccode;     # string(20)   National bank code.
+    public $postcode;       # string(16)   Postcode.
+    public $state;          # string(40)   State.
 
     public function __construct()
     {

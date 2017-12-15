@@ -17,7 +17,7 @@ class JournalTransaction extends BaseTransaction
      *                  'Economic' or 'Generic'. The default regime is 'Generic'. 'Generic' means that the transaction
      *                  is visible for all regimes.
      */
-    private $regime;
+    public $regime;
 
     /**
      * @return string

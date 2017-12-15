@@ -30,14 +30,14 @@ class BankTransaction
      *
      * @var \DateTimeImmutable
      */
-    private $inputDate;
+    public $inputDate;
 
     /**
      * Transaction type code.
      *
      * @var mixed
      */
-    private $code;
+    public $code;
 
     /**
      * Transaction number.
@@ -45,7 +45,7 @@ class BankTransaction
      *
      * @var int
      */
-    private $number;
+    public $number;
 
     /**
      * Transaction date.
@@ -53,14 +53,14 @@ class BankTransaction
      *
      * @var \DateTimeInterface
      */
-    private $date;
+    public $date;
 
     /**
      * Number of the bank statement. Don't confuse this number with the transaction number.
      *
      * @var int
      */
-    private $statementnumber;
+    public $statementnumber;
 
     /**
      * The bank transaction origin.
@@ -68,7 +68,7 @@ class BankTransaction
      *
      * @var mixed
      */
-    private $origin;
+    public $origin;
 
     /**
      * The date/time on which the bank transaction was modified the last time.
@@ -76,12 +76,12 @@ class BankTransaction
      *
      * @var \DateTimeInterface
      */
-    private $modificationDate;
+    public $modificationDate;
 
     /**
      * @var Transactions\BankTransactionLine\Base[]
      */
-    private $transactions = [];
+    public $transactions = [];
 
     /**
      * The bank transaction origin.

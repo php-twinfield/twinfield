@@ -7,17 +7,17 @@ class User
     /**
      * @var string The code of the user.
      */
-    private $code;
+    public $code;
 
     /**
      * @var string The name of the user.
      */
-    private $name;
+    public $name;
 
     /**
      * @var string The short name of the user.
      */
-    private $shortName;
+    public $shortName;
 
     public function getCode(): string
     {

@@ -19,7 +19,7 @@ class SalesTransaction extends BaseTransaction
      * @var string|null The sales transaction origin reference (id). Provided in form of Guid. Read-only attribute.
      *                  Sample: "f386393c-e4ba-439a-add4-3b366535d7bf".
      */
-    private $originReference;
+    public $originReference;
 
     /**
      * @return string

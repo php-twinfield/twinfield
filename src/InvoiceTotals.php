@@ -7,8 +7,8 @@ namespace PhpTwinfield;
  */
 class InvoiceTotals
 {
-    private $valueExcl;
-    private $valueInc;
+    public $valueExcl;
+    public $valueInc;
 
     public function getValueExcl()
     {

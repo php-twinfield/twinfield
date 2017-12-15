@@ -8,23 +8,23 @@ namespace PhpTwinfield;
  */
 class Article
 {
-    private $code;
-    private $office;
-    private $status;
-    private $type;
-    private $name;
-    private $shortName;
-    private $unitNameSingular;
-    private $unitNamePlural;
-    private $vatCode;
-    private $allowChangeVatCode = false;
-    private $performanceType;
-    private $allowChangePerformanceType;
-    private $percentage;
-    private $allowDiscountorPremium = true;
-    private $allowChangeUnitsPrice = false;
-    private $allowDecimalQuantity = false;
-    private $lines = [];
+    public $code;
+    public $office;
+    public $status;
+    public $type;
+    public $name;
+    public $shortName;
+    public $unitNameSingular;
+    public $unitNamePlural;
+    public $vatCode;
+    public $allowChangeVatCode = false;
+    public $performanceType;
+    public $allowChangePerformanceType;
+    public $percentage;
+    public $allowDiscountorPremium = true;
+    public $allowChangeUnitsPrice = false;
+    public $allowDecimalQuantity = false;
+    public $lines = [];
 
     public function getCode()
     {

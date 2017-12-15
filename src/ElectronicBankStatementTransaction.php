@@ -15,31 +15,31 @@ class ElectronicBankStatementTransaction
      *
      * @var string
      */
-    private $contraaccount;
+    public $contraaccount;
     /**
      * Contra account number in IBAN format. Either use contraaccount or contraiban or leave empty.
      *
      * @var string
      */
-    private $contraiban;
+    public $contraiban;
     /**
      * Transaction type code.
      *
      * @var string
      */
-    private $type;
+    public $type;
 
     /**
      * Reference for own use.
      *
      * @var string
      */
-    private $reference;
+    public $reference;
 
     /**
      * @var string
      */
-    private $description;
+    public $description;
 
     /**
      * Dimension 1.
@@ -47,7 +47,7 @@ class ElectronicBankStatementTransaction
      *
      * @var string
      */
-    private $dim1;
+    public $dim1;
 
     /**
      * Dimension 2.
@@ -55,7 +55,7 @@ class ElectronicBankStatementTransaction
      *
      * @var string
      */
-    private $dim2;
+    public $dim2;
 
     /**
      * Dimension 3.
@@ -63,7 +63,7 @@ class ElectronicBankStatementTransaction
      *
      * @var string
      */
-    private $dim3;
+    public $dim3;
 
     /**
      * Dimension 4.
@@ -71,7 +71,7 @@ class ElectronicBankStatementTransaction
      *
      * @var string
      */
-    private $dim4;
+    public $dim4;
 
     public function getContraaccount(): ?string
     {

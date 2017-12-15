@@ -7,17 +7,17 @@ class Office
     /**
      * @var string The code of the office.
      */
-    private $code;
+    public $code;
 
     /**
      * @var string The code of the country of the office.
      */
-    private $countryCode;
+    public $countryCode;
 
     /**
      * @var string The name of the office.
      */
-    private $name;
+    public $name;
 
     public static function fromCode(string $code) {
         $instance = new self;
