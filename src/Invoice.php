@@ -30,22 +30,22 @@ class Invoice
     use PeriodField;
     use DueDateField;
 
-    private $customer;
-    private $invoiceType;
-    private $office;
-    private $invoiceNumber;
-    private $status;
-    private $currency;
-    private $invoiceDate;
-    private $performanceDate;
-    private $paymentMethod;
-    private $bank;
-    private $invoiceAddressNumber;
-    private $deliverAddressNumber;
-    private $headerText;
-    private $footerText;
-    private $totals;
-    private $lines = array();
+    public $customer;
+    public $invoiceType;
+    public $office;
+    public $invoiceNumber;
+    public $status;
+    public $currency;
+    public $invoiceDate;
+    public $performanceDate;
+    public $paymentMethod;
+    public $bank;
+    public $invoiceAddressNumber;
+    public $deliverAddressNumber;
+    public $headerText;
+    public $footerText;
+    public $totals;
+    public $lines = array();
 
     public function addLine(InvoiceLine $line)
     {

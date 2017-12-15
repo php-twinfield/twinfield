@@ -22,42 +22,42 @@ class ElectronicBankStatement
      *
      * @var bool
      */
-    private $importDuplicate = false;
+    public $importDuplicate = false;
 
     /**
      * Contains the bank statement transactions.
      *
      * @var array
      */
-    private $transactions = [];
+    public $transactions = [];
 
     /**
      * Account number. Either account or iban or code should be set.
      *
      * @var ?string
      */
-    private $account;
+    public $account;
 
     /**
      * IBAN account number. Either account or iban or code should be set.
      *
      * @var ?string
      */
-    private $iban;
+    public $iban;
 
     /**
      * Code of the corresponding bank book. Either account or iban or code should be set.
      *
      * @var ?string
      */
-    private $code;
+    public $code;
 
     /**
      * Number of the bank statement. When left empty, last available bank statement number increased by one.
      *
      * @var int
      */
-    private $statementnumber;
+    public $statementnumber;
 
     public function getAccount(): ?string
     {

@@ -8,33 +8,33 @@ namespace PhpTwinfield;
  */
 class Supplier
 {
-    private $office;
-    private $code;
-    private $UID;
-    private $status;
-    private $name;
-    private $type;
-    private $inUse;
-    private $behaviour;
-    private $touched;
-    private $beginPeriod;
-    private $beginYear;
-    private $endPeriod;
-    private $endYear;
-    private $website;
-    private $cocNumber;
-    private $vatNumber;
-    private $editDimensionName;
-    private $dueDays = 0;
-    private $payAvailable = false;
-    private $payCode;
-    private $vatCode;
-    private $eBilling = false;
-    private $eBillMail;
-    private $creditManagement;
-    private $addresses = array();
-    private $banks = array();
-    private $groups;
+    public $office;
+    public $code;
+    public $UID;
+    public $status;
+    public $name;
+    public $type;
+    public $inUse;
+    public $behaviour;
+    public $touched;
+    public $beginPeriod;
+    public $beginYear;
+    public $endPeriod;
+    public $endYear;
+    public $website;
+    public $cocNumber;
+    public $vatNumber;
+    public $editDimensionName;
+    public $dueDays = 0;
+    public $payAvailable = false;
+    public $payCode;
+    public $vatCode;
+    public $eBilling = false;
+    public $eBillMail;
+    public $creditManagement;
+    public $addresses = array();
+    public $banks = array();
+    public $groups;
 
 
     public function getOffice()

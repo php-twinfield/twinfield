@@ -11,21 +11,21 @@ class InvoiceLine
 {
     use FreeTextFields;
 
-    private $ID;
-    private $quantity;
-    private $article;
-    private $subArticle;
-    private $description;
-    private $unitsPriceExcl;
-    private $unitsPriceInc;
-    private $units;
-    private $allowDiscountOrPremium;
-    private $valueExcl;
-    private $vatValue;
-    private $valueInc;
-    private $vatCode;
-    private $performanceDate;
-    private $dim1;
+    public $ID;
+    public $quantity;
+    public $article;
+    public $subArticle;
+    public $description;
+    public $unitsPriceExcl;
+    public $unitsPriceInc;
+    public $units;
+    public $allowDiscountOrPremium;
+    public $valueExcl;
+    public $vatValue;
+    public $valueInc;
+    public $vatCode;
+    public $performanceDate;
+    public $dim1;
 
     public function __construct($quantity = null, $article = null, $freeText1 = null, $freeText2 = null)
     {

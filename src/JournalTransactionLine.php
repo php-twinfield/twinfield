@@ -16,7 +16,7 @@ class JournalTransactionLine extends BaseTransactionLine
     /**
      * @var string|null The invoice number. Only if line type is detail.
      */
-    private $invoiceNumber;
+    public $invoiceNumber;
 
     /**
      * @param LineType $type

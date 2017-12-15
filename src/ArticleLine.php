@@ -8,16 +8,16 @@ namespace PhpTwinfield;
  */
 class ArticleLine
 {
-    private $ID;
-    private $status;
-    private $inUse;
-    private $unitsPriceExcl;
-    private $unitsPriceInc;
-    private $units;
-    private $name;
-    private $shortName;
-    private $subCode;
-    private $freeText1;
+    public $ID;
+    public $status;
+    public $inUse;
+    public $unitsPriceExcl;
+    public $unitsPriceInc;
+    public $units;
+    public $name;
+    public $shortName;
+    public $subCode;
+    public $freeText1;
 
     public function __construct()
     {
