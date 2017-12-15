@@ -3,6 +3,7 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
 use PhpTwinfield\Transactions\TransactionLineFields\DateField;
@@ -16,6 +17,7 @@ class ElectronicBankStatement
     use StartAndCloseValueFields;
     use DateField;
     use OfficeField;
+    use StatementNumberField;
 
     /**
      * Optional attribute to indicate whether duplicates may be imported or not.
@@ -51,13 +53,6 @@ class ElectronicBankStatement
      * @var ?string
      */
     private $code;
-
-    /**
-     * Number of the bank statement. When left empty, last available bank statement number increased by one.
-     *
-     * @var int
-     */
-    private $statementnumber;
 
     public function getAccount(): ?string
     {
@@ -140,13 +135,4 @@ class ElectronicBankStatement
         }
     }
 
-    public function getStatementnumber(): int
-    {
-        return $this->statementnumber;
-    }
-
-    public function setStatementnumber(int $statementnumber): void
-    {
-        $this->statementnumber = $statementnumber;
-    }
 }

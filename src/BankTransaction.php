@@ -3,22 +3,27 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Enums\DebitCredit;
-use PhpTwinfield\Enums\Destiny;
-use PhpTwinfield\Transactions\BankTransactionLine\Base;
+use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
 use PhpTwinfield\Transactions\TransactionFields\AutoBalanceVatField;
 use PhpTwinfield\Transactions\TransactionFields\DestinyField;
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
+use PhpTwinfield\Transactions\TransactionLineFields\DateField;
 use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
 use Webmozart\Assert\Assert;
 
+/**
+ * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
+ */
 class BankTransaction
 {
     use DestinyField;
     use AutoBalanceVatField;
     use PeriodField;
     use OfficeField;
+    use DateField;
+    use StatementNumberField;
 
     use StartAndCloseValueFields;
 
@@ -46,14 +51,6 @@ class BankTransaction
      * @var int
      */
     private $number;
-
-    /**
-     * Transaction date.
-     * Optionally, it is possible to suppress warnings about 'date out of range for the given period' by adding the raisewarning attribute and set its value to false. This overwrites the value of the raisewarning attribute as set on the root element.
-     *
-     * @var \DateTimeInterface
-     */
-    private $date;
 
     /**
      * Number of the bank statement. Don't confuse this number with the transaction number.
@@ -137,5 +134,23 @@ class BankTransaction
     public function getNumber(): ?int
     {
         return $this->number;
+    }
+
+    /**
+     * @return string|int|null
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param string|int|null $code
+     * @return $this
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+        return $this;
     }
 }
