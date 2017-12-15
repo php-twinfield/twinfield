@@ -4,11 +4,13 @@ namespace PhpTwinfield;
 
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Transactions\TransactionLineFields\FourDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 
 class ElectronicBankStatementTransaction
 {
     use ValueFields;
+    use FourDimFields;
 
     /**
      * Contra account number in BBAN format. Either use contraaccount or contraiban or leave empty.
@@ -40,38 +42,6 @@ class ElectronicBankStatementTransaction
      * @var string
      */
     private $description;
-
-    /**
-     * Dimension 1.
-     * Read-only attribute.
-     *
-     * @var string
-     */
-    private $dim1;
-
-    /**
-     * Dimension 2.
-     * Read-only attribute.
-     *
-     * @var string
-     */
-    private $dim2;
-
-    /**
-     * Dimension 3.
-     * Read-only attribute.
-     *
-     * @var string
-     */
-    private $dim3;
-
-    /**
-     * Dimension 4.
-     * Read-only attribute.
-     *
-     * @var string
-     */
-    private $dim4;
 
     public function getContraaccount(): ?string
     {
@@ -123,25 +93,5 @@ class ElectronicBankStatementTransaction
     public function setDescription(string $description): void
     {
         $this->description = $description;
-    }
-
-    public function getDim1(): string
-    {
-        return $this->dim1;
-    }
-
-    public function getDim2(): string
-    {
-        return $this->dim2;
-    }
-
-    public function getDim3(): string
-    {
-        return $this->dim3;
-    }
-
-    public function getDim4(): string
-    {
-        return $this->dim4;
     }
 }

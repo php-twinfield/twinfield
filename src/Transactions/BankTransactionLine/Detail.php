@@ -90,30 +90,33 @@ class Detail extends Base
      * Set the customer or supplier balance account or profit and loss account.
      *
      * @param string $dim1
+     * @return $this
      */
     public function setAccount(string $dim1)
     {
-        $this->dim1 = $dim1;
+        return $this->setDim1($dim1);
     }
 
     /**
      * Set the customer or supplier or the cost center or empty.
      *
      * @param string $dim2
+     * @return $this
      */
     public function setCustomerOrSupplierOrCostCenter(string $dim2)
     {
-        $this->dim2 = $dim2;
+        return $this->setDim2($dim2);
     }
 
     /**
      * Set the project or asset or empty.
      *
      * @param string $dim3
+     * @return $this
      */
     public function setProjectOrAsset(string $dim3)
     {
-        $this->dim3 = $dim3;
+        return $this->setDim3($dim3);
     }
 
     /**

@@ -135,4 +135,80 @@ class SalesTransactionLine extends BaseTransactionLine
 
         return parent::setBaseValueOpen($baseValueOpen);
     }
+
+    /**
+     * If line type = detail the project or asset or empty.
+     *
+     * @param string $dim3
+     * @return $this
+     * @throws Exception
+     */
+    public function setProjectAsset(string $dim3)
+    {
+        if (!$this->getType()->equals(LineType::DETAIL())) {
+            throw Exception::invalidDimensionForLineType(3, $this);
+        }
+
+        return $this->setDim3($dim3);
+    }
+
+    /**
+     * Only if line type is vat. Amount on which VAT was calculated in the currency of the sales transaction.
+     *
+     * @param Money|null $vatTurnover
+     * @return $this
+     * @throws Exception
+     */
+    public function setVatTurnover(?Money $vatTurnover)
+    {
+        if (!$this->getType()->equals(LineType::VAT())) {
+            throw Exception::invalidFieldForLineType("vatturnover", $this);
+        }
+        return parent::setVatTurnOver($vatTurnover);
+    }
+
+    /**
+     * Only if line type is vat. Amount on which VAT was calculated in base currency.
+     *
+     * @param Money|null $vatBaseTurnover
+     * @return $this
+     * @throws Exception
+     */
+    public function setVatBaseTurnover(?Money $vatBaseTurnover)
+    {
+        if (!$this->getType()->equals(LineType::VAT())) {
+            throw Exception::invalidFieldForLineType("vatbaseturnover", $this);
+        }
+        return parent::setVatBaseTurnover($vatBaseTurnover);
+    }
+
+    /**
+     * Only if line type is vat. Amount on which VAT was calculated in reporting currency.
+     *
+     * @param Money|null $vatRepTurnover
+     * @return $this
+     * @throws Exception
+     */
+    public function setVatRepTurnover(?Money $vatRepTurnover)
+    {
+        if (!$this->getType()->equals(LineType::VAT())) {
+            throw Exception::invalidFieldForLineType("vatrepturnover", $this);
+        }
+        return parent::setVatRepTurnover($vatRepTurnover);
+    }
+
+    /**
+     * Only if line type is vat. The value of the baseline tag is a reference to the line ID of the VAT rate.
+     *
+     * @param int|null $baseline
+     * @return $this
+     * @throws Exception
+     */
+    public function setBaseline(?int $baseline)
+    {
+        if (!$this->getType()->equals(LineType::VAT())) {
+            throw Exception::invalidFieldForLineType("baseline", $this);
+        }
+        return parent::setBaseline($baseline);
+    }
 }

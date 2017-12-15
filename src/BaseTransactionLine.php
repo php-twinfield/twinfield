@@ -4,19 +4,16 @@ namespace PhpTwinfield;
 
 use Money\Money;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
+use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
-use SebastianBergmann\Diff\Line;
+use PhpTwinfield\Transactions\TransactionLineFields\VatTurnoverFields;
 
 /**
- * @todo $dim3 Meaning differs per transaction type.
  * @todo $relation Only if line type is total (or detail for Journal transactions). Read-only attribute.
  * @todo $repValueOpen Meaning differs per transaction type. Read-only attribute.
  * @todo $vatBaseValue Only if line type is detail. VAT amount in base currency.
  * @todo $vatRepValue Only if line type is detail. VAT amount in reporting currency.
- * @todo $vatTurnover Only if line type is vat. Amount on which VAT was calculated in the currency of the transaction.
- * @todo $vatBaseTurnover Only if line type is vat. Amount on which VAT was calculated in base currency.
- * @todo $vatRepTurnover Only if line type is vat. Amount on which VAT was calculated in reporting currency.
- * @todo $baseline Only if line type is vat. Value of the baseline tag is a reference to the line ID of the VAT rate.
  * @todo $destOffice Office code. Used for inter company transactions.
  * @todo $freeChar Free character field. Meaning differs per transaction type.
  * @todo $comment Comment set on the transaction line.
@@ -25,6 +22,9 @@ use SebastianBergmann\Diff\Line;
 abstract class BaseTransactionLine
 {
     use ValueFields;
+    use ThreeDimFields;
+    use VatTurnoverFields;
+    use CommentField;
 
     public const MATCHSTATUS_AVAILABLE    = 'available';
     public const MATCHSTATUS_MATCHED      = 'matched';
@@ -44,16 +44,6 @@ abstract class BaseTransactionLine
      * @var string|null The line ID.
      */
     protected $id;
-
-    /**
-     * @var string|null Meaning changes per transaction type, see explanation in sub classes.
-     */
-    protected $dim1;
-
-    /**
-     * @var string|null Meaning changes per transaction type, see explanation in sub classes.
-     */
-    protected $dim2;
 
     /**
      * @var Money|null Amount in the base currency.
@@ -143,44 +133,6 @@ abstract class BaseTransactionLine
     public function setId(?string $id): BaseTransactionLine
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDim1(): ?string
-    {
-        return $this->dim1;
-    }
-
-    /**
-     * @param string|null $dim1
-     * @return $this
-     */
-    public function setDim1(?string $dim1): BaseTransactionLine
-    {
-        $this->dim1 = $dim1;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDim2(): ?string
-    {
-        return $this->dim2;
-    }
-
-    /**
-     * @param string|null $dim2
-     * @return $this
-     */
-    public function setDim2(?string $dim2): BaseTransactionLine
-    {
-        $this->dim2 = $dim2;
 
         return $this;
     }
