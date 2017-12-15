@@ -5,7 +5,6 @@ namespace PhpTwinfield;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
-use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
@@ -15,7 +14,6 @@ class SalesTransactionLine extends BaseTransactionLine
     use VatTotalFields;
     use ValueOpenField;
     use PerformanceFields;
-    use CommentField;
 
     /**
      * If line type = total the accounts receivable balance account. When dim1 is omitted, by default the general ledger
@@ -152,5 +150,65 @@ class SalesTransactionLine extends BaseTransactionLine
         }
 
         return $this->setDim3($dim3);
+    }
+
+    /**
+     * Only if line type is vat. Amount on which VAT was calculated in the currency of the sales transaction.
+     *
+     * @param Money|null $vatTurnover
+     * @return $this
+     * @throws Exception
+     */
+    public function setVatTurnover(?Money $vatTurnover)
+    {
+        if (!$this->getType()->equals(LineType::VAT())) {
+            throw Exception::invalidFieldForLineType("vatturnover", $this);
+        }
+        return parent::setVatTurnOver($vatTurnover);
+    }
+
+    /**
+     * Only if line type is vat. Amount on which VAT was calculated in base currency.
+     *
+     * @param Money|null $vatBaseTurnover
+     * @return $this
+     * @throws Exception
+     */
+    public function setVatBaseTurnover(?Money $vatBaseTurnover)
+    {
+        if (!$this->getType()->equals(LineType::VAT())) {
+            throw Exception::invalidFieldForLineType("vatbaseturnover", $this);
+        }
+        return parent::setVatBaseTurnover($vatBaseTurnover);
+    }
+
+    /**
+     * Only if line type is vat. Amount on which VAT was calculated in reporting currency.
+     *
+     * @param Money|null $vatRepTurnover
+     * @return $this
+     * @throws Exception
+     */
+    public function setVatRepTurnover(?Money $vatRepTurnover)
+    {
+        if (!$this->getType()->equals(LineType::VAT())) {
+            throw Exception::invalidFieldForLineType("vatrepturnover", $this);
+        }
+        return parent::setVatRepTurnover($vatRepTurnover);
+    }
+
+    /**
+     * Only if line type is vat. The value of the baseline tag is a reference to the line ID of the VAT rate.
+     *
+     * @param int|null $baseline
+     * @return $this
+     * @throws Exception
+     */
+    public function setBaseline(?int $baseline)
+    {
+        if (!$this->getType()->equals(LineType::VAT())) {
+            throw Exception::invalidFieldForLineType("baseline", $this);
+        }
+        return parent::setBaseline($baseline);
     }
 }

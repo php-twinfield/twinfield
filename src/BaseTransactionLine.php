@@ -4,19 +4,16 @@ namespace PhpTwinfield;
 
 use Money\Money;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
 use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
-use SebastianBergmann\Diff\Line;
+use PhpTwinfield\Transactions\TransactionLineFields\VatTurnoverFields;
 
 /**
  * @todo $relation Only if line type is total (or detail for Journal transactions). Read-only attribute.
  * @todo $repValueOpen Meaning differs per transaction type. Read-only attribute.
  * @todo $vatBaseValue Only if line type is detail. VAT amount in base currency.
  * @todo $vatRepValue Only if line type is detail. VAT amount in reporting currency.
- * @todo $vatTurnover Only if line type is vat. Amount on which VAT was calculated in the currency of the transaction.
- * @todo $vatBaseTurnover Only if line type is vat. Amount on which VAT was calculated in base currency.
- * @todo $vatRepTurnover Only if line type is vat. Amount on which VAT was calculated in reporting currency.
- * @todo $baseline Only if line type is vat. Value of the baseline tag is a reference to the line ID of the VAT rate.
  * @todo $destOffice Office code. Used for inter company transactions.
  * @todo $freeChar Free character field. Meaning differs per transaction type.
  * @todo $comment Comment set on the transaction line.
@@ -26,6 +23,8 @@ abstract class BaseTransactionLine
 {
     use ValueFields;
     use ThreeDimFields;
+    use VatTurnoverFields;
+    use CommentField;
 
     public const MATCHSTATUS_AVAILABLE    = 'available';
     public const MATCHSTATUS_MATCHED      = 'matched';
