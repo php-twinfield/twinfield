@@ -2,12 +2,16 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
+
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers
  * @todo Add documentation and typehints to all properties.
  */
 class CustomerCreditManagement
 {
+    use CommentField;
+
     private $responsibleUser;       #string(16)         The credit manager.
     private $baseCreditLimit = 0;   #amount             The credit limit amount.
     private $sendReminder = true;   #true/email/false   Determines if and how a customer will be reminded.
@@ -16,7 +20,6 @@ class CustomerCreditManagement
     private $freeText1;             #true/false         Right of use.
     private $freeText2;             #string(40)         Segment code.
     private $freeText3;             #                   Not in use
-    private $comment;               #string()           Comment.
 
     public function getResponsibleUser()
     {
@@ -56,11 +59,6 @@ class CustomerCreditManagement
     public function getFreeText3()
     {
         return $this->freeText3;
-    }
-
-    public function getComment()
-    {
-        return $this->comment;
     }
 
     public function setResponsibleUser($responsibleUser)
@@ -108,12 +106,6 @@ class CustomerCreditManagement
     public function setFreeText3($freeText3)
     {
         $this->freeText3 = $freeText3;
-        return $this;
-    }
-
-    public function setComment($comment)
-    {
-        $this->comment = $comment;
         return $this;
     }
 }

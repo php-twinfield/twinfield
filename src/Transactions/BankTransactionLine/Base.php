@@ -5,6 +5,7 @@ namespace PhpTwinfield\Transactions\BankTransactionLine;
 use Money\Money;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Office;
+use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
 use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 
@@ -12,6 +13,7 @@ abstract class Base
 {
     use ValueFields;
     use ThreeDimFields;
+    use CommentField;
 
     /**
      * Line ID.
@@ -40,13 +42,6 @@ abstract class Base
      * @var string
      */
     private $freeChar;
-
-    /**
-     * Comment set on the transaction line.
-     *
-     * @var string
-     */
-    private $comment;
 
     /**
      * @return LineType
@@ -110,22 +105,6 @@ abstract class Base
     public function setFreeChar(string $freeChar): void
     {
         $this->freeChar = $freeChar;
-    }
-
-    /**
-     * @return string
-     */
-    public function getComment(): ?string
-    {
-        return $this->comment;
-    }
-
-    /**
-     * @param string $comment
-     */
-    public function setComment(string $comment): void
-    {
-        $this->comment = $comment;
     }
 
     /**

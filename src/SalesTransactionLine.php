@@ -5,6 +5,7 @@ namespace PhpTwinfield;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
@@ -14,6 +15,7 @@ class SalesTransactionLine extends BaseTransactionLine
     use VatTotalFields;
     use ValueOpenField;
     use PerformanceFields;
+    use CommentField;
 
     /**
      * If line type = total the accounts receivable balance account. When dim1 is omitted, by default the general ledger
