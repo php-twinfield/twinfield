@@ -36,6 +36,12 @@ class BankTransactionDocument extends BaseDocument
             );
         }
 
+        if ($bankTransaction->getRaiseWarning() !== null) {
+            $transaction->appendChild(
+                $this->createBooleanAttribute("raiswarning", $bankTransaction->getRaiseWarning())
+            );
+        }
+
         $header = $this->createElement("header");
         $header->appendChild($this->createElement("office", $bankTransaction->getOffice()->getCode()));
 

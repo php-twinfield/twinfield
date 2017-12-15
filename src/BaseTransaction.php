@@ -7,6 +7,7 @@ use PhpTwinfield\Transactions\TransactionFields\AutoBalanceVatField;
 use PhpTwinfield\Transactions\TransactionFields\DestinyField;
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
+use PhpTwinfield\Transactions\TransactionFields\RaiseWarningField;
 use PhpTwinfield\Transactions\TransactionLineFields\DateField;
 use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
 use Webmozart\Assert\Assert;
@@ -24,11 +25,7 @@ abstract class BaseTransaction extends BaseObject
     use PeriodField;
     use FreeTextFields;
     use DateField;
-
-    /**
-     * @var bool|null Should warnings be given or not?
-     */
-    private $raiseWarning;
+    use RaiseWarningField;
 
     /**
      * @var string|null The transaction type code.
@@ -60,25 +57,6 @@ abstract class BaseTransaction extends BaseObject
      *                BaseTransactionLine.
      */
     abstract public function getLineClassName(): string;
-
-    /**
-     * @return bool|null
-     */
-    public function getRaiseWarning(): ?bool
-    {
-        return $this->raiseWarning;
-    }
-
-    /**
-     * @param bool|null $raiseWarning
-     * @return $this
-     */
-    public function setRaiseWarning(?bool $raiseWarning): BaseTransaction
-    {
-        $this->raiseWarning = $raiseWarning;
-
-        return $this;
-    }
 
     /**
      * @return string|null

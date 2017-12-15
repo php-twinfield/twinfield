@@ -48,6 +48,32 @@ final class Util
     }
 
     /**
+     * @param bool $boolean
+     * @return string
+     */
+    public static function formatBoolean(bool $boolean): string
+    {
+        return $boolean ? "true" : "false";
+    }
+
+    /**
+     * @param string $input
+     * @return bool
+     * @throws Exception
+     */
+    public static function parseBoolean(string $input): bool
+    {
+        switch ($input) {
+            case "true":
+                return true;
+            case "false":
+                return false;
+        }
+
+        throw new Exception("Unknown boolean value \"{$input}\".");
+    }
+
+    /**
      * Get all the traits an object uses, includes traits from all parent classes.
      *
      * @param string $trait
@@ -58,9 +84,13 @@ final class Util
     {
         Assert::object($object);
 
-        $traits = array_reduce(class_parents($object), function(array $carry, string $item) {
-            return array_merge($carry, class_uses($item));
-        }, class_uses(get_class($object)));
+        $traits = array_reduce(
+            class_parents($object),
+            function (array $carry, string $item) {
+                return array_merge($carry, class_uses($item));
+            },
+            class_uses(get_class($object))
+        );
 
         return in_array($trait, $traits);
     }

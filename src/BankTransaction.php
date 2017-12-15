@@ -3,6 +3,7 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Transactions\TransactionFields\RaiseWarningField;
 use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
 use PhpTwinfield\Transactions\TransactionFields\AutoBalanceVatField;
 use PhpTwinfield\Transactions\TransactionFields\DestinyField;
@@ -24,6 +25,7 @@ class BankTransaction
     use OfficeField;
     use DateField;
     use StatementNumberField;
+    use RaiseWarningField;
 
     use StartAndCloseValueFields;
 

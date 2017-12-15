@@ -57,7 +57,7 @@ class TransactionMapper
 
             $raiseWarning = $transactionElement->getAttribute('raisewarning');
             if (!empty($raiseWarning)) {
-                $transaction->setRaiseWarning($raiseWarning == 'true');
+                $transaction->setRaiseWarning(Util::parseBoolean($raiseWarning));
             }
 
             $office = new Office();

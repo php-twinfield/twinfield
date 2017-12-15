@@ -39,7 +39,7 @@ abstract class BaseDocument extends \DOMDocument
     protected function createBooleanAttribute(string $name, bool $value): \DOMAttr
     {
         $attr = $this->createAttribute($name);
-        $attr->value = $value ? "true" : "false";
+        $attr->value = Util::formatBoolean($value);
 
         return $attr;
     }
