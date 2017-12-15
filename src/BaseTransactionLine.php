@@ -4,11 +4,11 @@ namespace PhpTwinfield;
 
 use Money\Money;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 use SebastianBergmann\Diff\Line;
 
 /**
- * @todo $dim3 Meaning differs per transaction type.
  * @todo $relation Only if line type is total (or detail for Journal transactions). Read-only attribute.
  * @todo $repValueOpen Meaning differs per transaction type. Read-only attribute.
  * @todo $vatBaseValue Only if line type is detail. VAT amount in base currency.
@@ -25,6 +25,7 @@ use SebastianBergmann\Diff\Line;
 abstract class BaseTransactionLine
 {
     use ValueFields;
+    use ThreeDimFields;
 
     public const MATCHSTATUS_AVAILABLE    = 'available';
     public const MATCHSTATUS_MATCHED      = 'matched';
@@ -44,16 +45,6 @@ abstract class BaseTransactionLine
      * @var string|null The line ID.
      */
     protected $id;
-
-    /**
-     * @var string|null Meaning changes per transaction type, see explanation in sub classes.
-     */
-    protected $dim1;
-
-    /**
-     * @var string|null Meaning changes per transaction type, see explanation in sub classes.
-     */
-    protected $dim2;
 
     /**
      * @var Money|null Amount in the base currency.
@@ -143,44 +134,6 @@ abstract class BaseTransactionLine
     public function setId(?string $id): BaseTransactionLine
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDim1(): ?string
-    {
-        return $this->dim1;
-    }
-
-    /**
-     * @param string|null $dim1
-     * @return $this
-     */
-    public function setDim1(?string $dim1): BaseTransactionLine
-    {
-        $this->dim1 = $dim1;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDim2(): ?string
-    {
-        return $this->dim2;
-    }
-
-    /**
-     * @param string|null $dim2
-     * @return $this
-     */
-    public function setDim2(?string $dim2): BaseTransactionLine
-    {
-        $this->dim2 = $dim2;
 
         return $this;
     }

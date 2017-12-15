@@ -135,4 +135,20 @@ class SalesTransactionLine extends BaseTransactionLine
 
         return parent::setBaseValueOpen($baseValueOpen);
     }
+
+    /**
+     * If line type = detail the project or asset or empty.
+     *
+     * @param string $dim3
+     * @return $this
+     * @throws Exception
+     */
+    public function setProjectAsset(string $dim3)
+    {
+        if (!$this->getType()->equals(LineType::DETAIL())) {
+            throw Exception::invalidDimensionForLineType(3, $this);
+        }
+
+        return $this->setDim3($dim3);
+    }
 }

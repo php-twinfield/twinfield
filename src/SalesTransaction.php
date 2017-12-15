@@ -5,6 +5,7 @@ namespace PhpTwinfield;
 use PhpTwinfield\Transactions\TransactionFields\DueDateField;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
+use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 
 /**
  * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesTransactions
@@ -14,6 +15,7 @@ class SalesTransaction extends BaseTransaction
     use DueDateField;
     use InvoiceNumberField;
     use PaymentReferenceField;
+    use ThreeDimFields;
 
     /**
      * @var string|null The sales transaction origin reference (id). Provided in form of Guid. Read-only attribute.

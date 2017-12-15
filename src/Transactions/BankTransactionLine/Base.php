@@ -5,24 +5,14 @@ namespace PhpTwinfield\Transactions\BankTransactionLine;
 use Money\Money;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Office;
+use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 
 abstract class Base
 {
     use ValueFields;
+    use ThreeDimFields;
 
-    /**
-     * @var string
-     */
-    protected $dim1;
-    /**
-     * @var string
-     */
-    protected $dim2;
-    /**
-     * @var string
-     */
-    protected $dim3;
     /**
      * Line ID.
      *
@@ -57,30 +47,6 @@ abstract class Base
      * @var string
      */
     private $comment;
-
-    /**
-     * @return string
-     */
-    final public function getDim1(): ?string
-    {
-        return $this->dim1;
-    }
-
-    /**
-     * @return string
-     */
-    final public function getDim2(): ?string
-    {
-        return $this->dim2;
-    }
-
-    /**
-     * @return string
-     */
-    final public function getDim3(): ?string
-    {
-        return $this->dim3;
-    }
 
     /**
      * @return LineType
