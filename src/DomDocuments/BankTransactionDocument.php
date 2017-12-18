@@ -106,9 +106,17 @@ class BankTransactionDocument extends BaseDocument
         }
 
         if ($line instanceof BankTransactionLine\Total) {
-            $transaction->appendChild($this->createElement("vattotal", Util::formatMoney($line->getVatTotal())));
-            $transaction->appendChild($this->createElement("vatbasetotal", Util::formatMoney($line->getVatBaseTotal())));
-            $transaction->appendChild($this->createElement("vatreptotal", Util::formatMoney($line->getVatRepTotal())));
+            if ($line->getVatTotal() !== null) {
+                $transaction->appendChild($this->createElement("vattotal", Util::formatMoney($line->getVatTotal())));
+            }
+
+            if ($line->getVatBaseTotal() !== null) {
+                $transaction->appendChild($this->createElement("vatbasetotal", Util::formatMoney($line->getVatBaseTotal())));
+            }
+
+            if ($line->getVatRepTotal() !== null) {
+                $transaction->appendChild($this->createElement("vatreptotal", Util::formatMoney($line->getVatRepTotal())));
+            }
         }
 
         if ($line instanceof BankTransactionLine\Vat || $line instanceof BankTransactionLine\Detail) {
@@ -116,9 +124,17 @@ class BankTransactionDocument extends BaseDocument
         }
 
         if ($line instanceof BankTransactionLine\Detail) {
-            $transaction->appendChild($this->createElement("vatvalue", Util::formatMoney($line->getVatValue())));
-            $transaction->appendChild($this->createElement("vatbasevalue", Util::formatMoney($line->getVatBaseValue())));
-            $transaction->appendChild($this->createElement("vatrepvalue", Util::formatMoney($line->getVatRepValue())));
+            if ($line->getVatValue() !== null) {
+                $transaction->appendChild($this->createElement("vatvalue", Util::formatMoney($line->getVatValue())));
+            }
+
+            if ($line->getVatBaseValue() !== null) {
+                $transaction->appendChild($this->createElement("vatbasevalue", Util::formatMoney($line->getVatBaseValue())));
+            }
+
+            if ($line->getVatRepValue() !== null) {
+                $transaction->appendChild($this->createElement("vatrepvalue", Util::formatMoney($line->getVatRepValue())));
+            }
         }
 
         if ($line instanceof BankTransactionLine\Detail || $line instanceof BankTransactionLine\Vat) {

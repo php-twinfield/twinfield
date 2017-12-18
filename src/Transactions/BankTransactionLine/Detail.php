@@ -19,7 +19,7 @@ class Detail extends Base
     /**
      * VAT amount in the currency of the bank transaction.
      *
-     * @var Money
+     * @var Money|null
      */
     private $vatValue;
 
@@ -70,14 +70,14 @@ class Detail extends Base
     /**
      * VAT amount in base currency.
      *
-     * @var Money
+     * @var Money|null
      */
     private $vatBaseValue;
 
     /**
      * VAT amount in reporting currency.
      *
-     * @var Money
+     * @var Money|null
      */
     private $vatRepValue;
 
@@ -149,25 +149,25 @@ class Detail extends Base
     }
 
     /**
-     * @return Money
+     * @return Money|null
      */
-    public function getVatValue(): Money
+    public function getVatValue(): ?Money
     {
         return $this->vatValue;
     }
 
     /**
-     * @return Money
+     * @return Money|null
      */
-    public function getVatBaseValue(): Money
+    public function getVatBaseValue(): ?Money
     {
         return $this->vatBaseValue;
     }
 
     /**
-     * @return Money
+     * @return Money|null
      */
-    public function getVatRepValue(): Money
+    public function getVatRepValue(): ?Money
     {
         return $this->vatRepValue;
     }

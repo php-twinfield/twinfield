@@ -4,10 +4,11 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\BankTransaction;
 use PhpTwinfield\DomDocuments\BankTransactionDocument;
+use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Exception;
 use Webmozart\Assert\Assert;
 
-class BankTransactionApiConnector extends BaseApiConnector
+class BankTransactionApiConnector extends ProcessXmlApiConnector
 {
     /**
      * Sends a BankTransaction instance to Twinfield to update or add.

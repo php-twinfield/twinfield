@@ -149,7 +149,7 @@ class TransactionsDocument extends BaseDocument
 
             $vatValue = $transactionLine->getVatValue();
             if (!empty($vatValue)) {
-                $vatElement = $this->createElement('vatvalue', $vatValue);
+                $vatElement = $this->createElement('vatvalue', Util::formatMoney($vatValue));
                 $lineElement->appendChild($vatElement);
             }
 

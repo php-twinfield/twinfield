@@ -12,21 +12,21 @@ class Total extends Base
     /**
      * The total VAT amount in the currency of the bank transaction.
      *
-     * @var Money
+     * @var Money|null
      */
     private $vatTotal;
 
     /**
      * The total VAT amount in base currency.
      *
-     * @var Money
+     * @var Money|null
      */
     private $vatBaseTotal;
 
     /**
      * The total VAT amount in reporting currency.
      *
-     * @var Money
+     * @var Money|null
      */
     private $vatRepTotal;
 
@@ -63,9 +63,9 @@ class Total extends Base
     }
 
     /**
-     * @return Money
+     * @return Money|null
      */
-    public function getVatTotal(): Money
+    public function getVatTotal(): ?Money
     {
         return $this->vatTotal;
     }
@@ -81,9 +81,9 @@ class Total extends Base
     }
 
     /**
-     * @return Money
+     * @return Money|null
      */
-    public function getVatBaseTotal(): Money
+    public function getVatBaseTotal(): ?Money
     {
         return $this->vatBaseTotal;
     }
@@ -99,9 +99,9 @@ class Total extends Base
     }
 
     /**
-     * @return Money
+     * @return Money|null
      */
-    public function getVatRepTotal(): Money
+    public function getVatRepTotal(): ?Money
     {
         return $this->vatRepTotal;
     }
