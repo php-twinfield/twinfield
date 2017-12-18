@@ -80,7 +80,7 @@ class BankTransaction
     /**
      * @var Transactions\BankTransactionLine\Base[]
      */
-    private $transactions = [];
+    private $lines = [];
 
     /**
      * The bank transaction origin.
@@ -101,24 +101,24 @@ class BankTransaction
     /**
      * @return Transactions\BankTransactionLine\Base[]
      */
-    public function getTransactions(): array
+    public function getLines(): array
     {
-        return $this->transactions;
+        return $this->lines;
     }
 
     /**
-     * @param Transactions\BankTransactionLine\Base[] $transactions
+     * @param Transactions\BankTransactionLine\Base[] $lines
      */
-    public function setTransactions(array $transactions): void
+    public function setLines(array $lines): void
     {
-        Assert::allIsInstanceOf($transactions, Transactions\BankTransactionLine\Base::class);
+        Assert::allIsInstanceOf($lines, Transactions\BankTransactionLine\Base::class);
         Assert::notEmpty($this->startvalue);
 
-        $this->transactions = $transactions;
+        $this->lines = $lines;
 
         $this->closevalue = $this->startvalue;
 
-        foreach ($transactions as $transaction) {
+        foreach ($lines as $transaction) {
             if ($transaction->getDebitCredit() == DebitCredit::CREDIT()) {
                 $this->closevalue = $this->closevalue->add($transaction->getValue());
             } else {

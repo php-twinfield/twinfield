@@ -38,7 +38,7 @@ class BankTransactionDocument extends BaseDocument
 
         if ($bankTransaction->getRaiseWarning() !== null) {
             $transaction->appendChild(
-                $this->createBooleanAttribute("raiswarning", $bankTransaction->getRaiseWarning())
+                $this->createBooleanAttribute("raisewarning", $bankTransaction->getRaiseWarning())
             );
         }
 
@@ -71,11 +71,11 @@ class BankTransactionDocument extends BaseDocument
         $this->appendFreeTextFields($header, $bankTransaction);
         $transaction->appendChild($header);
 
-        $transactions = $this->createElement("transactions");
-        $transaction->appendChild($transactions);
+        $lines = $this->createElement("lines");
+        $transaction->appendChild($lines);
 
-        foreach ($bankTransaction->getTransactions() as $line) {
-            $transactions->appendChild($this->createTransactionLineElement($line));
+        foreach ($bankTransaction->getLines() as $line) {
+            $lines->appendChild($this->createTransactionLineElement($line));
         }
 
         $this->rootElement->appendChild($transaction);
@@ -83,7 +83,7 @@ class BankTransactionDocument extends BaseDocument
 
     protected function createTransactionLineElement(BankTransactionLine\Base $line): \DOMElement
     {
-        $transaction = $this->createElement("transaction");
+        $transaction = $this->createElement("line");
         $transaction->appendChild(new \DOMAttr("type", $line->getType()));
         $transaction->appendChild(new \DOMAttr("id", $line->getId()));
 
@@ -120,7 +120,9 @@ class BankTransactionDocument extends BaseDocument
         }
 
         if ($line instanceof BankTransactionLine\Vat || $line instanceof BankTransactionLine\Detail) {
-            $transaction->appendChild($this->createElement("vatcode", $line->getVatCode()));
+            if ($line->getVatCode()) {
+                $transaction->appendChild($this->createElement("vatcode", $line->getVatCode()));
+            }
         }
 
         if ($line instanceof BankTransactionLine\Detail) {

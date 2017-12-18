@@ -93,14 +93,23 @@ abstract class BaseDocument extends \DOMDocument
 
     protected function appendPerformanceTypeFields(\DOMElement $element, $object): void
     {
+        /** @var PerformanceFields $object */
+
         Assert::true(Util::objectUses(PerformanceFields::class, $object));
 
-        /** @var PerformanceFields $object */
-        $element->appendChild($this->createElement("performancetype", $object->getPerformanceType()));
-        $element->appendChild($this->createElement("performancecountry", $object->getPerformanceCountry()));
-        $element->appendChild($this->createElement("performancevatnumber", $object->getPerformanceVatNumber()));
+        if ($object->getPerformanceType() !== null) {
+            $element->appendChild($this->createElement("performancetype", $object->getPerformanceType()));
+        }
 
-        if ($object->getPerformanceType() == PerformanceType::SERVICES()) {
+        if ($object->getPerformanceCountry() !== null) {
+            $element->appendChild($this->createElement("performancecountry", $object->getPerformanceCountry()));
+        }
+
+        if ($object->getPerformanceVatNumber() !== null) {
+            $element->appendChild($this->createElement("performancevatnumber", $object->getPerformanceVatNumber()));
+        }
+
+        if ($object->getPerformanceDate() != null && $object->getPerformanceType()->equals(PerformanceType::SERVICES())) {
             $element->appendChild($this->createElement("performancedate", $object->getPerformanceDate()));
         }
     }

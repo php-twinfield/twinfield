@@ -53,7 +53,7 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
         $line3->setVatBaseTotal(Money::EUR(21));
         $line3->setVatRepTotal(Money::EUR(21));
 
-        $transaction->setTransactions([$line1, $line2, $line3]);
+        $transaction->setLines([$line1, $line2, $line3]);
 
         $line3->setComment("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse facilisis lobortis arcu in tincidunt. Mauris urna enim, commodo nec feugiat quis, pharetra vel sem. Etiam ullamcorper eleifend tellus non viverra. Nulla facilisi. Donec sed orci aliquam.");
 
@@ -69,34 +69,30 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
 			<startvalue>0.00</startvalue>
 			<closevalue>1.21</closevalue>
 		</header>
-		<transactions>
-			<transaction id="38861" type="total">
+		<lines>
+			<line id="38861" type="total">
 				<debitcredit>credit</debitcredit>
 				<value>1.21</value>
 				<vattotal>0.21</vattotal>
 				<vatbasetotal>0.21</vatbasetotal>
 				<vatreptotal>0.21</vatreptotal>
-			</transaction>
-			<transaction id="38862" type="detail">
+			</line>
+			<line id="38862" type="detail">
 				<debitcredit>credit</debitcredit>
 				<value>1.00</value>
-				<vatcode/>
 				<vatvalue>1.00</vatvalue>
 				<vatbasevalue>1.00</vatbasevalue>
 				<vatrepvalue>1.00</vatrepvalue>
-				<performancetype/>
-				<performancecountry/>
-				<performancevatnumber/>
-			</transaction>
-			<transaction id="38863" type="total">
+			</line>
+			<line id="38863" type="total">
 				<debitcredit>debit</debitcredit>
 				<value>1.00</value>
 				<vattotal>0.21</vattotal>
 				<vatbasetotal>0.21</vatbasetotal>
 				<vatreptotal>0.21</vatreptotal>
 				<comment>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse facilisis lobortis arcu in tincidunt. Mauris urna enim, commodo nec feugiat quis, pharetra vel sem. Etiam ullamcorper eleifend tellus non viverra. Nulla facilisi. Donec sed orci aliquam.</comment>
-			</transaction>
-		</transactions>
+			</line>
+		</lines>
 	</transaction>
 </transactions>
 XML

@@ -37,7 +37,7 @@ class Total extends Base
 
     public function setBankBalanceAccount(string $dim1)
     {
-        $this->dim1 = $dim1;
+        $this->setDim1($dim1);
     }
 
     /**
