@@ -28,16 +28,16 @@ class BankTransactionApiConnector extends ProcessXmlApiConnector
     public function sendAll(array $bankTransactions): void
     {
         Assert::allIsInstanceOf($bankTransactions, BankTransaction::class);
-        Assert::notEmpty($bankTransactions);
 
-        // Gets a new instance of ArticlesDocument and sets the $article
-        $bankTransactionDocument = new BankTransactionDocument();
+        foreach ($this->chunk($bankTransactions) as $chunk) {
 
-        foreach ($bankTransactions as $bankTransaction) {
-            $bankTransactionDocument->addBankTransaction($bankTransaction);
+            $bankTransactionDocument = new BankTransactionDocument();
+
+            foreach ($chunk as $bankTransaction) {
+                $bankTransactionDocument->addBankTransaction($bankTransaction);
+            }
+
+            $this->sendDocument($bankTransactionDocument);
         }
-
-        // Send the DOM document request and set the response
-        $this->sendDocument($bankTransactionDocument);
     }
 }

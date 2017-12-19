@@ -62,16 +62,16 @@ class ArticleApiConnector extends ProcessXmlApiConnector
     public function sendAll(array $articles): void
     {
         Assert::allIsInstanceOf($articles, Article::class);
-        Assert::notEmpty($articles);
 
-        // Gets a new instance of ArticlesDocument and sets the $article
-        $articlesDocument = new ArticlesDocument();
+        foreach ($this->chunk($articles) as $chunk) {
 
-        foreach ($articles as $article) {
-            $articlesDocument->addArticle($article);
+            $articlesDocument = new ArticlesDocument();
+
+            foreach ($chunk as $article) {
+                $articlesDocument->addArticle($article);
+            }
+
+            $this->sendDocument($articlesDocument);
         }
-
-        // Send the DOM document request and set the response
-        $this->sendDocument($articlesDocument);
     }
 }

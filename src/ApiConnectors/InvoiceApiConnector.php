@@ -64,16 +64,16 @@ class InvoiceApiConnector extends ProcessXmlApiConnector
     public function sendAll(array $invoices): void
     {
         Assert::allIsInstanceOf($invoices, Invoice::class);
-        Assert::notEmpty($invoices);
 
-        // Gets a new instance of InvoicesDocument and sets the invoice
-        $invoicesDocument = new InvoicesDocument();
+        foreach ($this->chunk($invoices) as $chunk) {
 
-        foreach ($invoices as $invoice) {
-            $invoicesDocument->addInvoice($invoice);
+            $invoicesDocument = new InvoicesDocument();
+
+            foreach ($chunk as $invoice) {
+                $invoicesDocument->addInvoice($invoice);
+            }
+
+            $this->sendDocument($invoicesDocument);
         }
-
-        // Sends the DOM document request and sets the response
-        $this->sendDocument($invoicesDocument);
     }
 }

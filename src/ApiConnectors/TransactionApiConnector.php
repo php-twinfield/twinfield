@@ -65,15 +65,16 @@ class TransactionApiConnector extends ProcessXmlApiConnector
     public function sendAll(array $transactions): void
     {
         Assert::allIsInstanceOf($transactions, BaseTransaction::class);
-        Assert::notEmpty($transactions);
 
-        $transactionsDocument = new TransactionsDocument();
+        foreach ($this->chunk($transactions) as $chunk) {
 
-        foreach ($transactions as $transaction) {
-            $transactionsDocument->addTransaction($transaction);
+            $transactionsDocument = new TransactionsDocument();
+
+            foreach ($chunk as $transaction) {
+                $transactionsDocument->addTransaction($transaction);
+            }
+
+            $this->sendDocument($transactionsDocument);
         }
-
-        // Send the DOM document request and set the response
-        $this->sendDocument($transactionsDocument);
     }
 }

@@ -16,6 +16,14 @@ use PhpTwinfield\Services\ProcessXmlService;
 abstract class ProcessXmlApiConnector extends BaseApiConnector
 {
     /**
+     * Advise is to limit the number of children within a parent to 25. So 25 elements within a <general> element, 25
+     * elements within e.g. a <transactions> element and so on.
+     *
+     * @link https://c3.twinfield.com/webservices/documentation/#/GettingStarted/FUP
+     */
+    private const MAX_CHILDREN = 25;
+
+    /**
      * @var ProcessXmlService
      */
     protected $service;
@@ -30,6 +38,15 @@ abstract class ProcessXmlApiConnector extends BaseApiConnector
     final protected function getRequiredWebservice(): Services
     {
         return Services::PROCESSXML();
+    }
+
+    /**
+     * @param array $items
+     * @return array[]
+     */
+    protected function chunk(array $items): array
+    {
+        return array_chunk($items, self::MAX_CHILDREN);
     }
 
     /**

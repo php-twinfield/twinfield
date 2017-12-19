@@ -103,16 +103,16 @@ class CustomerApiConnector extends ProcessXmlApiConnector
     public function sendAll(array $customers): void
     {
         Assert::allIsInstanceOf($customers, Customer::class);
-        Assert::notEmpty($customers);
 
-        // Gets a new instance of CustomersDocument and sets the $customer
-        $customersDocument = new CustomersDocument();
+        foreach ($this->chunk($customers) as $chunk) {
 
-        foreach ($customers as $customer) {
-            $customersDocument->addCustomer($customer);
+            $customersDocument = new CustomersDocument();
+
+            foreach ($chunk as $customer) {
+                $customersDocument->addCustomer($customer);
+            }
+
+            $this->sendDocument($customersDocument);
         }
-
-        // Send the DOM document request and set the response
-        $this->sendDocument($customersDocument);
     }
 }

@@ -8,6 +8,7 @@ use PhpTwinfield\Request as Request;
 use PhpTwinfield\Supplier;
 use PhpTwinfield\DomDocuments\SuppliersDocument;
 use PhpTwinfield\Mappers\SupplierMapper;
+use Webmozart\Assert\Assert;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about
@@ -94,10 +95,29 @@ class SupplierApiConnector extends ProcessXmlApiConnector
      */
     public function send(Supplier $supplier): void
     {
-        // Gets a new instance of SuppliersDocument and sets the $supplier
-        $suppliersDocument = new SuppliersDocument();
-        $suppliersDocument->addSupplier($supplier);
+        $this->sendAll([$supplier]);
+    }
 
-        $this->sendDocument($suppliersDocument);
+
+    /**
+     * Sends a list of Transaction instances to Twinfield to add or update.
+     *
+     * @param Supplier[] $suppliers
+     * @throws Exception
+     */
+    public function sendAll(array $suppliers): void
+    {
+        Assert::allIsInstanceOf($suppliers, Supplier::class);
+
+        foreach ($this->chunk($suppliers) as $chunk) {
+
+            $suppliersDocument = new SuppliersDocument();
+
+            foreach ($chunk as $supplier) {
+                $suppliersDocument->addSupplier($supplier);
+            }
+
+            $this->sendDocument($suppliersDocument);
+        }
     }
 }

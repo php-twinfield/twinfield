@@ -23,20 +23,22 @@ class ElectronicBankStatementApiConnector extends ProcessXmlApiConnector
     }
 
     /**
-     * @param array $statements
+     * @param ElectronicBankStatement[] $statements
      * @throws Exception
      */
     public function sendAll(array $statements)
     {
         Assert::allIsInstanceOf($statements, ElectronicBankStatement::class);
-        Assert::notEmpty($statements);
 
-        $document = new ElectronicBankStatementDocument();
+        foreach ($this->chunk($statements) as $chunk) {
 
-        foreach ($statements as $statement) {
-            $document->addStatement($statement);
+            $document = new ElectronicBankStatementDocument();
+
+            foreach ($chunk as $statement) {
+                $document->addStatement($statement);
+            }
+
+            $this->sendDocument($document);
         }
-
-        $this->sendDocument($document);
     }
 }
