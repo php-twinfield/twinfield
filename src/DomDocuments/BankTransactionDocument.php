@@ -85,7 +85,10 @@ class BankTransactionDocument extends BaseDocument
     {
         $transaction = $this->createElement("line");
         $transaction->appendChild(new \DOMAttr("type", $line->getType()));
-        $transaction->appendChild(new \DOMAttr("id", $line->getId()));
+
+        if ($line->getId() !== null) {
+            $transaction->appendChild(new \DOMAttr("id", $line->getId()));
+        }
 
         if ($line->getDim1() !== null) {
             $transaction->appendChild($this->createElement("dim1", $line->getDim1()));
