@@ -2,13 +2,16 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Transactions\TransactionFields\OfficeField;
+
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers
  * @todo Add documentation and typehints to all properties.
  */
 class Customer
 {
-    private $office;
+    use OfficeField;
+
     private $code;
     private $UID;
     private $status;
@@ -41,19 +44,6 @@ class Customer
     private $addresses = array();
     private $banks = array();
     private $groups;
-
-
-    public function getOffice()
-    {
-        return $this->office;
-    }
-
-    public function setOffice($office)
-    {
-        $this->office = $office;
-
-        return $this;
-    }
 
     public function getCode()
     {

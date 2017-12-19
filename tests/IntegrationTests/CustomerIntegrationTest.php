@@ -53,7 +53,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $customer = $this->customerApiConnector->get('CODE', $this->office);
 
         $this->assertInstanceOf(Customer::class, $customer);
-        $this->assertSame('001', $customer->getOffice());
+        $this->assertSame('001', $customer->getOffice()->getCode());
         $this->assertSame('DEB', $customer->getType());
         $this->assertSame('Customer 0', $customer->getName());
         $this->assertSame('http://www.example.com', $customer->getWebsite());
@@ -168,7 +168,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
     public function testSendCustomerWorks()
     {
         $customer = new Customer();
-        $customer->setOffice('001');
+        $customer->setOffice(Office::fromCode('001'));
         $customer->setName('Customer 0');
         $customer->setDueDays('30');
         $customer->setPayAvailable(true);

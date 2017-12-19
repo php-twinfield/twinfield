@@ -4,6 +4,7 @@ namespace PhpTwinfield\Mappers;
 use PhpTwinfield\Customer;
 use PhpTwinfield\CustomerAddress;
 use PhpTwinfield\CustomerBank;
+use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 
 /**
@@ -49,7 +50,7 @@ class CustomerMapper
             'endyear'           => 'setEndYear',
             'website'           => 'setWebsite',
             'editdimensionname' => 'setEditDimensionName',
-            'office'            => 'setOffice',
+//            'office'            => 'setOffice',
         );
 
         // Loop through all the tags
@@ -62,6 +63,11 @@ class CustomerMapper
             if (isset($_tag) && isset($_tag->textContent)) {
                 $customer->$method($_tag->textContent);
             }
+        }
+
+        $_tag = $responseDOM->getElementsByTagName("office")->item(0);
+        if (!empty($_tag->textContent)) {
+            $customer->setOffice(Office::fromCode($_tag->textContent));
         }
 
         // Financial elements and their methods
