@@ -55,13 +55,6 @@ class BankTransaction
     private $number;
 
     /**
-     * Number of the bank statement. Don't confuse this number with the transaction number.
-     *
-     * @var int
-     */
-    private $statementnumber;
-
-    /**
      * The bank transaction origin.
      * Read-only attribute.
      *
@@ -147,6 +140,8 @@ class BankTransaction
     }
 
     /**
+     * Transaction type code.
+     *
      * @param string|int|null $code
      * @return $this
      */
