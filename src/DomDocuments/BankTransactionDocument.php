@@ -101,6 +101,10 @@ class BankTransactionDocument extends BaseDocument
 
         $this->appendValueValues($transaction, $line);
 
+        if ($line->getInvoiceNumber() !== null) {
+            $transaction->appendChild($this->createElement("invoicenumber", $line->getInvoiceNumber()));
+        }
+
         if ($line->getDescription()) {
             $transaction->appendChild($this->createElement("description", $line->getDescription()));
         }

@@ -5,6 +5,7 @@ namespace PhpTwinfield\Transactions\BankTransactionLine;
 use Money\Money;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Office;
+use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
 use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
@@ -14,6 +15,13 @@ abstract class Base
     use ValueFields;
     use ThreeDimFields;
     use CommentField;
+
+    /**
+     * Note that the field is not in the documentation but it is in all the examples.
+     *
+     * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
+     */
+    use InvoiceNumberField;
 
     /**
      * Line ID.
