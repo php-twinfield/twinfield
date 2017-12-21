@@ -9,6 +9,7 @@ use PhpTwinfield\BankTransaction;
 use PhpTwinfield\Office;
 use PhpTwinfield\Transactions\BankTransactionLine\Detail;
 use PhpTwinfield\Transactions\BankTransactionLine\Total;
+use PhpTwinfield\Transactions\BankTransactionLine\Vat;
 
 class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
 {
@@ -77,13 +78,6 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
 				<vatbasetotal>0.21</vatbasetotal>
 				<vatreptotal>0.21</vatreptotal>
 			</line>
-			<line id="38862" type="detail">
-				<debitcredit>credit</debitcredit>
-				<value>1.00</value>
-				<vatvalue>1.00</vatvalue>
-				<vatbasevalue>1.00</vatbasevalue>
-				<vatrepvalue>1.00</vatrepvalue>
-			</line>
 			<line id="38863" type="total">
 				<debitcredit>debit</debitcredit>
 				<value>1.00</value>
@@ -91,6 +85,13 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
 				<vatbasetotal>0.21</vatbasetotal>
 				<vatreptotal>0.21</vatreptotal>
 				<comment>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse facilisis lobortis arcu in tincidunt. Mauris urna enim, commodo nec feugiat quis, pharetra vel sem. Etiam ullamcorper eleifend tellus non viverra. Nulla facilisi. Donec sed orci aliquam.</comment>
+			</line>
+			<line id="38862" type="detail">
+				<debitcredit>credit</debitcredit>
+				<value>1.00</value>
+				<vatvalue>1.00</vatvalue>
+				<vatbasevalue>1.00</vatbasevalue>
+				<vatrepvalue>1.00</vatrepvalue>
 			</line>
 		</lines>
 	</transaction>

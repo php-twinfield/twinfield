@@ -20,17 +20,6 @@ class Exception extends \Exception
         ));
     }
 
-    public static function invalidLineClassForTransaction(
-        BaseTransactionLine $transactionLine,
-        BaseTransaction $transaction
-    ): self {
-        return new self(sprintf(
-            "Line of class %s can't be added to transaction of class %s.",
-            get_class($transactionLine),
-            get_class($transaction)
-        ));
-    }
-
     public static function invalidLineTypeForTransaction(string $lineType, BaseTransactionLine $transactionLine): self
     {
         return new self(sprintf(

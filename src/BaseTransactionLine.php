@@ -4,6 +4,7 @@ namespace PhpTwinfield;
 
 use Money\Money;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Transactions\TransactionLine;
 use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
 use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
@@ -19,7 +20,7 @@ use PhpTwinfield\Transactions\TransactionLineFields\VatTurnoverFields;
  * @todo $comment Comment set on the transaction line.
  * @todo $matches Contains matching information. Read-only attribute.
  */
-abstract class BaseTransactionLine
+abstract class BaseTransactionLine implements TransactionLine
 {
     use ValueFields;
     use ThreeDimFields;
@@ -41,7 +42,7 @@ abstract class BaseTransactionLine
     protected $type;
 
     /**
-     * @var string|null The line ID.
+     * @var int|null The line ID.
      */
     protected $id;
 
@@ -124,18 +125,18 @@ abstract class BaseTransactionLine
     }
 
     /**
-     * @return string|null
+     * @return int|null
      */
-    public function getId(): ?string
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @param string|null $id
+     * @param int|null $id
      * @return $this
      */
-    public function setId(?string $id): BaseTransactionLine
+    public function setId(?int $id): BaseTransactionLine
     {
         $this->id = $id;
 

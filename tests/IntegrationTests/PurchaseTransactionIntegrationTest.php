@@ -71,11 +71,10 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         /** @var PurchaseTransactionLine[] $purchaseTransactionLines */
         $purchaseTransactionLines = $purchaseTransaction->getLines();
         $this->assertCount(3, $purchaseTransactionLines);
+        [$totalLine, $detailLine, $vatLine] = $purchaseTransactionLines;
 
-        $this->assertArrayHasKey('1', $purchaseTransactionLines);
-        $totalLine = $purchaseTransactionLines['1'];
         $this->assertEquals(LineType::TOTAL(), $totalLine->getType());
-        $this->assertSame('1', $totalLine->getId());
+        $this->assertSame(1, $totalLine->getId());
         $this->assertSame('1600', $totalLine->getDim1());
         $this->assertSame('2000', $totalLine->getDim2());
         $this->assertEquals(DebitCredit::CREDIT(), $totalLine->getDebitCredit());
@@ -94,10 +93,8 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(2100), $totalLine->getVatBaseTotal());
         $this->assertEquals(Money::EUR(12100), $totalLine->getValueOpen());
 
-        $this->assertArrayHasKey('2', $purchaseTransactionLines);
-        $detailLine = $purchaseTransactionLines['2'];
         $this->assertEquals(LineType::DETAIL(), $detailLine->getType());
-        $this->assertSame('2', $detailLine->getId());
+        $this->assertSame(2, $detailLine->getId());
         $this->assertSame('8020', $detailLine->getDim1());
         $this->assertNull($detailLine->getDim2());
         $this->assertEquals(DebitCredit::DEBIT(), $detailLine->getDebitCredit());
@@ -116,10 +113,8 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine->getVatBaseTotal());
         $this->assertNull($detailLine->getValueOpen());
 
-        $this->assertArrayHasKey('3', $purchaseTransactionLines);
-        $vatLine = $purchaseTransactionLines['3'];
         $this->assertEquals(LineType::VAT(), $vatLine->getType());
-        $this->assertSame('3', $vatLine->getId());
+        $this->assertSame(3, $vatLine->getId());
         $this->assertSame('1510', $vatLine->getDim1());
         $this->assertNull($vatLine->getDim2());
         $this->assertEquals(DebitCredit::DEBIT(), $vatLine->getDebitCredit());

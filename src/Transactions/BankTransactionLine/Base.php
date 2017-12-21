@@ -6,11 +6,12 @@ use Money\Money;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Office;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
+use PhpTwinfield\Transactions\TransactionLine;
 use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
 use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 
-abstract class Base
+abstract class Base implements TransactionLine
 {
     use ValueFields;
     use ThreeDimFields;

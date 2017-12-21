@@ -2,22 +2,22 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Transactions\Transaction;
 use PhpTwinfield\Transactions\TransactionFields\AutoBalanceVatField;
 use PhpTwinfield\Transactions\TransactionFields\DestinyField;
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
+use PhpTwinfield\Transactions\TransactionFields\LinesField;
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionFields\RaiseWarningField;
 use PhpTwinfield\Transactions\TransactionLineFields\DateField;
 use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
-use Webmozart\Assert\Assert;
 
 /**
  * @todo $modificationDate The date/time on which the sales transaction was modified the last time. Read-only attribute.
  * @todo $user The user who created the sales transaction. Read-only attribute.
  * @todo $inputDate The date/time on which the transaction was created. Read-only attribute.
  */
-abstract class BaseTransaction extends BaseObject
+abstract class BaseTransaction extends BaseObject implements Transaction
 {
     use DestinyField;
     use AutoBalanceVatField;
@@ -26,6 +26,7 @@ abstract class BaseTransaction extends BaseObject
     use FreeTextFields;
     use DateField;
     use RaiseWarningField;
+    use LinesField;
 
     /**
      * @var string|null The transaction type code.
@@ -46,17 +47,6 @@ abstract class BaseTransaction extends BaseObject
      * @var string|null The sales transaction origin. Read-only attribute.
      */
     private $origin;
-
-    /**
-     * @var BaseTransactionLine[]
-     */
-    private $lines = [];
-
-    /**
-     * @return string The class name for transaction lines supported by this transaction. Must be a sub class of
-     *                BaseTransactionLine.
-     */
-    abstract public function getLineClassName(): string;
 
     /**
      * @return string|null
@@ -134,58 +124,4 @@ abstract class BaseTransaction extends BaseObject
         return $this;
     }
 
-    /**
-     * @return BaseTransactionLine[]
-     */
-    public function getLines(): array
-    {
-        /*
-         * When creating the XML that is send to Twinfield, the total lines should always be put first.
-         * Twinfield returns an error when the total line is not the first line.
-         */
-        uasort($this->lines, function(BaseTransactionLine $a, BaseTransactionLine $b): int {
-            if ($a->getType() == LineType::TOTAL()) {
-                return -1;
-            }
-
-            if ($b->getType() == LineType::TOTAL()) {
-                return 1;
-            }
-
-            return $a->getId() <=> $b->getId();
-        });
-
-        return $this->lines;
-    }
-
-    /**
-     * @param BaseTransactionLine $line
-     * @return $this
-     * @throws Exception
-     */
-    public function addLine(BaseTransactionLine $line): BaseTransaction
-    {
-        if (!is_a($line, $this->getLineClassName())) {
-            throw Exception::invalidLineClassForTransaction($line, $this);
-        }
-
-        Assert::notNull($line->getId());
-
-        $this->lines[$line->getId()] = $line;
-
-        return $this;
-    }
-
-    /**
-     * @param string $lineId
-     * @throws Exception
-     */
-    public function removeLine(string $lineId): void
-    {
-        if (!array_key_exists($lineId, $this->lines)) {
-            throw Exception::transactionLineDoesNotExist($lineId);
-        }
-
-        unset($this->lines[$lineId]);
-    }
 }

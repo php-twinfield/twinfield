@@ -71,11 +71,10 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         /** @var JournalTransactionLine[] $journalTransactionLines */
         $journalTransactionLines = $journalTransaction->getLines();
         $this->assertCount(2, $journalTransactionLines);
+        [$detailLine1, $detailLine2] = $journalTransactionLines;
 
-        $this->assertArrayHasKey('1', $journalTransactionLines);
-        $detailLine1 = $journalTransactionLines['1'];
         $this->assertEquals(LineType::DETAIL(), $detailLine1->getType());
-        $this->assertSame('1', $detailLine1->getId());
+        $this->assertSame(1, $detailLine1->getId());
         $this->assertSame('4008', $detailLine1->getDim1());
         $this->assertNull($detailLine1->getDim2());
         $this->assertEquals(DebitCredit::DEBIT(), $detailLine1->getDebitCredit());
@@ -96,10 +95,8 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine1->getPerformanceDate());
         $this->assertSame('', $detailLine1->getInvoiceNumber());
 
-        $this->assertArrayHasKey('2', $journalTransactionLines);
-        $detailLine2 = $journalTransactionLines['2'];
         $this->assertEquals(LineType::DETAIL(), $detailLine2->getType());
-        $this->assertSame('2', $detailLine2->getId());
+        $this->assertSame(2, $detailLine2->getId());
         $this->assertSame('1300', $detailLine2->getDim1());
         $this->assertSame('1000', $detailLine2->getDim2());
         $this->assertEquals(DebitCredit::CREDIT(), $detailLine2->getDebitCredit());

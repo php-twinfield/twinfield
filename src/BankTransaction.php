@@ -3,6 +3,8 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Transactions\Transaction;
+use PhpTwinfield\Transactions\TransactionFields\LinesField;
 use PhpTwinfield\Transactions\TransactionFields\RaiseWarningField;
 use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
 use PhpTwinfield\Transactions\TransactionFields\AutoBalanceVatField;
@@ -17,7 +19,7 @@ use Webmozart\Assert\Assert;
 /**
  * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
  */
-class BankTransaction
+class BankTransaction implements Transaction
 {
     use DestinyField;
     use AutoBalanceVatField;
@@ -30,6 +32,10 @@ class BankTransaction
     use StartAndCloseValueFields;
 
     use FreeTextFields;
+
+    use LinesField {
+        addLine as protected traitAddLine;
+    }
 
     /**
      * The date/time on which the transaction was created.
@@ -70,10 +76,10 @@ class BankTransaction
      */
     private $modificationDate;
 
-    /**
-     * @var Transactions\BankTransactionLine\Base[]
-     */
-    private $lines = [];
+    public function getLineClassName(): string
+    {
+        return Transactions\BankTransactionLine\Base::class;
+    }
 
     /**
      * The bank transaction origin.
@@ -91,32 +97,20 @@ class BankTransaction
         return $this->inputDate;
     }
 
-    /**
-     * @return Transactions\BankTransactionLine\Base[]
-     */
-    public function getLines(): array
+    public function addLine(Transactions\BankTransactionLine\Base $line): void
     {
-        return $this->lines;
-    }
-
-    /**
-     * @param Transactions\BankTransactionLine\Base[] $lines
-     */
-    public function setLines(array $lines): void
-    {
-        Assert::allIsInstanceOf($lines, Transactions\BankTransactionLine\Base::class);
         Assert::notEmpty($this->startvalue);
 
-        $this->lines = $lines;
+        /*
+         * Calls the addLine() method on the LinesField trait. Uses an alias in the `use` statement at top of this
+         * class, because parent::addLine() doesn't work for traits.
+         */
+        $this->traitAddLine($line);
 
-        $this->closevalue = $this->startvalue;
-
-        foreach ($lines as $transaction) {
-            if ($transaction->getDebitCredit() == DebitCredit::CREDIT()) {
-                $this->closevalue = $this->closevalue->add($transaction->getValue());
-            } else {
-                $this->closevalue = $this->closevalue->subtract($transaction->getValue());
-            }
+        if ($line->getDebitCredit()->equals(DebitCredit::CREDIT())) {
+            $this->closevalue = $this->closevalue->add($line->getValue());
+        } else {
+            $this->closevalue = $this->closevalue->subtract($line->getValue());
         }
     }
 
