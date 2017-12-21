@@ -6,36 +6,14 @@ use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
+use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
+use PhpTwinfield\Transactions\TransactionLineFields\VatTurnoverFields;
 
 class Vat extends Base
 {
     use PerformanceFields;
-
-    /**
-     * @var string
-     */
-    private $vatCode;
-
-    /**
-     * Amount on which VAT was calculated in the currency of the bank transaction.
-     *
-     * @var Money
-     */
-    private $vatTurnover;
-
-    /**
-     * Amount on which VAT was calculated in base currency.
-     *
-     * @var Money
-     */
-    private $vatBaseTurnover;
-
-    /**
-     * Amount on which VAT was calculated in reporting currency.
-     *
-     * @var Money
-     */
-    private $vatRepTurnover;
+    use VatTurnoverFields;
+    use VatCodeField;
 
     public function __construct()
     {
@@ -50,7 +28,7 @@ class Vat extends Base
      */
     public function setVatBalanceAccount(string $dim1)
     {
-        $this->dim1 = $dim1;
+        $this->setDim1($dim1);
     }
 
     /**
@@ -73,37 +51,5 @@ class Vat extends Base
     public function setValue(Money $money): void
     {
         parent::setValue($money);
-    }
-
-    /**
-     * @return Money
-     */
-    public function getVatTurnover(): Money
-    {
-        return $this->vatTurnover;
-    }
-
-    /**
-     * @return Money
-     */
-    public function getVatBaseTurnover(): Money
-    {
-        return $this->vatBaseTurnover;
-    }
-
-    /**
-     * @return Money
-     */
-    public function getVatRepTurnover(): Money
-    {
-        return $this->vatRepTurnover;
-    }
-
-    /**
-     * @return string
-     */
-    public function getVatCode(): string
-    {
-        return $this->vatCode;
     }
 }

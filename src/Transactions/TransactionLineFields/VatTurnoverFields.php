@@ -22,11 +22,6 @@ trait VatTurnoverFields
     private $vatRepTurnover;
 
     /**
-     * @var int|null
-     */
-    private $baseline;
-
-    /**
      * @return Money|null
      */
     public function getVatTurnover(): ?Money
@@ -79,25 +74,6 @@ trait VatTurnoverFields
     public function setVatRepTurnover(?Money $vatRepTurnover)
     {
         $this->vatRepTurnover = $vatRepTurnover;
-
-        return $this;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getBaseline(): ?int
-    {
-        return $this->baseline;
-    }
-
-    /**
-     * @param int|null $baseline
-     * @return $this
-     */
-    public function setBaseline(?int $baseline)
-    {
-        $this->baseline = $baseline;
 
         return $this;
     }

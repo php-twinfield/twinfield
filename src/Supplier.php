@@ -2,12 +2,16 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
+
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers
  * @todo Add documentation and typehints to all properties.
  */
 class Supplier
 {
+    use VatCodeField;
+
     private $office;
     private $code;
     private $UID;
@@ -28,14 +32,12 @@ class Supplier
     private $dueDays = 0;
     private $payAvailable = false;
     private $payCode;
-    private $vatCode;
     private $eBilling = false;
     private $eBillMail;
     private $creditManagement;
     private $addresses = array();
     private $banks = array();
     private $groups;
-
 
     public function getOffice()
     {
@@ -271,17 +273,6 @@ class Supplier
     public function setPayCode($payCode)
     {
         $this->payCode = $payCode;
-        return $this;
-    }
-
-    public function getVatCode()
-    {
-        return $this->vatCode;
-    }
-
-    public function setVatCode($vatCode)
-    {
-        $this->vatCode = $vatCode;
         return $this;
     }
 

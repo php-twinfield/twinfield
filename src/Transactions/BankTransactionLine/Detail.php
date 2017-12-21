@@ -6,15 +6,12 @@ use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
+use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
 
 class Detail extends Base
 {
     use PerformanceFields;
-
-    /**
-     * @var mixed
-     */
-    private $vatCode;
+    use VatCodeField;
 
     /**
      * VAT amount in the currency of the bank transaction.
@@ -22,17 +19,6 @@ class Detail extends Base
      * @var Money|null
      */
     private $vatValue;
-
-    /**
-     * @param mixed $vatCode
-     * @return Detail
-     */
-    public function setVatCode($vatCode)
-    {
-        $this->vatCode = $vatCode;
-
-        return $this;
-    }
 
     /**
      * @param Money $vatValue
@@ -140,13 +126,6 @@ class Detail extends Base
         parent::setValue($money);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getVatCode()
-    {
-        return $this->vatCode;
-    }
 
     /**
      * @return Money|null

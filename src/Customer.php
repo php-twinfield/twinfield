@@ -3,6 +3,7 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
+use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
 
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers
@@ -11,6 +12,7 @@ use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 class Customer
 {
     use OfficeField;
+    use VatCodeField;
 
     private $code;
     private $UID;
@@ -261,17 +263,6 @@ class Customer
     public function setPayCode($payCode)
     {
         $this->payCode = $payCode;
-        return $this;
-    }
-
-    public function getVatCode()
-    {
-        return $this->vatCode;
-    }
-
-    public function setVatCode($vatCode)
-    {
-        $this->vatCode = $vatCode;
         return $this;
     }
 

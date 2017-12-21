@@ -2,6 +2,7 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
+use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
 
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices
@@ -10,6 +11,7 @@ use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 class InvoiceLine
 {
     use FreeTextFields;
+    use VatCodeField;
 
     private $ID;
     private $quantity;
@@ -23,7 +25,6 @@ class InvoiceLine
     private $valueExcl;
     private $vatValue;
     private $valueInc;
-    private $vatCode;
     private $performanceDate;
     private $dim1;
 
@@ -155,17 +156,6 @@ class InvoiceLine
     public function setValueInc($valueInc)
     {
         $this->valueInc = $valueInc;
-        return $this;
-    }
-
-    public function getVatCode()
-    {
-        return $this->vatCode;
-    }
-
-    public function setVatCode($vatCode)
-    {
-        $this->vatCode = $vatCode;
         return $this;
     }
 

@@ -52,6 +52,11 @@ abstract class BaseTransactionLine
     protected $baseValue;
 
     /**
+     * @var int|null
+     */
+    private $baseline;
+
+    /**
      * @var float|null The exchange rate used for the calculation of the base amount.
      * @todo This field is currently read-only in this library.
      */
@@ -333,6 +338,25 @@ abstract class BaseTransactionLine
         }
 
         $this->vatValue = $vatValue;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getBaseline(): ?int
+    {
+        return $this->baseline;
+    }
+
+    /**
+     * @param int|null $baseline
+     * @return $this
+     */
+    public function setBaseline(?int $baseline)
+    {
+        $this->baseline = $baseline;
 
         return $this;
     }

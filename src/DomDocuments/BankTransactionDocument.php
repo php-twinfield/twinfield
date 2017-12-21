@@ -127,7 +127,7 @@ class BankTransactionDocument extends BaseDocument
         }
 
         if ($line instanceof BankTransactionLine\Vat || $line instanceof BankTransactionLine\Detail) {
-            if ($line->getVatCode()) {
+            if ($line->getVatCode() !== null) {
                 $transaction->appendChild($this->createElement("vatcode", $line->getVatCode()));
             }
         }
@@ -143,6 +143,19 @@ class BankTransactionDocument extends BaseDocument
 
             if ($line->getVatRepValue() !== null) {
                 $transaction->appendChild($this->createElement("vatrepvalue", Util::formatMoney($line->getVatRepValue())));
+            }
+        }
+
+        if ($line instanceof BankTransactionLine\Vat) {
+
+            if ($line->getVatTurnover() !== null) {
+                $transaction->appendChild($this->createElement("vatturnover", Util::formatMoney($line->getVatTurnover())));
+            }
+            if ($line->getVatBaseTurnover() !== null) {
+                $transaction->appendChild($this->createElement("vatbaseturnover", Util::formatMoney($line->getVatBaseTurnover())));
+            }
+            if ($line->getVatRepTurnover() !== null) {
+                $transaction->appendChild($this->createElement("vatrepturnover", Util::formatMoney($line->getVatRepTurnover())));
             }
         }
 

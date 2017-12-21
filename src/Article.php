@@ -2,12 +2,16 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
+
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles
  * @todo Add documentation and typehints to all properties.
  */
 class Article
 {
+    use VatCodeField;
+
     private $code;
     private $office;
     private $status;
@@ -16,7 +20,6 @@ class Article
     private $shortName;
     private $unitNameSingular;
     private $unitNamePlural;
-    private $vatCode;
     private $allowChangeVatCode = false;
     private $performanceType;
     private $allowChangePerformanceType;
@@ -111,17 +114,6 @@ class Article
     public function setUnitNamePlural($unitNamePlural)
     {
         $this->unitNamePlural = $unitNamePlural;
-        return $this;
-    }
-
-    public function getVatCode()
-    {
-        return $this->vatCode;
-    }
-
-    public function setVatCode($vatCode)
-    {
-        $this->vatCode = $vatCode;
         return $this;
     }
 
