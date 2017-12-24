@@ -1,7 +1,6 @@
 <dimension>    
     <name>Customer 0</name>
     <type>DEB</type>
-    <website></website>
     <office>001</office>
     <financials>
         <duedays>30</duedays>
