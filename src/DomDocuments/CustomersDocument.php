@@ -67,14 +67,16 @@ class CustomersDocument extends \DOMDocument
         foreach ($customerTags as $tag => $method) {
 
             // Make text node for method value
-            $node = $this->createTextNode($customer->$method());
+            if($customer->$method()) {
+                $node = $this->createTextNode($customer->$method());
 
-            // Make the actual element and assign the node
-            $element = $this->createElement($tag);
-            $element->appendChild($node);
+                // Make the actual element and assign the node
+                $element = $this->createElement($tag);
+                $element->appendChild($node);
 
-            // Add the full element
-            $this->dimensionElement->appendChild($element);
+                // Add the full element
+                $this->dimensionElement->appendChild($element);
+            }
         }
 
         // Check if the financial information should be supplied
