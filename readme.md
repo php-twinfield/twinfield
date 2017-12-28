@@ -2,6 +2,8 @@
 A PHP library for Twinfield Integration.
 Use the Twinfield SOAP Service to have your PHP application communicate directly with your Twinfield account.
 
+> :warning: This library is still under construction. [Version 1](https://github.com/php-twinfield/twinfield/tree/release-1.0) is available from Composer, but we recommend you to wait for (or help with!) version 2. We hope to release it early 2018.
+
 ---
 
 
