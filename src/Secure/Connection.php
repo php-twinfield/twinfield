@@ -169,6 +169,17 @@ class Connection
     }
 
     /**
+     * Get the authenticated clients for usage.
+     */
+    public function getAuthenticatedClient($services)
+    {
+        var_dump('XXX');
+        var_dump($services);
+
+        die();
+    }
+
+    /**
      * Connects or refreshes a token.
      */
     public function connect()
