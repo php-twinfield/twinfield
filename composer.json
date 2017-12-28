@@ -30,9 +30,10 @@
     "php": ">=7.1",
     "ext-dom": "*",
     "ext-soap": "*",
+    "league/oauth2-client": "^2.2",
     "moneyphp/money": "^3.0",
-    "webmozart/assert": "^1.2",
-    "myclabs/php-enum": "^1.5"
+    "myclabs/php-enum": "^1.5",
+    "webmozart/assert": "^1.2"
   },
   "autoload": {
     "psr-4": {
