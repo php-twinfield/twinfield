@@ -9,13 +9,9 @@
   "license": "GPL-3.0",
   "authors": [
     {
-      "name": "Remco Tolsma",
-      "email": "remcotolsma@pronamic.nl"
-    },
-    {
-      "name": "Leon Rowland",
-      "email": "leon@pronamic.nl"
-    }
+      "name": "Alex Jeensma",
+      "email": "alex@vontis.nl"
+    }    
   ],
   "config": {
     "sort-packages": true
