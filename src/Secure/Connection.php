@@ -35,6 +35,26 @@ class Connection
     /**
      * @var
      */
+    private $authCode = null;
+
+    /**
+     * @var
+     */
+    private $authToken = null;
+
+    /**
+     * @var
+     */
+    private $authRefreshToken = null;
+
+    /**
+     * @var
+     */
+    private $authExpires = null;
+
+    /**
+     * @var
+     */
     private $scopes = ['openid', 'twf.user', 'twf.organisation', 'twf.organisationUser'];
 
     /**
@@ -56,6 +76,38 @@ class Connection
             'urlAccessToken' => self::BASEURL.'token',
             'urlResourceOwnerDetails' => self::BASEURL.'userinfo',
         ]);
+    }
+
+    /**
+     * Set refresh token timestamp expiry.
+     */
+    public function setTokenExpires($refreshtoken)
+    {
+        $this->authExpires = $refreshtoken;
+    }
+
+    /**
+     * Set refresh token information.
+     */
+    public function setRefreshToken($refreshtoken)
+    {
+        $this->authRefreshToken = $refreshtoken;
+    }
+
+    /**
+     * Set access token information.
+     */
+    public function setAccessToken($token)
+    {
+        $this->authToken = $token;
+    }
+
+    /**
+     * Set the code for exchange.
+     */
+    public function setAuthorizationCode($code)
+    {
+        $this->authCode = $code;
     }
 
     /**
@@ -91,23 +143,84 @@ class Connection
     }
 
     /**
-     * Exchange the code for an access token.
+     * Should it refresh based on current expiry.
      */
-    public function getAccessToken($code)
+    private function needsAuthentication()
+    {
+        if ($this->authRefreshToken && $this->authToken) {
+            // since we already have a token
+            return true;
+        } else {
+            // no token / refresh token
+            return false;
+        }
+    }
+
+    /**
+     * Has the current token expired?
+     */
+    public function tokenHasExpired()
+    {
+        if (empty($this->authExpires)) {
+            return true;
+        }
+
+        return $this->authExpires <= (time() + 30); // 30 sec margin for twinfield
+    }
+
+    /**
+     * Connects or refreshes a token.
+     */
+    public function connect()
+    {
+        if (!$this->needsAuthentication()) {
+            // already connected and no need to refresh
+            return true;
+        }
+
+        // If access token is not set or token has expired, acquire new token
+        if ($this->authToken === null || $this->tokenHasExpired()) {
+            return $this->acquireAccessToken();
+        }
+
+        return true;
+    }
+
+    /**
+     * 
+     */
+    public function prepareRequest()
+    {
+        // check if we need to refresh before adding the header
+        if ($this->authToken === null || $this->tokenHasExpired()) {
+            $this->acquireAccessToken();
+        }
+    }
+
+    /**
+     * Exchange the code for an access token or refresh.
+     */
+    private function acquireAccessToken()
     {
         try {
             // setup provider
             $this->initProvider();
-            // Try to get an access token using the authorization code grant.
-            $accessToken = $this->getProvider()->getAccessToken('authorization_code', [
-                'code' => $code,
-            ]);
-            // We have an access token, which we may use in authenticated
-            // requests against the service provider's API.
-            echo 'Access Token: '.$accessToken->getToken().'<br>';
-            echo 'Refresh Token: '.$accessToken->getRefreshToken().'<br>';
-            echo 'Expired in: '.$accessToken->getExpires().'<br>';
-            echo 'Already expired? '.($accessToken->hasExpired() ? 'expired' : 'not expired').'<br>';
+            // check if we need to refresh
+            if (empty($this->authRefreshToken)) {
+                // get a new token
+                $accessToken = $this->getProvider()->getAccessToken('authorization_code', [
+                    'code' => $this->authCode,
+                ]);
+            } else {
+                // refresh token
+                $accessToken = $provider->getAccessToken('refresh_token', [
+                    'refresh_token' => $this->authRefreshToken,
+                ]);
+            }
+            // set to object
+            $this->authToken = $accessToken->getToken();
+            $this->authRefreshToken = $accessToken->getRefreshToken();
+            $this->authExpires = $accessToken->getExpires();
         } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
             // failed to get the access token or user details.
             throw new \PhpTwinfield\Exception('Failed to exchange the code for an access token ('.$e->getMessage().')');
