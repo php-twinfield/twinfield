@@ -2,6 +2,10 @@
 
 namespace PhpTwinfield\Secure;
 
+use PhpTwinfield\Exception;
+use PhpTwinfield\Enums\Services;
+use PhpTwinfield\Services\BaseService;
+
 /**
  * The connection class is used for communicating with the main Twinfield objects.
  */
@@ -170,13 +174,34 @@ class Connection
 
     /**
      * Get the authenticated clients for usage.
+     *
+     * @todo: Prepare for array of $services?
      */
-    public function getAuthenticatedClient($services)
+    public function getAuthenticatedClient(Services $service): BaseService
     {
-        var_dump('XXX');
-        var_dump($services);
+        // check if we need to refresh before adding the header
+        if ($this->authToken === null || $this->tokenHasExpired()) {
+            $this->acquireAccessToken();
+        }
 
-        die();
+        $key = $service->getKey();
+
+        if (!array_key_exists($key, $this->authenticatedClients)) {
+            $classname = $service->getValue();
+
+            $this->authenticatedClients[$key] = new $classname(
+                "{$this->cluster}{$service->getValue()}",
+                $this->config->getSoapClientOptions() + ['cluster' => $this->cluster]
+            );
+
+            $this->authenticatedClients[$key]->__setSoapHeaders(new \SoapHeader(
+                'http://www.twinfield.com/',
+                'Header',
+                array('SessionID' => $this->sessionID)
+            ));
+        }
+
+        return $this->authenticatedClients[$key];
     }
 
     /**
@@ -234,7 +259,7 @@ class Connection
             $this->authExpires = $accessToken->getExpires();
         } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
             // failed to get the access token or user details.
-            throw new \PhpTwinfield\Exception('Failed to exchange the code for an access token ('.$e->getMessage().')');
+            throw new Exception('Failed to exchange the code for an access token ('.$e->getMessage().')');
         }
     }
 
