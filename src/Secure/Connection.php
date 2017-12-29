@@ -74,6 +74,11 @@ class Connection
     /**
      * @var
      */
+    private $office = null;
+
+    /**
+     * @var
+     */
     private $scopes = ['openid', 'twf.user', 'twf.organisation', 'twf.organisationUser', 'offline_access'];
 
     /**
@@ -95,6 +100,22 @@ class Connection
             'urlAccessToken' => self::BASEURL.'token',
             'urlResourceOwnerDetails' => self::BASEURL.'userinfo',
         ]);
+    }
+
+    /**
+     * Set refresh token timestamp expiry.
+     */
+    public function setOffice($office)
+    {
+        $this->office = $office;
+    }
+
+    /**
+     * Get refresh token timestamp expiry.
+     */
+    public function getOffice()
+    {
+        return $this->office;
     }
 
     /**
@@ -254,7 +275,10 @@ class Connection
             $this->authenticatedClients[$key]->__setSoapHeaders(new \SoapHeader(
                 'http://www.twinfield.com/',
                 'Header',
-                array('Token' => 'Bearer '.$this->authToken)
+                [
+                    'AccessToken' => $this->authToken,
+                    'CompanyCode' => $this->getOffice(),
+                ]
             ));
         }
 
