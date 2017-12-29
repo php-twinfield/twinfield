@@ -107,6 +107,7 @@ support for another resource.
 * [Mollie](https://www.mollie.com/)
 * [Remco Tolsma](https://www.remcotolsma.nl/)
 * [Emile Bons](http://www.emilebons.nl/)
+* [Alex Jeensma](http://vontis.nl/)
 
 
 ## License
