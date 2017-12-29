@@ -59,7 +59,22 @@ class Connection
     /**
      * @var
      */
-    private $scopes = ['openid', 'twf.user', 'twf.organisation', 'twf.organisationUser'];
+    private $cluster = null;
+
+    /**
+     * @var BaseService[]
+     */
+    private $authenticatedClients = [];
+
+    /**
+     * @var 
+     */
+    private $soapClientOptions = [];
+
+    /**
+     * @var
+     */
+    private $scopes = ['openid', 'twf.user', 'twf.organisation', 'twf.organisationUser', 'offline_access'];
 
     /**
      * Set the OAuth provider.
@@ -91,6 +106,14 @@ class Connection
     }
 
     /**
+     * Get refresh token timestamp expiry.
+     */
+    public function getTokenExpires()
+    {
+        return $this->authExpires;
+    }
+
+    /**
      * Set refresh token information.
      */
     public function setRefreshToken($refreshtoken)
@@ -99,11 +122,27 @@ class Connection
     }
 
     /**
+     * Get refresh token information.
+     */
+    public function getRefreshToken()
+    {
+        return $this->authRefreshToken;
+    }
+
+    /**
      * Set access token information.
      */
     public function setAccessToken($token)
     {
         $this->authToken = $token;
+    }
+
+    /**
+     * Get access token information.
+     */
+    public function getAccessToken()
+    {
+        return $this->authToken;
     }
 
     /**
@@ -151,7 +190,7 @@ class Connection
      */
     private function needsAuthentication()
     {
-        if ($this->authRefreshToken && $this->authToken) {
+        if ($this->authRefreshToken === null && $this->authToken === null) {
             // since we already have a token
             return true;
         } else {
@@ -186,18 +225,36 @@ class Connection
 
         $key = $service->getKey();
 
+        if ($this->cluster == null) {
+            // first determine the cluster through a post to twinfield
+            $this->initProvider();
+
+            $request = $this->provider->getAuthenticatedRequest(
+                'POST',
+                self::BASEURL.'accesstokenvalidation',
+                $this->authToken
+            );
+
+            $response = (new \GuzzleHttp\Client())->send($request, ['body' => 'token='.$this->authToken]);
+            $twinfieldResponse = json_decode((string) $response->getBody(), true);
+
+            $this->cluster = $twinfieldResponse['twf.clusterUrl'];
+        }
+
+        // move on now we have / know the cluster
+
         if (!array_key_exists($key, $this->authenticatedClients)) {
             $classname = $service->getValue();
 
             $this->authenticatedClients[$key] = new $classname(
                 "{$this->cluster}{$service->getValue()}",
-                $this->config->getSoapClientOptions() + ['cluster' => $this->cluster]
+                $this->soapClientOptions + ['cluster' => $this->cluster]
             );
 
             $this->authenticatedClients[$key]->__setSoapHeaders(new \SoapHeader(
                 'http://www.twinfield.com/',
                 'Header',
-                array('SessionID' => $this->sessionID)
+                array('Token' => 'Bearer '.$this->authToken)
             ));
         }
 
@@ -223,17 +280,6 @@ class Connection
     }
 
     /**
-     * 
-     */
-    public function prepareRequest()
-    {
-        // check if we need to refresh before adding the header
-        if ($this->authToken === null || $this->tokenHasExpired()) {
-            $this->acquireAccessToken();
-        }
-    }
-
-    /**
      * Exchange the code for an access token or refresh.
      */
     private function acquireAccessToken()
@@ -242,14 +288,14 @@ class Connection
             // setup provider
             $this->initProvider();
             // check if we need to refresh
-            if (empty($this->authRefreshToken)) {
+            if ($this->authRefreshToken == null) {
                 // get a new token
                 $accessToken = $this->getProvider()->getAccessToken('authorization_code', [
                     'code' => $this->authCode,
                 ]);
             } else {
                 // refresh token
-                $accessToken = $provider->getAccessToken('refresh_token', [
+                $accessToken = $this->getProvider()->getAccessToken('refresh_token', [
                     'refresh_token' => $this->authRefreshToken,
                 ]);
             }
@@ -270,7 +316,17 @@ class Connection
     {
         // setup provider
         $this->initProvider();
+
+        // get redirect url and twinfield has a strange scope splitter (+)
+        // this is automatically encoded by the used library, we revert it back
+        // twinfield also enforces nonce= where our library uses state=
+        $redirectUrl = $this->getProvider()->getAuthorizationUrl();
+        $redirectUrl = str_replace(['%2B', 'state='], ['+', 'nonce='], $redirectUrl);
+
+        echo $redirectUrl;
+        die();
+
         // redirect to twinfield for authentication        
-        header('Location: '.$this->getProvider()->getAuthorizationUrl());
+        header('Location: '.$redirectUrl);
     }
 }

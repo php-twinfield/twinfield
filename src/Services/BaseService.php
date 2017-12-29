@@ -24,7 +24,6 @@ abstract class BaseService extends \SoapClient
      */
     public function __construct(string $wsdl = null, array $options = [])
     {
-        var_dump('zie maar even');
         /*
          * Relies heavily on __getLastResponse() etc.
          */
