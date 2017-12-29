@@ -323,9 +323,6 @@ class Connection
         $redirectUrl = $this->getProvider()->getAuthorizationUrl();
         $redirectUrl = str_replace(['%2B', 'state='], ['+', 'nonce='], $redirectUrl);
 
-        echo $redirectUrl;
-        die();
-
         // redirect to twinfield for authentication        
         header('Location: '.$redirectUrl);
     }
