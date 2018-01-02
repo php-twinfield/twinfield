@@ -59,7 +59,7 @@ class BankTransactionDocument extends BaseDocument
         }
 
         if ($bankTransaction->getDate() !== null) {
-            $header->appendChild($this->createElement("date", Util::formatDate($bankTransaction->getDate())));
+            $this->appendDateElement($header, "date", $bankTransaction->getDate());
         }
 
         if ($bankTransaction->getStatementnumber() !== null)  {
