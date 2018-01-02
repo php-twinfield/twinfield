@@ -11,8 +11,6 @@ final class Util
 {
     public static function formatMoney(Money $money): string
     {
-        Assert::true($money->isPositive() || $money->isZero());
-
         $decimalformatter = new DecimalMoneyFormatter(new ISOCurrencies());
 
         return $decimalformatter->format($money);

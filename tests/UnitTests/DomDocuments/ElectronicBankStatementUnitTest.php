@@ -89,4 +89,35 @@ XML
 XML
             ,$domdocument->saveXML());
     }
+
+    /**
+     * @issue 43
+     */
+    public function testNegativeBalanceIsPossible()
+    {
+        $statement = new ElectronicBankStatement();
+        $statement->setImportDuplicate(true);
+        $statement->setDate(new \DateTimeImmutable("2017-11-30"));
+        $statement->setStartvalue(Money::EUR(-1));
+        $statement->setStatementnumber(237);
+
+        $domdocument = new ElectronicBankStatementDocument();
+        $domdocument->addStatement($statement);
+
+        $this->assertXmlStringEqualsXmlString(<<<XML
+<?xml version="1.0"?>
+<statements>
+    <statement target="electronicstatements" importduplicate="1">
+        <date>20171130</date>
+        <currency>EUR</currency>
+        <startvalue>-0.01</startvalue>
+        <closevalue>-0.01</closevalue>
+        <statementnumber>237</statementnumber>
+        <transactions />
+    </statement>
+</statements>
+XML
+            ,$domdocument->saveXML());
+
+    }
 }
