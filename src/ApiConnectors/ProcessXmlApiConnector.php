@@ -64,10 +64,7 @@ abstract class ProcessXmlApiConnector extends BaseApiConnector
     {
         // Send the DOM document request and set the response
         $response = $this->service->sendDOMDocument($DOMDocument);
-
-        if (!$response->isSuccessful()) {
-            throw new Exception(implode(", ", $response->getErrorMessages()));
-        }
+        $response->assertSuccessful();
 
         return $response;
     }
