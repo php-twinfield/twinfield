@@ -22,25 +22,19 @@ namespace PhpTwinfield\Secure;
 final class Config
 {
     /**
-     * @var string the address of the cluster. There is no need to set cluster in the scenario of logging in, the right
-     * cluster will then be provided. In calls based on using existing credentials though, the cluster should be
-     * provided.
+     * @var string|null
      */
-    public $cluster;
+    private $username;
 
     /**
-     * Holds all the login details for this
-     * config object
-     *
-     * @access private
-     * @var array
+     * @var string|null
      */
-    private $credentials = array(
-        'user'         => '',
-        'password'     => '',
-        'organisation' => '',
-        'office'       => ''
-    );
+    private $password;
+
+    /**
+     * @var string
+     */
+    private $organization;
 
     /**
      * Holds all the OAuth login details for this
@@ -77,20 +71,17 @@ final class Config
      * @param string $ct
      * @param string $cs
      * @param string $rURL
-     * @param string $org
-     * @param string $office
      * @param bool $autoRedirect
      * @param bool $clearSession
      * @return void
      */
-    public function setOAuthParameters($ct, $cs, $rURL, $org, $office, bool $autoRedirect = false, bool $clearSession = false)
+    public function setOAuthParameters($ct, $cs, $rURL, bool $autoRedirect = false, bool $clearSession = false): void
     {
         $this->oauthCredentials['clientToken'] = $ct;
         $this->oauthCredentials['clientSecret'] = $cs;
         $this->oauthCredentials['redirectURL'] = $rURL;
         $this->oauthCredentials['autoRedirect'] = $autoRedirect;
         $this->oauthCredentials['clearSession'] = $clearSession;
-        $this->setOrganisationAndOffice($org, $office);
     }
 
     /**
@@ -110,42 +101,21 @@ final class Config
         $this->oauth = new OAuth($this->oauthCredentials);
         return $this->oauth->getParameters();
     }
+
     /**
      * Sets the details for this config
      * object.
      *
-     * @since 0.0.1
-     *
-     * @access public
+     * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Authentication/WebServices
      * @param string $username
      * @param string $password
      * @param string $organisation
-     * @param int $office
-     * @return void
      */
-    public function setCredentials($username, $password, $organisation, $office)
+    public function setCredentials(string $username, string $password, string $organisation)
     {
-        $this->credentials['user']         = $username;
-        $this->credentials['password']     = $password;
-        $this->setOrganisationAndOffice($organisation, $office);
-    }
-
-    /**
-     * Sets the organisation en office details for this config
-     * object.
-     *
-     * @since 0.0.1
-     *
-     * @access public
-     * @param string $organisation
-     * @param int $office
-     * @return void
-     */
-
-    protected function setOrganisationAndOffice($organisation, $office)
-    {
-        $this->credentials['organisation'] = $organisation;
-        $this->credentials['office']       = $office;
+        $this->username = $username;
+        $this->password = $password;
+        $this->organization = $organisation;
     }
 
     /**
@@ -156,65 +126,40 @@ final class Config
      * @access public
      * @return array
      */
-    public function getCredentials()
+    public function getCredentials(): array
     {
         if ($this->oauthCredentials['clientToken'] != '') {
             return $this->getOAuthParameters();
-        } else {
-            return $this->credentials;
         }
+
+        return [
+            "username" => $this->getUsername(),
+            "password" => $this->getPassword(),
+        ];
     }
 
     /**
-     * Returns the set user
-     *
-     * @since 0.0.1
-     *
-     * @access public
-     * @return string
+     * Returns the set username
      */
-    public function getUsername()
+    final public function getUsername(): ?string
     {
-        return $this->credentials['user'];
+        return $this->username;
     }
 
     /**
      * Returns the set password
-     *
-     * @since 0.0.1
-     *
-     * @access public
-     * @return string
      */
-    public function getPassword()
+    final public function getPassword(): ?string
     {
-        return $this->credentials['password'];
+        return $this->password;
     }
 
     /**
      * Returns the set organisation code
-     *
-     * @since 0.0.1
-     *
-     * @access public
-     * @return string
      */
-    public function getOrganisation()
+    final public function getOrganisation(): string
     {
-        return $this->credentials['organisation'];
-    }
-
-    /**
-     * Returns the set office code
-     *
-     * @since 0.0.1
-     *
-     * @access public
-     * @return string
-     */
-    public function getOffice()
-    {
-        return $this->credentials['office'];
+        return $this->organization;
     }
 
     /**

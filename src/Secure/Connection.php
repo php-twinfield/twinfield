@@ -29,7 +29,7 @@ use Webmozart\Assert\Assert;
  * @copyright (c) 2013, Leon Rowland
  * @version 0.0.1
  */
-class Login
+class Connection
 {
     /**
      * Holds the passed in Config instance
@@ -67,7 +67,6 @@ class Login
     public function __construct(Config $config)
     {
         $this->config = $config;
-        $this->cluster = !is_null($config->cluster) ? $config->cluster : $this->cluster;
         $this->loginService = new LoginService(null, $config->getSoapClientOptions());
     }
 

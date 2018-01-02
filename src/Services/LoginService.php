@@ -7,6 +7,8 @@ use PhpTwinfield\Secure\Config;
 
 class LoginService extends BaseService
 {
+    private const LOGIN_OK = "Ok";
+
     /**
      * Login based on the config.
      *
@@ -21,13 +23,17 @@ class LoginService extends BaseService
             $response = $this->OAuthLogon($config->getCredentials());
             $result = $response->OAuthLogonResult;
         } else {
-            $response = $this->Logon($config->getCredentials());
+            $response = $this->Logon($v = [
+                "user"         => $config->getUsername(),
+                "password"     => $config->getPassword(),
+                "organisation" => $config->getOrganisation(),
+            ]);
             $result = $response->LogonResult;
         }
 
         // Check response is successful
-        if ($result !== 'Ok') {
-            throw new Exception("Failed logging in using the credentials.");
+        if ($result !== self::LOGIN_OK) {
+            throw new Exception("Failed logging in using the credentials, result was \"{$result}\".");
         }
 
         // Response from the logon request
@@ -48,7 +54,7 @@ class LoginService extends BaseService
         return [$sessionId, $cluster];
     }
 
-    protected function WSDL(): string
+    final protected function WSDL(): string
     {
         return "https://login.twinfield.com/webservices/session.asmx?wsdl";
     }

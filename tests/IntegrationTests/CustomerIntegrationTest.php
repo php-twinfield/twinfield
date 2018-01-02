@@ -10,7 +10,7 @@ use PhpTwinfield\CustomerBank;
 use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
-use PhpTwinfield\Secure\Login;
+use PhpTwinfield\Secure\Connection;
 use PhpTwinfield\Secure\Service;
 use PhpTwinfield\Secure\SoapClient;
 

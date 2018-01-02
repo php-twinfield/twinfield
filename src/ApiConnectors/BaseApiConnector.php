@@ -4,7 +4,7 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Exception;
-use PhpTwinfield\Secure\Login;
+use PhpTwinfield\Secure\Connection;
 use PhpTwinfield\Services\BaseService;
 
 abstract class BaseApiConnector
@@ -22,10 +22,10 @@ abstract class BaseApiConnector
     abstract protected function getRequiredWebservice(): Services;
 
     /**
-     * @param Login $login
+     * @param Connection $login
      * @throws Exception
      */
-    public function __construct(Login $login)
+    public function __construct(Connection $login)
     {
         $this->service = $login->getAuthenticatedClient($this->getRequiredWebservice());
     }
