@@ -38,7 +38,7 @@ class MatchLine
     private $writeoff;
 
     /**
-     * @var WriteOffType
+     * @var Enums\WriteOffType
      */
     private $writeofftype;
 
@@ -108,10 +108,10 @@ class MatchLine
      * Optional; only for exchange rate differences, write-off or deduction. Include an "-" on credit lines.
      *
      * @param Money $amount
-     * @param WriteOffType $type
+     * @param Enums\WriteOffType $type
      * @return $this
      */
-    public function setWriteOff(Money $amount, WriteOffType $type)
+    public function setWriteOff(Money $amount, Enums\WriteOffType $type)
     {
         $this->writeoff = $amount;
         $this->writeofftype = $type;
@@ -122,9 +122,9 @@ class MatchLine
     /**
      * Add the type attribute in order to determine what to do with the match difference.
      *
-     * @return WriteOffType
+     * @return Enums\WriteOffType
      */
-    public function getWriteOffType(): WriteOffType
+    public function getWriteOffType(): Enums\WriteOffType
     {
         return $this->writeofftype;
     }

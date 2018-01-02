@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpTwinfield;
+namespace PhpTwinfield\Enums;
 
 use MyCLabs\Enum\Enum;
 

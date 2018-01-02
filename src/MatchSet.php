@@ -9,7 +9,7 @@ class MatchSet
     use OfficeField;
 
     /**
-     * @var MatchCode
+     * @var Enums\MatchCode
      */
     private $matchCode;
 
@@ -24,18 +24,18 @@ class MatchSet
     private $lines = [];
 
     /**
-     * @return MatchCode
+     * @return Enums\MatchCode
      */
-    public function getMatchCode(): MatchCode
+    public function getMatchCode(): Enums\MatchCode
     {
         return $this->matchCode;
     }
 
     /**
-     * @param MatchCode $matchCode
+     * @param Enums\MatchCode $matchCode
      * @return $this
      */
-    public function setMatchCode(MatchCode $matchCode)
+    public function setMatchCode(Enums\MatchCode $matchCode)
     {
         $this->matchCode = $matchCode;
 
