@@ -19,12 +19,11 @@ composer require 'php-twinfield/twinfield:^2.0'
 ## Usage
 
 ### Authentication
-You need to set up a `\PhpTwinfield\Secure\Config` class with your credentials. An example using basic username and
-password authentication:
+You need to set up a `\PhpTwinfield\Secure\AuthenticatedConnection` class with your credentials. An example using basic 
+username and password authentication (called ):
 
 ```php
-$config = new Secure\Config();
-$config->setCredentials('Username', 'Password', 'Organization');
+$connection = new Secure\WebservicesAuthentication("username", "password", "organization");
 ```
 
 Another example, using OAuth:
@@ -36,20 +35,17 @@ $config = new Secure\Config();
 $config->setOAuthParameters('clientID', 'clientSecret', 'returnURL', 'Organization', true);
 ```
 
-The `Secure\Config` object should be passed to a `Secure\Connection` object which will handle the 
-authentication and connection management for the API.   
-
 ### Getting data from the API
 In order to communicate with the Twinfield API, you need to create an `ApiConnector` instance for the corresponding
 resource and use the `get()` or `list()` method.
 
-The `ApiConnector` takes a `Secure\Connection` object:  
+The `ApiConnector` takes a `Secure\AuthenticatedConnection` object:  
 
 An example:
 
 ```php
 
-$connection = new Secure\Connection($config);
+$connection = new Secure\AuthenticatedConnection("username", "password", "organization");
 $customerApiConnector = new ApiConnectors\CustomerApiConnector($connection);
 
 // Get one customer.
