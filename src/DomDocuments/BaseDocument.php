@@ -3,6 +3,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Enums\PerformanceType;
+use PhpTwinfield\Office;
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
@@ -42,6 +43,19 @@ abstract class BaseDocument extends \DOMDocument
         $attr->value = Util::formatBoolean($value);
 
         return $attr;
+    }
+
+    protected function appendDateElement(\DOMElement $element, string $name, \DateTimeInterface $date): void
+    {
+        $element->appendChild(
+            $this->createElement($name, Util::formatDate($date))
+        );
+    }
+
+    protected function  appendOfficeField(\DOMElement $element, Office $office): void
+    {
+        $office = $this->createElement("office", $office->getCode());
+        $element->appendChild($office);
     }
 
     /**

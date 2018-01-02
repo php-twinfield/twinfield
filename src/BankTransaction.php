@@ -3,6 +3,7 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\Transaction;
 use PhpTwinfield\Transactions\TransactionFields\LinesField;
 use PhpTwinfield\Transactions\TransactionFields\RaiseWarningField;
@@ -107,10 +108,17 @@ class BankTransaction implements Transaction
          */
         $this->traitAddLine($line);
 
-        if ($line->getDebitCredit()->equals(DebitCredit::CREDIT())) {
-            $this->closevalue = $this->closevalue->add($line->getValue());
-        } else {
-            $this->closevalue = $this->closevalue->subtract($line->getValue());
+        if (!$line->getType()->equals(LineType::TOTAL())) {
+            /*
+             * Don't add total lines to the closevalue, they are summaries of the details and vat lines.
+             *
+             * @link https://github.com/php-twinfield/twinfield/issues/39
+             */
+            if ($line->getDebitCredit()->equals(DebitCredit::CREDIT())) {
+                $this->closevalue = $this->closevalue->add($line->getValue());
+            } else {
+                $this->closevalue = $this->closevalue->subtract($line->getValue());
+            }
         }
     }
 

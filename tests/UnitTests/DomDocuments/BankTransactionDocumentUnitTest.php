@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpTwinfield\UnitTests;
 
 use Money\Money;
@@ -17,13 +18,6 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
      * @var BankTransactionDocument
      */
     protected $document;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->document = new BankTransactionDocument();
-    }
 
     public function testXmlIsCreatedPerSpec()
     {
@@ -47,20 +41,24 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
         $line2->setVatBaseValue(Money::EUR(100));
         $line2->setVatRepValue(Money::EUR(100));
 
-        $line3 = new Total();
+        $line3 = new Detail();
         $line3->setValue(Money::EUR(-100));
         $line3->setId(38863);
-        $line3->setVatTotal(Money::EUR(21));
-        $line3->setVatBaseTotal(Money::EUR(21));
-        $line3->setVatRepTotal(Money::EUR(21));
 
-        $transaction->setLines([$line1, $line2, $line3]);
+        $line4 = new Vat();
+        $line4->setValue(Money::EUR(21));
+        $line4->setId(38864);
 
-        $line3->setComment("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse facilisis lobortis arcu in tincidunt. Mauris urna enim, commodo nec feugiat quis, pharetra vel sem. Etiam ullamcorper eleifend tellus non viverra. Nulla facilisi. Donec sed orci aliquam.");
+        $transaction->setLines([$line1, $line2, $line3, $line4]);
+
+        $line3->setComment(
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse facilisis lobortis arcu in tincidunt. Mauris urna enim, commodo nec feugiat quis, pharetra vel sem. Etiam ullamcorper eleifend tellus non viverra. Nulla facilisi. Donec sed orci aliquam."
+        );
 
         $this->document->addBankTransaction($transaction);
 
-        $this->assertXmlStringEqualsXmlString(<<<XML
+        $this->assertXmlStringEqualsXmlString(
+            <<<XML
 <?xml version="1.0"?>
 <transactions>
 	<transaction autobalancevat="true" destiny="temporary">
@@ -68,7 +66,7 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
 			<office>dev-10000</office>
 			<currency>eur</currency>
 			<startvalue>0.00</startvalue>
-			<closevalue>1.21</closevalue>
+			<closevalue>0.21</closevalue>
 		</header>
 		<lines>
 			<line id="38861" type="total">
@@ -78,14 +76,6 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
 				<vatbasetotal>0.21</vatbasetotal>
 				<vatreptotal>0.21</vatreptotal>
 			</line>
-			<line id="38863" type="total">
-				<debitcredit>debit</debitcredit>
-				<value>1.00</value>
-				<vattotal>0.21</vattotal>
-				<vatbasetotal>0.21</vatbasetotal>
-				<vatreptotal>0.21</vatreptotal>
-				<comment>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse facilisis lobortis arcu in tincidunt. Mauris urna enim, commodo nec feugiat quis, pharetra vel sem. Etiam ullamcorper eleifend tellus non viverra. Nulla facilisi. Donec sed orci aliquam.</comment>
-			</line>
 			<line id="38862" type="detail">
 				<debitcredit>credit</debitcredit>
 				<value>1.00</value>
@@ -93,10 +83,28 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
 				<vatbasevalue>1.00</vatbasevalue>
 				<vatrepvalue>1.00</vatrepvalue>
 			</line>
+			<line id="38863" type="detail">
+				<debitcredit>debit</debitcredit>
+				<value>1.00</value>
+				<comment>lorem ipsum dolor sit amet, consectetur adipiscing elit. suspendisse facilisis lobortis arcu in tincidunt. mauris urna enim, commodo nec feugiat quis, pharetra vel sem. etiam ullamcorper eleifend tellus non viverra. nulla facilisi. donec sed orci aliquam.</comment>
+			</line>
+			<line id="38864" type="vat">
+				<debitcredit>credit</debitcredit>
+				<value>0.21</value>
+			</line>
 		</lines>
 	</transaction>
 </transactions>
 XML
-    ,$this->document->saveXML());
+            ,
+            $this->document->saveXML()
+        );
+    }
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->document = new BankTransactionDocument();
     }
 }

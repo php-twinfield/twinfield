@@ -1,65 +1,86 @@
 <?php
-
 namespace PhpTwinfield\Secure;
 
 use PhpTwinfield\Exception;
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Services\BaseService;
+use PhpTwinfield\Services\LoginService;
+use Webmozart\Assert\Assert;
 
 /**
- * The connection class is used for communicating with the main Twinfield objects.
+ * Login Class.
+ *
+ * Used to return an instance of a Soapclient for further interaction
+ * with Twinfield services.
+ *
+ * The username, password and organisation are retrieved from the options
+ * on construct.
+ *
+ * @uses \PhpTwinfield\Secure\Config    Holds all the config settings for this account
+ * @uses \SoapClient                          For both login and future interactions
+ * @uses \SoapHeader                          Generation of the secure header
+ * @uses \DOMDocument                         Handles the response from login
+ *
+ * @since 0.0.1
+ *
+ * @package PhpTwinfield
+ * @subpackage Secure
+ * @author Leon Rowland <leon@rowland.nl>
+ * @copyright (c) 2013, Leon Rowland
+ * @version 0.0.1
  */
 class Connection
 {
     /**
-     * OAuth provider.
+     * Holds the passed in Config instance
+     * 
+     * @access private
+     * @var \PhpTwinfield\Secure\Config
      */
-    private $provider;
+    private $config;
 
     /**
-     * Base URL to the Twinfield authentication URL's (with trailing slash).
+     * The SoapClient used to login to Twinfield
+     *
+     * @access private
+     * @var LoginService
      */
-    private const BASEURL = 'https://login.twinfield.com/auth/authentication/connect/';
+    private $loginService;
 
     /**
-     * @var
+     * The sessionID for the successful login
+     *
+     * @access private
+     * @var string
      */
-    private $twinfieldClientId;
+    private $sessionID;
 
     /**
-     * @var
+     * The server cluster used for future XML
+     * requests with the new SoapClient
+     *
+     * @access private
+     * @var string
      */
-    private $twinfieldClientSecret;
+    private $cluster = 'https://c3.twinfield.com';
+
+    public function __construct(Config $config)
+    {
+        $this->config = $config;
+        $this->loginService = new LoginService(null, $config->getSoapClientOptions());
+    }
 
     /**
-     * @var
+     * @throws Exception
      */
-    private $redirectUrl;
+    protected function login()
+    {
+        if ($this->sessionID) {
+            return;
+        }
 
-    /**
-     * @var
-     */
-    private $authCode = null;
-
-    /**
-     * @var
-     */
-    private $authToken = null;
-
-    /**
-     * @var
-     */
-    private $authRefreshToken = null;
-
-    /**
-     * @var
-     */
-    private $authExpires = null;
-
-    /**
-     * @var
-     */
-    private $cluster = null;
+        [$this->sessionID, $this->cluster] = $this->loginService->getSessionIdAndCluster($this->config);
+    }
 
     /**
      * @var BaseService[]
@@ -67,287 +88,34 @@ class Connection
     private $authenticatedClients = [];
 
     /**
-     * @var 
-     */
-    private $soapClientOptions = [];
-
-    /**
-     * @var
-     */
-    private $office = null;
-
-    /**
-     * @var
-     */
-    private $scopes = ['openid', 'twf.user', 'twf.organisation', 'twf.organisationUser', 'offline_access'];
-
-    /**
-     * Set the OAuth provider.
-     */
-    private function initProvider()
-    {
-        if ($this->provider !== null) {
-            return;
-        }
-
-        $this->provider = new \League\OAuth2\Client\Provider\GenericProvider([
-            'clientId' => $this->clientId,
-            'clientSecret' => $this->clientSecret,
-            'redirectUri' => $this->redirectUrl,
-            'scopes' => $this->scopes,
-            'scopeSeparator' => '+',
-            'urlAuthorize' => self::BASEURL.'authorize',
-            'urlAccessToken' => self::BASEURL.'token',
-            'urlResourceOwnerDetails' => self::BASEURL.'userinfo',
-        ]);
-    }
-
-    /**
-     * Set refresh token timestamp expiry.
-     */
-    public function setOffice($office)
-    {
-        $this->office = $office;
-    }
-
-    /**
-     * Get refresh token timestamp expiry.
-     */
-    public function getOffice()
-    {
-        return $this->office;
-    }
-
-    /**
-     * Set refresh token timestamp expiry.
-     */
-    public function setTokenExpires($refreshtoken)
-    {
-        $this->authExpires = $refreshtoken;
-    }
-
-    /**
-     * Get refresh token timestamp expiry.
-     */
-    public function getTokenExpires()
-    {
-        return $this->authExpires;
-    }
-
-    /**
-     * Set refresh token information.
-     */
-    public function setRefreshToken($refreshtoken)
-    {
-        $this->authRefreshToken = $refreshtoken;
-    }
-
-    /**
-     * Get refresh token information.
-     */
-    public function getRefreshToken()
-    {
-        return $this->authRefreshToken;
-    }
-
-    /**
-     * Set access token information.
-     */
-    public function setAccessToken($token)
-    {
-        $this->authToken = $token;
-    }
-
-    /**
-     * Get access token information.
-     */
-    public function getAccessToken()
-    {
-        return $this->authToken;
-    }
-
-    /**
-     * Set the code for exchange.
-     */
-    public function setAuthorizationCode($code)
-    {
-        $this->authCode = $code;
-    }
-
-    /**
-     * Set the client id.
-     */
-    public function setClientSecret($clientSecret)
-    {
-        $this->clientSecret = $clientSecret;
-    }
-
-    /**
-     * Set the client id.
-     */
-    public function setClientId($clientId)
-    {
-        $this->clientId = $clientId;
-    }
-
-    /**
-     * Set redirect URL.
-     */
-    public function setRedirectUrl($redirectUrl)
-    {
-        $this->redirectUrl = $redirectUrl;
-    }
-
-    /**
-     * Get the provider to work with directly (for instance if you don't want to use the header method for redirection).
-     */
-    public function getProvider()
-    {
-        return $this->provider;
-    }
-
-    /**
-     * Should it refresh based on current expiry.
-     */
-    private function needsAuthentication()
-    {
-        if ($this->authRefreshToken === null && $this->authToken === null) {
-            // since we already have a token
-            return true;
-        } else {
-            // no token / refresh token
-            return false;
-        }
-    }
-
-    /**
-     * Has the current token expired?
-     */
-    public function tokenHasExpired()
-    {
-        if (empty($this->authExpires)) {
-            return true;
-        }
-
-        return $this->authExpires <= (time() + 30); // 30 sec margin for twinfield
-    }
-
-    /**
-     * Get the authenticated clients for usage.
+     * Get an authenticated client for a specific service/
      *
-     * @todo: Prepare for array of $services?
+     * @param Services $service
+     * @throws Exception
+     * @return BaseService
      */
     public function getAuthenticatedClient(Services $service): BaseService
     {
-        // check if we need to refresh before adding the header
-        if ($this->authToken === null || $this->tokenHasExpired()) {
-            $this->acquireAccessToken();
-        }
+        $this->login();
 
         $key = $service->getKey();
 
-        if ($this->cluster == null) {
-            // first determine the cluster through a post to twinfield
-            $this->initProvider();
-
-            $request = $this->provider->getAuthenticatedRequest(
-                'POST',
-                self::BASEURL.'accesstokenvalidation',
-                $this->authToken
-            );
-
-            $response = (new \GuzzleHttp\Client())->send($request, ['body' => 'token='.$this->authToken]);
-            $twinfieldResponse = json_decode((string) $response->getBody(), true);
-
-            $this->cluster = $twinfieldResponse['twf.clusterUrl'];
-        }
-
-        // move on now we have / know the cluster
-
         if (!array_key_exists($key, $this->authenticatedClients)) {
+
             $classname = $service->getValue();
 
             $this->authenticatedClients[$key] = new $classname(
                 "{$this->cluster}{$service->getValue()}",
-                $this->soapClientOptions + ['cluster' => $this->cluster]
+                $this->config->getSoapClientOptions() + ["cluster" => $this->cluster]
             );
 
             $this->authenticatedClients[$key]->__setSoapHeaders(new \SoapHeader(
                 'http://www.twinfield.com/',
                 'Header',
-                [
-                    'AccessToken' => $this->authToken,
-                    'CompanyCode' => $this->getOffice(),
-                ]
+                array('SessionID' => $this->sessionID)
             ));
         }
 
         return $this->authenticatedClients[$key];
-    }
-
-    /**
-     * Connects or refreshes a token.
-     */
-    public function connect()
-    {
-        if (!$this->needsAuthentication()) {
-            // already connected and no need to refresh
-            return true;
-        }
-
-        // If access token is not set or token has expired, acquire new token
-        if ($this->authToken === null || $this->tokenHasExpired()) {
-            return $this->acquireAccessToken();
-        }
-
-        return true;
-    }
-
-    /**
-     * Exchange the code for an access token or refresh.
-     */
-    private function acquireAccessToken()
-    {
-        try {
-            // setup provider
-            $this->initProvider();
-            // check if we need to refresh
-            if ($this->authRefreshToken == null) {
-                // get a new token
-                $accessToken = $this->getProvider()->getAccessToken('authorization_code', [
-                    'code' => $this->authCode,
-                ]);
-            } else {
-                // refresh token
-                $accessToken = $this->getProvider()->getAccessToken('refresh_token', [
-                    'refresh_token' => $this->authRefreshToken,
-                ]);
-            }
-            // set to object
-            $this->authToken = $accessToken->getToken();
-            $this->authRefreshToken = $accessToken->getRefreshToken();
-            $this->authExpires = $accessToken->getExpires();
-        } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
-            // failed to get the access token or user details.
-            throw new Exception('Failed to exchange the code for an access token ('.$e->getMessage().')');
-        }
-    }
-
-    /**
-     * Redirects the user to the authentication URL for approving access to Twinfield.
-     */
-    public function redirectForAuthorization()
-    {
-        // setup provider
-        $this->initProvider();
-
-        // get redirect url and twinfield has a strange scope splitter (+)
-        // this is automatically encoded by the used library, we revert it back
-        // twinfield also enforces nonce= where our library uses state=
-        $redirectUrl = $this->getProvider()->getAuthorizationUrl();
-        $redirectUrl = str_replace(['%2B', 'state='], ['+', 'nonce='], $redirectUrl);
-
-        // redirect to twinfield for authentication        
-        header('Location: '.$redirectUrl);
     }
 }

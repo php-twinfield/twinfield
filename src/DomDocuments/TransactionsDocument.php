@@ -63,8 +63,7 @@ class TransactionsDocument extends BaseDocument
             $headerElement->appendChild($currencyElement);
         }
 
-        $dateElement = $this->createElement('date', Util::formatDate($transaction->getDate()));
-        $headerElement->appendChild($dateElement);
+        $this->appendDateElement($headerElement, "date", $transaction->getDate());
 
         if ($transaction->getPeriod() !== null) {
             $periodElement = $this->createElement('period', $transaction->getPeriod());
@@ -93,8 +92,7 @@ class TransactionsDocument extends BaseDocument
         if (Util::objectUses(DueDateField::class, $transaction) &&
             $transaction->getDueDate() !== null
         ) {
-            $dueDateElement = $this->createElement('duedate', Util::formatDate($transaction->getDueDate()));
-            $headerElement->appendChild($dueDateElement);
+            $this->appendDateElement($headerElement, "duedate", $transaction->getDueDate());
         }
 
         $this->appendFreeTextFields($headerElement, $transaction);

@@ -33,7 +33,7 @@ trait LinesField
          * in an incorrect order.
          */
         $type_order = [LineType::TOTAL(), LineType::DETAIL(), LineType::VAT()];
-        uasort(
+        usort(
             $this->lines,
             function (TransactionLine $a, TransactionLine $b) use ($type_order): int
             {
