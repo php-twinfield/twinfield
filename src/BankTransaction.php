@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield;
 
+use Money\Currency;
+use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\Transaction;
@@ -76,6 +78,12 @@ class BankTransaction implements Transaction
      * @var \DateTimeInterface
      */
     private $modificationDate;
+
+    public function __construct()
+    {
+        $this->currency   = new Currency("EUR");
+        $this->startvalue = new Money(0, $this->getCurrency());
+    }
 
     public function getLineClassName(): string
     {
