@@ -7,7 +7,7 @@ use PhpTwinfield\DomDocuments\ElectronicBankStatementDocument;
 use PhpTwinfield\ElectronicBankStatement;
 use PhpTwinfield\ElectronicBankStatementTransaction;
 
-class ElectronicBankStatementUnitTest extends \PHPUnit\Framework\TestCase
+class ElectronicBankStatementDocumentUnitTest extends \PHPUnit\Framework\TestCase
 {
     public function testDocumentationExampleCreatedSuccessfully()
     {
