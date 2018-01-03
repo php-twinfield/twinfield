@@ -163,6 +163,10 @@ class BankTransactionDocument extends BaseDocument
             $this->appendPerformanceTypeFields($transaction, $line);
         }
 
+        if ($line->getDestOffice() !== null) {
+            $transaction->appendChild($this->createElement("destoffice", $line->getDestOffice()));
+        }
+
         if ($line->getFreeChar()) {
             $transaction->appendChild($this->createElement("freechar", $line->getFreeChar()));
         }

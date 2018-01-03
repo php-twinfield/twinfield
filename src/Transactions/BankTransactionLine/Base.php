@@ -62,10 +62,12 @@ abstract class Base implements TransactionLine
 
     /**
      * @param LineType $type
+     * @return $this
      */
-    final protected function setType(LineType $type): void
+    final protected function setType(LineType $type)
     {
         $this->type = $type;
+        return $this;
     }
 
     /**
@@ -78,26 +80,32 @@ abstract class Base implements TransactionLine
 
     /**
      * @param string $description
+     * @return $this
      */
-    public function setDescription(string $description): void
+    public function setDescription(string $description)
     {
         $this->description = $description;
+        return $this;
     }
 
     /**
-     * @return Office
+     * @return null|Office
      */
-    public function getDestOffice(): Office
+    public function getDestOffice(): ?Office
     {
         return $this->destOffice;
     }
 
     /**
+     * Used for inter company transactions – here you define in which company the transaction line should be posted.
+     *
      * @param Office $destOffice
+     * @return $this
      */
-    public function setDestOffice(Office $destOffice): void
+    public function setDestOffice(Office $destOffice)
     {
         $this->destOffice = $destOffice;
+        return $this;
     }
 
     /**
@@ -110,10 +118,12 @@ abstract class Base implements TransactionLine
 
     /**
      * @param string $freeChar
+     * @return $this
      */
-    public function setFreeChar(string $freeChar): void
+    public function setFreeChar(string $freeChar)
     {
         $this->freeChar = $freeChar;
+        return $this;
     }
 
     public function getId(): ?int
@@ -121,8 +131,13 @@ abstract class Base implements TransactionLine
         return $this->id;
     }
 
-    public function setId(int $id): void
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function setId(int $id)
     {
         $this->id = $id;
+        return $this;
     }
 }

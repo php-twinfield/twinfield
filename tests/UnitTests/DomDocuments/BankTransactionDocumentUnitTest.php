@@ -19,6 +19,13 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected $document;
 
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->document = new BankTransactionDocument();
+    }
+
     public function testXmlIsCreatedPerSpec()
     {
         $transaction = new BankTransaction();
@@ -44,6 +51,7 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
         $line3 = new Detail();
         $line3->setValue(Money::EUR(-100));
         $line3->setId(38863);
+        $line3->setDestOffice(Office::fromCode("DEV-11000"));
 
         $line4 = new Vat();
         $line4->setValue(Money::EUR(21));
@@ -86,6 +94,7 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
 			<line id="38863" type="detail">
 				<debitcredit>debit</debitcredit>
 				<value>1.00</value>
+				<destoffice>DEV-11000</destoffice>
 				<comment>lorem ipsum dolor sit amet, consectetur adipiscing elit. suspendisse facilisis lobortis arcu in tincidunt. mauris urna enim, commodo nec feugiat quis, pharetra vel sem. etiam ullamcorper eleifend tellus non viverra. nulla facilisi. donec sed orci aliquam.</comment>
 			</line>
 			<line id="38864" type="vat">
@@ -99,12 +108,5 @@ XML
             ,
             $this->document->saveXML()
         );
-    }
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->document = new BankTransactionDocument();
     }
 }
