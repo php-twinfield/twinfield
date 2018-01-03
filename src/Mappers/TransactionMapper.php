@@ -18,6 +18,7 @@ use PhpTwinfield\SalesTransaction;
 use PhpTwinfield\Transactions\TransactionFields\DueDateField;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
+use PhpTwinfield\Transactions\TransactionLine;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
@@ -129,12 +130,12 @@ class TransactionMapper
                     $transactionLine->setVatValue(Money::EUR(100 * $vatValue));
                 }
 
-                if (in_array(PerformanceFields::class, class_uses($transactionLine))) {
+                if (Util::objectUses(PerformanceFields::class, $transactionLine)) {
                     $transactionLine
                         ->setPerformanceType(self::getField($transaction, $lineElement, 'performancetype'))
                         ->setPerformanceCountry(self::getField($transaction, $lineElement, 'performancecountry'))
                         ->setPerformanceVatNumber(self::getField($transaction, $lineElement, 'performancevatnumber'))
-                        ->setPerformanceDate(self::getField($transaction, $lineElement, 'performancedate'));
+                        ->setPerformanceDateFromString(self::getField($transaction, $lineElement, 'performancedate'));
                 }
                 if (in_array(ValueOpenField::class, class_uses($transactionLine))) {
                     // TODO - according to the docs, the field is called <valueopen>, but the examples use <openvalue>.

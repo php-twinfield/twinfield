@@ -124,7 +124,7 @@ abstract class BaseDocument extends \DOMDocument
         }
 
         if ($object->getPerformanceDate() != null && $object->getPerformanceType()->equals(PerformanceType::SERVICES())) {
-            $element->appendChild($this->createElement("performancedate", $object->getPerformanceDate()));
+            $element->appendChild($this->createElement("performancedate", $object->getPerformanceDateAsString()));
         }
     }
 }

@@ -6,6 +6,7 @@ use PhpTwinfield\BaseTransactionLine;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Enums\PerformanceType;
 use PhpTwinfield\Exception;
+use PhpTwinfield\Util;
 
 trait PerformanceFields
 {
@@ -28,8 +29,8 @@ trait PerformanceFields
     protected $performanceVatNumber;
 
     /**
-     * @var string|null Only if line type is detail or vat. Mandatory in case of an ICT VAT code but only if
-     *                  performancetype is services. The performance date in 'YYYYMMDD' format.
+     * @var \DateTimeInterface|null Only if line type is detail or vat. Mandatory in case of an ICT VAT code but only if
+     *                              performancetype is services.
      */
     protected $performanceDate;
 
@@ -117,19 +118,19 @@ trait PerformanceFields
     }
 
     /**
-     * @return string|null
+     * @return \DateTimeInterface|null
      */
-    public function getPerformanceDate(): ?string
+    public function getPerformanceDate(): ?\DateTimeInterface
     {
         return $this->performanceDate;
     }
 
     /**
-     * @param string|null $performanceDate
+     * @param \DateTimeInterface|null $performanceDate
      * @return $this
      * @throws Exception
      */
-    public function setPerformanceDate(?string $performanceDate): self
+    public function setPerformanceDate(?\DateTimeInterface $performanceDate): self
     {
         if (
             $performanceDate !== null &&
@@ -141,5 +142,21 @@ trait PerformanceFields
         $this->performanceDate = $performanceDate;
 
         return $this;
+    }
+
+    public function getPerformanceDateAsString(): ?string
+    {
+        if ($this->getPerformanceDate() !== null) {
+            return Util::formatDate($this->getPerformanceDate());
+        }
+        return null;
+    }
+
+    public function setPerformanceDateFromString(?string $dateString)
+    {
+        if ($dateString !== null) {
+            return $this->setPerformanceDate(Util::parseDate($dateString));
+        }
+        return $this->setPerformanceDate(null);
     }
 }

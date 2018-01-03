@@ -138,7 +138,7 @@ class TransactionsDocument extends BaseDocument
                     $lineElement->appendChild($perfVatNumberElement);
                 }
 
-                $performanceDate = $transactionLine->getPerformanceDate();
+                $performanceDate = $transactionLine->getPerformanceDateAsString();
                 if (!empty($performanceDate)) {
                     $perfDateElement = $this->createElement('performancedate', $performanceDate);
                     $lineElement->appendChild($perfDateElement);
