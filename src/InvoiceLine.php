@@ -26,6 +26,7 @@ class InvoiceLine
     private $vatValue;
     private $valueInc;
     private $performanceDate;
+    private $performanceType;
     private $dim1;
 
     public function __construct($quantity = null, $article = null, $freeText1 = null, $freeText2 = null)
@@ -178,6 +179,17 @@ class InvoiceLine
     public function setPerformanceDate($performanceDate)
     {
         $this->performanceDate = $performanceDate;
+        return $this;
+    }
+
+    public function getPerformanceType()
+    {
+        return $this->performanceType;
+    }
+
+    public function setPerformanceType($performanceType)
+    {
+        $this->performanceType = $performanceType;
         return $this;
     }
 

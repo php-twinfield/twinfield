@@ -98,6 +98,7 @@ class InvoicesDocument extends BaseDocument
             'freetext2'       => 'getFreeText2',
             'freetext3'       => 'getFreeText3',
             'performancedate' => 'getPerformanceDate',
+            'performancetype' => 'getPerformanceType',
             'dim1'            => 'getDim1',
         );
 
