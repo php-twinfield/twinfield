@@ -119,7 +119,8 @@ class TransactionsDocument extends BaseDocument
 
             $this->appendValueValues($lineElement, $transactionLine);
 
-            if (in_array(PerformanceFields::class, class_uses($transactionLine))) {
+            if (Util::objectUses(PerformanceFields::class, $transactionLine)) {
+                /** @var PerformanceFields $transactionLine */
                 $performanceType = $transactionLine->getPerformanceType();
                 if (!empty($performanceType)) {
                     $perfElement = $this->createElement('performancetype', $performanceType);
@@ -138,10 +139,9 @@ class TransactionsDocument extends BaseDocument
                     $lineElement->appendChild($perfVatNumberElement);
                 }
 
-                $performanceDate = $transactionLine->getPerformanceDateAsString();
+                $performanceDate = $transactionLine->getPerformanceDate();
                 if (!empty($performanceDate)) {
-                    $perfDateElement = $this->createElement('performancedate', $performanceDate);
-                    $lineElement->appendChild($perfDateElement);
+                    $this->appendDateElement($lineElement, "performancedate", $transactionLine->getPerformanceDate());
                 }
             }
 

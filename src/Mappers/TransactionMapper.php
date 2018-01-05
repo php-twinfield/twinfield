@@ -134,8 +134,13 @@ class TransactionMapper
                     $transactionLine
                         ->setPerformanceType(self::getField($transaction, $lineElement, 'performancetype'))
                         ->setPerformanceCountry(self::getField($transaction, $lineElement, 'performancecountry'))
-                        ->setPerformanceVatNumber(self::getField($transaction, $lineElement, 'performancevatnumber'))
-                        ->setPerformanceDateFromString(self::getField($transaction, $lineElement, 'performancedate'));
+                        ->setPerformanceVatNumber(self::getField($transaction, $lineElement, 'performancevatnumber'));
+
+                    $performanceDate = self::getField($transaction, $lineElement, 'performancedate');
+
+                    if ($performanceDate) {
+                        $transactionLine->setPerformanceDate(Util::parseDate($performanceDate));
+                    }
                 }
                 if (in_array(ValueOpenField::class, class_uses($transactionLine))) {
                     // TODO - according to the docs, the field is called <valueopen>, but the examples use <openvalue>.

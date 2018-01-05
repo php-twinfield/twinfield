@@ -143,20 +143,4 @@ trait PerformanceFields
 
         return $this;
     }
-
-    public function getPerformanceDateAsString(): ?string
-    {
-        if ($this->getPerformanceDate() !== null) {
-            return Util::formatDate($this->getPerformanceDate());
-        }
-        return null;
-    }
-
-    public function setPerformanceDateFromString(?string $dateString)
-    {
-        if ($dateString !== null) {
-            return $this->setPerformanceDate(Util::parseDate($dateString));
-        }
-        return $this->setPerformanceDate(null);
-    }
 }

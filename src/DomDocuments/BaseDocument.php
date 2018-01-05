@@ -59,6 +59,27 @@ abstract class BaseDocument extends \DOMDocument
     }
 
     /**
+     * Utility method to get a formatted value using a callable.
+     *
+     * @param callable $callback
+     * @return null|string
+     */
+    protected function getValueFromCallback(callable $callback): ?string
+    {
+        $value = call_user_func($callback);
+
+        if ($value instanceof \DateTimeInterface) {
+            $value = Util::formatDate($value);
+        }
+
+        if (is_bool($value)) {
+            $value = Util::formatBoolean($value);
+        }
+
+        return $value;
+    }
+
+    /**
      * Adds currency, startvalue and closevalue to $element.
      *
      * @param \DOMElement $element
@@ -124,7 +145,7 @@ abstract class BaseDocument extends \DOMDocument
         }
 
         if ($object->getPerformanceDate() != null && $object->getPerformanceType()->equals(PerformanceType::SERVICES())) {
-            $element->appendChild($this->createElement("performancedate", $object->getPerformanceDateAsString()));
+            $this->appendDateElement($element, "performancedate", $object->getPerformanceDate());
         }
     }
 }
