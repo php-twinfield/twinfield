@@ -6,7 +6,7 @@
     "twinfield"
   ],
   "homepage": "https://github.com/php-twinfield/twinfield",
-  "license": "GPL-3.0",
+  "license": "GPL-3.0-or-later",
   "authors": [
     {
       "name": "Remco Tolsma",
