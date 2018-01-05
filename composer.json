@@ -9,12 +9,8 @@
   "license": "GPL-3.0-or-later",
   "authors": [
     {
-      "name": "Remco Tolsma",
-      "email": "remcotolsma@pronamic.nl"
-    },
-    {
-      "name": "Leon Rowland",
-      "email": "leon@pronamic.nl"
+      "name": "Alex Jeensma",
+      "email": "alex@vontis.nl"
     }
   ],
   "config": {
@@ -31,8 +27,11 @@
     "ext-dom": "*",
     "ext-soap": "*",
     "moneyphp/money": "^3.0",
-    "webmozart/assert": "^1.2",
-    "myclabs/php-enum": "^1.5"
+    "myclabs/php-enum": "^1.5",
+    "webmozart/assert": "^1.2"
+  },
+  "suggest": {
+    "league/oauth2-client": "If you want to use OAuth to login"
   },
   "autoload": {
     "psr-4": {
@@ -45,6 +44,7 @@
     ]
   },
   "require-dev": {
+    "league/oauth2-client": "^2.2",
     "phpunit/phpunit": "^6.5"
   }
 }

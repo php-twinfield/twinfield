@@ -5,6 +5,7 @@ namespace PhpTwinfield\IntegrationTests;
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Secure\Connection;
 use PhpTwinfield\Secure\SoapClient;
 use PhpTwinfield\Services\ProcessXmlService;
@@ -18,12 +19,12 @@ abstract class BaseIntegrationTest extends TestCase
     protected $office;
 
     /**
-     * @var Connection|\PHPUnit_Framework_MockObject_MockObject
+     * @var AuthenticatedConnection|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $login;
 
     /**
-     * @var SoapClient|\PHPUnit_Framework_MockObject_MockObject
+     * @var \SoapClient|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $client;
 
@@ -36,7 +37,7 @@ abstract class BaseIntegrationTest extends TestCase
 
         $this->client = $this->createMock(ProcessXmlService::class);
 
-        $this->login  = $this->createMock(Connection::class);
+        $this->login  = $this->createMock(AuthenticatedConnection::class);
 
         $this->login->expects($this->any())
             ->method("getAuthenticatedClient")

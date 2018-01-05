@@ -19,22 +19,22 @@ abstract class BaseService extends \SoapClient
     abstract protected function WSDL(): string;
 
     /**
-     * @param string|null $wsdl Note you should always pass null as the first argument, the WSDL will be overridden.
-     * @param array $options
+     * @param string|null $wsdl    Note you should always pass null as the first argument, the WSDL will be overridden.
+     * @param array       $options
      */
     public function __construct(string $wsdl = null, array $options = [])
     {
         /*
          * Relies heavily on __getLastResponse() etc.
          */
-        $options["trace"]       = true;
-        $options["compression"] = SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP;
-        $options["cache_wsdl"]  = WSDL_CACHE_BOTH;
-        $options["keep_alive"]  = true;
+        $options['trace'] = true;
+        $options['compression'] = SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP;
+        $options['cache_wsdl'] = WSDL_CACHE_BOTH;
+        $options['keep_alive'] = true;
 
-        if (array_key_exists("cluster", $options)) {
-            $wsdl = "{$options["cluster"]}{$this->WSDL()}";
-            unset($options["cluster"]);
+        if (array_key_exists('cluster', $options)) {
+            $wsdl = "{$options['cluster']}{$this->WSDL()}";
+            unset($options['cluster']);
         } else {
             $wsdl = $this->WSDL();
         }
