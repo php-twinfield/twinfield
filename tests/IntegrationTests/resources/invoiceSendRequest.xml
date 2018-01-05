@@ -30,6 +30,7 @@
                 <freetext2></freetext2>
                 <freetext3></freetext3>
                 <performancedate></performancedate>
+                <performancetype></performancetype>
                 <dim1>8020</dim1>
             </line>
         </lines>
