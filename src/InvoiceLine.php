@@ -1,6 +1,7 @@
 <?php
 namespace PhpTwinfield;
 
+use PhpTwinfield\Enums\PerformanceType;
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
 
@@ -26,8 +27,12 @@ class InvoiceLine
     private $vatValue;
     private $valueInc;
     private $performanceDate;
-    private $performanceType;
     private $dim1;
+
+    /**
+     * @var PerformanceType|null Mandatory in case of an ICT VAT code.
+     */
+    private $performanceType;
 
     public function __construct($quantity = null, $article = null, $freeText1 = null, $freeText2 = null)
     {
@@ -182,12 +187,12 @@ class InvoiceLine
         return $this;
     }
 
-    public function getPerformanceType()
+    public function getPerformanceType(): ?PerformanceType
     {
         return $this->performanceType;
     }
 
-    public function setPerformanceType($performanceType)
+    public function setPerformanceType(?PerformanceType $performanceType): self
     {
         $this->performanceType = $performanceType;
         return $this;
