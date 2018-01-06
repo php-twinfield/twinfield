@@ -92,6 +92,7 @@ class InvoiceMapper
             'freetext2'              => 'setFreeText2',
             'freetext3'              => 'setFreeText3',
             'performancedate'        => 'setPerformanceDate',
+            'performancetype'        => 'setPerformanceType',
             'dim1'                   => 'setDim1',
         );
 
