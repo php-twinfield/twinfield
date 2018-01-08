@@ -29,7 +29,7 @@ abstract class BaseService extends \SoapClient
          */
         $options["trace"]       = true;
         $options["compression"] = SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP;
-        $options["cache_wsdl"]  = WSDL_CACHE_BOTH;
+        $options["cache_wsdl"]  = WSDL_CACHE_MEMORY; // https://github.com/php-twinfield/twinfield/issues/50
         $options["keep_alive"]  = true;
 
         if (array_key_exists("cluster", $options)) {
