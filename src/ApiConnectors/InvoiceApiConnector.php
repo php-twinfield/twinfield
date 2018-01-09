@@ -52,16 +52,16 @@ class InvoiceApiConnector extends ProcessXmlApiConnector
      * @param Invoice $invoice
      * @throws Exception
      */
-    public function send(Invoice $invoice): void
+    public function send(Invoice $invoice)
     {
-        $this->sendAll([$invoice]);
+        return $this->sendAll([$invoice]);
     }
 
     /**
      * @param Invoice[] $invoices
      * @throws Exception
      */
-    public function sendAll(array $invoices): void
+    public function sendAll(array $invoices)
     {
         Assert::allIsInstanceOf($invoices, Invoice::class);
 
@@ -73,7 +73,9 @@ class InvoiceApiConnector extends ProcessXmlApiConnector
                 $invoicesDocument->addInvoice($invoice);
             }
 
-            $this->sendDocument($invoicesDocument);
+            $response = $this->sendDocument($invoicesDocument);
+			
+            return InvoiceMapper::map($response);
         }
     }
 }
