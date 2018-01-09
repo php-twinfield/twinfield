@@ -104,7 +104,10 @@ class InvoiceMapper
             foreach ($lineTags as $tag => $method) {
                 $_tag = $lineDOM->getElementsByTagName($tag)->item(0);
 
-                if (isset($_tag) && !empty($_tag->textContent)) {
+                if (isset($_tag) && isset($_tag->textContent)) {
+                    if ($_tag == 'performancetype' && empty($_tag->textContent)) {
+                        continue;
+                    }
                     $temp_line->$method($_tag->textContent);
                 }
             }
