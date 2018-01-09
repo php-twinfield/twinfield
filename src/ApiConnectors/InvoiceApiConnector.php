@@ -50,6 +50,7 @@ class InvoiceApiConnector extends ProcessXmlApiConnector
      * Sends a \PhpTwinfield\Invoice\Invoice instance to Twinfield to update or add.
      *
      * @param Invoice $invoice
+     * @return Invoice The processed invoice from Twinfield
      * @throws Exception
      */
     public function send(Invoice $invoice)
@@ -59,6 +60,7 @@ class InvoiceApiConnector extends ProcessXmlApiConnector
 
     /**
      * @param Invoice[] $invoices
+     * @return Invoice The processed invoice from Twinfield
      * @throws Exception
      */
     public function sendAll(array $invoices)
