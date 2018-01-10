@@ -111,6 +111,11 @@ class BankTransaction implements Transaction
         Assert::notEmpty($this->startvalue);
 
         /*
+         * Max is 500 lines. 
+         */
+        Assert::lessThanEq(count($this->getLines()), 500);
+
+        /*
          * Calls the addLine() method on the LinesField trait. Uses an alias in the `use` statement at top of this
          * class, because parent::addLine() doesn't work for traits.
          */
