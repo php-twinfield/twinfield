@@ -105,7 +105,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoice->setOffice('11024');
         $invoice->setInvoiceType('FACTUUR');
         $invoice->setInvoiceNumber('5');
-        $invoice->setInvoiceDate('20120831');
+        $invoice->setInvoiceDate(new \DateTimeImmutable('2012-08-31'));
         $invoice->setBank('BNK');
         $invoice->setInvoiceAddressNumber('1');
         $invoice->setDeliverAddressNumber('1');
