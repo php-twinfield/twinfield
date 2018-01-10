@@ -7,9 +7,9 @@ use PhpTwinfield\InvoiceTotals;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Customer;
 
-class InvoiceMapper
+class InvoiceMapper extends BaseMapper
 {
-    public static function map(Response $response)
+    public static function map(Response $response): Invoice
     {
         $responseDOM = $response->getResponseDocument();
 
@@ -45,31 +45,21 @@ class InvoiceMapper
 
         // Loop through all invoice tags
         foreach ($invoiceTags as $tag => $method) {
-            $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
 
-            if (isset($_tag) && isset($_tag->textContent)) {
-                $invoice->$method($_tag->textContent);
-            }
+            self::setFromTagUsingCallable($responseDOM, $tag, [$invoice, $method]);
+
         }
 
         // Make a custom, and loop through custom tags
         $customer = new Customer();
         foreach ($customerTags as $tag => $method) {
-            $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
-
-            if (isset($_tag) && isset($_tag->textContent)) {
-                $customer->$method($_tag->textContent);
-            }
+            self::setFromTagUsingCallable($responseDOM, $tag, [$customer, $method]);
         }
 
         // Make an InvoiceTotals and loop through custom tags
         $invoiceTotals = new InvoiceTotals();
         foreach ($totalsTags as $tag => $method) {
-            $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
-
-            if (isset($_tag) && isset($_tag->textContent)) {
-                $invoiceTotals->$method($_tag->textContent);
-            }
+            self::setFromTagUsingCallable($responseDOM, $tag, [$invoiceTotals, $method]);
         }
 
         // Set the custom classes to the invoice
@@ -97,23 +87,15 @@ class InvoiceMapper
         );
 
         foreach ($responseDOM->getElementsByTagName('line') as $lineDOM) {
-            $temp_line = new InvoiceLine();
 
+            $temp_line = new InvoiceLine();
             $temp_line->setID($lineDOM->getAttribute('id'));
 
             foreach ($lineTags as $tag => $method) {
-                $_tag = $lineDOM->getElementsByTagName($tag)->item(0);
-
-                if (isset($_tag) && isset($_tag->textContent)) {
-                    if ($_tag == 'performancetype' && empty($_tag->textContent)) {
-                        continue;
-                    }
-                    $temp_line->$method($_tag->textContent);
-                }
+                self::setFromTagUsingCallable($lineDOM, $tag, [$temp_line, $method]);
             }
 
             $invoice->addLine($temp_line);
-            unset($temp_line);
         }
 
         return $invoice;

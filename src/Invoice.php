@@ -36,7 +36,15 @@ class Invoice
     private $invoiceNumber;
     private $status;
     private $currency;
+
+    /**
+     * @var \DateTimeInterface
+     */
     private $invoiceDate;
+
+    /**
+     * @var \DateTimeInterface
+     */
     private $performanceDate;
     private $paymentMethod;
     private $bank;
@@ -145,23 +153,37 @@ class Invoice
         return $this;
     }
 
-    public function getInvoiceDate()
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getInvoiceDate(): \DateTimeInterface
     {
         return $this->invoiceDate;
     }
 
-    public function setInvoiceDate($invoiceDate)
+    /**
+     * @param \DateTimeInterface $invoiceDate
+     * @return $this
+     */
+    public function setInvoiceDate(\DateTimeInterface $invoiceDate)
     {
         $this->invoiceDate = $invoiceDate;
         return $this;
     }
 
-    public function getPerformanceDate()
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getPerformanceDate(): \DateTimeInterface
     {
         return $this->performanceDate;
     }
 
-    public function setPerformanceDate($performanceDate)
+    /**
+     * @param \DateTimeInterface $performanceDate
+     * @return $this
+     */
+    public function setPerformanceDate(\DateTimeInterface $performanceDate)
     {
         $this->performanceDate = $performanceDate;
         return $this;
