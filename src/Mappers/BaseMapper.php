@@ -25,7 +25,7 @@ abstract class BaseMapper
 
         $contents = $element->textContent;
 
-        if ($contents === null || empty($contents)) {
+        if ($contents === null) {
             return;
         }
 
@@ -51,7 +51,7 @@ abstract class BaseMapper
             return new $parameter_class($contents);
         }
 
-        if ($parameter_class == \DateTimeInterface::class) {
+        if ($parameter_class == \DateTimeInterface::class && !empty($contents)) {
             return Util::parseDate($contents);
         }
 
