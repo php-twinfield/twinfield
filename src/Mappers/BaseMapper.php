@@ -25,7 +25,7 @@ abstract class BaseMapper
 
         $contents = $element->textContent;
 
-        if ($contents === null) {
+        if ($contents === null || empty($contents)) {
             return;
         }
 
