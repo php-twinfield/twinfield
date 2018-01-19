@@ -324,7 +324,7 @@ abstract class BaseTransactionLine implements TransactionLine
      */
     public function getVatValue(): ?Money
     {
-        return $this->vatValue;
+        return !empty($this->vatValue) ? $this->vatValue->absolute() : null;
     }
 
     /**

@@ -31,7 +31,7 @@ trait VatTotalFields
      */
     public function getVatTotal(): ?Money
     {
-        return $this->vatTotal;
+        return !empty($this->vatTotal) ? $this->vatTotal->absolute() : null;
     }
 
     /**
@@ -55,7 +55,7 @@ trait VatTotalFields
      */
     public function getVatBaseTotal(): ?Money
     {
-        return $this->vatBaseTotal;
+        return !empty($this->vatBaseTotal) ? $this->vatBaseTotal->absolute() : null;
     }
 
     /**
