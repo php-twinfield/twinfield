@@ -39,9 +39,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
 
     public function testGetJournalTransactionWorks()
     {
-        $domDocument = new \DOMDocument();
-        $domDocument->loadXML(file_get_contents(realpath(__DIR__ . '/resources/journalTransactionGetResponse.xml')));
-        $response = new Response($domDocument);
+        $response = Response::fromString(file_get_contents(__DIR__ . '/resources/journalTransactionGetResponse.xml'));
 
         $this->client
             ->expects($this->once())

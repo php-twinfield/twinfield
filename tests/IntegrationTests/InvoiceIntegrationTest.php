@@ -34,12 +34,9 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $this->invoiceApiConnector = new InvoiceApiConnector($this->login);
     }
-
     public function testGetInvoiceWorks()
     {
-        $domDocument = new \DOMDocument();
-        $domDocument->loadXML(file_get_contents(realpath(__DIR__ . '/resources/invoiceGetResponse.xml')));
-        $response = new Response($domDocument);
+        $response = Response::fromString(file_get_contents(__DIR__ . '/resources/invoiceGetResponse.xml'));
 
         $this->client
             ->expects($this->once())

@@ -139,6 +139,19 @@ class BankTransaction implements Transaction
      * When creating a new bank transaction, don't include this tag as the transaction number is determined by the
      * system. When updating a bank transaction, the related transaction number should be provided.
      *
+     * @param int $number
+     * @return $this
+     */
+    public function setNumber(int $number)
+    {
+        $this->number = $number;
+        return $this;
+    }
+
+    /**
+     * When creating a new bank transaction, don't include this tag as the transaction number is determined by the
+     * system. When updating a bank transaction, the related transaction number should be provided.
+     *
      * @return int
      */
     public function getNumber(): ?int
@@ -162,6 +175,8 @@ class BankTransaction implements Transaction
      */
     public function setCode($code)
     {
+        Assert::nullOrScalar($code);
+
         $this->code = $code;
         return $this;
     }

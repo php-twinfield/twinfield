@@ -37,9 +37,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
     public function testGetPurchaseTransactionWorks()
     {
-        $domDocument = new \DOMDocument();
-        $domDocument->loadXML(file_get_contents(__DIR__ . '/resources/purchaseTransactionGetResponse.xml'));
-        $response = new Response($domDocument);
+        $response = Response::fromString(file_get_contents(__DIR__ . '/resources/purchaseTransactionGetResponse.xml'));
 
         $this->client
             ->expects($this->once())
