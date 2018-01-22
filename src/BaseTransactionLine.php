@@ -9,6 +9,7 @@ use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
 use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTurnoverFields;
+use Webmozart\Assert\Assert;
 
 /**
  * @todo $relation Only if line type is total (or detail for Journal transactions). Read-only attribute.
@@ -19,6 +20,8 @@ use PhpTwinfield\Transactions\TransactionLineFields\VatTurnoverFields;
  * @todo $freeChar Free character field. Meaning differs per transaction type.
  * @todo $comment Comment set on the transaction line.
  * @todo $matches Contains matching information. Read-only attribute.
+ *
+ * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
  */
 abstract class BaseTransactionLine implements TransactionLine
 {
@@ -360,5 +363,69 @@ abstract class BaseTransactionLine implements TransactionLine
         $this->baseline = $baseline;
 
         return $this;
+    }
+
+    /**
+     * This will get you a unique reference to the object in Twinfield.
+     *
+     * With this reference, you can perform matching.
+     *
+     * @return ReferenceInterface
+     */
+    public function getReference(): ReferenceInterface
+    {
+        return new class($this) implements ReferenceInterface {
+
+            /**
+             * @var string
+             */
+            private $number;
+
+            /**
+             * @var string
+             */
+            private $code;
+
+            /**
+             * @var Office
+             */
+            private $office;
+
+            /**
+             * @var int|null
+             */
+            private $lineId;
+
+            public function __construct(BaseTransactionLine $line)
+            {
+                /** @var JournalTransaction|PurchaseTransaction|SalesTransaction $transaction */
+                $transaction = $line->getTransaction();
+
+                $this->number = $transaction->getNumber();
+                $this->code   = $transaction->getCode();
+                $this->office = $transaction->getOffice();
+                $this->lineId = $line->getId();
+            }
+
+            public function getNumber(): string
+            {
+                return $this->number;
+            }
+
+            public function getCode(): string
+            {
+                return $this->code;
+            }
+
+            public function getOffice(): Office
+            {
+                return $this->office;
+            }
+
+            public function getLineId(): int
+            {
+                return $this->lineId;
+            }
+        };
     }
 }

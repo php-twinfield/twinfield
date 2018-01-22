@@ -76,6 +76,9 @@ abstract class BaseTransaction extends BaseObject implements Transaction
     }
 
     /**
+     * When creating a new bank transaction, don't include this tag as the transaction number is determined by the
+     * system. When updating a bank transaction, the related transaction number should be provided.
+     *
      * @param int|null $number
      * @return $this
      */

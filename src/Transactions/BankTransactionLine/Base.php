@@ -3,13 +3,17 @@
 namespace PhpTwinfield\Transactions\BankTransactionLine;
 
 use Money\Money;
+use PhpTwinfield\BankTransaction;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Office;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
+use PhpTwinfield\Transactions\TransactionFields\LinesField;
 use PhpTwinfield\Transactions\TransactionLine;
 use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
 use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
+use PhpTwinfield\Util;
+use Webmozart\Assert\Assert;
 
 abstract class Base implements TransactionLine
 {
@@ -51,6 +55,29 @@ abstract class Base implements TransactionLine
      * @var string
      */
     private $freeChar;
+
+    /**
+     * @var BankTransaction
+     */
+    private $transaction;
+
+    /**
+     * @return BankTransaction
+     */
+    public function getTransaction(): LinesField
+    {
+        return $this->transaction;
+    }
+
+    /**
+     * @param BankTransaction $object
+     */
+    public function setTransaction($object): void
+    {
+        Assert::true(Util::objectUses(LinesField::class, $object));
+
+        $this->transaction = $object;
+    }
 
     /**
      * @return LineType
