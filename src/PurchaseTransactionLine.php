@@ -28,6 +28,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
      */
     public function setTransaction($object): void
     {
+        Assert::null($this->transaction, "Attempting to set a transaction while the transaction is already set.");
         Assert::isInstanceOf($object, PurchaseTransaction::class);
         $this->transaction = $object;
     }

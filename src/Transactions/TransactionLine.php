@@ -28,6 +28,8 @@ interface TransactionLine
      * Set the bank transaction on the line. This is needed later on.
      *
      * @param LinesField|BaseTransaction|BankTransaction $object
+     * @throws \InvalidArgumentException If a transaction is invalid or if a transaction is already set.
+     * @internal
      */
     public function setTransaction($object): void;
 
@@ -38,6 +40,7 @@ interface TransactionLine
      *
      * @see ReferenceInterface
      * @return LinesField
+     * @internal
      */
     public function getTransaction();
 

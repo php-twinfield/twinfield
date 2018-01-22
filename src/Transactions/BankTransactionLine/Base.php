@@ -77,6 +77,7 @@ abstract class Base implements TransactionLine
      */
     public function setTransaction($object): void
     {
+        Assert::null($this->transaction, "Attempting to set a transaction while the transaction is already set.");
         Assert::isInstanceOf($object, BankTransaction::class);
         $this->transaction = $object;
     }

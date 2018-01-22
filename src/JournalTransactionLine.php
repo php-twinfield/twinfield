@@ -29,6 +29,7 @@ class JournalTransactionLine extends BaseTransactionLine
      */
     public function setTransaction($object): void
     {
+        Assert::null($this->transaction, "Attempting to set a transaction while the transaction is already set.");
         Assert::isInstanceOf($object, JournalTransaction::class);
         $this->transaction = $object;
     }
