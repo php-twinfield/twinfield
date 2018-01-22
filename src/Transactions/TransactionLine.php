@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield\Transactions;
 
+use PhpTwinfield\BankTransaction;
+use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\ReferenceInterface;
 use PhpTwinfield\Transactions\TransactionFields\LinesField;
@@ -25,7 +27,7 @@ interface TransactionLine
     /**
      * Set the bank transaction on the line. This is needed later on.
      *
-     * @param LinesField $object
+     * @param LinesField|BaseTransaction|BankTransaction $object
      */
     public function setTransaction($object): void;
 
@@ -38,4 +40,13 @@ interface TransactionLine
      * @return LinesField
      */
     public function getTransaction();
+
+    /**
+     * Get an object containing everything you need to uniquely reference this line.
+     *
+     * You can use this for matching.
+     *
+     * @return ReferenceInterface
+     */
+    public function getReference(): ReferenceInterface;
 }

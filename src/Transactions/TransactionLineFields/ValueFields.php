@@ -23,7 +23,7 @@ trait ValueFields
      */
     public function getDebitCredit(): DebitCredit
     {
-        return $this->debitCredit;
+        return $this->debitCredit ?? DebitCredit::CREDIT();
     }
 
     /**
@@ -37,7 +37,7 @@ trait ValueFields
         Assert::notEmpty($this->value);
         $this->debitCredit = $debitCredit;
 
-        if ($debitCredit == DebitCredit::CREDIT()) {
+        if ($debitCredit->equals(DebitCredit::CREDIT())) {
             $this->value = $this->value->absolute();
             return $this;
         }

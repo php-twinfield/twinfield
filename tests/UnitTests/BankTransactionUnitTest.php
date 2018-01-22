@@ -2,23 +2,26 @@
 
 namespace PhpTwinfield\UnitTests;
 
-use PhpTwinfield\JournalTransaction;
-use PhpTwinfield\JournalTransactionLine;
+use Money\Money;
+use PhpTwinfield\BankTransaction;
 use PhpTwinfield\Office;
+use PhpTwinfield\Transactions\BankTransactionLine\Detail;
 
-class JournalTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
+class BankTransactionUnitTest extends \PHPUnit\Framework\TestCase
 {
     public function testCanGetReferenceFromLine()
     {
-        $purchase = new JournalTransaction();
-        $purchase->setOffice(Office::fromCode("XXX99999"));
-        $purchase->setNumber("201300003");
-        $purchase->setCode("MEMO");
+        $bank = new BankTransaction();
+        $bank->setOffice(Office::fromCode("XXX99999"));
+        $bank->setNumber("201300003");
+        $bank->getNumber();
+        $bank->setCode("MEMO");
 
-        $line = new JournalTransactionLine();
+        $line = new Detail();
         $line->setId(1);
+        $line->setValue(Money::EUR(1));
 
-        $purchase->addLine($line);
+        $bank->addLine($line);
 
         $reference = $line->getReference();
 

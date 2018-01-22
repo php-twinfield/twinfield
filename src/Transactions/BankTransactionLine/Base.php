@@ -6,6 +6,7 @@ use Money\Money;
 use PhpTwinfield\BankTransaction;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Office;
+use PhpTwinfield\ReferenceInterface;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\LinesField;
 use PhpTwinfield\Transactions\TransactionLine;
@@ -62,9 +63,11 @@ abstract class Base implements TransactionLine
     private $transaction;
 
     /**
+     * References the transaction this line belongs too.
+     *
      * @return BankTransaction
      */
-    public function getTransaction(): LinesField
+    public function getTransaction(): BankTransaction
     {
         return $this->transaction;
     }
@@ -74,8 +77,7 @@ abstract class Base implements TransactionLine
      */
     public function setTransaction($object): void
     {
-        Assert::true(Util::objectUses(LinesField::class, $object));
-
+        Assert::isInstanceOf($object, BankTransaction::class);
         $this->transaction = $object;
     }
 
@@ -166,5 +168,62 @@ abstract class Base implements TransactionLine
     {
         $this->id = $id;
         return $this;
+    }
+
+    public function getReference(): ReferenceInterface
+    {
+        return new class($this) implements ReferenceInterface
+        {
+            /**
+             * @var string
+             */
+            private $number;
+
+            /**
+             * @var string
+             */
+            private $code;
+
+            /**
+             * @var Office
+             */
+            private $office;
+
+            /**
+             * @var int
+             */
+            private $lineId;
+
+
+            public function __construct(Base $line)
+            {
+                $transaction = $line->getTransaction();
+
+                $this->code   = $transaction->getCode();
+                $this->number = $transaction->getNumber();
+                $this->office = $transaction->getOffice();
+                $this->lineId = $line->getId();
+            }
+
+            public function getNumber(): string
+            {
+                return $this->number;
+            }
+
+            public function getCode(): string
+            {
+                return $this->code;
+            }
+
+            public function getOffice(): Office
+            {
+                return $this->office;
+            }
+
+            public function getLineId(): int
+            {
+                return $this->lineId;
+            }
+        };
     }
 }
