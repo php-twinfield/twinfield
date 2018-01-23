@@ -60,8 +60,6 @@ abstract class BaseIntegrationTest extends TestCase
 
     final protected function getSuccessfulResponse(): Response
     {
-        $responseDocument = new \DOMDocument();
-        $responseDocument->loadXML('<dimension result="1" />');
-        return new Response($responseDocument);
+        return Response::fromString('<dimension result="1" />');
     }
 }

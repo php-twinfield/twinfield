@@ -9,18 +9,13 @@ class ResponseUnitTest extends TestCase
 {
     public function testMultipleItemsSentIsSuccessFul()
     {
-        $responseXml = '<?xml version="1.0"?>
+        $response = Response::fromString('<?xml version="1.0"?>
 <statements target="electronicstatements" importduplicate="0">
     <statement target="electronicstatements" result="1">
         <!-- ... -->
     </statement>
     <!-- etc... -->
-</statements>';
-
-        $responseDocument = new \DOMDocument();
-        $responseDocument->loadXML($responseXml);
-
-        $response = new Response($responseDocument);
+</statements>');
         $this->assertNull($response->assertSuccessful());
     }
 
@@ -30,36 +25,26 @@ class ResponseUnitTest extends TestCase
      */
     public function testMultipleItemsSentIsNotSuccessFul()
     {
-        $responseXml = '<?xml version="1.0"?>
+        $response = Response::fromString('<?xml version="1.0"?>
 <statements target="electronicstatements" importduplicate="0">
     <statement target="electronicstatements" result="0">
         <!-- ... -->
     </statement>
     <!-- etc... -->
-</statements>';
-
-        $responseDocument = new \DOMDocument();
-        $responseDocument->loadXML($responseXml);
-
-        $response = new Response($responseDocument);
+</statements>');
         $response->assertSuccessful();
     }
 
     public function testTransactionSuccessfulSuccesfulIsSuccesful()
     {
-        $responseXml = '<?xml version="1.0"?>
+        $response = Response::fromString('<?xml version="1.0"?>
 <transactions result="1">
     <transaction result="1" location="temporary">
         <!-- ... -->
     </transaction>
     <!-- etc... -->
 </transactions>
-';
-
-        $responseDocument = new \DOMDocument();
-        $responseDocument->loadXML($responseXml);
-
-        $response = new Response($responseDocument);
+');
         $this->assertNull($response->assertSuccessful());
     }
 }

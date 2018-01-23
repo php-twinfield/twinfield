@@ -71,7 +71,6 @@ $customer = new Customer();
 $customer
     ->setCode('1001')
     ->setName('John Doe')
-    ->setType('DEB')
     ->setOffice($office)
     ->setEBilling(false);
 
