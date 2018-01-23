@@ -61,6 +61,8 @@ trait LinesField
 
         $this->lines[] = $line;
 
+        $line->setTransaction($this);
+
         return $this;
     }
 

@@ -3,13 +3,19 @@
 namespace PhpTwinfield\Transactions\BankTransactionLine;
 
 use Money\Money;
+use PhpTwinfield\BankTransaction;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\MatchReference;
 use PhpTwinfield\Office;
+use PhpTwinfield\MatchReferenceInterface;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
+use PhpTwinfield\Transactions\TransactionFields\LinesField;
 use PhpTwinfield\Transactions\TransactionLine;
 use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
 use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
+use PhpTwinfield\Util;
+use Webmozart\Assert\Assert;
 
 abstract class Base implements TransactionLine
 {
@@ -51,6 +57,31 @@ abstract class Base implements TransactionLine
      * @var string
      */
     private $freeChar;
+
+    /**
+     * @var BankTransaction
+     */
+    private $transaction;
+
+    /**
+     * References the transaction this line belongs too.
+     *
+     * @return BankTransaction
+     */
+    public function getTransaction(): BankTransaction
+    {
+        return $this->transaction;
+    }
+
+    /**
+     * @param BankTransaction $object
+     */
+    public function setTransaction($object): void
+    {
+        Assert::null($this->transaction, "Attempting to set a transaction while the transaction is already set.");
+        Assert::isInstanceOf($object, BankTransaction::class);
+        $this->transaction = $object;
+    }
 
     /**
      * @return LineType
@@ -139,5 +170,17 @@ abstract class Base implements TransactionLine
     {
         $this->id = $id;
         return $this;
+    }
+
+    public function getReference(): MatchReferenceInterface
+    {
+        $transaction = $this->getTransaction();
+
+        return new MatchReference(
+            $transaction->getOffice(),
+            $transaction->getCode(),
+            $transaction->getNumber(),
+            $this->getId()
+        );
     }
 }

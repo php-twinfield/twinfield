@@ -5,15 +5,42 @@ namespace PhpTwinfield;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Transactions\TransactionFields\LinesField;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
+use Webmozart\Assert\Assert;
 
 class SalesTransactionLine extends BaseTransactionLine
 {
     use VatTotalFields;
     use ValueOpenField;
     use PerformanceFields;
+
+    /**
+     * @var SalesTransaction
+     */
+    private $transaction;
+
+    /**
+     * @param SalesTransaction $object
+     */
+    public function setTransaction($object): void
+    {
+        Assert::null($this->transaction, "Attempting to set a transaction while the transaction is already set.");
+        Assert::isInstanceOf($object, SalesTransaction::class);
+        $this->transaction = $object;
+    }
+
+    /**
+     * References the transaction this line belongs too.
+     *
+     * @return SalesTransaction
+     */
+    public function getTransaction(): SalesTransaction
+    {
+        return $this->transaction;
+    }
 
     /**
      * If line type = total the accounts receivable balance account. When dim1 is omitted, by default the general ledger

@@ -4,6 +4,7 @@ namespace PhpTwinfield;
 
 use PhpTwinfield\Transactions\Transaction;
 use PhpTwinfield\Transactions\TransactionFields\AutoBalanceVatField;
+use PhpTwinfield\Transactions\TransactionFields\CodeNumberOfficeFields;
 use PhpTwinfield\Transactions\TransactionFields\DestinyField;
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\LinesField;
@@ -21,22 +22,12 @@ abstract class BaseTransaction extends BaseObject implements Transaction
 {
     use DestinyField;
     use AutoBalanceVatField;
-    use OfficeField;
+    use CodeNumberOfficeFields;
     use PeriodField;
     use FreeTextFields;
     use DateField;
     use RaiseWarningField;
     use LinesField;
-
-    /**
-     * @var string|null The transaction type code.
-     */
-    private $code;
-
-    /**
-     * @var int|null The transaction number.
-     */
-    private $number;
 
     /**
      * @var string|null The currency code.
@@ -47,44 +38,6 @@ abstract class BaseTransaction extends BaseObject implements Transaction
      * @var string|null The sales transaction origin. Read-only attribute.
      */
     private $origin;
-
-    /**
-     * @return string|null
-     */
-    public function getCode(): ?string
-    {
-        return $this->code;
-    }
-
-    /**
-     * @param string|null $code
-     * @return $this
-     */
-    public function setCode(?string $code): BaseTransaction
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getNumber(): ?int
-    {
-        return $this->number;
-    }
-
-    /**
-     * @param int|null $number
-     * @return $this
-     */
-    public function setNumber(?int $number): BaseTransaction
-    {
-        $this->number = $number;
-
-        return $this;
-    }
 
     /**
      * @return string|null
@@ -123,5 +76,4 @@ abstract class BaseTransaction extends BaseObject implements Transaction
 
         return $this;
     }
-
 }

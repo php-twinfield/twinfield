@@ -5,8 +5,10 @@ namespace PhpTwinfield;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Transactions\TransactionFields\LinesField;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
+use Webmozart\Assert\Assert;
 
 /**
  * @todo $matchDate Only if line type is total. The date on which the purchase invoice is matched. Read-only attribute.
@@ -15,6 +17,31 @@ class PurchaseTransactionLine extends BaseTransactionLine
 {
     use VatTotalFields;
     use ValueOpenField;
+
+    /**
+     * @var PurchaseTransaction
+     */
+    private $transaction;
+
+    /**
+     * @param PurchaseTransaction $object
+     */
+    public function setTransaction($object): void
+    {
+        Assert::null($this->transaction, "Attempting to set a transaction while the transaction is already set.");
+        Assert::isInstanceOf($object, PurchaseTransaction::class);
+        $this->transaction = $object;
+    }
+
+    /**
+     * References the transaction this line belongs too.
+     *
+     * @return PurchaseTransaction
+     */
+    public function getTransaction(): PurchaseTransaction
+    {
+        return $this->transaction;
+    }
 
     /**
      * If line type = total the accounts payable balance account. When dim1 is omitted, by default the general ledger
