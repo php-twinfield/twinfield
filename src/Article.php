@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
 
 /**
@@ -11,9 +12,9 @@ use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
 class Article
 {
     use VatCodeField;
+    use OfficeField;
 
     private $code;
-    private $office;
     private $status;
     private $type;
     private $name;
@@ -37,17 +38,6 @@ class Article
     public function setCode($code)
     {
         $this->code = $code;
-        return $this;
-    }
-
-    public function getOffice()
-    {
-        return $this->office;
-    }
-
-    public function setOffice($office)
-    {
-        $this->office = $office;
         return $this;
     }
 

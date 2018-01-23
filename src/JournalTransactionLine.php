@@ -5,6 +5,7 @@ namespace PhpTwinfield;
 use Money\Money;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
+use Webmozart\Assert\Assert;
 
 /**
  * @todo $currencyDate Only if line type is detail. The line date.
@@ -17,6 +18,31 @@ class JournalTransactionLine extends BaseTransactionLine
      * @var string|null The invoice number. Only if line type is detail.
      */
     private $invoiceNumber;
+
+    /**
+     * @var JournalTransaction
+     */
+    private $transaction;
+
+    /**
+     * @param JournalTransaction $object
+     */
+    public function setTransaction($object): void
+    {
+        Assert::null($this->transaction, "Attempting to set a transaction while the transaction is already set.");
+        Assert::isInstanceOf($object, JournalTransaction::class);
+        $this->transaction = $object;
+    }
+
+    /**
+     * References the transaction this line belongs too.
+     *
+     * @return JournalTransaction
+     */
+    public function getTransaction(): JournalTransaction
+    {
+        return $this->transaction;
+    }
 
     /**
      * @param LineType $type

@@ -6,34 +6,46 @@ use Money\Money;
 use PhpTwinfield\DomDocuments\MatchDocument;
 use PhpTwinfield\Enums\MatchCode;
 use PhpTwinfield\MatchLine;
+use PhpTwinfield\MatchReference;
 use PhpTwinfield\MatchSet;
 use PhpTwinfield\Office;
 use PhpTwinfield\Enums\WriteOffType;
+use PhpTwinfield\MatchReferenceInterface;
 
 /**
  * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching
  */
 class MatchDocumentUnitTest extends \PHPUnit\Framework\TestCase
 {
+    protected $office;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->office = Office::fromCode("001");
+    }
 
     public function testFullPayment()
     {
         $matchset = new MatchSet();
-        $matchset->setOffice(Office::fromCode("001"));
+        $matchset->setOffice($this->office);
         $matchset->setMatchCode(MatchCode::CUSTOMERS());
         $matchset->setMatchDate(new \DateTimeImmutable("2013-02-11"));
 
-        $line1 = new MatchLine();
-        $line1->setTranscode("CASH");
-        $line1->setTransnumber(201300013);
-        $line1->setTransline(2);
-        $matchset->addLine($line1);
+        MatchLine::addToMatchSet($matchset, new MatchReference(
+            $this->office,
+            "CASH",
+            201300013,
+            2
+        ));
 
-        $line2 = new MatchLine();
-        $line2->setTranscode("SLS");
-        $line2->setTransnumber(201300069);
-        $line2->setTransline(1);
-        $matchset->addLine($line2);
+        MatchLine::addToMatchSet($matchset, new MatchReference(
+            $this->office,
+            "SLS",
+            201300069,
+            1
+        ));
 
         $matchdocument = new MatchDocument();
         $matchdocument->addMatchSet($matchset);
@@ -65,22 +77,23 @@ class MatchDocumentUnitTest extends \PHPUnit\Framework\TestCase
     public function testPartialPayment()
     {
         $matchset = new MatchSet();
-        $matchset->setOffice(Office::fromCode("001"));
+        $matchset->setOffice($this->office);
         $matchset->setMatchCode(MatchCode::CUSTOMERS());
         $matchset->setMatchDate(new \DateTimeImmutable("2013-02-11"));
 
-        $line1 = new MatchLine();
-        $line1->setTranscode("CASH");
-        $line1->setTransnumber(201300014);
-        $line1->setTransline(2);
-        $matchset->addLine($line1);
+        MatchLine::addToMatchSet($matchset, new MatchReference(
+            $this->office,
+            "CASH",
+            201300014,
+            2
+        ));
 
-        $line2 = new MatchLine();
-        $line2->setTranscode("SLS");
-        $line2->setTransnumber(201300070);
-        $line2->setTransline(1);
-        $line2->setMatchvalue(Money::EUR(11900));
-        $matchset->addLine($line2);
+        MatchLine::addToMatchSet($matchset, new MatchReference(
+            $this->office,
+            "SLS",
+            201300070,
+            1
+        ), Money::EUR(11900));
 
         $matchdocument = new MatchDocument();
         $matchdocument->addMatchSet($matchset);
@@ -113,22 +126,23 @@ class MatchDocumentUnitTest extends \PHPUnit\Framework\TestCase
     public function testDiscount()
     {
         $matchset = new MatchSet();
-        $matchset->setOffice(Office::fromCode("001"));
+        $matchset->setOffice($this->office);
         $matchset->setMatchCode(MatchCode::CUSTOMERS());
         $matchset->setMatchDate(new \DateTimeImmutable("2013-02-11"));
 
-        $line1 = new MatchLine();
-        $line1->setTranscode("CASH");
-        $line1->setTransnumber(201300015);
-        $line1->setTransline(2);
-        $matchset->addLine($line1);
+        MatchLine::addToMatchSet($matchset, new MatchReference(
+            $this->office,
+            "CASH",
+            201300015,
+            2
+        ));
 
-        $line2 = new MatchLine();
-        $line2->setTranscode("SLS");
-        $line2->setTransnumber(201300071);
-        $line2->setTransline(1);
+        $line2 = MatchLine::addToMatchSet($matchset, new MatchReference(
+            $this->office,
+            "SLS",
+            201300071,
+        1));
         $line2->setWriteOff(Money::EUR(200), WriteOffType::DISCOUNT());
-        $matchset->addLine($line2);
 
         $matchdocument = new MatchDocument();
         $matchdocument->addMatchSet($matchset);
