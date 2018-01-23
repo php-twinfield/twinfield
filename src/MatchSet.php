@@ -64,7 +64,8 @@ class MatchSet
 
     /**
      * @param MatchLine $line
-     * @internal  Don't call this, use MatchLine::create
+     * @internal  Don't call this, use \PhpTwinfield\MatchLine::addToMatchSet
+     * @see \PhpTwinfield\MatchLine::addToMatchSet()
      * @return $this
      */
     public function addLine(MatchLine $line): self

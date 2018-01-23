@@ -2,17 +2,26 @@
 
 namespace PhpTwinfield;
 
-class MatchReference implements MatchReferenceInterface
+final class MatchReference implements MatchReferenceInterface
 {
     /**
      * @var Office
      */
     private $office;
 
+    /**
+     * @var int
+     */
     private $number;
 
+    /**
+     * @var string
+     */
     private $code;
 
+    /**
+     * @var int
+     */
     private $lineId;
 
     public function __construct(Office $office, string $code, int $number, int $lineId)
