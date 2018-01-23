@@ -31,7 +31,7 @@ class InvoiceApiConnector extends ProcessXmlApiConnector
      * @return Invoice|bool The requested invoice or false if it can't be found.
      * @throws Exception
      */
-    public function get(string $code, string $invoiceNumber, Office $office)
+    public function get(string $code, string $invoiceNumber, Office $office): Invoice
     {
         // Make a request to read a single invoice. Set the required values
         $request_invoice = new Request\Read\Invoice();
@@ -50,20 +50,24 @@ class InvoiceApiConnector extends ProcessXmlApiConnector
      * Sends a \PhpTwinfield\Invoice\Invoice instance to Twinfield to update or add.
      *
      * @param Invoice $invoice
+     * @return Invoice The processed invoice from Twinfield
      * @throws Exception
      */
-    public function send(Invoice $invoice): void
+    public function send(Invoice $invoice): Invoice
     {
-        $this->sendAll([$invoice]);
+        $result = $this->sendAll([$invoice]);
+        return reset($result);
     }
 
     /**
      * @param Invoice[] $invoices
+     * @return Invoice[] The processed invoices from Twinfield
      * @throws Exception
      */
-    public function sendAll(array $invoices): void
+    public function sendAll(array $invoices): array
     {
         Assert::allIsInstanceOf($invoices, Invoice::class);
+        $arrInvoices = [];
 
         foreach ($this->chunk($invoices) as $chunk) {
 
@@ -73,7 +77,11 @@ class InvoiceApiConnector extends ProcessXmlApiConnector
                 $invoicesDocument->addInvoice($invoice);
             }
 
-            $this->sendDocument($invoicesDocument);
+            $response = $this->sendDocument($invoicesDocument);
+
+            array_push($arrInvoices, InvoiceMapper::map($response));
+
         }
+        return $arrInvoices;
     }
 }

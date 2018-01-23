@@ -4,6 +4,7 @@ namespace PhpTwinfield\IntegrationTests;
 
 use PhpTwinfield\ApiConnectors\InvoiceApiConnector;
 use PhpTwinfield\Customer;
+use PhpTwinfield\Enums\PerformanceType;
 use PhpTwinfield\Invoice;
 use PhpTwinfield\DomDocuments\InvoicesDocument;
 use PhpTwinfield\InvoiceLine;
@@ -53,7 +54,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame('11024', $invoice->getOffice());
         $this->assertSame('FACTUUR', $invoice->getInvoiceType());
         $this->assertSame('5', $invoice->getInvoiceNumber());
-        $this->assertSame('20120831', $invoice->getInvoiceDate());
+        $this->assertEquals(new \DateTimeImmutable('2012-08-31'), $invoice->getInvoiceDate());
         $this->assertSame('BNK', $invoice->getBank());
         $this->assertSame('1', $invoice->getInvoiceAddressNumber());
         $this->assertSame('1', $invoice->getDeliverAddressNumber());
@@ -87,6 +88,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame('', $invoiceLine->getFreeText2());
         $this->assertSame('', $invoiceLine->getFreeText3());
         $this->assertSame('8020', $invoiceLine->getDim1());
+        $this->assertEquals(PerformanceType::SERVICES(), $invoiceLine->getPerformanceType());
 
         // TODO - Vat lines
 
@@ -103,7 +105,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoice->setOffice('11024');
         $invoice->setInvoiceType('FACTUUR');
         $invoice->setInvoiceNumber('5');
-        $invoice->setInvoiceDate('20120831');
+        $invoice->setInvoiceDate(new \DateTimeImmutable('2012-08-31'));
         $invoice->setBank('BNK');
         $invoice->setInvoiceAddressNumber('1');
         $invoice->setDeliverAddressNumber('1');

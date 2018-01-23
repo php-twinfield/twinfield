@@ -34,13 +34,15 @@
             <freetext3/>
             <dim1>8020</dim1>
             <vatcode name="BTW 0%" shortname="V 0%" type="sales">VN</vatcode>
+            <performancetype>services</performancetype>
         </line>
     </lines>
     <vatlines>
         <vatline>
             <vatcode name="BTW 0%">VN</vatcode>
             <vatvalue>0.00</vatvalue>
-            <performancetype/><performancedate/>
+            <performancetype/>
+            <performancedate>20120831</performancedate>
         </vatline>
     </vatlines>
     <totals>
