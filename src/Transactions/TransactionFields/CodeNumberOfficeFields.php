@@ -2,10 +2,10 @@
 
 namespace PhpTwinfield\Transactions\TransactionFields;
 
-use PhpTwinfield\ReferenceInterface;
+use PhpTwinfield\MatchReferenceInterface;
 
 /**
- * @see ReferenceInterface
+ * @see MatchReferenceInterface
  */
 trait CodeNumberOfficeFields
 {

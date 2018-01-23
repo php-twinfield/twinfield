@@ -370,62 +370,18 @@ abstract class BaseTransactionLine implements TransactionLine
      *
      * With this reference, you can perform matching.
      *
-     * @return ReferenceInterface
+     * @return MatchReferenceInterface
      */
-    public function getReference(): ReferenceInterface
+    public function getReference(): MatchReferenceInterface
     {
-        return new class($this) implements ReferenceInterface {
+        /** @var JournalTransaction|PurchaseTransaction|SalesTransaction $transaction */
+        $transaction = $this->getTransaction();
 
-            /**
-             * @var string
-             */
-            private $number;
-
-            /**
-             * @var string
-             */
-            private $code;
-
-            /**
-             * @var Office
-             */
-            private $office;
-
-            /**
-             * @var int|null
-             */
-            private $lineId;
-
-            public function __construct(BaseTransactionLine $line)
-            {
-                /** @var JournalTransaction|PurchaseTransaction|SalesTransaction $transaction */
-                $transaction = $line->getTransaction();
-
-                $this->number = $transaction->getNumber();
-                $this->code   = $transaction->getCode();
-                $this->office = $transaction->getOffice();
-                $this->lineId = $line->getId();
-            }
-
-            public function getNumber(): string
-            {
-                return $this->number;
-            }
-
-            public function getCode(): string
-            {
-                return $this->code;
-            }
-
-            public function getOffice(): Office
-            {
-                return $this->office;
-            }
-
-            public function getLineId(): int
-            {
-                return $this->lineId;
-            }
-        };
+        return new MatchReference(
+            $transaction->getOffice(),
+            $transaction->getCode(),
+            $transaction->getNumber(),
+            $this->getId()
+        );
     }
 }

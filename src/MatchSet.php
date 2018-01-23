@@ -3,6 +3,7 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
+use Webmozart\Assert\Assert;
 
 class MatchSet
 {
@@ -63,10 +64,13 @@ class MatchSet
 
     /**
      * @param MatchLine $line
+     * @internal  Don't call this, use MatchLine::create
      * @return $this
      */
     public function addLine(MatchLine $line): self
     {
+        Assert::false(in_array($line, $this->lines));
+
         $this->lines[] = $line;
 
         return $this;

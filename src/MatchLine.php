@@ -3,6 +3,7 @@
 namespace PhpTwinfield;
 
 use Money\Money;
+use Webmozart\Assert\Assert;
 
 class MatchLine
 {
@@ -43,6 +44,38 @@ class MatchLine
     private $writeofftype;
 
     /**
+     * Create a new matchline based on a MatchReferenceInterface.
+     *
+     * If you want to add a write off, add it manually with setWriteOff()
+     *
+     * @param MatchSet $set
+     * @param MatchReferenceInterface $reference
+     * @param Money|null $value Use for partial matching.
+     * @return MatchLine
+     * @see setWriteOff()
+     */
+    public static function addToMatchSet(MatchSet $set, MatchReferenceInterface $reference, Money $value = null): self
+    {
+        Assert::eq($set->getOffice(), $reference->getOffice());
+
+        $instance = new self;
+        $instance->transcode   = $reference->getCode();
+        $instance->transnumber = $reference->getNumber();
+        $instance->transline   = $reference->getLineId();
+        $instance->setMatchvalue($value);
+
+        $set->addLine($instance);
+
+        return $instance;
+    }
+
+    /**
+     * MatchLine constructor.
+     * @see addToMatchSet
+     */
+    private function __construct() {}
+
+    /**
      * @return string
      */
     public function getTranscode(): string
@@ -50,35 +83,14 @@ class MatchLine
         return $this->transcode;
     }
 
-    public function setTranscode(string $transcode): self
-    {
-        $this->transcode = $transcode;
-
-        return $this;
-    }
-
     public function getTransnumber(): int
     {
         return $this->transnumber;
     }
 
-    public function setTransnumber(int $transnumber): self
-    {
-        $this->transnumber = $transnumber;
-
-        return $this;
-    }
-
     public function getTransline(): int
     {
         return $this->transline;
-    }
-
-    public function setTransline(int $transline): self
-    {
-        $this->transline = $transline;
-
-        return $this;
     }
 
     public function getMatchValue(): ?Money

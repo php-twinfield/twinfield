@@ -5,7 +5,7 @@ namespace PhpTwinfield\Transactions;
 use PhpTwinfield\BankTransaction;
 use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\Enums\LineType;
-use PhpTwinfield\ReferenceInterface;
+use PhpTwinfield\MatchReferenceInterface;
 use PhpTwinfield\Transactions\TransactionFields\LinesField;
 
 interface TransactionLine
@@ -38,7 +38,7 @@ interface TransactionLine
      *
      * Note that you should add the return type when implementing.
      *
-     * @see ReferenceInterface
+     * @see MatchReferenceInterface
      * @return LinesField
      * @internal
      */
@@ -49,7 +49,7 @@ interface TransactionLine
      *
      * You can use this for matching.
      *
-     * @return ReferenceInterface
+     * @return MatchReferenceInterface
      */
-    public function getReference(): ReferenceInterface;
+    public function getReference(): MatchReferenceInterface;
 }

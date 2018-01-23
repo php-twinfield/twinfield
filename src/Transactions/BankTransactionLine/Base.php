@@ -5,8 +5,9 @@ namespace PhpTwinfield\Transactions\BankTransactionLine;
 use Money\Money;
 use PhpTwinfield\BankTransaction;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\MatchReference;
 use PhpTwinfield\Office;
-use PhpTwinfield\ReferenceInterface;
+use PhpTwinfield\MatchReferenceInterface;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\LinesField;
 use PhpTwinfield\Transactions\TransactionLine;
@@ -171,60 +172,15 @@ abstract class Base implements TransactionLine
         return $this;
     }
 
-    public function getReference(): ReferenceInterface
+    public function getReference(): MatchReferenceInterface
     {
-        return new class($this) implements ReferenceInterface
-        {
-            /**
-             * @var string
-             */
-            private $number;
+        $transaction = $this->getTransaction();
 
-            /**
-             * @var string
-             */
-            private $code;
-
-            /**
-             * @var Office
-             */
-            private $office;
-
-            /**
-             * @var int
-             */
-            private $lineId;
-
-
-            public function __construct(Base $line)
-            {
-                $transaction = $line->getTransaction();
-
-                $this->code   = $transaction->getCode();
-                $this->number = $transaction->getNumber();
-                $this->office = $transaction->getOffice();
-                $this->lineId = $line->getId();
-            }
-
-            public function getNumber(): string
-            {
-                return $this->number;
-            }
-
-            public function getCode(): string
-            {
-                return $this->code;
-            }
-
-            public function getOffice(): Office
-            {
-                return $this->office;
-            }
-
-            public function getLineId(): int
-            {
-                return $this->lineId;
-            }
-        };
+        return new MatchReference(
+            $transaction->getOffice(),
+            $transaction->getCode(),
+            $transaction->getNumber(),
+            $this->getId()
+        );
     }
 }
