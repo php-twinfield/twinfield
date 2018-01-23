@@ -4,8 +4,10 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Exception;
+use PhpTwinfield\Response\IndividualMappedResponse;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Services\ProcessXmlService;
+use Traversable;
 
 /**
  * All Factories used by all components extend this factory for common shared methods that help normalize the usage
@@ -67,5 +69,36 @@ abstract class ProcessXmlApiConnector extends BaseApiConnector
         $response->assertSuccessful();
 
         return $response;
+    }
+
+    /**
+     * Map an array of Responses to IndividualMappedResponse using a callback.
+     *
+     * @see IndividualMappedResponse
+     * @param Response[] $responses
+     * @param string $individualTag Tag that contains each sub response (e.g. "transaction")
+     * @param callable $mapCallback The callback should return the mapped object (e.g. a PurchaseTransaction) based on the response.
+     * @return IndividualMappedResponse[]|iterable
+     */
+    protected function mapAll(array $responses, string $individualTag, callable $mapCallback): iterable
+    {
+        $return = [];
+
+        foreach ($responses as $response) {
+
+            /* $response should already asserted as successful by the called. */
+            $document = $response->getResponseDocument();
+
+            /** @var \DOMElement $element */
+            foreach ($document->getElementsByTagName($individualTag) as $element) {
+
+                $xml = $document->saveXML($element);
+                $subResponse = Response::fromString($xml);
+
+                $return[] = new IndividualMappedResponse($subResponse, $mapCallback);
+            }
+        }
+
+        return $return;
     }
 }

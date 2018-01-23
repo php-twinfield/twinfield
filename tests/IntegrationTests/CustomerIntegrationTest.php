@@ -40,9 +40,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
 
     public function testGetCustomerWorks()
     {
-        $domDocument = new \DOMDocument();
-        $domDocument->loadXML(file_get_contents(realpath(__DIR__ . '/resources/customerGetResponse.xml')));
-        $response = new Response($domDocument);
+        $response = Response::fromString(file_get_contents(__DIR__ . '/resources/customerGetResponse.xml'));
 
         $this->client
             ->expects($this->once())
@@ -141,9 +139,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
 
     public function testListAllCustomersWorks()
     {
-        $domDocument = new \DOMDocument();
-        $domDocument->loadXML(file_get_contents(realpath(__DIR__ . '/resources/customerListResponse.xml')));
-        $response = new Response($domDocument);
+        $response = Response::fromString(file_get_contents(__DIR__ . '/resources/customerListResponse.xml'));
 
         $this->client
             ->expects($this->once())

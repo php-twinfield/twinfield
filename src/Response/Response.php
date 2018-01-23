@@ -28,10 +28,24 @@ class Response
      * Holds the response, loaded in from the
      * \PhpTwinfield\Secure\Service class.
      *
-     * @var \DOMDocument
+     * @var \DOMNode
      */
     private $responseDocument;
 
+    /**
+     * Utility function to quickly create new Response objects.
+     *
+     * @param string $xml
+     * @return Response
+     */
+    public static function fromString(string $xml)
+    {
+        $document = new \DOMDocument();
+        $document->loadXML($xml);
+
+        return new self($document);
+    }
+    
     public function __construct(\DOMDocument $responseDocument)
     {
         $this->responseDocument = $responseDocument;
@@ -39,12 +53,8 @@ class Response
 
     /**
      * Returns the raw DOMDocument response.
-     *
-     * @since 0.0.1
-     *
-     * @return \DOMDocument
      */
-    public function getResponseDocument()
+    public function getResponseDocument(): \DOMDocument
     {
         return $this->responseDocument;
     }

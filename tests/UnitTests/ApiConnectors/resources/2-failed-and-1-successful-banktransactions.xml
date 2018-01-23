@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<transactions result="0">
+  <transaction destiny="temporary" autobalancevat="false" raisewarning="false" msgtype="error" msg="De boeking is niet in balans. Er ontbreekt 0.01 debet.//De boeking balanceert niet in de basisvaluta. Er ontbreekt 0.01 debet.//De boeking balanceert niet in de rapportagevaluta. Er ontbreekt 0.01 debet." result="0">
+    <header>
+      <code name="Standaard bank" shortname="Standaard bank">BNK</code>
+      <office name="My office" shortname="My office">OFFICE001</office>
+      <period>2017/06</period>
+      <date>20170901</date>
+      <currency name="Euro" shortname="Euro">EUR</currency>
+      <startvalue>0.00</startvalue>
+      <closevalue>0.00</closevalue>
+      <origin>import</origin>
+      <user name="Chuck-Norris" shortname="Chuck-Norris">CHUCK-NORRIS</user>
+      <regime>generic</regime>
+      <statementnumber>0</statementnumber>
+    </header>
+    <lines>
+      <line type="total" id="1">
+        <dim1 name="Standaard bank" shortname="" type="BAS" inuse="true" vatcode="" vatobligatory="false">1100</dim1>
+        <debitcredit>credit</debitcredit>
+        <value>0.01</value>
+        <invoicenumber>2017.123456</invoicenumber>
+        <description>2017.123456</description>
+        <comment>2017.123456</comment>
+        <rate>1</rate>
+        <basevalue>0.01</basevalue>
+        <reprate>1</reprate>
+        <repvalue>0.01</repvalue>
+        <matchstatus>notmatchable</matchstatus>
+      </line>
+      <line type="detail" id="2">
+        <dim1 name="Tussenrekening" shortname="" type="BAS" inuse="true" vatcode="" vatobligatory="false">1800</dim1>
+        <debitcredit>credit</debitcredit>
+        <value>12.90</value>
+        <invoicenumber>2017.123456</invoicenumber>
+        <description>2017.123456</description>
+        <comment>2017.123456</comment>
+        <rate>1</rate>
+        <basevalue>12.90</basevalue>
+        <reprate>1</reprate>
+        <repvalue>12.90</repvalue>
+        <currencydate/>
+        <matchstatus>notmatchable</matchstatus>
+      </line>
+      <line type="detail" id="3">
+        <dim1 name="Hoog 21%" shortname="" type="PNL" inuse="true" vatcode="" vatobligatory="false">4700</dim1>
+        <debitcredit>debit</debitcredit>
+        <value>12.90</value>
+        <invoicenumber>2017.123456</invoicenumber>
+        <description>Some description</description>
+        <comment>Some comment</comment>
+        <rate>1</rate>
+        <basevalue>12.90</basevalue>
+        <reprate>1</reprate>
+        <repvalue>12.90</repvalue>
+        <currencydate/>
+        <matchstatus>notmatchable</matchstatus>
+      </line>
+    </lines>
+  </transaction>
+  <transaction destiny="temporary" autobalancevat="false" raisewarning="false" msgtype="error" msg="De boeking is niet in balans. Er ontbreekt 0.01 debet.//De boeking balanceert niet in de basisvaluta. Er ontbreekt 0.01 debet.//De boeking balanceert niet in de rapportagevaluta. Er ontbreekt 0.01 debet." result="0">
+    <header>
+      <code name="Standaard bank" shortname="Standaard bank">BNK</code>
+      <office name="My Office" shortname="My Office">OFFICE001</office>
+      <period>2017/07</period>
+      <date>20170901</date>
+      <currency name="Euro" shortname="Euro">EUR</currency>
+      <startvalue>0.00</startvalue>
+      <closevalue>0.00</closevalue>
+      <origin>import</origin>
+      <user name="Chuck-Norris" shortname="Chuck-Norris">CHUCK-NORRIS</user>
+      <regime>generic</regime>
+      <statementnumber>0</statementnumber>
+    </header>
+    <lines>
+      <line type="total" id="1">
+        <dim1 name="Standaard bank" shortname="" type="BAS" inuse="true" vatcode="" vatobligatory="false">1100</dim1>
+        <debitcredit>credit</debitcredit>
+        <value>0.01</value>
+        <invoicenumber>2017.123456</invoicenumber>
+        <description>2017.123456</description>
+        <comment>2017.123456</comment>
+        <rate>1</rate>
+        <basevalue>0.01</basevalue>
+        <reprate>1</reprate>
+        <repvalue>0.01</repvalue>
+        <matchstatus>notmatchable</matchstatus>
+      </line>
+      <line type="detail" id="2">
+        <dim1 name="Tussenrekening" shortname="" type="BAS" inuse="true" vatcode="" vatobligatory="false">1800</dim1>
+        <debitcredit>credit</debitcredit>
+        <value>5.15</value>
+        <invoicenumber>2017.123456</invoicenumber>
+        <description>2017.123456</description>
+        <comment>2017.123456</comment>
+        <rate>1</rate>
+        <basevalue>5.15</basevalue>
+        <reprate>1</reprate>
+        <repvalue>5.15</repvalue>
+        <currencydate/>
+        <matchstatus>notmatchable</matchstatus>
+      </line>
+      <line type="detail" id="3">
+        <dim1 name="Hoog 21%" shortname="" type="PNL" inuse="true" vatcode="" vatobligatory="false">4700</dim1>
+        <debitcredit>debit</debitcredit>
+        <value>5.15</value>
+        <invoicenumber>2017.123456</invoicenumber>
+        <description>Some other description</description>
+        <comment>Some other comment</comment>
+        <rate>1</rate>
+        <basevalue>5.15</basevalue>
+        <reprate>1</reprate>
+        <repvalue>5.15</repvalue>
+        <currencydate/>
+        <matchstatus>notmatchable</matchstatus>
+      </line>
+    </lines>
+  </transaction>
+  <transaction autobalancevat="false" raisewarning="false" result="1" location="temporary">
+    <header>
+      <code name="Standaard bank" shortname="Standaard bank">BNK</code>
+      <office name="My Office" shortname="My Office">OFFICE001</office>
+      <period>2017/08</period>
+      <date>20170901</date>
+      <currency name="Euro" shortname="Euro">EUR</currency>
+      <startvalue>0.00</startvalue>
+      <closevalue>0.00</closevalue>
+      <origin>import</origin>
+      <user name="Chuck-Norris" shortname="Chuck-Norris">CHUCK-NORRIS</user>
+      <regime>generic</regime>
+      <statementnumber>0</statementnumber>
+      <number>201700334</number>
+    </header>
+    <lines>
+      <line type="total" id="1">
+        <dim1 name="Standaard bank" shortname="" type="BAS" inuse="true" vatcode="" vatobligatory="false">1100</dim1>
+        <debitcredit>debit</debitcredit>
+        <value>0.00</value>
+        <invoicenumber>2017.123456</invoicenumber>
+        <description>2017.123456</description>
+        <comment>2017.123456</comment>
+        <rate>1</rate>
+        <basevalue>0.00</basevalue>
+        <reprate>1</reprate>
+        <repvalue>0.00</repvalue>
+        <matchstatus>notmatchable</matchstatus>
+      </line>
+      <line type="detail" id="2">
+        <dim1 name="Tussenrekening" shortname="" type="BAS" inuse="true" vatcode="" vatobligatory="false">1800</dim1>
+        <debitcredit>debit</debitcredit>
+        <value>0.87</value>
+        <invoicenumber>2017.123456</invoicenumber>
+        <description>2017.123456</description>
+        <comment>2017.123456</comment>
+        <rate>1</rate>
+        <basevalue>0.87</basevalue>
+        <reprate>1</reprate>
+        <repvalue>0.87</repvalue>
+        <currencydate/>
+        <matchstatus>notmatchable</matchstatus>
+      </line>
+      <line type="detail" id="3">
+        <dim1 name="Omzet" shortname="" type="PNL" inuse="true" vatcode="" vatobligatory="false">8000</dim1>
+        <debitcredit>credit</debitcredit>
+        <value>0.87</value>
+        <invoicenumber>2017.123456</invoicenumber>
+        <description>Last description</description>
+        <comment>Last comment</comment>
+        <rate>1</rate>
+        <basevalue>0.87</basevalue>
+        <reprate>1</reprate>
+        <repvalue>0.87</repvalue>
+        <currencydate/>
+        <matchstatus>notmatchable</matchstatus>
+      </line>
+    </lines>
+  </transaction>
+</transactions>

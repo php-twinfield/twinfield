@@ -21,10 +21,6 @@ class ProcessXmlService extends BaseService
             array('xmlRequest' => $document->saveXML())
         );
 
-        // Make a new DOMDocument, and load the response into it
-        $responseDocument = new \DOMDocument();
-        $responseDocument->loadXML($result->ProcessXmlStringResult);
-
-        return new Response($responseDocument);
+        return Response::fromString($result->ProcessXmlStringResult);
     }
 }

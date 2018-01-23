@@ -39,9 +39,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
 
     public function testGetSalesTransactionWorks()
     {
-        $domDocument = new \DOMDocument();
-        $domDocument->loadXML(file_get_contents(realpath(__DIR__ . '/resources/salesTransactionGetResponse.xml')));
-        $response = new Response($domDocument);
+        $response = Response::fromString(file_get_contents(__DIR__ . '/resources/salesTransactionGetResponse.xml'));
 
         $this->client
             ->expects($this->once())
