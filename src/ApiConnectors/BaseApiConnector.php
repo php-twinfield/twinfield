@@ -6,27 +6,50 @@ use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Secure\Connection;
 use PhpTwinfield\Services\BaseService;
+use PhpTwinfield\Services\FinderService;
+use PhpTwinfield\Services\ProcessXmlService;
 
 abstract class BaseApiConnector
 {
     /**
-     * @var BaseService
+     * @var Connection
      */
-    protected $service;
+    private $connection;
 
     /**
-     * The service that is needed by this connector.
-     *
-     * @return Services
+     * @var ProcessXmlService
      */
-    abstract protected function getRequiredWebservice(): Services;
+    private $processXmlService;
 
     /**
-     * @param Connection $login
+     * @var FinderService
+     */
+    private $finderService;
+
+    /**
+     * @param Connection $connection
      * @throws Exception
      */
-    public function __construct(Connection $login)
+    public function __construct(Connection $connection)
     {
-        $this->service = $login->getAuthenticatedClient($this->getRequiredWebservice());
+        $this->connection = $connection;
+    }
+
+    protected function getProcessXmlService(): ProcessXmlService
+    {
+        if (!$this->processXmlService) {
+            $this->processXmlService = $this->connection->getAuthenticatedClient(Services::PROCESSXML());
+        }
+
+        return $this->processXmlService;
+    }
+
+    protected function getFinderService(): FinderService
+    {
+        if (!$this->finderService) {
+            $this->finderService = $this->connection->getAuthenticatedClient(Services::FINDER());
+        }
+
+        return $this->finderService;
     }
 }

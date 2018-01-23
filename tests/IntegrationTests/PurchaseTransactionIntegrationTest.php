@@ -32,7 +32,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
     protected function setUp()
     {
         parent::setUp();
-        $this->transactionApiConnector = new TransactionApiConnector($this->login);
+        $this->transactionApiConnector = new TransactionApiConnector($this->connection);
     }
 
     public function testGetPurchaseTransactionWorks()
@@ -41,9 +41,9 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $domDocument->loadXML(file_get_contents(__DIR__ . '/resources/purchaseTransactionGetResponse.xml'));
         $response = new Response($domDocument);
 
-        $this->client
+        $this->processXmlService
             ->expects($this->once())
-            ->method("sendDOMDocument")
+            ->method("sendDocument")
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Transaction::class))
             ->willReturn($response);
 
@@ -171,9 +171,9 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
             ->addLine($totalLine)
             ->addLine($detailLine);
 
-        $this->client
+        $this->processXmlService
             ->expects($this->once())
-            ->method("sendDOMDocument")
+            ->method("sendDocument")
             ->with($this->isInstanceOf(TransactionsDocument::class))
             ->willReturnCallback(function (TransactionsDocument $transactionsDocument) {
                 $this->assertXmlStringEqualsXmlString(

@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\VatCode;
 
 /**
@@ -13,7 +14,7 @@ use PhpTwinfield\VatCode;
  *
  * @author Emile Bons <emile@emilebons.nl>
  */
-class VatCodeApiConnector extends FinderApiConnector
+class VatCodeApiConnector extends BaseApiConnector
 {
     /**
      * List all VAT codes.
@@ -37,7 +38,7 @@ class VatCodeApiConnector extends FinderApiConnector
         int $maxRows = 100,
         array $options = []
     ): array {
-        $response = $this->service->searchFinder(self::TYPE_VAT_CODES, $pattern, $field, $firstRow, $maxRows, $options);
+        $response = $this->getFinderService()->searchFinder(FinderService::TYPE_VAT_CODES, $pattern, $field, $firstRow, $maxRows, $options);
 
         if ($response->data->TotalRows == 0) {
             return [];
