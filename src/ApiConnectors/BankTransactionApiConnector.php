@@ -58,26 +58,8 @@ class BankTransactionApiConnector extends ProcessXmlApiConnector
             $responses[] = $this->sendDocument($bankTransactionDocument);
         }
 
-        $return = [];
-
-        foreach ($responses as $response) {
-
-            /* $response was already asserted as successful. */
-
-            $document = $response->getResponseDocument();
-
-            /** @var \DOMElement $element */
-            foreach ($document->getElementsByTagName("transaction") as $element) {
-
-                $xml = $document->saveXML($element);
-                $subresponse = Response::fromString($xml);
-
-                $return[] = new IndividualMappedResponse($subresponse, function(Response $subresponse): BankTransaction {
-                    return BankTransactionMapper::map($subresponse->getResponseDocument());
-                });
-            }
-        }
-
-        return $return;
+        return $this->mapAll($responses, "transaction", function(Response $subresponse): BankTransaction {
+            return BankTransactionMapper::map($subresponse->getResponseDocument());
+        });
     }
 }

@@ -37,7 +37,6 @@ class BankTransactionApiConnectorTest extends TestCase
         return $banktransaction;
     }
 
-
     public function testSendAllReturnsMappedObjects()
     {
         $response = Response::fromString(file_get_contents(
