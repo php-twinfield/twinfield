@@ -90,10 +90,10 @@ abstract class ProcessXmlApiConnector extends BaseApiConnector
             /* $response should already asserted as successful by the called. */
             $document = $response->getResponseDocument();
 
-            /** @var \DOMElement[] $nodeList */
+            /** @var \DOMElement[]|\DOMNodeList $nodeList */
             $nodeList = $document->getElementsByTagName($individualTag);
 
-            Assert::eq(count($nodeList), count($responses));
+            Assert::greaterThanEq($nodeList->length, count($responses));
 
             foreach ($nodeList as $element) {
 
