@@ -38,11 +38,11 @@ abstract class BaseMapper
         /** @var \DOMNodeList $nodelist */
         $nodelist = $document->getElementsByTagName($tag);
 
-        if (sizeof($nodelist) == 0) {
+        if ($nodelist->length === 0) {
             return null;
         }
 
-        Assert::count($nodelist, 1);
+        Assert::greaterThanEq($nodelist->length, 1);
 
         /** @var \DOMElement $element */
         $element = $nodelist[0];

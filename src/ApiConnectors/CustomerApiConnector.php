@@ -8,6 +8,8 @@ use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
+use PhpTwinfield\Response\IndividualMappedResponse;
+use PhpTwinfield\Response\Response;
 use Webmozart\Assert\Assert;
 
 /**
@@ -89,20 +91,30 @@ class CustomerApiConnector extends ProcessXmlApiConnector
      * Sends a \PhpTwinfield\Customer\Customer instance to Twinfield to update or add.
      *
      * @param Customer $customer
+     * @return Customer
      * @throws Exception
      */
-    public function send(Customer $customer): void
+    public function send(Customer $customer): Customer
     {
-        $this->sendAll([$customer]);
+        $result = $this->sendAll([$customer]);
+
+        Assert::count($result, 1);
+
+        foreach ($result as $each) {
+            return $each->unwrap();
+        }
     }
 
     /**
      * @param Customer[] $customers
+     * @return IndividualMappedResponse[]|iterable
      * @throws Exception
      */
-    public function sendAll(array $customers): void
+    public function sendAll(array $customers): iterable
     {
         Assert::allIsInstanceOf($customers, Customer::class);
+
+        $responses = [];
 
         foreach ($this->chunk($customers) as $chunk) {
 
@@ -112,7 +124,11 @@ class CustomerApiConnector extends ProcessXmlApiConnector
                 $customersDocument->addCustomer($customer);
             }
 
-            $this->sendDocument($customersDocument);
+            $responses[] = $this->sendDocument($customersDocument);
         }
+
+        return $this->mapAll($responses, "dimension", function(Response $response): Customer {
+           return CustomerMapper::map($response);
+        });
     }
 }

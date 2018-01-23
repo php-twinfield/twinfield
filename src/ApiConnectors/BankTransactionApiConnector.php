@@ -28,7 +28,7 @@ class BankTransactionApiConnector extends ProcessXmlApiConnector
         Assert::count($responses, 1);
 
         foreach ($responses as $response) {
-            return $response->get();
+            return $response->unwrap();
         }
     }
 

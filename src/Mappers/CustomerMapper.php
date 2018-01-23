@@ -15,7 +15,7 @@ use PhpTwinfield\Response\Response;
  * @author Leon Rowland <leon@rowland.nl>
  * @copyright (c) 2013, Pronamic
  */
-class CustomerMapper
+class CustomerMapper extends BaseMapper
 {
     /**
      * Maps a Response object to a clean Customer entity.
@@ -33,7 +33,7 @@ class CustomerMapper
         $responseDOM = $response->getResponseDocument();
 
         // Set the status attribute
-        $dimensionElement = $responseDOM->getElementsByTagName('dimension')->item(0);
+        $dimensionElement = $responseDOM->documentElement;
         $customer->setStatus($dimensionElement->getAttribute('status'));
 
         // Customer elements and their methods
@@ -50,24 +50,13 @@ class CustomerMapper
             'endyear'           => 'setEndYear',
             'website'           => 'setWebsite',
             'editdimensionname' => 'setEditDimensionName',
-//            'office'            => 'setOffice',
+            'office'            => 'setOffice',
+            'country'           => 'setCountry',
         );
 
         // Loop through all the tags
         foreach ($customerTags as $tag => $method) {
-            
-            // Get the dom element
-            $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
-
-            // If it has a value, set it to the associated method
-            if (isset($_tag) && isset($_tag->textContent)) {
-                $customer->$method($_tag->textContent);
-            }
-        }
-
-        $_tag = $responseDOM->getElementsByTagName("office")->item(0);
-        if (!empty($_tag->textContent)) {
-            $customer->setOffice(Office::fromCode($_tag->textContent));
+            self::setFromTagValue($responseDOM, $tag, [$customer, $method]);
         }
 
         // Financial elements and their methods
@@ -83,55 +72,60 @@ class CustomerMapper
         // Financial elements
         $financialElement = $responseDOM->getElementsByTagName('financials')->item(0);
 
-        // Go through each financial element and add to the assigned method
-        foreach ($financialsTags as $tag => $method) {
-            
-            // Get the dom element
-            $_tag = $financialElement->getElementsByTagName($tag)->item(0);
+        if ($financialElement) {
+            // Go through each financial element and add to the assigned method
+            foreach ($financialsTags as $tag => $method) {
 
-            // If it has a value, set it to the associated method
-            if (isset($_tag) && isset($_tag->textContent)) {
-                $value = $_tag->textContent;
-                if ($value == 'true' || $value == 'false') {
-                    $value = $value == 'true';
+                // Get the dom element
+                $_tag = $financialElement->getElementsByTagName($tag)->item(0);
+
+                // If it has a value, set it to the associated method
+                if (isset($_tag) && isset($_tag->textContent)) {
+                    $value = $_tag->textContent;
+                    if ($value == 'true' || $value == 'false') {
+                        $value = $value == 'true';
+                    }
+
+                    $customer->$method($value);
                 }
-
-                $customer->$method($value);
             }
         }
         
         // Credit management elements
         $creditManagementElement = $responseDOM->getElementsByTagName('creditmanagement')->item(0);
-        
-        // Credit management elements and their methods
-        $creditManagementTags = array(
-            'responsibleuser'   => 'setResponsibleUser',
-            'basecreditlimit'   => 'setBaseCreditLimit',
-            'sendreminder'      => 'setSendReminder',
-            'reminderemail'     => 'setReminderEmail',
-            'blocked'           => 'setBlocked',
-            'freetext1'         => 'setFreeText1',
-            'freetext2'         => 'setFreeText2',
-            'freetext3'         => 'setFreeText3',
-            'comment'           => 'setComment',
-        );
-        
-        $customer->setCreditManagement(new \PhpTwinfield\CustomerCreditManagement());
-        
-        // Go through each financial element and add to the assigned method
-        foreach ($creditManagementTags as $tag => $method) {
-            
-            // Get the dom element
-            $_tag = $creditManagementElement->getElementsByTagName($tag)->item(0);
 
-            // If it has a value, set it to the associated method
-            if (isset($_tag) && isset($_tag->textContent)) {
-                $value = $_tag->textContent;
-                if ($value == 'true' || $value == 'false') {
-                    $value = $value == 'true';
+        if ($creditManagementElement) {
+
+            // Credit management elements and their methods
+            $creditManagementTags = array(
+                'responsibleuser' => 'setResponsibleUser',
+                'basecreditlimit' => 'setBaseCreditLimit',
+                'sendreminder' => 'setSendReminder',
+                'reminderemail' => 'setReminderEmail',
+                'blocked' => 'setBlocked',
+                'freetext1' => 'setFreeText1',
+                'freetext2' => 'setFreeText2',
+                'freetext3' => 'setFreeText3',
+                'comment' => 'setComment',
+            );
+
+            $customer->setCreditManagement(new \PhpTwinfield\CustomerCreditManagement());
+
+            // Go through each financial element and add to the assigned method
+            foreach ($creditManagementTags as $tag => $method) {
+
+                // Get the dom element
+                $_tag = $creditManagementElement->getElementsByTagName($tag)->item(0);
+
+                // If it has a value, set it to the associated method
+                if (isset($_tag) && isset($_tag->textContent)) {
+                    $value = $_tag->textContent;
+                    if ($value == 'true' || $value == 'false') {
+                        $value = $value == 'true';
+                    }
+
+                    $customer->getCreditManagement()->$method($value);
                 }
-
-                $customer->getCreditManagement()->$method($value);
             }
         }
 

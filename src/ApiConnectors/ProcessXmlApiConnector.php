@@ -8,6 +8,7 @@ use PhpTwinfield\Response\IndividualMappedResponse;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Services\ProcessXmlService;
 use Traversable;
+use Webmozart\Assert\Assert;
 
 /**
  * All Factories used by all components extend this factory for common shared methods that help normalize the usage
@@ -89,8 +90,12 @@ abstract class ProcessXmlApiConnector extends BaseApiConnector
             /* $response should already asserted as successful by the called. */
             $document = $response->getResponseDocument();
 
-            /** @var \DOMElement $element */
-            foreach ($document->getElementsByTagName($individualTag) as $element) {
+            /** @var \DOMElement[] $nodeList */
+            $nodeList = $document->getElementsByTagName($individualTag);
+
+            Assert::eq(count($nodeList), count($responses));
+
+            foreach ($nodeList as $element) {
 
                 $xml = $document->saveXML($element);
                 $subResponse = Response::fromString($xml);
