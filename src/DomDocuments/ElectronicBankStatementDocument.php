@@ -24,21 +24,21 @@ class ElectronicBankStatementDocument extends BaseDocument
         }
 
         if ($electronicBankStatement->getIban()) {
-            $statement->appendChild($this->createElement("iban", $electronicBankStatement->getIban()));
+            $statement->appendChild($this->createNodeWithTextContent("iban", $electronicBankStatement->getIban()));
         } elseif ($electronicBankStatement->getAccount()) {
-            $statement->appendChild($this->createElement("account", $electronicBankStatement->getAccount()));
+            $statement->appendChild($this->createNodeWithTextContent("account", $electronicBankStatement->getAccount()));
         } elseif ($electronicBankStatement->getCode()) {
-            $statement->appendChild($this->createElement("code", $electronicBankStatement->getCode()));
+            $statement->appendChild($this->createNodeWithTextContent("code", $electronicBankStatement->getCode()));
         }
 
-        $statement->appendChild($this->createElement("date", $electronicBankStatement->getDate()->format("Ymd")));
+        $statement->appendChild($this->createNodeWithTextContent("date", $electronicBankStatement->getDate()->format("Ymd")));
 
         $this->appendStartCloseValues($statement, $electronicBankStatement);
 
-        $statement->appendChild($this->createElement("statementnumber", $electronicBankStatement->getStatementnumber()));
+        $statement->appendChild($this->createNodeWithTextContent("statementnumber", $electronicBankStatement->getStatementnumber()));
 
         if ($electronicBankStatement->getOffice()) {
-            $statement->appendChild($this->createElement("office", $electronicBankStatement->getOffice()->getCode()));
+            $statement->appendChild($this->createNodeWithTextContent("office", $electronicBankStatement->getOffice()->getCode()));
         }
 
         $transactions = $this->createElement("transactions");
@@ -48,15 +48,20 @@ class ElectronicBankStatementDocument extends BaseDocument
             $node = $this->createElement("transaction");
 
             if ($transaction->getContraaccount()) {
-                $node->appendChild($this->createElement("contraaccount", $transaction->getContraaccount()));
+                $node->appendChild($this->createNodeWithTextContent("contraaccount", $transaction->getContraaccount()));
             } elseif ($transaction->getContraiban()) {
-                $node->appendChild($this->createElement("contraiban", $transaction->getContraiban()));
+                $node->appendChild($this->createNodeWithTextContent("contraiban", $transaction->getContraiban()));
             }
 
-            $node->appendChild($this->createElement("type", $transaction->getType()));
-            $node->appendChild($this->createElement("reference", $transaction->getReference()));
+            $node->appendChild($this->createNodeWithTextContent("type", $transaction->getType()));
+
+            if ($transaction->getReference()) {
+                $node->appendChild($this->createNodeWithTextContent("reference", $transaction->getReference()));
+            }
+
             $this->appendValueValues($node, $transaction);
-            $node->appendChild($this->createElement("description", $transaction->getDescription()));
+
+            $node->appendChild($this->createNodeWithTextContent("description", $transaction->getDescription()));
 
             $transactions->appendChild($node);
         }

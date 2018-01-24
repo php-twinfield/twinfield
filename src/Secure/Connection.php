@@ -1,11 +1,11 @@
 <?php
+
 namespace PhpTwinfield\Secure;
 
 use PhpTwinfield\Exception;
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Services\BaseService;
 use PhpTwinfield\Services\LoginService;
-use Webmozart\Assert\Assert;
 
 /**
  * Login Class.
@@ -33,7 +33,7 @@ class Connection
 {
     /**
      * Holds the passed in Config instance
-     * 
+     *
      * @access private
      * @var \PhpTwinfield\Secure\Config
      */
@@ -42,8 +42,10 @@ class Connection
     /**
      * The SoapClient used to login to Twinfield
      *
+     * Is initialized lazily, see #62.
+     *
      * @access private
-     * @var LoginService
+     * @var LoginService|null
      */
     private $loginService;
 
@@ -64,28 +66,15 @@ class Connection
      */
     private $cluster = 'https://c3.twinfield.com';
 
-    public function __construct(Config $config)
-    {
-        $this->config = $config;
-        $this->loginService = new LoginService(null, $config->getSoapClientOptions());
-    }
-
-    /**
-     * @throws Exception
-     */
-    protected function login()
-    {
-        if ($this->sessionID) {
-            return;
-        }
-
-        [$this->sessionID, $this->cluster] = $this->loginService->getSessionIdAndCluster($this->config);
-    }
-
     /**
      * @var BaseService[]
      */
     private $authenticatedClients = [];
+
+    public function __construct(Config $config)
+    {
+        $this->config = $config;
+    }
 
     /**
      * Get an authenticated client for a specific service/
@@ -109,13 +98,36 @@ class Connection
                 $this->config->getSoapClientOptions() + ["cluster" => $this->cluster]
             );
 
-            $this->authenticatedClients[$key]->__setSoapHeaders(new \SoapHeader(
-                'http://www.twinfield.com/',
-                'Header',
-                array('SessionID' => $this->sessionID)
-            ));
+            $this->authenticatedClients[$key]->__setSoapHeaders(
+                new \SoapHeader(
+                    'http://www.twinfield.com/',
+                    'Header',
+                    array('SessionID' => $this->sessionID)
+                )
+            );
         }
 
         return $this->authenticatedClients[$key];
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function login()
+    {
+        if ($this->sessionID) {
+            return;
+        }
+
+        [$this->sessionID, $this->cluster] = $this->getLoginService()->getSessionIdAndCluster($this->config);
+    }
+
+    private function getLoginService(): LoginService
+    {
+        if (empty($this->loginService)) {
+            $this->loginService = new LoginService(null, $this->config->getSoapClientOptions());
+        }
+
+        return $this->loginService;
     }
 }

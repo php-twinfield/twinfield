@@ -8,6 +8,7 @@ use PhpTwinfield\ApiConnectors\BankTransactionApiConnector;
 use PhpTwinfield\BankTransaction;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Exception;
+use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\Connection;
 use PhpTwinfield\Services\ProcessXmlService;
@@ -24,6 +25,11 @@ class BankTransactionApiConnectorTest extends TestCase
      * @var ProcessXmlService|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $processXmlService;
+
+    /**
+     * @var Office
+     */
+    protected $office;
 
     protected function setUp()
     {
@@ -42,12 +48,14 @@ class BankTransactionApiConnectorTest extends TestCase
             ->willReturn($this->processXmlService);
 
         $this->apiConnector = new BankTransactionApiConnector($connection);
+        $this->office = Office::fromCode("XXX101");
     }
 
     private function createBankTransaction(): BankTransaction
     {
         $banktransaction = new BankTransaction();
         $banktransaction->setDestiny(Destiny::TEMPORARY());
+        $banktransaction->setOffice($this->office);
 
         return $banktransaction;
     }

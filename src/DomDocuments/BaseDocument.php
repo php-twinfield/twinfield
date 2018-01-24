@@ -48,13 +48,13 @@ abstract class BaseDocument extends \DOMDocument
     protected function appendDateElement(\DOMElement $element, string $name, \DateTimeInterface $date): void
     {
         $element->appendChild(
-            $this->createElement($name, Util::formatDate($date))
+            $this->createNodeWithTextContent($name, Util::formatDate($date))
         );
     }
 
     protected function  appendOfficeField(\DOMElement $element, Office $office): void
     {
-        $office = $this->createElement("office", $office->getCode());
+        $office = $this->createNodeWithTextContent("office", $office->getCode());
         $element->appendChild($office);
     }
 
@@ -90,9 +90,9 @@ abstract class BaseDocument extends \DOMDocument
         Assert::true(Util::objectUses(StartAndCloseValueFields::class, $object));
 
         /** @var StartAndCloseValueFields $object */
-        $element->appendChild($this->createElement("currency", $object->getCurrency()));
-        $element->appendChild($this->createElement("startvalue", Util::formatMoney($object->getStartvalue())));
-        $element->appendChild($this->createElement("closevalue", Util::formatMoney($object->getClosevalue())));
+        $element->appendChild($this->createNodeWithTextContent("currency", $object->getCurrency()));
+        $element->appendChild($this->createNodeWithTextContent("startvalue", Util::formatMoney($object->getStartvalue())));
+        $element->appendChild($this->createNodeWithTextContent("closevalue", Util::formatMoney($object->getClosevalue())));
     }
 
     /**
@@ -107,13 +107,13 @@ abstract class BaseDocument extends \DOMDocument
 
         /** @var FreeTextFields $object */
         if ($object->getFreetext1() !== null) {
-            $element->appendChild($this->createElement("freetext1", $object->getFreetext1()));
+            $element->appendChild($this->createNodeWithTextContent("freetext1", $object->getFreetext1()));
         }
         if ($object->getFreetext1() !== null) {
-            $element->appendChild($this->createElement("freetext2", $object->getFreetext2()));
+            $element->appendChild($this->createNodeWithTextContent("freetext2", $object->getFreetext2()));
         }
         if ($object->getFreetext1() !== null) {
-            $element->appendChild($this->createElement("freetext3", $object->getFreetext3()));
+            $element->appendChild($this->createNodeWithTextContent("freetext3", $object->getFreetext3()));
         }
     }
 
@@ -122,8 +122,8 @@ abstract class BaseDocument extends \DOMDocument
         Assert::true(Util::objectUses(ValueFields::class, $object));
 
         /** @var ValueFields $object */
-        $element->appendChild($this->createElement("debitcredit", $object->getDebitCredit()));
-        $element->appendChild($this->createElement("value", Util::formatMoney($object->getValue())));
+        $element->appendChild($this->createNodeWithTextContent("debitcredit", $object->getDebitCredit()));
+        $element->appendChild($this->createNodeWithTextContent("value", Util::formatMoney($object->getValue())));
     }
 
     protected function appendPerformanceTypeFields(\DOMElement $element, $object): void
@@ -133,19 +133,36 @@ abstract class BaseDocument extends \DOMDocument
         Assert::true(Util::objectUses(PerformanceFields::class, $object));
 
         if ($object->getPerformanceType() !== null) {
-            $element->appendChild($this->createElement("performancetype", $object->getPerformanceType()));
+            $element->appendChild($this->createNodeWithTextContent("performancetype", $object->getPerformanceType()));
         }
 
         if ($object->getPerformanceCountry() !== null) {
-            $element->appendChild($this->createElement("performancecountry", $object->getPerformanceCountry()));
+            $element->appendChild($this->createNodeWithTextContent("performancecountry", $object->getPerformanceCountry()));
         }
 
         if ($object->getPerformanceVatNumber() !== null) {
-            $element->appendChild($this->createElement("performancevatnumber", $object->getPerformanceVatNumber()));
+            $element->appendChild($this->createNodeWithTextContent("performancevatnumber", $object->getPerformanceVatNumber()));
         }
 
         if ($object->getPerformanceDate() != null && $object->getPerformanceType()->equals(PerformanceType::SERVICES())) {
             $this->appendDateElement($element, "performancedate", $object->getPerformanceDate());
         }
+    }
+
+    /**
+     * Create an element and set some value as its innerText.
+     *
+     * Use this instead of createElement().
+     *
+     * @param string $tag
+     * @param string $textContent
+     * @return \DOMElement
+     */
+    final protected function createNodeWithTextContent(string $tag, string $textContent): \DOMElement
+    {
+        $element = $this->createElement($tag);
+        $element->textContent = $textContent;
+
+        return $element;
     }
 }

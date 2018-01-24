@@ -51,23 +51,23 @@ class TransactionsDocument extends BaseDocument
         $headerElement = $this->createElement('header');
         $transactionElement->appendChild($headerElement);
 
-        $codeElement = $this->createElement('code', $transaction->getCode());
+        $codeElement = $this->createNodeWithTextContent('code', $transaction->getCode());
         $headerElement->appendChild($codeElement);
 
         if ($transaction->getNumber() !== null) {
-            $numberElement = $this->createElement('number', $transaction->getNumber());
+            $numberElement = $this->createNodeWithTextContent('number', $transaction->getNumber());
             $headerElement->appendChild($numberElement);
         }
 
         if ($transaction->getCurrency() !== null) {
-            $currencyElement = $this->createElement('currency', $transaction->getCurrency());
+            $currencyElement = $this->createNodeWithTextContent('currency', $transaction->getCurrency());
             $headerElement->appendChild($currencyElement);
         }
 
         $this->appendDateElement($headerElement, "date", $transaction->getDate());
 
         if ($transaction->getPeriod() !== null) {
-            $periodElement = $this->createElement('period', $transaction->getPeriod());
+            $periodElement = $this->createNodeWithTextContent('period', $transaction->getPeriod());
             $headerElement->appendChild($periodElement);
         }
 
@@ -75,7 +75,7 @@ class TransactionsDocument extends BaseDocument
             in_array(InvoiceNumberField::class, class_uses($transaction)) &&
             $transaction->getInvoiceNumber() !== null
         ) {
-            $invoiceNumberElement = $this->createElement('invoicenumber', $transaction->getInvoiceNumber());
+            $invoiceNumberElement = $this->createNodeWithTextContent('invoicenumber', $transaction->getInvoiceNumber());
             $headerElement->appendChild($invoiceNumberElement);
         }
 
@@ -83,11 +83,11 @@ class TransactionsDocument extends BaseDocument
             in_array(PaymentReferenceField::class, class_uses($transaction)) &&
             $transaction->getPaymentReference() !== null
         ) {
-            $paymentReferenceElement = $this->createElement('paymentreference', $transaction->getPaymentReference());
+            $paymentReferenceElement = $this->createNodeWithTextContent('paymentreference', $transaction->getPaymentReference());
             $headerElement->appendChild($paymentReferenceElement);
         }
 
-        $officeElement = $this->createElement('office', $transaction->getOffice());
+        $officeElement = $this->createNodeWithTextContent('office', $transaction->getOffice());
         $headerElement->appendChild($officeElement);
 
         if (Util::objectUses(DueDateField::class, $transaction) &&
@@ -109,12 +109,12 @@ class TransactionsDocument extends BaseDocument
             $lineElement->setAttribute('id', $transactionLine->getId());
             $linesElement->appendChild($lineElement);
 
-            $dim1Element = $this->createElement('dim1', $transactionLine->getDim1());
+            $dim1Element = $this->createNodeWithTextContent('dim1', $transactionLine->getDim1());
             $lineElement->appendChild($dim1Element);
 
             $dim2 = $transactionLine->getDim2();
             if (!empty($dim2)) {
-                $dim2Element = $this->createElement('dim2', $dim2);
+                $dim2Element = $this->createNodeWithTextContent('dim2', $dim2);
                 $lineElement->appendChild($dim2Element);
             }
 
@@ -124,19 +124,19 @@ class TransactionsDocument extends BaseDocument
                 /** @var PerformanceFields $transactionLine */
                 $performanceType = $transactionLine->getPerformanceType();
                 if (!empty($performanceType)) {
-                    $perfElement = $this->createElement('performancetype', $performanceType);
+                    $perfElement = $this->createNodeWithTextContent('performancetype', $performanceType);
                     $lineElement->appendChild($perfElement);
                 }
 
                 $performanceCountry = $transactionLine->getPerformanceCountry();
                 if (!empty($performanceCountry)) {
-                    $perfCountryElement = $this->createElement('performancecountry', $performanceCountry);
+                    $perfCountryElement = $this->createNodeWithTextContent('performancecountry', $performanceCountry);
                     $lineElement->appendChild($perfCountryElement);
                 }
 
                 $performanceVatNumber = $transactionLine->getPerformanceVatNumber();
                 if (!empty($performanceVatNumber)) {
-                    $perfVatNumberElement = $this->createElement('performancevatnumber', $performanceVatNumber);
+                    $perfVatNumberElement = $this->createNodeWithTextContent('performancevatnumber', $performanceVatNumber);
                     $lineElement->appendChild($perfVatNumberElement);
                 }
 
@@ -150,20 +150,20 @@ class TransactionsDocument extends BaseDocument
                 /** @var VatTotalFields $transactionLine */
                 $vatTotal = $transactionLine->getVatTotal();
                 if (!empty($vatTotal)) {
-                    $vatTotalElement = $this->createElement('vattotal', Util::formatMoney($vatTotal));
+                    $vatTotalElement = $this->createNodeWithTextContent('vattotal', Util::formatMoney($vatTotal));
                     $lineElement->appendChild($vatTotalElement);
                 }
 
                 $vatBaseTotal= $transactionLine->getVatBaseTotal();
                 if (!empty($vatBaseTotal)) {
-                    $vatBaseTotalElement = $this->createElement('vatbasetotal', Util::formatMoney($vatBaseTotal));
+                    $vatBaseTotalElement = $this->createNodeWithTextContent('vatbasetotal', Util::formatMoney($vatBaseTotal));
                     $lineElement->appendChild($vatBaseTotalElement);
                 }
             }
 
             $vatValue = $transactionLine->getVatValue();
             if (!empty($vatValue)) {
-                $vatElement = $this->createElement('vatvalue', Util::formatMoney($vatValue));
+                $vatElement = $this->createNodeWithTextContent('vatvalue', Util::formatMoney($vatValue));
                 $lineElement->appendChild($vatElement);
             }
 
@@ -172,7 +172,7 @@ class TransactionsDocument extends BaseDocument
                 $transactionLine->getType() == 'detail' &&
                 $transactionLine->getInvoiceNumber() !== null
             ) {
-                $invoiceNumberElement = $this->createElement('invoicenumber', $transactionLine->getInvoiceNumber());
+                $invoiceNumberElement = $this->createNodeWithTextContent('invoicenumber', $transactionLine->getInvoiceNumber());
                 $lineElement->appendChild($invoiceNumberElement);
             }
 
@@ -184,7 +184,7 @@ class TransactionsDocument extends BaseDocument
             }
 
             if ($transactionLine->getType() != 'total' && $transactionLine->getVatCode() !== null) {
-                $vatCodeElement = $this->createElement('vatcode', $transactionLine->getVatCode());
+                $vatCodeElement = $this->createNodeWithTextContent('vatcode', $transactionLine->getVatCode());
                 $lineElement->appendChild($vatCodeElement);
             }
         }
