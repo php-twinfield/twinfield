@@ -26,15 +26,14 @@ abstract class BaseApiConnector
      */
     private $finderService;
 
-    /**
-     * @param Connection $connection
-     * @throws Exception
-     */
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
 
+    /**
+     * @throws Exception
+     */
     protected function getProcessXmlService(): ProcessXmlService
     {
         if (!$this->processXmlService) {
@@ -44,6 +43,9 @@ abstract class BaseApiConnector
         return $this->processXmlService;
     }
 
+    /**
+     * @throws Exception
+     */
     protected function getFinderService(): FinderService
     {
         if (!$this->finderService) {

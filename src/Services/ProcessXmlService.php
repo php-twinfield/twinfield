@@ -38,6 +38,8 @@ class ProcessXmlService extends BaseService
      *
      * If there is an error, an exception is thrown.
      *
+     * Note that you will probably have to chunk the objects into several documents if you want to send many objects. 
+     *
      * @param \DOMDocument $document
      * @return Response The response from the request
      * @throws Exception
