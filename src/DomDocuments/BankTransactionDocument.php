@@ -84,7 +84,7 @@ class BankTransactionDocument extends BaseDocument
     protected function createTransactionLineElement(BankTransactionLine\Base $line): \DOMElement
     {
         $transaction = $this->createElement("line");
-        $transaction->appendChild(new \DOMAttr("type", $line->getType()));
+        $transaction->appendChild(new \DOMAttr("type", $line->getLineType()));
 
         if ($line->getId() !== null) {
             $transaction->appendChild(new \DOMAttr("id", $line->getId()));

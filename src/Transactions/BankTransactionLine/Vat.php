@@ -17,7 +17,7 @@ class Vat extends Base
 
     public function __construct()
     {
-        $this->setType(LineType::VAT());
+        $this->setLineType(LineType::VAT());
     }
 
     /**

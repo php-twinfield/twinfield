@@ -71,7 +71,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertCount(2, $journalTransactionLines);
         [$detailLine1, $detailLine2] = $journalTransactionLines;
 
-        $this->assertEquals(LineType::DETAIL(), $detailLine1->getType());
+        $this->assertEquals(LineType::DETAIL(), $detailLine1->getLineType());
         $this->assertSame(1, $detailLine1->getId());
         $this->assertSame('4008', $detailLine1->getDim1());
         $this->assertNull($detailLine1->getDim2());
@@ -93,7 +93,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine1->getPerformanceDate());
         $this->assertSame('', $detailLine1->getInvoiceNumber());
 
-        $this->assertEquals(LineType::DETAIL(), $detailLine2->getType());
+        $this->assertEquals(LineType::DETAIL(), $detailLine2->getLineType());
         $this->assertSame(2, $detailLine2->getId());
         $this->assertSame('1300', $detailLine2->getDim1());
         $this->assertSame('1000', $detailLine2->getDim2());
@@ -128,14 +128,14 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
 
         $detailLine1 = new JournalTransactionLine();
         $detailLine1
-            ->setType(LineType::DETAIL())
+            ->setLineType(LineType::DETAIL())
             ->setId('1')
             ->setDim1('4008')
             ->setValue(Money::EUR(-43555));
 
         $detailLine2 = new JournalTransactionLine();
         $detailLine2
-            ->setType(LineType::DETAIL())
+            ->setLineType(LineType::DETAIL())
             ->setId('2')
             ->setDim1('1300')
             ->setDim2('1000')

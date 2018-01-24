@@ -22,7 +22,7 @@ class SalesTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
 
     public function testSetVatTurnover()
     {
-        $this->line->setType(LineType::VAT());
+        $this->line->setLineType(LineType::VAT());
 
         $this->assertSame($this->line, $this->line->setVatTurnover(Money::EUR(1)), "Fluid interface is expected");
         $this->assertEquals(Money::EUR(1), $this->line->getVatTurnover());
@@ -30,7 +30,7 @@ class SalesTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
 
     public function testSetVatBaseTurnover()
     {
-        $this->line->setType(LineType::VAT());
+        $this->line->setLineType(LineType::VAT());
 
         $this->assertSame($this->line, $this->line->setVatBaseTurnover(Money::EUR(1)), "Fluid interface is expected");
         $this->assertEquals(Money::EUR(1), $this->line->getVatBaseTurnover());
@@ -38,7 +38,7 @@ class SalesTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
 
     public function testSetVatRepTurnover()
     {
-        $this->line->setType(LineType::VAT());
+        $this->line->setLineType(LineType::VAT());
 
         $this->assertSame($this->line, $this->line->setVatRepTurnover(Money::EUR(1)), "Fluid interface is expected");
         $this->assertEquals(Money::EUR(1), $this->line->getVatRepTurnover());

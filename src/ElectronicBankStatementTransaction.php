@@ -2,8 +2,6 @@
 
 namespace PhpTwinfield;
 
-use Money\Money;
-use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Transactions\TransactionLineFields\FourDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 

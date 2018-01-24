@@ -15,7 +15,7 @@ interface TransactionLine
      *
      * @return LineType
      */
-    public function getType(): LineType;
+    public function getLineType(): LineType;
 
     /**
      * Get the id of the line (or null if not sent to Twinfield yet.

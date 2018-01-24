@@ -5,7 +5,6 @@ namespace PhpTwinfield\Transactions\BankTransactionLine;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
-use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 
 class Total extends Base
 {
@@ -32,7 +31,7 @@ class Total extends Base
 
     public function __construct()
     {
-        $this->setType(LineType::TOTAL());
+        $this->setLineType(LineType::TOTAL());
     }
 
     public function setBankBalanceAccount(string $dim1)

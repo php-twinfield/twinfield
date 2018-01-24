@@ -18,15 +18,15 @@ class PurchaseTransactionsUnitTest extends TestCase
         $purchase = new PurchaseTransaction();
 
         $detail = new PurchaseTransactionLine();
-        $detail->setType(LineType::DETAIL());
+        $detail->setLineType(LineType::DETAIL());
         $detail->setId(3);
 
         $vat = new PurchaseTransactionLine();
-        $vat->setType(LineType::VAT());
+        $vat->setLineType(LineType::VAT());
         $vat->setId(4);
 
         $total = new PurchaseTransactionLine();
-        $total->setType(LineType::TOTAL());
+        $total->setLineType(LineType::TOTAL());
         $total->setId(5);
 
 
