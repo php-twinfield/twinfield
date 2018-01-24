@@ -45,17 +45,17 @@ class BankTransactionDocument extends BaseDocument
         $header = $this->createElement("header");
 
         if ($bankTransaction->getCode() !== null) {
-            $header->appendChild($this->createElement("code", $bankTransaction->getCode()));
+            $header->appendChild($this->createNodeWithTextContent("code", $bankTransaction->getCode()));
         }
 
-        $header->appendChild($this->createElement("office", $bankTransaction->getOffice()));
+        $header->appendChild($this->createNodeWithTextContent("office", $bankTransaction->getOffice()));
 
         if ($bankTransaction->getNumber() !== null) {
-            $header->appendChild($this->createElement("number", $bankTransaction->getNumber()));
+            $header->appendChild($this->createNodeWithTextContent("number", $bankTransaction->getNumber()));
         }
 
         if ($bankTransaction->getPeriod() !== null) {
-            $header->appendChild($this->createElement("period", $bankTransaction->getPeriod()));
+            $header->appendChild($this->createNodeWithTextContent("period", $bankTransaction->getPeriod()));
         }
 
         if ($bankTransaction->getDate() !== null) {
@@ -63,7 +63,7 @@ class BankTransactionDocument extends BaseDocument
         }
 
         if ($bankTransaction->getStatementnumber() !== null)  {
-            $header->appendChild($this->createElement("statementnumber", $bankTransaction->getStatementnumber()));
+            $header->appendChild($this->createNodeWithTextContent("statementnumber", $bankTransaction->getStatementnumber()));
         }
 
         $this->appendStartCloseValues($header, $bankTransaction);
@@ -91,71 +91,71 @@ class BankTransactionDocument extends BaseDocument
         }
 
         if ($line->getDim1() !== null) {
-            $transaction->appendChild($this->createElement("dim1", $line->getDim1()));
+            $transaction->appendChild($this->createNodeWithTextContent("dim1", $line->getDim1()));
         }
 
         if ($line->getDim2() !== null) {
-            $transaction->appendChild($this->createElement("dim2", $line->getDim2()));
+            $transaction->appendChild($this->createNodeWithTextContent("dim2", $line->getDim2()));
         }
 
         if ($line->getDim3() !== null) {
-            $transaction->appendChild($this->createElement("dim3", $line->getDim3()));
+            $transaction->appendChild($this->createNodeWithTextContent("dim3", $line->getDim3()));
         }
 
         $this->appendValueValues($transaction, $line);
 
         if ($line->getInvoiceNumber() !== null) {
-            $transaction->appendChild($this->createElement("invoicenumber", $line->getInvoiceNumber()));
+            $transaction->appendChild($this->createNodeWithTextContent("invoicenumber", $line->getInvoiceNumber()));
         }
 
         if ($line->getDescription()) {
-            $transaction->appendChild($this->createElement("description", $line->getDescription()));
+            $transaction->appendChild($this->createNodeWithTextContent("description", $line->getDescription()));
         }
 
         if ($line instanceof BankTransactionLine\Total) {
             if ($line->getVatTotal() !== null) {
-                $transaction->appendChild($this->createElement("vattotal", Util::formatMoney($line->getVatTotal())));
+                $transaction->appendChild($this->createNodeWithTextContent("vattotal", Util::formatMoney($line->getVatTotal())));
             }
 
             if ($line->getVatBaseTotal() !== null) {
-                $transaction->appendChild($this->createElement("vatbasetotal", Util::formatMoney($line->getVatBaseTotal())));
+                $transaction->appendChild($this->createNodeWithTextContent("vatbasetotal", Util::formatMoney($line->getVatBaseTotal())));
             }
 
             if ($line->getVatRepTotal() !== null) {
-                $transaction->appendChild($this->createElement("vatreptotal", Util::formatMoney($line->getVatRepTotal())));
+                $transaction->appendChild($this->createNodeWithTextContent("vatreptotal", Util::formatMoney($line->getVatRepTotal())));
             }
         }
 
         if ($line instanceof BankTransactionLine\Vat || $line instanceof BankTransactionLine\Detail) {
             if ($line->getVatCode() !== null) {
-                $transaction->appendChild($this->createElement("vatcode", $line->getVatCode()));
+                $transaction->appendChild($this->createNodeWithTextContent("vatcode", $line->getVatCode()));
             }
         }
 
         if ($line instanceof BankTransactionLine\Detail) {
             if ($line->getVatValue() !== null) {
-                $transaction->appendChild($this->createElement("vatvalue", Util::formatMoney($line->getVatValue())));
+                $transaction->appendChild($this->createNodeWithTextContent("vatvalue", Util::formatMoney($line->getVatValue())));
             }
 
             if ($line->getVatBaseValue() !== null) {
-                $transaction->appendChild($this->createElement("vatbasevalue", Util::formatMoney($line->getVatBaseValue())));
+                $transaction->appendChild($this->createNodeWithTextContent("vatbasevalue", Util::formatMoney($line->getVatBaseValue())));
             }
 
             if ($line->getVatRepValue() !== null) {
-                $transaction->appendChild($this->createElement("vatrepvalue", Util::formatMoney($line->getVatRepValue())));
+                $transaction->appendChild($this->createNodeWithTextContent("vatrepvalue", Util::formatMoney($line->getVatRepValue())));
             }
         }
 
         if ($line instanceof BankTransactionLine\Vat) {
 
             if ($line->getVatTurnover() !== null) {
-                $transaction->appendChild($this->createElement("vatturnover", Util::formatMoney($line->getVatTurnover())));
+                $transaction->appendChild($this->createNodeWithTextContent("vatturnover", Util::formatMoney($line->getVatTurnover())));
             }
             if ($line->getVatBaseTurnover() !== null) {
-                $transaction->appendChild($this->createElement("vatbaseturnover", Util::formatMoney($line->getVatBaseTurnover())));
+                $transaction->appendChild($this->createNodeWithTextContent("vatbaseturnover", Util::formatMoney($line->getVatBaseTurnover())));
             }
             if ($line->getVatRepTurnover() !== null) {
-                $transaction->appendChild($this->createElement("vatrepturnover", Util::formatMoney($line->getVatRepTurnover())));
+                $transaction->appendChild($this->createNodeWithTextContent("vatrepturnover", Util::formatMoney($line->getVatRepTurnover())));
             }
         }
 
@@ -164,15 +164,15 @@ class BankTransactionDocument extends BaseDocument
         }
 
         if ($line->getDestOffice() !== null) {
-            $transaction->appendChild($this->createElement("destoffice", $line->getDestOffice()));
+            $transaction->appendChild($this->createNodeWithTextContent("destoffice", $line->getDestOffice()));
         }
 
         if ($line->getFreeChar()) {
-            $transaction->appendChild($this->createElement("freechar", $line->getFreeChar()));
+            $transaction->appendChild($this->createNodeWithTextContent("freechar", $line->getFreeChar()));
         }
 
         if ($line->getComment()) {
-            $transaction->appendChild($this->createElement("comment", $line->getComment()));
+            $transaction->appendChild($this->createNodeWithTextContent("comment", $line->getComment()));
         }
 
         return $transaction;
