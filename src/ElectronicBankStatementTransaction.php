@@ -2,8 +2,7 @@
 
 namespace PhpTwinfield;
 
-use Money\Money;
-use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionLineFields\FourDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 
@@ -93,5 +92,13 @@ class ElectronicBankStatementTransaction
     public function setDescription(string $description): void
     {
         $this->description = $description;
+    }
+
+    public function getLineType(): ?LineType
+    {
+        /*
+         * Electronic bank statement transactions don't have line types.
+         */
+        return null;
     }
 }

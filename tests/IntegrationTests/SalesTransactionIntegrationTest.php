@@ -73,7 +73,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertCount(3, $salesTransactionLines);
         [$totalLine, $detailLine, $vatLine] = $salesTransactionLines;
 
-        $this->assertEquals(LineType::TOTAL(), $totalLine->getType());
+        $this->assertEquals(LineType::TOTAL(), $totalLine->getLineType());
         $this->assertSame(1, $totalLine->getId());
         $this->assertSame('1300', $totalLine->getDim1());
         $this->assertSame('1000', $totalLine->getDim2());
@@ -97,7 +97,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($totalLine->getPerformanceVatNumber());
         $this->assertNull($totalLine->getPerformanceDate());
 
-        $this->assertEquals(LineType::DETAIL(), $detailLine->getType());
+        $this->assertEquals(LineType::DETAIL(), $detailLine->getLineType());
         $this->assertSame(2, $detailLine->getId());
         $this->assertSame('8020', $detailLine->getDim1());
         $this->assertNull($detailLine->getDim2());
@@ -121,7 +121,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine->getPerformanceVatNumber());
         $this->assertNull($detailLine->getPerformanceDate());
 
-        $this->assertEquals(LineType::VAT(), $vatLine->getType());
+        $this->assertEquals(LineType::VAT(), $vatLine->getLineType());
         $this->assertSame(3, $vatLine->getId());
         $this->assertSame('1530', $vatLine->getDim1());
         $this->assertNull($vatLine->getDim2());
@@ -163,7 +163,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
 
         $totalLine = new SalesTransactionLine();
         $totalLine
-            ->setType(LineType::TOTAL())
+            ->setLineType(LineType::TOTAL())
             ->setId('1')
             ->setDim1('1300')
             ->setDim2('1000')
@@ -172,7 +172,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
 
         $detailLine = new SalesTransactionLine();
         $detailLine
-            ->setType(LineType::DETAIL())
+            ->setLineType(LineType::DETAIL())
             ->setId('2')
             ->setDim1('8020')
             ->setValue(Money::EUR(10000))

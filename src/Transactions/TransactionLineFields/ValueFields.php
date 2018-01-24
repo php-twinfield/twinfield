@@ -4,6 +4,7 @@ namespace PhpTwinfield\Transactions\TransactionLineFields;
 
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Enums\LineType;
 use Webmozart\Assert\Assert;
 
 trait ValueFields
@@ -17,6 +18,8 @@ trait ValueFields
      * @var Money
      */
     private $value;
+
+    abstract public function getLineType(): ?LineType;
 
     /**
      * @return DebitCredit
@@ -37,12 +40,29 @@ trait ValueFields
         Assert::notEmpty($this->value);
         $this->debitCredit = $debitCredit;
 
-        if ($debitCredit->equals(DebitCredit::CREDIT())) {
-            $this->value = $this->value->absolute();
-            return $this;
+        if (!empty($this->getLineType()) && $this->getLineType()->equals(LineType::TOTAL())) {
+            /*
+             * If line type = total
+             * - In case of a 'normal' transaction `debit`.
+             * - In case of a credit transaction `credit`.
+             */
+            if ($debitCredit->equals(DebitCredit::CREDIT())) {
+                $this->value = $this->value->absolute()->negative();
+            } else {
+                $this->value = $this->value->absolute();
+            }
+        } else {
+            /*
+             * If line type = detail or vat
+             * - In case of a 'normal' transaction `credit`.
+             * - In case of a credit transaction `debit`.
+             */
+            if ($debitCredit->equals(DebitCredit::CREDIT())) {
+                $this->value = $this->value->absolute();
+            } else {
+                $this->value = $this->value->absolute()->negative();
+            }
         }
-
-        $this->value = $this->value->absolute()->negative();
 
         return $this;
     }
@@ -55,12 +75,35 @@ trait ValueFields
         return $this->value->absolute();
     }
 
+    public function getSignedValue(): Money
+    {
+        return $this->value;
+    }
+
     public function setValue(Money $value)
     {
-        if ($value->isPositive()) {
-            $this->debitCredit = DebitCredit::CREDIT();
+        if (!empty($this->getLineType()) && $this->getLineType()->equals(LineType::TOTAL())) {
+            /*
+             * If line type = total
+             * - In case of a 'normal' transaction `debit`.
+             * - In case of a credit transaction `credit`.
+             */
+            if ($value->isPositive()) {
+                $this->debitCredit = DebitCredit::DEBIT();
+            } else {
+                $this->debitCredit = DebitCredit::CREDIT();
+            }
         } else {
-            $this->debitCredit = DebitCredit::DEBIT();
+            /*
+             * If line type = detail or vat
+             * - In case of a 'normal' transaction `credit`.
+             * - In case of a credit transaction `debit`.
+             */
+            if ($value->isPositive()) {
+                $this->debitCredit = DebitCredit::CREDIT();
+            } else {
+                $this->debitCredit = DebitCredit::DEBIT();
+            }
         }
 
         /*

@@ -34,7 +34,7 @@ trait PerformanceFields
      */
     protected $performanceDate;
 
-    abstract public function getType(): LineType;
+    abstract public function getLineType(): LineType;
 
     /**
      * @return PerformanceType|null
@@ -53,7 +53,7 @@ trait PerformanceFields
     {
         if (
             $performanceType !== null &&
-            !in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()])
+            !in_array($this->getLineType(), [LineType::DETAIL(), LineType::VAT()])
         ) {
             throw Exception::invalidFieldForLineType('performanceType', $this);
         }
@@ -80,7 +80,7 @@ trait PerformanceFields
     {
         if (
             $performanceCountry !== null &&
-            !in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()])
+            !in_array($this->getLineType(), [LineType::DETAIL(), LineType::VAT()])
         ) {
             throw Exception::invalidFieldForLineType('performanceCountry', $this);
         }
@@ -107,7 +107,7 @@ trait PerformanceFields
     {
         if (
             $performanceVatNumber !== null &&
-            !in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()])
+            !in_array($this->getLineType(), [LineType::DETAIL(), LineType::VAT()])
         ) {
             throw Exception::invalidFieldForLineType('performanceVatNumber', $this);
         }
@@ -134,7 +134,7 @@ trait PerformanceFields
     {
         if (
             $performanceDate !== null &&
-            !in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()])
+            !in_array($this->getLineType(), [LineType::DETAIL(), LineType::VAT()])
         ) {
             throw Exception::invalidFieldForLineType('performanceDate', $this);
         }

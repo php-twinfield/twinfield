@@ -105,7 +105,7 @@ class TransactionsDocument extends BaseDocument
         /** @var BaseTransactionLine $transactionLine */
         foreach ($transaction->getLines() as $transactionLine) {
             $lineElement = $this->createElement('line');
-            $lineElement->setAttribute('type', $transactionLine->getType());
+            $lineElement->setAttribute('type', $transactionLine->getLineType());
             $lineElement->setAttribute('id', $transactionLine->getId());
             $linesElement->appendChild($lineElement);
 
@@ -169,7 +169,7 @@ class TransactionsDocument extends BaseDocument
 
             if (
                 $transactionLine instanceof JournalTransactionLine &&
-                $transactionLine->getType() == 'detail' &&
+                $transactionLine->getLineType() == 'detail' &&
                 $transactionLine->getInvoiceNumber() !== null
             ) {
                 $invoiceNumberElement = $this->createNodeWithTextContent('invoicenumber', $transactionLine->getInvoiceNumber());
@@ -183,7 +183,7 @@ class TransactionsDocument extends BaseDocument
                 $lineElement->appendChild($descriptionElement);
             }
 
-            if ($transactionLine->getType() != 'total' && $transactionLine->getVatCode() !== null) {
+            if ($transactionLine->getLineType() != 'total' && $transactionLine->getVatCode() !== null) {
                 $vatCodeElement = $this->createNodeWithTextContent('vatcode', $transactionLine->getVatCode());
                 $lineElement->appendChild($vatCodeElement);
             }

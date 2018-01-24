@@ -35,7 +35,7 @@ class Exception extends \Exception
             "Dimension %d is invalid for line class %s and type '%s'.",
             $dimensionNumber,
             get_class($transactionLine),
-            $transactionLine->getType()
+            $transactionLine->getLineType()
         ));
     }
 
@@ -45,7 +45,7 @@ class Exception extends \Exception
             "Invalid field '%s' for line class %s and type '%s'.",
             $fieldName,
             get_class($transactionLine),
-            $transactionLine->getType()
+            $transactionLine->getLineType()
         ));
     }
 
@@ -57,7 +57,7 @@ class Exception extends \Exception
             "Invalid match status '%s' for line class %s and type '%s'.",
             $matchStatus,
             get_class($transactionLine),
-            $transactionLine->getType()
+            $transactionLine->getLineType()
         ));
     }
 }

@@ -107,7 +107,7 @@ class BankTransaction implements Transaction
          */
         $this->traitAddLine($line);
 
-        if (!$line->getType()->equals(LineType::TOTAL())) {
+        if (!$line->getLineType()->equals(LineType::TOTAL())) {
             /*
              * Don't add total lines to the closevalue, they are summaries of the details and vat lines.
              *
