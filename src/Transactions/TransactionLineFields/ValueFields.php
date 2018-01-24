@@ -22,6 +22,17 @@ trait ValueFields
     abstract public function getLineType(): ?LineType;
 
     /**
+     * Returns true if a positive amount in the TOTAL line means the amount is 'debit'. Examples of incoming transaction
+     * types are Sales Transactions, Electronic Bank Statements and Bank Transactions.
+     *
+     * Returns false if a positive amount in the TOTAL line means the amount is 'credit'. An example of an outgoing
+     * transaction type is a Purchase Transaction.
+     *
+     * @return bool
+     */
+    abstract protected function isIncomingTransactionType(): bool;
+
+    /**
      * @return DebitCredit
      */
     public function getDebitCredit(): DebitCredit
@@ -40,28 +51,25 @@ trait ValueFields
         Assert::notEmpty($this->value);
         $this->debitCredit = $debitCredit;
 
-        if (!empty($this->getLineType()) && $this->getLineType()->equals(LineType::TOTAL())) {
-            /*
-             * If line type = total
-             * - In case of a 'normal' transaction `debit`.
-             * - In case of a credit transaction `credit`.
-             */
-            if ($debitCredit->equals(DebitCredit::CREDIT())) {
-                $this->value = $this->value->absolute()->negative();
-            } else {
-                $this->value = $this->value->absolute();
-            }
+        if ($debitCredit->equals(DebitCredit::CREDIT())) {
+            $positiveValue = true;
         } else {
-            /*
-             * If line type = detail or vat
-             * - In case of a 'normal' transaction `credit`.
-             * - In case of a credit transaction `debit`.
-             */
-            if ($debitCredit->equals(DebitCredit::CREDIT())) {
-                $this->value = $this->value->absolute();
-            } else {
-                $this->value = $this->value->absolute()->negative();
-            }
+            $positiveValue = false;
+        }
+
+
+        if (!$this->isIncomingTransactionType()) {
+            $positiveValue = !$positiveValue;
+        }
+
+        if (!empty($this->getLineType()) && $this->getLineType()->equals(LineType::TOTAL())) {
+            $positiveValue = !$positiveValue;
+        }
+
+        if ($positiveValue) {
+            $this->value = $this->value->absolute();
+        } else {
+            $this->value = $this->value->absolute()->negative();
         }
 
         return $this;
@@ -82,29 +90,21 @@ trait ValueFields
 
     public function setValue(Money $value)
     {
-        if (!empty($this->getLineType()) && $this->getLineType()->equals(LineType::TOTAL())) {
-            /*
-             * If line type = total
-             * - In case of a 'normal' transaction `debit`.
-             * - In case of a credit transaction `credit`.
-             */
-            if ($value->isPositive()) {
-                $this->debitCredit = DebitCredit::DEBIT();
-            } else {
-                $this->debitCredit = DebitCredit::CREDIT();
-            }
+        if ($value->isPositive()) {
+            $debitCredit = DebitCredit::CREDIT();
         } else {
-            /*
-             * If line type = detail or vat
-             * - In case of a 'normal' transaction `credit`.
-             * - In case of a credit transaction `debit`.
-             */
-            if ($value->isPositive()) {
-                $this->debitCredit = DebitCredit::CREDIT();
-            } else {
-                $this->debitCredit = DebitCredit::DEBIT();
-            }
+            $debitCredit = DebitCredit::DEBIT();
         }
+
+        if (!$this->isIncomingTransactionType()) {
+            $debitCredit = $debitCredit->invert();
+        }
+
+        if (!empty($this->getLineType()) && $this->getLineType()->equals(LineType::TOTAL())) {
+            $debitCredit = $debitCredit->invert();
+        }
+
+        $this->debitCredit = $debitCredit;
 
         /*
          * Keep sign info here.

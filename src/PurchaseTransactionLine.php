@@ -158,4 +158,18 @@ class PurchaseTransactionLine extends BaseTransactionLine
 
         return parent::setBaseValueOpen($baseValueOpen);
     }
+
+    /**
+     * Returns true if a positive amount in the TOTAL line means the amount is 'debit'. Examples of incoming transaction
+     * types are Sales Transactions, Electronic Bank Statements and Bank Transactions.
+     *
+     * Returns false if a positive amount in the TOTAL line means the amount is 'credit'. An example of an outgoing
+     * transaction type is a Purchase Transaction.
+     *
+     * @return bool
+     */
+    protected function isIncomingTransactionType(): bool
+    {
+        return false;
+    }
 }

@@ -180,4 +180,9 @@ abstract class Base implements TransactionLine
             $this->getId()
         );
     }
+
+    protected function isIncomingTransactionType(): bool
+    {
+        return true;
+    }
 }

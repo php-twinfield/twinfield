@@ -167,7 +167,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
             ->setId('1')
             ->setDim1('1300')
             ->setDim2('1000')
-            ->setValue(Money::EUR(-12100))
+            ->setValue(Money::EUR(12100))
             ->setDescription('');
 
         $detailLine = new SalesTransactionLine();

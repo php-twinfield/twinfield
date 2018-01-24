@@ -161,7 +161,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
             ->setLineType(LineType::DETAIL())
             ->setId('2')
             ->setDim1('8020')
-            ->setValue(Money::EUR(-10000))
+            ->setValue(Money::EUR(10000))
             ->setDescription('Outfit')
             ->setVatCode('IH');
 

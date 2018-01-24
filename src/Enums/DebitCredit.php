@@ -12,4 +12,13 @@ class DebitCredit extends Enum
 {
     protected const DEBIT = "debit";
     protected const CREDIT = "credit";
+
+    public function invert(): self
+    {
+        if ($this->equals(self::DEBIT())) {
+            return self::CREDIT();
+        } else {
+            return self::DEBIT();
+        }
+    }
 }
