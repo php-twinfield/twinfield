@@ -19,7 +19,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Willem van de Sande <W.vandeSande@MailCoupon.nl>
  */
-class ArticleApiConnector extends ProcessXmlApiConnector
+class ArticleApiConnector extends BaseApiConnector
 {
     /**
      * Requests a specific Article based off the passed in code and optionally the office.
@@ -39,7 +39,7 @@ class ArticleApiConnector extends ProcessXmlApiConnector
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
-        $response = $this->sendDocument($request_article);
+        $response = $this->getProcessXmlService()->sendDocument($request_article);
 
         return ArticleMapper::map($response);
     }
@@ -63,7 +63,7 @@ class ArticleApiConnector extends ProcessXmlApiConnector
     {
         Assert::allIsInstanceOf($articles, Article::class);
 
-        foreach ($this->chunk($articles) as $chunk) {
+        foreach ($this->getProcessXmlService()->chunk($articles) as $chunk) {
 
             $articlesDocument = new ArticlesDocument();
 
@@ -71,7 +71,7 @@ class ArticleApiConnector extends ProcessXmlApiConnector
                 $articlesDocument->addArticle($article);
             }
 
-            $this->sendDocument($articlesDocument);
+            $this->getProcessXmlService()->sendDocument($articlesDocument);
         }
     }
 }

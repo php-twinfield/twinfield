@@ -22,10 +22,10 @@ use Webmozart\Assert\Assert;
  * @author Leon Rowland <leon@rowland.nl>
  * @copyright (c) 2013, Pronamic
  */
-class CustomerApiConnector extends ProcessXmlApiConnector
+class CustomerApiConnector extends BaseApiConnector
 {
     /**
-     * Requests a specific customer based off the passed in code and optionally the office.
+     * Requests a specific customer based off the passed in code and the office.
      *
      * @param string $code
      * @param Office $office
@@ -41,7 +41,7 @@ class CustomerApiConnector extends ProcessXmlApiConnector
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
-        $response = $this->sendDocument($request_customer);
+        $response = $this->getProcessXmlService()->sendDocument($request_customer);
         return CustomerMapper::map($response);
     }
 
@@ -49,7 +49,6 @@ class CustomerApiConnector extends ProcessXmlApiConnector
      * Requests all customers from the List Dimension Type.
      *
      * @param Office $office
-     * @param string $dimType
      * @return array A multidimensional array in the following form:
      *               [$customerId => ['name' => $name, 'shortName' => $shortName], ...]
      *
@@ -61,7 +60,7 @@ class CustomerApiConnector extends ProcessXmlApiConnector
         $request_customers = new Request\Catalog\Dimension($office, "DEB");
 
         // Send the Request document and set the response to this instance.
-        $response = $this->sendDocument($request_customers);
+        $response = $this->getProcessXmlService()->sendDocument($request_customers);
 
         // Get the raw response document
         $responseDOM = $response->getResponseDocument();
@@ -116,7 +115,7 @@ class CustomerApiConnector extends ProcessXmlApiConnector
 
         $responses = [];
 
-        foreach ($this->chunk($customers) as $chunk) {
+        foreach ($this->getProcessXmlService()->chunk($customers) as $chunk) {
 
             $customersDocument = new CustomersDocument();
 
@@ -124,10 +123,10 @@ class CustomerApiConnector extends ProcessXmlApiConnector
                 $customersDocument->addCustomer($customer);
             }
 
-            $responses[] = $this->sendDocument($customersDocument);
+            $responses[] = $this->getProcessXmlService()->sendDocument($customersDocument);
         }
 
-        return $this->mapAll($responses, "dimension", function(Response $response): Customer {
+        return $this->getProcessXmlService()->mapAll($responses, "dimension", function(Response $response): Customer {
            return CustomerMapper::map($response);
         });
     }

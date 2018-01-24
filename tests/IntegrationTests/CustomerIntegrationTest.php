@@ -35,16 +35,16 @@ class CustomerIntegrationTest extends BaseIntegrationTest
     {
         parent::setUp();
 
-        $this->customerApiConnector = new CustomerApiConnector($this->login);
+        $this->customerApiConnector = new CustomerApiConnector($this->connection);
     }
 
     public function testGetCustomerWorks()
     {
         $response = Response::fromString(file_get_contents(__DIR__ . '/resources/customerGetResponse.xml'));
 
-        $this->client
+        $this->processXmlService
             ->expects($this->once())
-            ->method("sendDOMDocument")
+            ->method("sendDocument")
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Customer::class))
             ->willReturn($response);
 
@@ -141,9 +141,9 @@ class CustomerIntegrationTest extends BaseIntegrationTest
     {
         $response = Response::fromString(file_get_contents(__DIR__ . '/resources/customerListResponse.xml'));
 
-        $this->client
+        $this->processXmlService
             ->expects($this->once())
-            ->method("sendDOMDocument")
+            ->method("sendDocument")
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Catalog\Dimension::class))
             ->willReturn($response);
 
@@ -202,9 +202,9 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $bank->setState('');
         $customer->addBank($bank);
 
-        $this->client
+        $this->processXmlService
             ->expects($this->once())
-            ->method("sendDOMDocument")
+            ->method("sendDocument")
             ->with($this->isInstanceOf(CustomersDocument::class))
             ->willReturnCallback(function (CustomersDocument $customersDocument): Response {
                 $this->assertXmlStringEqualsXmlString(

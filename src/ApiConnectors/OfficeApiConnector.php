@@ -3,6 +3,7 @@
 namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Office;
+use PhpTwinfield\Services\FinderService;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about
@@ -13,7 +14,7 @@ use PhpTwinfield\Office;
  *
  * @author Emile Bons <emile@emilebons.nl>
  */
-class OfficeApiConnector extends FinderApiConnector
+class OfficeApiConnector extends BaseApiConnector
 {
     /**
      * List all offices.
@@ -37,7 +38,7 @@ class OfficeApiConnector extends FinderApiConnector
         int $maxRows = 100,
         array $options = []
     ): array {
-        $response = $this->service->searchFinder(self::TYPE_OFFICES, $pattern, $field, $firstRow, $maxRows, $options);
+        $response = $this->getFinderService()->searchFinder(FinderService::TYPE_OFFICES, $pattern, $field, $firstRow, $maxRows, $options);
 
         if ($response->data->TotalRows == 0) {
             return [];
