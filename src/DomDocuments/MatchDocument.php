@@ -15,7 +15,7 @@ class MatchDocument extends BaseDocument
 
         $this->appendOfficeField($set, $matchSet->getOffice());
 
-        $set->appendChild($this->createElement("matchcode", $matchSet->getMatchCode()->getValue()));
+        $set->appendChild($this->createNodeWithTextContent("matchcode", $matchSet->getMatchCode()->getValue()));
 
         $this->appendDateElement($set, "matchdate", $matchSet->getMatchDate());
 
@@ -34,16 +34,16 @@ class MatchDocument extends BaseDocument
     {
         $element = $this->createElement("line");
 
-        $element->appendChild($this->createElement("transcode", $line->getTranscode()));
-        $element->appendChild($this->createElement("transnumber", $line->getTransnumber()));
-        $element->appendChild($this->createElement("transline", $line->getTransline()));
+        $element->appendChild($this->createNodeWithTextContent("transcode", $line->getTranscode()));
+        $element->appendChild($this->createNodeWithTextContent("transnumber", $line->getTransnumber()));
+        $element->appendChild($this->createNodeWithTextContent("transline", $line->getTransline()));
 
         if ($line->getMatchValue() !== null) {
-            $element->appendChild($this->createElement("matchvalue", Util::formatMoney($line->getMatchValue())));
+            $element->appendChild($this->createNodeWithTextContent("matchvalue", Util::formatMoney($line->getMatchValue())));
         }
 
         if ($line->getWriteOff() !== null) {
-            $writeoff = $this->createElement("writeoff", Util::formatMoney($line->getWriteOff()));
+            $writeoff = $this->createNodeWithTextContent("writeoff", Util::formatMoney($line->getWriteOff()));
 
             $attribute = $this->createAttribute("type");
             $attribute->value = $line->getWriteOffType();

@@ -40,6 +40,7 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
         $line1->setVatTotal(Money::EUR(21));
         $line1->setVatBaseTotal(Money::EUR(21));
         $line1->setVatRepTotal(Money::EUR(21));
+        $line1->setComment("Round House Kicks & Beard Fists");
 
         $line2 = new Detail();
         $line2->setValue(Money::EUR(100));
@@ -83,6 +84,7 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
 				<vattotal>0.21</vattotal>
 				<vatbasetotal>0.21</vatbasetotal>
 				<vatreptotal>0.21</vatreptotal>
+				<comment>Round House Kicks &amp; Beard Fists</comment>
 			</line>
 			<line id="38862" type="detail">
 				<debitcredit>credit</debitcredit>

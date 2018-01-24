@@ -44,14 +44,12 @@ class ElectronicBankStatementDocumentUnitTest extends \PHPUnit\Framework\TestCas
         <transactions>
             <transaction>
                 <type>N100</type>
-                <reference></reference>
                 <debitcredit>credit</debitcredit>
                 <value>151.00</value>
                 <description>Invoice 3722838</description>
             </transaction>
             <transaction>
                 <type>N999</type>
-                <reference></reference>
                 <debitcredit>debit</debitcredit>
                 <value>7.50</value>
                 <description>Costs *300</description>
