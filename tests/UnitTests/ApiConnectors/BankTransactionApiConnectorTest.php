@@ -11,14 +11,20 @@ use PhpTwinfield\Exception;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\Connection;
+use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
 
 class BankTransactionApiConnectorTest extends TestCase
 {
     /**
-     * @var BankTransactionApiConnector|\PHPUnit_Framework_MockObject_MockObject
+     * @var BankTransactionApiConnector
      */
     protected $apiConnector;
+
+    /**
+     * @var ProcessXmlService|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $processXmlService;
 
     /**
      * @var Office
@@ -29,11 +35,19 @@ class BankTransactionApiConnectorTest extends TestCase
     {
         parent::setUp();
 
-        $this->apiConnector = $this->getMockBuilder(BankTransactionApiConnector::class)
+        $this->processXmlService = $this->getMockBuilder(ProcessXmlService::class)
             ->setMethods(["sendDocument"])
-            ->setConstructorArgs([$this->createMock(Connection::class)])
+            ->disableOriginalConstructor()
             ->getMock();
 
+        /** @var Connection|\PHPUnit_Framework_MockObject_MockObject $connection */
+        $connection = $this->createMock(Connection::class);
+        $connection
+            ->expects($this->any())
+            ->method("getAuthenticatedClient")
+            ->willReturn($this->processXmlService);
+
+        $this->apiConnector = new BankTransactionApiConnector($connection);
         $this->office = Office::fromCode("XXX101");
     }
 
@@ -52,7 +66,7 @@ class BankTransactionApiConnectorTest extends TestCase
             __DIR__."/resources/2-failed-and-1-successful-banktransactions.xml"
         ));
 
-        $this->apiConnector->expects($this->once())
+        $this->processXmlService->expects($this->once())
             ->method("sendDocument")
             ->willReturn($response);
 

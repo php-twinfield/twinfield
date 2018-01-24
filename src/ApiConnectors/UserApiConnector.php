@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\User;
 
 /**
@@ -13,7 +14,7 @@ use PhpTwinfield\User;
  *
  * @author Emile Bons <emile@emilebons.nl>
  */
-class UserApiConnector extends FinderApiConnector
+class UserApiConnector extends BaseApiConnector
 {
     const ACCESS_RULES_DISABLED = 0;
     const ACCESS_RULES_ENABLED = 1;
@@ -59,7 +60,7 @@ class UserApiConnector extends FinderApiConnector
             $options['mutualOffices'] = $mutualOffices;
         }
 
-        $response = $this->service->searchFinder(self::TYPE_USERS, $pattern, $field, $firstRow, $maxRows, $options);
+        $response = $this->getFinderService()->searchFinder(FinderService::TYPE_USERS, $pattern, $field, $firstRow, $maxRows, $options);
 
         if ($response->data->TotalRows == 0) {
             return [];

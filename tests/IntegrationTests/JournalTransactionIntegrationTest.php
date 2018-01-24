@@ -34,16 +34,16 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
     {
         parent::setUp();
 
-        $this->transactionApiConnector = new TransactionApiConnector($this->login);
+        $this->transactionApiConnector = new TransactionApiConnector($this->connection);
     }
 
     public function testGetJournalTransactionWorks()
     {
         $response = Response::fromString(file_get_contents(__DIR__ . '/resources/journalTransactionGetResponse.xml'));
 
-        $this->client
+        $this->processXmlService
             ->expects($this->once())
-            ->method("sendDOMDocument")
+            ->method("sendDocument")
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Transaction::class))
             ->willReturn($response);
 
@@ -147,9 +147,9 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
             ->addLine($detailLine1)
             ->addLine($detailLine2);
 
-        $this->client
+        $this->processXmlService
             ->expects($this->once())
-            ->method("sendDOMDocument")
+            ->method("sendDocument")
             ->with($this->isInstanceOf(TransactionsDocument::class))
             ->willReturnCallback(function (TransactionsDocument $transactionsDocument): Response {
                 $this->assertXmlStringEqualsXmlString(

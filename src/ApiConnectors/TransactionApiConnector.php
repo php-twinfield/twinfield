@@ -16,7 +16,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Dylan Schoenmakers <dylan@opifer.nl>
  */
-class TransactionApiConnector extends ProcessXmlApiConnector
+class TransactionApiConnector extends BaseApiConnector
 {
     /**
      * Requests a specific transaction by code, transactionNumber and the office.
@@ -42,7 +42,7 @@ class TransactionApiConnector extends ProcessXmlApiConnector
             ->setOffice($office);
 
         // Send the Request document and set the response to this instance
-        $response = $this->sendDocument($request_transaction);
+        $response = $this->getProcessXmlService()->sendDocument($request_transaction);
 
         return TransactionMapper::map($transactionClassName, $response)[0];
     }
@@ -66,7 +66,7 @@ class TransactionApiConnector extends ProcessXmlApiConnector
     {
         Assert::allIsInstanceOf($transactions, BaseTransaction::class);
 
-        foreach ($this->chunk($transactions) as $chunk) {
+        foreach ($this->getProcessXmlService()->chunk($transactions) as $chunk) {
 
             $transactionsDocument = new TransactionsDocument();
 
@@ -74,7 +74,7 @@ class TransactionApiConnector extends ProcessXmlApiConnector
                 $transactionsDocument->addTransaction($transaction);
             }
 
-            $this->sendDocument($transactionsDocument);
+            $this->getProcessXmlService()->sendDocument($transactionsDocument);
         }
     }
 }

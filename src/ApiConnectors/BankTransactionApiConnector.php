@@ -4,15 +4,13 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\BankTransaction;
 use PhpTwinfield\DomDocuments\BankTransactionDocument;
-use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\BankTransactionMapper;
-use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Response\IndividualMappedResponse;
 use PhpTwinfield\Response\Response;
 use Webmozart\Assert\Assert;
 
-class BankTransactionApiConnector extends ProcessXmlApiConnector
+class BankTransactionApiConnector extends BaseApiConnector
 {
     /**
      * Sends a BankTransaction instance to Twinfield to update or add.
@@ -47,7 +45,7 @@ class BankTransactionApiConnector extends ProcessXmlApiConnector
         /** @var Response[] $responses */
         $responses = [];
 
-        foreach ($this->chunk($bankTransactions) as $chunk) {
+        foreach ($this->getProcessXmlService()->chunk($bankTransactions) as $chunk) {
 
             $bankTransactionDocument = new BankTransactionDocument();
 
@@ -55,10 +53,10 @@ class BankTransactionApiConnector extends ProcessXmlApiConnector
                 $bankTransactionDocument->addBankTransaction($bankTransaction);
             }
 
-            $responses[] = $this->sendDocument($bankTransactionDocument);
+            $responses[] = $this->getProcessXmlService()->sendDocument($bankTransactionDocument);
         }
 
-        return $this->mapAll($responses, "transaction", function(Response $subresponse): BankTransaction {
+        return $this->getProcessXmlService()->mapAll($responses, "transaction", function(Response $subresponse): BankTransaction {
             return BankTransactionMapper::map($subresponse->getResponseDocument());
         });
     }

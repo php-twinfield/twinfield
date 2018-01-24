@@ -32,15 +32,15 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
     {
         parent::setUp();
 
-        $this->invoiceApiConnector = new InvoiceApiConnector($this->login);
+        $this->invoiceApiConnector = new InvoiceApiConnector($this->connection);
     }
     public function testGetInvoiceWorks()
     {
         $response = Response::fromString(file_get_contents(__DIR__ . '/resources/invoiceGetResponse.xml'));
 
-        $this->client
+        $this->processXmlService
             ->expects($this->once())
-            ->method("sendDOMDocument")
+            ->method("sendDocument")
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Invoice::class))
             ->willReturn($response);
 
@@ -131,9 +131,9 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $totals->setValueInc('15.00');
         $invoice->setTotals($totals);
 
-        $this->client
+        $this->processXmlService
             ->expects($this->once())
-            ->method("sendDOMDocument")
+            ->method("sendDocument")
             ->with($this->isInstanceOf(InvoicesDocument::class))
             ->willReturnCallback(function (InvoicesDocument $invoicesDocument): Response {
                 $this->assertXmlStringEqualsXmlString(
