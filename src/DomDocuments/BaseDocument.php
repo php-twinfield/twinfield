@@ -52,10 +52,11 @@ abstract class BaseDocument extends \DOMDocument
         );
     }
 
-    protected function  appendOfficeField(\DOMElement $element, Office $office): void
+    protected function appendOfficeField(\DOMElement $element, Office $office): void
     {
-        $office = $this->createNodeWithTextContent("office", $office->getCode());
-        $element->appendChild($office);
+        $element->appendChild(
+            $this->createNodeWithTextContent("office", $office->getCode())
+        );
     }
 
     /**
