@@ -130,6 +130,11 @@ class TransactionMapper
                     $transactionLine->setVatValue(Money::EUR(100 * $vatValue));
                 }
 
+                $baseline = self::getField($transaction, $lineElement, 'baseline');
+                if ($baseline) {
+                    $transactionLine->setBaseline($baseline);
+                }
+
                 if (Util::objectUses(PerformanceFields::class, $transactionLine)) {
                     $transactionLine
                         ->setPerformanceType(self::getField($transaction, $lineElement, 'performancetype'))
