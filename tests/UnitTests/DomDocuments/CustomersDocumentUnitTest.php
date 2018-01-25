@@ -88,6 +88,14 @@ class CustomersDocumentUnitTest extends TestCase
 
         $this->document->addCustomer($customer);
 
+        $customer = new Customer();
+        $customer->setCode('D654321');
+        $customer->setName('Nuck CHorris');
+        $customer->setWebsite('http://example.org');
+        $customer->setOffice(Office::fromCode("DEV-00001"));
+
+        $this->document->addCustomer($customer);
+
         $this->assertXmlStringEqualsXmlString(
             <<<XML
 <?xml version="1.0"?>
@@ -152,7 +160,14 @@ class CustomersDocumentUnitTest extends TestCase
                 </address>
             </bank>
         </banks>
-	</dimension>
+    </dimension>
+    <dimension>
+        <code>D654321</code>
+        <name>Nuck Chorris</name>
+        <type>DEB</type>
+        <website>http://example.org</website>
+        <office>DEV-00001</office>
+    </dimension>
 </dimensions>
 XML
             ,
