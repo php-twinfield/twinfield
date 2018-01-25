@@ -55,6 +55,11 @@ trait ValueFields
         return $this->value->absolute();
     }
 
+    public function getSignedValue(): Money
+    {
+        return $this->value;
+    }
+
     public function setValue(Money $value)
     {
         if ($value->isPositive()) {
