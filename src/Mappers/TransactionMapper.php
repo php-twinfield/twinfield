@@ -104,7 +104,7 @@ class TransactionMapper
                 $transactionLine = new $transactionLineClassName();
 
                 $transactionLine
-                    ->setType(new LineType($lineElement->getAttribute('type')))
+                    ->setLineType(new LineType($lineElement->getAttribute('type')))
                     ->setId($lineElement->getAttribute('id'))
                     ->setDim1(self::getField($transaction, $lineElement, 'dim1'))
                     ->setDim2(self::getField($transaction, $lineElement, 'dim2'))

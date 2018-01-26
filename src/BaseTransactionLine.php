@@ -9,7 +9,6 @@ use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
 use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTurnoverFields;
-use Webmozart\Assert\Assert;
 
 /**
  * @todo $relation Only if line type is total (or detail for Journal transactions). Read-only attribute.
@@ -42,7 +41,7 @@ abstract class BaseTransactionLine implements TransactionLine
     /**
      * @var LineType
      */
-    protected $type;
+    protected $lineType;
 
     /**
      * @var int|null The line ID.
@@ -111,18 +110,18 @@ abstract class BaseTransactionLine implements TransactionLine
      */
     protected $vatValue;
 
-    public function getType(): LineType
+    public function getLineType(): LineType
     {
-        return $this->type;
+        return $this->lineType;
     }
 
     /**
-     * @param LineType $type
+     * @param LineType $lineType
      * @return $this
      */
-    public function setType(LineType $type): BaseTransactionLine
+    public function setLineType(LineType $lineType): BaseTransactionLine
     {
-        $this->type = $type;
+        $this->lineType = $lineType;
 
         return $this;
     }
@@ -313,7 +312,7 @@ abstract class BaseTransactionLine implements TransactionLine
      */
     public function setVatCode(?string $vatCode): BaseTransactionLine
     {
-        if ($vatCode !== null && !in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()])) {
+        if ($vatCode !== null && !in_array($this->getLineType(), [LineType::DETAIL(), LineType::VAT()])) {
             throw Exception::invalidFieldForLineType('vatCode', $this);
         }
 
@@ -337,7 +336,7 @@ abstract class BaseTransactionLine implements TransactionLine
      */
     public function setVatValue(?Money $vatValue): BaseTransactionLine
     {
-        if ($vatValue !== null && !$this->getType()->equals(LineType::DETAIL())) {
+        if ($vatValue !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
             throw Exception::invalidFieldForLineType('vatValue', $this);
         }
 

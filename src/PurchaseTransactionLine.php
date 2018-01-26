@@ -118,7 +118,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
     {
         if (
             $matchStatus !== null &&
-            in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()]) &&
+            in_array($this->getLineType(), [LineType::DETAIL(), LineType::VAT()]) &&
             $matchStatus != self::MATCHSTATUS_NOTMATCHABLE
         ) {
             throw Exception::invalidMatchStatusForLineType($matchStatus, $this);
@@ -136,7 +136,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
     {
-        if ($matchLevel !== null && !$this->getType()->equals(LineType::TOTAL())) {
+        if ($matchLevel !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('matchLevel', $this);
         }
 
@@ -152,10 +152,24 @@ class PurchaseTransactionLine extends BaseTransactionLine
      */
     public function setBaseValueOpen(?Money $baseValueOpen): BaseTransactionLine
     {
-        if ($baseValueOpen !== null && !$this->getType()->equals(LineType::TOTAL())) {
+        if ($baseValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('baseValueOpen', $this);
         }
 
         return parent::setBaseValueOpen($baseValueOpen);
+    }
+
+    /**
+     * Returns true if a positive amount in the TOTAL line means the amount is 'debit'. Examples of incoming transaction
+     * types are Sales Transactions, Electronic Bank Statements and Bank Transactions.
+     *
+     * Returns false if a positive amount in the TOTAL line means the amount is 'credit'. An example of an outgoing
+     * transaction type is a Purchase Transaction.
+     *
+     * @return bool
+     */
+    protected function isIncomingTransactionType(): bool
+    {
+        return false;
     }
 }

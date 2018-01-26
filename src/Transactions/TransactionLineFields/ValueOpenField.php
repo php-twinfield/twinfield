@@ -15,7 +15,7 @@ trait ValueOpenField
      */
     protected $valueOpen;
 
-    abstract public function getType(): LineType;
+    abstract public function getLineType(): LineType;
 
     /**
      * @return Money|null
@@ -32,7 +32,7 @@ trait ValueOpenField
      */
     public function setValueOpen(?Money $valueOpen): self
     {
-        if ($valueOpen !== null && !$this->getType()->equals(LineType::TOTAL())) {
+        if ($valueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('valueOpen', $this);
         }
 

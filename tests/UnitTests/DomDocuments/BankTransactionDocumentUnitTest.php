@@ -79,7 +79,7 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
 		</header>
 		<lines>
 			<line id="38861" type="total">
-				<debitcredit>credit</debitcredit>
+				<debitcredit>debit</debitcredit>
 				<value>1.21</value>
 				<vattotal>0.21</vattotal>
 				<vatbasetotal>0.21</vatbasetotal>

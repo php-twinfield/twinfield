@@ -4,6 +4,7 @@ namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\BaseTransactionLine;
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\JournalTransactionLine;
 use PhpTwinfield\Transactions\TransactionFields\DueDateField;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
@@ -105,7 +106,7 @@ class TransactionsDocument extends BaseDocument
         /** @var BaseTransactionLine $transactionLine */
         foreach ($transaction->getLines() as $transactionLine) {
             $lineElement = $this->createElement('line');
-            $lineElement->setAttribute('type', $transactionLine->getType());
+            $lineElement->setAttribute('type', $transactionLine->getLineType());
             $lineElement->setAttribute('id', $transactionLine->getId());
             $linesElement->appendChild($lineElement);
 
@@ -175,7 +176,7 @@ class TransactionsDocument extends BaseDocument
 
             if (
                 $transactionLine instanceof JournalTransactionLine &&
-                $transactionLine->getType() == 'detail' &&
+                LineType::DETAIL()->equals($transactionLine->getLineType()) &&
                 $transactionLine->getInvoiceNumber() !== null
             ) {
                 $invoiceNumberElement = $this->createNodeWithTextContent('invoicenumber', $transactionLine->getInvoiceNumber());
@@ -189,7 +190,7 @@ class TransactionsDocument extends BaseDocument
                 $lineElement->appendChild($descriptionElement);
             }
 
-            if ($transactionLine->getType() != 'total' && $transactionLine->getVatCode() !== null) {
+            if (!LineType::TOTAL()->equals($transactionLine->getLineType()) && $transactionLine->getVatCode() !== null) {
                 $vatCodeElement = $this->createNodeWithTextContent('vatcode', $transactionLine->getVatCode());
                 $lineElement->appendChild($vatCodeElement);
             }

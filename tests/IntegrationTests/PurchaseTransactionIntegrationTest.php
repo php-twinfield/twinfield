@@ -71,7 +71,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertCount(3, $purchaseTransactionLines);
         [$totalLine, $detailLine, $vatLine] = $purchaseTransactionLines;
 
-        $this->assertEquals(LineType::TOTAL(), $totalLine->getType());
+        $this->assertEquals(LineType::TOTAL(), $totalLine->getLineType());
         $this->assertSame(1, $totalLine->getId());
         $this->assertSame('1600', $totalLine->getDim1());
         $this->assertSame('2000', $totalLine->getDim2());
@@ -91,7 +91,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(2100), $totalLine->getVatBaseTotal());
         $this->assertEquals(Money::EUR(12100), $totalLine->getValueOpen());
 
-        $this->assertEquals(LineType::DETAIL(), $detailLine->getType());
+        $this->assertEquals(LineType::DETAIL(), $detailLine->getLineType());
         $this->assertSame(2, $detailLine->getId());
         $this->assertSame('8020', $detailLine->getDim1());
         $this->assertNull($detailLine->getDim2());
@@ -111,7 +111,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine->getVatBaseTotal());
         $this->assertNull($detailLine->getValueOpen());
 
-        $this->assertEquals(LineType::VAT(), $vatLine->getType());
+        $this->assertEquals(LineType::VAT(), $vatLine->getLineType());
         $this->assertSame(3, $vatLine->getId());
         $this->assertSame('1510', $vatLine->getDim1());
         $this->assertNull($vatLine->getDim2());
@@ -149,7 +149,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
         $totalLine = new PurchaseTransactionLine();
         $totalLine
-            ->setType(LineType::TOTAL())
+            ->setLineType(LineType::TOTAL())
             ->setId('1')
             ->setDim1('1600')
             ->setDim2('2000')
@@ -158,10 +158,10 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
         $detailLine = new PurchaseTransactionLine();
         $detailLine
-            ->setType(LineType::DETAIL())
+            ->setLineType(LineType::DETAIL())
             ->setId('2')
             ->setDim1('8020')
-            ->setValue(Money::EUR(-10000))
+            ->setValue(Money::EUR(10000))
             ->setDescription('Outfit')
             ->setVatCode('IH');
 

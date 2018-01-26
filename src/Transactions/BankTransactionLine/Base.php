@@ -2,19 +2,16 @@
 
 namespace PhpTwinfield\Transactions\BankTransactionLine;
 
-use Money\Money;
 use PhpTwinfield\BankTransaction;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\MatchReference;
 use PhpTwinfield\Office;
 use PhpTwinfield\MatchReferenceInterface;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
-use PhpTwinfield\Transactions\TransactionFields\LinesField;
 use PhpTwinfield\Transactions\TransactionLine;
 use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
 use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
-use PhpTwinfield\Util;
 use Webmozart\Assert\Assert;
 
 abstract class Base implements TransactionLine
@@ -39,7 +36,7 @@ abstract class Base implements TransactionLine
     /**
      * @var LineType
      */
-    private $type;
+    private $lineType;
 
     /**
      * @var string
@@ -86,18 +83,18 @@ abstract class Base implements TransactionLine
     /**
      * @return LineType
      */
-    final public function getType(): LineType
+    final public function getLineType(): LineType
     {
-        return $this->type;
+        return $this->lineType;
     }
 
     /**
-     * @param LineType $type
+     * @param LineType $lineType
      * @return $this
      */
-    final protected function setType(LineType $type)
+    final protected function setLineType(LineType $lineType)
     {
-        $this->type = $type;
+        $this->lineType = $lineType;
         return $this;
     }
 
@@ -182,5 +179,10 @@ abstract class Base implements TransactionLine
             $transaction->getNumber(),
             $this->getId()
         );
+    }
+
+    protected function isIncomingTransactionType(): bool
+    {
+        return true;
     }
 }

@@ -72,7 +72,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setDim2(?string $dim2): BaseTransactionLine
     {
-        if ($dim2 !== null && $this->getType()->equals(LineType::VAT())) {
+        if ($dim2 !== null && $this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidDimensionForLineType(2, $this);
         }
 
@@ -122,7 +122,7 @@ class SalesTransactionLine extends BaseTransactionLine
     {
         if (
             $matchStatus !== null &&
-            in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()]) &&
+            in_array($this->getLineType(), [LineType::DETAIL(), LineType::VAT()]) &&
             $matchStatus != self::MATCHSTATUS_NOTMATCHABLE
         ) {
             throw Exception::invalidMatchStatusForLineType($matchStatus, $this);
@@ -140,7 +140,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
     {
-        if ($matchLevel !== null && !$this->getType()->equals(LineType::TOTAL())) {
+        if ($matchLevel !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('matchLevel', $this);
         }
 
@@ -156,7 +156,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setBaseValueOpen(?Money $baseValueOpen): BaseTransactionLine
     {
-        if ($baseValueOpen !== null && !$this->getType()->equals(LineType::TOTAL())) {
+        if ($baseValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('baseValueOpen', $this);
         }
 
@@ -172,7 +172,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setProjectAsset(string $dim3)
     {
-        if (!$this->getType()->equals(LineType::DETAIL())) {
+        if (!$this->getLineType()->equals(LineType::DETAIL())) {
             throw Exception::invalidDimensionForLineType(3, $this);
         }
 
@@ -188,7 +188,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setVatTurnover(?Money $vatTurnover)
     {
-        if (!$this->getType()->equals(LineType::VAT())) {
+        if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType("vatturnover", $this);
         }
         return parent::setVatTurnOver($vatTurnover);
@@ -203,7 +203,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setVatBaseTurnover(?Money $vatBaseTurnover)
     {
-        if (!$this->getType()->equals(LineType::VAT())) {
+        if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType("vatbaseturnover", $this);
         }
         return parent::setVatBaseTurnover($vatBaseTurnover);
@@ -218,7 +218,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setVatRepTurnover(?Money $vatRepTurnover)
     {
-        if (!$this->getType()->equals(LineType::VAT())) {
+        if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType("vatrepturnover", $this);
         }
         return parent::setVatRepTurnover($vatRepTurnover);
@@ -233,9 +233,23 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setBaseline(?int $baseline)
     {
-        if (!$this->getType()->equals(LineType::VAT())) {
+        if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType("baseline", $this);
         }
         return parent::setBaseline($baseline);
+    }
+
+    /**
+     * Returns true if a positive amount in the TOTAL line means the amount is 'debit'. Examples of incoming transaction
+     * types are Sales Transactions, Electronic Bank Statements and Bank Transactions.
+     *
+     * Returns false if a positive amount in the TOTAL line means the amount is 'credit'. An example of an outgoing
+     * transaction type is a Purchase Transaction.
+     *
+     * @return bool
+     */
+    protected function isIncomingTransactionType(): bool
+    {
+        return true;
     }
 }

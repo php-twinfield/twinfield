@@ -69,7 +69,7 @@ class Detail extends Base
 
     public function __construct()
     {
-        $this->setType(LineType::DETAIL());
+        $this->setLineType(LineType::DETAIL());
     }
 
     /**
