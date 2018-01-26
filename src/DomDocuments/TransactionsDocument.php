@@ -167,6 +167,12 @@ class TransactionsDocument extends BaseDocument
                 $lineElement->appendChild($vatElement);
             }
 
+            $baseline = $transactionLine->getBaseline();
+            if (!empty($baseline)) {
+                $baselineElement = $this->createNodeWithTextContent('baseline', $baseline);
+                $lineElement->appendChild($baselineElement);
+            }
+
             if (
                 $transactionLine instanceof JournalTransactionLine &&
                 $transactionLine->getLineType() == 'detail' &&
