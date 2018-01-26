@@ -77,8 +77,6 @@ class ProcessXmlService extends BaseService
             /** @var \DOMElement[]|\DOMNodeList $nodeList */
             $nodeList = $document->getElementsByTagName($individualTag);
 
-            Assert::greaterThanEq($nodeList->length, count($responses));
-
             foreach ($nodeList as $element) {
 
                 $xml = $document->saveXML($element);
