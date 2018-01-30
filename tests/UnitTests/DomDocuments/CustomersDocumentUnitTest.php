@@ -31,6 +31,7 @@ class CustomersDocumentUnitTest extends TestCase
         $customer->setName('Chuck Norris');
         $customer->setWebsite('http://example.org');
         $customer->setOffice(Office::fromCode("DEV-10000"));
+        $customer->setStatus('active');
 
         $customer->setDueDays(1);
         $customer->setPayAvailable(true);
@@ -93,6 +94,7 @@ class CustomersDocumentUnitTest extends TestCase
         $customer->setName('Nuck CHorris');
         $customer->setWebsite('http://example.org');
         $customer->setOffice(Office::fromCode("DEV-00001"));
+        $customer->setStatus('deleted');
 
         $this->document->addCustomer($customer);
 
@@ -100,7 +102,7 @@ class CustomersDocumentUnitTest extends TestCase
             <<<XML
 <?xml version="1.0"?>
 <dimensions>
-	<dimension>
+	<dimension status="active">
 	    <code>D123456</code>
 	    <name>Chuck Norris</name>
 	    <type>DEB</type>
@@ -161,7 +163,7 @@ class CustomersDocumentUnitTest extends TestCase
             </bank>
         </banks>
     </dimension>
-    <dimension>
+    <dimension status="deleted">
         <code>D654321</code>
         <name>Nuck Chorris</name>
         <type>DEB</type>

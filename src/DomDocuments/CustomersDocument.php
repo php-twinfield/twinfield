@@ -50,7 +50,7 @@ class CustomersDocument extends BaseDocument
         }
 
         if (!empty($customer->getStatus())) {
-            $customerTags['status'] = 'getStatus';
+            $customerEl->setAttribute('status', $customer->getStatus());
         }
 
         // Go through each customer element and use the assigned method
