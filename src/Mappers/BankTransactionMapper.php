@@ -12,7 +12,10 @@ class BankTransactionMapper extends BaseMapper
 
         $element = $document->documentElement;
 
-        $banktransaction->setAutoBalanceVat(Util::parseBoolean($element->getAttribute("autobalancevat")));
+        if (!empty($element->getAttribute("autobalancevat"))) {
+            $banktransaction->setAutoBalanceVat(Util::parseBoolean($element->getAttribute("autobalancevat")));
+        }
+
         $banktransaction->setRaiseWarning(Util::parseBoolean($element->getAttribute("raisewarning")));
 
         self::setFromTagValue($document, "code", [$banktransaction, "setCode"]);
