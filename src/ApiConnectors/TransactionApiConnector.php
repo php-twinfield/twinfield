@@ -8,6 +8,8 @@ use PhpTwinfield\Request as Request;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\BaseTransaction;
+use PhpTwinfield\Response\IndividualMappedResponse;
+use PhpTwinfield\Response\Response;
 use Webmozart\Assert\Assert;
 
 /**
@@ -44,27 +46,39 @@ class TransactionApiConnector extends BaseApiConnector
         // Send the Request document and set the response to this instance
         $response = $this->sendXmlDocument($request_transaction);
 
-        return TransactionMapper::map($transactionClassName, $response)[0];
+        return TransactionMapper::map($transactionClassName, $response);
     }
 
     /**
      * @param BaseTransaction $transaction
+     * @return BaseTransaction
      * @throws Exception
      */
-    public function send(BaseTransaction $transaction): void
+    public function send(BaseTransaction $transaction): BaseTransaction
     {
-        $this->sendAll([$transaction]);
+        foreach($this->sendAll([$transaction]) as $each) {
+            return $each->unwrap();
+        }
     }
 
     /**
      * Sends a list of Transaction instances to Twinfield to add or update.
      *
      * @param BaseTransaction[] $transactions
+     * @return IndividualMappedResponse[]
      * @throws Exception
      */
-    public function sendAll(array $transactions): void
+    public function sendAll(array $transactions): array
     {
         Assert::allIsInstanceOf($transactions, BaseTransaction::class);
+
+        $classname = get_class(reset($transactions));
+
+        /*
+         * We can have multiple documents sent, so we need to collect all documents.
+         */
+        /** @var Response[] $responses */
+        $responses = [];
 
         foreach ($this->getProcessXmlService()->chunk($transactions) as $chunk) {
 
@@ -74,7 +88,15 @@ class TransactionApiConnector extends BaseApiConnector
                 $transactionsDocument->addTransaction($transaction);
             }
 
-            $this->sendXmlDocument($transactionsDocument);
+            $responses[] = $this->sendXmlDocument($transactionsDocument);
         }
+
+        return $this->getProcessXmlService()->mapAll(
+            $responses,
+            "transaction",
+            function (Response $subresponse) use ($classname): BaseTransaction {
+                return TransactionMapper::map($classname, $subresponse);
+            }
+        );
     }
 }

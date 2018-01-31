@@ -184,4 +184,21 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->transactionApiConnector->send($purchaseTransaction);
     }
+
+    protected function getSuccessfulResponse(): Response
+    {
+        return Response::fromString(
+            '<transactions result="1"><transaction location="temporary">
+                <header>
+                    <code name="Verkoopfactuur" shortname="Verkoop">VRK</code>
+                    <date>20170901</date>
+                    <duedate>20170901</duedate>
+                    <period>2017/09</period>
+                    <office name="Development BV" shortname="Development BV">DEV1000</office>
+                    <number>201702412</number>
+                </header>
+            </transaction>
+        </transactions>'
+        );
+    }
 }

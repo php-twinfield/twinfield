@@ -58,7 +58,7 @@ abstract class BaseIntegrationTest extends TestCase
             });
     }
 
-    final protected function getSuccessfulResponse(): Response
+    protected function getSuccessfulResponse(): Response
     {
         return Response::fromString('<dimension result="1" />');
     }
