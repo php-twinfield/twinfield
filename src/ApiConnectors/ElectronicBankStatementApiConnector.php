@@ -38,7 +38,7 @@ class ElectronicBankStatementApiConnector extends BaseApiConnector
                 $document->addStatement($statement);
             }
 
-            $this->getProcessXmlService()->sendDocument($document);
+            $this->sendXmlDocument($document);
         }
     }
 }

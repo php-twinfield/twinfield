@@ -41,7 +41,7 @@ class InvoiceApiConnector extends BaseApiConnector
             ->setOffice($office->getCode());
 
         // Send the Request document and set the response to this instance
-        $response = $this->getProcessXmlService()->sendDocument($request_invoice);
+        $response = $this->sendXmlDocument($request_invoice);
 
         return InvoiceMapper::map($response);
     }
@@ -73,7 +73,7 @@ class InvoiceApiConnector extends BaseApiConnector
                 $invoicesDocument->addInvoice($invoice);
             }
 
-            $this->getProcessXmlService()->sendDocument($invoicesDocument);
+            $this->sendXmlDocument($invoicesDocument);
         }
     }
 }

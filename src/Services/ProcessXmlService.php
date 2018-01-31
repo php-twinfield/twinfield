@@ -36,13 +36,16 @@ class ProcessXmlService extends BaseService
      *
      * A document can be both an object for storage or a search / retrieval request.
      *
-     * If there is an error, an exception is thrown.
+     * If there is an error in the response, an Exception is thrown, but it can also throw SoapFaults.
      *
      * Note that you will probably have to chunk the objects into several documents if you want to send many objects. 
      *
      * @param \DOMDocument $document
      * @return Response The response from the request
+     *
+     * @see \PhpTwinfield\ApiConnectors\BaseApiConnector::sendXmlDocuments()
      * @throws Exception
+     * @throws \SoapFault
      */
     public function sendDocument(\DOMDocument $document): Response
     {

@@ -41,7 +41,7 @@ class CustomerApiConnector extends BaseApiConnector
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
-        $response = $this->getProcessXmlService()->sendDocument($request_customer);
+        $response = $this->sendXmlDocument($request_customer);
         return CustomerMapper::map($response);
     }
 
@@ -60,7 +60,7 @@ class CustomerApiConnector extends BaseApiConnector
         $request_customers = new Request\Catalog\Dimension($office, "DEB");
 
         // Send the Request document and set the response to this instance.
-        $response = $this->getProcessXmlService()->sendDocument($request_customers);
+        $response = $this->sendXmlDocument($request_customers);
 
         // Get the raw response document
         $responseDOM = $response->getResponseDocument();
@@ -123,7 +123,7 @@ class CustomerApiConnector extends BaseApiConnector
                 $customersDocument->addCustomer($customer);
             }
 
-            $responses[] = $this->getProcessXmlService()->sendDocument($customersDocument);
+            $responses[] = $this->sendXmlDocument($customersDocument);
         }
 
         return $this->getProcessXmlService()->mapAll($responses, "dimension", function(Response $response): Customer {
