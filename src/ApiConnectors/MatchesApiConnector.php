@@ -38,7 +38,7 @@ class MatchesApiConnector extends BaseApiConnector
                 $document->addMatchSet($matchSet);
             }
 
-            $this->getProcessXmlService()->sendDocument($document);
+            $this->sendXmlDocument($document);
         }
     }
 }

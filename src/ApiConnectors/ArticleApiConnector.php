@@ -39,7 +39,7 @@ class ArticleApiConnector extends BaseApiConnector
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
-        $response = $this->getProcessXmlService()->sendDocument($request_article);
+        $response = $this->sendXmlDocument($request_article);
 
         return ArticleMapper::map($response);
     }
@@ -71,7 +71,7 @@ class ArticleApiConnector extends BaseApiConnector
                 $articlesDocument->addArticle($article);
             }
 
-            $this->getProcessXmlService()->sendDocument($articlesDocument);
+            $this->sendXmlDocument($articlesDocument);
         }
     }
 }

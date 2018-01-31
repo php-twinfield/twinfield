@@ -53,7 +53,7 @@ class BankTransactionApiConnector extends BaseApiConnector
                 $bankTransactionDocument->addBankTransaction($bankTransaction);
             }
 
-            $responses[] = $this->getProcessXmlService()->sendDocument($bankTransactionDocument);
+            $responses[] = $this->sendXmlDocument($bankTransactionDocument);
         }
 
         return $this->getProcessXmlService()->mapAll($responses, "transaction", function(Response $subresponse): BankTransaction {

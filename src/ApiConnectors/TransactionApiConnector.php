@@ -42,7 +42,7 @@ class TransactionApiConnector extends BaseApiConnector
             ->setOffice($office);
 
         // Send the Request document and set the response to this instance
-        $response = $this->getProcessXmlService()->sendDocument($request_transaction);
+        $response = $this->sendXmlDocument($request_transaction);
 
         return TransactionMapper::map($transactionClassName, $response)[0];
     }
@@ -74,7 +74,7 @@ class TransactionApiConnector extends BaseApiConnector
                 $transactionsDocument->addTransaction($transaction);
             }
 
-            $this->getProcessXmlService()->sendDocument($transactionsDocument);
+            $this->sendXmlDocument($transactionsDocument);
         }
     }
 }

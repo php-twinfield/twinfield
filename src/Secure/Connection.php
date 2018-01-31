@@ -77,6 +77,20 @@ class Connection
     }
 
     /**
+     * Reset a connection. Useful if you get logged out during operations, for example.
+     *
+     * @param Services $service
+     */
+    public function resetClient(Services $service): void
+    {
+        $key = $service->getKey();
+
+        if (array_key_exists($key, $this->authenticatedClients)) {
+            unset($this->authenticatedClients[$key]);
+        }
+    }
+    
+    /**
      * Get an authenticated client for a specific service/
      *
      * @param Services $service

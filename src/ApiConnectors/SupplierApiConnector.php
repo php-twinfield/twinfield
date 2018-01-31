@@ -38,7 +38,7 @@ class SupplierApiConnector extends BaseApiConnector
             ->setOffice($office->getCode())
             ->setCode($code);
 
-        $response = $this->getProcessXmlService()->sendDocument($request_customer);
+        $response = $this->sendXmlDocument($request_customer);
 
         return SupplierMapper::map($response);
     }
@@ -59,7 +59,7 @@ class SupplierApiConnector extends BaseApiConnector
         $request_customers = new Request\Catalog\Dimension($office->getCode(), $dimType);
 
         // Send the Request document and set the response to this instance.
-        $response = $this->getProcessXmlService()->sendDocument($request_customers);
+        $response = $this->sendXmlDocument($request_customers);
 
         // Get the raw response document
         $responseDOM = $response->getResponseDocument();
@@ -117,7 +117,7 @@ class SupplierApiConnector extends BaseApiConnector
                 $suppliersDocument->addSupplier($supplier);
             }
 
-            $this->getProcessXmlService()->sendDocument($suppliersDocument);
+            $this->sendXmlDocument($suppliersDocument);
         }
     }
 }

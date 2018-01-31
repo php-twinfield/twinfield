@@ -16,31 +16,48 @@ abstract class BaseApiConnector
      */
     private $connection;
 
-    /**
-     * @var ProcessXmlService
-     */
-    private $processXmlService;
-
-    /**
-     * @var FinderService
-     */
-    private $finderService;
-
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
 
     /**
+     * @see sendXmlDocument()
      * @throws Exception
      */
     protected function getProcessXmlService(): ProcessXmlService
     {
-        if (!$this->processXmlService) {
-            $this->processXmlService = $this->connection->getAuthenticatedClient(Services::PROCESSXML());
-        }
+        return $this->connection->getAuthenticatedClient(Services::PROCESSXML());
+    }
 
-        return $this->processXmlService;
+    /**
+     * Send the Document using the Twinfield XML service.
+     *
+     * Will automatically reconnect and recover from login / connection errors.
+     *
+     * @param \DOMDocument $document
+     * @return \PhpTwinfield\Response\Response
+     * @throws Exception
+     */
+    public function sendXmlDocument(\DOMDocument $document) {
+        try {
+            return $this->getProcessXmlService()->sendDocument($document);
+        } catch (\SoapFault $soapFault) {
+            /*
+             * Always reset the client. There may have been TCP connection issues, network issues, or logic issues on
+             * Twinfield's side, it won't hurt to get a fresh connection.
+             */
+            $this->connection->resetClient(Services::PROCESSXML());
+
+            if (stripos($soapFault->getMessage(), "Your logon credentials are not valid anymore. Try to log on again.") !== false) {
+                /*
+                 * Automatically retry and log on again.
+                 */
+                return $this->sendXmlDocument($document);
+            }
+
+            throw new Exception($soapFault->getMessage(), 0, $soapFault);
+        }
     }
 
     /**
@@ -48,10 +65,6 @@ abstract class BaseApiConnector
      */
     protected function getFinderService(): FinderService
     {
-        if (!$this->finderService) {
-            $this->finderService = $this->connection->getAuthenticatedClient(Services::FINDER());
-        }
-
-        return $this->finderService;
+        return $this->connection->getAuthenticatedClient(Services::FINDER());
     }
 }
