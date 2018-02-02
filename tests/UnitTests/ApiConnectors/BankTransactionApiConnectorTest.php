@@ -7,11 +7,14 @@ use Money\Money;
 use PhpTwinfield\ApiConnectors\BankTransactionApiConnector;
 use PhpTwinfield\BankTransaction;
 use PhpTwinfield\Enums\Destiny;
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\Connection;
 use PhpTwinfield\Services\ProcessXmlService;
+use PhpTwinfield\Transactions\BankTransactionLine\Detail;
+use PhpTwinfield\Transactions\BankTransactionLine\Total;
 use PHPUnit\Framework\TestCase;
 
 class BankTransactionApiConnectorTest extends TestCase
@@ -103,5 +106,30 @@ class BankTransactionApiConnectorTest extends TestCase
         $this->assertEquals(Money::EUR(0), $banktransaction3->getClosevalue());
         $this->assertEquals(0, $banktransaction3->getStatementnumber());
         $this->assertEquals("201700334", $banktransaction3->getNumber());
+
+        $lines = $banktransaction3->getLines();
+        $this->assertEquals(3, count($lines));
+
+        /** @var Total $line */
+        $line = $lines[0];
+        $this->assertEquals("1", $line->getId());
+        $this->assertEquals(LineType::TOTAL(), $line->getLineType());
+        $this->assertEquals("1100", $line->getDim1());
+        $this->assertEquals("debit", $line->getDebitCredit());
+        $this->assertEquals(Money::EUR(0), $line->getValue());
+        $this->assertEquals("2017.123456", $line->getInvoiceNumber());
+        $this->assertEquals("2017.123456", $line->getDescription());
+        $this->assertEquals("2017.123456", $line->getComment());
+
+        /** @var Detail $line */
+        $line = $lines[1];
+        $this->assertEquals("2", $line->getId());
+        $this->assertEquals(LineType::DETAIL(), $line->getLineType());
+        $this->assertEquals("1800", $line->getDim1());
+        $this->assertEquals("debit", $line->getDebitCredit());
+        $this->assertEquals(Money::EUR(87), $line->getValue());
+        $this->assertEquals("2017.123456", $line->getInvoiceNumber());
+        $this->assertEquals("2017.123456", $line->getDescription());
+        $this->assertEquals("2017.123456", $line->getComment());
     }
 }
