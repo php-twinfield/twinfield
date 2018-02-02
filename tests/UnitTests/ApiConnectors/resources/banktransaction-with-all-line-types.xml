@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<transactions result="1">
+    <transaction result="1" location="temporary">
+        <header>
+            <code name="Standaard bank" shortname="Standaard bank">BNK</code>
+            <office name="Office 001" shortname="Office 001">OFFICE001</office>
+            <period>2017/09</period>
+            <date>20170901</date>
+            <currency name="Euro" shortname="Euro">EUR</currency>
+            <startvalue>0.00</startvalue>
+            <closevalue>121.00</closevalue>
+            <origin>import</origin>
+            <user name="User" shortname="User">USER</user>
+            <regime>generic</regime>
+            <statementnumber>0</statementnumber>
+            <number>201700001</number>
+        </header>
+        <lines>
+            <line type="total" id="1">
+                <dim1 name="Standaard bank" shortname="" type="BAS" inuse="false" vatcode="" vatobligatory="false">1100</dim1>
+                <debitcredit>debit</debitcredit>
+                <value>121.00</value>
+                <rate>1</rate>
+                <basevalue>121.00</basevalue>
+                <reprate>1</reprate>
+                <repvalue>121.00</repvalue>
+                <matchstatus>notmatchable</matchstatus>
+            </line>
+            <line type="detail" id="2">
+                <dim1 name="Vraagposten" shortname="" type="BAS" inuse="true" vatcode="" vatobligatory="false">2200</dim1>
+                <debitcredit>credit</debitcredit>
+                <value>100.00</value>
+                <description>My transaction</description>
+                <vatcode name="Verkoop 21%" shortname="Verkoop 21%">VH</vatcode>
+                <vatvalue>21.00</vatvalue>
+                <rate>1</rate>
+                <basevalue>100.00</basevalue>
+                <reprate>1</reprate>
+                <repvalue>100.00</repvalue>
+                <currencydate/>
+                <invoicenumber/>
+                <vatbasevalue>21.00</vatbasevalue>
+                <matchstatus>notmatchable</matchstatus>
+            </line>
+            <line type="vat" id="3">
+                <debitcredit>credit</debitcredit>
+                <value>21.00</value>
+                <vatcode name="Verkoop 21%" shortname="Verkoop 21%">VH</vatcode>
+                <rate>1</rate>
+                <basevalue>21.00</basevalue>
+                <reprate>1</reprate>
+                <repvalue>21.00</repvalue>
+                <baseline>1</baseline>
+                <vatturnover>100.00</vatturnover>
+                <vatbaseturnover>100.00</vatbaseturnover>
+                <dim1 name="BTW af te dragen 21%" shortname="" type="BAS" inuse="true" vatcode="" vatobligatory="false">1502</dim1>
+                <matchstatus>notmatchable</matchstatus>
+            </line>
+        </lines>
+    </transaction>
+</transactions>
