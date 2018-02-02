@@ -123,9 +123,11 @@ class BankTransactionMapper extends BaseMapper
         $line->setVatTurnover(Util::parseMoney($vatTurnover, $bankTransaction->getCurrency()));
         $vatBaseTurnover = self::getField($lineElement, "vatbaseturnover");
         $line->setVatBaseTurnover(Util::parseMoney($vatBaseTurnover, $bankTransaction->getCurrency()));
-        $vatRepTurnover = self::getField($lineElement, "vatrepturnover");
-        $line->setVatRepTurnover(Util::parseMoney($vatRepTurnover, $bankTransaction->getCurrency()));
 
+        $vatRepTurnover = self::getField($lineElement, "vatrepturnover");
+        if ($vatRepTurnover) {
+            $line->setVatRepTurnover(Util::parseMoney($vatRepTurnover, $bankTransaction->getCurrency()));
+        }
         $vatCode = self::getField($lineElement, "vatcode");
         if ($vatCode) {
             $line->setVatCode($vatCode);
@@ -144,11 +146,14 @@ class BankTransactionMapper extends BaseMapper
         Base $line
     ): void {
         $line->setId($lineElement->getAttribute("id"));
-        $line->setDescription(self::getField($lineElement, "description"));
         $value = self::getField($lineElement, 'value');
         $line->setValue(Util::parseMoney($value, $bankTransaction->getCurrency()));
         $line->setInvoiceNumber(self::getField($lineElement, "invoicenumber"));
 
+        $description = self::getField($lineElement, "description");
+        if ($description) {
+            $line->setDescription($description);
+        }
         $debitCredit = self::getField($lineElement, 'debitcredit');
         if ($debitCredit) {
             $line->setDebitCredit(new DebitCredit($debitCredit));
