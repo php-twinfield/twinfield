@@ -86,11 +86,11 @@ class BankTransactionMapper extends BaseMapper
         $line->setAccount(self::getField($lineElement, "dim1"));
 
         $customerOrSupplierOrCostCenter = self::getField($lineElement, "dim2");
-        if ($customerOrSupplierOrCostCenter) {
+        if ($customerOrSupplierOrCostCenter !== null) {
             $line->setCustomerOrSupplierOrCostCenter($customerOrSupplierOrCostCenter);
         }
         $vatCode = self::getField($lineElement, "vatcode");
-        if ($vatCode) {
+        if ($vatCode !== null) {
             $line->setVatCode($vatCode);
         }
         $vatValue = self::getField($lineElement, "vatvalue");
@@ -106,7 +106,7 @@ class BankTransactionMapper extends BaseMapper
             $line->setVatRepValue(Util::parseMoney($vatRepValue, $bankTransaction->getCurrency()));
         }
         $projectOrAsset = self::getField($lineElement, "dim3");
-        if ($projectOrAsset) {
+        if ($projectOrAsset !== null) {
             $line->setProjectOrAsset($projectOrAsset);
         }
 
@@ -129,11 +129,11 @@ class BankTransactionMapper extends BaseMapper
             $line->setVatRepTurnover(Util::parseMoney($vatRepTurnover, $bankTransaction->getCurrency()));
         }
         $vatCode = self::getField($lineElement, "vatcode");
-        if ($vatCode) {
+        if ($vatCode !== null) {
             $line->setVatCode($vatCode);
         }
         $vatBalanceAccount = self::getField($lineElement, "dim1");
-        if ($vatBalanceAccount) {
+        if ($vatBalanceAccount !== null) {
             $line->setVatBalanceAccount($vatBalanceAccount);
         }
 
@@ -151,7 +151,7 @@ class BankTransactionMapper extends BaseMapper
         $line->setInvoiceNumber(self::getField($lineElement, "invoicenumber"));
 
         $description = self::getField($lineElement, "description");
-        if ($description) {
+        if ($description !== null) {
             $line->setDescription($description);
         }
         $debitCredit = self::getField($lineElement, 'debitcredit');
@@ -167,7 +167,7 @@ class BankTransactionMapper extends BaseMapper
             $line->setFreeChar($freeChar);
         }
         $comment = self::getField($lineElement, "comment");
-        if ($comment) {
+        if ($comment !== null) {
             $line->setComment($comment);
         }
     }
@@ -183,7 +183,7 @@ class BankTransactionMapper extends BaseMapper
             $line->setPerformanceCountry($performanceCountry);
         }
         $performanceVatNumber = self::getField($lineElement, "performancevatnumber");
-        if ($performanceVatNumber) {
+        if ($performanceVatNumber !== null) {
             $line->setPerformanceVatNumber($performanceVatNumber);
         }
         $performanceDate = self::getField($lineElement, "performancedate");
