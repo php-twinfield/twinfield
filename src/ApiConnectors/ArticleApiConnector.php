@@ -8,6 +8,8 @@ use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\ArticleMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
+use PhpTwinfield\Response\MappedResponseCollection;
+use PhpTwinfield\Response\Response;
 use Webmozart\Assert\Assert;
 
 /**
@@ -48,20 +50,31 @@ class ArticleApiConnector extends BaseApiConnector
      * Sends an Article instance to Twinfield to update or add.
      *
      * @param Article $article
+     * @return Article
      * @throws Exception
      */
-    public function send(Article $article): void
+    public function send(Article $article): Article
     {
-        $this->sendAll([$article]);
+        $articleResponses = $this->sendAll([$article]);
+
+        Assert::count($articleResponses, 1);
+
+        foreach ($articleResponses as $articleResponse) {
+            return $articleResponse->unwrap();
+        }
     }
 
     /**
      * @param Article[] $articles
+     * @return MappedResponseCollection
      * @throws Exception
      */
-    public function sendAll(array $articles): void
+    public function sendAll(array $articles): MappedResponseCollection
     {
         Assert::allIsInstanceOf($articles, Article::class);
+
+        /** @var Response[] $responses */
+        $responses = [];
 
         foreach ($this->getProcessXmlService()->chunk($articles) as $chunk) {
 
@@ -71,7 +84,11 @@ class ArticleApiConnector extends BaseApiConnector
                 $articlesDocument->addArticle($article);
             }
 
-            $this->sendXmlDocument($articlesDocument);
+            $responses[] = $this->sendXmlDocument($articlesDocument);
         }
+
+        return $this->getProcessXmlService()->mapAll($responses, "article", function(Response $response): Article {
+            return ArticleMapper::map($response);
+        });
     }
 }

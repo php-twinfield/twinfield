@@ -5,6 +5,8 @@ namespace PhpTwinfield\ApiConnectors;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
+use PhpTwinfield\Response\MappedResponseCollection;
+use PhpTwinfield\Response\Response;
 use PhpTwinfield\Supplier;
 use PhpTwinfield\DomDocuments\SuppliersDocument;
 use PhpTwinfield\Mappers\SupplierMapper;
@@ -91,11 +93,18 @@ class SupplierApiConnector extends BaseApiConnector
      * SupplierMapper::map() method.
      *
      * @param Supplier $supplier
+     * @return Supplier
      * @throws Exception
      */
-    public function send(Supplier $supplier): void
+    public function send(Supplier $supplier): Supplier
     {
-        $this->sendAll([$supplier]);
+        $supplierResponses = $this->sendAll([$supplier]);
+
+        Assert::count($supplierResponses, 1);
+
+        foreach ($supplierResponses as $supplierResponse) {
+            return $supplierResponse->unwrap();
+        }
     }
 
 
@@ -103,11 +112,15 @@ class SupplierApiConnector extends BaseApiConnector
      * Sends a list of Transaction instances to Twinfield to add or update.
      *
      * @param Supplier[] $suppliers
+     * @return MappedResponseCollection
      * @throws Exception
      */
-    public function sendAll(array $suppliers): void
+    public function sendAll(array $suppliers): MappedResponseCollection
     {
         Assert::allIsInstanceOf($suppliers, Supplier::class);
+
+        /** @var Response[] $responses */
+        $responses = [];
 
         foreach ($this->getProcessXmlService()->chunk($suppliers) as $chunk) {
 
@@ -117,7 +130,11 @@ class SupplierApiConnector extends BaseApiConnector
                 $suppliersDocument->addSupplier($supplier);
             }
 
-            $this->sendXmlDocument($suppliersDocument);
+            $responses[] = $this->sendXmlDocument($suppliersDocument);
         }
+
+        return $this->getProcessXmlService()->mapAll($responses, "dimension", function(Response $response): Supplier {
+            return SupplierMapper::map($response);
+        });
     }
 }
