@@ -4,6 +4,7 @@ namespace PhpTwinfield\Services;
 
 use PhpTwinfield\Exception;
 use PhpTwinfield\Response\IndividualMappedResponse;
+use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use Webmozart\Assert\Assert;
 
@@ -44,7 +45,6 @@ class ProcessXmlService extends BaseService
      * @return Response The response from the request
      *
      * @see \PhpTwinfield\ApiConnectors\BaseApiConnector::sendXmlDocuments()
-     * @throws Exception
      * @throws \SoapFault
      */
     public function sendDocument(\DOMDocument $document): Response
@@ -53,28 +53,24 @@ class ProcessXmlService extends BaseService
             array('xmlRequest' => $document->saveXML())
         );
 
-        $response = Response::fromString($result->ProcessXmlStringResult);
-        $response->assertSuccessful();
-
-        return $response;
+        return Response::fromString($result->ProcessXmlStringResult);
     }
 
     /**
-     * Map an array of Responses to IndividualMappedResponse using a callback.
+     * Map an array of Responses to IndividualMappedResponse using a callback, wrapped in MappedResponseCollection.
      *
      * @see IndividualMappedResponse
+     * @see MappedResponseCollection
      * @param Response[] $responses
      * @param string $individualTag Tag that contains each sub response (e.g. "transaction")
      * @param callable $mapCallback The callback should return the mapped object (e.g. a PurchaseTransaction) based on the response.
-     * @return IndividualMappedResponse[]|iterable
+     * @return MappedResponseCollection
      */
-    public function mapAll(array $responses, string $individualTag, callable $mapCallback): iterable
+    public function mapAll(array $responses, string $individualTag, callable $mapCallback): MappedResponseCollection
     {
-        $return = [];
+        $mappedResponses = new MappedResponseCollection();
 
         foreach ($responses as $response) {
-
-            /* $response should already asserted as successful by the called. */
             $document = $response->getResponseDocument();
 
             /** @var \DOMElement[]|\DOMNodeList $nodeList */
@@ -85,10 +81,10 @@ class ProcessXmlService extends BaseService
                 $xml = $document->saveXML($element);
                 $subResponse = Response::fromString($xml);
 
-                $return[] = new IndividualMappedResponse($subResponse, $mapCallback);
+                $mappedResponses->append(new IndividualMappedResponse($subResponse, $mapCallback));
             }
         }
 
-        return $return;
+        return $mappedResponses;
     }
 }

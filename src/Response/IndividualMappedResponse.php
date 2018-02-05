@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield\Response;
 
+use PhpTwinfield\Exception;
+
 class IndividualMappedResponse
 {
     /**
@@ -17,6 +19,16 @@ class IndividualMappedResponse
     {
         $this->response = $response;
         $this->mapper = $mapper;
+    }
+
+    public function isSuccessful(): bool
+    {
+        try {
+            $this->response->assertSuccessful();
+        } catch (Exception $e) {
+            return false;
+        }
+        return true;
     }
 
     /**
