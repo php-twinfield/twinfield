@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield\Response;
 
+use Webmozart\Assert\Assert;
+
 class MappedResponseCollection extends \ArrayObject
 {
     /**
@@ -30,7 +32,7 @@ class MappedResponseCollection extends \ArrayObject
     /**
      * @return IndividualMappedResponse[]
      */
-    public function getSuccessfulResponses()
+    public function getSuccessfulResponses(): array
     {
         return $this->getResponses(true);
     }
@@ -48,14 +50,14 @@ class MappedResponseCollection extends \ArrayObject
     /**
      * @return IndividualMappedResponse[]
      */
-    public function getFailedResponses()
+    public function getFailedResponses(): array
     {
         return $this->getResponses(false);
     }
 
-    public function assertAllSuccessful()
+    public function assertAllSuccessful(): void
     {
-        assert($this->countResponses(false) === 0);
+        Assert::eq($this->countResponses(false), 0);
     }
 
     /**
@@ -63,7 +65,7 @@ class MappedResponseCollection extends \ArrayObject
      *
      * @return IndividualMappedResponse[]
      */
-    private function getResponses(bool $successful)
+    private function getResponses(bool $successful): array
     {
         $responses = [];
 

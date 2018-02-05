@@ -95,12 +95,12 @@ class CustomerApiConnector extends BaseApiConnector
      */
     public function send(Customer $customer): Customer
     {
-        $result = $this->sendAll([$customer]);
+        $customerResponses = $this->sendAll([$customer]);
 
-        Assert::count($result, 1);
+        Assert::count($customerResponses, 1);
 
-        foreach ($result as $each) {
-            return $each->unwrap();
+        foreach ($customerResponses as $customerResponse) {
+            return $customerResponse->unwrap();
         }
     }
 

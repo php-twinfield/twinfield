@@ -21,12 +21,12 @@ class BankTransactionApiConnector extends BaseApiConnector
      */
     public function send(BankTransaction $bankTransaction): BankTransaction
     {
-        $result = $this->sendAll([$bankTransaction]);
+        $bankTransactionResponses = $this->sendAll([$bankTransaction]);
 
-        Assert::count($result, 1);
+        Assert::count($bankTransactionResponses, 1);
 
-        foreach ($result as $each) {
-            return $each->unwrap();
+        foreach ($bankTransactionResponses as $bankTransactionResponse) {
+            return $bankTransactionResponse->unwrap();
         }
     }
 

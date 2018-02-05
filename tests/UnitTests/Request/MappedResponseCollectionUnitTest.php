@@ -40,6 +40,7 @@ class MappedResponseCollectionUnitTest extends TestCase
 
         $this->expectException(\InvalidArgumentException::class);
         $collection->append("somethingOtherThanAnIndividualMappedResponse");
+        $collection->assertAllSuccessful();
     }
 
     public function createFakeResponse()
