@@ -55,6 +55,9 @@ class MappedResponseCollection extends \ArrayObject
         return $this->getResponses(false);
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function assertAllSuccessful(): void
     {
         Assert::eq($this->countResponses(false), 0);
