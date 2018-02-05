@@ -8,7 +8,7 @@ use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
-use PhpTwinfield\Response\IndividualMappedResponse;
+use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use Webmozart\Assert\Assert;
 
@@ -106,10 +106,10 @@ class CustomerApiConnector extends BaseApiConnector
 
     /**
      * @param Customer[] $customers
-     * @return IndividualMappedResponse[]|iterable
+     * @return MappedResponseCollection
      * @throws Exception
      */
-    public function sendAll(array $customers): iterable
+    public function sendAll(array $customers): MappedResponseCollection
     {
         Assert::allIsInstanceOf($customers, Customer::class);
 
