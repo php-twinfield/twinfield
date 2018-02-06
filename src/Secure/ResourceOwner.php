@@ -13,7 +13,6 @@ class ResourceOwner implements ResourceOwnerInterface
 
     public function __construct(array $response)
     {
-        print_r($response);
         $this->response = $response;
     }
 
@@ -22,7 +21,7 @@ class ResourceOwner implements ResourceOwnerInterface
      */
     public function getId(): string
     {
-        return 'TODO';
+        return $this->response["id"];
     }
 
     /**

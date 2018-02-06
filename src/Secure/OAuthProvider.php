@@ -43,6 +43,11 @@ class OAuthProvider extends AbstractProvider
     public const SCOPE_ORGANISATION_USER = 'twf.organisationUser';
 
     /**
+     * @var string
+     */
+    protected $nonce;
+
+    /**
      * Returns the base URL for authorizing a client.
      */
     public function getBaseAuthorizationUrl(): string
@@ -78,6 +83,29 @@ class OAuthProvider extends AbstractProvider
     }
 
     /**
+     * Returns the string that should be used to separate scopes when building
+     * the URL for requesting an access token.
+     */
+    protected function getScopeSeparator(): string
+    {
+        return ' ';
+    }
+
+    /**
+     * Returns authorization parameters based on provided options.
+     */
+    protected function getAuthorizationParameters(array $options): array
+    {
+        $options = parent::getAuthorizationParameters($options);
+
+        /* Add a random 'nonce', as required by Twinfield. */
+        $this->nonce = $this->getRandomState();
+        $options["nonce"] = $this->nonce;
+
+        return $options;
+    }
+
+    /**
      * Checks a provider response for errors.
      *
      * @throws IdentityProviderException
@@ -87,12 +115,33 @@ class OAuthProvider extends AbstractProvider
      */
     protected function checkResponse(ResponseInterface $response, $data): void
     {
-        print_r($response);
-        print_r($data);
-
-        if ($response->getStatusCode() >= 400) {
-            throw new IdentityProviderException('TODO', 0, 'TODO');
+        if ($response->getStatusCode() < 400) {
+            return;
         }
+
+        /* An error has occurred; format the exception. */
+        $message = $response->getReasonPhrase();
+        if (isset($data["error"])) {
+            if (isset($data['error']['type']) && isset($data['error']['message'])) {
+                $message = "[{$data['error']['type']}] {$data['error']['message']}";
+            } else {
+                $message = $data["error"];
+            }
+
+            if (isset($data["error"]["field"])) {
+                $message .= " ({$data['error']['field']})";
+            }
+        }
+
+        throw new IdentityProviderException($message, $response->getStatusCode(), $response);
+    }
+
+    /**
+     * @throws \BadMethodCallException
+     */
+    public function getResourceOwner(AccessToken $token): void
+    {
+        throw new \BadMethodCallException("This method has not been implemented");
     }
 
     /**
