@@ -8,6 +8,8 @@ use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
+use PhpTwinfield\Response\IndividualMappedResponse;
+use PhpTwinfield\Response\Response;
 use Webmozart\Assert\Assert;
 
 /**
@@ -20,10 +22,10 @@ use Webmozart\Assert\Assert;
  * @author Leon Rowland <leon@rowland.nl>
  * @copyright (c) 2013, Pronamic
  */
-class CustomerApiConnector extends ProcessXmlApiConnector
+class CustomerApiConnector extends BaseApiConnector
 {
     /**
-     * Requests a specific customer based off the passed in code and optionally the office.
+     * Requests a specific customer based off the passed in code and the office.
      *
      * @param string $code
      * @param Office $office
@@ -39,7 +41,7 @@ class CustomerApiConnector extends ProcessXmlApiConnector
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
-        $response = $this->sendDocument($request_customer);
+        $response = $this->sendXmlDocument($request_customer);
         return CustomerMapper::map($response);
     }
 
@@ -47,7 +49,6 @@ class CustomerApiConnector extends ProcessXmlApiConnector
      * Requests all customers from the List Dimension Type.
      *
      * @param Office $office
-     * @param string $dimType
      * @return array A multidimensional array in the following form:
      *               [$customerId => ['name' => $name, 'shortName' => $shortName], ...]
      *
@@ -59,7 +60,7 @@ class CustomerApiConnector extends ProcessXmlApiConnector
         $request_customers = new Request\Catalog\Dimension($office, "DEB");
 
         // Send the Request document and set the response to this instance.
-        $response = $this->sendDocument($request_customers);
+        $response = $this->sendXmlDocument($request_customers);
 
         // Get the raw response document
         $responseDOM = $response->getResponseDocument();
@@ -89,22 +90,32 @@ class CustomerApiConnector extends ProcessXmlApiConnector
      * Sends a \PhpTwinfield\Customer\Customer instance to Twinfield to update or add.
      *
      * @param Customer $customer
+     * @return Customer
      * @throws Exception
      */
-    public function send(Customer $customer): void
+    public function send(Customer $customer): Customer
     {
-        $this->sendAll([$customer]);
+        $result = $this->sendAll([$customer]);
+
+        Assert::count($result, 1);
+
+        foreach ($result as $each) {
+            return $each->unwrap();
+        }
     }
 
     /**
      * @param Customer[] $customers
+     * @return IndividualMappedResponse[]|iterable
      * @throws Exception
      */
-    public function sendAll(array $customers): void
+    public function sendAll(array $customers): iterable
     {
         Assert::allIsInstanceOf($customers, Customer::class);
 
-        foreach ($this->chunk($customers) as $chunk) {
+        $responses = [];
+
+        foreach ($this->getProcessXmlService()->chunk($customers) as $chunk) {
 
             $customersDocument = new CustomersDocument();
 
@@ -112,7 +123,11 @@ class CustomerApiConnector extends ProcessXmlApiConnector
                 $customersDocument->addCustomer($customer);
             }
 
-            $this->sendDocument($customersDocument);
+            $responses[] = $this->sendXmlDocument($customersDocument);
         }
+
+        return $this->getProcessXmlService()->mapAll($responses, "dimension", function(Response $response): Customer {
+           return CustomerMapper::map($response);
+        });
     }
 }

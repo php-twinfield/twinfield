@@ -13,7 +13,6 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\PurchaseTransaction;
 use PhpTwinfield\PurchaseTransactionLine;
-use PhpTwinfield\Secure\Connection;
 
 /**
  * @covers PurchaseTransaction
@@ -32,18 +31,16 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
     protected function setUp()
     {
         parent::setUp();
-        $this->transactionApiConnector = new TransactionApiConnector($this->login);
+        $this->transactionApiConnector = new TransactionApiConnector($this->connection);
     }
 
     public function testGetPurchaseTransactionWorks()
     {
-        $domDocument = new \DOMDocument();
-        $domDocument->loadXML(file_get_contents(__DIR__ . '/resources/purchaseTransactionGetResponse.xml'));
-        $response = new Response($domDocument);
+        $response = Response::fromString(file_get_contents(__DIR__ . '/resources/purchaseTransactionGetResponse.xml'));
 
-        $this->client
+        $this->processXmlService
             ->expects($this->once())
-            ->method("sendDOMDocument")
+            ->method("sendDocument")
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Transaction::class))
             ->willReturn($response);
 
@@ -73,7 +70,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertCount(3, $purchaseTransactionLines);
         [$totalLine, $detailLine, $vatLine] = $purchaseTransactionLines;
 
-        $this->assertEquals(LineType::TOTAL(), $totalLine->getType());
+        $this->assertEquals(LineType::TOTAL(), $totalLine->getLineType());
         $this->assertSame(1, $totalLine->getId());
         $this->assertSame('1600', $totalLine->getDim1());
         $this->assertSame('2000', $totalLine->getDim2());
@@ -93,7 +90,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(2100), $totalLine->getVatBaseTotal());
         $this->assertEquals(Money::EUR(12100), $totalLine->getValueOpen());
 
-        $this->assertEquals(LineType::DETAIL(), $detailLine->getType());
+        $this->assertEquals(LineType::DETAIL(), $detailLine->getLineType());
         $this->assertSame(2, $detailLine->getId());
         $this->assertSame('8020', $detailLine->getDim1());
         $this->assertNull($detailLine->getDim2());
@@ -113,7 +110,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine->getVatBaseTotal());
         $this->assertNull($detailLine->getValueOpen());
 
-        $this->assertEquals(LineType::VAT(), $vatLine->getType());
+        $this->assertEquals(LineType::VAT(), $vatLine->getLineType());
         $this->assertSame(3, $vatLine->getId());
         $this->assertSame('1510', $vatLine->getDim1());
         $this->assertNull($vatLine->getDim2());
@@ -151,7 +148,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
         $totalLine = new PurchaseTransactionLine();
         $totalLine
-            ->setType(LineType::TOTAL())
+            ->setLineType(LineType::TOTAL())
             ->setId('1')
             ->setDim1('1600')
             ->setDim2('2000')
@@ -160,10 +157,10 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
         $detailLine = new PurchaseTransactionLine();
         $detailLine
-            ->setType(LineType::DETAIL())
+            ->setLineType(LineType::DETAIL())
             ->setId('2')
             ->setDim1('8020')
-            ->setValue(Money::EUR(-10000))
+            ->setValue(Money::EUR(10000))
             ->setDescription('Outfit')
             ->setVatCode('IH');
 
@@ -171,9 +168,9 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
             ->addLine($totalLine)
             ->addLine($detailLine);
 
-        $this->client
+        $this->processXmlService
             ->expects($this->once())
-            ->method("sendDOMDocument")
+            ->method("sendDocument")
             ->with($this->isInstanceOf(TransactionsDocument::class))
             ->willReturnCallback(function (TransactionsDocument $transactionsDocument) {
                 $this->assertXmlStringEqualsXmlString(
@@ -185,5 +182,22 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
             });
 
         $this->transactionApiConnector->send($purchaseTransaction);
+    }
+
+    protected function getSuccessfulResponse(): Response
+    {
+        return Response::fromString(
+            '<transactions result="1"><transaction location="temporary">
+                <header>
+                    <code name="Verkoopfactuur" shortname="Verkoop">VRK</code>
+                    <date>20170901</date>
+                    <duedate>20170901</duedate>
+                    <period>2017/09</period>
+                    <office name="Development BV" shortname="Development BV">DEV1000</office>
+                    <number>201702412</number>
+                </header>
+            </transaction>
+        </transactions>'
+        );
     }
 }

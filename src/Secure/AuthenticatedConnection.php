@@ -4,8 +4,6 @@ namespace PhpTwinfield\Secure;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Services\BaseService;
-use PhpTwinfield\Services\LoginService;
-use Webmozart\Assert\Assert;
 
 /**
  * A connection to Twinfield API.
@@ -29,7 +27,7 @@ abstract class AuthenticatedConnection
      *
      * @return string
      */
-    abstract protected function getCluster(): string;
+    abstract protected function getCluster(): ?string;
 
     /**
      * @var BaseService[]
@@ -63,5 +61,18 @@ abstract class AuthenticatedConnection
         }
 
         return $this->authenticatedClients[$key];
+    }
+
+    /**
+     * Reset a connection. Useful if you get logged out during operations, for example.
+     *
+     * @param Services $service
+     */
+    public function resetClient(Services $service): void
+    {
+        $key = $service->getKey();
+        if (array_key_exists($key, $this->authenticatedClients)) {
+            unset($this->authenticatedClients[$key]);
+        }
     }
 }

@@ -2,6 +2,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Invoice;
+use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML invoices.  Is a child class
@@ -59,7 +60,7 @@ class InvoicesDocument extends BaseDocument
             'currency'             => 'getCurrency',
             'period'               => 'getPeriod',
             'invoicedate'          => 'getInvoiceDate',
-            'duedate'              => 'getDueDateAsString',
+            'duedate'              => 'getDueDate',
             'bank'                 => 'getBank',
             'invoiceaddressnumber' => 'getInvoiceAddressNumber',
             'deliveraddressnumber' => 'getDeliverAddressNumber',
@@ -69,9 +70,11 @@ class InvoicesDocument extends BaseDocument
         
         // Go through each element and use the assigned method
         foreach ($headerTags as $tag => $method) {
-            
+
+            $value = $this->getValueFromCallback([$invoice, $method]);
+
             // Make text node for method value
-            $node = $this->createTextNode($invoice->$method());
+            $node = $this->createTextNode($value);
             
             // Make the actual element and assign the node
             $element = $this->createElement($tag);
@@ -98,6 +101,7 @@ class InvoicesDocument extends BaseDocument
             'freetext2'       => 'getFreeText2',
             'freetext3'       => 'getFreeText3',
             'performancedate' => 'getPerformanceDate',
+            'performancetype' => 'getPerformanceType',
             'dim1'            => 'getDim1',
         );
 
@@ -113,7 +117,7 @@ class InvoicesDocument extends BaseDocument
             foreach ($lineTags as $tag => $method) {
                 
                 // Make text node for method value
-                $node = $this->createTextNode($line->$method());
+                $node = $this->createTextNode($this->getValueFromCallback([$line, $method]));
                 
                 // Make the actual element with tag
                 $element = $this->createElement($tag);

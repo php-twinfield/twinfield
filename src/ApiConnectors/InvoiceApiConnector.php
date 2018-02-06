@@ -20,7 +20,7 @@ use Webmozart\Assert\Assert;
  * @author Leon Rowland <leon@rowland.nl>
  * @copyright (c) 2013, Pronamic
  */
-class InvoiceApiConnector extends ProcessXmlApiConnector
+class InvoiceApiConnector extends BaseApiConnector
 {
     /**
      * Requires a specific invoice based off the passed in code, invoiceNumber and optionally the office.
@@ -41,7 +41,7 @@ class InvoiceApiConnector extends ProcessXmlApiConnector
             ->setOffice($office->getCode());
 
         // Send the Request document and set the response to this instance
-        $response = $this->sendDocument($request_invoice);
+        $response = $this->sendXmlDocument($request_invoice);
 
         return InvoiceMapper::map($response);
     }
@@ -65,7 +65,7 @@ class InvoiceApiConnector extends ProcessXmlApiConnector
     {
         Assert::allIsInstanceOf($invoices, Invoice::class);
 
-        foreach ($this->chunk($invoices) as $chunk) {
+        foreach ($this->getProcessXmlService()->chunk($invoices) as $chunk) {
 
             $invoicesDocument = new InvoicesDocument();
 
@@ -73,7 +73,7 @@ class InvoiceApiConnector extends ProcessXmlApiConnector
                 $invoicesDocument->addInvoice($invoice);
             }
 
-            $this->sendDocument($invoicesDocument);
+            $this->sendXmlDocument($invoicesDocument);
         }
     }
 }

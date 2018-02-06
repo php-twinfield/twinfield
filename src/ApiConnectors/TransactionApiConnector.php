@@ -8,6 +8,8 @@ use PhpTwinfield\Request as Request;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\BaseTransaction;
+use PhpTwinfield\Response\IndividualMappedResponse;
+use PhpTwinfield\Response\Response;
 use Webmozart\Assert\Assert;
 
 /**
@@ -16,7 +18,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Dylan Schoenmakers <dylan@opifer.nl>
  */
-class TransactionApiConnector extends ProcessXmlApiConnector
+class TransactionApiConnector extends BaseApiConnector
 {
     /**
      * Requests a specific transaction by code, transactionNumber and the office.
@@ -42,31 +44,43 @@ class TransactionApiConnector extends ProcessXmlApiConnector
             ->setOffice($office);
 
         // Send the Request document and set the response to this instance
-        $response = $this->sendDocument($request_transaction);
+        $response = $this->sendXmlDocument($request_transaction);
 
-        return TransactionMapper::map($transactionClassName, $response)[0];
+        return TransactionMapper::map($transactionClassName, $response);
     }
 
     /**
      * @param BaseTransaction $transaction
+     * @return BaseTransaction
      * @throws Exception
      */
-    public function send(BaseTransaction $transaction): void
+    public function send(BaseTransaction $transaction): BaseTransaction
     {
-        $this->sendAll([$transaction]);
+        foreach($this->sendAll([$transaction]) as $each) {
+            return $each->unwrap();
+        }
     }
 
     /**
      * Sends a list of Transaction instances to Twinfield to add or update.
      *
      * @param BaseTransaction[] $transactions
+     * @return IndividualMappedResponse[]
      * @throws Exception
      */
-    public function sendAll(array $transactions): void
+    public function sendAll(array $transactions): array
     {
         Assert::allIsInstanceOf($transactions, BaseTransaction::class);
 
-        foreach ($this->chunk($transactions) as $chunk) {
+        $classname = get_class(reset($transactions));
+
+        /*
+         * We can have multiple documents sent, so we need to collect all documents.
+         */
+        /** @var Response[] $responses */
+        $responses = [];
+
+        foreach ($this->getProcessXmlService()->chunk($transactions) as $chunk) {
 
             $transactionsDocument = new TransactionsDocument();
 
@@ -74,7 +88,15 @@ class TransactionApiConnector extends ProcessXmlApiConnector
                 $transactionsDocument->addTransaction($transaction);
             }
 
-            $this->sendDocument($transactionsDocument);
+            $responses[] = $this->sendXmlDocument($transactionsDocument);
         }
+
+        return $this->getProcessXmlService()->mapAll(
+            $responses,
+            "transaction",
+            function (Response $subresponse) use ($classname): BaseTransaction {
+                return TransactionMapper::map($classname, $subresponse);
+            }
+        );
     }
 }

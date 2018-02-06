@@ -13,8 +13,6 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\JournalTransaction;
 use PhpTwinfield\JournalTransactionLine;
-use PhpTwinfield\Secure\Connection;
-use PhpTwinfield\Secure\Service;
 
 /**
  * @covers JournalTransaction
@@ -34,18 +32,16 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
     {
         parent::setUp();
 
-        $this->transactionApiConnector = new TransactionApiConnector($this->login);
+        $this->transactionApiConnector = new TransactionApiConnector($this->connection);
     }
 
     public function testGetJournalTransactionWorks()
     {
-        $domDocument = new \DOMDocument();
-        $domDocument->loadXML(file_get_contents(realpath(__DIR__ . '/resources/journalTransactionGetResponse.xml')));
-        $response = new Response($domDocument);
+        $response = Response::fromString(file_get_contents(__DIR__ . '/resources/journalTransactionGetResponse.xml'));
 
-        $this->client
+        $this->processXmlService
             ->expects($this->once())
-            ->method("sendDOMDocument")
+            ->method("sendDocument")
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Transaction::class))
             ->willReturn($response);
 
@@ -73,7 +69,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertCount(2, $journalTransactionLines);
         [$detailLine1, $detailLine2] = $journalTransactionLines;
 
-        $this->assertEquals(LineType::DETAIL(), $detailLine1->getType());
+        $this->assertEquals(LineType::DETAIL(), $detailLine1->getLineType());
         $this->assertSame(1, $detailLine1->getId());
         $this->assertSame('4008', $detailLine1->getDim1());
         $this->assertNull($detailLine1->getDim2());
@@ -95,7 +91,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine1->getPerformanceDate());
         $this->assertSame('', $detailLine1->getInvoiceNumber());
 
-        $this->assertEquals(LineType::DETAIL(), $detailLine2->getType());
+        $this->assertEquals(LineType::DETAIL(), $detailLine2->getLineType());
         $this->assertSame(2, $detailLine2->getId());
         $this->assertSame('1300', $detailLine2->getDim1());
         $this->assertSame('1000', $detailLine2->getDim2());
@@ -130,14 +126,14 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
 
         $detailLine1 = new JournalTransactionLine();
         $detailLine1
-            ->setType(LineType::DETAIL())
+            ->setLineType(LineType::DETAIL())
             ->setId('1')
             ->setDim1('4008')
             ->setValue(Money::EUR(-43555));
 
         $detailLine2 = new JournalTransactionLine();
         $detailLine2
-            ->setType(LineType::DETAIL())
+            ->setLineType(LineType::DETAIL())
             ->setId('2')
             ->setDim1('1300')
             ->setDim2('1000')
@@ -149,9 +145,9 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
             ->addLine($detailLine1)
             ->addLine($detailLine2);
 
-        $this->client
+        $this->processXmlService
             ->expects($this->once())
-            ->method("sendDOMDocument")
+            ->method("sendDocument")
             ->with($this->isInstanceOf(TransactionsDocument::class))
             ->willReturnCallback(function (TransactionsDocument $transactionsDocument): Response {
                 $this->assertXmlStringEqualsXmlString(
@@ -163,5 +159,21 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
             });
 
         $this->transactionApiConnector->send($journalTransaction);
+    }
+
+    protected function getSuccessfulResponse(): Response
+    {
+        return Response::fromString(
+    '<transactions result="1"><transaction location="temporary">
+                <header>
+                    <code name="Verkoopfactuur" shortname="Verkoop">VRK</code>
+                    <date>20170901</date>
+                    <period>2017/09</period>
+                    <office name="Development BV" shortname="Development BV">DEV1000</office>
+                    <number>201702412</number>
+                </header>
+            </transaction>
+        </transactions>'
+        );
     }
 }

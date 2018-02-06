@@ -25,6 +25,14 @@ class Customer
      * @var string
      */
     private $type = "DEB";
+
+    /**
+     * Country code. The ISO country codes are used.
+     *
+     * @var string
+     */
+    private $country;
+
     private $inUse;
     private $behaviour;
     private $touched;
@@ -354,5 +362,21 @@ class Customer
     {
         $this->groups = $groups;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountry(): string
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param string $country
+     */
+    public function setCountry(string $country): void
+    {
+        $this->country = $country;
     }
 }

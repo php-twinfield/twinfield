@@ -24,14 +24,14 @@ trait VatTotalFields
     /**
      * @return LineType
      */
-    abstract public function getType(): LineType;
+    abstract public function getLineType(): LineType;
 
     /**
      * @return Money|null
      */
     public function getVatTotal(): ?Money
     {
-        return $this->vatTotal;
+        return !empty($this->vatTotal) ? $this->vatTotal->absolute() : null;
     }
 
     /**
@@ -41,7 +41,7 @@ trait VatTotalFields
      */
     public function setVatTotal(?Money $vatTotal): self
     {
-        if ($vatTotal !== null && !$this->getType()->equals(LineType::TOTAL())) {
+        if ($vatTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('vatTotal', $this);
         }
 
@@ -55,7 +55,7 @@ trait VatTotalFields
      */
     public function getVatBaseTotal(): ?Money
     {
-        return $this->vatBaseTotal;
+        return !empty($this->vatBaseTotal) ? $this->vatBaseTotal->absolute() : null;
     }
 
     /**
@@ -65,7 +65,7 @@ trait VatTotalFields
      */
     public function setVatBaseTotal(?Money $vatBaseTotal): self
     {
-        if ($vatBaseTotal !== null && !$this->getType()->equals(LineType::TOTAL())) {
+        if ($vatBaseTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('vatBaseTotal', $this);
         }
 

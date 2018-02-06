@@ -3,16 +3,17 @@
 namespace PhpTwinfield\Secure;
 
 use PhpTwinfield\Exception;
+use League\OAuth2\Client\Token\AccessToken;
 
 /**
  * This class allows you to authenticate with an access token to the Twinfield APIs.
  *
- * Now how you get an access token - todo.
+ * @see OAuthProvider for retrieving an access code.
  */
 class OpenIdConnectAuthentication extends AuthenticatedConnection
 {
     /**
-     * @var string
+     * @var AccessToken
      */
     private $accessToken;
 
@@ -21,12 +22,12 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
      */
     private $cluster;
 
-    public function __construct(string $accessToken)
+    public function __construct(AccessToken $accessToken)
     {
         $this->accessToken = $accessToken;
     }
 
-    protected function getCluster(): string
+    protected function getCluster(): ?string
     {
         return $this->cluster;
     }
@@ -47,7 +48,7 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
      */
     protected function login(): void
     {
-        if (null !== $this->cluster) {
+        if (null === $this->cluster) {
 
             $validation = file_get_contents(
                 "https://login.twinfield.com/auth/authentication/connect/accesstokenvalidation?token=".urlencode(
@@ -63,9 +64,8 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
              * In order to determine the correct cluster the retrieved access token should be sent to the
              * accesstokenvalidation endpoint. Part of the response is the twf.clusterUrl.
              */
-            $validationResult = json_decode($validation); // todo validate that this works.
-
-            $this->cluster = $validationResult->twf->clusterUrl;
+            $validationResult = json_decode($validation, true);
+            $this->cluster = $validationResult["twf.clusterUrl"];
         }
     }
 }

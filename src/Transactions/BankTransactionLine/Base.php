@@ -2,14 +2,17 @@
 
 namespace PhpTwinfield\Transactions\BankTransactionLine;
 
-use Money\Money;
+use PhpTwinfield\BankTransaction;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\MatchReference;
 use PhpTwinfield\Office;
+use PhpTwinfield\MatchReferenceInterface;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionLine;
 use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
 use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
+use Webmozart\Assert\Assert;
 
 abstract class Base implements TransactionLine
 {
@@ -33,7 +36,7 @@ abstract class Base implements TransactionLine
     /**
      * @var LineType
      */
-    private $type;
+    private $lineType;
 
     /**
      * @var string
@@ -53,19 +56,46 @@ abstract class Base implements TransactionLine
     private $freeChar;
 
     /**
-     * @return LineType
+     * @var BankTransaction
      */
-    final public function getType(): LineType
+    private $transaction;
+
+    /**
+     * References the transaction this line belongs too.
+     *
+     * @return BankTransaction
+     */
+    public function getTransaction(): BankTransaction
     {
-        return $this->type;
+        return $this->transaction;
     }
 
     /**
-     * @param LineType $type
+     * @param BankTransaction $object
      */
-    final protected function setType(LineType $type): void
+    public function setTransaction($object): void
     {
-        $this->type = $type;
+        Assert::null($this->transaction, "Attempting to set a transaction while the transaction is already set.");
+        Assert::isInstanceOf($object, BankTransaction::class);
+        $this->transaction = $object;
+    }
+
+    /**
+     * @return LineType
+     */
+    final public function getLineType(): LineType
+    {
+        return $this->lineType;
+    }
+
+    /**
+     * @param LineType $lineType
+     * @return $this
+     */
+    final protected function setLineType(LineType $lineType)
+    {
+        $this->lineType = $lineType;
+        return $this;
     }
 
     /**
@@ -78,26 +108,32 @@ abstract class Base implements TransactionLine
 
     /**
      * @param string $description
+     * @return $this
      */
-    public function setDescription(string $description): void
+    public function setDescription(string $description)
     {
         $this->description = $description;
+        return $this;
     }
 
     /**
-     * @return Office
+     * @return null|Office
      */
-    public function getDestOffice(): Office
+    public function getDestOffice(): ?Office
     {
         return $this->destOffice;
     }
 
     /**
+     * Used for inter company transactions – here you define in which company the transaction line should be posted.
+     *
      * @param Office $destOffice
+     * @return $this
      */
-    public function setDestOffice(Office $destOffice): void
+    public function setDestOffice(Office $destOffice)
     {
         $this->destOffice = $destOffice;
+        return $this;
     }
 
     /**
@@ -110,10 +146,12 @@ abstract class Base implements TransactionLine
 
     /**
      * @param string $freeChar
+     * @return $this
      */
-    public function setFreeChar(string $freeChar): void
+    public function setFreeChar(string $freeChar)
     {
         $this->freeChar = $freeChar;
+        return $this;
     }
 
     public function getId(): ?int
@@ -121,8 +159,30 @@ abstract class Base implements TransactionLine
         return $this->id;
     }
 
-    public function setId(int $id): void
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function setId(int $id)
     {
         $this->id = $id;
+        return $this;
+    }
+
+    public function getReference(): MatchReferenceInterface
+    {
+        $transaction = $this->getTransaction();
+
+        return new MatchReference(
+            $transaction->getOffice(),
+            $transaction->getCode(),
+            $transaction->getNumber(),
+            $this->getId()
+        );
+    }
+
+    protected function isIncomingTransactionType(): bool
+    {
+        return true;
     }
 }

@@ -2,9 +2,7 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
-use PhpTwinfield\DomDocuments\ElectronicBankStatementDocument;
 use PhpTwinfield\DomDocuments\MatchDocument;
-use PhpTwinfield\ElectronicBankStatement;
 use PhpTwinfield\Exception;
 use PhpTwinfield\MatchSet;
 use Webmozart\Assert\Assert;
@@ -13,7 +11,7 @@ use Webmozart\Assert\Assert;
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about
  * matching.
  */
-class MatchesApiConnector extends ProcessXmlApiConnector
+class MatchesApiConnector extends BaseApiConnector
 {
     /**
      * @param MatchSet $matchSet
@@ -32,7 +30,7 @@ class MatchesApiConnector extends ProcessXmlApiConnector
     {
         Assert::allIsInstanceOf($matchSets, MatchSet::class);
 
-        foreach ($this->chunk($matchSets) as $chunk) {
+        foreach ($this->getProcessXmlService()->chunk($matchSets) as $chunk) {
 
             $document = new MatchDocument();
 
@@ -40,7 +38,7 @@ class MatchesApiConnector extends ProcessXmlApiConnector
                 $document->addMatchSet($matchSet);
             }
 
-            $this->sendDocument($document);
+            $this->sendXmlDocument($document);
         }
     }
 }

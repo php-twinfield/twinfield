@@ -4,6 +4,7 @@ namespace PhpTwinfield\Transactions\TransactionFields;
 
 use Money\Currency;
 use Money\Money;
+use Webmozart\Assert\Assert;
 
 trait StartAndCloseValueFields
 {
@@ -28,10 +29,23 @@ trait StartAndCloseValueFields
      */
     private $closevalue;
 
-
     public function getCurrency(): Currency
     {
         return $this->currency;
+    }
+
+    /**
+     * Set the currency. Can only be done when the start value is still 0.
+     *
+     * @param Currency $currency
+     * @return $this
+     */
+    public function setCurrency(Currency $currency)
+    {
+        Assert::true($this->startvalue->isZero());
+        $this->setStartvalue(new Money(0, $currency));
+
+        return $this;
     }
 
     public function getStartvalue(): Money
@@ -48,6 +62,6 @@ trait StartAndCloseValueFields
 
     public function getClosevalue(): Money
     {
-        return $this->closevalue;
+        return $this->closevalue ?? new Money(0, $this->getCurrency());
     }
 }

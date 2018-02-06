@@ -5,15 +5,42 @@ namespace PhpTwinfield;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Transactions\TransactionFields\LinesField;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
+use Webmozart\Assert\Assert;
 
 class SalesTransactionLine extends BaseTransactionLine
 {
     use VatTotalFields;
     use ValueOpenField;
     use PerformanceFields;
+
+    /**
+     * @var SalesTransaction
+     */
+    private $transaction;
+
+    /**
+     * @param SalesTransaction $object
+     */
+    public function setTransaction($object): void
+    {
+        Assert::null($this->transaction, "Attempting to set a transaction while the transaction is already set.");
+        Assert::isInstanceOf($object, SalesTransaction::class);
+        $this->transaction = $object;
+    }
+
+    /**
+     * References the transaction this line belongs too.
+     *
+     * @return SalesTransaction
+     */
+    public function getTransaction(): SalesTransaction
+    {
+        return $this->transaction;
+    }
 
     /**
      * If line type = total the accounts receivable balance account. When dim1 is omitted, by default the general ledger
@@ -45,7 +72,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setDim2(?string $dim2): BaseTransactionLine
     {
-        if ($dim2 !== null && $this->getType()->equals(LineType::VAT())) {
+        if ($dim2 !== null && $this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidDimensionForLineType(2, $this);
         }
 
@@ -95,7 +122,7 @@ class SalesTransactionLine extends BaseTransactionLine
     {
         if (
             $matchStatus !== null &&
-            in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()]) &&
+            in_array($this->getLineType(), [LineType::DETAIL(), LineType::VAT()]) &&
             $matchStatus != self::MATCHSTATUS_NOTMATCHABLE
         ) {
             throw Exception::invalidMatchStatusForLineType($matchStatus, $this);
@@ -113,7 +140,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
     {
-        if ($matchLevel !== null && !$this->getType()->equals(LineType::TOTAL())) {
+        if ($matchLevel !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('matchLevel', $this);
         }
 
@@ -129,7 +156,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setBaseValueOpen(?Money $baseValueOpen): BaseTransactionLine
     {
-        if ($baseValueOpen !== null && !$this->getType()->equals(LineType::TOTAL())) {
+        if ($baseValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('baseValueOpen', $this);
         }
 
@@ -145,7 +172,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setProjectAsset(string $dim3)
     {
-        if (!$this->getType()->equals(LineType::DETAIL())) {
+        if (!$this->getLineType()->equals(LineType::DETAIL())) {
             throw Exception::invalidDimensionForLineType(3, $this);
         }
 
@@ -161,7 +188,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setVatTurnover(?Money $vatTurnover)
     {
-        if (!$this->getType()->equals(LineType::VAT())) {
+        if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType("vatturnover", $this);
         }
         return parent::setVatTurnOver($vatTurnover);
@@ -176,7 +203,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setVatBaseTurnover(?Money $vatBaseTurnover)
     {
-        if (!$this->getType()->equals(LineType::VAT())) {
+        if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType("vatbaseturnover", $this);
         }
         return parent::setVatBaseTurnover($vatBaseTurnover);
@@ -191,7 +218,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setVatRepTurnover(?Money $vatRepTurnover)
     {
-        if (!$this->getType()->equals(LineType::VAT())) {
+        if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType("vatrepturnover", $this);
         }
         return parent::setVatRepTurnover($vatRepTurnover);
@@ -206,9 +233,23 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setBaseline(?int $baseline)
     {
-        if (!$this->getType()->equals(LineType::VAT())) {
+        if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType("baseline", $this);
         }
         return parent::setBaseline($baseline);
+    }
+
+    /**
+     * Returns true if a positive amount in the TOTAL line means the amount is 'debit'. Examples of incoming transaction
+     * types are Sales Transactions, Electronic Bank Statements and Bank Transactions.
+     *
+     * Returns false if a positive amount in the TOTAL line means the amount is 'credit'. An example of an outgoing
+     * transaction type is a Purchase Transaction.
+     *
+     * @return bool
+     */
+    protected function isIncomingTransactionType(): bool
+    {
+        return true;
     }
 }

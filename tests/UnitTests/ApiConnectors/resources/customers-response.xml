@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<customers>
+	<dimension status="active" result="1">
+		<code>D1001</code>
+		<name>Hr E G H K&#xFC;ppers en/of MW M.J. K&#xFC;ppers-Veeneman</name>
+		<type name="Debiteuren" shortname="Debiteuren">DEB</type>
+		<office name="Development BV" shortname="Development BV">DEV1000</office>
+		<addresses>
+			<address default="true" type="invoice" id="1">
+				<name/>
+				<contact/>
+				<country name="Belgi&#xEB;" shortname="">BE</country>
+				<city/>
+				<postcode/>
+				<telephone/>
+				<telefax/>
+				<email/>
+				<field1/>
+				<field2/>
+				<field3/>
+				<field4>BE0123456789</field4>
+				<field5/>
+				<field6/>
+			</address>
+		</addresses>
+		<uid>149e5dcb-8b37-446b-b865-f3928572618f</uid>
+		<inuse>true</inuse>
+		<shortname/>
+		<behaviour>normal</behaviour>
+		<touched>4</touched>
+		<beginperiod>0</beginperiod>
+		<beginyear>0</beginyear>
+		<endperiod>0</endperiod>
+		<endyear>0</endyear>
+		<website/>
+		<vatnumber/>
+		<cocnumber/>
+		<editdimensionname>true</editdimensionname>
+		<financials>
+			<matchtype>customersupplier</matchtype>
+			<accounttype>inherit</accounttype>
+			<subanalyse>false</subanalyse>
+			<duedays>30</duedays>
+			<level>2</level>
+			<payavailable>false</payavailable>
+			<meansofpayment>none</meansofpayment>
+			<paycode name="" shortname="" id=""/>
+			<ebilling>false</ebilling>
+			<ebillmail/>
+			<substitutionlevel>1</substitutionlevel>
+			<substitutewith name="Debiteuren" shortname="" dimensiontype="BAS" id="089dd2f4-5c28-4f88-8988-b7cbc5d6bedc">
+				130000
+			</substitutewith>
+			<relationsreference/>
+			<vattype name="" shortname=""/>
+			<vatcode fixed="false"/>
+			<vatobligatory>false</vatobligatory>
+			<performancetype/>
+			<collectmandate>
+				<id>D1001</id>
+				<signaturedate/>
+				<firstrundate/>
+			</collectmandate>
+			<collectionschema>core</collectionschema>
+			<childvalidations>
+				<childvalidation type="code" level="1">130000</childvalidation>
+			</childvalidations>
+		</financials>
+		<creditmanagement>
+			<responsibleuser name="" shortname=""/>
+			<basecreditlimit>0.00</basecreditlimit>
+			<sendreminder>true</sendreminder>
+			<reminderemail/>
+			<blocked locked="false" modified="">false</blocked>
+			<freetext1/>
+			<freetext2/>
+			<freetext3/>
+			<comment/>
+		</creditmanagement>
+		<banks/>
+	</dimension>
+</customers>

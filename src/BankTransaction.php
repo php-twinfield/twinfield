@@ -2,9 +2,12 @@
 
 namespace PhpTwinfield;
 
+use Money\Currency;
+use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\Transaction;
+use PhpTwinfield\Transactions\TransactionFields\CodeNumberOfficeFields;
 use PhpTwinfield\Transactions\TransactionFields\LinesField;
 use PhpTwinfield\Transactions\TransactionFields\RaiseWarningField;
 use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
@@ -25,7 +28,7 @@ class BankTransaction implements Transaction
     use DestinyField;
     use AutoBalanceVatField;
     use PeriodField;
-    use OfficeField;
+    use CodeNumberOfficeFields;
     use DateField;
     use StatementNumberField;
     use RaiseWarningField;
@@ -47,21 +50,6 @@ class BankTransaction implements Transaction
     private $inputDate;
 
     /**
-     * Transaction type code.
-     *
-     * @var mixed
-     */
-    private $code;
-
-    /**
-     * Transaction number.
-     * When creating a new bank transaction, don't include this tag as the transaction number is determined by the system. When updating a bank transaction, the related transaction number should be provided.
-     *
-     * @var int
-     */
-    private $number;
-
-    /**
      * The bank transaction origin.
      * Read-only attribute.
      *
@@ -76,6 +64,12 @@ class BankTransaction implements Transaction
      * @var \DateTimeInterface
      */
     private $modificationDate;
+
+    public function __construct()
+    {
+        $this->currency   = new Currency("EUR");
+        $this->startvalue = new Money(0, $this->getCurrency());
+    }
 
     public function getLineClassName(): string
     {
@@ -103,53 +97,27 @@ class BankTransaction implements Transaction
         Assert::notEmpty($this->startvalue);
 
         /*
+         * Max is 500 lines. 
+         */
+        Assert::lessThanEq(count($this->getLines()), 500);
+
+        /*
          * Calls the addLine() method on the LinesField trait. Uses an alias in the `use` statement at top of this
          * class, because parent::addLine() doesn't work for traits.
          */
         $this->traitAddLine($line);
 
-        if (!$line->getType()->equals(LineType::TOTAL())) {
+        if (!$line->getLineType()->equals(LineType::TOTAL())) {
             /*
              * Don't add total lines to the closevalue, they are summaries of the details and vat lines.
              *
              * @link https://github.com/php-twinfield/twinfield/issues/39
              */
             if ($line->getDebitCredit()->equals(DebitCredit::CREDIT())) {
-                $this->closevalue = $this->closevalue->add($line->getValue());
+                $this->closevalue = $this->getClosevalue()->add($line->getValue());
             } else {
-                $this->closevalue = $this->closevalue->subtract($line->getValue());
+                $this->closevalue = $this->getClosevalue()->subtract($line->getValue());
             }
         }
-    }
-
-    /**
-     * When creating a new bank transaction, don't include this tag as the transaction number is determined by the
-     * system. When updating a bank transaction, the related transaction number should be provided.
-     *
-     * @return int
-     */
-    public function getNumber(): ?int
-    {
-        return $this->number;
-    }
-
-    /**
-     * @return string|int|null
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    /**
-     * Transaction type code.
-     *
-     * @param string|int|null $code
-     * @return $this
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
-        return $this;
     }
 }

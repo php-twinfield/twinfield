@@ -3,13 +3,14 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
+use Webmozart\Assert\Assert;
 
 class MatchSet
 {
     use OfficeField;
 
     /**
-     * @var MatchCode
+     * @var Enums\MatchCode
      */
     private $matchCode;
 
@@ -24,18 +25,18 @@ class MatchSet
     private $lines = [];
 
     /**
-     * @return MatchCode
+     * @return Enums\MatchCode
      */
-    public function getMatchCode(): MatchCode
+    public function getMatchCode(): Enums\MatchCode
     {
         return $this->matchCode;
     }
 
     /**
-     * @param MatchCode $matchCode
+     * @param Enums\MatchCode $matchCode
      * @return $this
      */
-    public function setMatchCode(MatchCode $matchCode)
+    public function setMatchCode(Enums\MatchCode $matchCode)
     {
         $this->matchCode = $matchCode;
 
@@ -63,10 +64,14 @@ class MatchSet
 
     /**
      * @param MatchLine $line
+     * @internal  Don't call this, use \PhpTwinfield\MatchLine::addToMatchSet
+     * @see \PhpTwinfield\MatchLine::addToMatchSet()
      * @return $this
      */
     public function addLine(MatchLine $line): self
     {
+        Assert::false(in_array($line, $this->lines));
+
         $this->lines[] = $line;
 
         return $this;

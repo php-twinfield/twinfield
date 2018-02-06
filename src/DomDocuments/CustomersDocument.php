@@ -14,27 +14,16 @@ use PhpTwinfield\CustomerBank;
  * @author Leon Rowland <leon@rowland.nl>
  * @copyright (c) 2013, Pronamic
  */
-class CustomersDocument extends \DOMDocument
+class CustomersDocument extends BaseDocument
 {
     /**
-     * Holds the <dimension> element
-     * that all additional elements should be a child of
-     * @var \DOMElement
-     */
-    private $dimensionElement;
-
-    /**
-     * Creates the <dimension> element and adds it to the property
-     * dimensionElement
+     * Multiple customers can be created at once by enclosing them by the dimensions element.
      *
-     * @access public
+     * @return string
      */
-    public function __construct()
+    protected function getRootTagName(): string
     {
-        parent::__construct('1.0', 'UTF-8');
-
-        $this->dimensionElement = $this->createElement('dimension');
-        $this->appendChild($this->dimensionElement);
+        return 'dimensions';
     }
 
     /**
@@ -45,6 +34,8 @@ class CustomersDocument extends \DOMDocument
      */
     public function addCustomer(Customer $customer): void
     {
+        $customerEl = $this->createElement("dimension");
+
         // Elements and their associated methods for customer
         $customerTags = array(
             'code'      => 'getCode',
@@ -58,24 +49,23 @@ class CustomersDocument extends \DOMDocument
             $customerTags['office'] = 'getOffice';
         }
 
-        $status = $customer->getStatus();
-        if (!empty($status)) {
-            $this->dimensionElement->setAttribute('status', $status);
+        if (!empty($customer->getStatus())) {
+            $customerEl->setAttribute('status', $customer->getStatus());
         }
 
         // Go through each customer element and use the assigned method
         foreach ($customerTags as $tag => $method) {
 
-            // Make text node for method value
-            if($customer->$method()) {
-                $node = $this->createTextNode($customer->$method());
+            if($value = $customer->$method()) {
+                // Make text node for method value
+                $node = $this->createTextNode($value);
 
                 // Make the actual element and assign the node
                 $element = $this->createElement($tag);
                 $element->appendChild($node);
 
                 // Add the full element
-                $this->dimensionElement->appendChild($element);
+                $customerEl->appendChild($element);
             }
         }
 
@@ -94,7 +84,7 @@ class CustomersDocument extends \DOMDocument
 
             // Make the financial element
             $financialElement = $this->createElement('financials');
-            $this->dimensionElement->appendChild($financialElement);
+            $customerEl->appendChild($financialElement);
 
             // Go through each financial element and use the assigned method
             foreach ($financialsTags as $tag => $method) {
@@ -132,7 +122,7 @@ class CustomersDocument extends \DOMDocument
 
             // Make the creditmanagement element
             $creditManagementElement = $this->createElement('creditmanagement');
-            $this->dimensionElement->appendChild($creditManagementElement);
+            $customerEl->appendChild($creditManagementElement);
 
             // Go through each credit management element and use the assigned method
             foreach ($creditManagementTags as $tag => $method) {
@@ -176,7 +166,7 @@ class CustomersDocument extends \DOMDocument
 
             // Make addresses element
             $addressesElement = $this->createElement('addresses');
-            $this->dimensionElement->appendChild($addressesElement);
+            $customerEl->appendChild($addressesElement);
 
             // Go through each address assigned to the customer
             foreach ($addresses as $address) {
@@ -224,7 +214,7 @@ class CustomersDocument extends \DOMDocument
 
             // Make banks element
             $banksElement = $this->createElement('banks');
-            $this->dimensionElement->appendChild($banksElement);
+            $customerEl->appendChild($banksElement);
 
             // Go through each bank assigned to the customer
             /** @var CustomerBank $bank */
@@ -270,5 +260,7 @@ class CustomersDocument extends \DOMDocument
                 $bankElement->appendChild($addressElement);
             }
         }
+
+        $this->rootElement->appendChild($customerEl);
     }
 }

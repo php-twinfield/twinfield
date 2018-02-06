@@ -5,6 +5,7 @@ namespace PhpTwinfield;
 use Money\Money;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
+use Webmozart\Assert\Assert;
 
 /**
  * @todo $currencyDate Only if line type is detail. The line date.
@@ -19,18 +20,43 @@ class JournalTransactionLine extends BaseTransactionLine
     private $invoiceNumber;
 
     /**
-     * @param LineType $type
+     * @var JournalTransaction
+     */
+    private $transaction;
+
+    /**
+     * @param JournalTransaction $object
+     */
+    public function setTransaction($object): void
+    {
+        Assert::null($this->transaction, "Attempting to set a transaction while the transaction is already set.");
+        Assert::isInstanceOf($object, JournalTransaction::class);
+        $this->transaction = $object;
+    }
+
+    /**
+     * References the transaction this line belongs too.
+     *
+     * @return JournalTransaction
+     */
+    public function getTransaction(): JournalTransaction
+    {
+        return $this->transaction;
+    }
+
+    /**
+     * @param LineType $lineType
      * @return $this
      * @throws Exception
      */
-    public function setType(LineType $type): BaseTransactionLine
+    public function setLineType(LineType $lineType): BaseTransactionLine
     {
         // Only 'detail' and 'vat' are supported.
-        if ($type->equals(LineType::TOTAL())) {
-            throw Exception::invalidLineTypeForTransaction($type, $this);
+        if ($lineType->equals(LineType::TOTAL())) {
+            throw Exception::invalidLineTypeForTransaction($lineType, $this);
         }
 
-        return parent::setType($type);
+        return parent::setLineType($lineType);
     }
 
     /**
@@ -58,7 +84,7 @@ class JournalTransactionLine extends BaseTransactionLine
      */
     public function setDim2(?string $dim2): BaseTransactionLine
     {
-        if ($dim2 !== null && $this->getType()->equals(LineType::VAT())) {
+        if ($dim2 !== null && $this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidDimensionForLineType(2, $this);
         }
 
@@ -94,7 +120,7 @@ class JournalTransactionLine extends BaseTransactionLine
      */
     public function setInvoiceNumber(?string $invoiceNumber): BaseTransactionLine
     {
-        if ($invoiceNumber !== null && !$this->getType()->equals(LineType::DETAIL())) {
+        if ($invoiceNumber !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
             throw Exception::invalidFieldForLineType('invoiceNumber', $this);
         }
 
@@ -113,7 +139,7 @@ class JournalTransactionLine extends BaseTransactionLine
     {
         if (
             $matchStatus !== null &&
-            $this->getType()->equals(LineType::VAT()) &&
+            $this->getLineType()->equals(LineType::VAT()) &&
             $matchStatus != self::MATCHSTATUS_NOTMATCHABLE
         ) {
             throw Exception::invalidMatchStatusForLineType($matchStatus, $this);
@@ -131,7 +157,7 @@ class JournalTransactionLine extends BaseTransactionLine
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
     {
-        if ($matchLevel !== null && !$this->getType()->equals(LineType::DETAIL())) {
+        if ($matchLevel !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
             throw Exception::invalidFieldForLineType('matchLevel', $this);
         }
 
@@ -147,10 +173,24 @@ class JournalTransactionLine extends BaseTransactionLine
      */
     public function setBaseValueOpen(?Money $baseValueOpen): BaseTransactionLine
     {
-        if ($baseValueOpen !== null && !$this->getType()->equals(LineType::DETAIL())) {
+        if ($baseValueOpen !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
             throw Exception::invalidFieldForLineType('baseValueOpen', $this);
         }
 
         return parent::setBaseValueOpen($baseValueOpen);
+    }
+
+    /**
+     * Returns true if a positive amount in the TOTAL line means the amount is 'debit'. Examples of incoming transaction
+     * types are Sales Transactions, Electronic Bank Statements and Bank Transactions.
+     *
+     * Returns false if a positive amount in the TOTAL line means the amount is 'credit'. An example of an outgoing
+     * transaction type is a Purchase Transaction.
+     *
+     * @return bool
+     */
+    protected function isIncomingTransactionType(): bool
+    {
+        return true;
     }
 }

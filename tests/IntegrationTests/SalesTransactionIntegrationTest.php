@@ -13,8 +13,6 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\SalesTransaction;
 use PhpTwinfield\SalesTransactionLine;
-use PhpTwinfield\Secure\Connection;
-use PhpTwinfield\Secure\Service;
 
 /**
  * @covers SalesTransaction
@@ -34,18 +32,16 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
     {
         parent::setUp();
 
-        $this->transactionApiConnector = new TransactionApiConnector($this->login);
+        $this->transactionApiConnector = new TransactionApiConnector($this->connection);
     }
 
     public function testGetSalesTransactionWorks()
     {
-        $domDocument = new \DOMDocument();
-        $domDocument->loadXML(file_get_contents(realpath(__DIR__ . '/resources/salesTransactionGetResponse.xml')));
-        $response = new Response($domDocument);
+        $response = Response::fromString(file_get_contents(__DIR__ . '/resources/salesTransactionGetResponse.xml'));
 
-        $this->client
+        $this->processXmlService
             ->expects($this->once())
-            ->method("sendDOMDocument")
+            ->method("sendDocument")
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Transaction::class))
             ->willReturn($response);
 
@@ -75,7 +71,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertCount(3, $salesTransactionLines);
         [$totalLine, $detailLine, $vatLine] = $salesTransactionLines;
 
-        $this->assertEquals(LineType::TOTAL(), $totalLine->getType());
+        $this->assertEquals(LineType::TOTAL(), $totalLine->getLineType());
         $this->assertSame(1, $totalLine->getId());
         $this->assertSame('1300', $totalLine->getDim1());
         $this->assertSame('1000', $totalLine->getDim2());
@@ -99,7 +95,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($totalLine->getPerformanceVatNumber());
         $this->assertNull($totalLine->getPerformanceDate());
 
-        $this->assertEquals(LineType::DETAIL(), $detailLine->getType());
+        $this->assertEquals(LineType::DETAIL(), $detailLine->getLineType());
         $this->assertSame(2, $detailLine->getId());
         $this->assertSame('8020', $detailLine->getDim1());
         $this->assertNull($detailLine->getDim2());
@@ -123,7 +119,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine->getPerformanceVatNumber());
         $this->assertNull($detailLine->getPerformanceDate());
 
-        $this->assertEquals(LineType::VAT(), $vatLine->getType());
+        $this->assertEquals(LineType::VAT(), $vatLine->getLineType());
         $this->assertSame(3, $vatLine->getId());
         $this->assertSame('1530', $vatLine->getDim1());
         $this->assertNull($vatLine->getDim2());
@@ -165,16 +161,16 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
 
         $totalLine = new SalesTransactionLine();
         $totalLine
-            ->setType(LineType::TOTAL())
+            ->setLineType(LineType::TOTAL())
             ->setId('1')
             ->setDim1('1300')
             ->setDim2('1000')
-            ->setValue(Money::EUR(-12100))
+            ->setValue(Money::EUR(12100))
             ->setDescription('');
 
         $detailLine = new SalesTransactionLine();
         $detailLine
-            ->setType(LineType::DETAIL())
+            ->setLineType(LineType::DETAIL())
             ->setId('2')
             ->setDim1('8020')
             ->setValue(Money::EUR(10000))
@@ -185,9 +181,9 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
             ->addLine($totalLine)
             ->addLine($detailLine);
 
-        $this->client
+        $this->processXmlService
             ->expects($this->once())
-            ->method("sendDOMDocument")
+            ->method("sendDocument")
             ->with($this->isInstanceOf(TransactionsDocument::class))
             ->willReturnCallback(function (TransactionsDocument $transactionsDocument) {
                 $this->assertXmlStringEqualsXmlString(
@@ -199,5 +195,22 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
             });
 
         $this->transactionApiConnector->send($salesTransaction);
+    }
+
+    protected function getSuccessfulResponse(): Response
+    {
+        return Response::fromString(
+            '<transactions result="1"><transaction location="temporary">
+                <header>
+                    <code name="Verkoopfactuur" shortname="Verkoop">VRK</code>
+                    <date>20170901</date>
+                    <duedate>20170901</duedate>
+                    <period>2017/09</period>
+                    <office name="Development BV" shortname="Development BV">DEV1000</office>
+                    <number>201702412</number>
+                </header>
+            </transaction>
+        </transactions>'
+        );
     }
 }

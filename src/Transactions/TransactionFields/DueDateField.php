@@ -44,12 +44,4 @@ trait DueDateField
     {
         return $this->setDueDate(Util::parseDate($dateString));
     }
-
-    public function getDueDateAsString(): ?string
-    {
-        if ($this->getDueDate() !== null) {
-            return Util::formatDate($this->getDueDate());
-        }
-        return null;
-    }
 }

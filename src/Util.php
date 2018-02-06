@@ -3,19 +3,25 @@
 namespace PhpTwinfield;
 
 use Money\Currencies\ISOCurrencies;
+use Money\Currency;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
+use Money\Parser\DecimalMoneyParser;
 use Webmozart\Assert\Assert;
 
 final class Util
 {
     public static function formatMoney(Money $money): string
     {
-        Assert::true($money->isPositive() || $money->isZero());
-
         $decimalformatter = new DecimalMoneyFormatter(new ISOCurrencies());
 
         return $decimalformatter->format($money);
+    }
+
+    public static function parseMoney(string $moneyString, Currency $currency): Money
+    {
+        $parser = new DecimalMoneyParser(new ISOCurrencies());
+        return $parser->parse($moneyString, $currency->getCode());
     }
 
     /**

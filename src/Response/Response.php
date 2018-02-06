@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield\Response;
 
+use PhpTwinfield\Exception;
+
 /**
  * Response class.
  *
@@ -26,10 +28,24 @@ class Response
      * Holds the response, loaded in from the
      * \PhpTwinfield\Secure\Service class.
      *
-     * @var \DOMDocument
+     * @var \DOMNode
      */
     private $responseDocument;
 
+    /**
+     * Utility function to quickly create new Response objects.
+     *
+     * @param string $xml
+     * @return Response
+     */
+    public static function fromString(string $xml)
+    {
+        $document = new \DOMDocument();
+        $document->loadXML($xml);
+
+        return new self($document);
+    }
+    
     public function __construct(\DOMDocument $responseDocument)
     {
         $this->responseDocument = $responseDocument;
@@ -37,12 +53,8 @@ class Response
 
     /**
      * Returns the raw DOMDocument response.
-     *
-     * @since 0.0.1
-     *
-     * @return \DOMDocument
      */
-    public function getResponseDocument()
+    public function getResponseDocument(): \DOMDocument
     {
         return $this->responseDocument;
     }
@@ -52,16 +64,40 @@ class Response
      * this by getting the root element, and looking for the
      * attribute result.  If it doesn't equal 1, then it failed.
      *
-     * @since 0.0.1
-     * @see http://remcotolsma.nl/wp-content/uploads/Twinfield-Webservices-Manual.pdf
+     * Note that is is also possible that the result property is individual records.
      *
-     * @return bool
+     * @throws Exception
      */
-    public function isSuccessful(): bool
+    public function assertSuccessful(): void
     {
         $responseValue = $this->responseDocument->documentElement->getAttribute('result');
 
-        return (bool) $responseValue;
+        if ("" === $responseValue) {
+
+            $successful = $failed = 0;
+
+            $xpath = new \DOMXPath($this->responseDocument);
+
+            /** @var \DOMElement $resultAttribute */
+            foreach ($xpath->query("*[@result]") as $resultAttribute) {
+
+                if ("1" === $resultAttribute->getAttribute("result")) {
+                    $successful++;
+                } else {
+                    $failed++;
+                }
+            }
+
+            if ($failed === 0) {
+                return;
+            }
+
+            throw new Exception("Not all items were processed successfully by Twinfield: {$successful} success / {$failed} failed.");
+        }
+
+        if ("1" !== $responseValue) {
+            throw new Exception(implode(", ", $this->getErrorMessages()));
+        }
     }
 
     /**
@@ -88,12 +124,9 @@ class Response
      * Will return an array of all error messages found
      * in the response document.
      *
-     * It is recommended to run this function after a
-     * isSuccessful check.
-     *
      * @since 0.0.1
      *
-     * @return array
+     * @return string[]
      */
     public function getErrorMessages(): array
     {
@@ -104,14 +137,11 @@ class Response
      * Will return an array of all warning messages found
      * in the response document.
      *
-     * It is recommended to run this function after a
-     * isSuccessful check.
-     *
      * @since 0.0.1
      *
-     * @return array
+     * @return string[]
      */
-    public function getWarningMessages()
+    public function getWarningMessages(): array
     {
         return $this->getMessages('warning');
     }

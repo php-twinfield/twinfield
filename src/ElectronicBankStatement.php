@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield;
 
+use Money\Currency;
+use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
@@ -53,6 +55,12 @@ class ElectronicBankStatement
      * @var ?string
      */
     private $code;
+
+    public function __construct()
+    {
+        $this->currency   = new Currency("EUR");
+        $this->startvalue = new Money(0, $this->getCurrency());
+    }
 
     public function getAccount(): ?string
     {

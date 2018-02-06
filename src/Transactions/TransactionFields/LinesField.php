@@ -37,8 +37,8 @@ trait LinesField
             $this->lines,
             function (TransactionLine $a, TransactionLine $b) use ($type_order): int
             {
-                $type_index_a = array_search($a->getType(), $type_order, false);
-                $type_index_b = array_search($b->getType(), $type_order, false);
+                $type_index_a = array_search($a->getLineType(), $type_order, false);
+                $type_index_b = array_search($b->getLineType(), $type_order, false);
 
                 if ($type_index_a != $type_index_b) {
                     return $type_index_a <=> $type_index_b;
@@ -60,6 +60,8 @@ trait LinesField
         Assert::isInstanceOf($line, $this->getLineClassName());
 
         $this->lines[] = $line;
+
+        $line->setTransaction($this);
 
         return $this;
     }

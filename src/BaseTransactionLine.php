@@ -19,6 +19,8 @@ use PhpTwinfield\Transactions\TransactionLineFields\VatTurnoverFields;
  * @todo $freeChar Free character field. Meaning differs per transaction type.
  * @todo $comment Comment set on the transaction line.
  * @todo $matches Contains matching information. Read-only attribute.
+ *
+ * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
  */
 abstract class BaseTransactionLine implements TransactionLine
 {
@@ -39,7 +41,7 @@ abstract class BaseTransactionLine implements TransactionLine
     /**
      * @var LineType
      */
-    protected $type;
+    protected $lineType;
 
     /**
      * @var int|null The line ID.
@@ -108,18 +110,18 @@ abstract class BaseTransactionLine implements TransactionLine
      */
     protected $vatValue;
 
-    public function getType(): LineType
+    public function getLineType(): LineType
     {
-        return $this->type;
+        return $this->lineType;
     }
 
     /**
-     * @param LineType $type
+     * @param LineType $lineType
      * @return $this
      */
-    public function setType(LineType $type): BaseTransactionLine
+    public function setLineType(LineType $lineType): BaseTransactionLine
     {
-        $this->type = $type;
+        $this->lineType = $lineType;
 
         return $this;
     }
@@ -310,7 +312,7 @@ abstract class BaseTransactionLine implements TransactionLine
      */
     public function setVatCode(?string $vatCode): BaseTransactionLine
     {
-        if ($vatCode !== null && !in_array($this->getType(), [LineType::DETAIL(), LineType::VAT()])) {
+        if ($vatCode !== null && !in_array($this->getLineType(), [LineType::DETAIL(), LineType::VAT()])) {
             throw Exception::invalidFieldForLineType('vatCode', $this);
         }
 
@@ -324,7 +326,7 @@ abstract class BaseTransactionLine implements TransactionLine
      */
     public function getVatValue(): ?Money
     {
-        return $this->vatValue;
+        return !empty($this->vatValue) ? $this->vatValue->absolute() : null;
     }
 
     /**
@@ -334,7 +336,7 @@ abstract class BaseTransactionLine implements TransactionLine
      */
     public function setVatValue(?Money $vatValue): BaseTransactionLine
     {
-        if ($vatValue !== null && !$this->getType()->equals(LineType::DETAIL())) {
+        if ($vatValue !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
             throw Exception::invalidFieldForLineType('vatValue', $this);
         }
 
@@ -360,5 +362,25 @@ abstract class BaseTransactionLine implements TransactionLine
         $this->baseline = $baseline;
 
         return $this;
+    }
+
+    /**
+     * This will get you a unique reference to the object in Twinfield.
+     *
+     * With this reference, you can perform matching.
+     *
+     * @return MatchReferenceInterface
+     */
+    public function getReference(): MatchReferenceInterface
+    {
+        /** @var JournalTransaction|PurchaseTransaction|SalesTransaction $transaction */
+        $transaction = $this->getTransaction();
+
+        return new MatchReference(
+            $transaction->getOffice(),
+            $transaction->getCode(),
+            $transaction->getNumber(),
+            $this->getId()
+        );
     }
 }

@@ -6,11 +6,15 @@
     "twinfield"
   ],
   "homepage": "https://github.com/php-twinfield/twinfield",
-  "license": "GPL-3.0",
+  "license": "GPL-3.0-or-later",
   "authors": [
     {
-      "name": "Alex Jeensma",
-      "email": "alex@vontis.nl"
+      "name": "Remco Tolsma",
+      "email": "remcotolsma@pronamic.nl"
+    },
+    {
+      "name": "Leon Rowland",
+      "email": "leon@pronamic.nl"
     }
   ],
   "config": {
