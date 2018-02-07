@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpTwinfield\Secure;
+namespace PhpTwinfield\Secure\Provider;
 
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 

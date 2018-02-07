@@ -17,6 +17,9 @@ class OAuthProvider extends AbstractProvider
     use BearerAuthorizationTrait;
 
     /**
+     * PLEASE NOTE: This scope is for some reason not actually supported by Twinfield. If this scope is included in
+     * the authorization url, visiting it results in an 'invalid_scope' error message.
+     *
      * twf.user (Identity token) - contains Twinfield specific information about the user. This scope contains the following claims:
      * - twf.id - contains GUID of Twinfield ID. Only if you have the availability of a Twinfield ID.
      * - twf.organisationUserCode - user code inside organisation
@@ -93,9 +96,17 @@ class OAuthProvider extends AbstractProvider
 
     /**
      * Returns authorization parameters based on provided options.
+     * @throws OAuthException
      */
     protected function getAuthorizationParameters(array $options): array
     {
+        /**
+         * The 'SCOPE_USER' scope is not actually supported by Twinfield.
+         * @see OAuthProvider::SCOPE_USER
+         */
+        if (array_key_exists("scope", $options) && in_array(self::SCOPE_USER, $options["scope"])) {
+            throw new OAuthException("Scope '" . self::SCOPE_USER . "' is not supported by Twinfield.");
+        }
         $options = parent::getAuthorizationParameters($options);
 
         /* Add a random 'nonce', as required by Twinfield. */

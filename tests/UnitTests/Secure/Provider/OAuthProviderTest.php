@@ -5,10 +5,11 @@ namespace PhpTwinfield\Secure\Provider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\ClientInterface;
 
-class OAuthProviderTest extends \PHPUnit\Framework\TestCase
+class OAuthProviderTest extends TestCase
 {
     /**
      * @var ClientInterface | MockObject
@@ -16,7 +17,7 @@ class OAuthProviderTest extends \PHPUnit\Framework\TestCase
     protected $httpClient;
 
     /**
-     * @var \PhpTwinfield\Secure\OAuthProvider
+     * @var \PhpTwinfield\Secure\Provider\OAuthProvider
      */
     protected $provider;
 
@@ -56,6 +57,12 @@ class OAuthProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('approval_prompt', $query);
         $this->assertArrayHasKey('nonce', $query);
         $this->assertNotNull($this->provider->getState());
+    }
+
+    public function testAuthorizationUrlWithUnsupportedScope()
+    {
+        $this->expectException(OAuthException::class);
+        $this->provider->getAuthorizationUrl(["scope" => [OAuthProvider::SCOPE_USER]]);
     }
 
     public function testResourceOwnerDetailsUrl()

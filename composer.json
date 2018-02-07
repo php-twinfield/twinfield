@@ -48,6 +48,7 @@
     ]
   },
   "require-dev": {
+    "eloquent/liberator": "^2.0",
     "league/oauth2-client": "^2.2",
     "phpunit/phpunit": "^6.5"
   }

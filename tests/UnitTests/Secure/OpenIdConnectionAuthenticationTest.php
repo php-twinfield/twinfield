@@ -1,0 +1,63 @@
+<?php
+
+namespace PhpTwinfield\UnitTests\Secure;
+
+use Eloquent\Liberator\Liberator;
+use League\OAuth2\Client\Token\AccessToken;
+use PhpTwinfield\Office;
+use PhpTwinfield\Secure\OpenIdConnectAuthentication;
+use PhpTwinfield\Secure\Provider\OAuthException;
+use PhpTwinfield\Secure\Provider\OAuthProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+
+class OpenIdConnectionAuthenticationTest extends TestCase
+{
+    /**
+     * @var OpenIdConnectAuthentication | MockObject
+     */
+    private $openIdConnect;
+
+    protected function SetUp()
+    {
+        $this->openIdConnect = $this->getMockBuilder(OpenIdConnectAuthentication::class)
+            ->disableOriginalConstructor()
+            ->setMethods(["validateToken", "refreshToken"])
+            ->getMock();
+    }
+
+    public function testConstructWithIncompleteAccessToken()
+    {
+        $this->expectException(OAuthException::class);
+        $this->expectExceptionMessage("AccessToken does not contain a refresh token.");
+
+        $provider = $this->createMock(OAuthProvider::class);
+        $token    = $this->createMock(AccessToken::class);
+        $office   = $this->createMock(Office::class);
+        new OpenIdConnectAuthentication($provider, $token, $office);
+    }
+
+    public function testValidTokenLogin()
+    {
+        $this->openIdConnect->expects($this->once())
+            ->method("validateToken")
+            ->willReturn(["twf.clusterUrl" => "someClusterUrl"]);
+
+        $openIdConnect = Liberator::liberate($this->openIdConnect);
+        $openIdConnect->login();
+        $this->assertEquals("someClusterUrl", $openIdConnect->getCluster());
+    }
+
+    public function testInvalidTokenLogin()
+    {
+        $this->openIdConnect->expects($this->exactly(2))
+            ->method("validateToken")
+            ->willReturn(false, ["twf.clusterUrl" => "someClusterUrl"]);
+        $this->openIdConnect->expects($this->once())
+            ->method("refreshToken");
+
+        $openIdConnect = Liberator::liberate($this->openIdConnect);
+        $openIdConnect->login();
+        $this->assertEquals("someClusterUrl", $openIdConnect->getCluster());
+    }
+}
