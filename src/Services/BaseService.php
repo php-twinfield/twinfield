@@ -34,7 +34,6 @@ abstract class BaseService extends \SoapClient
 
         if (array_key_exists("cluster", $options)) {
             $wsdl = "{$options["cluster"]}{$this->WSDL()}";
-            var_dump($wsdl);
             unset($options["cluster"]);
         } else {
             $wsdl = $this->WSDL();

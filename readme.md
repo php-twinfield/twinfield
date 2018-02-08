@@ -19,21 +19,29 @@ composer require 'php-twinfield/twinfield:^2.0'
 ## Usage
 
 ### Authentication
-You need to set up a `\PhpTwinfield\Secure\AuthenticatedConnection` class with your credentials. An example using basic 
-username and password authentication (called ):
+You need to set up a `\PhpTwinfield\Secure\AuthenticatedConnection` class with your credentials. When using basic 
+username and password authentication, the `\PhpTwinfield\Secure\WebservicesAuthentication` class should be used, as follows:
 
 ```php
 $connection = new Secure\WebservicesAuthentication("username", "password", "organization");
 ```
 
-Another example, using OAuth:
+In order to use OAuth2 to authenticate with Twinfield, one should use the `\PhpTwinfield\Secure\Provider\OAuthProvider` to retrieve an `\League\OAuth2\Client\Token\AccessToken` object. Next to the `OAuthProvider` and `AccessToken`, it is required to set up a default `\PhpTwinfield\Office`, that will be used during requests to Twinfield. **Please note:** when a different office is specified when sending a request through one of the `ApiConnectors`, this Office will override the default.
+
+Using this information, we can create an instance of the `\PhpTwinfield\Secure\OpenIdConnectAuthentication` class, as follows:
 
 ```php
-$config = new Secure\Config();
-
-// The true parameter at the end tells the system to automatically redirect to twinfield to login.
-$config->setOAuthParameters('clientID', 'clientSecret', 'returnURL', 'Organization', true);
+$provider    = new OAuthProvider([
+    'clientId'     => 'someClientId',
+    'clientSecret' => 'someClientSecret',
+    'redirectUri'  => 'https://example.org/'
+]);
+$accessToken = $provider->getAccessToken("authorization_code", ["code" => ...]);
+$office      = \PhpTwinfield\Office::fromCode("someOfficeCode");
+&
+$connection  = new \PhpTwinfield\Secure\OpenIdConnectAuthentication($provider, $accessToken, $office);
 ```
+For more information about retrieving the initial `AccessToken`, please refer to: https://github.com/thephpleague/oauth2-client#usage
 
 ### Getting data from the API
 In order to communicate with the Twinfield API, you need to create an `ApiConnector` instance for the corresponding
