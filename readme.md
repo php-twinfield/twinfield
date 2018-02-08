@@ -38,7 +38,7 @@ $provider    = new OAuthProvider([
 ]);
 $accessToken = $provider->getAccessToken("authorization_code", ["code" => ...]);
 $office      = \PhpTwinfield\Office::fromCode("someOfficeCode");
-&
+
 $connection  = new \PhpTwinfield\Secure\OpenIdConnectAuthentication($provider, $accessToken, $office);
 ```
 For more information about retrieving the initial `AccessToken`, please refer to: https://github.com/thephpleague/oauth2-client#usage
