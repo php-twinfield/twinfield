@@ -6,6 +6,7 @@ use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Enums\PerformanceType;
 use PhpTwinfield\Exception;
 use PhpTwinfield\JournalTransaction;
 use PhpTwinfield\JournalTransactionLine;
@@ -18,7 +19,6 @@ use PhpTwinfield\SalesTransaction;
 use PhpTwinfield\Transactions\TransactionFields\DueDateField;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
-use PhpTwinfield\Transactions\TransactionLine;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
@@ -140,8 +140,10 @@ class TransactionMapper
             }
 
             if (Util::objectUses(PerformanceFields::class, $transactionLine)) {
+                /** @var BaseTransactionLine|PerformanceFields $transactionLine */
+                $performanceType = self::getField($transaction, $lineElement, 'performancetype');
                 $transactionLine
-                    ->setPerformanceType(self::getField($transaction, $lineElement, 'performancetype'))
+                    ->setPerformanceType($performanceType ? new PerformanceType($performanceType) : null)
                     ->setPerformanceCountry(self::getField($transaction, $lineElement, 'performancecountry'))
                     ->setPerformanceVatNumber(self::getField($transaction, $lineElement, 'performancevatnumber'));
 
