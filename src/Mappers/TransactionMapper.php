@@ -82,7 +82,6 @@ class TransactionMapper
         $transaction
             ->setOffice($office)
             ->setCode(self::getField($transaction, $transactionElement, 'code'))
-            ->setNumber(self::getField($transaction, $transactionElement, 'number'))
             ->setPeriod(self::getField($transaction, $transactionElement, 'period'))
             ->setCurrency(self::getField($transaction, $transactionElement, 'currency'))
             ->setDateFromString(self::getField($transaction, $transactionElement, 'date'))
@@ -90,6 +89,11 @@ class TransactionMapper
             ->setFreetext1(self::getField($transaction, $transactionElement, 'freetext1'))
             ->setFreetext2(self::getField($transaction, $transactionElement, 'freetext2'))
             ->setFreetext3(self::getField($transaction, $transactionElement, 'freetext3'));
+
+        $number = self::getField($transaction, $transactionElement, 'number');
+        if (!empty($number)) {
+            $transaction->setNumber($number);
+        }
 
         if (Util::objectUses(DueDateField::class, $transaction)) {
             $transaction->setDueDateFromString(self::getField($transaction, $transactionElement, 'duedate'));
