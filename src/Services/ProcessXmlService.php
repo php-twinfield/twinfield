@@ -46,6 +46,7 @@ class ProcessXmlService extends BaseService
      *
      * @see \PhpTwinfield\ApiConnectors\BaseApiConnector::sendXmlDocuments()
      * @throws \SoapFault
+     * @throws \ErrorException
      */
     public function sendDocument(\DOMDocument $document): Response
     {
