@@ -35,7 +35,33 @@ class BaseApiConnectorTest extends TestCase
             ->getMockForAbstractClass();
     }
 
-    public function testXmlDocumentIsResentWhenLogonErrorOccurs()
+    public function soapFaultProvider(): array
+    {
+        return array_map(function($message) {
+            return [new \SoapFault("xx", "[soap:Client] {$message}", "client")];
+        }, $this->getResendErrorMessages());
+    }
+
+    public function errorExceptionProvider(): array
+    {
+        return array_map(function($message) {
+            return [new \ErrorException("[soap:Client] {$message}")];
+        }, $this->getResendErrorMessages());
+    }
+
+    private function getResendErrorMessages(): array
+    {
+        return (new \ReflectionClassConstant(
+            BaseApiConnector::class,
+            "RETRY_REQUEST_EXCEPTION_MESSAGES"
+        ))->getValue();
+    }
+
+    /**
+     * @dataProvider soapFaultProvider
+     * @dataProvider errorExceptionProvider
+     */
+    public function testXmlDocumentIsResentWhenMatchingException(\Exception $exception)
     {
         $client = $this->getMockBuilder(ProcessXmlService::class)
             ->disableOriginalConstructor()
@@ -51,14 +77,12 @@ class BaseApiConnectorTest extends TestCase
             ->with(Services::PROCESSXML())
             ->willReturn($client);
 
-        $soapFault = new \SoapFault("xx", "[soap:Client] Your logon credentials are not valid anymore. Try to log on again.", "client");
-
         $response = Response::fromString('<dimension result="1" />');
 
         $client->expects($this->exactly(2))
             ->method("sendDocument")
             ->will($this->onConsecutiveCalls(
-                $this->throwException($soapFault),
+                $this->throwException($exception),
                 $this->returnValue($response)
             ));
 
