@@ -51,9 +51,12 @@ class TransactionMapper
 
         /** @var BaseTransaction $transaction */
         $transaction = new $transactionClassName();
-        $transaction
-            ->setResult($transactionElement->getAttribute('result'))
-            ->setDestiny(new Destiny($transactionElement->getAttribute('location')));
+        $transaction->setResult($transactionElement->getAttribute('result'));
+
+        $destiny = $transactionElement->getAttribute('location');
+        if (!empty($destiny)) {
+            $transaction->setDestiny(new Destiny($destiny));
+        }
 
         $autoBalanceVat = $transactionElement->getAttribute('autobalancevat');
         if (!empty($autoBalanceVat)) {
@@ -106,9 +109,10 @@ class TransactionMapper
 
             /** @var BaseTransactionLine $transactionLine */
             $transactionLine = new $transactionLineClassName();
+            $lineType        = $lineElement->getAttribute('type');
 
             $transactionLine
-                ->setLineType(new LineType($lineElement->getAttribute('type')))
+                ->setLineType(new LineType($lineType))
                 ->setId($lineElement->getAttribute('id'))
                 ->setDim1(self::getField($transaction, $lineElement, 'dim1'))
                 ->setDim2(self::getField($transaction, $lineElement, 'dim2'))
@@ -130,7 +134,7 @@ class TransactionMapper
             }
 
             $vatValue = self::getField($transaction, $lineElement, 'vatvalue');
-            if ($vatValue) {
+            if ($lineType == LineType::DETAIL() && $vatValue) {
                 $transactionLine->setVatValue(Money::EUR(100 * $vatValue));
             }
 
