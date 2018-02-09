@@ -54,6 +54,14 @@ class TransactionMapper
         $transaction->setResult($transactionElement->getAttribute('result'));
 
         $destiny = $transactionElement->getAttribute('location');
+        if (empty($destiny)) {
+            /*
+             * This field should be sent to Twinfield as 'destiny' attribute and Twinfield should return it as
+             * 'location' attribute. But in case of an error elsewhere in this object, Twinfield returns this field as
+             * 'destiny' attibute.
+             */
+            $destiny = $transactionElement->getAttribute('destiny');
+        }
         if (!empty($destiny)) {
             $transaction->setDestiny(new Destiny($destiny));
         }
