@@ -19,6 +19,7 @@ abstract class BaseApiConnector
      * @var string[]
      */
     private const RETRY_REQUEST_EXCEPTION_MESSAGES = [
+        "Error Fetching http headers",
         "SSL: Connection reset by peer",
         "Your logon credentials are not valid anymore. Try to log on again."
     ];
