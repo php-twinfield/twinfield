@@ -4,6 +4,7 @@ namespace PhpTwinfield\UnitTests;
 
 use PhpTwinfield\ApiConnectors\BaseApiConnector;
 use PhpTwinfield\Enums\Services;
+use PhpTwinfield\Exception;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\Connection;
 use PhpTwinfield\Services\ProcessXmlService;
@@ -21,6 +22,11 @@ class BaseApiConnectorTest extends TestCase
      */
     private $service;
 
+    /**
+     * @var ProcessXmlService|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $client;
+
     protected function setUp()
     {
         parent::setUp();
@@ -33,6 +39,10 @@ class BaseApiConnectorTest extends TestCase
         $this->service = $this->getMockBuilder(BaseApiConnector::class)
             ->setConstructorArgs([$this->connection])
             ->getMockForAbstractClass();
+
+        $this->client = $this->getMockBuilder(ProcessXmlService::class)
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     public function soapFaultProvider(): array
@@ -57,29 +67,30 @@ class BaseApiConnectorTest extends TestCase
         ))->getValue();
     }
 
+    private function getMaxNumRetries(): int
+    {
+        $reflectionConstant = new \ReflectionClassConstant(BaseApiConnector::class,"MAX_RETRIES");
+        return $reflectionConstant->getValue();
+    }
+
     /**
      * @dataProvider soapFaultProvider
      * @dataProvider errorExceptionProvider
      */
     public function testXmlDocumentIsResentWhenMatchingException(\Exception $exception)
     {
-        $client = $this->getMockBuilder(ProcessXmlService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->connection->expects($this->exactly(2))
             ->method("getAuthenticatedClient")
             ->with(Services::PROCESSXML())
-            ->willReturn($client);
+            ->willReturn($this->client);
 
         $this->connection->expects($this->once())
             ->method("resetClient")
-            ->with(Services::PROCESSXML())
-            ->willReturn($client);
+            ->with(Services::PROCESSXML());
 
         $response = Response::fromString('<dimension result="1" />');
 
-        $client->expects($this->exactly(2))
+        $this->client->expects($this->exactly(2))
             ->method("sendDocument")
             ->will($this->onConsecutiveCalls(
                 $this->throwException($exception),
@@ -87,5 +98,33 @@ class BaseApiConnectorTest extends TestCase
             ));
 
         $this->assertEquals($response, $this->service->sendXmlDocument(new \DOMDocument()));
+        $numRetries = $this->getObjectAttribute($this->service, "numRetries");
+        $this->assertEquals(0, $numRetries);
+    }
+
+    /**
+     * @dataProvider soapFaultProvider
+     * @dataProvider errorExceptionProvider
+     */
+    public function testResendXmlDocumentStopsAfterMaxRetries(\Exception $exception)
+    {
+        $this->connection->expects($this->exactly($this->getMaxNumRetries() + 1))
+            ->method("getAuthenticatedClient")
+            ->with(Services::PROCESSXML())
+            ->willReturn($this->client);
+
+        $this->connection->expects($this->exactly($this->getMaxNumRetries() + 1))
+            ->method("resetClient")
+            ->with(Services::PROCESSXML());
+
+        $this->client->expects($this->exactly($this->getMaxNumRetries() + 1))
+            ->method("sendDocument")
+            ->willThrowException($exception);
+
+        $this->expectException(Exception::class);
+        $this->service->sendXmlDocument(new \DOMDocument());
+
+        $numRetries = $this->getObjectAttribute($this->service, "numRetries");
+        $this->assertEquals(0, $numRetries);
     }
 }

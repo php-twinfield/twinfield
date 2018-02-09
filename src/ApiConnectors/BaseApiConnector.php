@@ -11,11 +11,6 @@ use PhpTwinfield\Services\ProcessXmlService;
 abstract class BaseApiConnector
 {
     /**
-     * @var Connection
-     */
-    private $connection;
-
-    /**
      * @var string[]
      */
     private const RETRY_REQUEST_EXCEPTION_MESSAGES = [
@@ -23,6 +18,21 @@ abstract class BaseApiConnector
         "SSL: Connection reset by peer",
         "Your logon credentials are not valid anymore. Try to log on again."
     ];
+
+    /**
+     * @var int
+     */
+    private const MAX_RETRIES = 3;
+
+    /**
+     * @var Connection
+     */
+    private $connection;
+
+    /**
+     * @var int
+     */
+    private $numRetries = 0;
 
     public function __construct(Connection $connection)
     {
@@ -49,7 +59,10 @@ abstract class BaseApiConnector
      */
     public function sendXmlDocument(\DOMDocument $document) {
         try {
-            return $this->getProcessXmlService()->sendDocument($document);
+            $response = $this->getProcessXmlService()->sendDocument($document);
+            $this->numRetries = 0;
+
+            return $response;
         } catch (\SoapFault | \ErrorException $exception) {
             /*
              * Always reset the client. There may have been TCP connection issues, network issues,
@@ -59,11 +72,18 @@ abstract class BaseApiConnector
 
             /* For a given set of exception messages, always retry the request. */
             foreach (self::RETRY_REQUEST_EXCEPTION_MESSAGES as $message) {
-                if (stripos($exception->getMessage(), $message) !== false) {
-                    return $this->sendXmlDocument($document);
+                if (stripos($exception->getMessage(), $message) === false) {
+                    continue;
                 }
+                $this->numRetries++;
+
+                if ($this->numRetries > self::MAX_RETRIES) {
+                    break;
+                }
+                return $this->sendXmlDocument($document);
             }
 
+            $this->numRetries = 0;
             throw new Exception($exception->getMessage(), 0, $exception);
         }
     }
