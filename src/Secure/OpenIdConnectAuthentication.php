@@ -2,7 +2,6 @@
 
 namespace PhpTwinfield\Secure;
 
-use League\OAuth2\Client\Token\AccessToken;
 use PhpTwinfield\Office;
 use PhpTwinfield\Secure\Provider\InvalidAccessTokenException;
 use PhpTwinfield\Secure\Provider\OAuthProvider;
@@ -21,9 +20,14 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
     private $provider;
 
     /**
-     * @var AccessToken
+     * @var null|string
      */
     private $accessToken;
+
+    /**
+     * @var string
+     */
+    private $refreshToken;
 
     /**
      * @var Office
@@ -35,13 +39,10 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
      */
     private $cluster;
 
-    /**
-     * @throws OAuthException
-     */
-    public function __construct(OAuthProvider $provider, AccessToken $accessToken, Office $office)
+    public function __construct(OAuthProvider $provider, string $refreshToken, Office $office)
     {
-        $this->provider    = $provider;
-        $this->accessToken = $accessToken;
+        $this->provider     = $provider;
+        $this->refreshToken = $refreshToken;
 
         /*
          * The office code that is part of the Office object that is passed here will be
@@ -49,10 +50,6 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
          * the SOAP request body, this will always take precedence over this default.
          */
         $this->office      = $office;
-
-        if (!$accessToken->getRefreshToken()) {
-            throw new OAuthException("AccessToken does not contain a refresh token.");
-        }
     }
 
     protected function getCluster(): ?string
@@ -117,9 +114,10 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
 
     protected function refreshToken(): void
     {
-        $this->accessToken = $this->provider->getAccessToken(
+        $accessToken = $this->provider->getAccessToken(
             "refresh_token",
-            ["refresh_token" => $this->accessToken->getRefreshToken()]
+            ["refresh_token" => $this->refreshToken]
         );
+        $this->accessToken = $accessToken->getToken();
     }
 }
