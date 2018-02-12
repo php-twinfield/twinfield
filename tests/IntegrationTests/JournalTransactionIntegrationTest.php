@@ -13,8 +13,6 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\JournalTransaction;
 use PhpTwinfield\JournalTransactionLine;
-use PhpTwinfield\Secure\Connection;
-use PhpTwinfield\Secure\Service;
 
 /**
  * @covers JournalTransaction

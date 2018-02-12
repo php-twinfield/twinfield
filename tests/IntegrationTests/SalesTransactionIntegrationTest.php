@@ -13,8 +13,6 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\SalesTransaction;
 use PhpTwinfield\SalesTransactionLine;
-use PhpTwinfield\Secure\Connection;
-use PhpTwinfield\Secure\Service;
 
 /**
  * @covers SalesTransaction

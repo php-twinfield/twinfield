@@ -9,7 +9,7 @@ use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\SalesTransaction;
-use PhpTwinfield\Secure\Connection;
+use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
 
@@ -34,8 +34,8 @@ class TransactionApiConnectorTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        /** @var Connection|\PHPUnit_Framework_MockObject_MockObject $connection */
-        $connection = $this->createMock(Connection::class);
+        /** @var AuthenticatedConnection|\PHPUnit_Framework_MockObject_MockObject $connection */
+        $connection = $this->createMock(AuthenticatedConnection::class);
         $connection
             ->expects($this->any())
             ->method("getAuthenticatedClient")

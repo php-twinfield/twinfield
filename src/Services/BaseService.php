@@ -19,8 +19,8 @@ abstract class BaseService extends \SoapClient
     abstract protected function WSDL(): string;
 
     /**
-     * @param string|null $wsdl Note you should always pass null as the first argument, the WSDL will be overridden.
-     * @param array $options
+     * @param string|null $wsdl    Note you should always pass null as the first argument, the WSDL will be overridden.
+     * @param array       $options
      */
     public function __construct(string $wsdl = null, array $options = [])
     {

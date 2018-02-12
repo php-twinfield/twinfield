@@ -4,7 +4,7 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Exception;
-use PhpTwinfield\Secure\Connection;
+use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
 
@@ -27,7 +27,7 @@ abstract class BaseApiConnector
     private const MAX_RETRIES = 3;
 
     /**
-     * @var Connection
+     * @var AuthenticatedConnection
      */
     private $connection;
 
@@ -36,7 +36,7 @@ abstract class BaseApiConnector
      */
     private $numRetries = 0;
 
-    public function __construct(Connection $connection)
+    public function __construct(AuthenticatedConnection $connection)
     {
         $this->connection = $connection;
     }

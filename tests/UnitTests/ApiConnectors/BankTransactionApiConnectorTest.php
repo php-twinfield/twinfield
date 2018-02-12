@@ -11,7 +11,7 @@ use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
-use PhpTwinfield\Secure\Connection;
+use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
 use PhpTwinfield\Transactions\BankTransactionLine\Detail;
 use PhpTwinfield\Transactions\BankTransactionLine\Total;
@@ -44,8 +44,8 @@ class BankTransactionApiConnectorTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        /** @var Connection|\PHPUnit_Framework_MockObject_MockObject $connection */
-        $connection = $this->createMock(Connection::class);
+        /** @var AuthenticatedConnection|\PHPUnit_Framework_MockObject_MockObject $connection */
+        $connection = $this->createMock(AuthenticatedConnection::class);
         $connection
             ->expects($this->any())
             ->method("getAuthenticatedClient")

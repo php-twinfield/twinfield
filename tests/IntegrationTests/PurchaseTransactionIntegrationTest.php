@@ -13,7 +13,6 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\PurchaseTransaction;
 use PhpTwinfield\PurchaseTransactionLine;
-use PhpTwinfield\Secure\Connection;
 
 /**
  * @covers PurchaseTransaction

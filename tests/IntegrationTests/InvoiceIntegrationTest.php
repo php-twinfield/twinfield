@@ -10,8 +10,6 @@ use PhpTwinfield\InvoiceLine;
 use PhpTwinfield\InvoiceTotals;
 use PhpTwinfield\Mappers\InvoiceMapper;
 use PhpTwinfield\Response\Response;
-use PhpTwinfield\Secure\Connection;
-use PhpTwinfield\Secure\Service;
 
 /**
  * @covers Invoice

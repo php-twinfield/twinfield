@@ -6,14 +6,14 @@ use PhpTwinfield\ApiConnectors\BaseApiConnector;
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Response\Response;
-use PhpTwinfield\Secure\Connection;
+use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
 
 class BaseApiConnectorTest extends TestCase
 {
     /**
-     * @var Connection|\PHPUnit_Framework_MockObject_MockObject
+     * @var AuthenticatedConnection|\PHPUnit_Framework_MockObject_MockObject
      */
     private $connection;
 
@@ -31,10 +31,10 @@ class BaseApiConnectorTest extends TestCase
     {
         parent::setUp();
 
-        $this->connection = $this->getMockBuilder(Connection::class)
+        $this->connection = $this->getMockBuilder(AuthenticatedConnection::class)
             ->disableOriginalConstructor()
             ->setMethods(["getAuthenticatedClient", "resetClient"])
-            ->getMock();
+            ->getMockForAbstractClass();
 
         $this->service = $this->getMockBuilder(BaseApiConnector::class)
             ->setConstructorArgs([$this->connection])

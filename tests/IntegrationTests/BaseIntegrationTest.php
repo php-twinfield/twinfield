@@ -5,7 +5,7 @@ namespace PhpTwinfield\IntegrationTests;
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
-use PhpTwinfield\Secure\Connection;
+use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +18,7 @@ abstract class BaseIntegrationTest extends TestCase
     protected $office;
 
     /**
-     * @var Connection|\PHPUnit_Framework_MockObject_MockObject
+     * @var AuthenticatedConnection|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $connection;
 
@@ -42,7 +42,7 @@ abstract class BaseIntegrationTest extends TestCase
         $this->processXmlService = $this->createPartialMock(ProcessXmlService::class, ['sendDocument']);
         $this->finderService     = $this->createPartialMock(FinderService::class, ['searchFinder']);
 
-        $this->connection  = $this->createMock(Connection::class);
+        $this->connection  = $this->createMock(AuthenticatedConnection::class);
         $this->connection->expects($this->any())
             ->method("getAuthenticatedClient")
             ->willReturnCallback(function (Services $service) {
