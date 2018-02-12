@@ -144,4 +144,13 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $this->invoiceApiConnector->send($invoice);
     }
+
+    protected function getSuccessfulResponse(): Response
+    {
+        return Response::fromString(
+            '<salesinvoices result="1">
+                <salesinvoice result="1" />
+            </salesinvoices>'
+        );
+    }
 }

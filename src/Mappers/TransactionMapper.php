@@ -6,6 +6,7 @@ use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Enums\PerformanceType;
 use PhpTwinfield\Exception;
 use PhpTwinfield\JournalTransaction;
 use PhpTwinfield\JournalTransactionLine;
@@ -18,7 +19,6 @@ use PhpTwinfield\SalesTransaction;
 use PhpTwinfield\Transactions\TransactionFields\DueDateField;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
-use PhpTwinfield\Transactions\TransactionLine;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
@@ -51,9 +51,20 @@ class TransactionMapper
 
         /** @var BaseTransaction $transaction */
         $transaction = new $transactionClassName();
-        $transaction
-            ->setResult($transactionElement->getAttribute('result'))
-            ->setDestiny(new Destiny($transactionElement->getAttribute('location')));
+        $transaction->setResult($transactionElement->getAttribute('result'));
+
+        $destiny = $transactionElement->getAttribute('location');
+        if (empty($destiny)) {
+            /*
+             * This field should be sent to Twinfield as 'destiny' attribute and Twinfield should return it as
+             * 'location' attribute. But in case of an error elsewhere in this object, Twinfield returns this field as
+             * 'destiny' attibute.
+             */
+            $destiny = $transactionElement->getAttribute('destiny');
+        }
+        if (!empty($destiny)) {
+            $transaction->setDestiny(new Destiny($destiny));
+        }
 
         $autoBalanceVat = $transactionElement->getAttribute('autobalancevat');
         if (!empty($autoBalanceVat)) {
@@ -71,7 +82,6 @@ class TransactionMapper
         $transaction
             ->setOffice($office)
             ->setCode(self::getField($transaction, $transactionElement, 'code'))
-            ->setNumber(self::getField($transaction, $transactionElement, 'number'))
             ->setPeriod(self::getField($transaction, $transactionElement, 'period'))
             ->setCurrency(self::getField($transaction, $transactionElement, 'currency'))
             ->setDateFromString(self::getField($transaction, $transactionElement, 'date'))
@@ -79,6 +89,11 @@ class TransactionMapper
             ->setFreetext1(self::getField($transaction, $transactionElement, 'freetext1'))
             ->setFreetext2(self::getField($transaction, $transactionElement, 'freetext2'))
             ->setFreetext3(self::getField($transaction, $transactionElement, 'freetext3'));
+
+        $number = self::getField($transaction, $transactionElement, 'number');
+        if (!empty($number)) {
+            $transaction->setNumber($number);
+        }
 
         if (Util::objectUses(DueDateField::class, $transaction)) {
             $transaction->setDueDateFromString(self::getField($transaction, $transactionElement, 'duedate'));
@@ -106,9 +121,10 @@ class TransactionMapper
 
             /** @var BaseTransactionLine $transactionLine */
             $transactionLine = new $transactionLineClassName();
+            $lineType        = $lineElement->getAttribute('type');
 
             $transactionLine
-                ->setLineType(new LineType($lineElement->getAttribute('type')))
+                ->setLineType(new LineType($lineType))
                 ->setId($lineElement->getAttribute('id'))
                 ->setDim1(self::getField($transaction, $lineElement, 'dim1'))
                 ->setDim2(self::getField($transaction, $lineElement, 'dim2'))
@@ -130,7 +146,7 @@ class TransactionMapper
             }
 
             $vatValue = self::getField($transaction, $lineElement, 'vatvalue');
-            if ($vatValue) {
+            if ($lineType == LineType::DETAIL() && $vatValue) {
                 $transactionLine->setVatValue(Money::EUR(100 * $vatValue));
             }
 
@@ -140,8 +156,10 @@ class TransactionMapper
             }
 
             if (Util::objectUses(PerformanceFields::class, $transactionLine)) {
+                /** @var BaseTransactionLine|PerformanceFields $transactionLine */
+                $performanceType = self::getField($transaction, $lineElement, 'performancetype');
                 $transactionLine
-                    ->setPerformanceType(self::getField($transaction, $lineElement, 'performancetype'))
+                    ->setPerformanceType($performanceType ? new PerformanceType($performanceType) : null)
                     ->setPerformanceCountry(self::getField($transaction, $lineElement, 'performancecountry'))
                     ->setPerformanceVatNumber(self::getField($transaction, $lineElement, 'performancevatnumber'));
 

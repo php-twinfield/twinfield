@@ -9,6 +9,7 @@ use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\Response\IndividualMappedResponse;
+use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use Webmozart\Assert\Assert;
 
@@ -65,10 +66,10 @@ class TransactionApiConnector extends BaseApiConnector
      * Sends a list of Transaction instances to Twinfield to add or update.
      *
      * @param BaseTransaction[] $transactions
-     * @return IndividualMappedResponse[]
+     * @return MappedResponseCollection
      * @throws Exception
      */
-    public function sendAll(array $transactions): array
+    public function sendAll(array $transactions): MappedResponseCollection
     {
         Assert::allIsInstanceOf($transactions, BaseTransaction::class);
 

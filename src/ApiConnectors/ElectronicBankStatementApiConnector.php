@@ -5,6 +5,8 @@ namespace PhpTwinfield\ApiConnectors;
 use PhpTwinfield\DomDocuments\ElectronicBankStatementDocument;
 use PhpTwinfield\ElectronicBankStatement;
 use PhpTwinfield\Exception;
+use PhpTwinfield\Response\MappedResponseCollection;
+use PhpTwinfield\Response\Response;
 use Webmozart\Assert\Assert;
 
 /**
@@ -26,9 +28,12 @@ class ElectronicBankStatementApiConnector extends BaseApiConnector
      * @param ElectronicBankStatement[] $statements
      * @throws Exception
      */
-    public function sendAll(array $statements)
+    public function sendAll(array $statements): void
     {
         Assert::allIsInstanceOf($statements, ElectronicBankStatement::class);
+
+        /** @var Response[] $responses */
+        $responses = [];
 
         foreach ($this->getProcessXmlService()->chunk($statements) as $chunk) {
 
@@ -38,7 +43,11 @@ class ElectronicBankStatementApiConnector extends BaseApiConnector
                 $document->addStatement($statement);
             }
 
-            $this->sendXmlDocument($document);
+            $responses[] = $this->sendXmlDocument($document);
+        }
+
+        foreach ($responses as $response) {
+            $response->assertSuccessful();
         }
     }
 }

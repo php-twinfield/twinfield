@@ -6,7 +6,7 @@ use PhpTwinfield\BankTransaction;
 use PhpTwinfield\DomDocuments\BankTransactionDocument;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\BankTransactionMapper;
-use PhpTwinfield\Response\IndividualMappedResponse;
+use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use Webmozart\Assert\Assert;
 
@@ -21,21 +21,21 @@ class BankTransactionApiConnector extends BaseApiConnector
      */
     public function send(BankTransaction $bankTransaction): BankTransaction
     {
-        $responses = $this->sendAll([$bankTransaction]);
+        $bankTransactionResponses = $this->sendAll([$bankTransaction]);
 
-        Assert::count($responses, 1);
+        Assert::count($bankTransactionResponses, 1);
 
-        foreach ($responses as $response) {
-            return $response->unwrap();
+        foreach ($bankTransactionResponses as $bankTransactionResponse) {
+            return $bankTransactionResponse->unwrap();
         }
     }
 
     /**
      * @param BankTransaction[] $bankTransactions
-     * @return IndividualMappedResponse[]|array
+     * @return MappedResponseCollection
      * @throws Exception
      */
-    public function sendAll(array $bankTransactions): iterable
+    public function sendAll(array $bankTransactions): MappedResponseCollection
     {
         Assert::allIsInstanceOf($bankTransactions, BankTransaction::class);
 

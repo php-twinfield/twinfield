@@ -8,6 +8,8 @@ use PhpTwinfield\DomDocuments\InvoicesDocument;
 use PhpTwinfield\Mappers\InvoiceMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
+use PhpTwinfield\Response\MappedResponseCollection;
+use PhpTwinfield\Response\Response;
 use Webmozart\Assert\Assert;
 
 /**
@@ -28,7 +30,7 @@ class InvoiceApiConnector extends BaseApiConnector
      * @param string $code
      * @param string $invoiceNumber
      * @param Office $office
-     * @return Invoice|bool The requested invoice or false if it can't be found.
+     * @return Invoice
      * @throws Exception
      */
     public function get(string $code, string $invoiceNumber, Office $office)
@@ -50,20 +52,31 @@ class InvoiceApiConnector extends BaseApiConnector
      * Sends a \PhpTwinfield\Invoice\Invoice instance to Twinfield to update or add.
      *
      * @param Invoice $invoice
+     * @return Invoice
      * @throws Exception
      */
-    public function send(Invoice $invoice): void
+    public function send(Invoice $invoice): Invoice
     {
-        $this->sendAll([$invoice]);
+        $invoiceResponses = $this->sendAll([$invoice]);
+
+        Assert::count($invoiceResponses, 1);
+
+        foreach ($invoiceResponses as $invoiceResponse) {
+            return $invoiceResponse->unwrap();
+        }
     }
 
     /**
      * @param Invoice[] $invoices
+     * @return MappedResponseCollection
      * @throws Exception
      */
-    public function sendAll(array $invoices): void
+    public function sendAll(array $invoices): MappedResponseCollection
     {
         Assert::allIsInstanceOf($invoices, Invoice::class);
+
+        /** @var Response[] $responses */
+        $responses = [];
 
         foreach ($this->getProcessXmlService()->chunk($invoices) as $chunk) {
 
@@ -73,7 +86,11 @@ class InvoiceApiConnector extends BaseApiConnector
                 $invoicesDocument->addInvoice($invoice);
             }
 
-            $this->sendXmlDocument($invoicesDocument);
+            $responses[] = $this->sendXmlDocument($invoicesDocument);
         }
+
+        return $this->getProcessXmlService()->mapAll($responses, "salesinvoice", function(Response $response): Invoice {
+            return InvoiceMapper::map($response);
+        });
     }
 }
