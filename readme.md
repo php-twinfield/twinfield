@@ -49,7 +49,7 @@ An example:
 
 ```php
 
-$connection = new Secure\AuthenticatedConnection("username", "password", "organization");
+$connection = new Secure\WebservicesAuthentication("username", "password", "organization");
 $customerApiConnector = new ApiConnectors\CustomerApiConnector($connection);
 
 // Get one customer.
