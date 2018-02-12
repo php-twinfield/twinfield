@@ -29,6 +29,7 @@
   "require": {
     "php": ">=7.1",
     "ext-dom": "*",
+    "ext-json": "*",
     "ext-soap": "*",
     "moneyphp/money": "^3.0",
     "myclabs/php-enum": "^1.5",
