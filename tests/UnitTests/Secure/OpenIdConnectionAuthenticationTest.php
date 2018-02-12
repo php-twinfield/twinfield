@@ -27,17 +27,6 @@ class OpenIdConnectionAuthenticationTest extends TestCase
             ->getMock();
     }
 
-    public function testConstructWithIncompleteAccessToken()
-    {
-        $this->expectException(OAuthException::class);
-        $this->expectExceptionMessage("AccessToken does not contain a refresh token.");
-
-        $provider = $this->createMock(OAuthProvider::class);
-        $token    = $this->createMock(AccessToken::class);
-        $office   = $this->createMock(Office::class);
-        new OpenIdConnectAuthentication($provider, $token, $office);
-    }
-
     public function testValidTokenLogin()
     {
         $this->openIdConnect->expects($this->once())

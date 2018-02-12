@@ -21,7 +21,7 @@ username and password authentication, the `\PhpTwinfield\Secure\WebservicesAuthe
 $connection = new Secure\WebservicesAuthentication("username", "password", "organization");
 ```
 
-In order to use OAuth2 to authenticate with Twinfield, one should use the `\PhpTwinfield\Secure\Provider\OAuthProvider` to retrieve an `\League\OAuth2\Client\Token\AccessToken` object. Next to the `OAuthProvider` and `AccessToken`, it is required to set up a default `\PhpTwinfield\Office`, that will be used during requests to Twinfield. **Please note:** when a different office is specified when sending a request through one of the `ApiConnectors`, this Office will override the default.
+In order to use OAuth2 to authenticate with Twinfield, one should use the `\PhpTwinfield\Secure\Provider\OAuthProvider` to retrieve an `\League\OAuth2\Client\Token\AccessToken` object, and extract the refresh token from this object. Furthermore, it is required to set up a default `\PhpTwinfield\Office`, that will be used during requests to Twinfield. **Please note:** when a different office is specified when sending a request through one of the `ApiConnectors`, this Office will override the default.
 
 Using this information, we can create an instance of the `\PhpTwinfield\Secure\OpenIdConnectAuthentication` class, as follows:
 
@@ -31,10 +31,11 @@ $provider    = new OAuthProvider([
     'clientSecret' => 'someClientSecret',
     'redirectUri'  => 'https://example.org/'
 ]);
-$accessToken = $provider->getAccessToken("authorization_code", ["code" => ...]);
-$office      = \PhpTwinfield\Office::fromCode("someOfficeCode");
+$accessToken  = $provider->getAccessToken("authorization_code", ["code" => ...]);
+$refreshToken = $accessToken->getRefreshToken();
+$office       = \PhpTwinfield\Office::fromCode("someOfficeCode");
 
-$connection  = new \PhpTwinfield\Secure\OpenIdConnectAuthentication($provider, $accessToken, $office);
+$connection  = new \PhpTwinfield\Secure\OpenIdConnectAuthentication($provider, $refreshToken, $office);
 ```
 For more information about retrieving the initial `AccessToken`, please refer to: https://github.com/thephpleague/oauth2-client#usage
 
