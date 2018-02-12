@@ -39,16 +39,15 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
      */
     private $cluster;
 
+    /**
+     * The office code that is part of the Office object that is passed here will be
+     * the default office code used during requests. If an office code is included in
+     * the SOAP request body, this will always take precedence over this default.
+     */
     public function __construct(OAuthProvider $provider, string $refreshToken, Office $office)
     {
         $this->provider     = $provider;
         $this->refreshToken = $refreshToken;
-
-        /*
-         * The office code that is part of the Office object that is passed here will be
-         * the default office code used during requests. If an office code is included in
-         * the SOAP request body, this will always take precedence over this default.
-         */
         $this->office      = $office;
     }
 
