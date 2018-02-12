@@ -4,6 +4,7 @@ namespace PhpTwinfield\Secure;
 
 use League\OAuth2\Client\Token\AccessToken;
 use PhpTwinfield\Office;
+use PhpTwinfield\Secure\Provider\InvalidAccessTokenException;
 use PhpTwinfield\Secure\Provider\OAuthProvider;
 use PhpTwinfield\Secure\Provider\OAuthException;
 
@@ -76,8 +77,9 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
      */
     protected function login(): void
     {
-        $validationResult = $this->validateToken();
-        if ($validationResult === false) {
+        try {
+            $validationResult = $this->validateToken();
+        } catch (InvalidAccessTokenException $e) {
             $this->refreshToken();
             $validationResult = $this->validateToken();
         }
@@ -86,20 +88,30 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
     }
 
     /**
-     * @throws OAuthException
+     * Validate the OAuth2 access token. If an access token is deemed valid, Twinfield returns a JSON
+     * object containing information about the access token. If it is invalid, Twinfield returns a
+     * status 400, in which case 'file_get_contents' returns false.
      *
-     * @return array|bool
+     * @throws OAuthException
+     * @throws InvalidAccessTokenException
      */
-    protected function validateToken()
+    protected function validateToken(): array
     {
         $validationUrl    = "https://login.twinfield.com/auth/authentication/connect/accesstokenvalidation?token=";
         try {
             $validationResult = @file_get_contents($validationUrl . urlencode($this->accessToken));
+            if ($validationResult === false) {
+                throw new InvalidAccessTokenException("Access token is invalid.");
+            }
         } catch (\Exception $e) {
             throw new OAuthException("Could not validate access token: {$e->getMessage()}");
         }
 
-        return json_decode($validationResult, true);
+        $resultDecoded = json_decode($validationResult, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new OAuthException("Error while decoding JSON: " . json_last_error_msg());
+        }
+        return $resultDecoded;
     }
 
     protected function refreshToken(): void

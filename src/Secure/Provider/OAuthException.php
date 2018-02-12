@@ -2,4 +2,6 @@
 
 namespace PhpTwinfield\Secure\Provider;
 
-class OAuthException extends \Exception {}
+class OAuthException extends \Exception
+{
+}

@@ -6,6 +6,7 @@ use Eloquent\Liberator\Liberator;
 use League\OAuth2\Client\Token\AccessToken;
 use PhpTwinfield\Office;
 use PhpTwinfield\Secure\OpenIdConnectAuthentication;
+use PhpTwinfield\Secure\Provider\InvalidAccessTokenException;
 use PhpTwinfield\Secure\Provider\OAuthException;
 use PhpTwinfield\Secure\Provider\OAuthProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -52,7 +53,10 @@ class OpenIdConnectionAuthenticationTest extends TestCase
     {
         $this->openIdConnect->expects($this->exactly(2))
             ->method("validateToken")
-            ->willReturn(false, ["twf.clusterUrl" => "someClusterUrl"]);
+            ->willReturn(
+                $this->throwException(new InvalidAccessTokenException()),
+                ["twf.clusterUrl" => "someClusterUrl"]
+            );
         $this->openIdConnect->expects($this->once())
             ->method("refreshToken");
 
