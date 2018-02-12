@@ -11,10 +11,12 @@ use PhpTwinfield\Services\ProcessXmlService;
 abstract class BaseApiConnector
 {
     /**
+     * Make sure to only add error messages for failure cases that caused the server not to accept / receive the
+     * request. Else the automatic retry will cause the request to be understood by the server twice.
+     *
      * @var string[]
      */
     private const RETRY_REQUEST_EXCEPTION_MESSAGES = [
-        "Error Fetching http headers",
         "SSL: Connection reset by peer",
         "Your logon credentials are not valid anymore. Try to log on again."
     ];
