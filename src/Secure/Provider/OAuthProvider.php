@@ -46,6 +46,11 @@ class OAuthProvider extends AbstractProvider
     public const SCOPE_ORGANISATION_USER = 'twf.organisationUser';
 
     /**
+     * This scope is required in order to receive and use refresh tokens.
+     */
+    public const SCOPE_OFFLINE_ACCESS = "offline_access";
+
+    /**
      * @var string
      */
     protected $nonce;
