@@ -34,7 +34,7 @@ class OAuthProviderTest extends TestCase
             'clientSecret' => 'mock_secret',
             'redirectUri' => 'https://example.org/'
         ]);
-        $this->token    = $this->createMock(AccessToken::class);
+        $this->token = $this->createMock(AccessToken::class);
     }
 
     public function testGetBaseAccessTokenUrl()
@@ -122,14 +122,10 @@ class OAuthProviderTest extends TestCase
 
     public function testGetResourceOwnerDetails()
     {
-        /* TODO: Make this test actually run when the 'getResourceOwner' method is fixed. */
-        $this->assertTrue(True);
-        return;
-
         $response = $this->createMock(ResponseInterface::class);
         $response->expects($this->any())
             ->method("getBody")
-            ->willReturn('{"id": "someId", "name": "someName"}');
+            ->willReturn('{"sub": "someId", "twf.organisationId": "someOrganisationId"}');
         $response->expects($this->any())
             ->method("getHeader")
             ->willReturn(['content-type' => 'json']);
@@ -148,6 +144,6 @@ class OAuthProviderTest extends TestCase
 
         $account = $this->provider->getResourceOwner($this->token);
         $this->assertEquals("someId", $account->getId());
-        $this->assertEquals(["id" => "someId", "name" => "someName"], $account->toArray());
+        $this->assertEquals(["sub" => "someId", "twf.organisationId" => "someOrganisationId"], $account->toArray());
     }
 }
