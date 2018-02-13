@@ -72,16 +72,18 @@ class InvoicesDocument extends BaseDocument
         foreach ($headerTags as $tag => $method) {
 
             $value = $this->getValueFromCallback([$invoice, $method]);
-
-            // Make text node for method value
-            $node = $this->createTextNode($value);
-            
-            // Make the actual element and assign the node
-            $element = $this->createElement($tag);
-            $element->appendChild($node);
-            
-            // Add the full element
-            $headerElement->appendChild($element);
+    
+            if(null !== $value) {
+                // Make text node for method value
+                $node = $this->createTextNode($value);
+    
+                // Make the actual element and assign the node
+                $element = $this->createElement($tag);
+                $element->appendChild($node);
+    
+                // Add the full element
+                $headerElement->appendChild($element);
+            }
         }
 
         // Add orders
@@ -118,13 +120,15 @@ class InvoicesDocument extends BaseDocument
                 
                 // Make text node for method value
                 $node = $this->createTextNode($this->getValueFromCallback([$line, $method]));
-                
-                // Make the actual element with tag
-                $element = $this->createElement($tag);
-                $element->appendChild($node);
-                
-                // Add the full element
-                $lineElement->appendChild($element);
+    
+                if (isset($node) && !empty($node->textContent)) {
+                    // Make the actual element with tag
+                    $element = $this->createElement($tag);
+                    $element->appendChild($node);
+    
+                    // Add the full element
+                    $lineElement->appendChild($element);
+                }
             }
         }
 
