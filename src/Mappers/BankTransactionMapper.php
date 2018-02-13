@@ -14,6 +14,9 @@ use PhpTwinfield\Util;
 
 class BankTransactionMapper extends BaseMapper
 {
+    /**
+     * @throws \PhpTwinfield\Exception
+     */
     public static function map(\DOMDocument $document): BankTransaction
     {
         $bankTransaction = new BankTransaction();
@@ -30,6 +33,7 @@ class BankTransactionMapper extends BaseMapper
 
         self::setFromTagValue($document, "code", [$bankTransaction, "setCode"]);
         self::setFromTagValue($document, "office", [$bankTransaction, "setOffice"]);
+        self::setFromTagValue($document, "date", [$bankTransaction, "setDate"]);
         self::setFromTagValue($document, "period", [$bankTransaction, "setPeriod"]);
         self::setFromTagValue($document, "startvalue", [$bankTransaction, "setStartValue"]);
 
