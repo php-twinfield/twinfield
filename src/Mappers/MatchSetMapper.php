@@ -29,7 +29,6 @@ class MatchSetMapper extends BaseMapper
     {
         $matchSet = new MatchSet();
 
-        \var_dump(self::getValueFromTag($document, "office"));
         $matchSet->setOffice(Office::fromCode(self::getValueFromTag($document, "office")));
         $matchSet->setMatchCode(new MatchCode(self::getValueFromTag($document, "matchcode")));
         $matchSet->setMatchDate(
