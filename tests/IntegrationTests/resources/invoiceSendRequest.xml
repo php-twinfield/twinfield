@@ -10,12 +10,9 @@
             <currency>EUR</currency>
             <period>2012/8</period>
             <invoicedate>20120831</invoicedate>
-            <duedate></duedate>
             <bank>BNK</bank>
             <invoiceaddressnumber>1</invoiceaddressnumber>
             <deliveraddressnumber>1</deliveraddressnumber>
-            <headertext></headertext>
-            <footertext></footertext>
         </header>
         <lines>
             <line id="1">
@@ -26,11 +23,6 @@
                 <unitspriceexcl>15.00</unitspriceexcl>
                 <units>1</units>
                 <vatcode>VN</vatcode>
-                <freetext1></freetext1>
-                <freetext2></freetext2>
-                <freetext3></freetext3>
-                <performancedate></performancedate>
-                <performancetype></performancetype>
                 <dim1>8020</dim1>
             </line>
         </lines>
