@@ -1,6 +1,7 @@
 <?php
 namespace PhpTwinfield\Mappers;
 
+use Money\Currency;
 use Money\Money;
 use PhpTwinfield\Enums\MatchCode;
 use PhpTwinfield\MatchLine;
@@ -8,6 +9,7 @@ use PhpTwinfield\MatchReference;
 use PhpTwinfield\MatchReferenceInterface;
 use PhpTwinfield\MatchSet;
 use PhpTwinfield\Office;
+use PhpTwinfield\Util;
 
 class MatchSetMapper extends BaseMapper
 {
@@ -72,6 +74,7 @@ class MatchSetMapper extends BaseMapper
             return null;
         }
 
-        return Money::EUR(\bcmul($matchValue, 100));
+        // TODO: Perhaps not hard code this to EUR, but the element doesn't seem to contain a currency
+        return Util::parseMoney($matchValue, new Currency('EUR'));
     }
 }
