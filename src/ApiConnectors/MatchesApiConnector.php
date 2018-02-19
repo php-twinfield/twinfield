@@ -18,8 +18,6 @@ use Webmozart\Assert\Assert;
 class MatchesApiConnector extends BaseApiConnector
 {
     /**
-     * @param MatchSet $matchSet
-     *
      * @throws Exception
      */
     public function send(MatchSet $matchSet): MatchSet
