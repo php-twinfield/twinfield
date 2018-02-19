@@ -34,24 +34,19 @@ class MatchLine
     private $matchvalue;
 
     /**
-     * @var Money|NULL
+     * @var Money|null
      */
     private $writeoff;
 
     /**
-     * @var Enums\WriteOffType
+     * @var Enums\WriteOffType|null
      */
     private $writeofftype;
 
     /**
      * Create a new matchline based on a MatchReferenceInterface.
      *
-     * If you want to add a write off, add it manually with setWriteOff()
-     *
-     * @param MatchSet $set
-     * @param MatchReferenceInterface $reference
-     * @param Money|null $value Use for partial matching.
-     * @return MatchLine
+     * If you want to add a write off, add it manually with setWriteOff(). Pass $value for partial matching.
      * @see setWriteOff()
      */
     public static function addToMatchSet(MatchSet $set, MatchReferenceInterface $reference, Money $value = null): self
@@ -100,9 +95,6 @@ class MatchLine
 
     /**
      * Optional; only for partial payments. Include an "-" on credit lines.
-     *
-     * @param Money $matchvalue
-     * @return $this
      */
     public function setMatchvalue(?Money $matchvalue): self
     {
@@ -118,12 +110,8 @@ class MatchLine
 
     /**
      * Optional; only for exchange rate differences, write-off or deduction. Include an "-" on credit lines.
-     *
-     * @param Money $amount
-     * @param Enums\WriteOffType $type
-     * @return $this
      */
-    public function setWriteOff(Money $amount, Enums\WriteOffType $type)
+    public function setWriteOff(Money $amount, Enums\WriteOffType $type): self
     {
         $this->writeoff = $amount;
         $this->writeofftype = $type;
@@ -133,10 +121,8 @@ class MatchLine
 
     /**
      * Add the type attribute in order to determine what to do with the match difference.
-     *
-     * @return Enums\WriteOffType
      */
-    public function getWriteOffType(): Enums\WriteOffType
+    public function getWriteOffType(): ?Enums\WriteOffType
     {
         return $this->writeofftype;
     }
