@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<sets>
+	<set result="1">
+		<office>OFFICE001</office>
+		<matchcode name="Debiteuren afletteren">170</matchcode>
+		<matchdate>20180219</matchdate>
+		<lines>
+			<line result="1">
+				<transcode name="Verkoopfactuur" shortname="Verkoop">VRK</transcode>
+				<transnumber>201700103</transnumber>
+				<transline>1</transline>
+				<matchvalue>5.26</matchvalue>
+				<origin>import</origin>
+				<status>temporary</status>
+				<dim1>130000</dim1>
+				<dim2>D158871</dim2>
+				<matchlevel>2</matchlevel>
+				<basevalueopen>12.63</basevalueopen>
+				<repvalueopen>12.63</repvalueopen>
+				<valueopen>12.63</valueopen>
+				<matchvaluerep>5.26</matchvaluerep>
+				<matchvaluecur>5.26</matchvaluecur>
+			</line>
+			<line result="1">
+				<transcode name="Some Dummy Bank Account" shortname="Some Dummy Bank Acco">DUM2</transcode>
+				<transnumber>201700029</transnumber>
+				<transline>79</transline>
+				<matchvalue>-5.26</matchvalue>
+				<origin>import</origin>
+				<status>temporary</status>
+				<dim1>130000</dim1>
+				<dim2>1234567</dim2>
+				<matchlevel>2</matchlevel>
+				<basevalueopen>-5.26</basevalueopen>
+				<repvalueopen>-5.26</repvalueopen>
+				<valueopen>-5.26</valueopen>
+				<matchvaluerep>-5.26</matchvaluerep>
+				<matchvaluecur>-5.26</matchvaluecur>
+			</line>
+		</lines>
+		<dimensions>
+			<dimension level="2" matchnumber="1">1234567</dimension>
+		</dimensions>
+		<value>0.00</value>
+	</set>
+	<set result="0">
+		<office>OFFICE001</office>
+		<matchcode name="Debiteuren afletteren">170</matchcode>
+		<matchdate>20180219</matchdate>
+		<lines result="0">
+			<line msgtype="error" msg="De regel bestaat niet." result="0">
+				<transcode>VRK</transcode>
+				<transnumber>201700100</transnumber>
+				<transline>1</transline>
+				<matchvalue>1.40</matchvalue>
+			</line>
+			<line result="1">
+				<transcode name="Some Dummy Bank Account" shortname="Some Dummy Bank Acco">DUM2</transcode>
+				<transnumber>201700029</transnumber>
+				<transline>64</transline>
+				<matchvalue>-1.40</matchvalue>
+				<origin>import</origin>
+				<status>temporary</status>
+				<dim1>130000</dim1>
+				<dim2>12345678</dim2>
+				<matchlevel>2</matchlevel>
+				<basevalueopen>-1.40</basevalueopen>
+				<repvalueopen>-1.40</repvalueopen>
+				<valueopen>-1.40</valueopen>
+				<matchvaluerep>-1.40</matchvaluerep>
+				<matchvaluecur>-1.40</matchvaluecur>
+			</line>
+		</lines>
+		<dimensions>
+			<dimension level="2">12345678</dimension>
+		</dimensions>
+		<value>-1.40</value>
+	</set>
+</sets>
