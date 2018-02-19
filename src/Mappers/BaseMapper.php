@@ -61,4 +61,14 @@ abstract class BaseMapper
 
         return $element->textContent;
     }
+
+    protected static function getField(\DOMElement $element, string $fieldTagName): ?string
+    {
+        $fieldElement = $element->getElementsByTagName($fieldTagName)->item(0);
+        if (!isset($fieldElement)) {
+            return null;
+        }
+
+        return $fieldElement->textContent;
+    }
 }
