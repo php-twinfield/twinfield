@@ -23,7 +23,7 @@ use PhpTwinfield\Transactions\BankTransactionLine\Total;
 use PhpTwinfield\Transactions\BankTransactionLine\Vat;
 use PHPUnit\Framework\TestCase;
 
-class BankTransactionApiConnectorTest extends TestCase
+class MatchesApiConnectorTest extends TestCase
 {
     /**
      * @var MatchesApiConnector
