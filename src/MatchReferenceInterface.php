@@ -10,7 +10,9 @@ namespace PhpTwinfield;
  * You can use the provided MatchReference object or you can implement this directly on one of your entities / domain
  * models.
  *
- * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching
+ * @see MatchReference
+ *
+ * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching
  */
 interface MatchReferenceInterface
 {
