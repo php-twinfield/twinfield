@@ -12,9 +12,9 @@ cache:
     - $HOME/.composer/cache
 
 install:
-- travis_retry composer install --no-interaction --classmap-authoritative
+- travis_retry composer install --no-interaction --no-suggest
 
 script:
 - composer validate --strict
 - find src tests -name '*.php' | xargs -n 1 -P4 php -l
-- vendor/bin/phpunit
+- vendor/bin/phpunit --fail-on-risky

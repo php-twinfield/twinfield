@@ -4,7 +4,10 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\DomDocuments\MatchDocument;
 use PhpTwinfield\Exception;
+use PhpTwinfield\Mappers\MatchSetMapper;
 use PhpTwinfield\MatchSet;
+use PhpTwinfield\Response\IndividualMappedResponse;
+use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use Webmozart\Assert\Assert;
 
@@ -15,19 +18,19 @@ use Webmozart\Assert\Assert;
 class MatchesApiConnector extends BaseApiConnector
 {
     /**
-     * @param MatchSet $matchSet
      * @throws Exception
      */
-    public function send(MatchSet $matchSet): void
+    public function send(MatchSet $matchSet): MatchSet
     {
-        $this->sendAll([$matchSet]);
+        return $this->sendAll([$matchSet])[0]->unwrap();
     }
 
     /**
-     * @param MatchSet[] $matchSets
+     * @return MappedResponseCollection|IndividualMappedResponse[]
+     *
      * @throws Exception
      */
-    public function sendAll(array $matchSets): void
+    public function sendAll(array $matchSets): MappedResponseCollection
     {
         Assert::allIsInstanceOf($matchSets, MatchSet::class);
 
@@ -45,8 +48,8 @@ class MatchesApiConnector extends BaseApiConnector
             $responses[] = $this->sendXmlDocument($document);
         }
 
-        foreach ($responses as $response) {
-            $response->assertSuccessful();
-        }
+        return $this->getProcessXmlService()->mapAll($responses, "set", function (Response $subResponse): MatchSet {
+            return MatchSetMapper::map($subResponse->getResponseDocument());
+        });
     }
 }
