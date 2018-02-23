@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\Transactions\TransactionFields;
 
+use PhpTwinfield\BookingReference;
 use PhpTwinfield\MatchReferenceInterface;
 
 /**
@@ -63,5 +64,19 @@ trait CodeNumberOfficeFields
     public function getNumber(): ?int
     {
         return $this->number;
+    }
+
+    /**
+     * Get the booking reference. The booking reference uniquely identifies a booking.
+     *
+     * @return BookingReference
+     */
+    public function getBookingReference(): BookingReference
+    {
+        return new BookingReference(
+            $this->office,
+            $this->code,
+            $this->number
+        );
     }
 }

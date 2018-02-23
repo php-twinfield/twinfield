@@ -3,7 +3,9 @@
 namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\BankTransaction;
+use PhpTwinfield\BookingReference;
 use PhpTwinfield\DomDocuments\BankTransactionDocument;
+use PhpTwinfield\DomDocuments\BookingReferenceDeletionDocument;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\BankTransactionMapper;
 use PhpTwinfield\Response\MappedResponseCollection;
@@ -28,6 +30,21 @@ class BankTransactionApiConnector extends BaseApiConnector
         foreach ($bankTransactionResponses as $bankTransactionResponse) {
             return $bankTransactionResponse->unwrap();
         }
+    }
+
+    /**
+     * Delete a transaction by its booking reference.
+     *
+     * @param BookingReference $bookingReference
+     * @param string $reason A textual reason that can be shown to humans.
+     * @throws Exception
+     */
+    public function delete(BookingReference $bookingReference, string $reason): void
+    {
+        $document = new BookingReferenceDeletionDocument($bookingReference, $reason);
+        
+        $response = $this->getProcessXmlService()->sendDocument($document);
+        $response->assertSuccessful();
     }
 
     /**
