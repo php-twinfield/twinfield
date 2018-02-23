@@ -6,6 +6,7 @@ use Money\Currency;
 use Money\Money;
 use PhpTwinfield\ApiConnectors\BankTransactionApiConnector;
 use PhpTwinfield\BankTransaction;
+use PhpTwinfield\BookingReference;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Exception;
@@ -194,5 +195,34 @@ class BankTransactionApiConnectorTest extends TestCase
         $this->assertEquals("VH", $line->getVatCode());
         $this->assertEquals(Money::EUR(10000), $line->getVatTurnover());
         $this->assertEquals(Money::EUR(10000), $line->getVatBaseTurnover());
+    }
+
+    /**
+     * @expectedException Exception
+     * @expectedExceptionMessage De status van de boeking moet Concept zijn
+     */
+    public function testDeleteThrowsWhenResponseContainsErrorMessages()
+    {
+        $bookingReference = new BookingReference(Office::fromCode("OFFICE001"), "BNK", 201700006);
+
+        $this->processXmlService->expects($this->once())
+            ->method("sendDocument")
+            ->willReturnCallback(function(\DOMDocument $document) {
+
+                $this->assertXmlStringEqualsXmlString('<transaction action="delete" reason="It was merely a test transaction &amp; I no longer need it.">
+    <office>OFFICE001</office>
+    <code>BNK</code>
+    <number>201700006</number>
+</transaction>', $document->saveXML());
+
+                return Response::fromString('<?xml version="1.0"?>
+<transaction action="delete" reason="Test transaction" msgtype="error" msg="De status van de boeking moet Concept zijn." result="0">
+    <office>OFFICE001</office>
+    <code>BNK</code>
+    <number>201700006</number>
+</transaction>');
+            });
+
+        $this->apiConnector->delete($bookingReference, "It was merely a test transaction & I no longer need it.");
     }
 }

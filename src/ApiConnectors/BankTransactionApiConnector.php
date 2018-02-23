@@ -12,6 +12,8 @@ use Webmozart\Assert\Assert;
 
 class BankTransactionApiConnector extends BaseApiConnector
 {
+    use BookingReferenceDeletionTrait;
+
     /**
      * Sends a BankTransaction instance to Twinfield to update or add.
      *
