@@ -201,7 +201,7 @@ class BankTransactionApiConnectorTest extends TestCase
      * @expectedException Exception
      * @expectedExceptionMessage De status van de boeking moet Concept zijn
      */
-    public function testDeletionWorks()
+    public function testDeleteThrowsWhenResponseContainsErrorMessages()
     {
         $bookingReference = new BookingReference(Office::fromCode("OFFICE001"), "BNK", 201700006);
 
