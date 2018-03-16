@@ -100,4 +100,20 @@ final class Util
 
         return in_array($trait, $traits);
     }
+
+    public static function getPrettyXml(\DOMDocument $document): string
+    {
+        $oldPreserveWhiteSpace = $document->preserveWhiteSpace;
+        $oldFormatOutput = $document->formatOutput;
+
+        $document->preserveWhiteSpace = false;
+        $document->formatOutput = true;
+
+        $xml_string = $document->saveXML();
+
+        $document->preserveWhiteSpace = $oldPreserveWhiteSpace;
+        $document->formatOutput = $oldFormatOutput;
+
+        return $xml_string ?: '';
+    }
 }
