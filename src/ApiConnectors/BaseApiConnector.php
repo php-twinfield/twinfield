@@ -4,12 +4,19 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Exception;
+use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
+use PhpTwinfield\Util;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerTrait;
 
-abstract class BaseApiConnector
+abstract class BaseApiConnector implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /**
      * Make sure to only add error messages for failure cases that caused the server not to accept / receive the
      * request. Else the automatic retry will cause the request to be understood by the server twice.
@@ -60,9 +67,13 @@ abstract class BaseApiConnector
      * @throws Exception
      */
     public function sendXmlDocument(\DOMDocument $document) {
+        $this->logSendingDocument($document);
+
         try {
             $response = $this->getProcessXmlService()->sendDocument($document);
             $this->numRetries = 0;
+
+            $this->logResponse($response);
 
             return $response;
         } catch (\SoapFault | \ErrorException $exception) {
@@ -82,12 +93,66 @@ abstract class BaseApiConnector
                 if ($this->numRetries > self::MAX_RETRIES) {
                     break;
                 }
+
+                $this->logRetry($exception);
                 return $this->sendXmlDocument($document);
             }
 
             $this->numRetries = 0;
+            $this->logFailedRequest($exception);
             throw new Exception($exception->getMessage(), 0, $exception);
         }
+    }
+
+    private function logSendingDocument(\DOMDocument $document): void
+    {
+        if (!$this->logger) {
+            return;
+        }
+
+        $message = sprintf(
+            "Sending request to Twinfield.%s",
+            $this->numRetries > 0 ? ' (attempt ' . ($this->numRetries + 1) . ')' : ''
+        );
+
+        $this->logger->debug(
+            $message,
+            [
+                'document_xml' => Util::getPrettyXml($document),
+            ]
+        );
+    }
+
+    private function logResponse(Response $response): void
+    {
+        if (!$this->logger) {
+            return;
+        }
+
+        $this->logger->debug(
+            "Received response from Twinfield.",
+            [
+                'document_xml' => Util::getPrettyXml($response->getResponseDocument()),
+            ]
+        );
+    }
+
+    private function logRetry(\Throwable $e): void
+    {
+        if (!$this->logger) {
+            return;
+        }
+
+        $this->logger->info("Retrying request. Reason for initial failure: {$e->getMessage()}");
+    }
+
+    private function logFailedRequest(\Throwable $e): void
+    {
+        if (!$this->logger) {
+            return;
+        }
+
+        $this->logger->error("Request to Twinfield failed: {$e->getMessage()}");
     }
 
     /**
