@@ -12,6 +12,7 @@ use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Response\ResponseException;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
 use PhpTwinfield\Transactions\BankTransactionLine\Detail;
@@ -63,6 +64,37 @@ class BankTransactionApiConnectorTest extends TestCase
         $banktransaction->setOffice($this->office);
 
         return $banktransaction;
+    }
+
+    public function testFailureResponseWithoutLineIdsThrowsResponseExceptionAndObjectCanStillBeExtracted()
+    {
+        $response = Response::fromString(file_get_contents(
+            __DIR__. "/resources/failed-response-without-line-ids.xml"
+        ));
+
+        $this->processXmlService->expects($this->once())
+            ->method("sendDocument")
+            ->willReturn($response);
+
+        $mapped_responses = $this->apiConnector->sendAll([
+            $this->createBankTransaction()
+        ]);
+
+        self::assertCount(1, $mapped_responses);
+
+        try {
+            $mapped_responses[0]->unwrap();
+
+            self::fail('Expected a ResponseException for a failed response');
+        } catch (ResponseException $e) {
+            /** @var BankTransaction $bank_transaction */
+            $bank_transaction = $e->getReturnedObject();
+
+            self::assertCount(2, $bank_transaction->getLines());
+
+            self::assertNull($bank_transaction->getLines()[0]->getId());
+            self::assertNull($bank_transaction->getLines()[1]->getId());
+        }
     }
 
     public function testSendAllReturnsMappedObjects()
