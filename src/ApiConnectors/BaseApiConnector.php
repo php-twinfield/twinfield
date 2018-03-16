@@ -109,10 +109,10 @@ abstract class BaseApiConnector implements LoggerAwareInterface
             return;
         }
 
-        $message = sprintf(
-            "Sending request to Twinfield.%s",
-            $this->numRetries > 0 ? ' (attempt ' . ($this->numRetries + 1) . ')' : ''
-        );
+        $message = "Sending request to Twinfield.";
+        if ($this->numRetries > 0) {
+            $message .= ' (attempt ' . ($this->numRetries + 1) . ')';
+        }
 
         $this->logger->debug(
             $message,
