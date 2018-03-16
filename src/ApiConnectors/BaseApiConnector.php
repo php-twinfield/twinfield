@@ -11,7 +11,6 @@ use PhpTwinfield\Services\ProcessXmlService;
 use PhpTwinfield\Util;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerTrait;
 
 abstract class BaseApiConnector implements LoggerAwareInterface
 {
