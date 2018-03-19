@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<transactions result="0">
+	<transaction destiny="temporary" msgtype="error" msg="Configuratiefout in rekening-courant. Er is geen directe ontvangstregel in administratie MyAdministration (450)." result="0">
+		<header>
+			<code>BNK_CODE_123</code>
+			<office>450</office>
+			<date>20170901</date>
+			<statementnumber>321</statementnumber>
+			<currency>EUR</currency>
+			<startvalue>0.00</startvalue>
+			<closevalue>126.17</closevalue>
+			<origin>import</origin>
+		</header>
+		<lines>
+			<line type="total">
+				<dim1>123456</dim1>
+				<debitcredit>credit</debitcredit>
+				<value>126.17</value>
+			</line>
+			<line type="detail">
+				<dim1>654321</dim1>
+				<debitcredit>credit</debitcredit>
+				<value>126.17</value>
+				<description>description</description>
+				<comment>comment</comment>
+			</line>
+		</lines>
+	</transaction>
+</transactions>
