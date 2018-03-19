@@ -12,14 +12,18 @@ use PhpTwinfield\Response\Response;
  * @subpackage Mapper
  * @author Willem van de Sande <W.vandeSande@MailCoupon.nl>
  */
-class ArticleMapper
+class ArticleMapper extends BaseMapper
 {
+    
     /**
      * Maps a Response object to a clean Article entity.
-     * 
+     *
      * @access public
+     *
      * @param \PhpTwinfield\Response\Response $response
+     *
      * @return Article
+     * @throws \PhpTwinfield\Exception
      */
     public static function map(Response $response)
     {
@@ -35,37 +39,26 @@ class ArticleMapper
 
         // Article elements and their methods
         $articleTags = [
-            'code'              => 'setCode',
-            'office'            => 'setOffice',
-            'type'              => 'setType',
-            'name'              => 'setName',
-            'shortname'         => 'setShortName',
-            'unitnamesingular'  => 'setUnitNameSingular',
-            'unitnameplural'    => 'setUnitNamePlural',
-            'vatcode'           => 'setVatCode',
-            'allowchangevatcode' => 'setAllowChangeVatCode',
-            'performancetype'   => 'setPerformanceType',
+            'code'                       => 'setCode',
+            'office'                     => 'setOffice',
+            'type'                       => 'setType',
+            'name'                       => 'setName',
+            'shortname'                  => 'setShortName',
+            'unitnamesingular'           => 'setUnitNameSingular',
+            'unitnameplural'             => 'setUnitNamePlural',
+            'vatcode'                    => 'setVatCode',
+            'allowchangevatcode'         => 'setAllowChangeVatCode',
+            'performancetype'            => 'setPerformanceType',
             'allowchangeperformancetype' => 'setAllowChangePerformanceType',
-            'percentage'        => 'setPercentage',
-            'allowdiscountorpremium' => 'setAllowDiscountorPremium',
-            'allowchangeunitsprice' => 'setAllowChangeUnitsPrice',
-            'allowdecimalquantity' => 'setAllowDecimalQuantity',
+            'percentage'                 => 'setPercentage',
+            'allowdiscountorpremium'     => 'setAllowDiscountorPremium',
+            'allowchangeunitsprice'      => 'setAllowChangeUnitsPrice',
+            'allowdecimalquantity'       => 'setAllowDecimalQuantity',
         ];
 
         // Loop through all the tags
         foreach ($articleTags as $tag => $method) {
-            // Get the dom element
-            $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
-
-            // If it has a value, set it to the associated method
-            if (isset($_tag) && isset($_tag->textContent)) {
-                $value = $_tag->textContent;
-                if ($value == 'true' || $value == 'false') {
-                    $value = $value == 'true';
-                }
-
-                $article->$method($value);
-            }
+            self::setFromTagValue($responseDOM, $tag, [$article, $method]);
         }
 
         $linesDOMTag = $responseDOM->getElementsByTagName('lines');
@@ -111,7 +104,7 @@ class ArticleMapper
                 $article->addLine($articleLine);
 
                 // Clean that memory!
-                unset ($ArticleLine);
+                unset ($articleLine);
             }
         }
         return $article;
