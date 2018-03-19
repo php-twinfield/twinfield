@@ -6,6 +6,7 @@ use PhpTwinfield\BankTransaction;
 use PhpTwinfield\DomDocuments\BankTransactionDocument;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\BankTransactionMapper;
+use PhpTwinfield\Response\IndividualMappedResponse;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use Webmozart\Assert\Assert;
@@ -34,7 +35,7 @@ class BankTransactionApiConnector extends BaseApiConnector
 
     /**
      * @param BankTransaction[] $bankTransactions
-     * @return MappedResponseCollection
+     * @return MappedResponseCollection|IndividualMappedResponse[]
      * @throws Exception
      */
     public function sendAll(array $bankTransactions): MappedResponseCollection
