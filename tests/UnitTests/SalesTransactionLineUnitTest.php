@@ -52,6 +52,7 @@ class SalesTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
         $purchase->setCode("INK");
 
         $line = new SalesTransactionLine();
+        $line->setLineType(LineType::DETAIL());
         $line->setId(2);
 
         $purchase->addLine($line);
