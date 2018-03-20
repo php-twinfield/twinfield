@@ -132,4 +132,33 @@ class BankTransactionUnitTest extends \PHPUnit\Framework\TestCase
 
         self::assertLinesInOrderBasedOnDescription($bank_transaction, 1);
     }
+
+    public function testAdding1TotalLineAnd500DetailLinesToABankTransactionWorks()
+    {
+        $total_line_count = 501;
+
+        $bank_transaction = new BankTransaction();
+
+        $this->addTotalLineWithDescription($bank_transaction, '0');
+        for ($i = 1; $i < $total_line_count; $i++) {
+            $this->addDetailLineWithDescription($bank_transaction, (string)$i);
+        }
+
+        self::assertCount(501, $bank_transaction->getLines());
+    }
+
+    public function testAdding1TotalLineWithMoreThan500DetailLinesToABankTransactionThrows()
+    {
+        $total_line_count = 502;
+
+        $bank_transaction = new BankTransaction();
+
+        $this->addTotalLineWithDescription($bank_transaction, '0');
+
+        $this->expectException(\InvalidArgumentException::class);
+
+        for ($i = 1; $i < $total_line_count; $i++) {
+            $this->addDetailLineWithDescription($bank_transaction, (string)$i);
+        }
+    }
 }
