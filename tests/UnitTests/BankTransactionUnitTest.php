@@ -134,9 +134,9 @@ class BankTransactionUnitTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($bank_transaction->getLines()[0]->getLineType()->equals(LineType::TOTAL()));
     }
 
-    public function testAdding1TotalLineAnd500DetailLinesToABankTransactionWorks()
+    public function testAdding1TotalLineAnd499DetailLinesToABankTransactionWorks()
     {
-        $total_line_count = 501;
+        $total_line_count = 500;
 
         $bank_transaction = new BankTransaction();
 
@@ -145,12 +145,12 @@ class BankTransactionUnitTest extends \PHPUnit\Framework\TestCase
             $this->addDetailLineWithDescription($bank_transaction, (string)$i);
         }
 
-        self::assertCount(501, $bank_transaction->getLines());
+        self::assertCount($total_line_count, $bank_transaction->getLines());
     }
 
-    public function testAdding1TotalLineWithMoreThan500DetailLinesToABankTransactionThrows()
+    public function testAdding1TotalLineWith500DetailLinesToABankTransactionThrows()
     {
-        $total_line_count = 502;
+        $total_line_count = 501;
 
         $bank_transaction = new BankTransaction();
 
