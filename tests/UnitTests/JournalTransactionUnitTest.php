@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\UnitTests;
 
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\JournalTransaction;
 use PhpTwinfield\JournalTransactionLine;
 use PhpTwinfield\Office;
@@ -16,6 +17,7 @@ class JournalTransactionUnitTest extends \PHPUnit\Framework\TestCase
         $journal->setCode("MEMO");
 
         $line = new JournalTransactionLine();
+        $line->setLineType(LineType::DETAIL());
         $line->setId(1);
 
         $journal->addLine($line);

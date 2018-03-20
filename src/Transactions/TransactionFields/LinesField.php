@@ -12,15 +12,24 @@ use Webmozart\Assert\Assert;
 trait LinesField
 {
     /**
-     * @var TransactionLine[]
+     * @var TransactionLine[][]
      */
-    private $lines = [];
+    private $lines_per_type = [];
 
     /**
      * @return string The class name for transaction lines supported by this transaction. Must be an implementation of
      *                TransactionLine.
      */
     abstract public function getLineClassName(): string;
+
+    private function getLineCountForType(LineType $line_type): int
+    {
+        if (\array_key_exists($line_type->getValue(), $this->lines_per_type)) {
+            return count($this->lines_per_type[$line_type->getValue()]);
+        }
+
+        return 0;
+    }
 
     /**
      * @return TransactionLine[]
@@ -32,23 +41,45 @@ trait LinesField
          * one or more detail lines and optionally one or more vat lines. Twinfield returns an error when the lines are
          * in an incorrect order.
          */
-        $type_order = [LineType::TOTAL(), LineType::DETAIL(), LineType::VAT()];
-        usort(
-            $this->lines,
-            function (TransactionLine $a, TransactionLine $b) use ($type_order): int
-            {
-                $type_index_a = array_search($a->getLineType(), $type_order, false);
-                $type_index_b = array_search($b->getLineType(), $type_order, false);
+        $lines = [];
 
-                if ($type_index_a != $type_index_b) {
-                    return $type_index_a <=> $type_index_b;
-                }
+        foreach ($this->getTotalLines() as $line) {
+            $lines[] = $line;
+        }
 
-                return $a->getId() <=> $b->getId();
-            }
-        );
+        foreach ($this->getDetailLines() as $line) {
+            $lines[] = $line;
+        }
 
-        return $this->lines;
+        foreach ($this->getVatLines() as $line) {
+            $lines[] = $line;
+        }
+
+        return $lines;
+    }
+
+    private function getTotalLines(): array
+    {
+        return $this->getLinesOfType(LineType::TOTAL());
+    }
+
+    private function getLinesOfType(LineType $line_type): array
+    {
+        if (\array_key_exists($line_type->getValue(), $this->lines_per_type)) {
+            return $this->lines_per_type[$line_type->getValue()];
+        }
+
+        return [];
+    }
+
+    private function getDetailLines(): array
+    {
+        return $this->getLinesOfType(LineType::DETAIL());
+    }
+
+    private function getVatLines(): array
+    {
+        return $this->getLinesOfType(LineType::VAT());
     }
 
     /**
@@ -59,11 +90,21 @@ trait LinesField
     {
         Assert::isInstanceOf($line, $this->getLineClassName());
 
-        $this->lines[] = $line;
-
+        $this->addLinePerType($line);
         $line->setTransaction($this);
 
         return $this;
+    }
+
+    private function addLinePerType(TransactionLine $line)
+    {
+        $line_type = $line->getLineType()->getValue();
+
+        if (!\array_key_exists($line_type, $this->lines_per_type)) {
+            $this->lines_per_type[$line_type] = [];
+        }
+
+        $this->lines_per_type[$line_type][] = $line;
     }
 
     /**
@@ -72,7 +113,7 @@ trait LinesField
     public function setLines(array $lines): void
     {
         /*
-         * Don't set $this->lines here directly. Some classes that use this trait overwrite the addLine() method.
+         * Don't set the lines directly. Some classes that use this trait overwrite the addLine() method.
          */
         foreach ($lines as $line) {
             $this->addLine($line);

@@ -48,6 +48,7 @@ class PurchaseTransactionsUnitTest extends TestCase
         $purchase->setCode("INK");
 
         $line = new PurchaseTransactionLine();
+        $line->setLineType(LineType::DETAIL());
         $line->setId(2);
 
         $purchase->addLine($line);
