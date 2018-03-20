@@ -99,7 +99,7 @@ class BankTransaction implements Transaction
         /*
          * Max is 500 lines. 
          */
-        Assert::lessThanEq(count($this->getLines()), 500);
+        Assert::lessThanEq($this->getLineCount(), 500);
 
         /*
          * Calls the addLine() method on the LinesField trait. Uses an alias in the `use` statement at top of this

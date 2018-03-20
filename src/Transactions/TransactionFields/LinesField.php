@@ -22,6 +22,13 @@ trait LinesField
      */
     abstract public function getLineClassName(): string;
 
+    protected function getLineCount(): int
+    {
+        return $this->getLineCountForType(LineType::TOTAL())
+            + $this->getLineCountForType(LineType::DETAIL())
+            + $this->getLineCountForType(LineType::VAT());
+    }
+
     private function getLineCountForType(LineType $line_type): int
     {
         if (\array_key_exists($line_type->getValue(), $this->lines_per_type)) {
