@@ -14,7 +14,11 @@ trait LinesField
     /**
      * @var TransactionLine[][]
      */
-    private $lines_per_type = [];
+    private $lines_per_type = [
+        LineType::TOTAL  => [],
+        LineType::DETAIL => [],
+        LineType::VAT    => [],
+    ];
 
     /**
      * @return string The class name for transaction lines supported by this transaction. Must be an implementation of
@@ -31,11 +35,7 @@ trait LinesField
 
     private function getLineCountForType(LineType $line_type): int
     {
-        if (\array_key_exists($line_type->getValue(), $this->lines_per_type)) {
-            return count($this->lines_per_type[$line_type->getValue()]);
-        }
-
-        return 0;
+        return count($this->lines_per_type[$line_type->getValue()]);
     }
 
     /**
@@ -48,45 +48,26 @@ trait LinesField
          * one or more detail lines and optionally one or more vat lines. Twinfield returns an error when the lines are
          * in an incorrect order.
          */
-        $lines = [];
-
-        foreach ($this->getTotalLines() as $line) {
-            $lines[] = $line;
-        }
-
-        foreach ($this->getDetailLines() as $line) {
-            $lines[] = $line;
-        }
-
-        foreach ($this->getVatLines() as $line) {
-            $lines[] = $line;
-        }
-
-        return $lines;
+        return \array_merge(
+            $this->getTotalLines(),
+            $this->getDetailLines(),
+            $this->getVatLines()
+        );
     }
 
     private function getTotalLines(): array
     {
-        return $this->getLinesOfType(LineType::TOTAL());
-    }
-
-    private function getLinesOfType(LineType $line_type): array
-    {
-        if (\array_key_exists($line_type->getValue(), $this->lines_per_type)) {
-            return $this->lines_per_type[$line_type->getValue()];
-        }
-
-        return [];
+        return $this->lines_per_type[LineType::TOTAL()->getValue()];
     }
 
     private function getDetailLines(): array
     {
-        return $this->getLinesOfType(LineType::DETAIL());
+        return $this->lines_per_type[LineType::DETAIL()->getValue()];
     }
 
     private function getVatLines(): array
     {
-        return $this->getLinesOfType(LineType::VAT());
+        return $this->lines_per_type[LineType::VAT()->getValue()];
     }
 
     /**
@@ -97,21 +78,14 @@ trait LinesField
     {
         Assert::isInstanceOf($line, $this->getLineClassName());
 
-        $this->addLinePerType($line);
+        if ($line->getLineType()->equals(LineType::TOTAL())) {
+            Assert::eq($this->getLineCountForType(LineType::TOTAL()), 0, 'Cannot set a second TOTAL line');
+        }
+
+        $this->lines_per_type[$line->getLineType()->getValue()][] = $line;
         $line->setTransaction($this);
 
         return $this;
-    }
-
-    private function addLinePerType(TransactionLine $line)
-    {
-        $line_type = $line->getLineType()->getValue();
-
-        if (!\array_key_exists($line_type, $this->lines_per_type)) {
-            $this->lines_per_type[$line_type] = [];
-        }
-
-        $this->lines_per_type[$line_type][] = $line;
     }
 
     /**

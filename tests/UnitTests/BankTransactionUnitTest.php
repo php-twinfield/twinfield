@@ -124,13 +124,14 @@ class BankTransactionUnitTest extends \PHPUnit\Framework\TestCase
         self::assertLinesInOrderBasedOnDescription($bank_transaction, 3);
     }
 
-    public function testGetLinesReturnsLinesInSameOrderWhenOnlyTotalLineIsAdded()
+    public function testGetLinesReturnsOnlyTotalLineWhenOnlyTotalLineIsAdded()
     {
         $bank_transaction = new BankTransaction();
 
         $this->addTotalLineWithDescription($bank_transaction, '0');
 
-        self::assertLinesInOrderBasedOnDescription($bank_transaction, 1);
+        self::assertCount(1, $bank_transaction->getLines());
+        self::assertTrue($bank_transaction->getLines()[0]->getLineType()->equals(LineType::TOTAL()));
     }
 
     public function testAdding1TotalLineAnd500DetailLinesToABankTransactionWorks()
@@ -159,6 +160,21 @@ class BankTransactionUnitTest extends \PHPUnit\Framework\TestCase
 
         for ($i = 1; $i < $total_line_count; $i++) {
             $this->addDetailLineWithDescription($bank_transaction, (string)$i);
+        }
+    }
+
+    public function testAddLineThrowsAndIgnoresWhenAddingASecondTotalLine()
+    {
+        $bank_transaction = new BankTransaction();
+
+        $this->addTotalLineWithDescription($bank_transaction, '0');
+
+        try {
+            $this->addTotalLineWithDescription($bank_transaction, '0');
+
+            self::fail('An exception should have been thrown when adding a second total line');
+        } catch (\InvalidArgumentException $e) {
+            self::assertCount(1, $bank_transaction->getLines());
         }
     }
 }

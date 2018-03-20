@@ -11,7 +11,7 @@ use MyCLabs\Enum\Enum;
  */
 class LineType extends Enum
 {
-    protected const TOTAL = "total";
-    protected const DETAIL = "detail";
-    protected const VAT = "vat";
+    public const TOTAL = "total";
+    public const DETAIL = "detail";
+    public const VAT = "vat";
 }
