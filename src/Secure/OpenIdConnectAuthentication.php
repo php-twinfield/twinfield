@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\Secure;
 
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use PhpTwinfield\Office;
 use PhpTwinfield\Secure\Provider\InvalidAccessTokenException;
 use PhpTwinfield\Secure\Provider\OAuthProvider;
@@ -48,7 +49,7 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
     {
         $this->provider     = $provider;
         $this->refreshToken = $refreshToken;
-        $this->office      = $office;
+        $this->office       = $office;
     }
 
     protected function getCluster(): ?string
@@ -104,19 +105,27 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
             throw new InvalidAccessTokenException("Access token is invalid.");
         }
 
-        $resultDecoded = json_decode($validationResult, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new OAuthException("Error while decoding JSON: " . json_last_error_msg());
+        $resultDecoded = \json_decode($validationResult, true);
+        if (\json_last_error() !== JSON_ERROR_NONE) {
+            throw new OAuthException("Error while decoding JSON: " . \json_last_error_msg());
         }
         return $resultDecoded;
     }
 
+    /**
+     * @throws OAuthException
+     */
     protected function refreshToken(): void
     {
-        $accessToken = $this->provider->getAccessToken(
-            "refresh_token",
-            ["refresh_token" => $this->refreshToken]
-        );
+        try {
+            $accessToken = $this->provider->getAccessToken(
+                "refresh_token",
+                ["refresh_token" => $this->refreshToken]
+            );
+        } catch (IdentityProviderException $e) {
+            throw new OAuthException($e->getMessage(), 0, $e);
+        }
+
         $this->accessToken = $accessToken->getToken();
     }
 }
