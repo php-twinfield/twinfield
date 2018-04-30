@@ -58,7 +58,7 @@ class SupplierApiConnector extends BaseApiConnector
     {
 
         // Make a request to a list of all customers
-        $request_customers = new Request\Catalog\Dimension($office->getCode(), $dimType);
+        $request_customers = new Request\Catalog\Dimension($office, $dimType);
 
         // Send the Request document and set the response to this instance.
         $response = $this->sendXmlDocument($request_customers);
