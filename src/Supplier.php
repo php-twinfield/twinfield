@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
 
 /**
@@ -10,14 +11,21 @@ use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
  */
 class Supplier
 {
+    use OfficeField;
     use VatCodeField;
 
-    private $office;
     private $code;
     private $UID;
     private $status;
     private $name;
-    private $type;
+
+    /**
+     * Dimension type of suppliers is CRD.
+     *
+     * @var string
+     */
+    private $type = "CRD";
+
     private $inUse;
     private $behaviour;
     private $touched;
@@ -34,22 +42,9 @@ class Supplier
     private $payCode;
     private $eBilling = false;
     private $eBillMail;
-    private $creditManagement;
     private $addresses = array();
     private $banks = array();
     private $groups;
-
-    public function getOffice()
-    {
-        return $this->office;
-    }
-
-    public function setOffice($office)
-    {
-        $this->office = $office;
-
-        return $this;
-    }
 
     public function getCode()
     {
@@ -311,8 +306,8 @@ class Supplier
 
     public function removeAddress($index)
     {
-        if (array_key_exists($index, $this->addressess)) {
-            unset($this->adressess[$index]);
+        if (array_key_exists($index, $this->addresses)) {
+            unset($this->addresses[$index]);
             return true;
         } else {
             return false;

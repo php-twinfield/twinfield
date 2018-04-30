@@ -1,6 +1,7 @@
 <?php
 namespace PhpTwinfield\Secure;
 
+use PhpTwinfield\Office;
 use PhpTwinfield\Supplier;
 use PhpTwinfield\DomDocuments\SuppliersDocument;
 
@@ -12,12 +13,17 @@ class SupplierOfficeTest extends \PHPUnit\Framework\TestCase
     protected $object;
 
     /**
+     * @var Office
+     */
+    private $office;
+
+    /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
     protected function setUp()
     {
-        $this->office = 'TEST-001';
+        $this->office = Office::fromCode('TEST-001');
     }
 
     /**

@@ -14,7 +14,7 @@ use PhpTwinfield\Response\Response;
  * @author Leon Rowland <leon@rowland.nl>
  * @copyright (c) 2013, Pronamic
  */
-class SupplierMapper
+class SupplierMapper extends BaseMapper
 {
     /**
      * Maps a Response object to a clean Supplier entity.
@@ -53,14 +53,7 @@ class SupplierMapper
 
         // Loop through all the tags
         foreach ($supplierTags as $tag => $method) {
-            
-            // Get the dom element
-            $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
-
-            // If it has a value, set it to the associated method
-            if (isset($_tag) && isset($_tag->textContent)) {
-                $supplier->$method($_tag->textContent);
-            }
+            self::setFromTagValue($responseDOM, $tag, [$supplier, $method]);
         }
 
         // Financial elements and their methods
@@ -75,23 +68,24 @@ class SupplierMapper
         // Financial elements
         $financialElement = $responseDOM->getElementsByTagName('financials')->item(0);
 
-        // Go through each financial element and add to the assigned method
-        foreach ($financialsTags as $tag => $method) {
-            
-            // Get the dom element
-            $_tag = $financialElement->getElementsByTagName($tag)->item(0);
+        if ($financialElement) {
+            // Go through each financial element and add to the assigned method
+            foreach ($financialsTags as $tag => $method) {
 
-            // If it has a value, set it to the associated method
-            if (isset($_tag) && isset($_tag->textContent)) {
-                $value = $_tag->textContent;
-                if ($value == 'true' || $value == 'false') {
-                    $value = $value == 'true';
+                // Get the dom element
+                $_tag = $financialElement->getElementsByTagName($tag)->item(0);
+
+                // If it has a value, set it to the associated method
+                if (isset($_tag) && isset($_tag->textContent)) {
+                    $value = $_tag->textContent;
+                    if ($value == 'true' || $value == 'false') {
+                        $value = $value == 'true';
+                    }
+
+                    $supplier->$method($value);
                 }
-
-                $supplier->$method($value);
             }
         }
-        
 
         $addressesDOMTag = $responseDOM->getElementsByTagName('addresses');
         if (isset($addressesDOMTag) && $addressesDOMTag->length > 0) {
