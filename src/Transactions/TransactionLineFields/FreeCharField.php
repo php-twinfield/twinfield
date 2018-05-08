@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield\Transactions\TransactionLineFields;
 
+use Webmozart\Assert\Assert;
+
 trait FreeCharField
 {
     /**
@@ -25,6 +27,7 @@ trait FreeCharField
      */
     public function setFreeChar(?string $freeChar): self
     {
+        Assert::length($freeChar, 1);
         $this->freeChar = $freeChar;
 
         return $this;
