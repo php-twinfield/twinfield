@@ -9,6 +9,7 @@ use PhpTwinfield\JournalTransactionLine;
 use PhpTwinfield\Transactions\TransactionFields\DueDateField;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
+use PhpTwinfield\Transactions\TransactionLineFields\FreeCharField;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
 use PhpTwinfield\Util;
@@ -144,6 +145,15 @@ class TransactionsDocument extends BaseDocument
                 $performanceDate = $transactionLine->getPerformanceDate();
                 if (!empty($performanceDate)) {
                     $this->appendDateElement($lineElement, "performancedate", $transactionLine->getPerformanceDate());
+                }
+            }
+
+            if (Util::objectUses(FreeCharField::class, $transactionLine)) {
+                /** @var FreeCharField $transactionLine */
+                $freeChar = $transactionLine->getFreeChar();
+                if (!empty($freeChar)) {
+                    $freeCharElement = $this->createNodeWithTextContent('freechar', $freeChar);
+                    $lineElement->appendChild($freeCharElement);
                 }
             }
 

@@ -6,6 +6,7 @@ use Money\Money;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionLine;
 use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
+use PhpTwinfield\Transactions\TransactionLineFields\FreeCharField;
 use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTurnoverFields;
@@ -16,7 +17,6 @@ use PhpTwinfield\Transactions\TransactionLineFields\VatTurnoverFields;
  * @todo $vatBaseValue Only if line type is detail. VAT amount in base currency.
  * @todo $vatRepValue Only if line type is detail. VAT amount in reporting currency.
  * @todo $destOffice Office code. Used for inter company transactions.
- * @todo $freeChar Free character field. Meaning differs per transaction type.
  * @todo $comment Comment set on the transaction line.
  * @todo $matches Contains matching information. Read-only attribute.
  *
@@ -28,6 +28,7 @@ abstract class BaseTransactionLine implements TransactionLine
     use ThreeDimFields;
     use VatTurnoverFields;
     use CommentField;
+    use FreeCharField;
 
     public const MATCHSTATUS_AVAILABLE    = 'available';
     public const MATCHSTATUS_MATCHED      = 'matched';

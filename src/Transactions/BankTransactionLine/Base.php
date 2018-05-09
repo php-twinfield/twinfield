@@ -10,6 +10,7 @@ use PhpTwinfield\MatchReferenceInterface;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionLine;
 use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
+use PhpTwinfield\Transactions\TransactionLineFields\FreeCharField;
 use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 use Webmozart\Assert\Assert;
@@ -19,6 +20,7 @@ abstract class Base implements TransactionLine
     use ValueFields;
     use ThreeDimFields;
     use CommentField;
+    use FreeCharField;
 
     /**
      * Note that the field is not in the documentation but it is in all the examples.
@@ -47,13 +49,6 @@ abstract class Base implements TransactionLine
      * @var Office
      */
     private $destOffice;
-
-    /**
-     * Free character field. (1 char)
-     *
-     * @var string
-     */
-    private $freeChar;
 
     /**
      * @var BankTransaction
@@ -133,24 +128,6 @@ abstract class Base implements TransactionLine
     public function setDestOffice(Office $destOffice)
     {
         $this->destOffice = $destOffice;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFreeChar(): ?string
-    {
-        return $this->freeChar;
-    }
-
-    /**
-     * @param string $freeChar
-     * @return $this
-     */
-    public function setFreeChar(string $freeChar)
-    {
-        $this->freeChar = $freeChar;
         return $this;
     }
 
