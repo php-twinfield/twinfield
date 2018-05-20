@@ -9,6 +9,7 @@ use PhpTwinfield\DomDocuments\InvoicesDocument;
 use PhpTwinfield\InvoiceLine;
 use PhpTwinfield\InvoiceTotals;
 use PhpTwinfield\Mappers\InvoiceMapper;
+use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 
 /**
@@ -45,7 +46,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoice = $this->invoiceApiConnector->get('FACTUUR', '5', $this->office);
 
         $this->assertInstanceOf(Invoice::class, $invoice);
-        $this->assertSame('11024', $invoice->getOffice());
+        $this->assertEquals(Office::fromCode("11024"), $invoice->getOffice());
         $this->assertSame('FACTUUR', $invoice->getInvoiceType());
         $this->assertSame('5', $invoice->getInvoiceNumber());
         $this->assertSame('20120831', $invoice->getInvoiceDate());
@@ -57,8 +58,6 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame('EUR', $invoice->getCurrency());
         $this->assertSame('concept', $invoice->getStatus());
         $this->assertSame('cash', $invoice->getPaymentMethod());
-        $this->assertSame('', $invoice->getHeaderText());
-        $this->assertSame('', $invoice->getFooterText());
 
         $invoiceLines = $invoice->getLines();
         $this->assertCount(1, $invoiceLines);
@@ -68,7 +67,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoiceLine = $invoiceLines['1'];
 
         $this->assertSame('1', $invoiceLine->getID());
-        $this->assertSame('4', $invoiceLine->getArticle());
+        $this->assertSame('0', $invoiceLine->getArticle());
         $this->assertSame('118', $invoiceLine->getSubArticle());
         $this->assertSame('1', $invoiceLine->getQuantity());
         $this->assertSame('1', $invoiceLine->getUnits());
@@ -92,7 +91,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $customer->setCode('1000');
 
         $invoice = new Invoice();
-        $invoice->setOffice('11024');
+        $invoice->setOffice(Office::fromCode('11024'));
         $invoice->setInvoiceType('FACTUUR');
         $invoice->setInvoiceNumber('5');
         $invoice->setInvoiceDate('20120831');

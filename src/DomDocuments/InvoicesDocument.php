@@ -120,15 +120,17 @@ class InvoicesDocument extends BaseDocument
                 
                 // Make text node for method value
                 $node = $this->createTextNode($this->getValueFromCallback([$line, $method]));
-    
-                if (isset($node) && !empty($node->textContent)) {
-                    // Make the actual element with tag
-                    $element = $this->createElement($tag);
-                    $element->appendChild($node);
-    
-                    // Add the full element
-                    $lineElement->appendChild($element);
+
+                if ($node->textContent === "") {
+                    continue;
                 }
+
+                // Make the actual element with tag
+                $element = $this->createElement($tag);
+                $element->appendChild($node);
+
+                // Add the full element
+                $lineElement->appendChild($element);
             }
         }
 

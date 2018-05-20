@@ -19,7 +19,7 @@
     </header>
     <lines>
         <line id="1">
-            <article>4</article>
+            <article>0</article><!-- one off article -->
             <subarticle>118</subarticle>
             <quantity>1</quantity>
             <units>1</units>

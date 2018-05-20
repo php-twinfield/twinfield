@@ -37,7 +37,7 @@ abstract class BaseIntegrationTest extends TestCase
         parent::setUp();
 
         $this->office = new Office();
-        $this->office->setCode("OFFICE");
+        $this->office->setCode("11024");
 
         $this->processXmlService = $this->createPartialMock(ProcessXmlService::class, ['sendDocument']);
         $this->finderService     = $this->createPartialMock(FinderService::class, ['searchFinder']);

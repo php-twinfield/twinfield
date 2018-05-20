@@ -2,6 +2,7 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Transactions\TransactionFields\DueDateField;
+use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
 
 /**
@@ -29,10 +30,10 @@ class Invoice
 {
     use PeriodField;
     use DueDateField;
+    use OfficeField;
 
     private $customer;
     private $invoiceType;
-    private $office;
     private $invoiceNumber;
     private $status;
     private $currency;
@@ -45,7 +46,11 @@ class Invoice
     private $headerText;
     private $footerText;
     private $totals;
-    private $lines = array();
+
+    /**
+     * @var InvoiceLine[]
+     */
+    private $lines = [];
 
     public function addLine(InvoiceLine $line)
     {
@@ -53,17 +58,10 @@ class Invoice
         return $this;
     }
 
-    public function removeLine($uid)
-    {
-        if (array_key_exists($uid, $this->lines)) {
-            unset($this->lines[$uid]);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function getLines()
+    /**
+     * @return InvoiceLine[]
+     */
+    public function getLines(): array
     {
         return $this->lines;
     }
@@ -98,17 +96,6 @@ class Invoice
     public function setInvoiceType($invoiceType)
     {
         $this->invoiceType = $invoiceType;
-        return $this;
-    }
-
-    public function getOffice()
-    {
-        return $this->office;
-    }
-
-    public function setOffice($office)
-    {
-        $this->office = $office;
         return $this;
     }
 

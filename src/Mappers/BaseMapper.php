@@ -69,6 +69,10 @@ abstract class BaseMapper
             return null;
         }
 
+        if ($fieldElement->textContent === "") {
+            return null;
+        }
+
         return $fieldElement->textContent;
     }
 }
