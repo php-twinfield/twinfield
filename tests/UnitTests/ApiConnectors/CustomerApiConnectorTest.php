@@ -2,14 +2,8 @@
 
 namespace PhpTwinfield\UnitTests;
 
-use Money\Currency;
-use Money\Money;
-use PhpTwinfield\ApiConnectors\BankTransactionApiConnector;
 use PhpTwinfield\ApiConnectors\CustomerApiConnector;
-use PhpTwinfield\BankTransaction;
 use PhpTwinfield\Customer;
-use PhpTwinfield\Enums\Destiny;
-use PhpTwinfield\Exception;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;

@@ -2,11 +2,9 @@
 
 namespace PhpTwinfield\Transactions\TransactionLineFields;
 
-use PhpTwinfield\BaseTransactionLine;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Enums\PerformanceType;
 use PhpTwinfield\Exception;
-use PhpTwinfield\Util;
 
 trait PerformanceFields
 {

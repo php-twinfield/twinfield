@@ -4,7 +4,6 @@ namespace PhpTwinfield\Mappers;
 use PhpTwinfield\Customer;
 use PhpTwinfield\CustomerAddress;
 use PhpTwinfield\CustomerBank;
-use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 
 /**

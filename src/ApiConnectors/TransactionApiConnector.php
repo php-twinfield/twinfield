@@ -2,12 +2,12 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\BaseTransaction;
+use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Exception;
+use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
-use PhpTwinfield\DomDocuments\TransactionsDocument;
-use PhpTwinfield\Mappers\TransactionMapper;
-use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use Webmozart\Assert\Assert;

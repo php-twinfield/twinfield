@@ -5,12 +5,11 @@ namespace PhpTwinfield\UnitTests;
 use Money\Money;
 use PhpTwinfield\DomDocuments\MatchDocument;
 use PhpTwinfield\Enums\MatchCode;
+use PhpTwinfield\Enums\WriteOffType;
 use PhpTwinfield\MatchLine;
 use PhpTwinfield\MatchReference;
 use PhpTwinfield\MatchSet;
 use PhpTwinfield\Office;
-use PhpTwinfield\Enums\WriteOffType;
-use PhpTwinfield\MatchReferenceInterface;
 
 /**
  * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching

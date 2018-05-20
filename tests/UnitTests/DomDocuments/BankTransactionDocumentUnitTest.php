@@ -3,10 +3,9 @@
 namespace PhpTwinfield\UnitTests;
 
 use Money\Money;
-use PhpTwinfield\DomDocuments\BankTransactionDocument;
-use PhpTwinfield\Enums\DebitCredit;
-use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\BankTransaction;
+use PhpTwinfield\DomDocuments\BankTransactionDocument;
+use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Office;
 use PhpTwinfield\Transactions\BankTransactionLine\Detail;
 use PhpTwinfield\Transactions\BankTransactionLine\Total;

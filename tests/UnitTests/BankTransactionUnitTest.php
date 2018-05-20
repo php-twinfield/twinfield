@@ -9,7 +9,6 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Transactions\BankTransactionLine\Base;
 use PhpTwinfield\Transactions\BankTransactionLine\Detail;
 use PhpTwinfield\Transactions\BankTransactionLine\Total;
-use PhpTwinfield\Transactions\TransactionLine;
 
 class BankTransactionUnitTest extends \PHPUnit\Framework\TestCase
 {

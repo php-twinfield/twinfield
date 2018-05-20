@@ -5,7 +5,6 @@ namespace PhpTwinfield\ApiConnectors;
 use PhpTwinfield\DomDocuments\ElectronicBankStatementDocument;
 use PhpTwinfield\ElectronicBankStatement;
 use PhpTwinfield\Exception;
-use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use Webmozart\Assert\Assert;
 

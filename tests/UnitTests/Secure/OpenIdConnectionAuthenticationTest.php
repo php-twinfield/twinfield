@@ -3,12 +3,8 @@
 namespace PhpTwinfield\UnitTests\Secure;
 
 use Eloquent\Liberator\Liberator;
-use League\OAuth2\Client\Token\AccessToken;
-use PhpTwinfield\Office;
 use PhpTwinfield\Secure\OpenIdConnectAuthentication;
 use PhpTwinfield\Secure\Provider\InvalidAccessTokenException;
-use PhpTwinfield\Secure\Provider\OAuthException;
-use PhpTwinfield\Secure\Provider\OAuthProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

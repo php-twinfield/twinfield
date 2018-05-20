@@ -5,9 +5,9 @@ namespace PhpTwinfield;
 use Money\Currency;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
-use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
+use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
 use PhpTwinfield\Transactions\TransactionLineFields\DateField;
 use Webmozart\Assert\Assert;
 

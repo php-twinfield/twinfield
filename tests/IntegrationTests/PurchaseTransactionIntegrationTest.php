@@ -10,9 +10,9 @@ use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Office;
-use PhpTwinfield\Response\Response;
 use PhpTwinfield\PurchaseTransaction;
 use PhpTwinfield\PurchaseTransactionLine;
+use PhpTwinfield\Response\Response;
 
 /**
  * @covers PurchaseTransaction

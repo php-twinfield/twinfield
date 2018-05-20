@@ -5,8 +5,8 @@ namespace PhpTwinfield\Secure;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use PhpTwinfield\Office;
 use PhpTwinfield\Secure\Provider\InvalidAccessTokenException;
-use PhpTwinfield\Secure\Provider\OAuthProvider;
 use PhpTwinfield\Secure\Provider\OAuthException;
+use PhpTwinfield\Secure\Provider\OAuthProvider;
 
 /**
  * This class allows you to authenticate with an access token to the Twinfield APIs.

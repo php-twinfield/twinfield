@@ -4,8 +4,8 @@ namespace PhpTwinfield\IntegrationTests;
 
 use PhpTwinfield\ApiConnectors\InvoiceApiConnector;
 use PhpTwinfield\Customer;
-use PhpTwinfield\Invoice;
 use PhpTwinfield\DomDocuments\InvoicesDocument;
+use PhpTwinfield\Invoice;
 use PhpTwinfield\InvoiceLine;
 use PhpTwinfield\InvoiceTotals;
 use PhpTwinfield\Mappers\InvoiceMapper;

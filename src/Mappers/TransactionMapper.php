@@ -3,6 +3,8 @@
 namespace PhpTwinfield\Mappers;
 
 use Money\Money;
+use PhpTwinfield\BaseTransaction;
+use PhpTwinfield\BaseTransactionLine;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Enums\LineType;
@@ -13,8 +15,6 @@ use PhpTwinfield\JournalTransactionLine;
 use PhpTwinfield\Message\Message;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
-use PhpTwinfield\BaseTransaction;
-use PhpTwinfield\BaseTransactionLine;
 use PhpTwinfield\SalesTransaction;
 use PhpTwinfield\Transactions\TransactionFields\DueDateField;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;

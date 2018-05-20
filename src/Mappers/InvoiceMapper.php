@@ -1,11 +1,11 @@
 <?php
 namespace PhpTwinfield\Mappers;
 
+use PhpTwinfield\Customer;
 use PhpTwinfield\Invoice;
 use PhpTwinfield\InvoiceLine;
 use PhpTwinfield\InvoiceTotals;
 use PhpTwinfield\Response\Response;
-use PhpTwinfield\Customer;
 
 class InvoiceMapper extends BaseMapper
 {

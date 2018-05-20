@@ -2,9 +2,9 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\DomDocuments\InvoicesDocument;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Invoice;
-use PhpTwinfield\DomDocuments\InvoicesDocument;
 use PhpTwinfield\Mappers\InvoiceMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;

@@ -2,25 +2,15 @@
 
 namespace PhpTwinfield\UnitTests;
 
-use Money\Currency;
 use Money\Money;
-use PhpTwinfield\ApiConnectors\BankTransactionApiConnector;
 use PhpTwinfield\ApiConnectors\MatchesApiConnector;
-use PhpTwinfield\BankTransaction;
-use PhpTwinfield\Enums\Destiny;
-use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Enums\MatchCode;
-use PhpTwinfield\Exception;
-use PhpTwinfield\MatchLine;
 use PhpTwinfield\MatchSet;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Response\ResponseException;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
-use PhpTwinfield\Transactions\BankTransactionLine\Detail;
-use PhpTwinfield\Transactions\BankTransactionLine\Total;
-use PhpTwinfield\Transactions\BankTransactionLine\Vat;
 use PHPUnit\Framework\TestCase;
 
 class MatchesApiConnectorTest extends TestCase

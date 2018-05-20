@@ -2,12 +2,12 @@
 
 namespace PhpTwinfield\Secure\Provider;
 
+use GuzzleHttp\ClientInterface;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
-use GuzzleHttp\ClientInterface;
 
 class OAuthProviderTest extends TestCase
 {

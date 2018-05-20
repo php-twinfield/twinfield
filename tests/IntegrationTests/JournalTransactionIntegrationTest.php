@@ -8,11 +8,11 @@ use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\JournalTransaction;
+use PhpTwinfield\JournalTransactionLine;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
-use PhpTwinfield\JournalTransaction;
-use PhpTwinfield\JournalTransactionLine;
 
 /**
  * @covers JournalTransaction

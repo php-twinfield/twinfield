@@ -1,8 +1,8 @@
 <?php
 namespace PhpTwinfield\Secure;
 
-use PhpTwinfield\Exception;
 use PhpTwinfield\Enums\Services;
+use PhpTwinfield\Exception;
 use PhpTwinfield\Services\BaseService;
 
 /**
