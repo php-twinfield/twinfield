@@ -231,7 +231,7 @@ class Invoice implements MatchReferenceInterface
     public function setFinancialCode($financialCode)
     {
         $this->financialCode = $financialCode;
-	return $this;
+	    return $this;
     }
 
     public function getFinancialNumber()
@@ -242,13 +242,21 @@ class Invoice implements MatchReferenceInterface
     public function setFinancialNumber($financialNumber)
     {
         $this->financialNumber = $financialNumber;
-	return $this;
+	    return $this;
+    }
+
+    /**
+     * References the office in which the transaction was booked.
+     */
+    public function getOffice(): Office
+    {
+        return $this->office;
     }
 
     /**
      * References the daybook on which the transaction was booked.
      */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->financialCode;
     }
@@ -256,7 +264,7 @@ class Invoice implements MatchReferenceInterface
     /**
      * References the transaction.
      */
-    public function getNumber()
+    public function getNumber(): int
     {
         return $this->financialNumber;
     }
@@ -264,7 +272,7 @@ class Invoice implements MatchReferenceInterface
     /**
      * Reference the exact line in the transaction.
      */
-    public function getLineId()
+    public function getLineId(): int
     {
         return 1;
     }
