@@ -26,7 +26,7 @@ use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
  * @todo Add documentation and typehints to all properties.
  * @todo Add support for VatLines.
  */
-class Invoice
+class Invoice implements MatchReferenceInterface
 {
     use PeriodField;
     use DueDateField;
@@ -46,6 +46,9 @@ class Invoice
     private $headerText;
     private $footerText;
     private $totals;
+
+    private $financialCode;
+    private $financialNumber;
 
     /**
      * @var InvoiceLine[]
@@ -218,5 +221,59 @@ class Invoice
     {
         $this->footerText = $footerText;
         return $this;
+    }
+
+    public function getFinancialCode()
+    {
+        return $this->financialCode;
+    }
+
+    public function setFinancialCode($financialCode)
+    {
+        $this->financialCode = $financialCode;
+	    return $this;
+    }
+
+    public function getFinancialNumber()
+    {
+        return $this->financialNumber;
+    }
+
+    public function setFinancialNumber($financialNumber)
+    {
+        $this->financialNumber = $financialNumber;
+	    return $this;
+    }
+
+    /**
+     * References the office in which the transaction was booked.
+     */
+    public function getOffice(): Office
+    {
+        return $this->office;
+    }
+
+    /**
+     * References the daybook on which the transaction was booked.
+     */
+    public function getCode(): string
+    {
+        return $this->financialCode;
+    }
+
+    /**
+     * References the transaction.
+     */
+    public function getNumber(): int
+    {
+        return $this->financialNumber;
+    }
+
+    /**
+     * Reference the exact line in the transaction.
+     */
+    public function getLineId(): int
+    {
+        return 1;
     }
 }
