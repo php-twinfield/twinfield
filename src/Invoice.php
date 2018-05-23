@@ -47,6 +47,9 @@ class Invoice
     private $footerText;
     private $totals;
 
+    private $financialCode;
+    private $financialNumber;
+
     /**
      * @var InvoiceLine[]
      */
@@ -218,5 +221,32 @@ class Invoice
     {
         $this->footerText = $footerText;
         return $this;
+    }
+
+    public function getFinancialCode()
+    {
+        return $this->financialCode;
+    }
+
+    public function setFinancialCode($financialCode)
+    {
+        $this->financialCode = $financialCode;
+	    return $this;
+    }
+
+    public function getFinancialNumber()
+    {
+        return $this->financialNumber;
+    }
+
+    public function setFinancialNumber($financialNumber)
+    {
+        $this->financialNumber = $financialNumber;
+	    return $this;
+    }
+
+    public function getMatchReference(): MatchReferenceInterface
+    {
+        return new MatchReference($this->getOffice(), $this->getFinancialCode(), $this->getFinancialNumber(), 1);
     }
 }

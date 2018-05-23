@@ -111,6 +111,23 @@ class InvoiceMapper extends BaseMapper
             $invoice->addLine($invoiceLine);
         }
 
+        // Financial elements and their methods
+        $financialsTags = array(
+            'code'      => 'setFinancialCode',
+            'number'    => 'setFinancialNumber'
+        );
+
+        // Financial elements
+        $financialElement = $responseDOM->getElementsByTagName('financials')->item(0);
+
+        if ($financialElement !== null) {
+
+            // Go through each financial element and add to the assigned method
+            foreach ($financialsTags as $tag => $method) {
+                $invoice->$method(self::getField($financialElement, $tag));
+            }
+        }
+
         return $invoice;
     }
 }
