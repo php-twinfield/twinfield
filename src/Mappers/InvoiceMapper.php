@@ -124,19 +124,7 @@ class InvoiceMapper extends BaseMapper
 
             // Go through each financial element and add to the assigned method
             foreach ($financialsTags as $tag => $method) {
-
-                // Get the dom element
-                $_tag = $financialElement->getElementsByTagName($tag)->item(0);
-
-                // If it has a value, set it to the associated method
-                if (isset($_tag) && isset($_tag->textContent)) {
-                    $value = $_tag->textContent;
-                    if ($value == 'true' || $value == 'false') {
-                        $value = $value == 'true';
-                    }
-
-                    $invoice->$method($value);
-                }
+                $invoice->$method(self::getField($financialElement, $tag));
             }
         }
 
