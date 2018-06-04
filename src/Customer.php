@@ -50,6 +50,7 @@ class Customer
     private $vatCode;
     private $eBilling = false;
     private $eBillMail;
+    private $collectMandate;
     private $creditManagement;
     private $addresses = array();
     private $banks = array();
@@ -293,6 +294,21 @@ class Customer
     public function setEBillMail($eBillMail)
     {
         $this->eBillMail = $eBillMail;
+        return $this;
+    }
+
+    /**
+     *
+     * @return CustomerCollectMandate
+     */
+    public function getCollectMandate(): ?CustomerCollectMandate
+    {
+        return $this->collectMandate;
+    }
+
+    public function setCollectMandate(CustomerCollectMandate $collectMandate): self
+    {
+        $this->collectMandate = $collectMandate;
         return $this;
     }
 

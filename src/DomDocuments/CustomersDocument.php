@@ -103,6 +103,37 @@ class CustomersDocument extends BaseDocument
                 // Add the full element
                 $financialElement->appendChild($element);
             }
+
+            //check if collectmandate should be set
+            if ($customer->getCollectMandate() !== null) {
+
+                // Collect mandate elements and their methods
+                $collectMandateTags = array(
+                    'id'            => 'getID',
+                    'signaturedate' => 'getSignatureDate',
+                    'firstrundate'  => 'getFirstRunDate',
+                );
+
+                // Make the collectmandate element
+                $collectMandateElement = $this->createElement('collectmandate');
+                $financialElement->appendChild($collectMandateElement);
+
+                // Go through each collectmandate element and use the assigned method
+                foreach ($collectMandateTags as $tag => $method) {
+
+                    // Make the text node for the method value
+                    $nodeValue = $customer->getCollectMandate()->$method();
+
+                    $node = $this->createTextNode($nodeValue);
+
+                    // Make the actual element and assign the node
+                    $element = $this->createElement($tag);
+                    $element->appendChild($node);
+
+                    // Add the full element
+                    $collectMandateElement->appendChild($element);
+                }
+            }
         }
 
         //check if creditmanagement should be set
