@@ -20,22 +20,29 @@ class CustomerCollectMandate
     /**
      * Date on which the mandate is signed.
      *
-     * @var string
+     * @var \DateTimeInterface|null
      */
     private $signatureDate;
 
     /**
      * Date on which the first run was collected.
      *
-     * @var string|null
+     * @var \DateTimeInterface|null
      */
     private $firstRunDate;
 
+    /**
+     * @return string
+     */
     public function getID(): string
     {
         return $this->ID;
     }
 
+    /**
+     * @param string $ID
+     * @return $this
+     */
     public function setID(string $ID): self
     {
         Assert::maxLength($ID, 35);
@@ -45,9 +52,9 @@ class CustomerCollectMandate
     }
 
     /**
-     * @return string
+     * @return \DateTimeInterface|null
      */
-    public function getSignatureDate(): string
+    public function getSignatureDate(): ?\DateTimeInterface
     {
         return $this->signatureDate;
     }
@@ -58,15 +65,29 @@ class CustomerCollectMandate
      */
     public function setSignatureDate(\DateTimeInterface $date): self
     {
-        $this->signatureDate = Util::formatDate($date);
+        $this->signatureDate = $date;
 
         return $this;
     }
 
     /**
-     * @return string|null
+     * @param string $dateString
+     * @return $this
+     * @throws Exception
      */
-    public function getFirstRunDate(): ?string
+    public function setSignatureDateFromString(string $dateString): self
+    {
+        if (!empty($dateString)) {
+            $this->setSignatureDate(Util::parseDate($dateString));
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getFirstRunDate(): ?\DateTimeInterface
     {
         return $this->firstRunDate;
     }
@@ -75,9 +96,23 @@ class CustomerCollectMandate
      * @param \DateTimeInterface $date
      * @return $this
      */
-    public function setFirstRunDate(\DateTimeInterface $date): self
+    public function setFirstRunDate(?\DateTimeInterface $date): self
     {
-        $this->firstRunDate = Util::formatDate($date);
+        $this->firstRunDate = $date;
+
+        return $this;
+    }
+
+    /**
+     * @param string $dateString
+     * @return $this
+     * @throws Exception
+     */
+    public function setFirstRunDateFromString(string $dateString): self
+    {
+        if (!empty($dateString)) {
+            $this->setFirstRunDate(Util::parseDate($dateString));
+        }
 
         return $this;
     }

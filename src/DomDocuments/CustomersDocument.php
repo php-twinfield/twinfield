@@ -3,6 +3,7 @@ namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Customer;
 use PhpTwinfield\CustomerBank;
+use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML customers. Is a child class
@@ -123,7 +124,9 @@ class CustomersDocument extends BaseDocument
 
                     // Make the text node for the method value
                     $nodeValue = $customer->getCollectMandate()->$method();
-
+                    if ($nodeValue instanceof \DateTimeInterface) {
+                        $nodeValue = Util::formatDate($nodeValue);
+                    }
                     $node = $this->createTextNode($nodeValue);
 
                     // Make the actual element and assign the node

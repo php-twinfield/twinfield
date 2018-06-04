@@ -8,7 +8,7 @@ use PhpTwinfield\Response\Response;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
- * 
+ *
  * @package PhpTwinfield
  * @subpackage Mapper
  * @author Leon Rowland <leon@rowland.nl>
@@ -18,7 +18,7 @@ class CustomerMapper extends BaseMapper
 {
     /**
      * Maps a Response object to a clean Customer entity.
-     * 
+     *
      * @access public
      * @param \PhpTwinfield\Response\Response $response
      * @return Customer
@@ -27,7 +27,7 @@ class CustomerMapper extends BaseMapper
     {
         // Generate new customer object
         $customer = new Customer();
-        
+
         // Gets the raw DOMDocument response.
         $responseDOM = $response->getResponseDocument();
 
@@ -88,8 +88,34 @@ class CustomerMapper extends BaseMapper
                     $customer->$method($value);
                 }
             }
+
+            $collectMandateElement = $responseDOM->getElementsByTagName('collectmandate')->item(0);
+
+            if ($collectMandateElement) {
+
+                // Collect mandate elements and their methods
+                $collectMandateTags = array(
+                    'id' => 'setID',
+                    'signaturedate' => 'setSignatureDateFromString',
+                    'firstrundate' => 'setFirstRunDateFromString',
+                );
+
+                $customer->setCollectMandate(new \PhpTwinfield\CustomerCollectMandate());
+
+                // Go through each collect mandate element and add to the assigned method
+                foreach ($collectMandateTags as $tag => $method) {
+
+                    // Get the dom element
+                    $_tag = $collectMandateElement->getElementsByTagName($tag)->item(0);
+
+                    // If it has a value, set it to the associated method
+                    if (isset($_tag) && isset($_tag->textContent)) {
+                        $customer->getCollectMandate()->$method($_tag->textContent);
+                    }
+                }
+            }
         }
-        
+
         // Credit management elements
         $creditManagementElement = $responseDOM->getElementsByTagName('creditmanagement')->item(0);
 
