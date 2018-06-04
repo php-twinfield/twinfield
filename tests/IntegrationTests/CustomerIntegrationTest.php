@@ -6,6 +6,7 @@ use PhpTwinfield\ApiConnectors\CustomerApiConnector;
 use PhpTwinfield\Customer;
 use PhpTwinfield\CustomerAddress;
 use PhpTwinfield\CustomerBank;
+use PhpTwinfield\CustomerCollectMandate;
 use PhpTwinfield\DomDocuments\CustomersDocument;
 use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Office;
@@ -15,6 +16,7 @@ use PhpTwinfield\Response\Response;
  * @covers Customer
  * @covers CustomerAddress
  * @covers CustomerBank
+ * @covers CustomerCollectMandate
  * @covers CustomerCreditManagement
  * @covers CustomersDocument
  * @covers CustomerMapper
@@ -59,6 +61,12 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->assertSame('SEPANLDD', $customer->getPayCode());
         $this->assertSame(false, $customer->getEBilling());
         $this->assertSame('VN', $customer->getVatCode());
+
+        // Collect Mandate
+        $collectMandate = $customer->getCollectMandate();
+        $this->assertSame('1', $collectMandate->getID());
+        $this->assertEquals(new \DateTimeImmutable('2018-06-04'), $collectMandate->getSignatureDate());
+        $this->assertEquals(new \DateTimeImmutable('2018-06-08'), $collectMandate->getFirstRunDate());
 
         // Addresses
         $addresses = $customer->getAddresses();
@@ -198,6 +206,12 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $bank->setPostcode('');
         $bank->setState('');
         $customer->addBank($bank);
+
+        $collectMandate = new CustomerCollectMandate();
+        $collectMandate->setID('1');
+        $collectMandate->setSignatureDate(new \DateTimeImmutable('2018-06-04'));
+        $collectMandate->setFirstRunDate(new \DateTimeImmutable('2018-06-08'));
+        $customer->setCollectMandate($collectMandate);
 
         $this->processXmlService
             ->expects($this->once())
