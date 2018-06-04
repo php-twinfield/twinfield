@@ -2,9 +2,11 @@
 
 namespace PhpTwinfield\Mappers;
 
+use Money\Currency;
 use Money\Money;
 use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\BaseTransactionLine;
+use PhpTwinfield\CashTransaction;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Enums\LineType;
@@ -19,6 +21,7 @@ use PhpTwinfield\SalesTransaction;
 use PhpTwinfield\Transactions\TransactionFields\DueDateField;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
+use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
@@ -105,12 +108,23 @@ class TransactionMapper
             $transaction
                 ->setPaymentReference(self::getField($transaction, $transactionElement, 'paymentreference'));
         }
+        if (Util::objectUses(StatementNumberField::class, $transaction)) {
+            $transaction->setStatementnumber(self::getField($transaction, $transactionElement, 'statementnumber'));
+        }
 
         if ($transaction instanceof SalesTransaction) {
             $transaction->setOriginReference(self::getField($transaction, $transactionElement, 'originreference'));
         }
         if ($transaction instanceof JournalTransaction) {
             $transaction->setRegime(self::getField($transaction, $transactionElement, 'regime'));
+        }
+        if ($transaction instanceof CashTransaction) {
+            $transaction->setStartvalue(
+                Util::parseMoney(
+                    self::getField($transaction, $transactionElement, 'startvalue'),
+                    new Currency($transaction->getCurrency())
+                )
+            );
         }
 
         // Parse the transaction lines

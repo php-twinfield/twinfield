@@ -12,7 +12,7 @@ use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTurnoverFields;
 
 /**
- * @todo $relation Only if line type is total (or detail for Journal transactions). Read-only attribute.
+ * @todo $relation Only if line type is total (or detail for Journal and Cash transactions). Read-only attribute.
  * @todo $repValueOpen Meaning differs per transaction type. Read-only attribute.
  * @todo $vatBaseValue Only if line type is detail. VAT amount in base currency.
  * @todo $vatRepValue Only if line type is detail. VAT amount in reporting currency.

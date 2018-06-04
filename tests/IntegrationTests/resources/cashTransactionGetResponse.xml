@@ -1,0 +1,47 @@
+<transaction raisewarning="false"  result="1" location="temporary">
+    <header>
+        <office name="001" shortname="001">001</office>
+        <code name="Cash" shortname="Cash">CASH</code>
+        <currency name="Euro" shortname="Euro">EUR</currency>
+        <date>20131104</date>
+        <statementnumber>4</statementnumber>
+        <startvalue>974.01</startvalue>
+        <closevalue>1409.56</closevalue>
+        <origin>import</origin>
+        <user name="Marcel" shortname="Marcel">MARCEL</user>
+        <period>2013/11</period>
+        <number>201300008</number>
+    </header>
+    <lines>
+        <line type="total" id="1">
+            <dim1 name="Cash" shortname="" type="BAS" inuse="true" vatcode="" vatobligatory="false">1002</dim1>
+            <debitcredit>debit</debitcredit>
+            <value>435.55</value>
+            <rate>1</rate>
+            <basevalue>435.55</basevalue>
+            <reprate>1.500000000</reprate>
+            <repvalue>653.33</repvalue>
+            <matchstatus>notmatchable</matchstatus>
+        </line>
+        <line type="detail" id="2">
+            <dim1 name="Debiteuren" shortname="Debiteuren" type="BAS" inuse="true" vatcode="" vatobligatory="false">1300</dim1>
+            <dim2 name="Test customer 0" shortname="" type="DEB" inuse="true" vatcode="" vatobligatory="false">1000</dim2>
+            <debitcredit>credit</debitcredit>
+            <value>435.55</value>
+            <invoicenumber>11001770</invoicenumber>
+            <description>Invoice paid</description>
+            <duedate>20131108</duedate>
+            <rate>1</rate>
+            <basevalue>435.55</basevalue>
+            <reprate>1.500000000</reprate>
+            <repvalue>653.33</repvalue>
+            <currencydate></currencydate>
+            <matchlevel>2</matchlevel>
+            <customersupplier>2</customersupplier>
+            <openvalue>435.55</openvalue>
+            <openbasevalue>435.55</openbasevalue>
+            <openrepvalue>653.33</openrepvalue>
+            <matchstatus>available</matchstatus>
+        </line>
+    </lines>
+</transaction>
