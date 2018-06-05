@@ -100,7 +100,8 @@ class TransactionsDocument extends BaseDocument
             $this->appendDateElement($headerElement, "duedate", $transaction->getDueDate());
         }
 
-        if (Util::objectUses(StatementNumberField::class, $transaction)) {
+        if (Util::objectUses(StatementNumberField::class, $transaction) &&
+            $transaction->getStatementnumber() !== null) {
             $headerElement->appendChild($this->createNodeWithTextContent('statementnumber', $transaction->getStatementnumber()));
         }
 
