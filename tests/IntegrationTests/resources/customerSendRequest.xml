@@ -10,6 +10,11 @@
 			<vatcode/>
 			<ebilling>false</ebilling>
 			<ebillmail/>
+			<collectmandate>
+				<id>1</id>
+				<signaturedate>20180604</signaturedate>
+				<firstrundate>20180608</firstrundate>
+			</collectmandate>
 		</financials>
 		<addresses>
 			<address type="invoice" default="true">

@@ -22,9 +22,9 @@
         <vatobligatory>false</vatobligatory>
         <performancetype />
         <collectmandate>
-            <id></id>
-            <signaturedate></signaturedate>
-            <firstrundate></firstrundate>
+            <id>1</id>
+            <signaturedate>20180604</signaturedate>
+            <firstrundate>20180608</firstrundate>
         </collectmandate>
         <collectionschema></collectionschema>
         <vatcode name="" shortname="" type="">VN</vatcode>

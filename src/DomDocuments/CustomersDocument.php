@@ -3,6 +3,7 @@ namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Customer;
 use PhpTwinfield\CustomerBank;
+use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML customers. Is a child class
@@ -102,6 +103,37 @@ class CustomersDocument extends BaseDocument
 
                 // Add the full element
                 $financialElement->appendChild($element);
+            }
+
+            //check if collectmandate should be set
+            $collectMandate = $customer->getCollectMandate();
+
+            if ($collectMandate !== null) {
+
+                // Collect mandate elements and their methods
+                $collectMandateTags = array(
+                    'id'            => 'getID',
+                    'signaturedate' => 'getSignatureDate',
+                    'firstrundate'  => 'getFirstRunDate',
+                );
+
+                // Make the collectmandate element
+                $collectMandateElement = $this->createElement('collectmandate');
+                $financialElement->appendChild($collectMandateElement);
+
+                // Go through each collectmandate element and use the assigned method
+                foreach ($collectMandateTags as $tag => $method) {
+
+                    // Make the text node for the method value
+                    $node = $this->createTextNode($this->getValueFromCallback([$collectMandate, $method]));
+
+                    // Make the actual element and assign the node
+                    $element = $this->createElement($tag);
+                    $element->appendChild($node);
+
+                    // Add the full element
+                    $collectMandateElement->appendChild($element);
+                }
             }
         }
 
