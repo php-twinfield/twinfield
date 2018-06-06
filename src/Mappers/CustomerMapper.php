@@ -91,7 +91,7 @@ class CustomerMapper extends BaseMapper
 
             $collectMandateElement = $responseDOM->getElementsByTagName('collectmandate')->item(0);
 
-            if ($collectMandateElement) {
+            if ($collectMandateElement !== null) {
 
                 // Collect mandate elements and their methods
                 $collectMandateTags = array(
@@ -104,14 +104,7 @@ class CustomerMapper extends BaseMapper
 
                 // Go through each collect mandate element and add to the assigned method
                 foreach ($collectMandateTags as $tag => $method) {
-
-                    // Get the dom element
-                    $_tag = $collectMandateElement->getElementsByTagName($tag)->item(0);
-
-                    // If it has a value, set it to the associated method
-                    if (isset($_tag) && isset($_tag->textContent)) {
-                        $customer->getCollectMandate()->$method($_tag->textContent);
-                    }
+                    $customer->getCollectMandate()->$method(self::getField($collectMandateElement, $tag));
                 }
             }
         }
