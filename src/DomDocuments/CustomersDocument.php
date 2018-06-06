@@ -106,7 +106,9 @@ class CustomersDocument extends BaseDocument
             }
 
             //check if collectmandate should be set
-            if ($customer->getCollectMandate() !== null) {
+            $collectMandate = $customer->getCollectMandate();
+
+            if ($collectMandate !== null) {
 
                 // Collect mandate elements and their methods
                 $collectMandateTags = array(
@@ -123,11 +125,7 @@ class CustomersDocument extends BaseDocument
                 foreach ($collectMandateTags as $tag => $method) {
 
                     // Make the text node for the method value
-                    $nodeValue = $customer->getCollectMandate()->$method();
-                    if ($nodeValue instanceof \DateTimeInterface) {
-                        $nodeValue = Util::formatDate($nodeValue);
-                    }
-                    $node = $this->createTextNode($nodeValue);
+                    $node = $this->createTextNode($this->getValueFromCallback([$collectMandate, $method]));
 
                     // Make the actual element and assign the node
                     $element = $this->createElement($tag);
