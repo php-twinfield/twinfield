@@ -60,10 +60,10 @@ class CustomerCollectMandate
     }
 
     /**
-     * @param \DateTimeInterface $date
+     * @param \DateTimeInterface|null $date
      * @return $this
      */
-    public function setSignatureDate(\DateTimeInterface $date): self
+    public function setSignatureDate(?\DateTimeInterface $date): self
     {
         $this->signatureDate = $date;
 
@@ -71,17 +71,17 @@ class CustomerCollectMandate
     }
 
     /**
-     * @param string $dateString
+     * @param string|null $dateString
      * @return $this
      * @throws Exception
      */
-    public function setSignatureDateFromString(string $dateString): self
+    public function setSignatureDateFromString(?string $dateString): self
     {
         if (!empty($dateString)) {
-            $this->setSignatureDate(Util::parseDate($dateString));
+            $dateString = Util::parseDate($dateString);
         }
 
-        return $this;
+        return $this->setSignatureDate($dateString);
     }
 
     /**
@@ -93,7 +93,7 @@ class CustomerCollectMandate
     }
 
     /**
-     * @param \DateTimeInterface $date
+     * @param \DateTimeInterface|null $date
      * @return $this
      */
     public function setFirstRunDate(?\DateTimeInterface $date): self
@@ -104,16 +104,16 @@ class CustomerCollectMandate
     }
 
     /**
-     * @param string $dateString
+     * @param string|null $dateString
      * @return $this
      * @throws Exception
      */
-    public function setFirstRunDateFromString(string $dateString): self
+    public function setFirstRunDateFromString(?string $dateString): self
     {
         if (!empty($dateString)) {
-            $this->setFirstRunDate(Util::parseDate($dateString));
+            $dateString = Util::parseDate($dateString);
         }
 
-        return $this;
+        return $this->setFirstRunDate($dateString);
     }
 }
