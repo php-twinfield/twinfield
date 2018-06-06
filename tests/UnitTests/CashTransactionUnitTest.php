@@ -22,7 +22,7 @@ class CashTransactionUnitTest extends \PHPUnit\Framework\TestCase
 
     public function testSetStartValue()
     {
-        $this->assertSame($this->cashTransaction, $this->cashTransaction->setStartvalue(Money::EUR(100)), "Fluid interface is expected");
+        $this->assertSame($this->cashTransaction, $this->cashTransaction->setStartvalue(Money::EUR(100)), 'Fluid interface is expected');
 
         $this->assertSame('EUR', $this->cashTransaction->getCurrency());
         $this->assertEquals(Money::EUR(100), $this->cashTransaction->getStartvalue());
@@ -31,7 +31,7 @@ class CashTransactionUnitTest extends \PHPUnit\Framework\TestCase
 
     public function testSetCurrencyWithoutStartValue()
     {
-        $this->assertSame($this->cashTransaction, $this->cashTransaction->setCurrency('EUR'), "Fluid interface is expected");
+        $this->assertSame($this->cashTransaction, $this->cashTransaction->setCurrency('EUR'), 'Fluid interface is expected');
         $this->assertSame('EUR', $this->cashTransaction->getCurrency());
     }
 

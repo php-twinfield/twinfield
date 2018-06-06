@@ -5,6 +5,7 @@ namespace PhpTwinfield;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
 use Webmozart\Assert\Assert;
@@ -13,6 +14,9 @@ class CashTransactionLine extends BaseTransactionLine
 {
     use VatTotalFields;
     use PerformanceFields;
+    use InvoiceNumberField {
+        setInvoiceNumber as traitSetInvoiceNumber;
+    }
 
     /**
      * @var CashTransaction
@@ -228,6 +232,20 @@ class CashTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('vatrepturnover', $this);
         }
         return parent::setVatRepTurnover($vatRepTurnover);
+    }
+
+    /**
+     * @param string|null $invoiceNumber
+     * @return $this
+     * @throws Exception
+     */
+    public function setInvoiceNumber(?string $invoiceNumber)
+    {
+        if (!$this->getLineType()->equals(LineType::DETAIL())) {
+            throw Exception::invalidFieldForLineType('invoicenumber', $this);
+        }
+
+        return $this->traitSetInvoiceNumber($invoiceNumber);
     }
 
     /**

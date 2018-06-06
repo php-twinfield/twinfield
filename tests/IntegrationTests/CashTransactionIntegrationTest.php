@@ -101,6 +101,7 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame('1300', $detailLine->getDim1());
         $this->assertSame('1000', $detailLine->getDim2());
         $this->assertEquals(DebitCredit::CREDIT(), $detailLine->getDebitCredit());
+        $this->assertSame('11001770', $detailLine->getInvoiceNumber());
         $this->assertEquals(Money::EUR(43555), $detailLine->getValue());
         $this->assertEquals(Money::EUR(43555), $totalLine->getBaseValue());
         $this->assertSame(1.0, $totalLine->getRate());
@@ -148,6 +149,7 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
             ->setDim1('1300')
             ->setDim2('1000')
             ->setValue(Money::EUR(43555))
+            ->setInvoiceNumber('11001770')
             ->setDescription('Invoice paid');
 
         $cashTransaction

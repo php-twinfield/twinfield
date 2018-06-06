@@ -184,6 +184,13 @@ class TransactionsDocument extends BaseDocument
                 }
             }
 
+            if (Util::objectUses(InvoiceNumberField::class, $transactionLine) &&
+                $transactionLine->getInvoiceNumber() !== null
+            ) {
+                $invoiceNumberElement = $this->createNodeWithTextContent('invoicenumber', $transactionLine->getInvoiceNumber());
+                $lineElement->appendChild($invoiceNumberElement);
+            }
+
             $vatValue = $transactionLine->getVatValue();
             if (!empty($vatValue)) {
                 $vatElement = $this->createNodeWithTextContent('vatvalue', Util::formatMoney($vatValue));

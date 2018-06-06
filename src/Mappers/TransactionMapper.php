@@ -201,6 +201,12 @@ class TransactionMapper
                     $transactionLine->setVatBaseTotal(Money::EUR(100 * $vatBaseTotal));
                 }
             }
+            if (Util::objectUses(InvoiceNumberField::class, $transactionLine)) {
+                $invoiceNumber = self::getField($transaction, $lineElement, 'invoicenumber');
+                if ($invoiceNumber) {
+                    $transactionLine->setInvoiceNumber(self::getField($transaction, $lineElement, 'invoicenumber'));
+                }
+            }
 
             if ($transactionLine instanceof JournalTransactionLine) {
                 $transactionLine->setInvoiceNumber(self::getField($transaction, $lineElement, 'invoicenumber'));
