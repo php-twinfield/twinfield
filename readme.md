@@ -2,6 +2,8 @@
 A PHP library for Twinfield Integration.
 Use the Twinfield SOAP Services to have your PHP application communicate directly with your Twinfield account.
 
+**:warning: Note that this libary is *not* created or mainained by Twinfield. You can only get support on the code in this library here. For any questions related to your Twinfield administration or how to do certain things with the Twinfield API, contact your Twinfield account manager.** 
+
 ## Installation
 
 Install this Twinfield PHP library with Composer:
