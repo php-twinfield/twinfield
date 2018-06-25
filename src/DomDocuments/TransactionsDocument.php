@@ -7,6 +7,7 @@ use PhpTwinfield\BaseTransactionLine;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\JournalTransactionLine;
 use PhpTwinfield\Transactions\TransactionFields\DueDateField;
+use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
 use PhpTwinfield\Transactions\TransactionLineFields\FreeCharField;
@@ -154,6 +155,26 @@ class TransactionsDocument extends BaseDocument
                 if (!empty($freeChar)) {
                     $freeCharElement = $this->createNodeWithTextContent('freechar', $freeChar);
                     $lineElement->appendChild($freeCharElement);
+                }
+            }
+
+            if (Util::objectUses(FreeTextFields::class, $transactionLine)) {
+                $freetext1 = $transactionLine->getFreetext1();
+                if (!empty($freetext1)) {
+                    $freetext1Element = $this->createNodeWithTextContent('freetext1', $freetext1);
+                    $lineElement->appendChild($freetext1Element);
+                }
+
+                $freetext2 = $transactionLine->getFreetext2();
+                if (!empty($freetext2)) {
+                    $freetext2Element = $this->createNodeWithTextContent('freetext2', $freetext2);
+                    $lineElement->appendChild($freetext2Element);
+                }
+
+                $freetext3 = $transactionLine->getFreetext3();
+                if (!empty($freetext3)) {
+                    $freetext3Element = $this->createNodeWithTextContent('freetext3', $freetext3);
+                    $lineElement->appendChild($freetext3Element);
                 }
             }
 
