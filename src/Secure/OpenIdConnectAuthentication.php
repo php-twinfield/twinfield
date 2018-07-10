@@ -44,8 +44,11 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
      * The office code that is part of the Office object that is passed here will be
      * the default office code used during requests. If an office code is included in
      * the SOAP request body, this will always take precedence over this default.
+     *
+     * Please note that when you leave the office code blank you will have to supply
+     * it with every request.
      */
-    public function __construct(OAuthProvider $provider, string $refreshToken, Office $office)
+    public function __construct(OAuthProvider $provider, string $refreshToken, ?Office $office)
     {
         $this->provider     = $provider;
         $this->refreshToken = $refreshToken;
@@ -59,13 +62,20 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
 
     protected function getSoapHeaders()
     {
+        $headers = [
+            "AccessToken"   =>  $this->accessToken,
+        ];
+
+        // Watch out. When you don't supply an Office and do an authenticated call you will get an
+        // exception from Twinfield saying 'Toegang geweigerd. Company ontbreekt in request header.'
+        if ($this->office !== null) {
+            $headers["CompanyCode"] = $this->office->getCode();
+        }
+
         return new \SoapHeader(
             'http://www.twinfield.com/',
             'Header',
-            [
-                'AccessToken' => $this->accessToken,
-                'CompanyCode' => $this->office->getCode()
-            ]
+            $headers
         );
     }
 
