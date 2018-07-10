@@ -105,8 +105,11 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
     protected function validateToken(): array
     {
         $validationUrl    = "https://login.twinfield.com/auth/authentication/connect/accesstokenvalidation?token=";
+        $validationResult = false;
         try {
-            $validationResult = @file_get_contents($validationUrl . urlencode($this->accessToken));
+            if ($this->accessToken !== null) {
+                $validationResult = @file_get_contents($validationUrl . urlencode($this->accessToken));
+            }
         } catch (\Exception $e) {
             throw new OAuthException("Could not validate access token: {$e->getMessage()}");
         }
