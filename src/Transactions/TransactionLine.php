@@ -3,10 +3,8 @@
 namespace PhpTwinfield\Transactions;
 
 use PhpTwinfield\BankTransaction;
-use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\MatchReferenceInterface;
-use PhpTwinfield\Transactions\TransactionFields\LinesField;
 
 interface TransactionLine
 {
@@ -27,7 +25,7 @@ interface TransactionLine
     /**
      * Set the bank transaction on the line. This is needed later on.
      *
-     * @param LinesField|BaseTransaction|BankTransaction $object
+     * @param BankTransaction $object
      * @throws \InvalidArgumentException If a transaction is invalid or if a transaction is already set.
      * @internal
      */
@@ -39,7 +37,7 @@ interface TransactionLine
      * Note that you should add the return type when implementing.
      *
      * @see MatchReferenceInterface
-     * @return LinesField
+     * @return BankTransaction
      * @internal
      */
     public function getTransaction();

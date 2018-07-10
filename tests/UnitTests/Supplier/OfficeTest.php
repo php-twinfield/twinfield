@@ -8,11 +8,6 @@ use PhpTwinfield\Supplier;
 class SupplierOfficeTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var Config
-     */
-    protected $object;
-
-    /**
      * @var Office
      */
     private $office;
@@ -23,15 +18,9 @@ class SupplierOfficeTest extends \PHPUnit\Framework\TestCase
      */
     protected function setUp()
     {
-        $this->office = Office::fromCode('TEST-001');
-    }
+        parent::setUp();
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
+        $this->office = Office::fromCode('TEST-001');
     }
 
     /**
