@@ -28,7 +28,7 @@ class Response
      * Holds the response, loaded in from the
      * \PhpTwinfield\Secure\Service class.
      *
-     * @var \DOMNode
+     * @var \DOMDocument
      */
     private $responseDocument;
 

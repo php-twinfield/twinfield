@@ -16,7 +16,9 @@ class ResponseUnitTest extends TestCase
     </statement>
     <!-- etc... -->
 </statements>');
-        $this->assertNull($response->assertSuccessful());
+        $response->assertSuccessful();
+
+        $this->assertInstanceOf(Response::class, $response);
     }
 
     /**
@@ -33,6 +35,8 @@ class ResponseUnitTest extends TestCase
     <!-- etc... -->
 </statements>');
         $response->assertSuccessful();
+
+        $this->assertInstanceOf(Response::class, $response);
     }
 
     public function testTransactionSuccessfulSuccesfulIsSuccesful()
@@ -45,6 +49,8 @@ class ResponseUnitTest extends TestCase
     <!-- etc... -->
 </transactions>
 ');
-        $this->assertNull($response->assertSuccessful());
+        $response->assertSuccessful();
+
+        $this->assertInstanceOf(Response::class, $response);
     }
 }

@@ -87,7 +87,7 @@ class SalesTransactionLine extends BaseTransactionLine
      * - In case of a 'normal' sales transaction credit.
      * - In case of a credit sales transaction debit.
      *
-     * @param DebitCredit::DEBIT() $debitCredit
+     * @param DebitCredit $debitCredit
      * @return $this
      */
     public function setDebitCredit(DebitCredit $debitCredit): BaseTransactionLine

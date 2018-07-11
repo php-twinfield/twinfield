@@ -22,7 +22,6 @@ trait OfficeField
     }
 
     /**
-     * @param Office|null $office
      * @return $this
      */
     public function setOffice(Office $office): self

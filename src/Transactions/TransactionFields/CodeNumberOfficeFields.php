@@ -21,7 +21,7 @@ trait CodeNumberOfficeFields
     private $code;
 
     /**
-     * @var string
+     * @var int|null
      */
     private $number;
 

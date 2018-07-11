@@ -118,6 +118,7 @@ class TransactionApiConnectorTest extends TestCase
 
         $transaction = $this->createTransaction(SalesTransaction::class);
 
+        /** @var SalesTransaction $mapped */
         $mapped = $this->apiConnector->send($transaction);
 
         $this->assertEquals("VRK", $mapped->getCode());
