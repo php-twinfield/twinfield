@@ -110,10 +110,10 @@ abstract class BaseDocument extends \DOMDocument
         if ($object->getFreetext1() !== null) {
             $element->appendChild($this->createNodeWithTextContent("freetext1", $object->getFreetext1()));
         }
-        if ($object->getFreetext1() !== null) {
+        if ($object->getFreetext2() !== null) {
             $element->appendChild($this->createNodeWithTextContent("freetext2", $object->getFreetext2()));
         }
-        if ($object->getFreetext1() !== null) {
+        if ($object->getFreetext3() !== null) {
             $element->appendChild($this->createNodeWithTextContent("freetext3", $object->getFreetext3()));
         }
     }
