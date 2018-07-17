@@ -17,6 +17,7 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\SalesTransaction;
 use PhpTwinfield\Transactions\TransactionFields\DueDateField;
+use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
@@ -153,6 +154,23 @@ class TransactionMapper
             $baseline = self::getField($transaction, $lineElement, 'baseline');
             if ($baseline) {
                 $transactionLine->setBaseline($baseline);
+            }
+
+            if (Util::objectUses(FreeTextFields::class, $transactionLine)) {
+                $freetext1 = self::getField($transaction, $lineElement, 'freetext1');
+                if ($freetext1) {
+                    $transactionLine->setFreetext1($freetext1);
+                }
+
+                $freetext2 = self::getField($transaction, $lineElement, 'freetext2');
+                if ($freetext2) {
+                    $transactionLine->setFreetext2($freetext2);
+                }
+
+                $freetext3 = self::getField($transaction, $lineElement, 'freetext3');
+                if ($freetext3) {
+                    $transactionLine->setFreetext3($freetext3);
+                }
             }
 
             if (Util::objectUses(PerformanceFields::class, $transactionLine)) {
