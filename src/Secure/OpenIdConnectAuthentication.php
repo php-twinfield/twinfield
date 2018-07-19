@@ -81,16 +81,15 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
 
     /**
      * @throws OAuthException
+     * @throws InvalidAccessTokenException
      */
     protected function login(): void
     {
-        try {
-            $validationResult = $this->validateToken();
-        } catch (InvalidAccessTokenException $e) {
+        if ($this->accessToken === null) {
             $this->refreshToken();
-            $validationResult = $this->validateToken();
         }
 
+        $validationResult = $this->validateToken();
         $this->cluster = $validationResult["twf.clusterUrl"];
     }
 
@@ -105,11 +104,7 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
     protected function validateToken(): array
     {
         $validationUrl    = "https://login.twinfield.com/auth/authentication/connect/accesstokenvalidation?token=";
-        $validationResult = false;
-
-        if ($this->accessToken !== null) {
-            $validationResult = @file_get_contents($validationUrl . urlencode($this->accessToken));
-        }
+        $validationResult = @file_get_contents($validationUrl . urlencode($this->accessToken));
 
         if ($validationResult === false) {
             throw new InvalidAccessTokenException("Access token is invalid.");
