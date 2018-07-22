@@ -4,6 +4,7 @@ namespace PhpTwinfield\UnitTests\Secure;
 
 use Eloquent\Liberator\Liberator;
 use League\OAuth2\Client\Token\AccessToken;
+use PhpTwinfield\Office;
 use PhpTwinfield\Secure\OpenIdConnectAuthentication;
 use PhpTwinfield\Secure\Provider\InvalidAccessTokenException;
 use PhpTwinfield\Secure\Provider\OAuthProvider;
@@ -22,6 +23,26 @@ class OpenIdConnectionAuthenticationTest extends TestCase
         $this->openIdProvider = $this->getMockBuilder(OAuthProvider::class)
             ->setMethods([ "getAccessToken" ])
             ->getMock();
+    }
+
+    public function testSetOfficeAndResetAuthenticatedClients()
+    {
+        $openIdConnect = $this->getMockBuilder(OpenIdConnectAuthentication::class)
+            ->setConstructorArgs([ $this->openIdProvider, "refresh", null ])
+            ->setMethods([ "resetAllClients" ])
+            ->getMock();
+
+        $openIdConnect->expects($this->once())
+            ->method("resetAllClients");
+
+        $office = Office::fromCode("001");
+        $openIdConnect = Liberator::liberate($openIdConnect);
+
+        $this->assertNull($openIdConnect->office);
+        $openIdConnect->setOffice($office);
+
+        $this->assertEquals($office, $openIdConnect->office);
+        $this->assertEmpty($openIdConnect->authenticatedClients);
     }
 
     /**

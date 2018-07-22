@@ -45,14 +45,20 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
      * the default office code used during requests. If an office code is included in
      * the SOAP request body, this will always take precedence over this default.
      *
-     * Please note that when you leave the office code blank you will have to supply
-     * it with every request.
+     * Please note that for most calls an office is mandatory. If you do not supply it
+     * you have to pass it with every request, or call setOffice.
      */
     public function __construct(OAuthProvider $provider, string $refreshToken, ?Office $office)
     {
         $this->provider     = $provider;
         $this->refreshToken = $refreshToken;
         $this->office       = $office;
+    }
+
+    public function setOffice(?Office $office)
+    {
+        $this->resetAllClients();
+        $this->office = $office;
     }
 
     protected function getCluster(): ?string
