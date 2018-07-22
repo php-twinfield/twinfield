@@ -44,12 +44,21 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
      * The office code that is part of the Office object that is passed here will be
      * the default office code used during requests. If an office code is included in
      * the SOAP request body, this will always take precedence over this default.
+     *
+     * Please note that for most calls an office is mandatory. If you do not supply it
+     * you have to pass it with every request, or call setOffice.
      */
-    public function __construct(OAuthProvider $provider, string $refreshToken, Office $office)
+    public function __construct(OAuthProvider $provider, string $refreshToken, ?Office $office)
     {
         $this->provider     = $provider;
         $this->refreshToken = $refreshToken;
         $this->office       = $office;
+    }
+
+    public function setOffice(?Office $office)
+    {
+        $this->resetAllClients();
+        $this->office = $office;
     }
 
     protected function getCluster(): ?string
@@ -59,28 +68,34 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
 
     protected function getSoapHeaders()
     {
+        $headers = [
+            "AccessToken"   =>  $this->accessToken,
+        ];
+
+        // Watch out. When you don't supply an Office and do an authenticated call you will get an
+        // exception from Twinfield saying 'Toegang geweigerd. Company ontbreekt in request header.'
+        if ($this->office !== null) {
+            $headers["CompanyCode"] = $this->office->getCode();
+        }
+
         return new \SoapHeader(
             'http://www.twinfield.com/',
             'Header',
-            [
-                'AccessToken' => $this->accessToken,
-                'CompanyCode' => $this->office->getCode()
-            ]
+            $headers
         );
     }
 
     /**
      * @throws OAuthException
+     * @throws InvalidAccessTokenException
      */
     protected function login(): void
     {
-        try {
-            $validationResult = $this->validateToken();
-        } catch (InvalidAccessTokenException $e) {
+        if ($this->accessToken === null) {
             $this->refreshToken();
-            $validationResult = $this->validateToken();
         }
 
+        $validationResult = $this->validateToken();
         $this->cluster = $validationResult["twf.clusterUrl"];
     }
 
@@ -95,11 +110,7 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
     protected function validateToken(): array
     {
         $validationUrl    = "https://login.twinfield.com/auth/authentication/connect/accesstokenvalidation?token=";
-        try {
-            $validationResult = @file_get_contents($validationUrl . urlencode($this->accessToken));
-        } catch (\Exception $e) {
-            throw new OAuthException("Could not validate access token: {$e->getMessage()}");
-        }
+        $validationResult = @file_get_contents($validationUrl . urlencode($this->accessToken));
 
         if ($validationResult === false) {
             throw new InvalidAccessTokenException("Access token is invalid.");

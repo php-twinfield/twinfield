@@ -2,8 +2,10 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\Mappers\OfficeMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Services\FinderService;
+use PhpTwinfield\Request\Catalog\Office as OfficeRequestDocument;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about
@@ -16,6 +18,30 @@ use PhpTwinfield\Services\FinderService;
  */
 class OfficeApiConnector extends BaseApiConnector
 {
+    /**
+     * List the available offices when you are using the OAuth based authentication and don't have an office code yet.
+     * For more information following see.
+     *
+     * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Types/XmlWebServices
+     * @throws \SoapFault
+     * @throws \PhpTwinfield\Exception
+     * @throws \ErrorException
+     * @return Office[] The offices found.
+     */
+    public function listAllWithoutOfficeCode(): array
+    {
+        $offices = [];
+        $document = new OfficeRequestDocument();
+        $response = $this->getProcessXmlService()->sendDocument($document);
+        $response->assertSuccessful();
+
+        foreach (OfficeMapper::mapAll($response) as $office) {
+            $offices[] = $office;
+        }
+
+        return $offices;
+    }
+
     /**
      * List all offices.
      *

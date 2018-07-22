@@ -75,4 +75,12 @@ abstract class AuthenticatedConnection
             unset($this->authenticatedClients[$key]);
         }
     }
+
+    /**
+     * Resets all connections. Useful if you switch between Offices.
+     */
+    protected function resetAllClients(): void
+    {
+        $this->authenticatedClients = [];
+    }
 }
