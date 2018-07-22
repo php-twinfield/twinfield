@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\Mappers\OfficeMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Request\Catalog\Office as OfficeRequestDocument;
@@ -34,15 +35,7 @@ class OfficeApiConnector extends BaseApiConnector
         $response = $this->getProcessXmlService()->sendDocument($document);
         $response->assertSuccessful();
 
-        /**
-         * @var \DOMElement $twinfieldOfficeResponse
-         */
-        foreach ($response->getResponseDocument()->firstChild->childNodes as $twinfieldOfficeResponse) {
-            $twinfieldOfficeContent = $twinfieldOfficeResponse->firstChild;
-
-            $office = new Office();
-            $office->setCode($twinfieldOfficeContent->textContent);
-            $office->setName($twinfieldOfficeResponse->attributes->getNamedItem("name")->textContent);
+        foreach (OfficeMapper::mapAll($response) as $office) {
             $offices[] = $office;
         }
 
