@@ -338,6 +338,16 @@ class Customer
         return $this;
     }
 
+    public function removeAddress($index)
+    {
+        if (array_key_exists($index, $this->addresses)) {
+            unset($this->addresses[$index]);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function getBanks()
     {
         return $this->banks;
