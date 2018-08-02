@@ -4,12 +4,14 @@ namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\BaseTransactionLine;
+use PhpTwinfield\CashTransaction;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\JournalTransactionLine;
 use PhpTwinfield\Transactions\TransactionFields\DueDateField;
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
+use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
 use PhpTwinfield\Transactions\TransactionLineFields\FreeCharField;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
@@ -97,6 +99,16 @@ class TransactionsDocument extends BaseDocument
             $transaction->getDueDate() !== null
         ) {
             $this->appendDateElement($headerElement, "duedate", $transaction->getDueDate());
+        }
+
+        if (Util::objectUses(StatementNumberField::class, $transaction) &&
+            $transaction->getStatementnumber() !== null) {
+            $headerElement->appendChild($this->createNodeWithTextContent('statementnumber', $transaction->getStatementnumber()));
+        }
+
+        if ($transaction instanceof CashTransaction) {
+            $headerElement->appendChild($this->createNodeWithTextContent('startvalue', Util::formatMoney($transaction->getStartvalue())));
+            $headerElement->appendChild($this->createNodeWithTextContent('closevalue', Util::formatMoney($transaction->getClosevalue())));
         }
 
         $this->appendFreeTextFields($headerElement, $transaction);
@@ -191,6 +203,13 @@ class TransactionsDocument extends BaseDocument
                     $vatBaseTotalElement = $this->createNodeWithTextContent('vatbasetotal', Util::formatMoney($vatBaseTotal));
                     $lineElement->appendChild($vatBaseTotalElement);
                 }
+            }
+
+            if (Util::objectUses(InvoiceNumberField::class, $transactionLine) &&
+                $transactionLine->getInvoiceNumber() !== null
+            ) {
+                $invoiceNumberElement = $this->createNodeWithTextContent('invoicenumber', $transactionLine->getInvoiceNumber());
+                $lineElement->appendChild($invoiceNumberElement);
             }
 
             $vatValue = $transactionLine->getVatValue();

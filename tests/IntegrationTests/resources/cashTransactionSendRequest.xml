@@ -1,0 +1,28 @@
+<transactions>
+    <transaction destiny="temporary" raisewarning="false">
+        <header>
+            <code>CASH</code>
+            <currency>EUR</currency>
+            <date>20131104</date>
+            <office>001</office>
+            <statementnumber>4</statementnumber>
+            <startvalue>974.01</startvalue>
+            <closevalue>1409.56</closevalue>
+        </header>
+        <lines>
+            <line id="1" type="total">
+                <dim1>1002</dim1>
+                <debitcredit>debit</debitcredit>
+                <value>435.55</value>
+            </line>
+            <line id="2" type="detail">
+                <dim1>1300</dim1>
+                <dim2>1000</dim2>
+                <debitcredit>credit</debitcredit>
+                <value>435.55</value>
+                <invoicenumber>11001770</invoicenumber>
+                <description>Invoice paid</description>
+            </line>
+        </lines>
+    </transaction>
+</transactions>
