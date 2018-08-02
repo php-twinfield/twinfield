@@ -2,6 +2,7 @@
 namespace PhpTwinfield\UnitTests;
 
 use InvalidArgumentException;
+use Money\Currency;
 use Money\Money;
 use PhpTwinfield\CashTransaction;
 use PhpTwinfield\CashTransactionLine;
@@ -22,25 +23,25 @@ class CashTransactionUnitTest extends \PHPUnit\Framework\TestCase
 
     public function testSetStartValue()
     {
-        $this->assertSame($this->cashTransaction, $this->cashTransaction->setStartvalue(Money::EUR(100)), 'Fluid interface is expected');
+        $this->cashTransaction->setStartvalue(Money::EUR(100));
 
-        $this->assertSame('EUR', $this->cashTransaction->getCurrency());
+        $this->assertEquals(new Currency('EUR'), $this->cashTransaction->getCurrency());
         $this->assertEquals(Money::EUR(100), $this->cashTransaction->getStartvalue());
         $this->assertEquals(Money::EUR(100), $this->cashTransaction->getClosevalue());
     }
 
     public function testSetCurrencyWithoutStartValue()
     {
-        $this->assertSame($this->cashTransaction, $this->cashTransaction->setCurrency('EUR'), 'Fluid interface is expected');
-        $this->assertSame('EUR', $this->cashTransaction->getCurrency());
+        $this->cashTransaction->setCurrency(new Currency('EUR'));
+        $this->assertEquals(new Currency('EUR'), $this->cashTransaction->getCurrency());
     }
 
     public function testSetCurrencyWithZeroStartValue()
     {
         $this->cashTransaction->setStartvalue(Money::EUR(0));
-        $this->cashTransaction->setCurrency('EUR');
+        $this->cashTransaction->setCurrency(new Currency('EUR'));
 
-        $this->assertSame('EUR', $this->cashTransaction->getCurrency());
+        $this->assertEquals(new Currency('EUR'), $this->cashTransaction->getCurrency());
     }
 
     public function testSetCurrencyWithStartValue()
@@ -48,7 +49,7 @@ class CashTransactionUnitTest extends \PHPUnit\Framework\TestCase
         $this->expectException(InvalidArgumentException::class);
 
         $this->cashTransaction->setStartvalue(Money::EUR(100));
-        $this->cashTransaction->setCurrency('EUR');
+        $this->cashTransaction->setCurrency(new Currency('EUR'));
     }
 
     public function testAddLineWithWrongTransactionLine()

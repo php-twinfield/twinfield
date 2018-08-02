@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\IntegrationTests;
 
+use Money\Currency;
 use Money\Money;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
@@ -55,7 +56,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame('SLS', $salesTransaction->getCode());
         $this->assertSame(201300095, $salesTransaction->getNumber());
         $this->assertSame('2013/05', $salesTransaction->getPeriod());
-        $this->assertSame('EUR', $salesTransaction->getCurrency());
+        $this->assertEquals(new Currency('EUR'), $salesTransaction->getCurrency());
         $this->assertEquals(new \DateTimeImmutable('2013-05-02'), $salesTransaction->getDate());
         $this->assertSame('import', $salesTransaction->getOrigin());
         $this->assertNull($salesTransaction->getFreetext1());
@@ -151,7 +152,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
             ->setDestiny(Destiny::TEMPORARY())
             ->setRaiseWarning(false)
             ->setCode('SLS')
-            ->setCurrency('EUR')
+            ->setCurrency(new Currency('EUR'))
             ->setDate(new \DateTimeImmutable('2013-05-02'))
             ->setPeriod('2013/05')
             ->setInvoiceNumber('20130-6000')

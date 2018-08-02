@@ -60,7 +60,7 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame('CASH', $cashTransaction->getCode());
         $this->assertSame(201300008, $cashTransaction->getNumber());
         $this->assertSame('2013/11', $cashTransaction->getPeriod());
-        $this->assertSame('EUR', $cashTransaction->getCurrency());
+        $this->assertEquals(new Currency('EUR'), $cashTransaction->getCurrency());
         $this->assertEquals(new DateTimeImmutable('2013-11-04'), $cashTransaction->getDate());
         $this->assertSame('import', $cashTransaction->getOrigin());
         $this->assertNull($cashTransaction->getFreetext1());

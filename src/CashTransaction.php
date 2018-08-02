@@ -6,33 +6,19 @@ use Money\Currency;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
 use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
 use PhpTwinfield\Transactions\TransactionLine;
-use Webmozart\Assert\Assert;
 
 /**
- * NOTE:    Can not use the trait "PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields" because the
- *          method "getCurrency" is not compatible with the method "getCurrency" of ""PhpTwinfield\BaseTransaction"".
- *
  * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/CashTransactions
  */
 class CashTransaction extends BaseTransaction
 {
     use StatementNumberField;
-
-    /**
-     * Opening balance. If not provided, the opening balance is set to zero.
-     *
-     * @var Money
-     */
-    private $startvalue;
-
-    /**
-     * Closing balance. If not provided, the closing balance is set to zero.
-     *
-     * @var Money
-     */
-    private $closevalue;
+    use StartAndCloseValueFields {
+        setCurrency as protected traitSetCurrency;
+    }
 
     public function __construct()
     {
@@ -48,58 +34,15 @@ class CashTransaction extends BaseTransaction
     }
 
     /**
-     * When creating a new cash transaction, don't include this tag as the transaction number is determined by the
-     * system. When updating a cash transaction, the related transaction number should be provided.
-     *
-     * @param int|null $number
-     * @return $this
-     */
-    public function setNumber(?int $number): BaseTransaction
-    {
-        return parent::setNumber($number);
-    }
-
-    /**
      * Set the currency. Can only be done when the start value is still 0.
      *
-     * @param string|null $currency
+     * @param Currency $currency
      * @return $this
      */
-    public function setCurrency(?string $currency): BaseTransaction
+    public function setCurrency(?Currency $currency): BaseTransaction
     {
-        Assert::true($this->startvalue->isZero());
-        $this->setStartvalue(new Money(0, new Currency($currency)));
-
+        $this->traitSetCurrency($currency);
         return $this;
-    }
-
-    /**
-     * @return Money
-     */
-    public function getStartvalue(): Money
-    {
-        return $this->startvalue;
-    }
-
-    /**
-     * @param Money $startvalue
-     * @return $this
-     */
-    public function setStartvalue(Money $startvalue): self
-    {
-        parent::setCurrency($startvalue->getCurrency());
-        $this->startvalue = $startvalue;
-        $this->closevalue = $startvalue;
-
-        return $this;
-    }
-
-    /**
-     * @return Money
-     */
-    public function getClosevalue(): Money
-    {
-        return $this->closevalue ?? new Money(0, new Currency($this->getCurrency()));
     }
 
     /**

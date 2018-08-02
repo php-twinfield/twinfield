@@ -86,12 +86,16 @@ class TransactionMapper
             ->setOffice($office)
             ->setCode(self::getField($transaction, $transactionElement, 'code'))
             ->setPeriod(self::getField($transaction, $transactionElement, 'period'))
-            ->setCurrency(self::getField($transaction, $transactionElement, 'currency'))
             ->setDateFromString(self::getField($transaction, $transactionElement, 'date'))
             ->setOrigin(self::getField($transaction, $transactionElement, 'origin'))
             ->setFreetext1(self::getField($transaction, $transactionElement, 'freetext1'))
             ->setFreetext2(self::getField($transaction, $transactionElement, 'freetext2'))
             ->setFreetext3(self::getField($transaction, $transactionElement, 'freetext3'));
+
+        $currency = self::getField($transaction, $transactionElement, 'currency');
+        if (!empty($currency)) {
+            $transaction->setCurrency(new Currency($currency));
+        }
 
         $number = self::getField($transaction, $transactionElement, 'number');
         if (!empty($number)) {
@@ -122,7 +126,7 @@ class TransactionMapper
             $transaction->setStartvalue(
                 Util::parseMoney(
                     self::getField($transaction, $transactionElement, 'startvalue'),
-                    new Currency($transaction->getCurrency())
+                    $transaction->getCurrency()
                 )
             );
         }
