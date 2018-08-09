@@ -208,7 +208,7 @@ class CustomersDocument extends BaseDocument
                 $addressesElement->appendChild($addressElement);
 
                 // Set attributes
-                $addressElement->setAttribute('default', $address->getDefault());
+                $addressElement->setAttribute('default', $address->getDefault() ? 'true' : 'false');
                 $addressElement->setAttribute('type', $address->getType());
 
                 // Go through each address element and use the assigned method
@@ -257,7 +257,7 @@ class CustomersDocument extends BaseDocument
                 $banksElement->appendChild($bankElement);
 
                 // Set attributes
-                $bankElement->setAttribute('default', $bank->getDefault());
+                $bankElement->setAttribute('default', $bank->getDefault() ? 'true' : 'false');
 
                 // Go through each bank element and use the assigned method
                 foreach ($bankTags as $tag => $method) {

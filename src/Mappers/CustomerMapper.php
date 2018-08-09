@@ -180,7 +180,7 @@ class CustomerMapper extends BaseMapper
                 $temp_address
                     ->setID($addressDOM->getAttribute('id'))
                     ->setType($addressDOM->getAttribute('type'))
-                    ->setDefault($addressDOM->getAttribute('default'));
+                    ->setDefault($addressDOM->getAttribute('default') === 'true');
 
                 // Loop through the element tags. Determine if it exists and set it if it does
                 foreach ($addressTags as $tag => $method) {
@@ -233,7 +233,7 @@ class CustomerMapper extends BaseMapper
                 // Set the attributes ( id, default )
                 $temp_bank
                     ->setID($bankDOM->getAttribute('id'))
-                    ->setDefault($bankDOM->getAttribute('default'));
+                    ->setDefault($bankDOM->getAttribute('default') === 'true');
 
                 // Loop through the element tags. Determine if it exists and set it if it does
                 foreach ($bankTags as $tag => $method) {
