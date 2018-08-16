@@ -39,12 +39,19 @@ class CustomerBank
         return $this;
     }
 
-    public function getDefault()
+    /**
+     * @return bool
+     */
+    public function getDefault() : bool
     {
         return $this->default;
     }
 
-    public function setDefault($default)
+    /**
+     * @param bool $default
+     * @return $this
+     */
+    public function setDefault(bool $default)
     {
         $this->default = $default;
         return $this;

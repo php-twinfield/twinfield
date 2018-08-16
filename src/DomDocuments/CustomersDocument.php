@@ -2,6 +2,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Customer;
+use PhpTwinfield\CustomerAddress;
 use PhpTwinfield\CustomerBank;
 use PhpTwinfield\Util;
 
@@ -201,6 +202,7 @@ class CustomersDocument extends BaseDocument
             $customerEl->appendChild($addressesElement);
 
             // Go through each address assigned to the customer
+            /** @var CustomerAddress $address */
             foreach ($addresses as $address) {
 
                 // Makes new address element
@@ -208,7 +210,7 @@ class CustomersDocument extends BaseDocument
                 $addressesElement->appendChild($addressElement);
 
                 // Set attributes
-                $addressElement->setAttribute('default', $address->getDefault());
+                $addressElement->setAttribute('default', Util::formatBoolean($address->getDefault()));
                 $addressElement->setAttribute('type', $address->getType());
 
                 // Go through each address element and use the assigned method
@@ -257,7 +259,7 @@ class CustomersDocument extends BaseDocument
                 $banksElement->appendChild($bankElement);
 
                 // Set attributes
-                $bankElement->setAttribute('default', $bank->getDefault());
+                $bankElement->setAttribute('default', Util::formatBoolean($bank->getDefault()));
 
                 // Go through each bank element and use the assigned method
                 foreach ($bankTags as $tag => $method) {

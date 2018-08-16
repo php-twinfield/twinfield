@@ -78,7 +78,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
 
         $this->assertSame('1', $address->getID());
         $this->assertSame('invoice', $address->getType());
-        $this->assertSame('true', $address->getDefault());
+        $this->assertSame(true, $address->getDefault());
         $this->assertSame('Customer 0', $address->getName());
         $this->assertSame('NL', $address->getCountry());
         $this->assertSame('Place', $address->getCity());
@@ -103,7 +103,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $bank = $banks['-1'];
 
         $this->assertSame('-1', $bank->getID());
-        $this->assertSame('true', $bank->getDefault());
+        $this->assertSame(true, $bank->getDefault());
         $this->assertSame('Customer 1', $bank->getAscription());
         $this->assertSame('123456789', $bank->getAccountnumber());
         $this->assertSame('ABN Amro', $bank->getBankname());
@@ -178,7 +178,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $address = new CustomerAddress();
         $address->setID('1');
         $address->setType('invoice');
-        $address->setDefault('true');
+        $address->setDefault(true);
         $address->setName('Customer 0');
         $address->setCountry('NL');
         $address->setCity('Place');
@@ -192,7 +192,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $customer->addAddress($address);
 
         $bank = new CustomerBank();
-        $bank->setDefault('true');
+        $bank->setDefault(true);
         $bank->setAscription('Customer 1');
         $bank->setAccountnumber('123456789');
         $bank->setAddressField2('');

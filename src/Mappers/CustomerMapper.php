@@ -4,7 +4,9 @@ namespace PhpTwinfield\Mappers;
 use PhpTwinfield\Customer;
 use PhpTwinfield\CustomerAddress;
 use PhpTwinfield\CustomerBank;
+use PhpTwinfield\Exception;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Util;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
@@ -22,6 +24,7 @@ class CustomerMapper extends BaseMapper
      * @access public
      * @param \PhpTwinfield\Response\Response $response
      * @return Customer
+     * @throws Exception
      */
     public static function map(Response $response)
     {
@@ -180,7 +183,7 @@ class CustomerMapper extends BaseMapper
                 $temp_address
                     ->setID($addressDOM->getAttribute('id'))
                     ->setType($addressDOM->getAttribute('type'))
-                    ->setDefault($addressDOM->getAttribute('default'));
+                    ->setDefault(Util::parseBoolean($addressDOM->getAttribute('default')));
 
                 // Loop through the element tags. Determine if it exists and set it if it does
                 foreach ($addressTags as $tag => $method) {
@@ -233,7 +236,7 @@ class CustomerMapper extends BaseMapper
                 // Set the attributes ( id, default )
                 $temp_bank
                     ->setID($bankDOM->getAttribute('id'))
-                    ->setDefault($bankDOM->getAttribute('default'));
+                    ->setDefault(Util::parseBoolean($bankDOM->getAttribute('default')));
 
                 // Loop through the element tags. Determine if it exists and set it if it does
                 foreach ($bankTags as $tag => $method) {
