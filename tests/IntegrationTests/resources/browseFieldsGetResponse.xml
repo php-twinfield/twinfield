@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<browsefields>
+	<browsefield>
+		<code>fin.trs.head.bankcode</code>
+		<datatype>special</datatype>
+		<finder></finder>
+		<dropdown>
+			<option name="">BNKABN</option>
+			<option name="">BNKRABO</option>
+		</dropdown>
+		<canorder />
+	</browsefield>
+	<browsefield>
+		<code>fin.trs.head.banktype</code>
+		<datatype>special</datatype>
+		<finder></finder>
+		<dropdown>
+			<option name="Bank">bank</option>
+			<option name="Kas">cashbook</option>
+		</dropdown>
+		<canorder />
+	</browsefield>
+	<browsefield>
+		<code>fin.trs.head.number</code>
+		<datatype>decimal</datatype>
+		<finder></finder>
+		<dropdown />
+		<canorder />
+	</browsefield>
+	<browsefield>
+		<code>fin.trs.head.status</code>
+		<datatype>special</datatype>
+		<finder></finder>
+		<dropdown>
+			<option name="Draft">draft</option>
+			<option name="Provisional">temporary</option>
+			<option name="Final">final</option>
+			<option name="In use">inuse</option>
+			<option name="Provisional &amp; Final">normal</option>
+		</dropdown>
+		<canorder />
+	</browsefield>
+	<browsefield>
+		<code>fin.trs.line.debitcredit</code>
+		<datatype>special</datatype>
+		<finder></finder>
+		<dropdown>
+			<option name="Credit">credit</option>
+			<option name="Debet">debit</option>
+		</dropdown>
+		<canorder />
+	</browsefield>
+</browsefields>

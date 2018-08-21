@@ -54,6 +54,24 @@ final class Util
     }
 
     /**
+     * Parse a date time string from a Twinfield XML.
+     *
+     * @param string $dateString
+     * @return \DateTimeImmutable
+     * @throws Exception
+     */
+    public static function parseDateTime(string $dateString)
+    {
+        $date = \DateTimeImmutable::createFromFormat("YmdHis", $dateString);
+
+        if (false === $date) {
+            throw new Exception("Invalid date, expected in yyyymmddhhiiss format, got \"{$dateString}\".");
+        }
+
+        return $date;
+    }
+
+    /**
      * @param bool $boolean
      * @return string
      */
