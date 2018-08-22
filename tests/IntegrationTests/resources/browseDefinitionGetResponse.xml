@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<browse result="1">
+	<office name="Test company" shortname="Test company">001</office>
+	<code>000</code>
+	<name>General ledger transactions</name>
+	<shortname>General ledger transactions</shortname>
+	<visible>true</visible>
+	<columns code="000">
+		<column id="1">
+			<field>fin.trs.head.yearperiod</field>
+			<label>Period</label>
+			<visible>true</visible>
+			<ask>true</ask>
+			<operator>between</operator>
+			<from>$DEFAULT$</from>
+			<to>$DEFAULT$</to>
+			<finderparam></finderparam>
+		</column>
+		<column id="2">
+			<field>fin.trs.head.code</field>
+			<label>Transaction type</label>
+			<visible>true</visible>
+			<ask>true</ask>
+			<operator>equal</operator>
+			<from></from>
+			<to></to>
+			<finderparam>hidden=1</finderparam>
+		</column>
+		<column id="3">
+			<field>fin.trs.head.shortname</field>
+			<label>Name</label>
+			<visible>true</visible>
+			<ask>false</ask>
+			<operator>none</operator>
+			<from></from>
+			<to></to>
+			<finderparam></finderparam>
+		</column>
+		<column id="4">
+			<field>fin.trs.head.number</field>
+			<label>Trans. no.</label>
+			<visible>true</visible>
+			<ask>true</ask>
+			<operator>between</operator>
+			<from></from>
+			<to></to>
+			<finderparam></finderparam>
+		</column>
+		<column id="5">
+			<field>fin.trs.head.status</field>
+			<label>Status</label>
+			<visible>true</visible>
+			<ask>true</ask>
+			<operator>equal</operator>
+			<from>normal</from>
+			<to></to>
+			<finderparam></finderparam>
+		</column>
+		<column id="6">
+			<field>fin.trs.line.dim1</field>
+			<label>General ledger</label>
+			<visible>true</visible>
+			<ask>true</ask>
+			<operator>between</operator>
+			<from></from>
+			<to></to>
+			<finderparam></finderparam>
+		</column>
+		<column id="7">
+			<field>fin.trs.line.dim1name</field>
+			<label>Name</label>
+			<visible>true</visible>
+			<ask>false</ask>
+			<operator>none</operator>
+			<from></from>
+			<to></to>
+			<finderparam></finderparam>
+		</column>
+		<column id="8">
+			<field>fin.trs.head.curcode</field>
+			<label>Currency</label>
+			<visible>false</visible>
+			<ask>false</ask>
+			<operator>equal</operator>
+			<from></from>
+			<to></to>
+			<finderparam></finderparam>
+		</column>
+		<column id="9">
+			<field>fin.trs.line.valuesigned</field>
+			<label>Value</label>
+			<visible>false</visible>
+			<ask>false</ask>
+			<operator>between</operator>
+			<from></from>
+			<to></to>
+			<finderparam></finderparam>
+		</column>
+		<column id="10">
+			<field>fin.trs.line.basevaluesigned</field>
+			<label>Euro</label>
+			<visible>true</visible>
+			<ask>true</ask>
+			<operator>between</operator>
+			<from></from>
+			<to></to>
+			<finderparam></finderparam>
+		</column>
+		<column id="11">
+			<field>fin.trs.line.repvaluesigned</field>
+			<label>dollar</label>
+			<visible>true</visible>
+			<ask>true</ask>
+			<operator>between</operator>
+			<from></from>
+			<to></to>
+			<finderparam></finderparam>
+		</column>
+		<column id="12">
+			<field>fin.trs.line.description</field>
+			<label>Description</label>
+			<visible>true</visible>
+			<ask>false</ask>
+			<operator>none</operator>
+			<from></from>
+			<to></to>
+			<finderparam></finderparam>
+		</column>
+	</columns>
+</browse>

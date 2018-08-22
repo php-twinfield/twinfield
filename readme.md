@@ -94,6 +94,93 @@ $customer_factory->send($customer);
 
 You can also send multiple objects in one batch, chunking is handled automatically. 
 
+### Browse data
+In order to get financial data out of Twinfield like general ledger transactions, sales invoices, and so on, you can use the the browse data functionality.
+More information about the browse data functionality in Twinfield can be found in the [documentation](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Request/BrowseData).
+
+#### Browse definition
+
+You can retrieve the browse definition of a browse code as follows.
+You don't need to retrieve the browse definition for getting the browse data. It's only for viewing the browse definition of a browse code to know exactly which columns are available. 
+
+```php
+$connector = new BrowseDataApiConnector($connection);
+$browseDefinition = $connector->getBrowseDefinition('000');
+```
+
+#### Browse fields
+
+You can retrieve the browse fields as follows.
+You don't need to retrieve the browse fields for getting the browse data. It's only for viewing the definitions of all browse fields so you now what you can expect when retrieving browse data.
+
+```php
+$connector = new BrowseDataApiConnector($connection);
+$browseFields = $connector->getBrowseFields();
+```
+
+#### Browse data
+
+You can retrieve browse data of a browse code as follows.
+
+```php
+$connector = new BrowseDataApiConnector($connection);
+
+// First, create the columns that you want to retrieve (see the browse definition for which columns are available)
+$columns[] = (new BrowseColumn())
+    ->setField('fin.trs.head.yearperiod')
+    ->setLabel('Period')
+    ->setVisible(true)
+    ->setAsk(true)
+    ->setOperator('between')
+    ->setFrom('2013/01')
+    ->setTo('2013/12');
+
+$columns[] = (new BrowseColumn())
+    ->setField('fin.trs.head.code')
+    ->setLabel('Transaction type')
+    ->setVisible(true);
+
+$columns[] = (new BrowseColumn())
+    ->setField('fin.trs.head.shortname')
+    ->setLabel('Name')
+    ->setVisible(true);
+
+$columns[] = (new BrowseColumn())
+    ->setField('fin.trs.head.number')
+    ->setLabel('Trans. no.')
+    ->setVisible(true);
+
+$columns[] = (new BrowseColumn())
+    ->setField('fin.trs.line.dim1')
+    ->setLabel('General ledger')
+    ->setVisible(true)
+    ->setAsk(true)
+    ->setOperator('between')
+    ->setFrom('1300')
+    ->setTo('1300');
+
+$columns[] = (new BrowseColumn())
+    ->setField('fin.trs.head.curcode')
+    ->setLabel('Currency')
+    ->setVisible(true);
+
+$columns[] = (new BrowseColumn())
+    ->setField('fin.trs.line.valuesigned')
+    ->setLabel('Value')
+    ->setVisible(true);
+
+$columns[] = (new BrowseColumn())
+    ->setField('fin.trs.line.description')
+    ->setLabel('Description')
+    ->setVisible(true);
+
+// Second, create sort fields
+$sortFields[] = new BrowseSortField('fin.trs.head.code');
+
+// Get the browse data
+$browseData = $connector->getBrowseData('000', $columns, $sortFields);
+```
+
 ### Supported resources
 Not all resources from the Twinfield API are currently implemented. Feel free to create a pull request when you need
 support for another resource.
@@ -111,7 +198,7 @@ support for another resource.
 | Transactions:<br> [Purchase](https://c3.twinfield.com/webservices/documentation/#/ApiReference/PurchaseTransactions), [Sale](https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesTransactions), [Journal](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/JournalTransactions), [Cash](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/CashTransactions) | :white_check_mark: |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | [Users](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Users)                        |                    | :white_check_mark: |                    |                    |                    |
 | [Vat types](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/VAT)                      |                    | :white_check_mark: |                    |                    |                    |
- 
+| [Browse Data](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Request/BrowseData)             | :white_check_mark: |                    |                    |                    | :white_check_mark: |
 
 ## Links
 

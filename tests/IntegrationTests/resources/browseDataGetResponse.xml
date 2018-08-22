@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<browse result="1" first="1" last="6" total="6">
+	<th>
+		<td label="Period" hideforuser="false" type="String">fin.trs.head.yearperiod</td>
+		<td label="Transaction type" hideforuser="false" type="String">fin.trs.head.code</td>
+		<td label="Name" hideforuser="false" type="String">fin.trs.head.shortname</td>
+		<td label="Trans. no." hideforuser="false" type="Decimal">fin.trs.head.number</td>
+		<td label="General ledger" hideforuser="false" type="String">fin.trs.line.dim1</td>
+		<td label="Currency" hideforuser="false" type="String">fin.trs.head.curcode</td>
+		<td label="Value" hideforuser="false" type="Value">fin.trs.line.valuesigned</td>
+		<td label="Description" hideforuser="false" type="String">fin.trs.line.description</td>
+	</th>
+	<tr>
+		<td field="fin.trs.head.yearperiod" hideforuser="false" type="String">2013/04</td>
+		<td field="fin.trs.head.code" hideforuser="false" type="String">BNK</td>
+		<td field="fin.trs.head.shortname" hideforuser="false" type="String">Bank 33</td>
+		<td field="fin.trs.head.number" hideforuser="false" type="Decimal">201300001</td>
+		<td field="fin.trs.line.dim1" hideforuser="false" type="String">1300</td>
+		<td field="fin.trs.head.curcode" hideforuser="false" type="String">EUR</td>
+		<td field="fin.trs.line.valuesigned" hideforuser="false" type="Value">-121.00</td>
+		<td field="fin.trs.line.description" hideforuser="false" type="String">test</td>
+		<key>
+			<office>001</office>
+			<code>BNK</code>
+			<number>201300001</number>
+			<line>2</line>
+		</key>
+	</tr>
+	<tr>
+		<td field="fin.trs.head.yearperiod" hideforuser="false" type="String">2013/02</td>
+		<td field="fin.trs.head.code" hideforuser="false" type="String">BNK1</td>
+		<td field="fin.trs.head.shortname" hideforuser="false" type="String">Bank 01</td>
+		<td field="fin.trs.head.number" hideforuser="false" type="Decimal">201300001</td>
+		<td field="fin.trs.line.dim1" hideforuser="false" type="String">1300</td>
+		<td field="fin.trs.head.curcode" hideforuser="false" type="String">EUR</td>
+		<td field="fin.trs.line.valuesigned" hideforuser="false" type="Value">-700.00</td>
+		<td field="fin.trs.line.description" hideforuser="false" type="String"></td>
+		<key>
+			<office>001</office>
+			<code>BNK1</code>
+			<number>201300001</number>
+			<line>2</line>
+		</key>
+	</tr>
+	<tr>
+		<td field="fin.trs.head.yearperiod" hideforuser="false" type="String">2013/02</td>
+		<td field="fin.trs.head.code" hideforuser="false" type="String">BNK1</td>
+		<td field="fin.trs.head.shortname" hideforuser="false" type="String">Bank 01</td>
+		<td field="fin.trs.head.number" hideforuser="false" type="Decimal">201300002</td>
+		<td field="fin.trs.line.dim1" hideforuser="false" type="String">1300</td>
+		<td field="fin.trs.head.curcode" hideforuser="false" type="String">EUR</td>
+		<td field="fin.trs.line.valuesigned" hideforuser="false" type="Value">-700.00</td>
+		<td field="fin.trs.line.description" hideforuser="false" type="String">1006-26022013</td>
+		<key>
+			<office>001</office>
+			<code>BNK1</code>
+			<number>201300002</number>
+			<line>2</line>
+		</key>
+	</tr>
+	<tr>
+		<td field="fin.trs.head.yearperiod" hideforuser="false" type="String">2013/03</td>
+		<td field="fin.trs.head.code" hideforuser="false" type="String">BNK1</td>
+		<td field="fin.trs.head.shortname" hideforuser="false" type="String">Bank 01</td>
+		<td field="fin.trs.head.number" hideforuser="false" type="Decimal">201300003</td>
+		<td field="fin.trs.line.dim1" hideforuser="false" type="String">1300</td>
+		<td field="fin.trs.head.curcode" hideforuser="false" type="String">EUR</td>
+		<td field="fin.trs.line.valuesigned" hideforuser="false" type="Value">-221.00</td>
+		<td field="fin.trs.line.description" hideforuser="false" type="String"></td>
+		<key>
+			<office>001</office>
+			<code>BNK1</code>
+			<number>201300003</number>
+			<line>2</line>
+		</key>
+	</tr>
+	<tr>
+		<td field="fin.trs.head.yearperiod" hideforuser="false" type="String">2013/05</td>
+		<td field="fin.trs.head.code" hideforuser="false" type="String">SLS</td>
+		<td field="fin.trs.head.shortname" hideforuser="false" type="String">Sales</td>
+		<td field="fin.trs.head.number" hideforuser="false" type="Decimal">201300080</td>
+		<td field="fin.trs.line.dim1" hideforuser="false" type="String">1300</td>
+		<td field="fin.trs.head.curcode" hideforuser="false" type="String">EUR</td>
+		<td field="fin.trs.line.valuesigned" hideforuser="false" type="Value">13077.63</td>
+		<td field="fin.trs.line.description" hideforuser="false" type="String"></td>
+		<key>
+			<office>001</office>
+			<code>SLS</code>
+			<number>201300080</number>
+			<line>1</line>
+		</key>
+	</tr>
+	<tr>
+		<td field="fin.trs.head.yearperiod" hideforuser="false" type="String">2013/06</td>
+		<td field="fin.trs.head.code" hideforuser="false" type="String">SLS</td>
+		<td field="fin.trs.head.shortname" hideforuser="false" type="String">Sales</td>
+		<td field="fin.trs.head.number" hideforuser="false" type="Decimal">201300081</td>
+		<td field="fin.trs.line.dim1" hideforuser="false" type="String">1300</td>
+		<td field="fin.trs.head.curcode" hideforuser="false" type="String">EUR</td>
+		<td field="fin.trs.line.valuesigned" hideforuser="false" type="Value">300.00</td>
+		<td field="fin.trs.line.description" hideforuser="false" type="String"></td>
+		<key>
+			<office>001</office>
+			<code>SLS</code>
+			<number>201300081</number>
+			<line>1</line>
+		</key>
+	</tr>
+</browse>
