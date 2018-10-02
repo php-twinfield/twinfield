@@ -71,8 +71,8 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
 <transactions>
 	<transaction autobalancevat="true" destiny="temporary">
 		<header>
-			<office>dev-10000</office>
-			<currency>eur</currency>
+			<office>DEV-10000</office>
+			<currency>EUR</currency>
 			<startvalue>0.00</startvalue>
 			<closevalue>0.21</closevalue>
 		</header>
@@ -96,7 +96,7 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
 				<debitcredit>debit</debitcredit>
 				<value>1.00</value>
 				<destoffice>DEV-11000</destoffice>
-				<comment>lorem ipsum dolor sit amet, consectetur adipiscing elit. suspendisse facilisis lobortis arcu in tincidunt. mauris urna enim, commodo nec feugiat quis, pharetra vel sem. etiam ullamcorper eleifend tellus non viverra. nulla facilisi. donec sed orci aliquam.</comment>
+				<comment>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse facilisis lobortis arcu in tincidunt. Mauris urna enim, commodo nec feugiat quis, pharetra vel sem. Etiam ullamcorper eleifend tellus non viverra. Nulla facilisi. Donec sed orci aliquam.</comment>
 			</line>
 			<line id="38864" type="vat">
 				<debitcredit>credit</debitcredit>

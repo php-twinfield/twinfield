@@ -91,7 +91,7 @@ class CustomersDocumentUnitTest extends TestCase
 
         $customer = new Customer();
         $customer->setCode('D654321');
-        $customer->setName('Nuck CHorris');
+        $customer->setName('Nuck Chorris');
         $customer->setWebsite('http://example.org');
         $customer->setOffice(Office::fromCode("DEV-00001"));
         $customer->setStatus('deleted');
