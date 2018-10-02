@@ -12,7 +12,7 @@ use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
  */
 class SalesTransaction extends BaseTransaction
 {
-    use DueDateField;
+    // use DueDateField;
     use InvoiceNumberField;
     use PaymentReferenceField;
     use ThreeDimFields;
