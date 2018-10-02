@@ -13,7 +13,6 @@ use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Enums\PerformanceType;
 use PhpTwinfield\Exception;
 use PhpTwinfield\JournalTransaction;
-use PhpTwinfield\JournalTransactionLine;
 use PhpTwinfield\Message\Message;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
@@ -224,14 +223,11 @@ class TransactionMapper
                 }
             }
             if (Util::objectUses(InvoiceNumberField::class, $transactionLine)) {
+                /** @var InvoiceNumberField $transactionLine */
                 $invoiceNumber = self::getField($transaction, $lineElement, 'invoicenumber');
                 if ($invoiceNumber) {
                     $transactionLine->setInvoiceNumber(self::getField($transaction, $lineElement, 'invoicenumber'));
                 }
-            }
-
-            if ($transactionLine instanceof JournalTransactionLine) {
-                $transactionLine->setInvoiceNumber(self::getField($transaction, $lineElement, 'invoicenumber'));
             }
 
             $transaction->addLine($transactionLine);

@@ -90,7 +90,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine1->getPerformanceCountry());
         $this->assertNull($detailLine1->getPerformanceVatNumber());
         $this->assertNull($detailLine1->getPerformanceDate());
-        $this->assertSame('', $detailLine1->getInvoiceNumber());
+        $this->assertNull($detailLine1->getInvoiceNumber());
 
         $this->assertEquals(LineType::DETAIL(), $detailLine2->getLineType());
         $this->assertSame(2, $detailLine2->getId());

@@ -224,15 +224,6 @@ class TransactionsDocument extends BaseDocument
                 $lineElement->appendChild($baselineElement);
             }
 
-            if (
-                $transactionLine instanceof JournalTransactionLine &&
-                LineType::DETAIL()->equals($transactionLine->getLineType()) &&
-                $transactionLine->getInvoiceNumber() !== null
-            ) {
-                $invoiceNumberElement = $this->createNodeWithTextContent('invoicenumber', $transactionLine->getInvoiceNumber());
-                $lineElement->appendChild($invoiceNumberElement);
-            }
-
             if ($transactionLine->getDescription() !== null) {
                 $descriptionNode = $this->createTextNode($transactionLine->getDescription());
                 $descriptionElement = $this->createElement('description');
