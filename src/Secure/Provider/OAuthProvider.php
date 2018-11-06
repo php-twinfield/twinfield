@@ -17,8 +17,12 @@ class OAuthProvider extends AbstractProvider
     use BearerAuthorizationTrait;
 
     /**
-     * Please note: This scope only works when the SCOPE_OPEN_ID scope is also present.
-     *
+     * NOTE: The scope OpenID is required for successful OAuth2.0 implementation;
+     *  The user scope will not function without this scope.
+     */
+    public const SCOPE_OAUTH = 'openid';
+
+    /**
      * twf.user (Identity token) - contains Twinfield specific information about the user. This scope contains the following claims:
      * - twf.id - contains GUID of Twinfield ID. Only if you have the availability of a Twinfield ID.
      * - twf.organisationUserCode - user code inside organisation
@@ -43,18 +47,6 @@ class OAuthProvider extends AbstractProvider
      * Note that the twf.organisationUser scope is mandatory in order to login.
      */
     public const SCOPE_ORGANISATION_USER = 'twf.organisationUser';
-
-    /**
-     * This scope is required in order to receive and use refresh tokens.
-     */
-    public const SCOPE_OFFLINE_ACCESS = "offline_access";
-
-    /**
-     * This scope is required to retrieve information about the end-user that is logged in. This means this scope is
-     * also required in order to use the SCOPE_USER scope. Using only this scope gives access to the id of the user
-     * that is logged in, using the SCOPE_USER scope returns additional information.
-     */
-    public const SCOPE_OPEN_ID = "openid";
 
     /**
      * @var string
@@ -93,7 +85,7 @@ class OAuthProvider extends AbstractProvider
      */
     protected function getDefaultScopes(): array
     {
-        return [self::SCOPE_ORGANISATION_USER, self::SCOPE_OPEN_ID];
+        return [self::SCOPE_ORGANISATION_USER];
     }
 
     /**
@@ -111,14 +103,12 @@ class OAuthProvider extends AbstractProvider
      */
     protected function getAuthorizationParameters(array $options): array
     {
-        /* The 'SCOPE_USER' scope can only be used in conjunction with the 'SCOPE_OPEN_ID' scope. */
-        if (array_key_exists("scope", $options)) {
-            $hasUserScope = in_array(self::SCOPE_USER, $options["scope"]);
-            $hasOpenIdScope = in_array(self::SCOPE_OPEN_ID, $options["scope"]);
-
-            if ($hasUserScope && !$hasOpenIdScope) {
-                throw new OAuthException("Scope '".self::SCOPE_USER."' requires the ".self::SCOPE_OPEN_ID." scope.");
-            }
+        /**
+         * The 'SCOPE_USER' scope is only supported by Twinfield in combination with 'SCOPE_OAUTH'
+         * @see OAuthProvider::SCOPE_USER and OAuthProvider::SCOPE_OAUTH
+         */
+        if (array_key_exists("scope", $options) && in_array(self::SCOPE_USER, $options["scope"]) && !in_array(self::SCOPE_OAUTH, $options["scope"])) {
+            array_unshift($options["scope"],self::SCOPE_OAUTH);
         }
         $options = parent::getAuthorizationParameters($options);
 
@@ -158,6 +148,14 @@ class OAuthProvider extends AbstractProvider
         }
 
         throw new IdentityProviderException($message, $response->getStatusCode(), $response);
+    }
+
+    /**
+     * @throws \BadMethodCallException
+     */
+    public function getResourceOwner(AccessToken $token): void
+    {
+        throw new \BadMethodCallException("This method has not been implemented");
     }
 
     /**
