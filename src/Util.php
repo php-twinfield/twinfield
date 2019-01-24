@@ -21,7 +21,7 @@ final class Util
     public static function parseMoney(string $moneyString, Currency $currency): Money
     {
         $parser = new DecimalMoneyParser(new ISOCurrencies());
-        return $parser->parse($moneyString, $currency->getCode());
+        return $parser->parse($moneyString, $currency);
     }
 
     /**
