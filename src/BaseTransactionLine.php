@@ -367,7 +367,7 @@ abstract class BaseTransactionLine implements TransactionLine
      */
     public function setCurrencyDate(?\DateTimeInterface $currencyDate): self
     {
-        if ($currencyDate !== null && $this->getLineType()->equals(LineType::DETAIL())) {
+        if ($currencyDate !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
             throw Exception::invalidFieldForLineType('currencyDate', $this);
         }
 
