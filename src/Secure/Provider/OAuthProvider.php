@@ -88,12 +88,18 @@ class OAuthProvider extends AbstractProvider
     /**
      * Returns the default scopes used by this provider.
      *
-     * This should only be the scopes that are required to request the details of the resource owner, rather than all
-     * the available scopes.
+     * Besides the ORGANISATION_USER and OPEN_ID scopes, the OFFLINE_ACCESS and ORGANISATION scopes have to
+     * be used in order to receive a refresh token and cluster URL. These are necessary to refresh the access
+     * token and make requests to the correct endpoint.
      */
     protected function getDefaultScopes(): array
     {
-        return [self::SCOPE_ORGANISATION_USER, self::SCOPE_OPEN_ID];
+        return [
+            self::SCOPE_ORGANISATION_USER,
+            self::SCOPE_OPEN_ID,
+            self::SCOPE_OFFLINE_ACCESS,
+            self::SCOPE_ORGANISATION
+        ];
     }
 
     /**
