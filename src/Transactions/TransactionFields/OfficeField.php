@@ -16,7 +16,7 @@ trait OfficeField
      */
     private $office;
 
-    public function getOffice(): ?Office
+    public function getOffice()
     {
         return $this->office;
     }

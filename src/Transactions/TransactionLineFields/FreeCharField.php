@@ -16,7 +16,7 @@ trait FreeCharField
     /**
      * @return string|null
      */
-    public function getFreeChar(): ?string
+    public function getFreeChar()
     {
         return $this->freeChar;
     }
@@ -25,7 +25,7 @@ trait FreeCharField
      * @param string|null $freeChar
      * @return $this
      */
-    public function setFreeChar(?string $freeChar): self
+    public function setFreeChar($freeChar = null)
     {
         Assert::length($freeChar, 1);
         $this->freeChar = $freeChar;

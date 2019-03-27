@@ -61,7 +61,7 @@ trait CodeNumberOfficeFields
      *
      * @return int
      */
-    public function getNumber(): ?int
+    public function getNumber()
     {
         return $this->number;
     }

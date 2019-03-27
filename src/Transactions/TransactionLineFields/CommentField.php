@@ -12,7 +12,7 @@ trait CommentField
     /**
      * @return null|string
      */
-    public function getComment(): ?string
+    public function getComment()
     {
         return $this->comment;
     }
@@ -21,7 +21,7 @@ trait CommentField
      * @param null|string $comment
      * @return $this
      */
-    public function setComment(?string $comment)
+    public function setComment($comment = null)
     {
         $this->comment = $comment;
         return $this;

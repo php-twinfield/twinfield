@@ -42,23 +42,23 @@ class ElectronicBankStatementTransaction
      */
     private $description;
 
-    public function getContraaccount(): ?string
+    public function getContraaccount()
     {
         return $this->contraaccount;
     }
 
-    public function setContraaccount(string $contraaccount): void
+    public function setContraaccount(string $contraaccount)
     {
         $this->contraaccount = $contraaccount;
         $this->contraiban = null;
     }
 
-    public function getContraiban(): ?string
+    public function getContraiban()
     {
         return $this->contraiban;
     }
 
-    public function setContraiban(string $contraiban): void
+    public function setContraiban(string $contraiban)
     {
         $this->contraiban = $contraiban;
         $this->contraaccount = null;
@@ -69,17 +69,17 @@ class ElectronicBankStatementTransaction
         return $this->type;
     }
 
-    public function setType(string $type): void
+    public function setType(string $type)
     {
         $this->type = $type;
     }
 
-    public function getReference(): ?string
+    public function getReference()
     {
         return $this->reference;
     }
 
-    public function setReference(string $reference): void
+    public function setReference(string $reference)
     {
         $this->reference = $reference;
     }
@@ -89,12 +89,12 @@ class ElectronicBankStatementTransaction
         return $this->description;
     }
 
-    public function setDescription(string $description): void
+    public function setDescription(string $description)
     {
         $this->description = $description;
     }
 
-    public function getLineType(): ?LineType
+    public function getLineType()
     {
         /*
          * Electronic bank statement transactions don't have line types.

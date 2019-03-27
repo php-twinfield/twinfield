@@ -18,7 +18,7 @@ class BrowseSortField
      * @param string $code
      * @param null|Order $order
      */
-    public function __construct(string $code, ?Order $order = null)
+    public function __construct(string $code, Order $order = null)
     {
         $this->code = $code;
         $this->order = $order;
@@ -35,7 +35,7 @@ class BrowseSortField
     /**
      * @param string $code
      */
-    public function setCode(string $code): void
+    public function setCode(string $code)
     {
         $this->code = $code;
     }
@@ -43,7 +43,7 @@ class BrowseSortField
     /**
      * @return null|Order
      */
-    public function getOrder(): ?Order
+    public function getOrder()
     {
         return $this->order;
     }
@@ -51,7 +51,7 @@ class BrowseSortField
     /**
      * @param null|Order $order
      */
-    public function setOrder(?Order $order): void
+    public function setOrder(Order $order = null)
     {
         $this->order = $order;
     }

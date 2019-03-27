@@ -11,7 +11,7 @@ trait FourDimFields
      */
     private $dim4;
 
-    public function getDim4(): ?string
+    public function getDim4()
     {
         return $this->dim4;
     }

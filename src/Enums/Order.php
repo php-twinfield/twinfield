@@ -10,6 +10,6 @@ use MyCLabs\Enum\Enum;
  */
 class Order extends Enum
 {
-    protected const ASCENDING = 'ascending';
-    protected const DESCENDING = 'descending';
+    const ASCENDING = 'ascending';
+    const DESCENDING = 'descending';
 }

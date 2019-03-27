@@ -48,20 +48,20 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
      * Please note that for most calls an office is mandatory. If you do not supply it
      * you have to pass it with every request, or call setOffice.
      */
-    public function __construct(OAuthProvider $provider, string $refreshToken, ?Office $office)
+    public function __construct(OAuthProvider $provider, string $refreshToken, Office $office = null)
     {
         $this->provider     = $provider;
         $this->refreshToken = $refreshToken;
         $this->office       = $office;
     }
 
-    public function setOffice(?Office $office)
+    public function setOffice(Office $office = null)
     {
         $this->resetAllClients();
         $this->office = $office;
     }
 
-    protected function getCluster(): ?string
+    protected function getCluster()
     {
         return $this->cluster;
     }
@@ -89,7 +89,7 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
      * @throws OAuthException
      * @throws InvalidAccessTokenException
      */
-    protected function login(): void
+    protected function login()
     {
         if ($this->accessToken === null) {
             $this->refreshToken();
@@ -126,7 +126,7 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
     /**
      * @throws OAuthException
      */
-    protected function refreshToken(): void
+    protected function refreshToken()
     {
         try {
             $accessToken = $this->provider->getAccessToken(

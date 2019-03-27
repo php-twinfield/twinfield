@@ -20,7 +20,7 @@ trait DateField
     /**
      * @return \DateTimeInterface|null
      */
-    public function getDate(): ?\DateTimeInterface
+    public function getDate()
     {
         return $this->date;
     }

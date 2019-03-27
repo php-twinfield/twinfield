@@ -12,7 +12,7 @@ trait PaymentReferenceField
     /**
      * @return string|null
      */
-    public function getPaymentReference(): ?string
+    public function getPaymentReference()
     {
         return $this->paymentReference;
     }
@@ -21,7 +21,7 @@ trait PaymentReferenceField
      * @param string|null $paymentReference
      * @return $this
      */
-    public function setPaymentReference(?string $paymentReference): self
+    public function setPaymentReference($paymentReference = null): self
     {
         $this->paymentReference = $paymentReference;
 

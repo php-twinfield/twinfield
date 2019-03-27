@@ -19,7 +19,7 @@ trait ValueFields
      */
     private $value;
 
-    abstract public function getLineType(): ?LineType;
+    abstract public function getLineType();
 
     /**
      * Returns true if a positive amount in the TOTAL line means the amount is 'debit'. Examples of incoming transaction

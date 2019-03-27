@@ -91,7 +91,7 @@ class BankTransaction implements Transaction
         return $this->inputDate;
     }
 
-    public function addLine(Transactions\BankTransactionLine\Base $line): void
+    public function addLine(Transactions\BankTransactionLine\Base $line)
     {
         Assert::notEmpty($this->startvalue);
 

@@ -301,7 +301,7 @@ class Customer
      *
      * @return CustomerCollectMandate
      */
-    public function getCollectMandate(): ?CustomerCollectMandate
+    public function getCollectMandate()
     {
         return $this->collectMandate;
     }
@@ -316,7 +316,7 @@ class Customer
      *
      * @return CustomerCreditManagement
      */
-    public function getCreditManagement(): ?CustomerCreditManagement
+    public function getCreditManagement()
     {
         return $this->creditManagement;
     }
@@ -391,7 +391,7 @@ class Customer
     /**
      * @param string $country
      */
-    public function setCountry(string $country): void
+    public function setCountry(string $country)
     {
         $this->country = $country;
     }

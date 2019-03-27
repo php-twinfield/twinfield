@@ -56,7 +56,7 @@ class Total extends Base
      *
      * @param Money $money
      */
-    public function setValue(Money $money): void
+    public function setValue(Money $money)
     {
         parent::setValue($money);
     }
@@ -64,7 +64,7 @@ class Total extends Base
     /**
      * @return Money|null
      */
-    public function getVatTotal(): ?Money
+    public function getVatTotal()
     {
         return $this->vatTotal;
     }
@@ -74,7 +74,7 @@ class Total extends Base
      *
      * @param Money $vatTotal
      */
-    public function setVatTotal(Money $vatTotal): void
+    public function setVatTotal(Money $vatTotal)
     {
         $this->vatTotal = $vatTotal;
     }
@@ -82,7 +82,7 @@ class Total extends Base
     /**
      * @return Money|null
      */
-    public function getVatBaseTotal(): ?Money
+    public function getVatBaseTotal()
     {
         return $this->vatBaseTotal;
     }
@@ -92,7 +92,7 @@ class Total extends Base
      *
      * @param Money $vatBaseTotal
      */
-    public function setVatBaseTotal(Money $vatBaseTotal): void
+    public function setVatBaseTotal(Money $vatBaseTotal)
     {
         $this->vatBaseTotal = $vatBaseTotal;
     }
@@ -100,7 +100,7 @@ class Total extends Base
     /**
      * @return Money|null
      */
-    public function getVatRepTotal(): ?Money
+    public function getVatRepTotal()
     {
         return $this->vatRepTotal;
     }
@@ -108,7 +108,7 @@ class Total extends Base
     /**
      * @param Money $vatRepTotal
      */
-    public function setVatRepTotal(Money $vatRepTotal): void
+    public function setVatRepTotal(Money $vatRepTotal)
     {
         $this->vatRepTotal = $vatRepTotal;
     }

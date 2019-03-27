@@ -91,7 +91,7 @@ trait LinesField
     /**
      * @param TransactionLine[] $lines
      */
-    public function setLines(array $lines): void
+    public function setLines(array $lines)
     {
         /*
          * Don't set the lines directly. Some classes that use this trait overwrite the addLine() method.

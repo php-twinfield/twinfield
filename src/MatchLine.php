@@ -88,7 +88,7 @@ class MatchLine
         return $this->transline;
     }
 
-    public function getMatchValue(): ?Money
+    public function getMatchValue()
     {
         return $this->matchvalue;
     }
@@ -96,14 +96,14 @@ class MatchLine
     /**
      * Optional; only for partial payments. Include an "-" on credit lines.
      */
-    public function setMatchvalue(?Money $matchvalue): self
+    public function setMatchvalue(Money $matchvalue = null): self
     {
         $this->matchvalue = $matchvalue;
 
         return $this;
     }
 
-    public function getWriteOff(): ?Money
+    public function getWriteOff()
     {
         return $this->writeoff;
     }
@@ -122,7 +122,7 @@ class MatchLine
     /**
      * Add the type attribute in order to determine what to do with the match difference.
      */
-    public function getWriteOffType(): ?Enums\WriteOffType
+    public function getWriteOffType()
     {
         return $this->writeofftype;
     }

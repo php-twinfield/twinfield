@@ -45,14 +45,14 @@ abstract class BaseDocument extends \DOMDocument
         return $attr;
     }
 
-    protected function appendDateElement(\DOMElement $element, string $name, \DateTimeInterface $date): void
+    protected function appendDateElement(\DOMElement $element, string $name, \DateTimeInterface $date)
     {
         $element->appendChild(
             $this->createNodeWithTextContent($name, Util::formatDate($date))
         );
     }
 
-    protected function appendOfficeField(\DOMElement $element, Office $office): void
+    protected function appendOfficeField(\DOMElement $element, Office $office)
     {
         $element->appendChild(
             $this->createNodeWithTextContent("office", $office->getCode())
@@ -65,7 +65,7 @@ abstract class BaseDocument extends \DOMDocument
      * @param callable $callback
      * @return null|string
      */
-    protected function getValueFromCallback(callable $callback): ?string
+    protected function getValueFromCallback(callable $callback)
     {
         $value = call_user_func($callback);
 
@@ -86,7 +86,7 @@ abstract class BaseDocument extends \DOMDocument
      * @param \DOMElement $element
      * @param $object
      */
-    protected function appendStartCloseValues(\DOMElement $element, $object): void
+    protected function appendStartCloseValues(\DOMElement $element, $object)
     {
         Assert::true(Util::objectUses(StartAndCloseValueFields::class, $object));
 
@@ -102,7 +102,7 @@ abstract class BaseDocument extends \DOMDocument
      * @param \DOMElement $element
      * @param $object
      */
-    protected function appendFreeTextFields(\DOMElement $element, $object): void
+    protected function appendFreeTextFields(\DOMElement $element, $object)
     {
         Assert::true(Util::objectUses(FreeTextFields::class, $object));
 
@@ -118,7 +118,7 @@ abstract class BaseDocument extends \DOMDocument
         }
     }
 
-    protected function appendValueValues(\DOMElement $element, $object): void
+    protected function appendValueValues(\DOMElement $element, $object)
     {
         Assert::true(Util::objectUses(ValueFields::class, $object));
 
@@ -127,7 +127,7 @@ abstract class BaseDocument extends \DOMDocument
         $element->appendChild($this->createNodeWithTextContent("value", Util::formatMoney($object->getValue())));
     }
 
-    protected function appendPerformanceTypeFields(\DOMElement $element, $object): void
+    protected function appendPerformanceTypeFields(\DOMElement $element, $object)
     {
         /** @var PerformanceFields $object */
 

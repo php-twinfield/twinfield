@@ -28,7 +28,7 @@ trait FreeTextFields
     /**
      * @return null|string
      */
-    public function getFreetext1(): ?string
+    public function getFreetext1()
     {
         return $this->freetext1;
     }
@@ -37,7 +37,7 @@ trait FreeTextFields
      * @param null|string $freetext1
      * @return $this
      */
-    public function setFreetext1(?string $freetext1): self
+    public function setFreetext1($freetext1 = null): self
     {
         $this->freetext1 = $freetext1;
 
@@ -47,7 +47,7 @@ trait FreeTextFields
     /**
      * @return null|string
      */
-    public function getFreetext2(): ?string
+    public function getFreetext2()
     {
         return $this->freetext2;
     }
@@ -56,7 +56,7 @@ trait FreeTextFields
      * @param null|string $freetext2
      * @return $this
      */
-    public function setFreetext2(?string $freetext2): self
+    public function setFreetext2($freetext2 = null): self
     {
         $this->freetext2 = $freetext2;
 
@@ -66,7 +66,7 @@ trait FreeTextFields
     /**
      * @return null|string
      */
-    public function getFreetext3(): ?string
+    public function getFreetext3()
     {
         return $this->freetext3;
     }
@@ -75,7 +75,7 @@ trait FreeTextFields
      * @param null|string $freetext3
      * @return $this
      */
-    public function setFreetext3(?string $freetext3): self
+    public function setFreetext3($freetext3 = null): self
     {
         $this->freetext3 = $freetext3;
 

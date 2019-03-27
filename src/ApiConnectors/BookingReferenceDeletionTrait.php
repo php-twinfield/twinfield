@@ -18,7 +18,7 @@ trait BookingReferenceDeletionTrait
      * @param string $reason A textual reason that can be shown to humans.
      * @throws Exception
      */
-    public function delete(BookingReference $bookingReference, string $reason): void
+    public function delete(BookingReference $bookingReference, string $reason)
     {
         $document = new BookingReferenceDeletionDocument($bookingReference, $reason);
 

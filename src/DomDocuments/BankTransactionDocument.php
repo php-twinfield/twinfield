@@ -24,7 +24,7 @@ class BankTransactionDocument extends BaseDocument
         return "transactions";
     }
 
-    public function addBankTransaction(BankTransaction $bankTransaction): void
+    public function addBankTransaction(BankTransaction $bankTransaction)
     {
         $transaction = $this->createElement("transaction");
 

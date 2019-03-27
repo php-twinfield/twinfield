@@ -53,7 +53,7 @@ trait StartAndCloseValueFields
         return $this->startvalue;
     }
 
-    public function setStartvalue(Money $startvalue): void
+    public function setStartvalue(Money $startvalue)
     {
         $this->currency   = $startvalue->getCurrency();
         $this->startvalue = $startvalue;

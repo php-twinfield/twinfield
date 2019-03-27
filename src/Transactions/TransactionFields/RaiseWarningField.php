@@ -12,7 +12,7 @@ trait RaiseWarningField
     /**
      * @return bool|null
      */
-    public function getRaiseWarning(): ?bool
+    public function getRaiseWarning()
     {
         return $this->raiseWarning;
     }
@@ -21,7 +21,7 @@ trait RaiseWarningField
      * @param bool|null $raiseWarning
      * @return $this
      */
-    public function setRaiseWarning(?bool $raiseWarning)
+    public function setRaiseWarning($raiseWarning = null)
     {
         $this->raiseWarning = $raiseWarning;
 

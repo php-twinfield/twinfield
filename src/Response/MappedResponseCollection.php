@@ -11,7 +11,7 @@ class MappedResponseCollection extends \ArrayObject
      *
      * @throws \InvalidArgumentException
      */
-    public function append($value): void
+    public function append($value)
     {
         if (!($value instanceof IndividualMappedResponse)) {
             throw new \InvalidArgumentException("Value has to be an object of type " . IndividualMappedResponse::class);
@@ -58,7 +58,7 @@ class MappedResponseCollection extends \ArrayObject
     /**
      * @throws \InvalidArgumentException
      */
-    public function assertAllSuccessful(): void
+    public function assertAllSuccessful()
     {
         Assert::eq($this->countResponses(false), 0);
     }

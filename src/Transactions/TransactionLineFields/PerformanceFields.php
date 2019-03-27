@@ -37,7 +37,7 @@ trait PerformanceFields
     /**
      * @return PerformanceType|null
      */
-    public function getPerformanceType(): ?PerformanceType
+    public function getPerformanceType()
     {
         return $this->performanceType;
     }
@@ -47,7 +47,7 @@ trait PerformanceFields
      * @return $this
      * @throws Exception
      */
-    public function setPerformanceType(?PerformanceType $performanceType): self
+    public function setPerformanceType(PerformanceType $performanceType = null): self
     {
         if (
             $performanceType !== null &&
@@ -64,7 +64,7 @@ trait PerformanceFields
     /**
      * @return string|null
      */
-    public function getPerformanceCountry(): ?string
+    public function getPerformanceCountry()
     {
         return $this->performanceCountry;
     }
@@ -74,7 +74,7 @@ trait PerformanceFields
      * @return $this
      * @throws Exception
      */
-    public function setPerformanceCountry(?string $performanceCountry): self
+    public function setPerformanceCountry($performanceCountry = null): self
     {
         if (
             $performanceCountry !== null &&
@@ -91,7 +91,7 @@ trait PerformanceFields
     /**
      * @return string|null
      */
-    public function getPerformanceVatNumber(): ?string
+    public function getPerformanceVatNumber()
     {
         return $this->performanceVatNumber;
     }
@@ -101,7 +101,7 @@ trait PerformanceFields
      * @return $this
      * @throws Exception
      */
-    public function setPerformanceVatNumber(?string $performanceVatNumber): self
+    public function setPerformanceVatNumber($performanceVatNumber = null): self
     {
         if (
             $performanceVatNumber !== null &&
@@ -118,7 +118,7 @@ trait PerformanceFields
     /**
      * @return \DateTimeInterface|null
      */
-    public function getPerformanceDate(): ?\DateTimeInterface
+    public function getPerformanceDate()
     {
         return $this->performanceDate;
     }
@@ -128,7 +128,7 @@ trait PerformanceFields
      * @return $this
      * @throws Exception
      */
-    public function setPerformanceDate(?\DateTimeInterface $performanceDate): self
+    public function setPerformanceDate(\DateTimeInterface $performanceDate = null): self
     {
         if (
             $performanceDate !== null &&

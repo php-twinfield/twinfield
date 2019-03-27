@@ -39,7 +39,7 @@ class CashTransaction extends BaseTransaction
      * @param Currency $currency
      * @return $this
      */
-    public function setCurrency(?Currency $currency): BaseTransaction
+    public function setCurrency(Currency $currency = null): BaseTransaction
     {
         $this->traitSetCurrency($currency);
         return $this;

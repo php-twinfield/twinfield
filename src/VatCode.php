@@ -24,7 +24,7 @@ class VatCode
         return $this->code;
     }
 
-    public function setCode(string $code): void
+    public function setCode(string $code)
     {
         $this->code = $code;
     }
@@ -34,7 +34,7 @@ class VatCode
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(string $name)
     {
         $this->name = $name;
     }

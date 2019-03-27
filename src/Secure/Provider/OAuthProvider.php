@@ -24,7 +24,7 @@ class OAuthProvider extends AbstractProvider
      * - twf.organisationUserCode - user code inside organisation
      * - twf.organisationId - GUID of organisation
      */
-    public const SCOPE_USER = 'twf.user';
+    const SCOPE_USER = 'twf.user';
 
     /**
      * twf.organisation - contains organisation information. This scope contains the following claims:
@@ -32,7 +32,7 @@ class OAuthProvider extends AbstractProvider
      * - twf.organisationId - GUID of organisation
      * - twf.clusterUrl - URL of cluster on which organisation is located
      */
-    public const SCOPE_ORGANISATION = 'twf.organisation';
+    const SCOPE_ORGANISATION = 'twf.organisation';
 
     /**
      * twf.organisationUser - contains information about organisation user. This scope contains the following claims:
@@ -42,19 +42,19 @@ class OAuthProvider extends AbstractProvider
      *
      * Note that the twf.organisationUser scope is mandatory in order to login.
      */
-    public const SCOPE_ORGANISATION_USER = 'twf.organisationUser';
+    const SCOPE_ORGANISATION_USER = 'twf.organisationUser';
 
     /**
      * This scope is required in order to receive and use refresh tokens.
      */
-    public const SCOPE_OFFLINE_ACCESS = "offline_access";
+    const SCOPE_OFFLINE_ACCESS = "offline_access";
 
     /**
      * This scope is required to retrieve information about the end-user that is logged in. This means this scope is
      * also required in order to use the SCOPE_USER scope. Using only this scope gives access to the id of the user
      * that is logged in, using the SCOPE_USER scope returns additional information.
      */
-    public const SCOPE_OPEN_ID = "openid";
+    const SCOPE_OPEN_ID = "openid";
 
     /**
      * @var string
@@ -143,7 +143,7 @@ class OAuthProvider extends AbstractProvider
      * @param  array|string $data Parsed response data
      * @return void
      */
-    protected function checkResponse(ResponseInterface $response, $data): void
+    protected function checkResponse(ResponseInterface $response, $data)
     {
         if ($response->getStatusCode() < 400) {
             return;

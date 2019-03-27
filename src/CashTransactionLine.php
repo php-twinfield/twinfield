@@ -26,7 +26,7 @@ class CashTransactionLine extends BaseTransactionLine
     /**
      * @param CashTransaction $object
      */
-    public function setTransaction($object): void
+    public function setTransaction($object)
     {
         Assert::null($this->transaction, 'Attempting to set a transaction while the transaction is already set.');
         Assert::isInstanceOf($object, CashTransaction::class);
@@ -54,7 +54,7 @@ class CashTransactionLine extends BaseTransactionLine
      * @param string|null $dim1
      * @return $this
      */
-    public function setDim1(?string $dim1): BaseTransactionLine
+    public function setDim1($dim1 = null): BaseTransactionLine
     {
         return parent::setDim1($dim1);
     }
@@ -70,7 +70,7 @@ class CashTransactionLine extends BaseTransactionLine
      * @return $this
      * @throws Exception
      */
-    public function setDim2(?string $dim2): BaseTransactionLine
+    public function setDim2($dim2 = null): BaseTransactionLine
     {
         if ($dim2 !== null &&
             ($this->getLineType()->equals(LineType::VAT()) || $this->getLineType()->equals(LineType::TOTAL()))) {
@@ -91,7 +91,7 @@ class CashTransactionLine extends BaseTransactionLine
      * @return $this
      * @throws Exception
      */
-    public function setDim3(?string $dim3): BaseTransactionLine
+    public function setDim3($dim3 = null): BaseTransactionLine
     {
         if ($dim3 !== null &&
             ($this->getLineType()->equals(LineType::VAT()) || $this->getLineType()->equals(LineType::TOTAL()))) {
@@ -144,7 +144,7 @@ class CashTransactionLine extends BaseTransactionLine
      * @return $this
      * @throws Exception
      */
-    public function setMatchStatus(?string $matchStatus): BaseTransactionLine
+    public function setMatchStatus($matchStatus = null): BaseTransactionLine
     {
         if (
             $matchStatus !== null &&
@@ -164,7 +164,7 @@ class CashTransactionLine extends BaseTransactionLine
      * @return $this
      * @throws Exception
      */
-    public function setMatchLevel(?int $matchLevel): BaseTransactionLine
+    public function setMatchLevel($matchLevel = null): BaseTransactionLine
     {
         if ($matchLevel !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
             throw Exception::invalidFieldForLineType('matchLevel', $this);
@@ -180,7 +180,7 @@ class CashTransactionLine extends BaseTransactionLine
      * @return $this
      * @throws Exception
      */
-    public function setBaseValueOpen(?Money $baseValueOpen): BaseTransactionLine
+    public function setBaseValueOpen(Money $baseValueOpen = null): BaseTransactionLine
     {
         if ($baseValueOpen !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
             throw Exception::invalidFieldForLineType('baseValueOpen', $this);
@@ -196,7 +196,7 @@ class CashTransactionLine extends BaseTransactionLine
      * @return $this
      * @throws Exception
      */
-    public function setVatTurnover(?Money $vatTurnover): BaseTransactionLine
+    public function setVatTurnover(Money $vatTurnover = null): BaseTransactionLine
     {
         if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType('vatturnover', $this);
@@ -211,7 +211,7 @@ class CashTransactionLine extends BaseTransactionLine
      * @return $this
      * @throws Exception
      */
-    public function setVatBaseTurnover(?Money $vatBaseTurnover): BaseTransactionLine
+    public function setVatBaseTurnover(Money $vatBaseTurnover = null): BaseTransactionLine
     {
         if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType('vatbaseturnover', $this);
@@ -226,7 +226,7 @@ class CashTransactionLine extends BaseTransactionLine
      * @return $this
      * @throws Exception
      */
-    public function setVatRepTurnover(?Money $vatRepTurnover): BaseTransactionLine
+    public function setVatRepTurnover(Money $vatRepTurnover = null): BaseTransactionLine
     {
         if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType('vatrepturnover', $this);
@@ -239,7 +239,7 @@ class CashTransactionLine extends BaseTransactionLine
      * @return $this
      * @throws Exception
      */
-    public function setInvoiceNumber(?string $invoiceNumber)
+    public function setInvoiceNumber($invoiceNumber = null)
     {
         if (!$this->getLineType()->equals(LineType::DETAIL())) {
             throw Exception::invalidFieldForLineType('invoicenumber', $this);

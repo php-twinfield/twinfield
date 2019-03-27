@@ -23,15 +23,15 @@ class Services extends \MyCLabs\Enum\Enum
     /**
      * Twinfield Finder web service methods.
      */
-    protected const FINDER = FinderService::class;
+    const FINDER = FinderService::class;
 
     /**
      * Twinfield Process XML web service methods. See below for an overview of the supported XML messages.
      */
-    protected const PROCESSXML = ProcessXmlService::class;
+    const PROCESSXML = ProcessXmlService::class;
 
     /**
      * The service that selects the current office in Twinfield
      */
-    protected const SESSION = SessionService::class;
+    const SESSION = SessionService::class;
 }

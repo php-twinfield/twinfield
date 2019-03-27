@@ -14,7 +14,7 @@ final class ApiOptions
     /**
      * @throws \InvalidArgumentException
      */
-    public function __construct(?array $messages = null, ?int $maxRetries = null)
+    public function __construct(array $messages = null, int $maxRetries = null)
     {
         if ($messages !== null) {
             $this->validateMessages($messages);
@@ -29,7 +29,7 @@ final class ApiOptions
     /**
      * @throws \InvalidArgumentException
      */
-    private function validateMaxRetries(int $maxRetries): void
+    private function validateMaxRetries(int $maxRetries)
     {
         if ($maxRetries < 0) {
             throw new \InvalidArgumentException('The max retries should be a positive integer.');
@@ -39,7 +39,7 @@ final class ApiOptions
     /**
      * @throws \InvalidArgumentException
      */
-    private function validateMessages(array $messages): void
+    private function validateMessages(array $messages)
     {
         foreach ($messages as $key => $message) {
             if (trim($message) === '') {

@@ -7,10 +7,10 @@ namespace PhpTwinfield;
  */
 class JournalTransaction extends BaseTransaction
 {
-    public const REGIME_GENERIC    = 'Generic';
-    public const REGIME_FISCAL     = 'Fiscal';
-    public const REGIME_COMMERCIAL = 'Commercial';
-    public const REGIME_ECONOMIC   = 'Economic';
+    const REGIME_GENERIC    = 'Generic';
+    const REGIME_FISCAL     = 'Fiscal';
+    const REGIME_COMMERCIAL = 'Commercial';
+    const REGIME_ECONOMIC   = 'Economic';
 
     /**
      * @var string|null One of the self::REGIME_* constants. You can post transactions as 'Fiscal', 'Commercial',
@@ -30,7 +30,7 @@ class JournalTransaction extends BaseTransaction
     /**
      * @return string|null
      */
-    public function getRegime(): ?string
+    public function getRegime()
     {
         return $this->regime;
     }
@@ -39,7 +39,7 @@ class JournalTransaction extends BaseTransaction
      * @param string|null $regime
      * @return $this
      */
-    public function setRegime(?string $regime): JournalTransaction
+    public function setRegime(string $regime = null): JournalTransaction
     {
         $this->regime = $regime;
 

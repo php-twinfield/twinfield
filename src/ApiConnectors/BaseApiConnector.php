@@ -36,7 +36,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     /**
      * @throws \InvalidArgumentException
      */
-    public function __construct(AuthenticatedConnection $connection, ?ApiOptions $options = null)
+    public function __construct(AuthenticatedConnection $connection, ApiOptions $options = null)
     {
         $this->connection = $connection;
         if ($options === null) {
@@ -80,35 +80,41 @@ abstract class BaseApiConnector implements LoggerAwareInterface
             $this->logResponse($response);
 
             return $response;
-        } catch (\SoapFault | \ErrorException $exception) {
-            /*
-             * Always reset the client. There may have been TCP connection issues, network issues,
-             * or logic issues on Twinfield's side, it won't hurt to get a fresh connection.
-             */
-            $this->connection->resetClient(Services::PROCESSXML());
-
-            /* For a given set of exception messages, always retry the request. */
-            foreach ($this->getOptions()->getRetriableExceptionMessages() as $message) {
-                if (stripos($exception->getMessage(), $message) === false) {
-                    continue;
-                }
-                $this->numRetries++;
-
-                if ($this->numRetries > $this->getOptions()->getMaxRetries()) {
-                    break;
-                }
-
-                $this->logRetry($exception);
-                return $this->sendXmlDocument($document);
-            }
-
-            $this->numRetries = 0;
-            $this->logFailedRequest($exception);
-            throw new Exception($exception->getMessage(), 0, $exception);
+        } catch(\SoapFault $exception) {
+            $this->OnSendXmlError($exception, $document);
+        } catch(\ErrorException $exception){
+            $this->OnSendXmlError($exception, $document);
         }
     }
+	
+	private function OnSendXmlError(\Exception $exception, \DOMDocument $document){
+        /*
+         * Always reset the client. There may have been TCP connection issues, network issues,
+         * or logic issues on Twinfield's side, it won't hurt to get a fresh connection.
+         */
+        $this->connection->resetClient(Services::PROCESSXML());
 
-    private function logSendingDocument(\DOMDocument $document): void
+        /* For a given set of exception messages, always retry the request. */
+        foreach ($this->getOptions()->getRetriableExceptionMessages() as $message) {
+           if (stripos($exception->getMessage(), $message) === false) {
+               continue;
+           }
+           $this->numRetries++;
+
+           if ($this->numRetries > $this->getOptions()->getMaxRetries()) {
+               break;
+           }
+
+           $this->logRetry($exception);
+           return $this->sendXmlDocument($document);
+        }
+
+        $this->numRetries = 0;
+        $this->logFailedRequest($exception);
+        throw new Exception($exception->getMessage(), 0, $exception);
+    }
+
+    private function logSendingDocument(\DOMDocument $document)
     {
         if (!$this->logger) {
             return;
@@ -127,7 +133,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
         );
     }
 
-    private function logResponse(Response $response): void
+    private function logResponse(Response $response)
     {
         if (!$this->logger) {
             return;
@@ -141,7 +147,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
         );
     }
 
-    private function logRetry(\Throwable $e): void
+    private function logRetry(\Throwable $e)
     {
         if (!$this->logger) {
             return;
@@ -150,7 +156,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
         $this->logger->info("Retrying request. Reason for initial failure: {$e->getMessage()}");
     }
 
-    private function logFailedRequest(\Throwable $e): void
+    private function logFailedRequest(\Throwable $e)
     {
         if (!$this->logger) {
             return;

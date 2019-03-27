@@ -14,7 +14,7 @@ class ProcessXmlService extends BaseService
      *
      * @link https://accounting.twinfield.com/webservices/documentation/#/GettingStarted/FUP
      */
-    private const MAX_CHILDREN = 25;
+    const MAX_CHILDREN = 25;
 
     protected function WSDL(): string
     {

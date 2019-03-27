@@ -12,7 +12,7 @@ trait InvoiceNumberField
     /**
      * @return string|null
      */
-    public function getInvoiceNumber(): ?string
+    public function getInvoiceNumber()
     {
         return $this->invoiceNumber;
     }
@@ -21,7 +21,7 @@ trait InvoiceNumberField
      * @param string|null $invoiceNumber
      * @return $this
      */
-    public function setInvoiceNumber(?string $invoiceNumber)
+    public function setInvoiceNumber($invoiceNumber = null)
     {
         $this->invoiceNumber = $invoiceNumber;
 

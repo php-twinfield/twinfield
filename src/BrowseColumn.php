@@ -79,7 +79,7 @@ class BrowseColumn
     /**
      * @return string|null
      */
-    public function getLabel(): ?string
+    public function getLabel()
     {
         return $this->label;
     }
@@ -151,7 +151,7 @@ class BrowseColumn
     /**
      * @return string|null
      */
-    public function getFrom(): ?string
+    public function getFrom()
     {
         return $this->from;
     }
@@ -169,7 +169,7 @@ class BrowseColumn
     /**
      * @return string|null
      */
-    public function getTo(): ?string
+    public function getTo()
     {
         return $this->to;
     }

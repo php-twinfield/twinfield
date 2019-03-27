@@ -18,7 +18,7 @@ class ElectronicBankStatementApiConnector extends BaseApiConnector
      * @param ElectronicBankStatement $statement
      * @throws Exception
      */
-    public function send(ElectronicBankStatement $statement): void
+    public function send(ElectronicBankStatement $statement)
     {
         $this->sendAll([$statement]);
     }
@@ -27,7 +27,7 @@ class ElectronicBankStatementApiConnector extends BaseApiConnector
      * @param ElectronicBankStatement[] $statements
      * @throws Exception
      */
-    public function sendAll(array $statements): void
+    public function sendAll(array $statements)
     {
         Assert::allIsInstanceOf($statements, ElectronicBankStatement::class);
 

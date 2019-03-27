@@ -34,7 +34,7 @@ class CustomersDocument extends BaseDocument
      *
      * @param Customer $customer
      */
-    public function addCustomer(Customer $customer): void
+    public function addCustomer(Customer $customer)
     {
         $customerEl = $this->createElement("dimension");
 

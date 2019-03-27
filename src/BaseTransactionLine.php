@@ -30,10 +30,10 @@ abstract class BaseTransactionLine implements TransactionLine
     use CommentField;
     use FreeCharField;
 
-    public const MATCHSTATUS_AVAILABLE    = 'available';
-    public const MATCHSTATUS_MATCHED      = 'matched';
-    public const MATCHSTATUS_PROPOSED     = 'proposed';
-    public const MATCHSTATUS_NOTMATCHABLE = 'notmatchable';
+    const MATCHSTATUS_AVAILABLE    = 'available';
+    const MATCHSTATUS_MATCHED      = 'matched';
+    const MATCHSTATUS_PROPOSED     = 'proposed';
+    const MATCHSTATUS_NOTMATCHABLE = 'notmatchable';
 
     // Used in PerformanceFields trait.
     const PERFORMANCETYPE_SERVICES = 'services';
@@ -130,7 +130,7 @@ abstract class BaseTransactionLine implements TransactionLine
     /**
      * @return int|null
      */
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }
@@ -139,7 +139,7 @@ abstract class BaseTransactionLine implements TransactionLine
      * @param int|null $id
      * @return $this
      */
-    public function setId(?int $id): BaseTransactionLine
+    public function setId($id = null): BaseTransactionLine
     {
         $this->id = $id;
 
@@ -149,7 +149,7 @@ abstract class BaseTransactionLine implements TransactionLine
     /**
      * @return Money|null
      */
-    public function getBaseValue(): ?Money
+    public function getBaseValue()
     {
         return $this->baseValue;
     }
@@ -158,7 +158,7 @@ abstract class BaseTransactionLine implements TransactionLine
      * @param Money|null $baseValue
      * @return $this
      */
-    public function setBaseValue(?Money $baseValue): BaseTransactionLine
+    public function setBaseValue(Money $baseValue = null): BaseTransactionLine
     {
         $this->baseValue = $baseValue;
 
@@ -168,7 +168,7 @@ abstract class BaseTransactionLine implements TransactionLine
     /**
      * @return float|null
      */
-    public function getRate(): ?float
+    public function getRate()
     {
         return $this->rate;
     }
@@ -177,7 +177,7 @@ abstract class BaseTransactionLine implements TransactionLine
      * @param float|null $rate
      * @return $this
      */
-    public function setRate(?float $rate): BaseTransactionLine
+    public function setRate($rate = null): BaseTransactionLine
     {
         $this->rate = $rate;
 
@@ -187,7 +187,7 @@ abstract class BaseTransactionLine implements TransactionLine
     /**
      * @return Money|null
      */
-    public function getRepValue(): ?Money
+    public function getRepValue()
     {
         return $this->repValue;
     }
@@ -196,7 +196,7 @@ abstract class BaseTransactionLine implements TransactionLine
      * @param Money|null $repValue
      * @return $this
      */
-    public function setRepValue(?Money $repValue): BaseTransactionLine
+    public function setRepValue(Money $repValue = null): BaseTransactionLine
     {
         $this->repValue = $repValue;
 
@@ -206,7 +206,7 @@ abstract class BaseTransactionLine implements TransactionLine
     /**
      * @return float|null
      */
-    public function getRepRate(): ?float
+    public function getRepRate()
     {
         return $this->repRate;
     }
@@ -215,7 +215,7 @@ abstract class BaseTransactionLine implements TransactionLine
      * @param float|null $repRate
      * @return $this
      */
-    public function setRepRate(?float $repRate): BaseTransactionLine
+    public function setRepRate($repRate = null): BaseTransactionLine
     {
         $this->repRate = $repRate;
 
@@ -225,7 +225,7 @@ abstract class BaseTransactionLine implements TransactionLine
     /**
      * @return string|null
      */
-    public function getDescription(): ?string
+    public function getDescription()
     {
         return $this->description;
     }
@@ -234,7 +234,7 @@ abstract class BaseTransactionLine implements TransactionLine
      * @param string|null $description
      * @return $this
      */
-    public function setDescription(?string $description): BaseTransactionLine
+    public function setDescription($description = null): BaseTransactionLine
     {
         $this->description = $description;
 
@@ -244,7 +244,7 @@ abstract class BaseTransactionLine implements TransactionLine
     /**
      * @return string|null
      */
-    public function getMatchStatus(): ?string
+    public function getMatchStatus()
     {
         return $this->matchStatus;
     }
@@ -253,7 +253,7 @@ abstract class BaseTransactionLine implements TransactionLine
      * @param string|null $matchStatus
      * @return $this
      */
-    public function setMatchStatus(?string $matchStatus): BaseTransactionLine
+    public function setMatchStatus($matchStatus = null): BaseTransactionLine
     {
         $this->matchStatus = $matchStatus;
 
@@ -263,7 +263,7 @@ abstract class BaseTransactionLine implements TransactionLine
     /**
      * @return int|null
      */
-    public function getMatchLevel(): ?int
+    public function getMatchLevel()
     {
         return $this->matchLevel;
     }
@@ -272,7 +272,7 @@ abstract class BaseTransactionLine implements TransactionLine
      * @param int|null $matchLevel
      * @return $this
      */
-    public function setMatchLevel(?int $matchLevel): BaseTransactionLine
+    public function setMatchLevel($matchLevel = null): BaseTransactionLine
     {
         $this->matchLevel = $matchLevel;
 
@@ -282,7 +282,7 @@ abstract class BaseTransactionLine implements TransactionLine
     /**
      * @return Money|null
      */
-    public function getBaseValueOpen(): ?Money
+    public function getBaseValueOpen()
     {
         return $this->baseValueOpen;
     }
@@ -291,7 +291,7 @@ abstract class BaseTransactionLine implements TransactionLine
      * @param Money|null $baseValueOpen
      * @return $this
      */
-    public function setBaseValueOpen(?Money $baseValueOpen): BaseTransactionLine
+    public function setBaseValueOpen(Money $baseValueOpen = null): BaseTransactionLine
     {
         $this->baseValueOpen = $baseValueOpen;
 
@@ -301,7 +301,7 @@ abstract class BaseTransactionLine implements TransactionLine
     /**
      * @return string|null
      */
-    public function getVatCode(): ?string
+    public function getVatCode()
     {
         return $this->vatCode;
     }
@@ -311,7 +311,7 @@ abstract class BaseTransactionLine implements TransactionLine
      * @return $this
      * @throws Exception
      */
-    public function setVatCode(?string $vatCode): BaseTransactionLine
+    public function setVatCode($vatCode = null): BaseTransactionLine
     {
         if ($vatCode !== null && !in_array($this->getLineType(), [LineType::DETAIL(), LineType::VAT()])) {
             throw Exception::invalidFieldForLineType('vatCode', $this);
@@ -325,7 +325,7 @@ abstract class BaseTransactionLine implements TransactionLine
     /**
      * @return Money|null
      */
-    public function getVatValue(): ?Money
+    public function getVatValue()
     {
         return !empty($this->vatValue) ? $this->vatValue->absolute() : null;
     }
@@ -335,7 +335,7 @@ abstract class BaseTransactionLine implements TransactionLine
      * @return $this
      * @throws Exception
      */
-    public function setVatValue(?Money $vatValue): BaseTransactionLine
+    public function setVatValue(Money $vatValue = null): BaseTransactionLine
     {
         if ($vatValue !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
             throw Exception::invalidFieldForLineType('vatValue', $this);
@@ -349,7 +349,7 @@ abstract class BaseTransactionLine implements TransactionLine
     /**
      * @return int|null
      */
-    public function getBaseline(): ?int
+    public function getBaseline()
     {
         return $this->baseline;
     }
@@ -358,7 +358,7 @@ abstract class BaseTransactionLine implements TransactionLine
      * @param int|null $baseline
      * @return $this
      */
-    public function setBaseline(?int $baseline)
+    public function setBaseline($baseline = null)
     {
         $this->baseline = $baseline;
 

@@ -34,7 +34,7 @@ class IndividualMappedResponse
     /**
      * @throws ResponseException
      */
-    public function assertSuccessful(): void
+    public function assertSuccessful()
     {
         try {
             $this->response->assertSuccessful();

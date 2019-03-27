@@ -40,7 +40,7 @@ class MatchSetMapper extends BaseMapper
         return $matchSet;
     }
 
-    private static function addLines(\DOMDocument $document, MatchSet $matchSet): void
+    private static function addLines(\DOMDocument $document, MatchSet $matchSet)
     {
         $element = $document->documentElement;
 
@@ -66,7 +66,7 @@ class MatchSetMapper extends BaseMapper
         );
     }
 
-    private static function getMatchValueFrom(\DOMElement $lineElement): ?Money
+    private static function getMatchValueFrom(\DOMElement $lineElement)
     {
         $matchValue = self::getField($lineElement, 'matchvalue');
 

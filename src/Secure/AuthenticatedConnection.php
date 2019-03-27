@@ -15,7 +15,7 @@ abstract class AuthenticatedConnection
      *
      * @throws Exception
      */
-    abstract protected function login(): void;
+    abstract protected function login();
 
     /**
      * @return \SoapHeader|\SoapHeader[]|null
@@ -27,7 +27,7 @@ abstract class AuthenticatedConnection
      *
      * @return string
      */
-    abstract protected function getCluster(): ?string;
+    abstract protected function getCluster();
 
     /**
      * @var BaseService[]
@@ -68,7 +68,7 @@ abstract class AuthenticatedConnection
      *
      * @param Services $service
      */
-    public function resetClient(Services $service): void
+    public function resetClient(Services $service)
     {
         $key = $service->getKey();
         if (array_key_exists($key, $this->authenticatedClients)) {
@@ -79,7 +79,7 @@ abstract class AuthenticatedConnection
     /**
      * Resets all connections. Useful if you switch between Offices.
      */
-    protected function resetAllClients(): void
+    protected function resetAllClients()
     {
         $this->authenticatedClients = [];
     }

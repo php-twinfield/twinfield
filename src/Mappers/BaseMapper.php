@@ -12,7 +12,7 @@ abstract class BaseMapper
     /**
      * @throws \PhpTwinfield\Exception
      */
-    protected static function setFromTagValue(\DOMDocument $document, string $tag, callable $setter): void
+    protected static function setFromTagValue(\DOMDocument $document, string $tag, callable $setter)
     {
         $value = self::getValueFromTag($document, $tag);
 
@@ -41,7 +41,7 @@ abstract class BaseMapper
         \call_user_func($setter, $value);
     }
 
-    protected static function getValueFromTag(\DOMDocument $document, string $tag): ?string
+    protected static function getValueFromTag(\DOMDocument $document, string $tag)
     {
         /** @var \DOMNodeList $nodelist */
         $nodelist = $document->getElementsByTagName($tag);
@@ -62,7 +62,7 @@ abstract class BaseMapper
         return $element->textContent;
     }
 
-    protected static function getField(\DOMElement $element, string $fieldTagName): ?string
+    protected static function getField(\DOMElement $element, string $fieldTagName)
     {
         $fieldElement = $element->getElementsByTagName($fieldTagName)->item(0);
         if (!isset($fieldElement)) {

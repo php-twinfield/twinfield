@@ -62,31 +62,31 @@ class ElectronicBankStatement
         $this->startvalue = new Money(0, $this->getCurrency());
     }
 
-    public function getAccount(): ?string
+    public function getAccount()
     {
         return $this->account;
     }
 
-    public function setAccount(string $account): void
+    public function setAccount(string $account)
     {
         $this->account = $account;
         $this->iban = null;
         $this->code = null;
     }
 
-    public function getIban(): ?string
+    public function getIban()
     {
         return $this->iban;
     }
 
-    public function setIban(string $iban): void
+    public function setIban(string $iban)
     {
         $this->iban = $iban;
         $this->account = null;
         $this->code = null;
     }
 
-    public function getCode(): ?string
+    public function getCode()
     {
         return $this->code;
     }
@@ -94,7 +94,7 @@ class ElectronicBankStatement
     /**
      * @param mixed $code
      */
-    public function setCode($code): void
+    public function setCode($code)
     {
         $this->code = $code;
         $this->account = null;
@@ -104,12 +104,12 @@ class ElectronicBankStatement
     /**
      * @return bool
      */
-    public function isImportDuplicate(): bool
+    public function isImportDuplicate()
     {
         return $this->importDuplicate;
     }
 
-    public function setImportDuplicate(bool $importDuplicate): void
+    public function setImportDuplicate(bool $importDuplicate)
     {
         $this->importDuplicate = $importDuplicate;
     }
@@ -117,7 +117,7 @@ class ElectronicBankStatement
     /**
      * @return array|ElectronicBankStatementTransaction[]
      */
-    public function getTransactions(): array
+    public function getTransactions()
     {
         return $this->transactions;
     }
@@ -125,7 +125,7 @@ class ElectronicBankStatement
     /**
      * @param array|ElectronicBankStatementTransaction[] $transactions
      */
-    public function setTransactions(array $transactions): void
+    public function setTransactions(array $transactions)
     {
         Assert::allIsInstanceOf($transactions, ElectronicBankStatementTransaction::class);
         Assert::notEmpty($this->startvalue);

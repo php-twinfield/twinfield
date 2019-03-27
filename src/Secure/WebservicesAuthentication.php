@@ -51,7 +51,7 @@ class WebservicesAuthentication extends AuthenticatedConnection
      *
      * @throws Exception
      */
-    protected function login(): void
+    protected function login()
     {
         if ($this->sessionID) {
             return;
@@ -59,7 +59,7 @@ class WebservicesAuthentication extends AuthenticatedConnection
 
         $sessionService = new SessionService();
 
-        [$this->sessionID, $this->cluster] = $sessionService->getSessionIdAndCluster($this->username, $this->password, $this->organization);
+        list($this->sessionID, $this->cluster) = $sessionService->getSessionIdAndCluster($this->username, $this->password, $this->organization);
     }
 
     protected function getSoapHeaders()
@@ -76,14 +76,14 @@ class WebservicesAuthentication extends AuthenticatedConnection
         return $this->cluster;
     }
 
-    public function resetClient(Services $service): void
+    public function resetClient(Services $service)
     {
         $this->sessionID = NULL;
 
         parent::resetClient($service);
     }
 
-    protected function resetAllClients(): void
+    protected function resetAllClients()
     {
         $this->sessionID = NULL;
 

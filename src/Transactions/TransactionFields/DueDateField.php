@@ -20,7 +20,7 @@ trait DueDateField
     /**
      * @return \DateTimeInterface|null
      */
-    public function getDueDate(): ?\DateTimeInterface
+    public function getDueDate()
     {
         return $this->dueDate;
     }

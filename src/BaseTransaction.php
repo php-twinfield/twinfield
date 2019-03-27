@@ -42,7 +42,7 @@ abstract class BaseTransaction extends BaseObject implements Transaction
     /**
      * @return Currency|null
      */
-    public function getCurrency(): ?Currency
+    public function getCurrency()
     {
         return $this->currency;
     }
@@ -51,7 +51,7 @@ abstract class BaseTransaction extends BaseObject implements Transaction
      * @param Currency|null $currency
      * @return $this
      */
-    public function setCurrency(?Currency $currency): BaseTransaction
+    public function setCurrency(Currency $currency = null): BaseTransaction
     {
         $this->currency = $currency;
 
@@ -61,7 +61,7 @@ abstract class BaseTransaction extends BaseObject implements Transaction
     /**
      * @return string|null
      */
-    public function getOrigin(): ?string
+    public function getOrigin()
     {
         return $this->origin;
     }
@@ -70,7 +70,7 @@ abstract class BaseTransaction extends BaseObject implements Transaction
      * @param string|null $origin
      * @return $this
      */
-    public function setOrigin(?string $origin): BaseTransaction
+    public function setOrigin($origin = null): BaseTransaction
     {
         $this->origin = $origin;
 

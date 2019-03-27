@@ -32,7 +32,7 @@ class SalesTransaction extends BaseTransaction
     /**
      * @return string|null
      */
-    public function getOriginReference(): ?string
+    public function getOriginReference()
     {
         return $this->originReference;
     }
@@ -41,7 +41,7 @@ class SalesTransaction extends BaseTransaction
      * @param string|null $originReference
      * @return $this
      */
-    public function setOriginReference(?string $originReference): SalesTransaction
+    public function setOriginReference(string $originReference = null): SalesTransaction
     {
         $this->originReference = $originReference;
 
@@ -55,7 +55,7 @@ class SalesTransaction extends BaseTransaction
      * @param int|null $number
      * @return $this
      */
-    public function setNumber(?int $number): BaseTransaction
+    public function setNumber(int $number = null): BaseTransaction
     {
         return parent::setNumber($number);
     }

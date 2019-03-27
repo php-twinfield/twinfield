@@ -19,8 +19,8 @@ use MyCLabs\Enum\Enum;
  */
 final class MatchCode extends Enum
 {
-    private const SUSPENSE_ACCOUNTS = "070";
-    private const CUSTOMERS = "170";
-    private const SUPPLIERS = "270";
-    private const PROJECTS = "370";
+    const SUSPENSE_ACCOUNTS = "070";
+    const CUSTOMERS = "170";
+    const SUPPLIERS = "270";
+    const PROJECTS = "370";
 }

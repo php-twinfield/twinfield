@@ -10,6 +10,6 @@ use MyCLabs\Enum\Enum;
  */
 class PerformanceType extends Enum
 {
-    protected const SERVICES = "services";
-    protected const GOODS = "goods";
+    const SERVICES = "services";
+    const GOODS = "goods";
 }

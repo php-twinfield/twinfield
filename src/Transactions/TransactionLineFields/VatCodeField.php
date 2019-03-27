@@ -15,7 +15,7 @@ trait VatCodeField
      * @param null|string $vatCode
      * @return $this
      */
-    public function setVatCode(?string $vatCode)
+    public function setVatCode($vatCode = null)
     {
         Assert::lessThanEq(strlen($vatCode), 16);
         $this->vatCode = $vatCode;
@@ -26,7 +26,7 @@ trait VatCodeField
     /**
      * @return null|string
      */
-    public function getVatCode(): ?string
+    public function getVatCode()
     {
         return $this->vatCode;
     }

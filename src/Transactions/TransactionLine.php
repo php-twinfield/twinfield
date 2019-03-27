@@ -20,7 +20,7 @@ interface TransactionLine
      *
      * @return int|null
      */
-    public function getId(): ?int;
+    public function getId();
 
     /**
      * Set the bank transaction on the line. This is needed later on.
@@ -29,7 +29,7 @@ interface TransactionLine
      * @throws \InvalidArgumentException If a transaction is invalid or if a transaction is already set.
      * @internal
      */
-    public function setTransaction($object): void;
+    public function setTransaction($object);
 
     /**
      * Gets the bank transaction from the line.

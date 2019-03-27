@@ -68,7 +68,7 @@ class Response
      *
      * @throws Exception
      */
-    public function assertSuccessful(): void
+    public function assertSuccessful()
     {
         $responseValue = $this->responseDocument->documentElement->getAttribute('result');
 

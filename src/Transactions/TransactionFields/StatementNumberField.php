@@ -13,7 +13,7 @@ trait StatementNumberField
      */
     private $statementnumber;
 
-    public function getStatementnumber(): ?int
+    public function getStatementnumber()
     {
         return $this->statementnumber;
     }

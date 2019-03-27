@@ -148,7 +148,7 @@ class BankTransactionMapper extends BaseMapper
         BankTransaction $bankTransaction,
         \DOMElement $lineElement,
         Base $line
-    ): void {
+    ) {
         /*
          * When a bank transaction fails, it isn't created at Twinfield, so it is likely that they haven't generated
          * any ids for the lines.
@@ -184,7 +184,7 @@ class BankTransactionMapper extends BaseMapper
         }
     }
 
-    private static function setBankTransactionLinePerformanceFields(\DOMElement $lineElement, Base $line): void
+    private static function setBankTransactionLinePerformanceFields(\DOMElement $lineElement, Base $line)
     {
         $performanceType = self::getField($lineElement, "performancetype");
         if ($performanceType) {

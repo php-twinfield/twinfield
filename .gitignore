@@ -6,3 +6,4 @@
 /composer.lock
 /node_modules/
 /vendor/
+/nbproject/private/

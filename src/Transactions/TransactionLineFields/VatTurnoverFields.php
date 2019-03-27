@@ -24,7 +24,7 @@ trait VatTurnoverFields
     /**
      * @return Money|null
      */
-    public function getVatTurnover(): ?Money
+    public function getVatTurnover()
     {
         return $this->vatTurnover;
     }
@@ -33,7 +33,7 @@ trait VatTurnoverFields
      * @param Money|null $vatTurnover
      * @return $this
      */
-    public function setVatTurnover(?Money $vatTurnover)
+    public function setVatTurnover(Money $vatTurnover = null)
     {
         $this->vatTurnover = $vatTurnover;
 
@@ -43,7 +43,7 @@ trait VatTurnoverFields
     /**
      * @return Money|null
      */
-    public function getVatBaseTurnover(): ?Money
+    public function getVatBaseTurnover()
     {
         return $this->vatBaseTurnover;
     }
@@ -52,7 +52,7 @@ trait VatTurnoverFields
      * @param Money|null $vatBaseTurnover
      * @return $this
      */
-    public function setVatBaseTurnover(?Money $vatBaseTurnover)
+    public function setVatBaseTurnover(Money $vatBaseTurnover = null)
     {
         $this->vatBaseTurnover = $vatBaseTurnover;
 
@@ -62,7 +62,7 @@ trait VatTurnoverFields
     /**
      * @return Money|null
      */
-    public function getVatRepTurnover(): ?Money
+    public function getVatRepTurnover()
     {
         return $this->vatRepTurnover;
     }
@@ -71,7 +71,7 @@ trait VatTurnoverFields
      * @param Money|null $vatRepTurnover
      * @return $this
      */
-    public function setVatRepTurnover(?Money $vatRepTurnover)
+    public function setVatRepTurnover(Money $vatRepTurnover = null)
     {
         $this->vatRepTurnover = $vatRepTurnover;
 

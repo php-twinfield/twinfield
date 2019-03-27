@@ -10,6 +10,6 @@ use MyCLabs\Enum\Enum;
  */
 class Destiny extends Enum
 {
-    protected const TEMPORARY = 'temporary'; // Also called 'provisional'
-    protected const FINAL     = 'final';
+    const TEMPORARY = 'temporary'; // Also called 'provisional'
+    const _FINAL    = 'final';
 }

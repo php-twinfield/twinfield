@@ -236,7 +236,7 @@ class TransactionMapper
         return $transaction;
     }
 
-    private static function getField(BaseTransaction $transaction, \DOMElement $element, string $fieldTagName): ?string
+    private static function getField(BaseTransaction $transaction, \DOMElement $element, string $fieldTagName)
     {
         $fieldElement = $element->getElementsByTagName($fieldTagName)->item(0);
 
@@ -249,7 +249,7 @@ class TransactionMapper
         return $fieldElement->textContent;
     }
 
-    private static function checkForMessage(BaseTransaction $transaction, \DOMElement $element): void
+    private static function checkForMessage(BaseTransaction $transaction, \DOMElement $element)
     {
         if ($element->hasAttribute('msg')) {
             $message = new Message();

@@ -121,7 +121,7 @@ class Detail extends Base
      *
      * @param Money $money
      */
-    public function setValue(Money $money): void
+    public function setValue(Money $money)
     {
         parent::setValue($money);
     }
@@ -130,7 +130,7 @@ class Detail extends Base
     /**
      * @return Money|null
      */
-    public function getVatValue(): ?Money
+    public function getVatValue()
     {
         return $this->vatValue;
     }
@@ -138,7 +138,7 @@ class Detail extends Base
     /**
      * @return Money|null
      */
-    public function getVatBaseValue(): ?Money
+    public function getVatBaseValue()
     {
         return $this->vatBaseValue;
     }
@@ -146,7 +146,7 @@ class Detail extends Base
     /**
      * @return Money|null
      */
-    public function getVatRepValue(): ?Money
+    public function getVatRepValue()
     {
         return $this->vatRepValue;
     }
