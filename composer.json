@@ -1,7 +1,7 @@
 {
   "name": "php-twinfield/twinfield",
   "type": "library",
-  "description": "Library for using the Twinfield Soap Service.",
+  "description": "Library for using the Twinfield Soap Service. (php7.0 version)",
   "keywords": [
     "twinfield"
   ],
@@ -56,5 +56,10 @@
     "mediact/dependency-guard": "^1.0",
     "phpstan/phpstan": "^0.10.1",
     "phpunit/phpunit": "^7.3"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "master"
+    }
   }
 }
