@@ -21,7 +21,7 @@ class InvoiceMapper extends BaseMapper
             'currency'             => 'setCurrency',
             'period'               => 'setPeriod',
             'invoicedate'          => 'setInvoiceDate',
-            'duedate'              => 'setDueDateFromString',
+            'duedate'              => 'setDueDate',
             'performancedate'      => 'setPerformanceDate',
             'paymentmethod'        => 'setPaymentMethod',
             'bank'                 => 'setBank',
