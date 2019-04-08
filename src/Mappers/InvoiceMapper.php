@@ -85,6 +85,7 @@ class InvoiceMapper extends BaseMapper
             'valueinc'               => 'setValueInc',
             'unitspriceexcl'         => 'setUnitsPriceExcl',
             'unitspriceinc'          => 'setUnitsPriceInc',
+            'vatcode'                => 'setVatCode',
             'freetext1'              => 'setFreeText1',
             'freetext2'              => 'setFreeText2',
             'freetext3'              => 'setFreeText3',
