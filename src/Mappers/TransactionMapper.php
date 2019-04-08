@@ -142,8 +142,8 @@ class TransactionMapper
             $lineType        = $lineElement->getAttribute('type');
             
             if ($lineType == null) {
-				continue;
-			}
+                continue;
+            }
 
             $transactionLine
                 ->setLineType(new LineType($lineType))
