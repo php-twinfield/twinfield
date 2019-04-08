@@ -140,6 +140,10 @@ class TransactionMapper
             /** @var BaseTransactionLine $transactionLine */
             $transactionLine = new $transactionLineClassName();
             $lineType        = $lineElement->getAttribute('type');
+            
+            if ($lineType == null) {
+				continue;
+			}
 
             $transactionLine
                 ->setLineType(new LineType($lineType))
