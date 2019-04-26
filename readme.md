@@ -131,7 +131,7 @@ $columns[] = (new BrowseColumn())
     ->setLabel('Period')
     ->setVisible(true)
     ->setAsk(true)
-    ->setOperator('between')
+    ->setOperator(Enums\BrowseColumnOperator::BETWEEN())
     ->setFrom('2013/01')
     ->setTo('2013/12');
 
@@ -155,7 +155,7 @@ $columns[] = (new BrowseColumn())
     ->setLabel('General ledger')
     ->setVisible(true)
     ->setAsk(true)
-    ->setOperator('between')
+    ->setOperator(Enums\BrowseColumnOperator::BETWEEN())
     ->setFrom('1300')
     ->setTo('1300');
 
