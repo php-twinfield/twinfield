@@ -10,6 +10,7 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Services\FinderService;
 use Webmozart\Assert\Assert;
 
 /**
@@ -55,12 +56,8 @@ class ArticleApiConnector extends BaseApiConnector
      */
     public function send(Article $article): Article
     {
-        $articleResponses = $this->sendAll([$article]);
-
-        Assert::count($articleResponses, 1);
-
-        foreach ($articleResponses as $articleResponse) {
-            return $articleResponse->unwrap();
+        foreach($this->sendAll([$article]) as $each) {
+            return $each->unwrap();
         }
     }
 
@@ -90,5 +87,58 @@ class ArticleApiConnector extends BaseApiConnector
         return $this->getProcessXmlService()->mapAll($responses, "article", function(Response $response): Article {
             return ArticleMapper::map($response);
         });
+    }
+
+	/**
+     * List all articles.
+     *
+     * @param string $pattern  The search pattern. May contain wildcards * and ?
+     * @param int    $field    The search field determines which field or fields will be searched. The available fields
+     *                         depends on the finder type. Passing a value outside the specified values will cause an
+     *                         error.
+     * @param int    $firstRow First row to return, useful for paging
+     * @param int    $maxRows  Maximum number of rows to return, useful for paging
+     * @param array  $options  The Finder options. Passing an unsupported name or value causes an error. It's possible
+     *                         to add multiple options. An option name may be used once, specifying an option multiple
+     *                         times will cause an error.
+     *
+     * @return Article[] The articles found.
+     */
+    public function listAll(
+        string $pattern = '*',
+        int $field = 0,
+        int $firstRow = 1,
+        int $maxRows = 100,
+        array $options = []
+    ): array {
+        $optionsArrayOfString = array('ArrayOfString' => array());
+
+        foreach ($options as $key => $value) {
+            $optionsArrayOfString['ArrayOfString'][] = array($key, $value);
+        }
+
+        $response = $this->getFinderService()->searchFinder(FinderService::TYPE_ITEMS, $pattern, $field, $firstRow, $maxRows, $optionsArrayOfString);
+
+        if ($response->data->TotalRows == 0) {
+            return [];
+        }
+
+        $articles = [];
+
+        foreach ($response->data->Items->ArrayOfString as $articleArray) {
+            $article = new Article();
+
+            if (isset($articleArray->string[0])) {
+                $article->setCode($articleArray->string[0]);
+                $article->setName($articleArray->string[1]);
+            } else {
+                $article->setCode($articleArray[0]);
+                $article->setName($articleArray[1]);
+            }
+
+            $articles[] = $article;
+        }
+
+        return $articles;
     }
 }
