@@ -8,7 +8,7 @@ use PhpTwinfield\Article;
  * The Document Holder for making new XML Article. Is a child class
  * of DOMDocument and makes the required DOM tree for the interaction in
  * creating a new Article.
- * 
+ *
  * @package PhpTwinfield
  * @subpackage Article\DOM
  * @author Willem van de Sande <W.vandeSande@MailCoupon.nl>
@@ -16,7 +16,7 @@ use PhpTwinfield\Article;
 class ArticlesDocument extends \DOMDocument
 {
     /**
-     * Holds the <article> element 
+     * Holds the <article> element
      * that all additional elements should be a child of
      * @var \DOMElement
      */
@@ -25,7 +25,7 @@ class ArticlesDocument extends \DOMDocument
     /**
      * Creates the <article> element and adds it to the property
      * articleElement
-     * 
+     *
      * @access public
      */
     public function __construct()
@@ -39,44 +39,46 @@ class ArticlesDocument extends \DOMDocument
     /**
      * Turns a passed Article class into the required markup for interacting
      * with Twinfield.
-     * 
-     * This method doesn't return anything, instead just adds the Article to 
+     *
+     * This method doesn't return anything, instead just adds the Article to
      * this DOMDOcument instance for submission usage.
-     * 
+     *
      * @access public
      * @param Article $article
      * @return void | [Adds to this instance]
      */
     public function addArticle(Article $article)
     {
-        // Article->header elements and their methods
-        $articleTags = array(
-            'office'            => 'getOffice',
-            'code'              => 'getCode',
-            'type'              => 'getType',
-            'name'              => 'getName',
-            'shortname'         => 'getShortName',
-            'unitnamesingular'  => 'getUnitNameSingular',
-            'unitnameplural'    => 'getUnitNamePlural',
-            'vatcode'           => 'getVatCode',
-            'allowchangevatcode' => 'getAllowChangeVatCode',
-            'allowdiscountorpremium' => 'getAllowDiscountorPremium',
-            'allowchangeunitsprice' => 'getAllowChangeUnitsPrice',
-            'allowdecimalquantity' => 'getAllowDecimalQuantity',
-            'performancetype'   => 'getPerformanceType',
-            //'allowchangeperformancetype' => 'getAllowChangePerformanceType',
-            'percentage'        => 'getPercentage',
-        );
+        $rootElement = $this->articleElement;
 
         // Make header element
         $headerElement = $this->createElement('header');
-        $this->articleElement->appendChild($headerElement);
+        $rootElement->appendChild($headerElement);
 
         $status = $article->getStatus();
 
         if (!empty($status)) {
             $headerElement->setAttribute('status', $status);
         }
+
+        // Article->header elements and their methods
+        $articleTags = array(
+            //'allowchangeperformancetype'      => 'getAllowChangePerformanceType',
+            'allowchangeunitsprice'             => 'getAllowChangeUnitsPrice',
+            'allowchangevatcode'                => 'getAllowChangeVatCode',
+            'allowdecimalquantity'              => 'getAllowDecimalQuantity',
+            'allowdiscountorpremium'            => 'getAllowDiscountorPremium',
+            'code'                              => 'getCode',
+            'office'                            => 'getOffice',
+            'name'                              => 'getName',
+            'percentage'                        => 'getPercentage',
+            //'performancetype'                 => 'getPerformanceType',
+            'shortname'                         => 'getShortName',
+            'type'                              => 'getType',
+            'unitnameplural'                    => 'getUnitNamePlural',
+            'unitnamesingular'                  => 'getUnitNameSingular',
+            'vatcode'                           => 'getVatCode',
+        );
 
         // Go through each Article element and use the assigned method
         foreach ($articleTags as $tag => $method) {
@@ -98,20 +100,22 @@ class ArticlesDocument extends \DOMDocument
         $lines = $article->getLines();
 
         if (!empty($lines)) {
+            // Make lines element
+            $linesElement = $this->createElement('lines');
+            $rootElement->appendChild($linesElement);
+
              // Element tags and their methods for lines
             $lineTags = [
-                'unitspriceexcl'  => 'getUnitsPriceExcl',
-                'unitspriceinc'   => 'getUnitsPriceInc',
-                'units'           => 'getUnits',
+                'freetext1'       => 'getFreeText1',
+                'freetext2'       => 'getFreeText2',
+                'freetext3'       => 'getFreeText3',
                 'name'            => 'getName',
                 'shortname'       => 'getShortName',
                 'subcode'         => 'getSubCode',
-                'freetext1'       => 'getFreeText1',
+                'units'           => 'getUnits',
+                'unitspriceexcl'  => 'getUnitsPriceExcl',
+                'unitspriceinc'   => 'getUnitsPriceInc',
             ];
-
-            // Make addresses element
-            $linesElement = $this->createElement('lines');
-            $this->articleElement->appendChild($linesElement);
 
             // Go through each line assigned to the article
             foreach ($lines as $line) {
@@ -119,13 +123,9 @@ class ArticlesDocument extends \DOMDocument
                 $lineElement = $this->createElement('line');
                 $linesElement->appendChild($lineElement);
 
-                $status = $line->getStatus();
                 $id = $line->getID();
                 $inUse = $line->getInUse();
-
-                if (!empty($status)) {
-                    $lineElement->setAttribute('status', $status);
-                }
+                $status = $line->getStatus();
 
                 if (!empty($id)) {
                     $lineElement->setAttribute('id', $id);
@@ -133,6 +133,10 @@ class ArticlesDocument extends \DOMDocument
 
                 if (!empty($inUse)) {
                     $lineElement->setAttribute('inuse', $inUse);
+                }
+
+                if (!empty($status)) {
+                    $lineElement->setAttribute('status', $status);
                 }
 
                 // Go through each line element and use the assigned method
