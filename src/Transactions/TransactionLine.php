@@ -2,7 +2,7 @@
 
 namespace PhpTwinfield\Transactions;
 
-use PhpTwinfield\Transaction;
+use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\MatchReferenceInterface;
 
@@ -25,7 +25,7 @@ interface TransactionLine
     /**
      * Set the transaction on the line. This is needed later on.
      *
-     * @param Transaction $object
+     * @param BaseTransaction $object
      * @throws \InvalidArgumentException If a transaction is invalid or if a transaction is already set.
      * @internal
      */
@@ -37,7 +37,7 @@ interface TransactionLine
      * Note that you should add the return type when implementing.
      *
      * @see MatchReferenceInterface
-     * @return Transaction
+     * @return BaseTransaction
      * @internal
      */
     public function getTransaction();
