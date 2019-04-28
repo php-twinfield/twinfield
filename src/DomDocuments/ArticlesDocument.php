@@ -63,7 +63,6 @@ class ArticlesDocument extends \DOMDocument
 
         // Article->header elements and their methods
         $articleTags = array(
-            //'allowchangeperformancetype'      => 'getAllowChangePerformanceType',
             'allowchangeunitsprice'             => 'getAllowChangeUnitsPrice',
             'allowchangevatcode'                => 'getAllowChangeVatCode',
             'allowdecimalquantity'              => 'getAllowDecimalQuantity',
@@ -72,7 +71,6 @@ class ArticlesDocument extends \DOMDocument
             'office'                            => 'getOffice',
             'name'                              => 'getName',
             'percentage'                        => 'getPercentage',
-            //'performancetype'                 => 'getPerformanceType',
             'shortname'                         => 'getShortName',
             'type'                              => 'getType',
             'unitnameplural'                    => 'getUnitNamePlural',
