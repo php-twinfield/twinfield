@@ -4,6 +4,7 @@ namespace PhpTwinfield\Mappers;
 
 use Money\Currency;
 use Money\Money;
+use PhpTwinfield\BankTransaction;
 use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\BaseTransactionLine;
 use PhpTwinfield\CashTransaction;
@@ -134,7 +135,9 @@ class TransactionMapper
         // Parse the transaction lines
         $transactionLineClassName = $transaction->getLineClassName();
 
-        foreach ($transactionElement->getElementsByTagName('line') as $lineElement) {
+        $linesElement = $transactionElement->getElementsByTagName('lines')->item(0);
+
+        foreach ($linesElement->childNodes as $lineElement) {
             self::checkForMessage($transaction, $lineElement);
 
             /** @var BaseTransactionLine $transactionLine */
