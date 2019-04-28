@@ -40,7 +40,6 @@ class ArticleMapper extends BaseMapper
 
         // Article elements and their methods
         $articleTags = [
-            //'allowchangeperformancetype' => 'setAllowChangePerformanceType',
             'allowchangeunitsprice'      => 'setAllowChangeUnitsPrice',
             'allowchangevatcode'         => 'setAllowChangeVatCode',
             'allowdecimalquantity'       => 'setAllowDecimalQuantity',
@@ -49,7 +48,6 @@ class ArticleMapper extends BaseMapper
             'name'                       => 'setName',
             'office'                     => 'setOffice',
             'percentage'                 => 'setPercentage',
-            //'performancetype'            => 'setPerformanceType',
             'shortname'                  => 'setShortName',
             'type'                       => 'setType',
             'unitnamesingular'           => 'setUnitNameSingular',
