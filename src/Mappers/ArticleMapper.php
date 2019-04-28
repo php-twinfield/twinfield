@@ -7,14 +7,14 @@ use PhpTwinfield\Response\Response;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
- * 
+ *
  * @package PhpTwinfield
  * @subpackage Mapper
  * @author Willem van de Sande <W.vandeSande@MailCoupon.nl>
  */
 class ArticleMapper extends BaseMapper
 {
-    
+
     /**
      * Maps a Response object to a clean Article entity.
      *
@@ -32,28 +32,29 @@ class ArticleMapper extends BaseMapper
 
         // Gets the raw DOMDocument response.
         $responseDOM = $response->getResponseDocument();
+        $articleElement = $responseDOM->documentElement;
 
-        // Set the status attribute
-        $dimensionElement = $responseDOM->getElementsByTagName('header')->item(0);
-        $article->setStatus($dimensionElement->getAttribute('status'));
+        // Set the result and status attribute
+        $article->setResult($articleElement->getAttribute('result'))
+            ->setStatus($articleElement->getAttribute('status'));
 
         // Article elements and their methods
         $articleTags = [
+            //'allowchangeperformancetype' => 'setAllowChangePerformanceType',
+            'allowchangeunitsprice'      => 'setAllowChangeUnitsPrice',
+            'allowchangevatcode'         => 'setAllowChangeVatCode',
+            'allowdecimalquantity'       => 'setAllowDecimalQuantity',
+            'allowdiscountorpremium'     => 'setAllowDiscountorPremium',
             'code'                       => 'setCode',
-            'office'                     => 'setOffice',
-            'type'                       => 'setType',
             'name'                       => 'setName',
+            'office'                     => 'setOffice',
+            'percentage'                 => 'setPercentage',
+            //'performancetype'            => 'setPerformanceType',
             'shortname'                  => 'setShortName',
+            'type'                       => 'setType',
             'unitnamesingular'           => 'setUnitNameSingular',
             'unitnameplural'             => 'setUnitNamePlural',
             'vatcode'                    => 'setVatCode',
-            'allowchangevatcode'         => 'setAllowChangeVatCode',
-            'performancetype'            => 'setPerformanceType',
-            'allowchangeperformancetype' => 'setAllowChangePerformanceType',
-            'percentage'                 => 'setPercentage',
-            'allowdiscountorpremium'     => 'setAllowDiscountorPremium',
-            'allowchangeunitsprice'      => 'setAllowChangeUnitsPrice',
-            'allowdecimalquantity'       => 'setAllowDecimalQuantity',
         ];
 
         // Loop through all the tags
@@ -66,27 +67,29 @@ class ArticleMapper extends BaseMapper
         if (isset($linesDOMTag) && $linesDOMTag->length > 0) {
             // Element tags and their methods for lines
             $lineTags = [
-                'unitspriceexcl'  => 'setUnitsPriceExcl',
-                'unitspriceinc'   => 'setUnitsPriceInc',
+                'freetext1'       => 'setFreeText1',
+                'freetext2'       => 'setFreeText2',
+                'freetext3'       => 'setFreeText3',
                 'units'           => 'setUnits',
                 'name'            => 'setName',
                 'shortname'       => 'setShortName',
                 'subcode'         => 'setSubCode',
-                'freetext1'       => 'setFreeText1',
+                'unitspriceexcl'  => 'setUnitsPriceExcl',
+                'unitspriceinc'   => 'setUnitsPriceInc',
             ];
 
             $linesDOM = $linesDOMTag->item(0);
 
             // Loop through each returned line for the article
-            foreach ($linesDOM->getElementsByTagName('line') as $lineDOM) {
+            foreach ($linesDOM->childNodes as $lineDOM) {
 
                 // Make a new tempory ArticleLine class
                 $articleLine = new ArticleLine();
 
-                // Set the attributes ( id,status,inuse)
+                // Set the attributes (id, inuse, status)
                 $articleLine->setID($lineDOM->getAttribute('id'))
-                    ->setStatus($lineDOM->getAttribute('status'))
-                    ->setInUse($lineDOM->getAttribute('inuse'));
+                    ->setInUse($lineDOM->getAttribute('inuse'))
+                    ->setStatus($lineDOM->getAttribute('status'));
 
                 // Loop through the element tags. Determine if it exists and set it if it does
                 foreach ($lineTags as $tag => $method) {
@@ -100,13 +103,14 @@ class ArticleMapper extends BaseMapper
                     }
                 }
 
-                // Add the bank to the customer
+                // Add the line to the article
                 $article->addLine($articleLine);
 
                 // Clean that memory!
                 unset ($articleLine);
             }
         }
+
         return $article;
     }
 }
