@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\DomDocuments;
 
+use PhpTwinfield\BankTransaction;
 use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\BaseTransactionLine;
 use PhpTwinfield\CashTransaction;
