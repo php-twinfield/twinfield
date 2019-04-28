@@ -4,6 +4,7 @@ namespace PhpTwinfield\Mappers;
 use PhpTwinfield\Customer;
 use PhpTwinfield\Invoice;
 use PhpTwinfield\InvoiceLine;
+use PhpTwinfield\InvoiceVatLine;
 use PhpTwinfield\InvoiceTotals;
 use PhpTwinfield\Response\Response;
 
@@ -12,44 +13,40 @@ class InvoiceMapper extends BaseMapper
     public static function map(Response $response)
     {
         $responseDOM = $response->getResponseDocument();
+        $invoiceElement = $responseDOM->documentElement;
+
+        // Generate new Invoice
+        $invoice = new Invoice();
+        $invoice->setResult($invoiceElement->getAttribute('result'));
 
         $invoiceTags = array(
-            'office'               => 'setOffice',
-            'invoicetype'          => 'setInvoiceType',
-            'invoicenumber'        => 'setInvoiceNumber',
-            'status'               => 'setStatus',
-            'currency'             => 'setCurrency',
-            'period'               => 'setPeriod',
-            'invoicedate'          => 'setInvoiceDate',
-            'duedate'              => 'setDueDateFromString',
-            'performancedate'      => 'setPerformanceDate',
-            'paymentmethod'        => 'setPaymentMethod',
             'bank'                 => 'setBank',
-            'invoiceaddressnumber' => 'setInvoiceAddressNumber',
+            'currency'             => 'setCurrency',
             'deliveraddressnumber' => 'setDeliverAddressNumber',
-            'headertext'           => 'setHeaderText',
+            'duedate'              => 'setDueDate',
             'footertext'           => 'setFooterText',
+            'headertext'           => 'setHeaderText',
+            'invoiceaddressnumber' => 'setInvoiceAddressNumber',
+            'invoicedate'          => 'setInvoiceDate',
+            'invoicenumber'        => 'setInvoiceNumber',
+            'invoicetype'          => 'setInvoiceType',
+            'office'               => 'setOffice',
+            'paymentmethod'        => 'setPaymentMethod',
+            'performancedate'      => 'setPerformanceDate',
+            'period'               => 'setPeriod',
+            'status'               => 'setStatus',
         );
 
+        // Loop through all invoice tags
+        foreach ($invoiceTags as $tag => $method) {
+            self::setFromTagValue($responseDOM, $tag, [$invoice, $method]);
+        }
+
+        // Make a customer, and loop through custom tags
         $customerTags = array(
             'customer' => 'setCode',
         );
 
-        $totalsTags = array(
-            'valueexcl' => 'setValueExcl',
-            'valueinc'  => 'setValueInc',
-        );
-
-        // Generate new Invoice
-        $invoice = new Invoice();
-
-        // Loop through all invoice tags
-        foreach ($invoiceTags as $tag => $method) {
-
-            self::setFromTagValue($responseDOM, $tag, [$invoice, $method]);
-        }
-
-        // Make a custom, and loop through custom tags
         $customer = new Customer();
         foreach ($customerTags as $tag => $method) {
             $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
@@ -59,56 +56,103 @@ class InvoiceMapper extends BaseMapper
             }
         }
 
-        // Make an InvoiceTotals and loop through custom tags
-        $invoiceTotals = new InvoiceTotals();
-        foreach ($totalsTags as $tag => $method) {
-            $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
+        // Set the custom class to the invoice
+        $invoice->setCustomer($customer);
 
-            if (isset($_tag) && isset($_tag->textContent)) {
-                $invoiceTotals->$method($_tag->textContent);
+        // Make an InvoiceTotals and loop through custom tags
+        $totalsTags = array(
+            'valueexcl' => 'setValueExcl',
+            'valueinc'  => 'setValueInc',
+        );
+
+        $invoiceTotals = new InvoiceTotals();
+
+        $totalElement = $responseDOM->getElementsByTagName('totals')->item(0);
+
+        if ($totalElement !== null) {
+            // Go through each total element and add to the assigned method
+            foreach ($totalsTags as $tag => $method) {
+                $invoiceTotals->$method(self::getField($totalElement, $tag));
             }
         }
 
-        // Set the custom classes to the invoice
-        $invoice->setCustomer($customer);
+        // Set the custom class to the invoice
         $invoice->setTotals($invoiceTotals);
 
-        $lineTags = array(
-            'article'                => 'setArticle',
-            'subarticle'             => 'setSubArticle',
-            'quantity'               => 'setQuantity',
-            'units'                  => 'setUnits',
-            'allowdiscountorpremium' => 'setAllowDiscountOrPremium',
-            'description'            => 'setDescription',
-            'valueexcl'              => 'setValueExcl',
-            'vatvalue'               => 'setVatValue',
-            'valueinc'               => 'setValueInc',
-            'unitspriceexcl'         => 'setUnitsPriceExcl',
-            'unitspriceinc'          => 'setUnitsPriceInc',
-            'freetext1'              => 'setFreeText1',
-            'freetext2'              => 'setFreeText2',
-            'freetext3'              => 'setFreeText3',
-            'performancedate'        => 'setPerformanceDate',
-            'performancetype'        => 'setPerformanceType',
-            'dim1'                   => 'setDim1',
-        );
+        $linesDOMTag = $responseDOM->getElementsByTagName('lines');
 
-        /** @var \DOMElement $lineDOM */
-        foreach ($responseDOM->getElementsByTagName('line') as $lineDOM) {
+        if (isset($linesDOMTag) && $linesDOMTag->length > 0) {
+            // Element tags and their methods for lines
+            $lineTags = array(
+                'allowdiscountorpremium' => 'setAllowDiscountOrPremium',
+                'article'                => 'setArticle',
+                'description'            => 'setDescription',
+                'dim1'                   => 'setDim1',
+                'freetext1'              => 'setFreeText1',
+                'freetext2'              => 'setFreeText2',
+                'freetext3'              => 'setFreeText3',
+                'performancedate'        => 'setPerformanceDate',
+                'performancetype'        => 'setPerformanceType',
+                'quantity'               => 'setQuantity',
+                'subarticle'             => 'setSubArticle',
+                'units'                  => 'setUnits',
+                'unitspriceexcl'         => 'setUnitsPriceExcl',
+                'unitspriceinc'          => 'setUnitsPriceInc',
+                'valueexcl'              => 'setValueExcl',
+                'valueinc'               => 'setValueInc',
+                'vatcode'                => 'setVatCode',
+                'vatvalue'               => 'setVatValue',
+            );
 
-            $invoiceLine = new InvoiceLine();
-            $invoiceLine->setID($lineDOM->getAttribute('id'));
+            $linesDOM = $linesDOMTag->item(0);
 
-            foreach ($lineTags as $tag => $method) {
+            // Loop through each returned lines for the invoice
+            foreach ($linesDOM->childNodes as $lineDOM) {
 
-                $content = self::getField($lineDOM, $tag);
+                $invoiceLine = new InvoiceLine();
+                $invoiceLine->setID($lineDOM->getAttribute('id'));
 
-                if (null !== $content) {
-                    $invoiceLine->$method($content);
+                foreach ($lineTags as $tag => $method) {
+
+                    $content = self::getField($lineDOM, $tag);
+
+                    if (null !== $content) {
+                        $invoiceLine->$method($content);
+                    }
                 }
-            }
 
-            $invoice->addLine($invoiceLine);
+                $invoice->addLine($invoiceLine);
+            }
+        }
+
+        $vatlinesDOMTag = $responseDOM->getElementsByTagName('vatlines');
+
+        if (isset($vatlinesDOMTag) && $vatlinesDOMTag->length > 0) {
+            // Element tags and their methods for vatlines
+             $vatlineTags = array(
+                'performancedate'        => 'setPerformanceDate',
+                'performancetype'        => 'setPerformanceType',
+                'vatcode'                => 'setVatCode',
+                'vatvalue'               => 'setVatValue',
+            );
+
+            $vatlinesDOM = $vatlinesDOMTag->item(0);
+
+            // Loop through each returned lines for the invoice
+            foreach ($vatlinesDOM->childNodes as $vatlineDOM) {
+                $invoiceVatLine = new InvoiceVatLine();
+
+                foreach ($vatlineTags as $tag => $method) {
+
+                    $content = self::getField($vatlineDOM, $tag);
+
+                    if (null !== $content) {
+                        $invoiceVatLine->$method($content);
+                    }
+                }
+
+                $invoice->addVatLine($invoiceVatLine);
+            }
         }
 
         // Financial elements and their methods
