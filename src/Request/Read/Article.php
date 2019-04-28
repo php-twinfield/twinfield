@@ -2,8 +2,7 @@
 namespace PhpTwinfield\Request\Read;
 
 /**
- * Used to request a specific custom from a certain
- * office and code.
+ * Used to request a specific Article from a certain office and code.
  * 
  * @package PhpTwinfield
  * @subpackage Request\Read
