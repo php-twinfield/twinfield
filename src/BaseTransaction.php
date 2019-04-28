@@ -14,20 +14,20 @@ use PhpTwinfield\Transactions\TransactionLineFields\DateField;
 use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
 
 /**
- * @todo $modificationDate The date/time on which the sales transaction was modified the last time. Read-only attribute.
- * @todo $user The user who created the sales transaction. Read-only attribute.
+ * @todo $modificationDate The date/time on which the transaction was modified the last time. Read-only attribute.
+ * @todo $user The user who created the transaction. Read-only attribute.
  * @todo $inputDate The date/time on which the transaction was created. Read-only attribute.
  */
 abstract class BaseTransaction extends BaseObject implements Transaction
 {
-    use DestinyField;
     use AutoBalanceVatField;
     use CodeNumberOfficeFields;
-    use PeriodField;
+    use DestinyField;
     use FreeTextFields;
-    use DateField;
-    use RaiseWarningField;
     use LinesField;
+    use RaiseWarningField;
+    use DateField;
+    use PeriodField;
 
     /**
      * @var Currency|null The currency.
