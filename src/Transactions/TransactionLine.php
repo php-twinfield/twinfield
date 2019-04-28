@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\Transactions;
 
+use PhpTwinfield\Transaction;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\MatchReferenceInterface;
 
@@ -22,21 +23,21 @@ interface TransactionLine
     public function getId(): ?int;
 
     /**
-     * Set the bank transaction on the line. This is needed later on.
+     * Set the transaction on the line. This is needed later on.
      *
-     * @param BankTransaction $object
+     * @param Transaction $object
      * @throws \InvalidArgumentException If a transaction is invalid or if a transaction is already set.
      * @internal
      */
     public function setTransaction($object): void;
 
     /**
-     * Gets the bank transaction from the line.
+     * Gets the transaction from the line.
      *
      * Note that you should add the return type when implementing.
      *
      * @see MatchReferenceInterface
-     * @return BankTransaction
+     * @return Transaction
      * @internal
      */
     public function getTransaction();
