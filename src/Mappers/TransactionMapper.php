@@ -138,6 +138,10 @@ class TransactionMapper
         $linesElement = $transactionElement->getElementsByTagName('lines')->item(0);
 
         foreach ($linesElement->childNodes as $lineElement) {
+            if ($lineElement->nodeType !== 1) {
+                continue;
+            }
+
             self::checkForMessage($transaction, $lineElement);
 
             /** @var BaseTransactionLine $transactionLine */
