@@ -2,6 +2,7 @@
 namespace PhpTwinfield\Request;
 
 use DOMDocument;
+use DOMElement;
 
 /**
  * Used to request a specific AssetMethod from a certain office and code.
@@ -66,7 +67,7 @@ class AssetMethod extends DOMDocument
      *
      * @access public
      * @param int $office
-     * @return \PhpTwinfield\Request\Read\AssetMethod
+     * @return \PhpTwinfield\Request\AssetMethod
      */
     public function setOffice($office)
     {
@@ -79,7 +80,7 @@ class AssetMethod extends DOMDocument
      *
      * @access public
      * @param string $code
-     * @return \PhpTwinfield\Request\Read\AssetMethod
+     * @return \PhpTwinfield\Request\AssetMethod
      */
     public function setCode($code)
     {
