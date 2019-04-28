@@ -2,7 +2,7 @@
 namespace PhpTwinfield\Request\Read;
 
 /**
- * Used to request a specific invoice from a certain
+ * Used to request a specific Invoice from a certain
  * code, number and office.
  * 
  * @package PhpTwinfield
