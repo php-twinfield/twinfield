@@ -80,6 +80,9 @@ class ArticleMapper extends BaseMapper
 
             // Loop through each returned line for the article
             foreach ($linesDOM->childNodes as $lineDOM) {
+                if ($lineDOM->nodeType !== 1) {
+                    continue;
+                }
 
                 // Make a new tempory ArticleLine class
                 $articleLine = new ArticleLine();
