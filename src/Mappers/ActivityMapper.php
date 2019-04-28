@@ -101,6 +101,10 @@ class ActivityMapper extends BaseMapper
 
                 // Loop through each returned quantity for the project
                 foreach ($quantitiesDOM->childNodes as $quantityDOM) {
+                    if ($quantityDOM->nodeType !== 1) {
+                        continue;
+                    }
+
                     // Make a new tempory ActivityQuantity class
                     $activityQuantity = new ActivityQuantity();
 

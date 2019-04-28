@@ -102,6 +102,10 @@ class ProjectMapper extends BaseMapper
 
                 // Loop through each returned quantity for the project
                 foreach ($quantitiesDOM->childNodes as $quantityDOM) {
+                    if ($quantityDOM->nodeType !== 1) {
+                        continue;
+                    }
+
                     // Make a new tempory ProjectQuantity class
                     $projectQuantity = new ProjectQuantity();
 

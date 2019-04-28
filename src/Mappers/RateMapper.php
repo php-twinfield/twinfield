@@ -69,6 +69,9 @@ class RateMapper extends BaseMapper
 
             // Loop through each returned ratechange for the rate
             foreach ($ratechangesDOM->childNodes as $ratechangeDOM) {
+                if ($ratechangeDOM->nodeType !== 1) {
+                    continue;
+                }
 
                 // Make a new tempory RateRateChange class
                 $rateRateChange = new RateRateChange();

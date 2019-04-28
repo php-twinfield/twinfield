@@ -64,6 +64,9 @@ class CurrencyMapper extends BaseMapper
 
             // Loop through each returned rate for the currency
             foreach ($ratesDOM->childNodes as $rateDOM) {
+                if ($rateDOM->nodeType !== 1) {
+                    continue;
+                }
 
                 // Make a new tempory CurrencyRate class
                 $currencyRate = new CurrencyRate();

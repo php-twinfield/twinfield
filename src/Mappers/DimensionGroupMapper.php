@@ -64,6 +64,9 @@ class DimensionGroupMapper extends BaseMapper
 
             // Loop through each returned dimension for the dimensiongroup
             foreach ($dimensionsDOM->childNodes as $dimensionDOM) {
+                if ($dimensionDOM->nodeType !== 1) {
+                    continue;
+                }
 
                 // Make a new tempory DimensionGroupDimension class
                 $dimensionGroupDimension = new DimensionGroupDimension();

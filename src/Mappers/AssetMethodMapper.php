@@ -115,6 +115,9 @@ class AssetMethodMapper extends BaseMapper
 
             // Loop through each returned freetext for the assetmethod
             foreach ($freetextsDOM->childNodes as $freetextDOM) {
+                if ($freetextDOM->nodeType !== 1) {
+                    continue;
+                }
 
                 // Make a new tempory AssetMethodFreeText class
                 $assetmethodFreeText = new AssetMethodFreeText();

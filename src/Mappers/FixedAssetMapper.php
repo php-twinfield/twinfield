@@ -135,6 +135,10 @@ class FixedAssetMapper extends BaseMapper
 
                 // Loop through each returned transactionLine for the fixedAsset
                 foreach ($transactionLinesDOM->childNodes as $transactionLineDOM) {
+                    if ($transactionLineDOM->nodeType !== 1) {
+                        continue;
+                    }
+
                     // Make a new tempory FixedAssetTransactionLine class
                     $fixedAssetTransactionLine = new FixedAssetTransactionLine();
 

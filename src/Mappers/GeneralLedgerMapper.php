@@ -89,6 +89,10 @@ class GeneralLedgerMapper extends BaseMapper
 
                 // Loop through each returned childValidation for the generalLedger
                 foreach ($childValidationsDOM->childNodes as $childValidationDOM) {
+                    if ($childValidationDOM->nodeType !== 1) {
+                        continue;
+                    }
+
                     // Make a new tempory GeneralLedgerChildValidation class
                     $generalLedgerChildValidation = new GeneralLedgerChildValidation();
 
