@@ -96,7 +96,7 @@ class InvoicesDocument extends BaseDocument
             'subarticle'      => 'getSubArticle',
             'description'     => 'getDescription',
             'unitspriceexcl'  => 'getUnitsPriceExcl',
-            'unitspriceinc'  => 'getUnitsPriceInc',
+            'unitspriceinc'   => 'getUnitsPriceInc',
             'units'           => 'getUnits',
             'vatcode'         => 'getVatCode',
             'freetext1'       => 'getFreeText1',
