@@ -72,6 +72,10 @@ class VatCodeMapper extends BaseMapper
 
             // Loop through each returned percentage for the vatcode
             foreach ($percentagesDOM->childNodes as $percentageDOM) {
+                if ($percentageDOM->nodeType !== 1) {
+                    continue;
+                }
+
                 // Make a new tempory VatCodePercentage class
                 $vatcodePercentage = new VatCodePercentage();
 
@@ -102,6 +106,10 @@ class VatCodeMapper extends BaseMapper
 
                     // Loop through each returned account for the percentage
                     foreach ($accountsDOM->childNodes as $accountDOM) {
+                        if ($accountDOM->nodeType !== 1) {
+                            continue;
+                        }
+
                         // Make a new tempory VatCodeAccount class
                         $vatcodeAccount = new VatCodeAccount();
                         $vatcodeAccount->setID($accountDOM->getAttribute('id'));
@@ -132,7 +140,7 @@ class VatCodeMapper extends BaseMapper
                 unset ($vatcodePercentage);
             }
         }
-        
+
         return $vatcode;
     }
 }
