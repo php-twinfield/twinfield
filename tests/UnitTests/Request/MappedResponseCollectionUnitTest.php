@@ -2,7 +2,7 @@
 
 namespace PhpTwinfield\UnitTests;
 
-use PhpTwinfield\ApiConnectors\BankTransactionApiConnector;
+use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 class MappedResponseCollectionUnitTest extends TestCase
 {
     /**
-     * @var BankTransactionApiConnector
+     * @var TransactionApiConnector
      */
     protected $apiConnector;
 
