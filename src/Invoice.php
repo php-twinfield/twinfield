@@ -24,20 +24,22 @@ use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
  *
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices
  * @todo Add documentation and typehints to all properties.
- * @todo Add support for VatLines.
  */
-class Invoice
+class Invoice extends BaseObject
 {
     use PeriodField;
-    use DueDateField;
     use OfficeField;
 
     private $customer;
+    private $customerName;
+    private $debitCredit;
+    private $invoiceAmount;
     private $invoiceType;
     private $invoiceNumber;
     private $status;
     private $currency;
     private $invoiceDate;
+    private $dueDate;
     private $performanceDate;
     private $paymentMethod;
     private $bank;
@@ -69,6 +71,25 @@ class Invoice
         return $this->lines;
     }
 
+	/**
+     * @var InvoiceVatLine[]
+     */
+    private $vatlines = [];
+
+    public function addVatLine(InvoiceVatLine $vatline)
+    {
+        $this->vatlines[] = $vatline;
+        return $this;
+    }
+
+    /**
+     * @return InvoiceVatLine[]
+     */
+    public function getVatLines(): array
+    {
+        return $this->vatlines;
+    }
+
     public function getCustomer(): Customer
     {
         return $this->customer;
@@ -77,6 +98,28 @@ class Invoice
     public function setCustomer(Customer $customer)
     {
         $this->customer = $customer;
+        return $this;
+    }
+
+    public function getCustomerName()
+    {
+        return $this->customerName;
+    }
+
+    public function setCustomerName($customerName)
+    {
+        $this->customerName = $customerName;
+        return $this;
+    }
+
+    public function getDebitCredit()
+    {
+        return $this->debitCredit;
+    }
+
+    public function setDebitCredit($debitCredit)
+    {
+        $this->debitCredit = $debitCredit;
         return $this;
     }
 
@@ -89,6 +132,17 @@ class Invoice
     public function getTotals(): InvoiceTotals
     {
         return $this->totals;
+    }
+
+    public function getInvoiceAmount()
+    {
+        return $this->invoiceAmount;
+    }
+
+    public function setInvoiceAmount($invoiceAmount)
+    {
+        $this->invoiceAmount = $invoiceAmount;
+        return $this;
     }
 
     public function getInvoiceType()
@@ -143,6 +197,17 @@ class Invoice
     public function setInvoiceDate($invoiceDate)
     {
         $this->invoiceDate = $invoiceDate;
+        return $this;
+    }
+
+    public function getDueDate()
+    {
+        return $this->dueDate;
+    }
+
+    public function setDueDate($dueDate)
+    {
+        $this->dueDate = $dueDate;
         return $this;
     }
 
