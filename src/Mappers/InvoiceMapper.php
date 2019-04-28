@@ -108,10 +108,10 @@ class InvoiceMapper extends BaseMapper
 
             // Loop through each returned lines for the invoice
             foreach ($linesDOM->childNodes as $lineDOM) {
-                if( $lineDOM->nodeType !== 1 ) {
+                if ($lineDOM->nodeType !== 1) {
                     continue;
                 }
-                
+
                 $invoiceLine = new InvoiceLine();
                 $invoiceLine->setID($lineDOM->getAttribute('id'));
 
@@ -143,10 +143,10 @@ class InvoiceMapper extends BaseMapper
 
             // Loop through each returned lines for the invoice
             foreach ($vatlinesDOM->childNodes as $vatlineDOM) {
-                if( $vatlineDOM->nodeType !== 1 ) {
+                if ($vatlineDOM->nodeType !== 1) {
                     continue;
                 }
-                
+
                 $invoiceVatLine = new InvoiceVatLine();
 
                 foreach ($vatlineTags as $tag => $method) {
