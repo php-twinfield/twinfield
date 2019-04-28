@@ -2,7 +2,6 @@
 
 namespace PhpTwinfield\Transactions;
 
-use PhpTwinfield\BankTransaction;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\MatchReferenceInterface;
 
