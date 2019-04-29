@@ -15,12 +15,10 @@ use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
-use PhpTwinfield\SalesTransaction;
-use PhpTwinfield\SalesTransactionLine;
 
 /**
- * @covers SalesTransaction
- * @covers SalesTransactionLine
+ * @covers BankTransaction
+ * @covers BankTransactionLine
  * @covers TransactionsDocument
  * @covers TransactionMapper
  * @covers TransactionApiConnector
@@ -108,7 +106,7 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(65333), $totalLine->getRepValue());
         $this->assertSame(1.500000000, $totalLine->getRepRate());
         $this->assertSame('Invoice paid', $detailLine->getDescription());
-        $this->assertSame(SalesTransactionLine::MATCHSTATUS_AVAILABLE, $detailLine->getMatchStatus());
+        $this->assertSame(BankTransactionLine::MATCHSTATUS_AVAILABLE, $detailLine->getMatchStatus());
         $this->assertSame(2, $detailLine->getMatchLevel());
         $this->assertEquals(Money::EUR(43555), $detailLine->getBaseValueOpen());
         $this->assertEquals(Money::EUR(65333), $detailLine->getRepValue());
