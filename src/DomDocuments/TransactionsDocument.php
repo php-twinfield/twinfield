@@ -107,7 +107,7 @@ class TransactionsDocument extends BaseDocument
             $headerElement->appendChild($this->createNodeWithTextContent('statementnumber', $transaction->getStatementnumber()));
         }
 
-        if ($transaction instanceof CashTransaction) {
+        if ($transaction instanceof BankTransaction || $transaction instanceof CashTransaction) {
             $headerElement->appendChild($this->createNodeWithTextContent('startvalue', Util::formatMoney($transaction->getStartvalue())));
             $headerElement->appendChild($this->createNodeWithTextContent('closevalue', Util::formatMoney($transaction->getClosevalue())));
         }
