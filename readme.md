@@ -41,7 +41,7 @@ Go to the [Twinfield web site](https://www.twinfield.nl/openid-connect-request/)
 
 ##### Grant Authorisation and retrieve intitial Access Token
 On loading a page containing the following code the user will be redirected to the Twinfield Login page.
-After succesfull login and optionally consent (see above) the user will be redirected back to the page and which point the Access Token and Refresh Token are retrieved.
+After succesfull login and optionally consent (see above) the user will be redirected back to the page at which point the Access Token and Refresh Token can be retrieved.
 
 For more information, please refer to: https://github.com/thephpleague/oauth2-client#usage
 
