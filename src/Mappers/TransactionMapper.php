@@ -123,7 +123,7 @@ class TransactionMapper
         if ($transaction instanceof JournalTransaction) {
             $transaction->setRegime(self::getField($transaction, $transactionElement, 'regime'));
         }
-        if ($transaction instanceof CashTransaction) {
+        if ($transaction instanceof BankTransaction || $transaction instanceof CashTransaction) {
             $transaction->setStartvalue(
                 Util::parseMoney(
                     self::getField($transaction, $transactionElement, 'startvalue'),
