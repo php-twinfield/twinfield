@@ -16,16 +16,137 @@ composer require 'php-twinfield/twinfield:^2.0'
 ## Usage
 
 ### Authentication
-You need to set up a `\PhpTwinfield\Secure\AuthenticatedConnection` class with your credentials. When using basic 
-username and password authentication, the `\PhpTwinfield\Secure\WebservicesAuthentication` class should be used, as follows:
+You need to set up a `\PhpTwinfield\Secure\AuthenticatedConnection` class with your credentials. 
+
+#### Session Login
+**:warning: Note that Twinfield has stated that session login is deprecated and will be removed. End of life date will be announced later. See https://c3.twinfield.com/webservices/documentation/#/ApiReference/Authentication/WebServices** 
+
+When using basic username and password authentication, the `\PhpTwinfield\Secure\WebservicesAuthentication` class should be used, as follows:
 
 ```php
 $connection = new Secure\WebservicesAuthentication("username", "password", "organization");
 ```
 
+#### OAuth2
 In order to use OAuth2 to authenticate with Twinfield, one should use the `\PhpTwinfield\Secure\Provider\OAuthProvider` to retrieve an `\League\OAuth2\Client\Token\AccessToken` object, and extract the refresh token from this object. Furthermore, it is required to set up a default `\PhpTwinfield\Office`, that will be used during requests to Twinfield. **Please note:** when a different office is specified when sending a request through one of the `ApiConnectors`, this Office will override the default.
 
-Using this information, we can create an instance of the `\PhpTwinfield\Secure\OpenIdConnectAuthentication` class, as follows:
+##### Request a client ID/Secret from Twinfield
+Go to the [Twinfield web site](https://www.twinfield.nl/openid-connect-request/) in order to register your OpenID Connect / OAuth 2.0 client and get your Client ID and Secret. Fill in your personal information en pick the following:
+* Flow: Authorization Code
+* Consent: Your choice
+* Redirect URL: The full URI where the following code is available on your domain/server
+* Add more redirect URL's?: Your choice
+* Post logout URL: Your choice, can be left blank
+* Add more post logout URL's?: Your choice
+
+##### Grant Authorisation and retrieve intitial Access Token
+On loading a page containing the following code the user will be redirected to the Twinfield Login page.
+After succesfull login and optionally consent (see above) the user will be redirected back to the page and which point the Access Token and Refresh Token are retrieved.
+
+For more information, please refer to: https://github.com/thephpleague/oauth2-client#usage
+
+```php
+$provider = new \PhpTwinfield\Secure\Provider\OAuthProvider([
+    'clientId'                => 'someClientId',            // The Client ID assigned to you by Twinfield
+    'clientSecret'            => 'someClientSecret',        // The Client Secret assigned to you by Twinfield
+    'redirectUri'             => 'https://example.org/',    // The full URL your filled in at Redirect URL when you requested your client ID
+]);
+
+// If we don't have an authorization code then get one
+if (!isset($_GET['code'])) {
+    //Optionally limit your scope if you don't require all.
+    $options = [
+        'scope' => ['twf.user','twf.organisation','twf.organisationUser','offline_access','openid']
+    ];
+	
+    $authorizationUrl = $provider->getAuthorizationUrl($options);
+
+    // Get the state generated for you and store it to the session.
+    $_SESSION['oauth2state'] = $provider->getState();
+
+    // Redirect the user to the authorization URL.
+    header('Location: ' . $authorizationUrl);
+    exit;
+
+// Check given state against previously stored one to mitigate CSRF attack
+} elseif (empty($_GET['state']) || (isset($_SESSION['oauth2state']) && $_GET['state'] !== $_SESSION['oauth2state'])) {
+    if (isset($_SESSION['oauth2state'])) {
+        unset($_SESSION['oauth2state']);
+    }
+    
+    exit('Invalid state');
+} else {
+    try {
+        // Try to get an access token using the authorization code grant.
+        $accessToken = $provider->getAccessToken('authorization_code', [
+            'code' => $_GET['code']
+        ]);
+
+        //Twinfield's Refresh Token is valid for 550 days. 
+        //Remember to put in place functionality to request the user to renew their authorization.
+        //This can be done by requesting the user to reload this page and logging into Twinfield
+        //before the refresh token is invalidated after 550 days.
+        $refresh_expiry = strtotime(date('Ymd') . " +550 days"); 
+        
+        //Save Refresh Token and Refresh Token Expiry Time to storage
+        $refreshTokenStorage                      = array();
+        $refreshTokenStorage['refresh_token']     = $accessToken->getRefreshToken();
+        $refreshTokenStorage['refresh_expiry']    = $refresh_expiry;
+        
+        SaveRefreshTokenToStore($refreshTokenStorage);
+        
+        //OPTIONAL: Save Access Token, Access Token Expiry Time and Cluster to storage
+        $validationUrl    = "https://login.twinfield.com/auth/authentication/connect/accesstokenvalidation?token=";
+        $validationResult = @file_get_contents($validationUrl . urlencode($accessToken->getToken()));
+
+        if ($validationResult !== false) {
+            $resultDecoded                    = \json_decode($validationResult, true); 
+            $accessTokenStorage                     = array();
+            $accessTokenStorage['access_token']     = $accessToken->getToken();
+            $accessTokenStorage['access_expiry']    = $accessToken->getExpires();               
+            $accessTokenStorage['access_cluster']   = $resultDecoded["twf.clusterUrl"];
+            SaveAccessTokenToStore($accessTokenStorage);
+        }
+    } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
+        // Failed to get the access token or user details.
+        exit($e->getMessage());
+    }
+}
+```
+
+##### Optionally: Store a valid access token and cluster through a sceduled task/cron job running in the background
+Running the following code every 60 minutes (or a bit less as Access Tokens are valid for exactly 60 minutes) will reduce connection time when working with the Api (by about 2 seconds). It will also reduce connection load on Twinfield when making more than 20-30 connections/day. 
+
+```php
+$refreshTokenStorage = retrieveRefreshTokenFromStore();
+
+$provider    = new OAuthProvider([
+    'clientId'     => 'someClientId',
+    'clientSecret' => 'someClientSecret',
+    'redirectUri'  => 'https://example.org/'
+]);
+
+$accessToken = $provider->getAccessToken('refresh_token', [
+    'refresh_token' => $refreshTokenStorage['refresh_token']
+]);
+
+$validationUrl    = "https://login.twinfield.com/auth/authentication/connect/accesstokenvalidation?token=";
+$validationResult = @file_get_contents($validationUrl . urlencode($accessToken->getToken()));
+
+if ($validationResult !== false) {
+    $resultDecoded                    = \json_decode($validationResult, true);
+
+    $tokenStorage                     = array();
+    $tokenStorage['access_token']     = $accessToken->getToken();
+    $tokenStorage['access_expiry']    = $accessToken->getExpires();
+    $tokenStorage['access_cluster']   = $resultDecoded["twf.clusterUrl"];
+
+    SaveAccessTokenToStore($tokenStorage);
+}
+```
+
+##### Connection
+Using the stored Refresh Token and optionally Access Token/Cluster, we can create an instance of the `\PhpTwinfield\Secure\OpenIdConnectAuthentication` class, as follows:
 
 ```php
 $provider    = new OAuthProvider([
@@ -33,13 +154,21 @@ $provider    = new OAuthProvider([
     'clientSecret' => 'someClientSecret',
     'redirectUri'  => 'https://example.org/'
 ]);
-$accessToken  = $provider->getAccessToken("authorization_code", ["code" => ...]);
-$refreshToken = $accessToken->getRefreshToken();
+
+//Retrieve Refresh Token and Refresh Token Expiry Time from storage
+$refreshTokenStorage = retrieveRefreshTokenFromStore();
+
+//OPTIONAL: Retrieve Access Token, Access Token Expiry Time and Cluster from storage
+$accessTokenStorage = retrieveAccessTokenFromStore();
+
 $office       = \PhpTwinfield\Office::fromCode("someOfficeCode");
 
-$connection  = new \PhpTwinfield\Secure\OpenIdConnectAuthentication($provider, $refreshToken, $office);
+if ($accessTokenStorage['access_expiry'] > time()) {
+    $connection  = new \PhpTwinfield\Secure\OpenIdConnectAuthentication($provider, $refreshTokenStorage['refresh_token'], $office, $accessTokenStorage['access_token'], $accessTokenStorage['access_cluster']);
+} else {
+    $connection  = new \PhpTwinfield\Secure\OpenIdConnectAuthentication($provider, $refreshTokenStorage['refresh_token'], $office)
+}
 ```
-For more information about retrieving the initial `AccessToken`, please refer to: https://github.com/thephpleague/oauth2-client#usage
 
 ### Getting data from the API
 In order to communicate with the Twinfield API, you need to create an `ApiConnector` instance for the corresponding
