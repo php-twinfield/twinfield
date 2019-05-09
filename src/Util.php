@@ -54,13 +54,24 @@ final class Util
     }
 
     /**
+     * Format a date time according to Twinfield specifications.
+     *
+     * @param \DateTimeInterface $datetime
+     * @return string
+     */
+    public static function formatDateTime(\DateTimeInterface $datetime): string
+    {
+        return $datetime->format("YmdHis");
+    }
+
+    /**
      * Parse a date time string from a Twinfield XML.
      *
      * @param string $dateString
      * @return \DateTimeImmutable
      * @throws Exception
      */
-    public static function parseDateTime(string $dateString)
+    public static function parseDateTime(string $dateString): \DateTimeImmutable
     {
         $date = \DateTimeImmutable::createFromFormat("YmdHis", $dateString);
 

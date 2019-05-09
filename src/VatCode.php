@@ -2,40 +2,57 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Fields\CodeField;
+use PhpTwinfield\Fields\CreatedField;
+use PhpTwinfield\Fields\ModifiedField;
+use PhpTwinfield\Fields\NameField;
+use PhpTwinfield\Fields\OfficeField;
+use PhpTwinfield\Fields\ShortNameField;
+use PhpTwinfield\Fields\StatusField;
+use PhpTwinfield\Fields\TouchedField;
+use PhpTwinfield\Fields\UIDField;
+use PhpTwinfield\Fields\UserField;
+use PhpTwinfield\Fields\VatCode\VatCodeTypeField;
+
 /**
  * Class VatCode
  *
- * @author Emile Bons <emile@emilebons.nl>
+ * @author Emile Bons <emile@emilebons.nl>, extended by Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class VatCode
+class VatCode extends BaseObject
 {
-    /**
-     * @var string The code of the VAT code.
-     */
-    private $code;
+    use CodeField;
+    use CreatedField;
+    use ModifiedField;
+    use NameField;
+    use OfficeField;
+    use ShortNameField;
+    use StatusField;
+    use TouchedField;
+    use UIDField;
+    use UserField;
+    use VatCodeTypeField;
 
-    /**
-     * @var string The name of the VAT code.
-     */
-    private $name;
+    private $percentages = [];
 
-    public function getCode(): string
+    public function getPercentages()
     {
-        return $this->code;
+        return $this->percentages;
     }
 
-    public function setCode(string $code): void
+    public function addPercentage(VatCodePercentage $percentage)
     {
-        $this->code = $code;
+        $this->percentages[] = $percentage;
+        return $this;
     }
 
-    public function getName(): string
+    public function removePercentage($index)
     {
-        return $this->name;
-    }
-
-    public function setName(string $name): void
-    {
-        $this->name = $name;
+        if (array_key_exists($index, $this->percentages)) {
+            unset($this->percentages[$index]);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

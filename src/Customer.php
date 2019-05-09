@@ -2,321 +2,77 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Transactions\TransactionFields\OfficeField;
-use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
+use PhpTwinfield\Fields\BehaviourField;
+use PhpTwinfield\Fields\CodeField;
+use PhpTwinfield\Fields\InUseField;
+use PhpTwinfield\Fields\Level1234\BeginYearField;
+use PhpTwinfield\Fields\Level1234\DimensionGroupField;
+use PhpTwinfield\Fields\Level1234\DimensionTypeField;
+use PhpTwinfield\Fields\Level1234\EndYearField;
+use PhpTwinfield\Fields\Level1234\GeneralLedgerBeginPeriodField;
+use PhpTwinfield\Fields\Level1234\GeneralLedgerEndPeriodField;
+use PhpTwinfield\Fields\Level1234\Level2\Customer\DiscountArticleField;
+use PhpTwinfield\Fields\Level1234\Level2\Customer\DiscountArticleIDField;
+use PhpTwinfield\Fields\Level1234\Level2\PaymentConditionDiscountDaysField;
+use PhpTwinfield\Fields\Level1234\Level2\PaymentConditionDiscountPercentageField;
+use PhpTwinfield\Fields\Level1234\Level2\RemittanceAdviceSendMailField;
+use PhpTwinfield\Fields\Level1234\Level2\RemittanceAdviceSendTypeField;
+use PhpTwinfield\Fields\Level1234\Level2\WebsiteField;
+use PhpTwinfield\Fields\NameField;
+use PhpTwinfield\Fields\OfficeField;
+use PhpTwinfield\Fields\ShortNameField;
+use PhpTwinfield\Fields\StatusField;
+use PhpTwinfield\Fields\TouchedField;
+use PhpTwinfield\Fields\UIDField;
 
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers
  * @todo Add documentation and typehints to all properties.
  */
-class Customer
+class Customer extends BaseObject
 {
+    use BeginYearField;
+    use BehaviourField;
+    use CodeField;
+    use DimensionGroupField;
+    use DimensionTypeField;
+    use DiscountArticleField;
+    use DiscountArticleIDField;
+    use EndYearField;
+    use GeneralLedgerBeginPeriodField;
+    use GeneralLedgerEndPeriodField;
+    use InUseField;
+    use NameField;
     use OfficeField;
-    use VatCodeField;
+    use PaymentConditionDiscountDaysField;
+    use PaymentConditionDiscountPercentageField;
+    use RemittanceAdviceSendMailField;
+    use RemittanceAdviceSendTypeField;
+    use ShortNameField;
+    use StatusField;
+    use TouchedField;
+    use UIDField;
+    use WebsiteField;
 
-    private $code;
-    private $UID;
-    private $status;
-    private $name;
-
-    /**
-     * Dimension type of customers is DEB.
-     *
-     * @var string
-     */
-    private $type = "DEB";
-
-    /**
-     * Country code. The ISO country codes are used.
-     *
-     * @var string
-     */
-    private $country;
-
-    private $inUse;
-    private $behaviour;
-    private $touched;
-    private $beginPeriod;
-    private $beginYear;
-    private $endPeriod;
-    private $endYear;
-    private $website;
-    private $cocNumber;
-    private $vatNumber;
-    private $editDimensionName;
-    private $dueDays = 0;
-    private $payAvailable = false;
-    private $payCode;
-    private $vatCode;
-    private $eBilling = false;
-    private $eBillMail;
-    private $collectMandate;
     private $creditManagement;
-    private $addresses = array();
-    private $banks = array();
-    private $groups;
+    private $financials;
+    private $addresses = [];
+    private $banks = [];
+    private $postingRules = [];
 
-    public function getCode()
+    public function __construct()
     {
-        return $this->code;
+        $this->setBeginPeriod(0);
+        $this->setBeginYear(0);
+        $this->setEndPeriod(0);
+        $this->setEndYear(0);
+        $this->setTypeFromCode('DEB');
+
+        $this->setCreditManagement(new CustomerCreditManagement);
+        $this->setFinancials(new CustomerFinancials);
     }
 
-    public function setCode($code)
-    {
-        $this->code = $code;
-        return $this;
-    }
-
-    public function getID()
-    {
-        trigger_error('getID is a deprecated method: Use getCode', E_USER_NOTICE);
-        return $this->getCode();
-    }
-
-    public function setID($ID)
-    {
-        trigger_error('setID is a deprecated method: Use setCode', E_USER_NOTICE);
-        return $this->setCode($ID);
-    }
-
-    public function getUID()
-    {
-        return $this->UID;
-    }
-
-    public function setUID($UID)
-    {
-        $this->UID = $UID;
-        return $this;
-    }
-
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    public function setStatus($status)
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    public function getInUse()
-    {
-        return $this->inUse;
-    }
-
-    public function setInUse($inUse)
-    {
-        $this->inUse = $inUse;
-        return $this;
-    }
-
-    public function getBehaviour()
-    {
-        return $this->behaviour;
-    }
-
-    public function setBehaviour($behaviour)
-    {
-        $this->behaviour = $behaviour;
-        return $this;
-    }
-
-    public function getTouched()
-    {
-        return $this->touched;
-    }
-
-    public function setTouched($touched)
-    {
-        $this->touched = $touched;
-        return $this;
-    }
-
-    public function getBeginPeriod()
-    {
-        return $this->beginPeriod;
-    }
-
-    public function setBeginPeriod($beginPeriod)
-    {
-        $this->beginPeriod = $beginPeriod;
-        return $this;
-    }
-
-    public function getBeginYear()
-    {
-        return $this->beginYear;
-    }
-
-    public function setBeginYear($beginYear)
-    {
-        $this->beginYear = $beginYear;
-        return $this;
-    }
-
-    public function getEndPeriod()
-    {
-        return $this->endPeriod;
-    }
-
-    public function setEndPeriod($endPeriod)
-    {
-        $this->endPeriod = $endPeriod;
-        return $this;
-    }
-
-    public function getEndYear()
-    {
-        return $this->endYear;
-    }
-
-    public function setEndYear($endYear)
-    {
-        $this->endYear = $endYear;
-        return $this;
-    }
-
-    public function getWebsite()
-    {
-        return $this->website;
-    }
-
-    public function setWebsite($website)
-    {
-        $this->website = $website;
-        return $this;
-    }
-
-    public function getCocNumber()
-    {
-        trigger_error('setCocNumber is a deprecated method: get from CustomerAddress::field05', E_USER_NOTICE);
-        return $this->cocNumber;
-    }
-
-    public function setCocNumber($cocNumber)
-    {
-        trigger_error('setCocNumber is a deprecated method: add to CustomerAddress::field05', E_USER_NOTICE);
-        $this->cocNumber = $cocNumber;
-        return $this;
-    }
-
-    public function getVatNumber()
-    {
-        trigger_error('setVatNumber is a deprecated method: add to CustomerAddress::field04', E_USER_NOTICE);
-        return $this->vatNumber;
-    }
-
-    public function setVatNumber($vatNumber)
-    {
-        trigger_error('setVatNumber is a deprecated method: get CustomerAddress::field04', E_USER_NOTICE);
-        $this->vatNumber = $vatNumber;
-        return $this;
-    }
-
-    public function getEditDimensionName()
-    {
-        return $this->editDimensionName;
-    }
-
-    public function setEditDimensionName($editDimensionName)
-    {
-        $this->editDimensionName = $editDimensionName;
-        return $this;
-    }
-
-    public function getDueDays()
-    {
-        return $this->dueDays;
-    }
-
-    public function setDueDays($dueDays)
-    {
-        $this->dueDays = $dueDays;
-        return $this;
-    }
-
-    public function getPayAvailable(): bool
-    {
-        return $this->payAvailable;
-    }
-
-    public function setPayAvailable(bool $payAvailable): self
-    {
-        $this->payAvailable = $payAvailable;
-        return $this;
-    }
-
-    public function getPayCode()
-    {
-        return $this->payCode;
-    }
-
-    public function setPayCode($payCode)
-    {
-        $this->payCode = $payCode;
-        return $this;
-    }
-
-    public function getEBilling(): bool
-    {
-        return $this->eBilling;
-    }
-
-    public function setEBilling(bool $eBilling): self
-    {
-        $this->eBilling = $eBilling;
-        return $this;
-    }
-
-    public function getEBillMail()
-    {
-        return $this->eBillMail;
-    }
-
-    public function setEBillMail($eBillMail)
-    {
-        $this->eBillMail = $eBillMail;
-        return $this;
-    }
-
-    /**
-     *
-     * @return CustomerCollectMandate
-     */
-    public function getCollectMandate(): ?CustomerCollectMandate
-    {
-        return $this->collectMandate;
-    }
-
-    public function setCollectMandate(CustomerCollectMandate $collectMandate): self
-    {
-        $this->collectMandate = $collectMandate;
-        return $this;
-    }
-
-    /**
-     *
-     * @return CustomerCreditManagement
-     */
-    public function getCreditManagement(): ?CustomerCreditManagement
+    public function getCreditManagement(): CustomerCreditManagement
     {
         return $this->creditManagement;
     }
@@ -324,6 +80,17 @@ class Customer
     public function setCreditManagement(CustomerCreditManagement $creditManagement)
     {
         $this->creditManagement = $creditManagement;
+        return $this;
+    }
+
+    public function getFinancials(): CustomerFinancials
+    {
+        return $this->financials;
+    }
+
+    public function setFinancials(CustomerFinancials $financials)
+    {
+        $this->financials = $financials;
         return $this;
     }
 
@@ -369,30 +136,24 @@ class Customer
         }
     }
 
-    public function getGroups()
+    public function getPostingRules()
     {
-        return $this->groups;
+        return $this->postingRules;
     }
 
-    public function setGroups($groups)
+    public function addPostingRule(CustomerPostingRule $postingRule)
     {
-        $this->groups = $groups;
+        $this->postingRules[$postingRule->getID()] = $postingRule;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCountry(): string
+    public function removePostingRule($index)
     {
-        return $this->country;
-    }
-
-    /**
-     * @param string $country
-     */
-    public function setCountry(string $country): void
-    {
-        $this->country = $country;
+        if (array_key_exists($index, $this->postingRules)) {
+            unset($this->postingRules[$index]);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

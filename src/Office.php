@@ -2,58 +2,29 @@
 
 namespace PhpTwinfield;
 
-class Office
+use PhpTwinfield\Fields\CodeField;
+use PhpTwinfield\Fields\NameField;
+use PhpTwinfield\Fields\Office\CountryCodeField;
+use PhpTwinfield\Fields\Office\VatFirstQuarterStartsInField;
+use PhpTwinfield\Fields\Office\VatPeriodField;
+use PhpTwinfield\Fields\ShortNameField;
+use PhpTwinfield\Fields\StatusField;
+
+class Office extends BaseObject
 {
-    /**
-     * @var string The code of the office.
-     */
-    private $code;
-
-    /**
-     * @var string The code of the country of the office.
-     */
-    private $countryCode;
-
-    /**
-     * @var string The name of the office.
-     */
-    private $name;
+    use CodeField;
+    use CountryCodeField;
+    use NameField;
+    use ShortNameField;
+    use StatusField;
+    use VatFirstQuarterStartsInField;
+    use VatPeriodField;
 
     public static function fromCode(string $code) {
         $instance = new self;
         $instance->setCode($code);
 
         return $instance;
-    }
-
-    public function getCode(): string
-    {
-        return $this->code;
-    }
-
-    public function setCode(string $code): void
-    {
-        $this->code = $code;
-    }
-
-    public function getCountryCode(): string
-    {
-        return $this->countryCode;
-    }
-
-    public function setCountryCode(string $countryCode): void
-    {
-        $this->countryCode = $countryCode;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): void
-    {
-        $this->name = $name;
     }
 
     public function __toString()
