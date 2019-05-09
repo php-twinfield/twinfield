@@ -56,11 +56,12 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->assertSame('http://www.example.com', $customer->getWebsite());
 
         // Financials
-        $this->assertSame('30', $customer->getDueDays());
-        $this->assertSame(true, $customer->getPayAvailable());
-        $this->assertSame('SEPANLDD', $customer->getPayCodeToCode());
-        $this->assertSame(false, $customer->getEBilling());
-        $this->assertSame('VN', $customer->getVatCodeToCode());
+        $financials = $customer->getFinancials();        
+        $this->assertSame('30', $financials->getDueDays());
+        $this->assertSame(true, $financials->getPayAvailable());
+        $this->assertSame('SEPANLDD', $financials->getPayCodeToCode());
+        $this->assertSame(false, $financials->getEBilling());
+        $this->assertSame('VN', $financials->getVatCodeToCode());
 
         // Collect Mandate
         $collectMandate = $customer->getCollectMandate();
