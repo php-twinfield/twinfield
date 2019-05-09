@@ -2,9 +2,8 @@
 namespace PhpTwinfield\Request\Read;
 
 /**
- * Used to request a specific custom from a certain
- * office and code.
- * 
+ * Used to request a specific Article from a certain office and code.
+ *
  * @package PhpTwinfield
  * @subpackage Request\Read
  * @author Willem van de Sande <W.vandeSande@MailCoupon.nl>
@@ -14,7 +13,7 @@ class Article extends Read
 {
     /**
      * Sets office and code if they are present.
-     * 
+     *
      * @access public
      */
     public function __construct($office = null, $code = null)
@@ -22,7 +21,7 @@ class Article extends Read
         parent::__construct();
 
         $this->add('type', 'article');
-        
+
         if (null !== $office) {
             $this->setOffice($office);
         }
@@ -30,31 +29,5 @@ class Article extends Read
         if (null !== $code) {
             $this->setCode($code);
         }
-    }
-
-    /**
-     * Sets the office code for this Article request.
-     * 
-     * @access public
-     * @param int $office
-     * @return \PhpTwinfield\Request\Read\Article
-     */
-    public function setOffice($office)
-    {
-        $this->add('office', $office);
-        return $this;
-    }
-
-    /**
-     * Sets the code for this Article request.
-     * 
-     * @access public
-     * @param string $code
-     * @return \PhpTwinfield\Request\Read\Article
-     */
-    public function setCode($code)
-    {
-        $this->add('code', $code);
-        return $this;
     }
 }
