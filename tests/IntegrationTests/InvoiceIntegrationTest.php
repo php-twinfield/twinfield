@@ -48,15 +48,15 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $this->assertInstanceOf(Invoice::class, $invoice);
         $this->assertEquals(Office::fromCode("11024"), $invoice->getOffice());
-        $this->assertSame('FACTUUR', $invoice->getInvoiceType());
+        $this->assertSame('FACTUUR', $invoice->getInvoiceTypeToCode());
         $this->assertSame('5', $invoice->getInvoiceNumber());
-        $this->assertSame('20120831', $invoice->getInvoiceDate());
-        $this->assertSame('BNK', $invoice->getBank());
+        $this->assertSame('20120831', $invoice->getInvoiceDateToString());
+        $this->assertSame('BNK', $invoice->getBankToCode());
         $this->assertSame('1', $invoice->getInvoiceAddressNumber());
         $this->assertSame('1', $invoice->getDeliverAddressNumber());
-        $this->assertSame('1000', $invoice->getCustomer()->getCode());
+        $this->assertSame('1000', $invoice->getCustomerToCode());
         $this->assertSame('2012/8', $invoice->getPeriod());
-        $this->assertSame('EUR', $invoice->getCurrency());
+        $this->assertSame('EUR', $invoice->getCurrencyToCode());
         $this->assertSame('concept', $invoice->getStatus());
         $this->assertSame('cash', $invoice->getPaymentMethod());
 
@@ -68,22 +68,22 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoiceLine = $invoiceLines['1'];
 
         $this->assertSame('1', $invoiceLine->getID());
-        $this->assertSame('0', $invoiceLine->getArticle());
-        $this->assertSame('118', $invoiceLine->getSubArticle());
+        $this->assertSame('0', $invoiceLine->getArticleToCode());
+        $this->assertSame('118', $invoiceLine->getSubArticleToSubCode());
         $this->assertSame('1', $invoiceLine->getQuantity());
         $this->assertSame('1', $invoiceLine->getUnits());
-        $this->assertSame('true', $invoiceLine->getAllowDiscountOrPremium());
+        $this->assertSame('true', $invoiceLine->getAllowDiscountOrPremiumToString());
         $this->assertSame('CoalesceFunctioningOnImpatienceTShirt', $invoiceLine->getDescription());
-        $this->assertSame('15.00', $invoiceLine->getValueExcl());
-        $this->assertSame('0.00', $invoiceLine->getVatValue());
-        $this->assertSame('15.00', $invoiceLine->getValueInc());
-        $this->assertSame('15.00', $invoiceLine->getUnitsPriceExcl());
-        $this->assertSame('8020', $invoiceLine->getDim1());
+        $this->assertSame('15.00', $invoiceLine->getValueExclToFloat());
+        $this->assertSame('0.00', $invoiceLine->getVatValueToFloat());
+        $this->assertSame('15.00', $invoiceLine->getValueIncToFloat());
+        $this->assertSame('15.00', $invoiceLine->getUnitsPriceExclToFloat());
+        $this->assertSame('8020', $invoiceLine->getDim1ToCode());
 
         // TODO - Vat lines
 
-        $this->assertSame('15.00', $invoice->getTotals()->getValueInc());
-        $this->assertSame('15.00', $invoice->getTotals()->getValueExcl());
+        $this->assertSame('15.00', $invoice->getTotals()->getValueIncToFloat());
+        $this->assertSame('15.00', $invoice->getTotals()->getValueExclToFloat());
 
         $this->assertNull($invoice->getFinancialNumber());
         $this->assertNull($invoice->getFinancialCode());
@@ -103,15 +103,15 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $this->assertInstanceOf(Invoice::class, $invoice);
         $this->assertEquals(Office::fromCode("11024"), $invoice->getOffice());
-        $this->assertSame('FACTUUR', $invoice->getInvoiceType());
+        $this->assertSame('FACTUUR', $invoice->getInvoiceTypeToCode());
         $this->assertSame('5', $invoice->getInvoiceNumber());
-        $this->assertSame('20120831', $invoice->getInvoiceDate());
-        $this->assertSame('BNK', $invoice->getBank());
+        $this->assertSame('20120831', $invoice->getInvoiceDateToString());
+        $this->assertSame('BNK', $invoice->getBankToCode());
         $this->assertSame('1', $invoice->getInvoiceAddressNumber());
         $this->assertSame('1', $invoice->getDeliverAddressNumber());
-        $this->assertSame('1000', $invoice->getCustomer()->getCode());
+        $this->assertSame('1000', $invoice->getCustomerToCode());
         $this->assertSame('2012/8', $invoice->getPeriod());
-        $this->assertSame('EUR', $invoice->getCurrency());
+        $this->assertSame('EUR', $invoice->getCurrencyToCode());
         $this->assertSame('final', $invoice->getStatus());
         $this->assertSame('cash', $invoice->getPaymentMethod());
 
@@ -123,22 +123,22 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoiceLine = $invoiceLines['1'];
 
         $this->assertSame('1', $invoiceLine->getID());
-        $this->assertSame('0', $invoiceLine->getArticle());
-        $this->assertSame('118', $invoiceLine->getSubArticle());
+        $this->assertSame('0', $invoiceLine->getArticleToCode());
+        $this->assertSame('118', $invoiceLine->getSubArticleToSubCode());
         $this->assertSame('1', $invoiceLine->getQuantity());
         $this->assertSame('1', $invoiceLine->getUnits());
-        $this->assertSame('true', $invoiceLine->getAllowDiscountOrPremium());
+        $this->assertSame('true', $invoiceLine->getAllowDiscountOrPremiumToString());
         $this->assertSame('CoalesceFunctioningOnImpatienceTShirt', $invoiceLine->getDescription());
-        $this->assertSame('15.00', $invoiceLine->getValueExcl());
-        $this->assertSame('0.00', $invoiceLine->getVatValue());
-        $this->assertSame('15.00', $invoiceLine->getValueInc());
-        $this->assertSame('15.00', $invoiceLine->getUnitsPriceExcl());
-        $this->assertSame('8020', $invoiceLine->getDim1());
+        $this->assertSame('15.00', $invoiceLine->getValueExclToFloat());
+        $this->assertSame('0.00', $invoiceLine->getVatValueToFloat());
+        $this->assertSame('15.00', $invoiceLine->getValueIncToFloat());
+        $this->assertSame('15.00', $invoiceLine->getUnitsPriceExclToFloat());
+        $this->assertSame('8020', $invoiceLine->getDim1ToCode());
 
         // TODO - Vat lines
 
-        $this->assertSame('15.00', $invoice->getTotals()->getValueInc());
-        $this->assertSame('15.00', $invoice->getTotals()->getValueExcl());
+        $this->assertSame('15.00', $invoice->getTotals()->getValueIncToFloat());
+        $this->assertSame('15.00', $invoice->getTotals()->getValueExclToFloat());
 
         $this->assertSame('123456789', $invoice->getFinancialNumber());
         $this->assertSame('123456789', $invoice->getFinancialCode());
@@ -151,37 +151,37 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $invoice = new Invoice();
         $invoice->setOffice(Office::fromCode('11024'));
-        $invoice->setInvoiceType('FACTUUR');
+        $invoice->setInvoiceTypeFromCode('FACTUUR');
         $invoice->setInvoiceNumber('5');
-        $invoice->setInvoiceDate('20120831');
-        $invoice->setBank('BNK');
+        $invoice->setInvoiceDateFromString('20120831');
+        $invoice->setBankFromCode('BNK');
         $invoice->setInvoiceAddressNumber('1');
         $invoice->setDeliverAddressNumber('1');
         $invoice->setCustomer($customer);
         $invoice->setPeriod('2012/8');
-        $invoice->setCurrency('EUR');
-        $invoice->setStatus('concept');
-        $invoice->setPaymentMethod('cash');
+        $invoice->setCurrencyFromCode('EUR');
+        $invoice->setStatusFromString('concept');
+        $invoice->setPaymentMethodFromString('cash');
 
         $invoiceLine = new InvoiceLine();
         $invoiceLine->setID('1');
-        $invoiceLine->setArticle('4');
-        $invoiceLine->setSubArticle('118');
+        $invoiceLine->setArticleFromCode('4');
+        $invoiceLine->setSubArticleFromSubCode('118');
         $invoiceLine->setQuantity('1');
         $invoiceLine->setUnits('1');
-        $invoiceLine->setAllowDiscountOrPremium('true');
+        $invoiceLine->setAllowDiscountOrPremiumFromString('true');
         $invoiceLine->setDescription('CoalesceFunctioningOnImpatienceTShirt');
-        $invoiceLine->setValueExcl('15.00');
-        $invoiceLine->setVatValue('0.00');
-        $invoiceLine->setValueInc('15.00');
-        $invoiceLine->setUnitsPriceExcl('15.00');
-        $invoiceLine->setDim1('8020');
-        $invoiceLine->setVatCode('VN');
+        $invoiceLine->setValueExclFromFloat('15.00');
+        $invoiceLine->setVatValueFromFloat('0.00');
+        $invoiceLine->setValueIncFromFloat('15.00');
+        $invoiceLine->setUnitsPriceExclFromFloat('15.00');
+        $invoiceLine->setDim1FromCode('8020');
+        $invoiceLine->setVatCodeFromCode('VN');
         $invoice->addLine($invoiceLine);
 
         $totals = new InvoiceTotals();
-        $totals->setValueExcl('15.00');
-        $totals->setValueInc('15.00');
+        $totals->setValueExclFromFloat('15.00');
+        $totals->setValueIncFromFloat('15.00');
         $invoice->setTotals($totals);
 
         $this->processXmlService
