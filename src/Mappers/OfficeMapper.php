@@ -2,8 +2,8 @@
 
 namespace PhpTwinfield\Mappers;
 
-use PhpTwinfield\Response\Response;
 use PhpTwinfield\Office;
+use PhpTwinfield\Response\Response;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
@@ -13,6 +13,39 @@ use PhpTwinfield\Office;
  */
 class OfficeMapper extends BaseMapper
 {
+    /**
+     * Maps a Response object to a clean Office entity.
+     *
+     * @access public
+     *
+     * @param \PhpTwinfield\Response\Response $response
+     *
+     * @return Office
+     * @throws \PhpTwinfield\Exception
+     */
+    public static function map(Response $response)
+    {
+        // Generate new Office object
+        $office = new Office();
+
+        // Gets the raw DOMDocument response.
+        $responseDOM = $response->getResponseDocument();
+
+        // Get the root/office element
+        $officeElement = $responseDOM->documentElement;
+
+        // Set the result and status attribute
+        $office->setResult($officeElement->getAttribute('result'))
+            ->setStatus(self::parseEnumAttribute('Status', $officeElement->getAttribute('status')));
+
+        // Set the office elements from the office element
+        $office->setCode(self::getField($office, $officeElement, 'code'))
+            ->setName(self::getField($office, $officeElement, 'name'));
+
+        // Return the complete object
+        return $office;
+    }
+
     /**
      * Maps multiple offices to an office array.
      *

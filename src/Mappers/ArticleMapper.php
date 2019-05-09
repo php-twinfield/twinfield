@@ -7,14 +7,13 @@ use PhpTwinfield\Response\Response;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
- * 
+ *
  * @package PhpTwinfield
  * @subpackage Mapper
- * @author Willem van de Sande <W.vandeSande@MailCoupon.nl>
+ * @author Willem van de Sande <W.vandeSande@MailCoupon.nl>, extended by Yannick Aerssens <y.r.aerssens@gmail.com>
  */
 class ArticleMapper extends BaseMapper
 {
-    
     /**
      * Maps a Response object to a clean Article entity.
      *
@@ -33,80 +32,84 @@ class ArticleMapper extends BaseMapper
         // Gets the raw DOMDocument response.
         $responseDOM = $response->getResponseDocument();
 
+        // Get the root/article element
+        $articleElement = $responseDOM->documentElement;
+
+        // Set the result attribute
+        $article->setResult($articleElement->getAttribute('result'));
+
+        // Get the header element
+        $headerElement = $articleElement->getElementsByTagName('header')->item(0);
+
         // Set the status attribute
-        $dimensionElement = $responseDOM->getElementsByTagName('header')->item(0);
-        $article->setStatus($dimensionElement->getAttribute('status'));
+        $article->setStatus(self::parseEnumAttribute('Status', $headerElement->getAttribute('status')));
 
-        // Article elements and their methods
-        $articleTags = [
-            'code'                       => 'setCode',
-            'office'                     => 'setOffice',
-            'type'                       => 'setType',
-            'name'                       => 'setName',
-            'shortname'                  => 'setShortName',
-            'unitnamesingular'           => 'setUnitNameSingular',
-            'unitnameplural'             => 'setUnitNamePlural',
-            'vatcode'                    => 'setVatCode',
-            'allowchangevatcode'         => 'setAllowChangeVatCode',
-            'performancetype'            => 'setPerformanceType',
-            'allowchangeperformancetype' => 'setAllowChangePerformanceType',
-            'percentage'                 => 'setPercentage',
-            'allowdiscountorpremium'     => 'setAllowDiscountorPremium',
-            'allowchangeunitsprice'      => 'setAllowChangeUnitsPrice',
-            'allowdecimalquantity'       => 'setAllowDecimalQuantity',
-        ];
+        // Set the article elements from the header
+        $article->setAllowChangePerformanceType(self::parseBooleanAttribute(self::getField($article, $headerElement, 'allowchangeperformancetype')))
+            ->setAllowChangeUnitsPrice(self::parseBooleanAttribute(self::getField($article, $headerElement, 'allowchangeunitsprice')))
+            ->setAllowChangeVatCode(self::parseBooleanAttribute(self::getField($article, $headerElement, 'allowchangevatcode')))
+            ->setAllowDecimalQuantity(self::parseBooleanAttribute(self::getField($article, $headerElement, 'allowdecimalquantity')))
+            ->setAllowDiscountOrPremium(self::parseBooleanAttribute(self::getField($article, $headerElement, 'allowdiscountorpremium')))
+            ->setCode(self::getField($article, $headerElement, 'code'))
+            ->setName(self::getField($article, $headerElement, 'name'))
+            ->setOffice(self::parseObjectAttribute('Office', $article, $headerElement, 'office'))
+            ->setPercentage(self::parseBooleanAttribute(self::getField($article, $headerElement, 'percentage')))
+            ->setPerformanceType(self::parseEnumAttribute('PerformanceType', self::getField($article, $headerElement, 'performancetype')))
+            ->setShortName(self::getField($article, $headerElement, 'shortname'))
+            ->setType(self::parseEnumAttribute('ArticleType', self::getField($article, $headerElement, 'type')))
+            ->setUnitNameSingular(self::getField($article, $headerElement, 'unitnamesingular'))
+            ->setUnitNamePlural(self::getField($article, $headerElement, 'unitnameplural'))
+            ->setVatCode(self::parseObjectAttribute('VatCode', $article, $headerElement, 'vatcode'));
 
-        // Loop through all the tags
-        foreach ($articleTags as $tag => $method) {
-            self::setFromTagValue($responseDOM, $tag, [$article, $method]);
-        }
-
+        // Get the lines element
         $linesDOMTag = $responseDOM->getElementsByTagName('lines');
 
         if (isset($linesDOMTag) && $linesDOMTag->length > 0) {
-            // Element tags and their methods for lines
-            $lineTags = [
-                'unitspriceexcl'  => 'setUnitsPriceExcl',
-                'unitspriceinc'   => 'setUnitsPriceInc',
-                'units'           => 'setUnits',
-                'name'            => 'setName',
-                'shortname'       => 'setShortName',
-                'subcode'         => 'setSubCode',
-                'freetext1'       => 'setFreeText1',
-            ];
-
-            $linesDOM = $linesDOMTag->item(0);
+            $lineNumber = 0;
 
             // Loop through each returned line for the article
-            foreach ($linesDOM->getElementsByTagName('line') as $lineDOM) {
-
-                // Make a new tempory ArticleLine class
-                $articleLine = new ArticleLine();
-
-                // Set the attributes ( id,status,inuse)
-                $articleLine->setID($lineDOM->getAttribute('id'))
-                    ->setStatus($lineDOM->getAttribute('status'))
-                    ->setInUse($lineDOM->getAttribute('inuse'));
-
-                // Loop through the element tags. Determine if it exists and set it if it does
-                foreach ($lineTags as $tag => $method) {
-
-                    // Get the dom element
-                    $_tag = $lineDOM->getElementsByTagName($tag)->item(0);
-
-                    // Check if the tag is set, and its content is set, to prevent DOMNode errors
-                    if (isset($_tag) && isset($_tag->textContent)) {
-                        $articleLine->$method($_tag->textContent);
-                    }
+            foreach ($linesDOMTag->item(0)->childNodes as $lineElement) {
+                // Skip child nodes that are not of the DOMElement type
+                if ($lineElement->nodeType !== 1) {
+                    continue;
                 }
 
-                // Add the bank to the customer
+                $lineNumber++;
+
+                // Make a new temporary ArticleLine class
+                $articleLine = new ArticleLine();
+
+                // Set the ID attributes if it is not null, else set the current line number
+                if ($lineElement->getAttribute('id') != null) {
+                    $articleLine->setID($lineElement->getAttribute('id'));
+                } else {
+                    $articleLine->setID($lineNumber);
+                }
+
+                // Set the inuse and status attributes
+                $articleLine->setInUse($lineElement->getAttribute('inuse'));
+                $articleLine->setStatusFromString($lineElement->getAttribute('status'));
+
+                // Set the article line elements
+                $articleLine->setFreeText1(self::parseObjectAttribute('GeneralLedger', $articleLine, $lineElement, 'freetext1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
+                    ->setFreeText2(self::parseObjectAttribute('CostCenter', $articleLine, $lineElement, 'freetext2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
+                    ->setFreeText3(self::getField($articleLine, $lineElement, 'freetext3'))
+                    ->setUnits(self::getField($articleLine, $lineElement, 'units'))
+                    ->setName(self::getField($articleLine, $lineElement, 'name'))
+                    ->setShortName(self::getField($articleLine, $lineElement, 'shortname'))
+                    ->setSubCode(self::getField($articleLine, $lineElement, 'subcode'))
+                    ->setUnitsPriceExcl(self::parseMoneyAttribute(self::getField($articleLine, $lineElement, 'unitspriceexcl')))
+                    ->setUnitsPriceInc(self::parseMoneyAttribute(self::getField($articleLine, $lineElement, 'unitspriceinc')));
+
+                // Add the line to the article
                 $article->addLine($articleLine);
 
                 // Clean that memory!
                 unset ($articleLine);
             }
         }
+
+        // Return the complete object
         return $article;
     }
 }
