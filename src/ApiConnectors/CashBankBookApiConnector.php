@@ -14,7 +14,7 @@ use PhpTwinfield\Services\FinderService;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class CashBankBooksApiConnector extends BaseApiConnector
+class CashBankBookApiConnector extends BaseApiConnector
 {
     /**
      * List all cash and bank books.
@@ -42,11 +42,11 @@ class CashBankBooksApiConnector extends BaseApiConnector
 
         $response = $this->getFinderService()->searchFinder(FinderService::TYPE_CASHBOOKS_AND_BANKS, $pattern, $field, $firstRow, $maxRows, $optionsArrayOfString);
 
-        $vatGroupListAllTags = array(
+        $cashBankBookListAllTags = array(
             0       => 'setCode',
             1       => 'setName',
         );
 
-        return $this->mapListAll("CashBankBook", $response->data, $vatGroupListAllTags);
+        return $this->mapListAll("CashBankBook", $response->data, $cashBankBookListAllTags);
     }
 }
