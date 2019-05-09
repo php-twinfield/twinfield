@@ -2,8 +2,16 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\DomDocuments\UsersDocument;
+use PhpTwinfield\Exception;
+use PhpTwinfield\Mappers\UserMapper;
+use PhpTwinfield\Office;
+use PhpTwinfield\Request as Request;
+use PhpTwinfield\Response\MappedResponseCollection;
+use PhpTwinfield\Response\Response;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\User;
+use Webmozart\Assert\Assert;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about
@@ -12,7 +20,7 @@ use PhpTwinfield\User;
  * If you require more complex interactions or a heavier amount of control over the requests to/from then look inside
  * the methods or see the advanced guide detailing the required usages.
  *
- * @author Emile Bons <emile@emilebons.nl>
+ * @author Emile Bons <emile@emilebons.nl>, extended by Yannick Aerssens <y.r.aerssens@gmail.com>
  */
 class UserApiConnector extends BaseApiConnector
 {
@@ -21,6 +29,71 @@ class UserApiConnector extends BaseApiConnector
 
     const MUTUAL_OFFICES_DISABLED = 0;
     const MUTUAL_OFFICES_ENABLED = 1;
+
+    /**
+     * Requests a specific User based off the passed in code and optionally the office.
+     *
+     * @param string $code
+     * @param Office $office If no office has been passed it will instead take the default office from the
+     *                       passed in config class.
+     * @return User|bool The requested User or false if it can't be found.
+     * @throws Exception
+     */
+    public function get(string $code, Office $office): User
+    {
+        // Make a request to read a single User. Set the required values
+        $request_user = new Request\Read\User();
+        $request_user
+            ->setOffice($office->getCode())
+            ->setCode($code);
+
+        // Send the Request document and set the response to this instance.
+        $response = $this->sendXmlDocument($request_user);
+
+        return UserMapper::map($response);
+    }
+
+    /**
+     * Sends a User instance to Twinfield to update or add.
+     *
+     * @param User $user
+     * @return User
+     * @throws Exception
+     */
+    public function send(User $user): User
+    {
+        foreach($this->sendAll([$user]) as $each) {
+            return $each->unwrap();
+        }
+    }
+
+    /**
+     * @param User[] $users
+     * @return MappedResponseCollection
+     * @throws Exception
+     */
+    public function sendAll(array $users): MappedResponseCollection
+    {
+        Assert::allIsInstanceOf($users, User::class);
+
+        /** @var Response[] $responses */
+        $responses = [];
+
+        foreach ($this->getProcessXmlService()->chunk($users) as $chunk) {
+
+            $usersDocument = new UsersDocument();
+
+            foreach ($chunk as $user) {
+                $usersDocument->addUser($user);
+            }
+
+            $responses[] = $this->sendXmlDocument($usersDocument);
+        }
+
+        return $this->getProcessXmlService()->mapAll($responses, "user", function(Response $response): User {
+            return UserMapper::map($response);
+        });
+    }
 
     /**
      * List all users.
@@ -60,20 +133,15 @@ class UserApiConnector extends BaseApiConnector
             $options['mutualOffices'] = $mutualOffices;
         }
 
-        $response = $this->getFinderService()->searchFinder(FinderService::TYPE_USERS, $pattern, $field, $firstRow, $maxRows, $options);
+        $optionsArrayOfString = $this->convertOptionsToArrayOfString($options);
 
-        if ($response->data->TotalRows == 0) {
-            return [];
-        }
+        $response = $this->getFinderService()->searchFinder(FinderService::TYPE_USERS, $pattern, $field, $firstRow, $maxRows, $optionsArrayOfString);
 
-        $users = [];
-        foreach ($response->data->Items->ArrayOfString as $userArray) {
-            $user = new User();
-            $user->setCode($userArray->string[0]);
-            $user->setName($userArray->string[1]);
-            $users[] = $user;
-        }
+        $userListAllTags = array(
+            0       => 'setCode',
+            1       => 'setName',
+        );
 
-        return $users;
+        return $this->mapListAll("User", $response->data, $userListAllTags);
     }
 }

@@ -10,6 +10,7 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Services\FinderService;
 use Webmozart\Assert\Assert;
 
 /**
@@ -19,17 +20,18 @@ use Webmozart\Assert\Assert;
  * If you require more complex interactions or a heavier amount of control over the requests to/from then look inside
  * the methods or see the advanced guide detailing the required usages.
  *
- * @author Leon Rowland <leon@rowland.nl>
+ * @author Leon Rowland <leon@rowland.nl>, extended by Yannick Aerssens <y.r.aerssens@gmail.com>
  * @copyright (c) 2013, Pronamic
  */
 class CustomerApiConnector extends BaseApiConnector
 {
     /**
-     * Requests a specific customer based off the passed in code and the office.
+     * Requests a specific Customer based off the passed in code and optionally the office.
      *
      * @param string $code
-     * @param Office $office
-     * @return Customer The requested customer
+     * @param Office $office If no office has been passed it will instead take the default office from the
+     *                       passed in config class.
+     * @return Customer|bool The requested customer or false if it can't be found.
      * @throws Exception
      */
     public function get(string $code, Office $office): Customer
@@ -42,52 +44,12 @@ class CustomerApiConnector extends BaseApiConnector
 
         // Send the Request document and set the response to this instance.
         $response = $this->sendXmlDocument($request_customer);
+
         return CustomerMapper::map($response);
     }
 
     /**
-     * Requests all customers from the List Dimension Type.
-     *
-     * @param Office $office
-     * @return array A multidimensional array in the following form:
-     *               [$customerId => ['name' => $name, 'shortName' => $shortName], ...]
-     *
-     * @throws Exception
-     */
-    public function listAll(Office $office): array
-    {
-        // Make a request to a list of all customers
-        $request_customers = new Request\Catalog\Dimension($office, "DEB");
-
-        // Send the Request document and set the response to this instance.
-        $response = $this->sendXmlDocument($request_customers);
-
-        // Get the raw response document
-        $responseDOM = $response->getResponseDocument();
-
-        // Prepared empty customer array
-        $customers = [];
-
-        // Store in an array by customer id
-        /** @var \DOMElement $customer */
-        foreach ($responseDOM->getElementsByTagName('dimension') as $customer) {
-            $customer_id = $customer->textContent;
-
-            if ($customer_id == "DEB") {
-                continue;
-            }
-
-            $customers[$customer->textContent] = array(
-                'name' => $customer->getAttribute('name'),
-                'shortName' => $customer->getAttribute('shortname'),
-            );
-        }
-
-        return $customers;
-    }
-
-    /**
-     * Sends a \PhpTwinfield\Customer\Customer instance to Twinfield to update or add.
+     * Sends a Customer instance to Twinfield to update or add.
      *
      * @param Customer $customer
      * @return Customer
@@ -95,12 +57,8 @@ class CustomerApiConnector extends BaseApiConnector
      */
     public function send(Customer $customer): Customer
     {
-        $customerResponses = $this->sendAll([$customer]);
-
-        Assert::count($customerResponses, 1);
-
-        foreach ($customerResponses as $customerResponse) {
-            return $customerResponse->unwrap();
+        foreach($this->sendAll([$customer]) as $each) {
+            return $each->unwrap();
         }
     }
 
@@ -113,10 +71,10 @@ class CustomerApiConnector extends BaseApiConnector
     {
         Assert::allIsInstanceOf($customers, Customer::class);
 
+        /** @var Response[] $responses */
         $responses = [];
 
         foreach ($this->getProcessXmlService()->chunk($customers) as $chunk) {
-
             $customersDocument = new CustomersDocument();
 
             foreach ($chunk as $customer) {
@@ -129,5 +87,40 @@ class CustomerApiConnector extends BaseApiConnector
         return $this->getProcessXmlService()->mapAll($responses, "dimension", function(Response $response): Customer {
            return CustomerMapper::map($response);
         });
+    }
+
+    /**
+     * List all customers.
+     *
+     * @param string $pattern  The search pattern. May contain wildcards * and ?
+     * @param int    $field    The search field determines which field or fields will be searched. The available fields
+     *                         depends on the finder type. Passing a value outside the specified values will cause an
+     *                         error.
+     * @param int    $firstRow First row to return, useful for paging
+     * @param int    $maxRows  Maximum number of rows to return, useful for paging
+     * @param array  $options  The Finder options. Passing an unsupported name or value causes an error. It's possible
+     *                         to add multiple options. An option name may be used once, specifying an option multiple
+     *                         times will cause an error.
+     *
+     * @return Customer[] The customers found.
+     */
+    public function listAll(
+        string $pattern = '*',
+        int $field = 0,
+        int $firstRow = 1,
+        int $maxRows = 100,
+        array $options = []
+    ): array {
+        $forcedOptions['dimtype'] = "DEB";
+        $optionsArrayOfString = $this->convertOptionsToArrayOfString($options, $forcedOptions);
+
+        $response = $this->getFinderService()->searchFinder(FinderService::TYPE_DIMENSIONS_FINANCIALS, $pattern, $field, $firstRow, $maxRows, $optionsArrayOfString);
+
+        $customerListAllTags = array(
+            0       => 'setCode',
+            1       => 'setName',
+        );
+
+        return $this->mapListAll("Customer", $response->data, $customerListAllTags);
     }
 }

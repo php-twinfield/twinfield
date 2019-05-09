@@ -46,6 +46,11 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     {
         $this->connection = $connection;
     }
+    
+    public function getConnection()
+    {
+        return $this->connection;
+    }
 
     /**
      * @see sendXmlDocument()
@@ -160,5 +165,69 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     protected function getFinderService(): FinderService
     {
         return $this->connection->getAuthenticatedClient(Services::FINDER());
+    }
+
+    /**
+     * Convert options array to an ArrayOfString which is accepted by Twinfield.
+     *
+     * @param array $options
+     * @param array|null $forcedOptions
+     * @return array
+     * @throws Exception
+     */
+    public function convertOptionsToArrayOfString(array $options, array $forcedOptions = null): array {
+        if (isset($options['ArrayOfString'])) {
+            return $options;
+        } else {
+            $optionsArrayOfString = array('ArrayOfString' => array());
+
+            foreach ($forcedOptions as $key => $value) {
+                unset($options[$key]);
+                $optionsArrayOfString['ArrayOfString'][] = array($key, $value);
+            }
+
+            foreach ($options as $key => $value) {
+                $optionsArrayOfString['ArrayOfString'][] = array($key, $value);
+            }
+
+            return $optionsArrayOfString;
+        }
+    }
+
+    /**
+     * Map the response of a listAll to an array of the requested class
+     *
+     * @param string $className
+     * @param object $data
+     * @param array $objectListAllTags
+     * @return array
+     * @throws Exception
+     */
+    public function mapListAll(string $className, object $data, array $objectListAllTags): array {
+        if ($data->TotalRows == 0) {
+            return [];
+        }
+
+        $objects = [];
+
+        foreach ($data->Items->ArrayOfString as $responseArrayElement) {
+            $class = "\\PhpTwinfield\\" . $className;
+
+            $object = new $class();
+
+            if (isset($responseArrayElement->string[0])) {
+                $elementArray = $responseArrayElement->string;
+            } else {
+                $elementArray = $responseArrayElement;
+            }
+
+            foreach ($objectListAllTags as $key => $method) {
+                $object->$method($elementArray[$key]);
+            }
+
+            $objects[] = $object;
+        }
+
+        return $objects;
     }
 }

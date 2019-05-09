@@ -2,20 +2,93 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\DomDocuments\VatCodesDocument;
+use PhpTwinfield\Exception;
+use PhpTwinfield\Mappers\VatCodeMapper;
+use PhpTwinfield\Office;
+use PhpTwinfield\Request as Request;
+use PhpTwinfield\Response\MappedResponseCollection;
+use PhpTwinfield\Response\Response;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\VatCode;
+use Webmozart\Assert\Assert;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about
- * VAT codes.
+ * VatCodes.
  *
  * If you require more complex interactions or a heavier amount of control over the requests to/from then look inside
  * the methods or see the advanced guide detailing the required usages.
  *
- * @author Emile Bons <emile@emilebons.nl>
+ * @author Emile Bons <emile@emilebons.nl>, extended by Yannick Aerssens <y.r.aerssens@gmail.com>
  */
 class VatCodeApiConnector extends BaseApiConnector
 {
+    /**
+     * Requests a specific VatCode based off the passed in code and optionally the office.
+     *
+     * @param string $code
+     * @param Office $office If no office has been passed it will instead take the default office from the
+     *                       passed in config class.
+     * @return VatCode|bool The requested VAT code or false if it can't be found.
+     * @throws Exception
+     */
+    public function get(string $code, Office $office): VatCode
+    {
+        // Make a request to read a single VatCode. Set the required values
+        $request_vatCode = new Request\Read\VatCode();
+        $request_vatCode
+            ->setOffice($office->getCode())
+            ->setCode($code);
+
+        // Send the Request document and set the response to this instance.
+        $response = $this->sendXmlDocument($request_vatCode);
+
+        return VatCodeMapper::map($response);
+    }
+
+    /**
+     * Sends a VatCode instance to Twinfield to update or add.
+     *
+     * @param VatCode $vatCode
+     * @return VatCode
+     * @throws Exception
+     */
+    public function send(VatCode $vatCode): VatCode
+    {
+        foreach($this->sendAll([$vatCode]) as $each) {
+            return $each->unwrap();
+        }
+    }
+
+    /**
+     * @param VatCode[] $vatCodes
+     * @return MappedResponseCollection
+     * @throws Exception
+     */
+    public function sendAll(array $vatCodes): MappedResponseCollection
+    {
+        Assert::allIsInstanceOf($vatCodes, VatCode::class);
+
+        /** @var Response[] $responses */
+        $responses = [];
+
+        foreach ($this->getProcessXmlService()->chunk($vatCodes) as $chunk) {
+
+            $vatCodesDocument = new VatCodesDocument();
+
+            foreach ($chunk as $vatCode) {
+                $vatCodesDocument->addVatCode($vatCode);
+            }
+
+            $responses[] = $this->sendXmlDocument($vatCodesDocument);
+        }
+
+        return $this->getProcessXmlService()->mapAll($responses, "vat", function(Response $response): VatCode {
+            return VatCodeMapper::map($response);
+        });
+    }
+
     /**
      * List all VAT codes.
      *
@@ -38,20 +111,15 @@ class VatCodeApiConnector extends BaseApiConnector
         int $maxRows = 100,
         array $options = []
     ): array {
-        $response = $this->getFinderService()->searchFinder(FinderService::TYPE_VAT_CODES, $pattern, $field, $firstRow, $maxRows, $options);
+        $optionsArrayOfString = $this->convertOptionsToArrayOfString($options);
 
-        if ($response->data->TotalRows == 0) {
-            return [];
-        }
+        $response = $this->getFinderService()->searchFinder(FinderService::TYPE_VAT_CODES, $pattern, $field, $firstRow, $maxRows, $optionsArrayOfString);
 
-        $vatCodes = [];
-        foreach ($response->data->Items->ArrayOfString as $vatCodeArray) {
-            $vatCode = new VatCode();
-            $vatCode->setCode($vatCodeArray->string[0]);
-            $vatCode->setName($vatCodeArray->string[1]);
-            $vatCodes[] = $vatCode;
-        }
+        $vatCodeListAllTags = array(
+            0       => 'setCode',
+            1       => 'setName',
+        );
 
-        return $vatCodes;
+        return $this->mapListAll("VatCode", $response->data, $vatCodeListAllTags);
     }
 }
