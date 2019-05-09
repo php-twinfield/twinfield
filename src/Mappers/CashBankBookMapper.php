@@ -26,20 +26,20 @@ class CashBankBookMapper extends BaseMapper
     public static function map(Response $response)
     {
         // Generate new CashBankBook object
-        $vatGroup = new CashBankBook();
+        $cashBankBook = new CashBankBook();
 
         // Gets the raw DOMDocument response.
         $responseDOM = $response->getResponseDocument();
 
-        // Get the root/vat group element
-        $vatGroupElement = $responseDOM->documentElement;
+        // Get the root/cash or bank book element
+        $cashBankBookElement = $responseDOM->documentElement;
 
-        // Set the vat group elements from the vat group element
-        $vatGroup->setCode(self::getField($vatGroup, $vatGroupElement, 'code'))
-            ->setName(self::getField($vatGroup, $vatGroupElement, 'name'))
-            ->setShortName(self::getField($vatGroup, $vatGroupElement, 'shortname'));
+        // Set the cash or bank book elements from the cash or bank book element
+        $cashBankBook->setCode(self::getField($cashBankBook, $cashBankBookElement, 'code'))
+            ->setName(self::getField($cashBankBook, $cashBankBookElement, 'name'))
+            ->setShortName(self::getField($cashBankBook, $cashBankBookElement, 'shortname'));
 
         // Return the complete object
-        return $vatGroup;
+        return $cashBankBook;
     }
 }
