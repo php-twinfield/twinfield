@@ -45,7 +45,7 @@ class Response
 
         return new self($document);
     }
-    
+
     public function __construct(\DOMDocument $responseDocument)
     {
         $this->responseDocument = $responseDocument;
