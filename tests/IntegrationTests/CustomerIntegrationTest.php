@@ -57,7 +57,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
 
         // Financials
         $financials = $customer->getFinancials();        
-        $this->assertSame('30', $financials->getDueDays());
+        $this->assertSame(30, $financials->getDueDays());
         $this->assertSame(true, $financials->getPayAvailable());
         $this->assertSame('SEPANLDD', $financials->getPayCodeToCode());
         $this->assertSame(false, $financials->getEBilling());
@@ -170,7 +170,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $customer = new Customer();
         $customer->setOffice(Office::fromCode('001'));
         $customer->setName('Customer 0');
-        $customer->setDueDays('30');
+        $customer->setDueDays(30);
         $customer->setPayAvailable(true);
         $customer->setPayCodeFromCode('SEPANLDD');
 
