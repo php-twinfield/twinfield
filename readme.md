@@ -324,7 +324,7 @@ support for another resource.
 | [Cost Centers](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/CostCenters)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
 | Countries                  |                    | :white_check_mark: |                    |                    | :white_check_mark: |
 | [Currencies](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Currencies)                 |                    | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| [Customer](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
+| [Customers](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
 | [Dimension Groups](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionGroups)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
 | [Dimension Types](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionTypes)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
 | [Electronic Bank Statements](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankStatements)|         |                    | :white_check_mark: |                    |                    |
