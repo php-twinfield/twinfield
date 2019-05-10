@@ -61,12 +61,12 @@ class CustomerFinancials extends BaseObject
 
     public function getCollectMandate(): CustomerCollectMandate
     {
-        return $this->collectmandate;
+        return $this->collectMandate;
     }
 
-    public function setCollectMandate(CustomerCollectMandate $collectmandate)
+    public function setCollectMandate(CustomerCollectMandate $collectMandate)
     {
-        $this->collectmandate = $collectmandate;
+        $this->collectMandate = $collectMandate;
         return $this;
     }
 
