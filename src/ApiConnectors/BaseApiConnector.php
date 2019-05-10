@@ -180,10 +180,12 @@ abstract class BaseApiConnector implements LoggerAwareInterface
             return $options;
         } else {
             $optionsArrayOfString = array('ArrayOfString' => array());
-
-            foreach ($forcedOptions as $key => $value) {
-                unset($options[$key]);
-                $optionsArrayOfString['ArrayOfString'][] = array($key, $value);
+            
+            if (isset($forcedOptions)) {
+                foreach ($forcedOptions as $key => $value) {
+                    unset($options[$key]);
+                    $optionsArrayOfString['ArrayOfString'][] = array($key, $value);
+                }
             }
 
             foreach ($options as $key => $value) {
