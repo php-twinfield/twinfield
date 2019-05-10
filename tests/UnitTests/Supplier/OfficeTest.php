@@ -51,6 +51,6 @@ class SupplierOfficeTest extends \PHPUnit\Framework\TestCase
         
         $xpath = new \DOMXPath($document);
         
-        $this->assertEquals($xpath->query('/dimension/office')->item(0)->nodeValue, $this->office);
+        $this->assertEquals($xpath->query('/office')->item(0)->nodeValue, $this->office);
     }
 }
