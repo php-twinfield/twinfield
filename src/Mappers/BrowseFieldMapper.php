@@ -25,15 +25,15 @@ class BrowseFieldMapper extends BaseMapper
         foreach ($browseFieldsElement->getElementsByTagName('browsefield') as $browseFieldElement) {
             $browseField = new BrowseField();
             $browseField
-                ->setCode(self::getField($browseFieldElement, 'code'))
-                ->setDataType(self::getField($browseFieldElement, 'datatype'));
+                ->setCode(self::getField($browseField, $browseFieldElement, 'code'))
+                ->setDataType(self::getField($browseField, $browseFieldElement, 'datatype'));
 
-            $finder = self::getField($browseFieldElement, 'finder');
+            $finder = self::getField($browseField, $browseFieldElement, 'finder');
             if (!empty($finder)) {
                 $browseField->setFinder($finder);
             }
 
-            $canOrder = self::getField($browseFieldElement, 'canorder');
+            $canOrder = self::getField($browseField, $browseFieldElement, 'canorder');
             if (!empty($canOrder)) {
                 $browseField->setCanOrder($canOrder);
             }
