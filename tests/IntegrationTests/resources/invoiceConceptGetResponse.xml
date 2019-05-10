@@ -14,8 +14,8 @@
         <currency>EUR</currency>
         <status>concept</status>
         <paymentmethod>cash</paymentmethod>
-        <headertext/>
-        <footertext/>
+        <headertext>HEADER</headertext>
+        <footertext>FOOTER</footertext>
     </header>
     <lines>
         <line id="1">
@@ -40,7 +40,8 @@
         <vatline>
             <vatcode name="BTW 0%">VN</vatcode>
             <vatvalue>0.00</vatvalue>
-            <performancetype/><performancedate/>
+            <performancetype/>
+            <performancedate/>
         </vatline>
     </vatlines>
     <totals>
