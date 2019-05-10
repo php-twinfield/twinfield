@@ -3,6 +3,7 @@
 namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Exception;
+use PhpTwinfield\InvoiceType;
 use PhpTwinfield\Services\FinderService;
 
 /**

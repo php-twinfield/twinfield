@@ -4,10 +4,11 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Exception;
 use PhpTwinfield\Services\FinderService;
+use PhpTwinfield\UserRole;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about
- * UserRoles.
+ * UserRole.
  *
  * If you require more complex interactions or a heavier amount of control over the requests to/from then look inside
  * the methods or see the advanced guide detailing the required usages.
@@ -29,7 +30,7 @@ class UserRoleApiConnector extends BaseApiConnector
      *                         to add multiple options. An option name may be used once, specifying an option multiple
      *                         times will cause an error.
      *
-     * @return UserRoles[] The user roles found.
+     * @return UserRole[] The user roles found.
      */
     public function listAll(
         string $pattern = '*',
