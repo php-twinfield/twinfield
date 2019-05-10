@@ -136,7 +136,8 @@ class CustomerIntegrationTest extends BaseIntegrationTest
 
         $this->assertNull($creditmanagement->getResponsibleUserToCode());
         $this->assertSame(0.00, $creditmanagement->getBaseCreditLimitToFloat());
-        $this->assertSame(true, $creditmanagement->getSendReminder());
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\SendReminder');
+        $this->assertSame($ReflectObject->getConstant('TRUE'), (string)$creditmanagement->getSendReminder());
         $this->assertNull($creditmanagement->getReminderEmail());
         $this->assertSame(false, $creditmanagement->getBlocked());
         $this->assertNull($creditmanagement->getFreeText1ToString());
