@@ -16,7 +16,7 @@ trait FixedAssetsStatusField
 
     public function getStatus(): ?FixedAssetsStatus
     {
-        return $this->fixedAssetsStatus;
+        return $this->status;
     }
 
     /**
