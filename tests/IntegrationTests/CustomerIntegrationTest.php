@@ -140,7 +140,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->assertSame($ReflectObject->getConstant('TRUE'), (string)$creditmanagement->getSendReminder());
         $this->assertNull($creditmanagement->getReminderEmail());
         $this->assertSame(false, $creditmanagement->getBlocked());
-        $this->assertNull($creditmanagement->getFreeText1ToString());
+        $this->assertSame(false, $creditmanagement->getFreeText1());
         $this->assertNull($creditmanagement->getFreeText2());
         $this->assertNull($creditmanagement->getFreeText3());
         $this->assertNull($creditmanagement->getComment());
