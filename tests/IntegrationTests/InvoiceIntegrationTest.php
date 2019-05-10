@@ -8,6 +8,7 @@ use PhpTwinfield\DomDocuments\InvoicesDocument;
 use PhpTwinfield\Invoice;
 use PhpTwinfield\InvoiceLine;
 use PhpTwinfield\InvoiceTotals;
+use PhpTwinfield\InvoiceVatLine;
 use PhpTwinfield\Mappers\InvoiceMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
@@ -16,6 +17,7 @@ use PhpTwinfield\Response\Response;
  * @covers Invoice
  * @covers InvoiceLine
  * @covers InvoiceTotals
+ * @covers InvoiceVatLine
  * @covers InvoicesDocument
  * @covers InvoiceMapper
  * @covers InvoiceApiConnector
@@ -61,6 +63,8 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame($ReflectObject->getConstant('CONCEPT'), (string)$invoice->getStatus());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\PaymentMethod');
         $this->assertSame($ReflectObject->getConstant('CASH'), (string)$invoice->getPaymentMethod());
+        $this->assertSame('HEADER', $invoice->getHeaderText());
+        $this->assertSame('FOOTER', $invoice->getFooterText());
 
         $invoiceLines = $invoice->getLines();
         $this->assertCount(1, $invoiceLines);
@@ -74,7 +78,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame('118', $invoiceLine->getSubArticleToSubCode());
         $this->assertSame(1, $invoiceLine->getQuantity());
         $this->assertSame(1, $invoiceLine->getUnits());
-        $this->assertSame('true', $invoiceLine->getAllowDiscountOrPremiumToString());
+        $this->assertSame(true, $invoiceLine->getAllowDiscountOrPremium());
         $this->assertSame('CoalesceFunctioningOnImpatienceTShirt', $invoiceLine->getDescription());
         $this->assertSame(15.00, $invoiceLine->getValueExclToFloat());
         $this->assertSame(0.00, $invoiceLine->getVatValueToFloat());
@@ -82,7 +86,17 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame(15.00, $invoiceLine->getUnitsPriceExclToFloat());
         $this->assertSame('8020', $invoiceLine->getDim1ToCode());
 
-        // TODO - Vat lines
+        $invoiceVatLines = $invoice->getVatLines();
+        $this->assertCount(1, $invoiceVatLines);
+        $this->assertArrayHasKey('1', $invoiceVatLines);
+
+        /** @var InvoiceVatLine $invoiceVatLine */
+        $invoiceVatLine = $invoiceVatLines['1'];
+
+        $this->assertSame('VN', $invoiceLine->getVatCodeToCode());
+        $this->assertSame(0.00, $invoiceLine->getVatValueToFloat());
+        $this->assertNull($invoiceLine->getPerformanceType());
+        $this->assertNull($invoiceLine->getPerformanceDateToString());
 
         $this->assertSame(15.00, $invoice->getTotals()->getValueIncToFloat());
         $this->assertSame(15.00, $invoice->getTotals()->getValueExclToFloat());
@@ -114,8 +128,12 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame('1000', $invoice->getCustomerToCode());
         $this->assertSame('2012/8', $invoice->getPeriod());
         $this->assertSame('EUR', $invoice->getCurrencyToCode());
-        $this->assertSame(\PhpTwinfield\Enums\InvoiceStatus::FINAL(), $invoice->getStatus());
-        $this->assertSame(\PhpTwinfield\Enums\PaymentMethod::CASH(), $invoice->getPaymentMethod());
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\InvoiceStatus');
+        $this->assertSame($ReflectObject->getConstant('FINAL'), (string)$invoice->getStatus());
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\PaymentMethod');
+        $this->assertSame($ReflectObject->getConstant('CASH'), (string)$invoice->getPaymentMethod());
+        $this->assertSame('HEADER', $invoice->getHeaderText());
+        $this->assertSame('FOOTER', $invoice->getFooterText());
 
         $invoiceLines = $invoice->getLines();
         $this->assertCount(1, $invoiceLines);
@@ -129,7 +147,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame('118', $invoiceLine->getSubArticleToSubCode());
         $this->assertSame(1, $invoiceLine->getQuantity());
         $this->assertSame(1, $invoiceLine->getUnits());
-        $this->assertSame('true', $invoiceLine->getAllowDiscountOrPremiumToString());
+        $this->assertSame(true, $invoiceLine->getAllowDiscountOrPremium());
         $this->assertSame('CoalesceFunctioningOnImpatienceTShirt', $invoiceLine->getDescription());
         $this->assertSame(15.00, $invoiceLine->getValueExclToFloat());
         $this->assertSame(0.00, $invoiceLine->getVatValueToFloat());
@@ -137,7 +155,17 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame(15.00, $invoiceLine->getUnitsPriceExclToFloat());
         $this->assertSame('8020', $invoiceLine->getDim1ToCode());
 
-        // TODO - Vat lines
+        $invoiceVatLines = $invoice->getVatLines();
+        $this->assertCount(1, $invoiceVatLines);
+        $this->assertArrayHasKey('1', $invoiceVatLines);
+
+        /** @var InvoiceVatLine $invoiceVatLine */
+        $invoiceVatLine = $invoiceVatLines['1'];
+
+        $this->assertSame('VN', $invoiceLine->getVatCodeToCode());
+        $this->assertSame(0.00, $invoiceLine->getVatValueToFloat());
+        $this->assertNull($invoiceLine->getPerformanceType());
+        $this->assertNull($invoiceLine->getPerformanceDateToString());
 
         $this->assertSame(15.00, $invoice->getTotals()->getValueIncToFloat());
         $this->assertSame(15.00, $invoice->getTotals()->getValueExclToFloat());
@@ -164,6 +192,8 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoice->setCurrencyFromCode('EUR');
         $invoice->setStatusFromString('concept');
         $invoice->setPaymentMethodFromString('cash');
+        $invoice->setHeaderText('HEADER');
+        $invoice->setFooterText('FOOTER');
 
         $invoiceLine = new InvoiceLine();
         $invoiceLine->setID(1);
