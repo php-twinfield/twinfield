@@ -57,8 +57,8 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame('1000', $invoice->getCustomerToCode());
         $this->assertSame('2012/8', $invoice->getPeriod());
         $this->assertSame('EUR', $invoice->getCurrencyToCode());
-        $this->assertSame(Enums\InvoiceStatus::CONCEPT(), $invoice->getStatus());
-        $this->assertSame(Enums\PaymentMethod::CASH(), $invoice->getPaymentMethod());
+        $this->assertSame(\PhpTwinfield\Enums\InvoiceStatus::CONCEPT(), $invoice->getStatus());
+        $this->assertSame(\PhpTwinfield\Enums\PaymentMethod::CASH(), $invoice->getPaymentMethod());
 
         $invoiceLines = $invoice->getLines();
         $this->assertCount(1, $invoiceLines);
@@ -112,8 +112,8 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame('1000', $invoice->getCustomerToCode());
         $this->assertSame('2012/8', $invoice->getPeriod());
         $this->assertSame('EUR', $invoice->getCurrencyToCode());
-        $this->assertSame(Enums\InvoiceStatus::FINAL(), $invoice->getStatus());
-        $this->assertSame(Enums\PaymentMethod::CASH(), $invoice->getPaymentMethod());
+        $this->assertSame(\PhpTwinfield\Enums\InvoiceStatus::FINAL(), $invoice->getStatus());
+        $this->assertSame(\PhpTwinfield\Enums\PaymentMethod::CASH(), $invoice->getPaymentMethod());
 
         $invoiceLines = $invoice->getLines();
         $this->assertCount(1, $invoiceLines);
