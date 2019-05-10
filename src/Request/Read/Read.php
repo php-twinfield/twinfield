@@ -64,7 +64,7 @@ abstract class Read extends \DOMDocument
      *
      * @access public
      * @param int $office
-     * @return \PhpTwinfield\Request\Read
+     * @return \PhpTwinfield\Request\Read\Read
      */
     public function setOffice($office)
     {
@@ -77,7 +77,7 @@ abstract class Read extends \DOMDocument
      *
      * @access public
      * @param string $code
-     * @return \PhpTwinfield\Request\Read
+     * @return \PhpTwinfield\Request\Read\Read
      */
     public function setCode($code)
     {
@@ -90,7 +90,7 @@ abstract class Read extends \DOMDocument
      *
      * @access public
      * @param string $dimType
-     * @return \PhpTwinfield\Request\Read
+     * @return \PhpTwinfield\Request\Read\Read
      */
     public function setDimType($dimType)
     {
@@ -103,7 +103,7 @@ abstract class Read extends \DOMDocument
      *
      * @access public
      * @param string $number
-     * @return \PhpTwinfield\Request\Read
+     * @return \PhpTwinfield\Request\Read\Read
      */
     public function setNumber($number)
     {
