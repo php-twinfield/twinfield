@@ -60,15 +60,15 @@ class MatchSetMapper extends BaseMapper
     ): MatchReferenceInterface {
         return new MatchReference(
             $office,
-            self::getField($lineElement, 'transcode'),
-            self::getField($lineElement, 'transnumber'),
-            self::getField($lineElement, 'transline')
+            self::getField(null, $lineElement, 'transcode'),
+            self::getField(null, $lineElement, 'transnumber'),
+            self::getField(null, $lineElement, 'transline')
         );
     }
 
     private static function getMatchValueFrom(\DOMElement $lineElement): ?Money
     {
-        $matchValue = self::getField($lineElement, 'matchvalue');
+        $matchValue = self::getField(null, $lineElement, 'matchvalue');
 
         if ($matchValue === null) {
             return null;
