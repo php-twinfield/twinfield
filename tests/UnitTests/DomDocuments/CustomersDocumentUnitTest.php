@@ -47,7 +47,7 @@ class CustomersDocumentUnitTest extends TestCase
             (new CustomerCreditManagement())
                 ->setResponsibleUserFromCode('responsible-user')
                 ->setBaseCreditLimitFromFloat(50)
-                ->setSendReminder(true)
+                ->setSendReminderFromString('true')
                 ->setReminderEmail('reminderemail@mail.com')
                 ->setBlocked(false)
                 ->setFreeText1('free1')
