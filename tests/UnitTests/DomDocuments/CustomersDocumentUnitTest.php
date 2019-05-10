@@ -6,6 +6,7 @@ use PhpTwinfield\Customer;
 use PhpTwinfield\CustomerAddress;
 use PhpTwinfield\CustomerBank;
 use PhpTwinfield\CustomerCreditManagement;
+use PhpTwinfield\CustomerFinancials;
 use PhpTwinfield\DomDocuments\CustomersDocument;
 use PhpTwinfield\Office;
 use PHPUnit\Framework\TestCase;
@@ -31,19 +32,21 @@ class CustomersDocumentUnitTest extends TestCase
         $customer->setName('Chuck Norris');
         $customer->setWebsite('http://example.org');
         $customer->setOffice(Office::fromCode("DEV-10000"));
-        $customer->setStatus('active');
+        $customer->setStatusFromString('active');
 
-        $customer->setDueDays(1);
-        $customer->setPayAvailable(true);
-        $customer->setPayCode('pay-code');
-        $customer->setVatCode('vat-code');
-        $customer->setEBilling(true);
-        $customer->setEBillMail('ebillingmail@mail.com');
+	$financials = new CustomerFinancials();
+        $financials->setDueDays(1);
+        $financials->setPayAvailable(true);
+        $financials->setPayCodeFromCode('pay-code');
+        $financials->setVatCodeFromCode('vat-code');
+        $financials->setEBilling(true);
+        $financials->setEBillMail('ebillingmail@mail.com');
+	$customer->setFinancials($financials);
 
         $customer->setCreditManagement(
             (new CustomerCreditManagement())
-                ->setResponsibleUser('responsible-user')
-                ->setBaseCreditLimit(50)
+                ->setResponsibleUserFromCode('responsible-user')
+                ->setBaseCreditLimitFromFloat(50)
                 ->setSendReminder(true)
                 ->setReminderEmail('reminderemail@mail.com')
                 ->setBlocked(false)
@@ -54,14 +57,13 @@ class CustomersDocumentUnitTest extends TestCase
         $customer->addAddress(
             (new CustomerAddress())
                 ->setDefault(true)
-                ->setType('invoice')
+                ->setTypeFromString('invoice')
                 ->setName('My Address')
-                ->setContact('My Contact')
                 ->setCountry('nl')
                 ->setCity('city')
                 ->setPostcode('postal code')
                 ->setTelephone('phone number')
-                ->setFax('fax number')
+                ->setTelefax('fax number')
                 ->setEmail('email@mail.com')
                 ->setField1('field 1')
                 ->setField2('field 2')
@@ -74,17 +76,17 @@ class CustomersDocumentUnitTest extends TestCase
             (new CustomerBank())
                 ->setDefault(true)
                 ->setAscription('ascriptor')
-                ->setAccountnumber('account number')
-                ->setBankname('bank name')
-                ->setBiccode('bic code')
+                ->setAccountNumber('account number')
+                ->setBankName('bank name')
+                ->setBicCode('bic code')
                 ->setCity('city')
                 ->setCountry('nl')
                 ->setIban('iban')
-                ->setNatbiccode('nat-bic')
+                ->setNatBicCode('nat-bic')
                 ->setPostcode('postcode')
                 ->setState('state')
-                ->setAddressField2('address 2')
-                ->setAddressField3('address 3')
+                ->setField2('address 2')
+                ->setField3('address 3')
         );
 
         $this->document->addCustomer($customer);
@@ -94,7 +96,7 @@ class CustomersDocumentUnitTest extends TestCase
         $customer->setName('Nuck Chorris');
         $customer->setWebsite('http://example.org');
         $customer->setOffice(Office::fromCode("DEV-00001"));
-        $customer->setStatus('deleted');
+        $customer->setStatusFromString('deleted');
 
         $this->document->addCustomer($customer);
 
@@ -129,7 +131,6 @@ class CustomersDocumentUnitTest extends TestCase
         <addresses>
             <address default="true" type="invoice">
                 <name>My Address</name>
-                <contact>My Contact</contact>
                 <country>nl</country>
                 <city>city</city>
                 <postcode>postal code</postcode>
