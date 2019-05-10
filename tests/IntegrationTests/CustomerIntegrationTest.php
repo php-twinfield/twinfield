@@ -11,6 +11,7 @@ use PhpTwinfield\DomDocuments\CustomersDocument;
 use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Services\FinderService;
 
 /**
  * @covers Customer
@@ -64,7 +65,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->assertSame('VN', $financials->getVatCodeToCode());
 
         // Collect Mandate
-        $collectMandate = $customer->getCollectMandate();
+        $collectMandate = $financials->getCollectMandate();
         $this->assertSame('1', $collectMandate->getID());
         $this->assertEquals(new \DateTimeImmutable('2018-06-04'), $collectMandate->getSignatureDate());
         $this->assertEquals(new \DateTimeImmutable('2018-06-08'), $collectMandate->getFirstRunDate());
