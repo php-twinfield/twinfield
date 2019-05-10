@@ -12,7 +12,6 @@ use PhpTwinfield\DomDocuments\CustomersDocument;
 use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
-use PhpTwinfield\Services\FinderService;
 
 /**
  * @covers Customer
@@ -81,7 +80,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $address = $addresses['1'];
 
         $this->assertSame(1, $address->getID());
-        $this->assertSame('invoice', $address->getType());
+        $this->assertSame(\PhpTwinfield\Enums\AddressType::INVOICE(), $address->getType());
         $this->assertSame(true, $address->getDefault());
         $this->assertSame('Customer 0', $address->getName());
         $this->assertSame('NL', $address->getCountryToCode());
@@ -148,13 +147,13 @@ class CustomerIntegrationTest extends BaseIntegrationTest
     {
         $response = Response::fromString(file_get_contents(__DIR__ . '/resources/customerListResponse.xml'));
 
-        $this->processXmlService
+        $this->finderService
             ->expects($this->once())
-            ->method("sendDocument")
-            ->with($this->isInstanceOf(\PhpTwinfield\Request\Catalog\Dimension::class))
+            ->method("searchFinder")
+            ->with($this->isInstanceOf(\PhpTwinfield\Customer::class))
             ->willReturn($response);
 
-        $customers = $this->customerApiConnector->listAll($this->office);
+        $customers = $this->customerApiConnector->listAll();
 
         $this->assertCount(3, $customers);
 
@@ -181,7 +180,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $customer->setFinancials($financials);
 
         $address = new CustomerAddress();
-        $address->setID('1');
+        $address->setID(1);
         $address->setTypeFromString('invoice');
         $address->setDefault(true);
         $address->setName('Customer 0');
@@ -213,7 +212,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $customer->addBank($bank);
 
         $collectMandate = new CustomerCollectMandate();
-        $collectMandate->setID('1');
+        $collectMandate->setID(1);
         $collectMandate->setSignatureDateFromString('20180604');
         $collectMandate->setFirstRunDateFromString('20180608');
         $customer->setCollectMandate($collectMandate);
