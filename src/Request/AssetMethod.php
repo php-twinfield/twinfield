@@ -67,7 +67,7 @@ class AssetMethod extends DOMDocument
      *
      * @access public
      * @param int $office
-     * @return \PhpTwinfield\Request
+     * @return \PhpTwinfield\Request\AssetMethod
      */
     public function setOffice($office)
     {
@@ -80,7 +80,7 @@ class AssetMethod extends DOMDocument
      *
      * @access public
      * @param string $code
-     * @return \PhpTwinfield\Request
+     * @return \PhpTwinfield\Request\AssetMethod
      */
     public function setCode($code)
     {
