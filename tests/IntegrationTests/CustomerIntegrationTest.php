@@ -134,15 +134,15 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         // Creditmanagement
         $creditmanagement = $customer->getCreditManagement();
 
-        $this->assertSame('', $creditmanagement->getResponsibleUserToCode());
+        $this->assertNull($creditmanagement->getResponsibleUserToCode());
         $this->assertSame(0.00, $creditmanagement->getBaseCreditLimitToFloat());
         $this->assertSame(true, $creditmanagement->getSendReminder());
-        $this->assertSame('', $creditmanagement->getReminderEmail());
+        $this->assertNull($creditmanagement->getReminderEmail());
         $this->assertSame(false, $creditmanagement->getBlocked());
-        $this->assertSame('', $creditmanagement->getFreeText1ToString());
-        $this->assertSame('', $creditmanagement->getFreeText2());
-        $this->assertSame('', $creditmanagement->getFreeText3());
-        $this->assertSame('', $creditmanagement->getComment());
+        $this->assertNull($creditmanagement->getFreeText1ToString());
+        $this->assertNull($creditmanagement->getFreeText2());
+        $this->assertNull($creditmanagement->getFreeText3());
+        $this->assertNull($creditmanagement->getComment());
     }
 
     public function testListAllCustomersWorks()
