@@ -80,7 +80,8 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $address = $addresses['1'];
 
         $this->assertSame(1, $address->getID());
-        $this->assertSame(\PhpTwinfield\Enums\AddressType::INVOICE(), $address->getType());
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\AddressType');
+        $this->assertSame($ReflectObject->getConstant('INVOICE'), (string)$address->getType());
         $this->assertSame(true, $address->getDefault());
         $this->assertSame('Customer 0', $address->getName());
         $this->assertSame('NL', $address->getCountryToCode());
@@ -121,8 +122,9 @@ class CustomerIntegrationTest extends BaseIntegrationTest
 
         $this->assertSame('1097', $customer->getCode());
         $this->assertSame('c5027760-476e-4081-85fb-351c983aea54', $customer->getUID());
-        $this->assertSame('false', $customer->getInUseToString());
-        $this->assertSame('normal', $customer->getBehaviour());
+        $this->assertSame(false, $customer->getInUse());
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\Behaviour');
+        $this->assertSame($ReflectObject->getConstant('NORMAL'), (string)$customer->getBehaviour());
         $this->assertSame(0, $customer->getTouched());
         $this->assertSame(0, $customer->getBeginPeriod());
         $this->assertSame(0, $customer->getBeginYear());
