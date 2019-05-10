@@ -67,7 +67,7 @@ class DimensionType extends DOMDocument
      *
      * @access public
      * @param int $office
-     * @return \PhpTwinfield\Request
+     * @return \PhpTwinfield\Request\DimensionType
      */
     public function setOffice($office)
     {
@@ -80,7 +80,7 @@ class DimensionType extends DOMDocument
      *
      * @access public
      * @param string $code
-     * @return \PhpTwinfield\Request
+     * @return \PhpTwinfield\Request\DimensionType
      */
     public function setCode($code)
     {
