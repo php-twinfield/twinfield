@@ -199,8 +199,8 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $bank->setDefault(true);
         $bank->setAscription('Customer 1');
         $bank->setAccountNumber('123456789');
-        $bank->setAddressField2('');
-        $bank->setAddressField3('');
+        $bank->setField2('');
+        $bank->setField3('');
         $bank->setBankName('ABN Amro');
         $bank->setBicCode('ABNANL2A');
         $bank->setCity('Place');
