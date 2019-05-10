@@ -7,7 +7,7 @@ use PhpTwinfield\Exception;
 use PhpTwinfield\Office;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Request as Request;
-use PhpTwinfield\Request\Catalog\Catalog as RequestDocument;
+use PhpTwinfield\Request\Catalog\Office as OfficeRequestDocument;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about
@@ -52,8 +52,7 @@ class OfficeApiConnector extends BaseApiConnector
     public function listAllWithoutOfficeCode(): array
     {
         $offices = [];
-        $document = new RequestDocument();
-        $document->add('type', 'offices');
+        $document = new OfficeRequestDocument();
         $response = $this->getProcessXmlService()->sendDocument($document);
         $response->assertSuccessful();
 
