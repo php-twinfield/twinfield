@@ -50,7 +50,7 @@ class CustomersDocumentUnitTest extends TestCase
                 ->setSendReminderFromString('true')
                 ->setReminderEmail('reminderemail@mail.com')
                 ->setBlocked(false)
-                ->setFreeText1('free1')
+                ->setFreeText1FromString('free1')
                 ->setFreeText2('free2')
                 ->setComment('comment    comment')
         );
