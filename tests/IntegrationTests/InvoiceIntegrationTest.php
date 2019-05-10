@@ -90,7 +90,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertCount(1, $invoiceVatLines);
 
         /** @var InvoiceVatLine $invoiceVatLine */
-        $invoiceVatLine = $invoiceVatLines['1'];
+        $invoiceVatLine = current($invoiceVatLines);
 
         $this->assertSame('VN', $invoiceLine->getVatCodeToCode());
         $this->assertSame(0.00, $invoiceLine->getVatValueToFloat());
@@ -158,7 +158,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertCount(1, $invoiceVatLines);
 
         /** @var InvoiceVatLine $invoiceVatLine */
-        $invoiceVatLine = $invoiceVatLines['1'];
+        $invoiceVatLine = current($invoiceVatLines);
 
         $this->assertSame('VN', $invoiceLine->getVatCodeToCode());
         $this->assertSame(0.00, $invoiceLine->getVatValueToFloat());
