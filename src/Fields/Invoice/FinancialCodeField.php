@@ -17,7 +17,7 @@ trait FinancialCodeField
      */
     public function getFinancialCode(): ?string
     {
-        return $this->code;
+        return $this->financialCode;
     }
 
     /**
