@@ -68,7 +68,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
 
         // Collect Mandate
         $collectMandate = $financials->getCollectMandate();
-        $this->assertSame('1', $collectMandate->getID());
+        $this->assertSame(1, $collectMandate->getID());
         $this->assertEquals(new \DateTimeImmutable('2018-06-04'), $collectMandate->getSignatureDate());
         $this->assertEquals(new \DateTimeImmutable('2018-06-08'), $collectMandate->getFirstRunDate());
 
@@ -80,7 +80,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         /** @var CustomerAddress $address */
         $address = $addresses['1'];
 
-        $this->assertSame('1', $address->getID());
+        $this->assertSame(1, $address->getID());
         $this->assertSame('invoice', $address->getType());
         $this->assertSame(true, $address->getDefault());
         $this->assertSame('Customer 0', $address->getName());
@@ -105,7 +105,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         /** @var CustomerBank $bank */
         $bank = $banks['-1'];
 
-        $this->assertSame('-1', $bank->getID());
+        $this->assertSame(-1, $bank->getID());
         $this->assertSame(true, $bank->getDefault());
         $this->assertSame('Customer 1', $bank->getAscription());
         $this->assertSame('123456789', $bank->getAccountNumber());
@@ -124,17 +124,17 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->assertSame('c5027760-476e-4081-85fb-351c983aea54', $customer->getUID());
         $this->assertSame('false', $customer->getInUseToString());
         $this->assertSame('normal', $customer->getBehaviour());
-        $this->assertSame('0', $customer->getTouched());
-        $this->assertSame('0', $customer->getBeginPeriod());
-        $this->assertSame('0', $customer->getBeginYear());
-        $this->assertSame('0', $customer->getEndPeriod());
-        $this->assertSame('0', $customer->getEndYear());
+        $this->assertSame(0, $customer->getTouched());
+        $this->assertSame(0, $customer->getBeginPeriod());
+        $this->assertSame(0, $customer->getBeginYear());
+        $this->assertSame(0, $customer->getEndPeriod());
+        $this->assertSame(0, $customer->getEndYear());
 
         // Creditmanagement
         $creditmanagement = $customer->getCreditManagement();
 
         $this->assertSame('', $creditmanagement->getResponsibleUserToCode());
-        $this->assertSame('0.00', $creditmanagement->getBaseCreditLimitToFloat());
+        $this->assertSame(0.00, $creditmanagement->getBaseCreditLimitToFloat());
         $this->assertSame(true, $creditmanagement->getSendReminder());
         $this->assertSame('', $creditmanagement->getReminderEmail());
         $this->assertSame(false, $creditmanagement->getBlocked());
