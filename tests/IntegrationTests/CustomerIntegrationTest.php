@@ -150,6 +150,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->finderService
             ->expects($this->once())
             ->method("searchFinder")
+            ->with($this->isInstanceOf(\PhpTwinfield\Response\Response::class))
             ->willReturn($response);
 
         $customers = $this->customerApiConnector->listAll();
