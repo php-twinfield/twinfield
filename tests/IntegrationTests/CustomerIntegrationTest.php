@@ -114,9 +114,9 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->assertSame('Place', $bank->getCity());
         $this->assertSame('NL', $bank->getCountryToCode());
         $this->assertSame('NL02ABNA0123456789', $bank->getIban());
-        $this->assertSame('', $bank->getNatBicCode());
-        $this->assertSame('', $bank->getPostcode());
-        $this->assertSame('', $bank->getState());
+        $this->assertNull($bank->getNatBicCode());
+        $this->assertNull($bank->getPostcode());
+        $this->assertNull($bank->getState());
         $this->assertNull($bank->getAddressField2());
         $this->assertNull($bank->getAddressField3());
 
