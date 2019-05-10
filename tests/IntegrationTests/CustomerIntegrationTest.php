@@ -95,7 +95,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->assertSame('Streetname part 1 - 2', $address->getField3());
         $this->assertSame('NL099887766B01', $address->getField4());
         $this->assertSame('99887766', $address->getField5());
-        $this->assertSame('', $address->getField6());
+        $this->assertNull($address->getField6());
 
         // Banks
         $banks = $customer->getBanks();
