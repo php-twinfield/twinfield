@@ -136,6 +136,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $invoiceLines = $invoice->getLines();
         $this->assertCount(1, $invoiceLines);
+        $this->assertArrayHasKey('1', $invoiceLines);
 
         /** @var InvoiceLine $invoiceLine */
         $invoiceLine = $invoiceLines['1'];
@@ -155,7 +156,6 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $invoiceVatLines = $invoice->getVatLines();
         $this->assertCount(1, $invoiceVatLines);
-        $this->assertArrayHasKey('1', $invoiceVatLines);
 
         /** @var InvoiceVatLine $invoiceVatLine */
         $invoiceVatLine = $invoiceVatLines['1'];
