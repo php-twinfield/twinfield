@@ -10,7 +10,7 @@ trait VatCodeTypeField
      * VAT code type field
      * Used by: VatCode
      *
-     * @var type|null
+     * @var VatType|null
      */
     private $type;
 

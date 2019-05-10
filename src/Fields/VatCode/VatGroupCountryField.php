@@ -13,7 +13,7 @@ use PhpTwinfield\Country;
 trait VatGroupCountryField
 {
     /**
-     * @var VatGroupCountry|null
+     * @var Country|null
      */
     private $groupCountry;
 
