@@ -211,11 +211,6 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoiceLine->setVatCodeFromCode('VN');
         $invoice->addLine($invoiceLine);
 
-        $totals = new InvoiceTotals();
-        $totals->setValueExclFromFloat(15.00);
-        $totals->setValueIncFromFloat(15.00);
-        $invoice->setTotals($totals);
-
         $this->processXmlService
             ->expects($this->once())
             ->method("sendDocument")
