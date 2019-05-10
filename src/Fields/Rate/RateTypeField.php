@@ -10,7 +10,7 @@ trait RateTypeField
      * Rate type field
      * Used by: Rate
      *
-     * @var type|null
+     * @var RateType|null
      */
     private $type;
 
