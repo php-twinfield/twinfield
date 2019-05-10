@@ -7,6 +7,7 @@ use PhpTwinfield\Customer;
 use PhpTwinfield\CustomerAddress;
 use PhpTwinfield\CustomerBank;
 use PhpTwinfield\CustomerCollectMandate;
+use PhpTwinfield\CustomerFinancials;
 use PhpTwinfield\DomDocuments\CustomersDocument;
 use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Office;
@@ -19,6 +20,7 @@ use PhpTwinfield\Services\FinderService;
  * @covers CustomerBank
  * @covers CustomerCollectMandate
  * @covers CustomerCreditManagement
+ * @covers CustomerFinancials
  * @covers CustomersDocument
  * @covers CustomerMapper
  * @covers CustomerApiConnector
