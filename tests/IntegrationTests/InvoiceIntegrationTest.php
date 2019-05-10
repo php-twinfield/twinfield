@@ -57,7 +57,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame('1000', $invoice->getCustomerToCode());
         $this->assertSame('2012/8', $invoice->getPeriod());
         $this->assertSame('EUR', $invoice->getCurrencyToCode());
-        $ReflectObject = new ReflectionClass('\PhpTwinfield\Enums\InvoiceStatus');
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\InvoiceStatus');
         $this->assertSame($ReflectObject->getConstant('CONCEPT'), $invoice->getStatus());
         $this->assertSame(\PhpTwinfield\Enums\PaymentMethod::CASH(), $invoice->getPaymentMethod());
 
