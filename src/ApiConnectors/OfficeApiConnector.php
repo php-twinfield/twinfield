@@ -7,7 +7,7 @@ use PhpTwinfield\Exception;
 use PhpTwinfield\Office;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Request as Request;
-use PhpTwinfield\Request\Catalog as RequestDocument;
+use PhpTwinfield\Request\Catalog\Catalog as RequestDocument;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about

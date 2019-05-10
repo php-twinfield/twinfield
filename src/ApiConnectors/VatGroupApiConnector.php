@@ -4,6 +4,7 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Exception;
 use PhpTwinfield\Services\FinderService;
+use PhpTwinfield\VatGroup;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about

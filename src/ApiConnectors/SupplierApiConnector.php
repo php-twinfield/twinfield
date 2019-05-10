@@ -57,7 +57,7 @@ class SupplierApiConnector extends BaseApiConnector
      */
     public function send(Supplier $supplier): Supplier
     {
-        foreach($this->sendAll([$fixedAsset]) as $each) {
+        foreach($this->sendAll([$supplier]) as $each) {
             return $each->unwrap();
         }
     }

@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\Country;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Services\FinderService;
 
