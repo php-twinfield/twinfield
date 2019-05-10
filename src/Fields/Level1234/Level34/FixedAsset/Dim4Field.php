@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpTwinfield\Fields\Level1244\Level44\FixedAsset;
+namespace PhpTwinfield\Fields\Level1234\Level34\FixedAsset;
 
 use PhpTwinfield\Dummy;
 
