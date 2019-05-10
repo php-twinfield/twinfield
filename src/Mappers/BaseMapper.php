@@ -87,7 +87,9 @@ abstract class BaseMapper
             return null;
         }
 
-        self::checkForMessage($object, $fieldElement);
+        if (isset($object)) {
+            self::checkForMessage($object, $fieldElement);
+        }
 
         if ($fieldElement->textContent === "") {
             return null;
