@@ -168,8 +168,8 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame(15.00, $invoice->getTotals()->getValueIncToFloat());
         $this->assertSame(15.00, $invoice->getTotals()->getValueExclToFloat());
 
-        $this->assertSame('123456789', $invoice->getFinancialNumber());
-        $this->assertSame('123456789', $invoice->getFinancialCode());
+        $this->assertSame(123456789, $invoice->getFinancialNumber());
+        $this->assertSame(123456789, $invoice->getFinancialCode());
     }
 
     public function testSendInvoiceWorks()
