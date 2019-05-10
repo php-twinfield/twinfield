@@ -13,6 +13,8 @@
             <bank>BNK</bank>
             <invoiceaddressnumber>1</invoiceaddressnumber>
             <deliveraddressnumber>1</deliveraddressnumber>
+            <headertext>HEADER</headertext>
+            <footertext>FOOTER</footertext>
         </header>
         <lines>
             <line id="1">
