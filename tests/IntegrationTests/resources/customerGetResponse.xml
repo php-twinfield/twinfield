@@ -82,7 +82,7 @@
         <sendreminder>true</sendreminder>
         <reminderemail></reminderemail>
         <blocked locked="false" modified="">false</blocked>
-        <freetext1></freetext1>
+        <freetext1>false</freetext1>
         <freetext2></freetext2>
         <freetext3></freetext3>
         <comment></comment>
