@@ -29,32 +29,32 @@ class BrowseDefinitionMapper extends BaseMapper
         $browseDefinitionElement = $document->documentElement;
 
         $browseDefinition
-            ->setOffice(Office::fromCode(self::getField($browseDefinitionElement, 'office')))
-            ->setCode(self::getField($browseDefinitionElement, 'code'))
-            ->setName(self::getField($browseDefinitionElement, 'name'))
-            ->setShortName(self::getField($browseDefinitionElement, 'shortname'))
-            ->setVisible(self::getField($browseDefinitionElement, 'visible'));
+            ->setOffice(Office::fromCode(self::getField($browseDefinition, $browseDefinitionElement, 'office')))
+            ->setCode(self::getField($browseDefinition, $browseDefinitionElement, 'code'))
+            ->setName(self::getField($browseDefinition, $browseDefinitionElement, 'name'))
+            ->setShortName(self::getField($browseDefinition, $browseDefinitionElement, 'shortname'))
+            ->setVisible(self::getField($browseDefinition, $browseDefinitionElement, 'visible'));
 
         foreach ($browseDefinitionElement->getElementsByTagName('column') as $columnElement) {
             $browseColumn = new BrowseColumn();
             $browseColumn
                 ->setId($columnElement->getAttribute('id'))
-                ->setField(self::getField($columnElement, 'field'))
-                ->setVisible(Util::parseBoolean(self::getField($columnElement, 'visible')))
-                ->setAsk(Util::parseBoolean(self::getField($columnElement, 'ask')))
-                ->setOperator(new BrowseColumnOperator(self::getField($columnElement, 'operator')));
+                ->setField(self::getField($browseColumn, $columnElement, 'field'))
+                ->setVisible(Util::parseBoolean(self::getField($browseColumn, $columnElement, 'visible')))
+                ->setAsk(Util::parseBoolean(self::getField($browseColumn, $columnElement, 'ask')))
+                ->setOperator(new BrowseColumnOperator(self::getField($browseColumn, $columnElement, 'operator')));
 
-            $label = self::getField($columnElement, 'label');
+            $label = self::getField($browseColumn, $columnElement, 'label');
             if (!empty($label)) {
                 $browseColumn->setLabel($label);
             }
 
-            $from = self::getField($columnElement, 'from');
+            $from = self::getField($browseColumn, $columnElement, 'from');
             if (!empty($from)) {
                 $browseColumn->setFrom($from);
             }
 
-            $to = self::getField($columnElement, 'to');
+            $to = self::getField($browseColumn, $columnElement, 'to');
             if (!empty($to)) {
                 $browseColumn->setTo($to);
             }
