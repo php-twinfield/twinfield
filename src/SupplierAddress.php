@@ -44,6 +44,6 @@ class SupplierAddress extends BaseObject
 
     public function __construct()
     {
-        $this->ID = uniqid();
+        $this->ID = (int)(date('Ymd'). sprintf("%03d", mt_rand(1, 999)));
     }
 }
