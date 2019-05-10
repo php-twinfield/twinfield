@@ -117,8 +117,8 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->assertNull($bank->getNatBicCode());
         $this->assertNull($bank->getPostcode());
         $this->assertNull($bank->getState());
-        $this->assertNull($bank->getAddressField2());
-        $this->assertNull($bank->getAddressField3());
+        $this->assertNull($bank->getField2());
+        $this->assertNull($bank->getField3());
 
         $this->assertSame('1097', $customer->getCode());
         $this->assertSame('c5027760-476e-4081-85fb-351c983aea54', $customer->getUID());
