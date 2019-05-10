@@ -180,6 +180,13 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $financials->setDueDays(30);
         $financials->setPayAvailable(true);
         $financials->setPayCodeFromCode('SEPANLDD');
+        
+        $collectMandate = new CustomerCollectMandate();
+        $collectMandate->setID(1);
+        $collectMandate->setSignatureDateFromString('20180604');
+        $collectMandate->setFirstRunDateFromString('20180608');
+        $financials->setCollectMandate($collectMandate);
+        
         $customer->setFinancials($financials);
 
         $address = new CustomerAddress();
@@ -213,12 +220,6 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $bank->setPostcode('');
         $bank->setState('');
         $customer->addBank($bank);
-
-        $collectMandate = new CustomerCollectMandate();
-        $collectMandate->setID(1);
-        $collectMandate->setSignatureDateFromString('20180604');
-        $collectMandate->setFirstRunDateFromString('20180608');
-        $customer->setCollectMandate($collectMandate);
 
         $this->processXmlService
             ->expects($this->once())
