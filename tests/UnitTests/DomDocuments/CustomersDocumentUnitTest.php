@@ -126,7 +126,7 @@ class CustomersDocumentUnitTest extends TestCase
 	        <vatcode>vat-code</vatcode>
 	        <collectmandate>
 		    <firstrundate/>
-	            <id>20190510929</id>
+	            <id/>
 		    <signaturedate/>
 	        </collectmandate>
             </financials>
@@ -137,15 +137,15 @@ class CustomersDocumentUnitTest extends TestCase
 	    <freetext1>true</freetext1>
             <freetext2>free2</freetext2>
 	    <freetext3/>
-	    <responsibleuser>responsible-user</responsibleuser>
 	    <reminderemail>reminderemail@mail.com</reminderemail>
+	    <responsibleuser>responsible-user</responsibleuser>
             <sendreminder>true</sendreminder>
         </creditmanagement>
 	<invoicing>
 	    <discountarticle/>
 	</invoicing>
         <addresses>
-            <address default="true" id="20190510718" type="invoice">
+            <address default="true" type="invoice">
                 <city>city</city>
                 <country>nl</country>
                 <email>email@mail.com</email>
@@ -162,7 +162,7 @@ class CustomersDocumentUnitTest extends TestCase
             </address>
         </addresses>
         <banks>
-            <bank default="true" id="20190510621">
+            <bank default="true">
 	        <address>
                     <field2>address 2</field2>
                     <field3>address 3</field3>
@@ -213,7 +213,7 @@ class CustomersDocumentUnitTest extends TestCase
 		<vatcode/>
 		<collectmandate>
 		    <firstrundate/>
-		    <id>20190510798</id>
+		    <id/>
 		    <signaturedate/>
 		</collectmandate>
 	    </financials>
