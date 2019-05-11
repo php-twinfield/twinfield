@@ -72,7 +72,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame(1, $invoice->getInvoiceAddressNumber());
         $this->assertSame(1, $invoice->getDeliverAddressNumber());
         $this->assertSame('1000', $invoice->getCustomerToCode());
-        $this->assertSame('2012/8', $invoice->getPeriod());
+        $this->assertSame('2012/08', $invoice->getPeriod());
         $this->assertSame('EUR', $invoice->getCurrencyToCode());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\InvoiceStatus');
         $this->assertSame($ReflectObject->getConstant('CONCEPT'), (string)$invoice->getStatus());
@@ -140,7 +140,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame(1, $invoice->getInvoiceAddressNumber());
         $this->assertSame(1, $invoice->getDeliverAddressNumber());
         $this->assertSame('1000', $invoice->getCustomerToCode());
-        $this->assertSame('2012/8', $invoice->getPeriod());
+        $this->assertSame('2012/08', $invoice->getPeriod());
         $this->assertSame('EUR', $invoice->getCurrencyToCode());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\InvoiceStatus');
         $this->assertSame($ReflectObject->getConstant('FINAL'), (string)$invoice->getStatus());
@@ -201,7 +201,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoice->setInvoiceAddressNumber(1);
         $invoice->setDeliverAddressNumber(1);
         $invoice->setCustomer($customer);
-        $invoice->setPeriod('2012/8');
+        $invoice->setPeriod('2012/08');
         $invoice->setCurrencyFromCode('EUR');
         $invoice->setStatusFromString('concept');
         $invoice->setPaymentMethodFromString('cash');
