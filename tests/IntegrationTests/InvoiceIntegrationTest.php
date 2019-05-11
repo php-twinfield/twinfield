@@ -3,6 +3,7 @@
 namespace PhpTwinfield\IntegrationTests;
 
 use PhpTwinfield\ApiConnectors\InvoiceApiConnector;
+use PhpTwinfield\ApiConnectors\InvoiceTypeApiConnector;
 use PhpTwinfield\Customer;
 use PhpTwinfield\DomDocuments\InvoicesDocument;
 use PhpTwinfield\Invoice;
@@ -40,11 +41,11 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $this->invoiceApiConnector = new InvoiceApiConnector($this->connection);
         
-        $this->invoiceTypeApiConnector = $this->getMockBuilder('\PhpTwinfield\ApiConnectors\InvoiceTypeApiConnector')
+        $this->invoiceTypeApiConnector = $this->createMock(InvoiceTypeApiConnector::class);
+        $this->invoiceTypeApiConnector
             ->setConstructorArgs(array($this->connection))
-            ->getMock();
-        
-        $this->invoiceTypeApiConnector->method("getInvoiceTypeVatType")->willReturn('exclusive');       
+            ->method("getInvoiceTypeVatType")
+            ->willReturn('exclusive');    
     }
 
     public function testGetConceptInvoiceWorks()
