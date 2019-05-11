@@ -67,7 +67,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
 
         // Collect Mandate
         $collectMandate = $financials->getCollectMandate();
-        $this->assertSame(1, $collectMandate->getID());
+        $this->assertSame('1', $collectMandate->getID());
         $this->assertEquals(new \DateTimeImmutable('2018-06-04'), $collectMandate->getSignatureDate());
         $this->assertEquals(new \DateTimeImmutable('2018-06-08'), $collectMandate->getFirstRunDate());
 
