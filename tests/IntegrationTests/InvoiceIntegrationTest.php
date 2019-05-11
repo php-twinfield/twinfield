@@ -174,8 +174,11 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
     public function testSendInvoiceWorks()
     {
-        $invoiceTypeMockContext = $this->createMock(InvoiceTypeApiConnector::class);
-        $invoiceTypeMockContext->method("getInvoiceTypeVatType")->willReturn('exclusive');
+        
+        $invoiceTypeApiConnector = $this->getMockBuilder('\PhpTwinfield\ApiConnectors\InvoiceTypeApiConnector')
+            ->getMock();
+        
+        $invoiceTypeApiConnector->method("getInvoiceTypeVatType")->willReturn('exclusive');
         
         $customer = new Customer();
         $customer->setCode('1000');
