@@ -22,7 +22,7 @@ trait Dim4Field
         return $this->dim4;
     }
 
-    public function getDim4ToCode(): ?string
+    public function getDim4ToString(): ?string
     {
         if ($this->getDim4() != null) {
             return $this->dim4->getCode();
@@ -45,7 +45,7 @@ trait Dim4Field
      * @return $this
      * @throws Exception
      */
-    public function setDim4FromCode(?string $dim4Code)
+    public function setDim4FromString(?string $dim4Code)
     {
         $dim4 = new Dummy();
         $dim4->setCode($dim4Code);

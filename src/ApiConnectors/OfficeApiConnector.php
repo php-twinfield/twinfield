@@ -92,7 +92,7 @@ class OfficeApiConnector extends BaseApiConnector
         $officeListAllTags = array(
             0       => 'setCode',
             1       => 'setName',
-            2       => 'setCountryCode',
+            2       => 'setCountryCodeFromString',
             3       => 'setVatPeriod',
             4       => 'setVatFirstQuarterStartsIn',
         );

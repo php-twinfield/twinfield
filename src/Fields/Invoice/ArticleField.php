@@ -22,7 +22,7 @@ trait ArticleField
         return $this->article;
     }
 
-    public function getArticleToCode(): ?string
+    public function getArticleToString(): ?string
     {
         if ($this->getArticle() != null) {
             return $this->article->getCode();
@@ -45,7 +45,7 @@ trait ArticleField
      * @return $this
      * @throws Exception
      */
-    public function setArticleFromCode(?string $articleCode)
+    public function setArticleFromString(?string $articleCode)
     {
         $article = new Article();
         $article->setCode($articleCode);

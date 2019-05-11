@@ -22,7 +22,7 @@ trait Dimension1Field
         return $this->dimension1;
     }
 
-    public function getDimension1ToCode(): ?string
+    public function getDimension1ToString(): ?string
     {
         if ($this->getDimension1() != null) {
             return $this->dimension1->getCode();
@@ -45,7 +45,7 @@ trait Dimension1Field
      * @return $this
      * @throws Exception
      */
-    public function setDimension1FromCode(?string $dimension1Code)
+    public function setDimension1FromString(?string $dimension1Code)
     {
         $dimension1 = new GeneralLedger();
         $dimension1->setCode($dimension1Code);

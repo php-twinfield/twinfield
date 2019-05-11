@@ -12,20 +12,20 @@ trait LineTypeField
      *
      * @var LineType|null
      */
-    private $linetype;
+    private $lineType;
 
     public function getLineType(): ?LineType
     {
-        return $this->linetype;
+        return $this->lineType;
     }
 
     /**
      * @param LineType|null $linetype
      * @return $this
      */
-    public function setLineType(?LineType $linetype): self
+    public function setLineType(?LineType $lineType): self
     {
-        $this->linetype = $linetype;
+        $this->lineType = $lineType;
         return $this;
     }
 

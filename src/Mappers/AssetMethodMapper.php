@@ -65,13 +65,13 @@ class AssetMethodMapper extends BaseMapper
 
             // Set the asset method balance account elements from the balance accounts element
             $assetMethodBalanceAccounts
-                ->setAssetsToActivate(self::parseObjectAttribute('GeneralLedger', $assetMethodBalanceAccounts, $balanceAccountsElement, 'assetstoactivate', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
-                ->setDepreciation(self::parseObjectAttribute('GeneralLedger', $assetMethodBalanceAccounts, $balanceAccountsElement, 'depreciation', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
+                ->setAssetsToActivate(self::parseObjectAttribute('GeneralLedger', $assetMethodBalanceAccounts, $balanceAccountsElement, 'assetstoactivate', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                ->setDepreciation(self::parseObjectAttribute('GeneralLedger', $assetMethodBalanceAccounts, $balanceAccountsElement, 'depreciation', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                 ->setDepreciationGroup(self::parseObjectAttribute('DimensionGroup', $assetMethodBalanceAccounts, $balanceAccountsElement, 'depreciationgroup', array('name' => 'setName', 'shortname' => 'setShortName')))
-                ->setPurchaseValue(self::parseObjectAttribute('GeneralLedger', $assetMethodBalanceAccounts, $balanceAccountsElement, 'purchasevalue', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
+                ->setPurchaseValue(self::parseObjectAttribute('GeneralLedger', $assetMethodBalanceAccounts, $balanceAccountsElement, 'purchasevalue', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                 ->setPurchaseValueGroup(self::parseObjectAttribute('DimensionGroup', $assetMethodBalanceAccounts, $balanceAccountsElement, 'purchasevaluegroup', array('name' => 'setName', 'shortname' => 'setShortName')))
-                ->setReconciliation(self::parseObjectAttribute('GeneralLedger', $assetMethodBalanceAccounts, $balanceAccountsElement, 'reconciliation', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
-                ->setToBeInvoiced(self::parseObjectAttribute('GeneralLedger', $assetMethodBalanceAccounts, $balanceAccountsElement, 'tobeinvoiced', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')));
+                ->setReconciliation(self::parseObjectAttribute('GeneralLedger', $assetMethodBalanceAccounts, $balanceAccountsElement, 'reconciliation', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                ->setToBeInvoiced(self::parseObjectAttribute('GeneralLedger', $assetMethodBalanceAccounts, $balanceAccountsElement, 'tobeinvoiced', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')));
 
             // Set the custom class to the assetmethod
             $assetmethod->setBalanceAccounts($assetMethodBalanceAccounts);
@@ -86,9 +86,9 @@ class AssetMethodMapper extends BaseMapper
 
             // Set the asset method profit loss account elements from the profit loss accounts element
             $assetMethodProfitLossAccounts
-                ->setDepreciation(self::parseObjectAttribute('GeneralLedger', $assetMethodProfitLossAccounts, $profitLossAccountsElement, 'depreciation', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
-                ->setReconciliation(self::parseObjectAttribute('GeneralLedger', $assetMethodProfitLossAccounts, $profitLossAccountsElement, 'reconciliation', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
-                ->setSales(self::parseObjectAttribute('GeneralLedger', $assetMethodProfitLossAccounts, $profitLossAccountsElement, 'sales', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')));
+                ->setDepreciation(self::parseObjectAttribute('GeneralLedger', $assetMethodProfitLossAccounts, $profitLossAccountsElement, 'depreciation', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                ->setReconciliation(self::parseObjectAttribute('GeneralLedger', $assetMethodProfitLossAccounts, $profitLossAccountsElement, 'reconciliation', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                ->setSales(self::parseObjectAttribute('GeneralLedger', $assetMethodProfitLossAccounts, $profitLossAccountsElement, 'sales', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')));
 
             // Set the custom class to the assetmethod
             $assetmethod->setProfitLossAccounts($assetMethodProfitLossAccounts);

@@ -39,7 +39,7 @@ class DimensionTypesDocument extends BaseDocument
         $dimensionTypeElement->appendChild($this->createNodeWithTextContent('code', $dimensionType->getCode()));
         $dimensionTypeElement->appendChild($this->createNodeWithTextContent('mask', $dimensionType->getMask()));
         $dimensionTypeElement->appendChild($this->createNodeWithTextContent('name', $dimensionType->getName()));
-        $dimensionTypeElement->appendChild($this->createNodeWithTextContent('office', $dimensionType->getOfficeToCode()));
+        $dimensionTypeElement->appendChild($this->createNodeWithTextContent('office', $dimensionType->getOfficeToString()));
         $dimensionTypeElement->appendChild($this->createNodeWithTextContent('shortname', $dimensionType->getShortName()));
 
         $address = $dimensionType->getAddress();

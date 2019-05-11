@@ -85,7 +85,7 @@ class CustomerMapper extends BaseMapper
                 ->setPayCode(self::parseObjectAttribute('PayCode', $customerFinancials, $financialsElement, 'paycode', array('name' => 'setName', 'shortname' => 'setShortName')))
                 ->setSubAnalyse(self::parseEnumAttribute('SubAnalyse', self::getField($customerFinancials, $financialsElement, 'subanalyse')))
                 ->setSubstitutionLevel(self::getField($customerFinancials, $financialsElement, 'substitutionlevel'))
-                ->setSubstituteWith(self::parseObjectAttribute('UnknownDimension', $customerFinancials, $financialsElement, 'substitutewith', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
+                ->setSubstituteWith(self::parseObjectAttribute('UnknownDimension', $customerFinancials, $financialsElement, 'substitutewith', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                 ->setVatCode(self::parseObjectAttribute('VatCode', $customerFinancials, $financialsElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
 
             // Set the financials elements from the financials element attributes
@@ -127,7 +127,7 @@ class CustomerMapper extends BaseMapper
 
                     // Set the child validation elements from the child validation element en element attributes
                     $customerChildValidation->setLevel($childValidationElement->getAttribute('level'))
-                        ->setType(self::parseEnumAttribute('GeneralLedgerType', $childValidationElement->getAttribute('type')))
+                        ->setType(self::parseEnumAttribute('ChildValidationType', $childValidationElement->getAttribute('type')))
                         ->setElementValue($childValidationElement->textContent);
 
                     // Add the child validation to the customer financials class
@@ -295,9 +295,9 @@ class CustomerMapper extends BaseMapper
 
                         // Set the line elements from the line element
                         $customerLine->setDescription(self::getField($customerLine, $lineElement, 'description'))
-                            ->setDimension1(self::parseObjectAttribute('GeneralLedger', $customerLine, $lineElement, 'dimension1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
-                            ->setDimension2(self::parseObjectAttribute('CostCenter', $customerLine, $lineElement, 'dimension2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
-                            ->setDimension3(self::parseObjectAttribute('UnknownDimension', $customerLine, $lineElement, 'dimension3', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
+                            ->setDimension1(self::parseObjectAttribute('GeneralLedger', $customerLine, $lineElement, 'dimension1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                            ->setDimension2(self::parseObjectAttribute('CostCenter', $customerLine, $lineElement, 'dimension2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                            ->setDimension3(self::parseObjectAttribute('UnknownDimension', $customerLine, $lineElement, 'dimension3', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                             ->setOffice(self::parseObjectAttribute('Office', $customerLine, $lineElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
                             ->setRatio(self::getField($customerLine, $lineElement, 'ratio'))
                             ->setVatCode(self::parseObjectAttribute('VatCode', $customerLine, $lineElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));

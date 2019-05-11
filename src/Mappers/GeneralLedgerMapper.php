@@ -88,7 +88,7 @@ class GeneralLedgerMapper extends BaseMapper
 
                     // Set the child validation elements from the child validation element en element attributes
                     $generalLedgerChildValidation->setLevel($childValidationElement->getAttribute('level'));
-                    $generalLedgerChildValidation->setType(self::parseEnumAttribute('GeneralLedgerType', $childValidationElement->getAttribute('type')));
+                    $generalLedgerChildValidation->setType(self::parseEnumAttribute('ChildValidationType', $childValidationElement->getAttribute('type')));
                     $generalLedgerChildValidation->setElementValue($childValidationElement->textContent);
 
                     // Add the child validation to the general ledger financials class

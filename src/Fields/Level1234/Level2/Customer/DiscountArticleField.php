@@ -22,7 +22,7 @@ trait DiscountArticleField
         return $this->discountArticle;
     }
 
-    public function getDiscountArticleToCode(): ?string
+    public function getDiscountArticleToString(): ?string
     {
         if ($this->getDiscountArticle() != null) {
             return $this->discountArticle->getCode();
@@ -45,7 +45,7 @@ trait DiscountArticleField
      * @return $this
      * @throws Exception
      */
-    public function setDiscountArticleFromCode(?string $discountArticleCode)
+    public function setDiscountArticleFromString(?string $discountArticleCode)
     {
         $discountArticle = new Article();
         $discountArticle->setCode($discountArticleCode);

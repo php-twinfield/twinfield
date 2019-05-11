@@ -5,8 +5,8 @@ namespace PhpTwinfield;
 use PhpTwinfield\Fields\FreeText3Field;
 use PhpTwinfield\Fields\IDField;
 use PhpTwinfield\Fields\InUseField;
-use PhpTwinfield\Fields\Invoice\Article\ArticleLineFreeText1Field;
-use PhpTwinfield\Fields\Invoice\Article\ArticleLineFreeText2Field;
+use PhpTwinfield\Fields\Invoice\Article\FreeText1Field;
+use PhpTwinfield\Fields\Invoice\Article\FreeText2Field;
 use PhpTwinfield\Fields\Invoice\Article\SubCodeField;
 use PhpTwinfield\Fields\Invoice\UnitsField;
 use PhpTwinfield\Fields\Invoice\UnitsPriceExclField;
@@ -21,8 +21,8 @@ use PhpTwinfield\Fields\StatusField;
  */
 class ArticleLine extends BaseObject
 {
-    use ArticleLineFreeText1Field;
-    use ArticleLineFreeText2Field;
+    use FreeText1Field;
+    use FreeText2Field;
     use FreeText3Field;
     use IDField;
     use InUseField;

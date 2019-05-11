@@ -22,7 +22,7 @@ trait AuthoriserField
         return $this->authoriser;
     }
 
-    public function getAuthoriserToCode(): ?string
+    public function getAuthoriserToString(): ?string
     {
         if ($this->getAuthoriser() != null) {
             return $this->authoriser->getCode();
@@ -45,7 +45,7 @@ trait AuthoriserField
      * @return $this
      * @throws Exception
      */
-    public function setAuthoriserFromCode(?string $authoriserCode)
+    public function setAuthoriserFromString(?string $authoriserCode)
     {
         $authoriser = new User();
         $authoriser->setCode($authoriserCode);

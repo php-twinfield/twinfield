@@ -119,7 +119,7 @@ class InvoiceApiConnector extends BaseApiConnector
         $invoiceListAllTags = array(
             0       => 'setInvoiceNumber',
             1       => 'setInvoiceAmountFromFloat',
-            2       => 'setCustomerFromCode',
+            2       => 'setCustomerFromString',
             3       => 'setCustomerName',
             4       => 'setDebitCreditFromString',
         );

@@ -22,7 +22,7 @@ trait Dimension3Field
         return $this->dimension3;
     }
 
-    public function getDimension3ToCode(): ?string
+    public function getDimension3ToString(): ?string
     {
         if ($this->getDimension3() != null) {
             return $this->dimension3->getCode();
@@ -45,7 +45,7 @@ trait Dimension3Field
      * @return $this
      * @throws Exception
      */
-    public function setDimension3FromCode(?string $dimension3Code)
+    public function setDimension3FromString(?string $dimension3Code)
     {
         $dimension3 = new Dummy();
         $dimension3->setCode($dimension3Code);

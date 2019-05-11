@@ -83,9 +83,9 @@ class VatCodesDocument extends BaseDocument
                             $accountElement->setAttribute('id', $id);
                         }
 
-                        $accountElement->appendChild($this->createNodeWithTextContent('dim1', $account->getDim1ToCode()));
-                        $accountElement->appendChild($this->createNodeWithTextContent('group', $account->getGroupToCode()));
-                        $accountElement->appendChild($this->createNodeWithTextContent('groupcountry', $account->getGroupCountryToCode()));
+                        $accountElement->appendChild($this->createNodeWithTextContent('dim1', $account->getDim1ToString()));
+                        $accountElement->appendChild($this->createNodeWithTextContent('group', $account->getGroupToString()));
+                        $accountElement->appendChild($this->createNodeWithTextContent('groupcountry', $account->getGroupCountryToString()));
                         $accountElement->appendChild($this->createNodeWithTextContent('linetype', $account->getLineType()));
                         $accountElement->appendChild($this->createNodeWithTextContent('percentage', $account->getPercentage()));
                     }

@@ -91,8 +91,8 @@ class ArticleMapper extends BaseMapper
                 $articleLine->setStatusFromString($lineElement->getAttribute('status'));
 
                 // Set the article line elements
-                $articleLine->setFreeText1(self::parseObjectAttribute('GeneralLedger', $articleLine, $lineElement, 'freetext1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
-                    ->setFreeText2(self::parseObjectAttribute('CostCenter', $articleLine, $lineElement, 'freetext2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
+                $articleLine->setFreeText1(self::parseObjectAttribute('GeneralLedger', $articleLine, $lineElement, 'freetext1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                    ->setFreeText2(self::parseObjectAttribute('CostCenter', $articleLine, $lineElement, 'freetext2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                     ->setFreeText3(self::getField($articleLine, $lineElement, 'freetext3'))
                     ->setUnits(self::getField($articleLine, $lineElement, 'units'))
                     ->setName(self::getField($articleLine, $lineElement, 'name'))

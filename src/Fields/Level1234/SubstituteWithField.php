@@ -22,7 +22,7 @@ trait SubstituteWithField
         return $this->substituteWith;
     }
 
-    public function getSubstituteWithToCode(): ?string
+    public function getSubstituteWithToString(): ?string
     {
         if ($this->getSubstituteWith() != null) {
             return $this->substituteWith->getCode();
@@ -45,7 +45,7 @@ trait SubstituteWithField
      * @return $this
      * @throws Exception
      */
-    public function setSubstituteWithFromCode(?string $substituteWithCode)
+    public function setSubstituteWithFromString(?string $substituteWithCode)
     {
         $substituteWith = new Dummy();
         $substituteWith->setCode($substituteWithCode);

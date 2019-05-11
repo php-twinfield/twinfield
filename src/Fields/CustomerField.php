@@ -22,7 +22,7 @@ trait CustomerField
         return $this->customer;
     }
 
-    public function getCustomerToCode(): ?string
+    public function getCustomerToString(): ?string
     {
         if ($this->getCustomer() != null) {
             return $this->customer->getCode();
@@ -45,7 +45,7 @@ trait CustomerField
      * @return $this
      * @throws Exception
      */
-    public function setCustomerFromCode(?string $customerCode)
+    public function setCustomerFromString(?string $customerCode)
     {
         $customer = new Customer();
         $customer->setCode($customerCode);

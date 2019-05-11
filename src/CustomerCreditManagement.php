@@ -9,7 +9,7 @@ use PhpTwinfield\Fields\Level1234\Level2\Customer\BlockedField;
 use PhpTwinfield\Fields\Level1234\Level2\Customer\BlockedLockedField;
 use PhpTwinfield\Fields\Level1234\Level2\Customer\BlockedModifiedField;
 use PhpTwinfield\Fields\Level1234\Level2\Customer\CommentField;
-use PhpTwinfield\Fields\Level1234\Level2\Customer\CustomerFreeText1Field;
+use PhpTwinfield\Fields\Level1234\Level2\Customer\FreeText1Field;
 use PhpTwinfield\Fields\Level1234\Level2\Customer\ReminderEmailField;
 use PhpTwinfield\Fields\Level1234\Level2\Customer\ResponsibleUserField;
 use PhpTwinfield\Fields\Level1234\Level2\Customer\SendReminderField;
@@ -25,7 +25,7 @@ class CustomerCreditManagement extends BaseObject
     use BlockedLockedField;
     use BlockedModifiedField;
     use CommentField;
-    use CustomerFreeText1Field;
+    use FreeText1Field;
     use FreeText2Field;
     use FreeText3Field;
     use ReminderEmailField;

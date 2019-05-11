@@ -22,7 +22,7 @@ trait PurchaseValueGroupField
         return $this->purchaseValueGroup;
     }
 
-    public function getPurchaseValueGroupToCode(): ?string
+    public function getPurchaseValueGroupToString(): ?string
     {
         if ($this->getPurchaseValueGroup() != null) {
             return $this->purchaseValueGroup->getCode();
@@ -45,7 +45,7 @@ trait PurchaseValueGroupField
      * @return $this
      * @throws Exception
      */
-    public function setPurchaseValueGroupFromCode(?string $purchaseValueGroupCode)
+    public function setPurchaseValueGroupFromString(?string $purchaseValueGroupCode)
     {
         $purchaseValueGroup = new DimensionGroup();
         $purchaseValueGroup->setCode($purchaseValueGroupCode);

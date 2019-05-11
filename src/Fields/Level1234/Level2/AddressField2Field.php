@@ -10,23 +10,23 @@ trait AddressField2Field
      *
      * @var string|null
      */
-    private $field2;
+    private $addressField2;
 
     /**
      * @return null|string
      */
-    public function getField2(): ?string
+    public function getAddressField2(): ?string
     {
-        return $this->field2;
+        return $this->addressField2;
     }
 
     /**
-     * @param null|string $field2
+     * @param null|string $addressField2
      * @return $this
      */
-    public function setField2(?string $field2): self
+    public function setAddressField2(?string $addressField2): self
     {
-        $this->field2 = $field2;
+        $this->addressField2 = $addressField2;
         return $this;
     }
 }

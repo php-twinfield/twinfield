@@ -6,6 +6,7 @@ use PhpTwinfield\Fields\CustomerField;
 use PhpTwinfield\Fields\Invoice\BankField;
 use PhpTwinfield\Fields\Invoice\CalculateOnlyField;
 use PhpTwinfield\Fields\Invoice\CustomerNameField;
+use PhpTwinfield\Fields\Invoice\DebitCreditField;
 use PhpTwinfield\Fields\Invoice\DeliverAddressNumberField;
 use PhpTwinfield\Fields\Invoice\DueDateField;
 use PhpTwinfield\Fields\Invoice\FinancialCodeField;
@@ -15,13 +16,12 @@ use PhpTwinfield\Fields\Invoice\HeaderTextField;
 use PhpTwinfield\Fields\Invoice\InvoiceAddressNumberField;
 use PhpTwinfield\Fields\Invoice\InvoiceAmountField;
 use PhpTwinfield\Fields\Invoice\InvoiceDateField;
-use PhpTwinfield\Fields\Invoice\InvoiceDebitCreditField;
 use PhpTwinfield\Fields\Invoice\InvoiceNumberField;
 use PhpTwinfield\Fields\Invoice\InvoiceTypeField;
-use PhpTwinfield\Fields\Invoice\InvoiceStatusField;
 use PhpTwinfield\Fields\Invoice\PaymentMethodField;
 use PhpTwinfield\Fields\Invoice\PerformanceDateField;
 use PhpTwinfield\Fields\Invoice\RaiseWarningField;
+use PhpTwinfield\Fields\Invoice\StatusField;
 use PhpTwinfield\Fields\OfficeField;
 use PhpTwinfield\Fields\PeriodField;
 
@@ -52,6 +52,7 @@ class Invoice extends BaseObject
     use CurrencyField;
     use CustomerField;
     use CustomerNameField;
+    use DebitCreditField;
     use DeliverAddressNumberField;
     use DueDateField;
     use FinancialCodeField;
@@ -61,15 +62,14 @@ class Invoice extends BaseObject
     use InvoiceAddressNumberField;
     use InvoiceAmountField;
     use InvoiceDateField;
-    use InvoiceDebitCreditField;
     use InvoiceNumberField;
     use InvoiceTypeField;
-    use InvoiceStatusField;
     use OfficeField;
     use PaymentMethodField;
     use PerformanceDateField;
     use PeriodField;
     use RaiseWarningField;
+    use StatusField;
 
     private $totals;
     private $lines = [];

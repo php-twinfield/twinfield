@@ -48,9 +48,9 @@ class SuppliersDocument extends BaseDocument
         $supplierElement->appendChild($this->createNodeWithTextContent('endperiod', $supplier->getEndPeriod()));
         $supplierElement->appendChild($this->createNodeWithTextContent('endyear', $supplier->getEndYear()));
         $supplierElement->appendChild($this->createNodeWithTextContent('name', $supplier->getName()));
-        $supplierElement->appendChild($this->createNodeWithTextContent('office', $supplier->getOfficeToCode()));
+        $supplierElement->appendChild($this->createNodeWithTextContent('office', $supplier->getOfficeToString()));
         $supplierElement->appendChild($this->createNodeWithTextContent('shortname', $supplier->getShortName()));
-        $supplierElement->appendChild($this->createNodeWithTextContent('type', $supplier->getTypeToCode()));
+        $supplierElement->appendChild($this->createNodeWithTextContent('type', $supplier->getTypeToString()));
         $supplierElement->appendChild($this->createNodeWithTextContent('website', $supplier->getWebsite()));
 
         $financials = $supplier->getFinancials();
@@ -61,10 +61,10 @@ class SuppliersDocument extends BaseDocument
         $financialsElement->appendChild($this->createNodeWithTextContent('duedays', $financials->getDueDays()));
         $financialsElement->appendChild($this->createNodeWithTextContent('meansofpayment', $financials->getMeansOfPayment()));
         $financialsElement->appendChild($this->createNodeWithTextContent('payavailable', $financials->getPayAvailableToString()));
-        $financialsElement->appendChild($this->createNodeWithTextContent('paycode', $financials->getPayCodeToCode()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('paycode', $financials->getPayCodeToString()));
         $financialsElement->appendChild($this->createNodeWithTextContent('relationsreference', $financials->getRelationsReference()));
-        $financialsElement->appendChild($this->createNodeWithTextContent('substitutewith', $financials->getSubstituteWithToCode()));
-        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', $financials->getVatCodeToCode()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('substitutewith', $financials->getSubstituteWithToString()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', $financials->getVatCodeToString()));
 
         $childValidations = $financials->getChildValidations();
 
@@ -112,7 +112,7 @@ class SuppliersDocument extends BaseDocument
                 }
 
                 $addressElement->appendChild($this->createNodeWithTextContent('city', $address->getCity()));
-                $addressElement->appendChild($this->createNodeWithTextContent('country', $address->getCountryToCode()));
+                $addressElement->appendChild($this->createNodeWithTextContent('country', $address->getCountryToString()));
                 $addressElement->appendChild($this->createNodeWithTextContent('email', $address->getEmail()));
                 $addressElement->appendChild($this->createNodeWithTextContent('field1', $address->getField1()));
                 $addressElement->appendChild($this->createNodeWithTextContent('field2', $address->getField2()));
@@ -168,7 +168,7 @@ class SuppliersDocument extends BaseDocument
                 $bankElement->appendChild($this->createNodeWithTextContent('bankname', $bank->getBankName()));
                 $bankElement->appendChild($this->createNodeWithTextContent('biccode', $bank->getBicCode()));
                 $bankElement->appendChild($this->createNodeWithTextContent('city', $bank->getCity()));
-                $bankElement->appendChild($this->createNodeWithTextContent('country', $bank->getCountryToCode()));
+                $bankElement->appendChild($this->createNodeWithTextContent('country', $bank->getCountryToString()));
                 $bankElement->appendChild($this->createNodeWithTextContent('iban', $bank->getIban()));
                 $bankElement->appendChild($this->createNodeWithTextContent('natbiccode', $bank->getNatBicCode()));
                 $bankElement->appendChild($this->createNodeWithTextContent('postcode', $bank->getPostcode()));
@@ -182,7 +182,7 @@ class SuppliersDocument extends BaseDocument
         $remittanceAdviceElement->appendChild($this->createNodeWithTextContent('sendmail', $supplier->getRemittanceAdviceSendMail()));
         $remittanceAdviceElement->appendChild($this->createNodeWithTextContent('sendtype', $supplier->getRemittanceAdviceSendType()));
 
-        $group = $supplier->getGroupToCode();
+        $group = $supplier->getGroupToString();
 
         if (!empty($group)) {
             $groupsElement = $this->createElement('groups');
@@ -216,7 +216,7 @@ class SuppliersDocument extends BaseDocument
                 }
 
                 $postingRuleElement->appendChild($this->createNodeWithTextContent('amount', $postingRule->getAmountToFloat()));
-                $postingRuleElement->appendChild($this->createNodeWithTextContent('currency', $postingRule->getCurrencyToCode()));
+                $postingRuleElement->appendChild($this->createNodeWithTextContent('currency', $postingRule->getCurrencyToString()));
                 $postingRuleElement->appendChild($this->createNodeWithTextContent('description', $postingRule->getDescription()));
 
                 $postingRuleLines = $postingRule->getLines();
@@ -232,13 +232,13 @@ class SuppliersDocument extends BaseDocument
                         $postingRuleLineElement = $this->createElement('line');
                         $postingRuleLinesElement->appendChild($postingRuleLineElement);
 
-                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension1', $postingRuleLine->getDimension1ToCode()));
-                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension2', $postingRuleLine->getDimension2ToCode()));
-                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension3', $postingRuleLine->getDimension3ToCode()));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension1', $postingRuleLine->getDimension1ToString()));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension2', $postingRuleLine->getDimension2ToString()));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension3', $postingRuleLine->getDimension3ToString()));
                         $postingRuleLineElement->appendChild($this->createNodeWithTextContent('description', $postingRuleLine->getDescription()));
-                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('office', $postingRuleLine->getOfficeToCode()));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('office', $postingRuleLine->getOfficeToString()));
                         $postingRuleLineElement->appendChild($this->createNodeWithTextContent('ratio', $postingRuleLine->getRatio()));
-                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('vatcode', $postingRuleLine->getVatCodeToCode()));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('vatcode', $postingRuleLine->getVatCodeToString()));
                     }
                 }
             }

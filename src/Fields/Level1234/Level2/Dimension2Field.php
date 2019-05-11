@@ -22,7 +22,7 @@ trait Dimension2Field
         return $this->dimension2;
     }
 
-    public function getDimension2ToCode(): ?string
+    public function getDimension2ToString(): ?string
     {
         if ($this->getDimension2() != null) {
             return $this->dimension2->getCode();
@@ -45,7 +45,7 @@ trait Dimension2Field
      * @return $this
      * @throws Exception
      */
-    public function setDimension2FromCode(?string $dimension2Code)
+    public function setDimension2FromString(?string $dimension2Code)
     {
         $dimension2 = new CostCenter();
         $dimension2->setCode($dimension2Code);

@@ -22,7 +22,7 @@ trait Dim5Field
         return $this->dim5;
     }
 
-    public function getDim5ToCode(): ?string
+    public function getDim5ToString(): ?string
     {
         if ($this->getDim5() != null) {
             return $this->dim5->getCode();
@@ -45,7 +45,7 @@ trait Dim5Field
      * @return $this
      * @throws Exception
      */
-    public function setDim5FromCode(?string $dim5Code)
+    public function setDim5FromString(?string $dim5Code)
     {
         $dim5 = new Dummy();
         $dim5->setCode($dim5Code);

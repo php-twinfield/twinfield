@@ -22,7 +22,7 @@ trait CountryField
         return $this->country;
     }
 
-    public function getCountryToCode(): ?string
+    public function getCountryToString(): ?string
     {
         if ($this->getCountry() != null) {
             return $this->country->getCode();
@@ -45,7 +45,7 @@ trait CountryField
      * @return $this
      * @throws Exception
      */
-    public function setCountryFromCode(?string $countryCode)
+    public function setCountryFromString(?string $countryCode)
     {
         $country = new Country();
         $country->setCode($countryCode);

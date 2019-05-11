@@ -2,8 +2,8 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Fields\Level1234\DimensionType\DimensionTypeFinancialsField;
-use PhpTwinfield\Fields\Level1234\DimensionType\DimensionTypeTimeField;
+use PhpTwinfield\Fields\Level1234\DimensionType\FinancialsField;
+use PhpTwinfield\Fields\Level1234\DimensionType\TimeField;
 
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionTypes
@@ -11,6 +11,6 @@ use PhpTwinfield\Fields\Level1234\DimensionType\DimensionTypeTimeField;
  */
 class DimensionTypeLevels extends BaseObject
 {
-    use DimensionTypeFinancialsField;
-    use DimensionTypeTimeField;
+    use FinancialsField;
+    use TimeField;
 }

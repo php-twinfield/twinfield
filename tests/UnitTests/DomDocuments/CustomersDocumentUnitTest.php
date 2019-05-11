@@ -37,15 +37,15 @@ class CustomersDocumentUnitTest extends TestCase
 	$financials = new CustomerFinancials();
         $financials->setDueDays(1);
         $financials->setPayAvailable(true);
-        $financials->setPayCodeFromCode('pay-code');
-        $financials->setVatCodeFromCode('vat-code');
+        $financials->setPayCodeFromString('pay-code');
+        $financials->setVatCodeFromString('vat-code');
         $financials->setEBilling(true);
         $financials->setEBillMail('ebillingmail@mail.com');
 	$customer->setFinancials($financials);
 
         $customer->setCreditManagement(
             (new CustomerCreditManagement())
-                ->setResponsibleUserFromCode('responsible-user')
+                ->setResponsibleUserFromString('responsible-user')
                 ->setBaseCreditLimitFromFloat(50)
                 ->setSendReminderFromString('true')
                 ->setReminderEmail('reminderemail@mail.com')
@@ -59,7 +59,7 @@ class CustomersDocumentUnitTest extends TestCase
                 ->setDefault(true)
                 ->setTypeFromString('invoice')
                 ->setName('My Address')
-                ->setCountryFromCode('nl')
+                ->setCountryFromString('nl')
                 ->setCity('city')
                 ->setPostcode('postal code')
                 ->setTelephone('phone number')
@@ -75,18 +75,18 @@ class CustomersDocumentUnitTest extends TestCase
         $customer->addBank(
             (new CustomerBank())
                 ->setDefault(true)
+                ->setAddressField2('address 2')
+                ->setAddressField3('address 3')
                 ->setAscription('ascriptor')
                 ->setAccountNumber('account number')
                 ->setBankName('bank name')
                 ->setBicCode('bic code')
                 ->setCity('city')
-                ->setCountryFromCode('nl')
+                ->setCountryFromString('nl')
                 ->setIban('iban')
                 ->setNatBicCode('nat-bic')
                 ->setPostcode('postcode')
                 ->setState('state')
-                ->setField2('address 2')
-                ->setField3('address 3')
         );
 
         $this->document->addCustomer($customer);

@@ -44,7 +44,7 @@ class DimensionGroupsDocument extends BaseDocument
 
         $dimensionGroupElement->appendChild($this->createNodeWithTextContent('code', $dimensionGroup->getCode()));
         $dimensionGroupElement->appendChild($this->createNodeWithTextContent('name', $dimensionGroup->getName()));
-        $dimensionGroupElement->appendChild($this->createNodeWithTextContent('office', $dimensionGroup->getOfficeToCode()));
+        $dimensionGroupElement->appendChild($this->createNodeWithTextContent('office', $dimensionGroup->getOfficeToString()));
         $dimensionGroupElement->appendChild($this->createNodeWithTextContent('shortname', $dimensionGroup->getShortName()));
 
         $dimensions = $dimensionGroup->getDimensions();
@@ -60,8 +60,8 @@ class DimensionGroupsDocument extends BaseDocument
                 $dimensionElement = $this->createElement('dimension');
                 $dimensionsElement->appendChild($dimensionElement);
 
-                $dimensionElement->appendChild($this->createNodeWithTextContent('code', $dimension->getCodeToCode()));
-                $dimensionElement->appendChild($this->createNodeWithTextContent('type', $dimension->getTypeToCode()));
+                $dimensionElement->appendChild($this->createNodeWithTextContent('code', $dimension->getCodeToString()));
+                $dimensionElement->appendChild($this->createNodeWithTextContent('type', $dimension->getTypeToString()));
             }
         }
     }

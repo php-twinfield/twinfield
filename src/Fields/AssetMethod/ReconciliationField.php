@@ -22,7 +22,7 @@ trait ReconciliationField
         return $this->reconciliation;
     }
 
-    public function getReconciliationToCode(): ?string
+    public function getReconciliationToString(): ?string
     {
         if ($this->getReconciliation() != null) {
             return $this->reconciliation->getCode();
@@ -45,7 +45,7 @@ trait ReconciliationField
      * @return $this
      * @throws Exception
      */
-    public function setReconciliationFromCode(?string $reconciliationCode)
+    public function setReconciliationFromString(?string $reconciliationCode)
     {
         $reconciliation = new GeneralLedger();
         $reconciliation->setCode($reconciliationCode);

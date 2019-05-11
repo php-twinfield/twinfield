@@ -5,12 +5,12 @@ namespace PhpTwinfield;
 use PhpTwinfield\Fields\BehaviourField;
 use PhpTwinfield\Fields\CodeField;
 use PhpTwinfield\Fields\InUseField;
+use PhpTwinfield\Fields\Level1234\BeginPeriodField;
 use PhpTwinfield\Fields\Level1234\BeginYearField;
-use PhpTwinfield\Fields\Level1234\DimensionGroupField;
-use PhpTwinfield\Fields\Level1234\DimensionTypeField;
+use PhpTwinfield\Fields\Level1234\DimensionGroup\GroupField;
+use PhpTwinfield\Fields\Level1234\DimensionType\TypeField;
+use PhpTwinfield\Fields\Level1234\EndPeriodField;
 use PhpTwinfield\Fields\Level1234\EndYearField;
-use PhpTwinfield\Fields\Level1234\GeneralLedgerBeginPeriodField;
-use PhpTwinfield\Fields\Level1234\GeneralLedgerEndPeriodField;
 use PhpTwinfield\Fields\Level1234\Level2\Customer\DiscountArticleField;
 use PhpTwinfield\Fields\Level1234\Level2\Customer\DiscountArticleIDField;
 use PhpTwinfield\Fields\Level1234\Level2\PaymentConditionDiscountDaysField;
@@ -31,16 +31,15 @@ use PhpTwinfield\Fields\UIDField;
  */
 class Customer extends BaseObject
 {
+    use BeginPeriodField;
     use BeginYearField;
     use BehaviourField;
     use CodeField;
-    use DimensionGroupField;
-    use DimensionTypeField;
     use DiscountArticleField;
     use DiscountArticleIDField;
+    use EndPeriodField;
     use EndYearField;
-    use GeneralLedgerBeginPeriodField;
-    use GeneralLedgerEndPeriodField;
+    use GroupField;
     use InUseField;
     use NameField;
     use OfficeField;
@@ -51,6 +50,7 @@ class Customer extends BaseObject
     use ShortNameField;
     use StatusField;
     use TouchedField;
+    use TypeField;
     use UIDField;
     use WebsiteField;
 
@@ -66,7 +66,7 @@ class Customer extends BaseObject
         $this->setBeginYear(0);
         $this->setEndPeriod(0);
         $this->setEndYear(0);
-        $this->setTypeFromCode('DEB');
+        $this->setTypeFromString('DEB');
 
         $this->setCreditManagement(new CustomerCreditManagement);
         $this->setFinancials(new CustomerFinancials);

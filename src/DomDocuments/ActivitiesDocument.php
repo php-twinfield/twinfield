@@ -44,21 +44,21 @@ class ActivitiesDocument extends BaseDocument
 
         $activityElement->appendChild($this->createNodeWithTextContent('code', $activity->getCode()));
         $activityElement->appendChild($this->createNodeWithTextContent('name', $activity->getName()));
-        $activityElement->appendChild($this->createNodeWithTextContent('office', $activity->getOfficeToCode()));
+        $activityElement->appendChild($this->createNodeWithTextContent('office', $activity->getOfficeToString()));
         $activityElement->appendChild($this->createNodeWithTextContent('shortname', $activity->getShortName()));
-        $activityElement->appendChild($this->createNodeWithTextContent('type', $activity->getTypeToCode()));
+        $activityElement->appendChild($this->createNodeWithTextContent('type', $activity->getTypeToString()));
 
         $financialsElement = $this->createElement('financials');
         $activityElement->appendChild($financialsElement);
 
-        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', $activity->getVatCodeToCode()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', $activity->getVatCodeToString()));
 
         $projects = $activity->getProjects();
 
         $projectsElement = $this->createElement('projects');
         $activityElement->appendChild($projectsElement);
 
-        $inheritArray = array('authoriser' => 'getAuthoriserToCode', 'billable' => 'getBillableToString', 'customer' => 'getCustomerToCode', 'rate' => 'getRateToCode');
+        $inheritArray = array('authoriser' => 'getAuthoriserToString', 'billable' => 'getBillableToString', 'customer' => 'getCustomerToString', 'rate' => 'getRateToString');
 
         foreach ($inheritArray as $inheritVar => $method) {
             $methodLocked = "get" . ucfirst($inheritVar) . "Locked";
@@ -98,7 +98,7 @@ class ActivitiesDocument extends BaseDocument
                 $quantitiesElement->appendChild($quantityElement);
 
                 $quantityElement->appendChild($this->createNodeWithTextContent('label', $quantity->getLabel()));
-                $quantityElement->appendChild($this->createNodeWithTextContent('rate', $quantity->getRateToCode()));
+                $quantityElement->appendChild($this->createNodeWithTextContent('rate', $quantity->getRateToString()));
                 $quantityElement->appendChild($this->createNodeWithTextContent('billable', $quantity->getBillableToString(), $quantity, array('locked' => 'getBillableLockedToString')));
                 $quantityElement->appendChild($this->createNodeWithTextContent('mandatory', $quantity->getMandatoryToString()));
             }

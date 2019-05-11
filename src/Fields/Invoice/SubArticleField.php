@@ -22,7 +22,7 @@ trait SubArticleField
         return $this->subArticle;
     }
 
-    public function getSubArticleToSubCode(): ?string
+    public function getSubArticleToString(): ?string
     {
         if ($this->getSubArticle() != null) {
             return $this->subArticle->getSubCode();
@@ -45,7 +45,7 @@ trait SubArticleField
      * @return $this
      * @throws Exception
      */
-    public function setSubArticleFromSubCode(?string $subArticleCode)
+    public function setSubArticleFromString(?string $subArticleCode)
     {
         $subArticle = new ArticleLine();
         $subArticle->setSubCode($subArticleCode);

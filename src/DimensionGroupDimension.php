@@ -2,8 +2,8 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Fields\Level1234\DimensionGroup\DimensionCodeField;
-use PhpTwinfield\Fields\Level1234\DimensionTypeField;
+use PhpTwinfield\Fields\Level1234\DimensionGroup\CodeField;
+use PhpTwinfield\Fields\Level1234\DimensionType\TypeField;
 
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionGroups
@@ -11,6 +11,6 @@ use PhpTwinfield\Fields\Level1234\DimensionTypeField;
  */
 class DimensionGroupDimension extends BaseObject
 {
-    use DimensionCodeField;
-    use DimensionTypeField;
+    use CodeField;
+    use TypeField;
 }
