@@ -29,11 +29,6 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
      * @var InvoiceApiConnector|\PHPUnit_Framework_MockObject_MockObject
      */
     private $invoiceApiConnector;
-    
-    /**
-     * @var InvoiceTypeApiConnector|\PHPUnit_Framework_MockObject_MockObject
-     */
-    public $invoiceTypeApiConnector;
 
     protected function setUp()
     {
@@ -41,7 +36,10 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $this->invoiceApiConnector = new InvoiceApiConnector($this->connection);
         
-        $this->invoiceTypeApiConnector = $this->getMockBuilder('InvoiceTypeApiConnector')->disableOriginalConstructor()->getMock();
+        $mock = \Mockery::mock('overload:'.InvoiceTypeApiConnector::class);
+        $mock->shouldReceive('getInvoiceTypeVatType')->andReturnUsing(function() {
+            return 'exclusive';
+        });
     }
 
     public function testGetConceptInvoiceWorks()
