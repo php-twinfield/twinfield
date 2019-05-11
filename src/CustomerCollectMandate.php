@@ -15,9 +15,4 @@ class CustomerCollectMandate extends BaseObject
     use CollectMandateIDField;
     use FirstRunDateField;
     use SignatureDateField;
-
-    public function __construct()
-    {
-        $this->ID = uniqid();
-    }
 }
