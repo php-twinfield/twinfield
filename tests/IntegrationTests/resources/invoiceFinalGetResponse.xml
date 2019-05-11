@@ -10,7 +10,7 @@
         <invoiceaddressnumber>1</invoiceaddressnumber>
         <deliveraddressnumber>1</deliveraddressnumber>
         <customer>1000</customer>
-        <period>2012/8</period>
+        <period>2012/08</period>
         <currency>EUR</currency>
         <status>final</status>
         <paymentmethod>cash</paymentmethod>
