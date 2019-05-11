@@ -187,8 +187,8 @@ class CustomersDocument extends BaseDocument
                 }
 
                 $bankAddressElement = $this->createElement('address');
-                $bankAddressElement->appendChild($this->createNodeWithTextContent('field2', $bank->getField2()));
-                $bankAddressElement->appendChild($this->createNodeWithTextContent('field3', $bank->getField3()));
+                $bankAddressElement->appendChild($this->createNodeWithTextContent('field2', $bank->getAddressField2()));
+                $bankAddressElement->appendChild($this->createNodeWithTextContent('field3', $bank->getAddressField3()));
                 $bankElement->appendChild($bankAddressElement);
 
                 $bankElement->appendChild($this->createNodeWithTextContent('ascription', $bank->getAscription()));

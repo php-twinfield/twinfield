@@ -184,14 +184,14 @@ class SupplierMapper extends BaseMapper
                     ->setID($bankElement->getAttribute('id'));
 
                 // Set the bank elements from the bank element
-                $supplierBank->setAscription(self::getField($supplierBank, $bankElement, 'ascription'))
-                    ->setAccountNumber(self::getField($supplierBank, $bankElement, 'accountnumber'))
+                $supplierBank->setAccountNumber(self::getField($supplierBank, $bankElement, 'accountnumber'))
+                    ->setAddressField2(self::getField($supplierBank, $bankElement, 'field2'))
+                    ->setAddressField3(self::getField($supplierBank, $bankElement, 'field3'))
+                    ->setAscription(self::getField($supplierBank, $bankElement, 'ascription'))
                     ->setBankName(self::getField($supplierBank, $bankElement, 'bankname'))
                     ->setBicCode(self::getField($supplierBank, $bankElement, 'biccode'))
                     ->setCity(self::getField($supplierBank, $bankElement, 'city'))
                     ->setCountry(self::parseObjectAttribute('Country', $supplierBank, $bankElement, 'country', array('name' => 'setName', 'shortname' => 'setShortName')))
-                    ->setField2(self::getField($supplierBank, $bankElement, 'field2'))
-                    ->setField3(self::getField($supplierBank, $bankElement, 'field3'))
                     ->setIban(self::getField($supplierBank, $bankElement, 'iban'))
                     ->setNatBicCode(self::getField($supplierBank, $bankElement, 'natbiccode'))
                     ->setPostcode(self::getField($supplierBank, $bankElement, 'postcode'))

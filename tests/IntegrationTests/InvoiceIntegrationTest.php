@@ -90,7 +90,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $this->assertSame(1, $invoiceLine->getID());
         $this->assertSame('0', $invoiceLine->getArticleToString());
-        $this->assertSame('118', $invoiceLine->getSubArticleToSubCode());
+        $this->assertSame('118', $invoiceLine->getSubArticleToString());
         $this->assertSame(1, $invoiceLine->getQuantity());
         $this->assertSame(1, $invoiceLine->getUnits());
         $this->assertSame(true, $invoiceLine->getAllowDiscountOrPremium());
@@ -158,7 +158,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $this->assertSame(1, $invoiceLine->getID());
         $this->assertSame('0', $invoiceLine->getArticleToString());
-        $this->assertSame('118', $invoiceLine->getSubArticleToSubCode());
+        $this->assertSame('118', $invoiceLine->getSubArticleToString());
         $this->assertSame(1, $invoiceLine->getQuantity());
         $this->assertSame(1, $invoiceLine->getUnits());
         $this->assertSame(true, $invoiceLine->getAllowDiscountOrPremium());
@@ -211,7 +211,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoiceLine = new InvoiceLine();
         $invoiceLine->setID(1);
         $invoiceLine->setArticleFromString('4');
-        $invoiceLine->setSubArticleFromSubCode('118');
+        $invoiceLine->setSubArticleFromString('118');
         $invoiceLine->setQuantity(1);
         $invoiceLine->setUnits(1);
         $invoiceLine->setAllowDiscountOrPremiumFromString('true');

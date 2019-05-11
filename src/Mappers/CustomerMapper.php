@@ -237,14 +237,14 @@ class CustomerMapper extends BaseMapper
                     ->setID($bankElement->getAttribute('id'));
 
                 // Set the bank elements from the bank element
-                $customerBank->setAscription(self::getField($customerBank, $bankElement, 'ascription'))
-                    ->setAccountNumber(self::getField($customerBank, $bankElement, 'accountnumber'))
+                $customerBank->setAccountNumber(self::getField($customerBank, $bankElement, 'accountnumber'))
+                    ->setAddressField2(self::getField($customerBank, $bankElement, 'field2'))
+                    ->setAddressField3(self::getField($customerBank, $bankElement, 'field3'))
+                    ->setAscription(self::getField($customerBank, $bankElement, 'ascription'))
                     ->setBankName(self::getField($customerBank, $bankElement, 'bankname'))
                     ->setBicCode(self::getField($customerBank, $bankElement, 'biccode'))
                     ->setCity(self::getField($customerBank, $bankElement, 'city'))
                     ->setCountry(self::parseObjectAttribute('Country', $customerBank, $bankElement, 'country', array('name' => 'setName', 'shortname' => 'setShortName')))
-                    ->setField2(self::getField($customerBank, $bankElement, 'field2'))
-                    ->setField3(self::getField($customerBank, $bankElement, 'field3'))
                     ->setIban(self::getField($customerBank, $bankElement, 'iban'))
                     ->setNatBicCode(self::getField($customerBank, $bankElement, 'natbiccode'))
                     ->setPostcode(self::getField($customerBank, $bankElement, 'postcode'))

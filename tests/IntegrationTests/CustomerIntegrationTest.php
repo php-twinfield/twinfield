@@ -91,8 +91,8 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->assertSame('010-12342000', $address->getTelefax());
         $this->assertSame('info@example.com', $address->getEmail());
         $this->assertSame('Customer 1', $address->getField1());
-        $this->assertSame('Streetname part 1 - 1', $address->getAddressField2());
-        $this->assertSame('Streetname part 1 - 2', $address->getAddressField3());
+        $this->assertSame('Streetname part 1 - 1', $address->getField2());
+        $this->assertSame('Streetname part 1 - 2', $address->getField3());
         $this->assertSame('NL099887766B01', $address->getField4());
         $this->assertSame('99887766', $address->getField5());
         $this->assertNull($address->getField6());
@@ -117,8 +117,8 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->assertNull($bank->getNatBicCode());
         $this->assertNull($bank->getPostcode());
         $this->assertNull($bank->getState());
-        $this->assertNull($bank->getField2());
-        $this->assertNull($bank->getField3());
+        $this->assertNull($bank->getAddressField2());
+        $this->assertNull($bank->getAddressField3());
 
         $this->assertSame('1097', $customer->getCode());
         $this->assertSame('c5027760-476e-4081-85fb-351c983aea54', $customer->getUID());
@@ -208,8 +208,8 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $bank->setDefault(true);
         $bank->setAscription('Customer 1');
         $bank->setAccountNumber('123456789');
-        $bank->setField2('');
-        $bank->setField3('');
+        $bank->setAddressField2('');
+        $bank->setAddressField3('');
         $bank->setBankName('ABN Amro');
         $bank->setBicCode('ABNANL2A');
         $bank->setCity('Place');
