@@ -115,7 +115,7 @@ class InvoicesDocument extends BaseDocument
 
                 $article = $articleApiConnector->get($line->getArticleToCode(), $invoice->getOffice());
 
-                if ($article->getAllowChangeVatCode == true) {
+                if ($article->getAllowChangeVatCode() == true) {
                     $lineElement->appendChild($this->createNodeWithTextContent('vatcode', $line->getVatCodeToCode()));
                 }
             }
