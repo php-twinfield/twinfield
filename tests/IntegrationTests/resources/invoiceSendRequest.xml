@@ -2,30 +2,38 @@
 <salesinvoices>
     <salesinvoice>
         <header>
-            <customer>1000</customer>
-            <office>11024</office>
-            <invoicetype>FACTUUR</invoicetype>
-            <invoicenumber>5</invoicenumber>
-            <status>concept</status>
-            <currency>EUR</currency>
-            <period>2012/8</period>
-            <invoicedate>20120831</invoicedate>
             <bank>BNK</bank>
-            <invoiceaddressnumber>1</invoiceaddressnumber>
+            <currency>EUR</currency>
+            <customer>1000</customer>
             <deliveraddressnumber>1</deliveraddressnumber>
-            <headertext>HEADER</headertext>
+            <duedate/>
             <footertext>FOOTER</footertext>
+            <headertext>HEADER</headertext>
+            <invoiceaddressnumber>1</invoiceaddressnumber>
+            <invoicedate>20120831</invoicedate>
+            <invoicenumber>5</invoicenumber>
+            <invoicetype>FACTUUR</invoicetype>
+            <office>11024</office>
+            <paymentmethod>cash</paymentmethod>
+            <period>2012/8</period>
+            <status>concept</status>
         </header>
         <lines>
             <line id="1">
-                <quantity>1</quantity>
+                <allowdiscountorpremium>true</allowdiscountorpremium>
                 <article>4</article>
-                <subarticle>118</subarticle>
                 <description>CoalesceFunctioningOnImpatienceTShirt</description>
-                <unitspriceexcl>15.00</unitspriceexcl>
-                <units>1</units>
-                <vatcode>VN</vatcode>
                 <dim1>8020</dim1>
+                <freetext1/>
+                <freetext2/>
+                <freetext3/>
+                <performancedate/>
+                <performancetype/>
+                <quantity>1</quantity>
+                <subarticle>118</subarticle>
+                <units>1</units>
+                <unitspriceexcl>15</unitspriceexcl>
+                <vatcode>VN</vatcode>
             </line>
         </lines>
     </salesinvoice>
