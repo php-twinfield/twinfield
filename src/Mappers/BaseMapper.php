@@ -146,7 +146,7 @@ abstract class BaseMapper
             $classConstants = $classReflex->getConstants();
 
             foreach ($classConstants as $classConstant) {
-                if ($value == $classConstant->getValue()) {
+                if ($value == $classConstant) {
                     return new $enum($value);
                 }
             }
