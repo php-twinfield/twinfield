@@ -71,7 +71,7 @@ class InvoicesDocument extends BaseDocument
         $headerElement->appendChild($this->createNodeWithTextContent('status', $invoice->getStatus()));
 
         $invoiceTypeApiConnector = new \PhpTwinfield\ApiConnectors\InvoiceTypeApiConnector($connection);
-        $invoiceVatType = $invoiceTypeApiConnector->getInvoiceTypeVatType('FACTUUR');
+        $invoiceVatType = $invoiceTypeApiConnector->getInvoiceTypeVatType($invoice->getInvoiceTypeToCode());
 
         $articleApiConnector = new \PhpTwinfield\ApiConnectors\ArticleApiConnector($connection);
 
