@@ -41,10 +41,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $this->invoiceApiConnector = new InvoiceApiConnector($this->connection);
         
-        $this->invoiceTypeApiConnector = $this->createMock(InvoiceTypeApiConnector::class);
-        $this->invoiceTypeApiConnector
-            ->method("getInvoiceTypeVatType")
-            ->willReturn('exclusive');    
+        $this->invoiceTypeApiConnector = $this->getMockBuilder('InvoiceTypeApiConnector')->disableOriginalConstructor()->getMock();
     }
 
     public function testGetConceptInvoiceWorks()
