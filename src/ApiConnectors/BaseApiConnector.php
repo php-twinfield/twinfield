@@ -46,7 +46,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     {
         $this->connection = $connection;
     }
-    
+
     public function getConnection()
     {
         return $this->connection;
@@ -180,7 +180,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
             return $options;
         } else {
             $optionsArrayOfString = array('ArrayOfString' => array());
-            
+
             if (isset($forcedOptions)) {
                 foreach ($forcedOptions as $key => $value) {
                     unset($options[$key]);
@@ -200,12 +200,12 @@ abstract class BaseApiConnector implements LoggerAwareInterface
      * Map the response of a listAll to an array of the requested class
      *
      * @param string $className
-     * @param object $data
+     * @param $data
      * @param array $objectListAllTags
      * @return array
      * @throws Exception
      */
-    public function mapListAll(string $className, object $data, array $objectListAllTags): array {
+    public function mapListAll(string $className, $data, array $objectListAllTags): array {
         if ($data->TotalRows == 0) {
             return [];
         }
