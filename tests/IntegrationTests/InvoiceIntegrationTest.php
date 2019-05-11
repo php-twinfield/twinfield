@@ -42,12 +42,11 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $mockInvoiceTypeApiConnector->shouldReceive('getInvoiceTypeVatType')->andReturnUsing(function() {
             return 'exclusive';
         });
-        
-        $article = new Article;
-        $article->setAllowChangeVatCode(true);
-        
+ 
         $mockArticleApiConnector = \Mockery::mock('overload:'.ArticleApiConnector::class);
         $mockArticleApiConnector->shouldReceive('get')->andReturnUsing(function() {
+            $article = new Article;
+            $article->setAllowChangeVatCode(true);
             return $article;
         });
     }
