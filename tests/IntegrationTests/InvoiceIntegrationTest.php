@@ -28,6 +28,11 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
      * @var InvoiceApiConnector|\PHPUnit_Framework_MockObject_MockObject
      */
     private $invoiceApiConnector;
+    
+    /**
+     * @var InvoiceTypeApiConnector|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $invoiceTypeApiConnector;
 
     protected function setUp()
     {
