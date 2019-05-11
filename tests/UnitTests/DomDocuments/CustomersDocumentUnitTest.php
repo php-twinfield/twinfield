@@ -105,37 +105,49 @@ class CustomersDocumentUnitTest extends TestCase
 <?xml version="1.0"?>
 <dimensions>
 	<dimension status="active">
+	    <beginperiod>0</beginperiod>
+	    <beginyear>0</beginyear>
 	    <code>D123456</code>
+	    <endperiod>0</endperiod>
+	    <endyear>0</endyear>
 	    <name>Chuck Norris</name>
+	    <office>DEV-10000</office>
+	    <shortname/>
 	    <type>DEB</type>
 	    <website>http://example.org</website>
-	    <office>DEV-10000</office>
 	    <financials>
+	        <collectionschema>core</collectionschema>
 	        <duedays>1</duedays>
-	        <payavailable>true</payavailable>
-	        <paycode>pay-code</paycode>
-	        <vatcode>vat-code</vatcode>
 	        <ebilling>true</ebilling>
 	        <ebillmail>ebillingmail@mail.com</ebillmail>
-        </financials>
+	        <payavailable>true</payavailable>
+	        <paycode>pay-code</paycode>
+	        <substitutewith/>
+	        <vatcode>vat-code</vatcode>
+	        <collectmandate>
+		    <firstrundate/>
+	            <id>20190510929</id>
+		    <signaturedate/>
+	        </collectmandate>
+            </financials>
         <creditmanagement>
-            <responsibleuser>responsible-user</responsibleuser>
             <basecreditlimit>50</basecreditlimit>
-            <sendreminder>true</sendreminder>
-            <reminderemail>reminderemail@mail.com</reminderemail>
-            <blocked>false</blocked>
-            <freetext1>true</freetext1>
+	    <blocked>false</blocked>
+	    <comment>comment    comment</comment>
+	    <freetext1>true</freetext1>
             <freetext2>free2</freetext2>
-            <comment>comment    comment</comment>
+	    <freetext3/>
+	    <responsibleuser>responsible-user</responsibleuser>
+	    <reminderemail>reminderemail@mail.com</reminderemail>
+            <sendreminder>true</sendreminder>
         </creditmanagement>
+	<invoicing>
+	    <discountarticle/>
+	</invoicing>
         <addresses>
-            <address default="true" type="invoice">
-                <name>My Address</name>
-                <country>nl</country>
+            <address default="true" id="20190510718" type="invoice">
                 <city>city</city>
-                <postcode>postal code</postcode>
-                <telephone>phone number</telephone>
-                <telefax>fax number</telefax>
+                <country>nl</country>
                 <email>email@mail.com</email>
                 <field1>field 1</field1>
                 <field2>field 2</field2>
@@ -143,10 +155,18 @@ class CustomersDocumentUnitTest extends TestCase
                 <field4>field 4</field4>
                 <field5>field 5</field5>
                 <field6>field 6</field6>
+                <name>My Address</name>
+		<postcode>postal code</postcode>
+		<telefax>fax number</telefax>
+                <telephone>phone number</telephone>
             </address>
         </addresses>
         <banks>
-            <bank default="true">
+            <bank default="true" id="20190510621">
+	        <address>
+                    <field2>address 2</field2>
+                    <field3>address 3</field3>
+                </address>
                 <ascription>ascriptor</ascription>
                 <accountnumber>account number</accountnumber>
                 <bankname>bank name</bankname>
@@ -157,19 +177,70 @@ class CustomersDocumentUnitTest extends TestCase
                 <natbiccode>nat-bic</natbiccode>
                 <postcode>postcode</postcode>
                 <state>state</state>
-                <address>
-                    <field2>address 2</field2>                
-                    <field3>address 3</field3>                
-                </address>
             </bank>
         </banks>
+	<remittanceadvice>
+	    <sendmail/>
+            <sendtype/>
+	</remittanceadvice>
+	<paymentconditions>
+	    <paymentcondition>
+	        <discountdays/>
+                <discountpercentage/>
+            </paymentcondition>
+        </paymentconditions>
     </dimension>
     <dimension status="deleted">
-        <code>D654321</code>
-        <name>Nuck Chorris</name>
-        <type>DEB</type>
-        <website>http://example.org</website>
-        <office>DEV-00001</office>
+	    <beginperiod>0</beginperiod>
+	    <beginyear>0</beginyear>
+	    <code>D654321</code>
+	    <endperiod>0</endperiod>
+	    <endyear>0</endyear>
+	    <name>Nuck Chorris</name>
+	    <office>DEV-00001</office>
+	    <shortname/>
+	    <type>DEB</type>
+	    <website>http://example.org</website>
+	    <financials>
+		<collectionschema>core</collectionschema>
+		<duedays>30</duedays>
+		<ebilling>false</ebilling>
+		<ebillmail/>
+		<meansofpayment/>
+		<payavailable>false</payavailable>
+		<paycode/>
+		<substitutewith/>
+		<vatcode/>
+		<collectmandate>
+		    <firstrundate/>
+		    <id>20190510798</id>
+		    <signaturedate/>
+		</collectmandate>
+	    </financials>
+	    <creditmanagement>
+		<basecreditlimit>0</basecreditlimit>
+		<blocked>false</blocked>
+		<comment/>
+		<freetext1>false</freetext1>
+		<freetext2/>
+		<freetext3/>
+		<reminderemail/>
+		<responsibleuser/>
+		<sendreminder>true</sendreminder>
+	    </creditmanagement>
+	    <invoicing>
+		<discountarticle/>
+	    </invoicing>
+	    <remittanceadvice>
+		<sendmail/>
+		<sendtype/>
+	    </remittanceadvice>
+	    <paymentconditions>
+		<paymentcondition>
+		    <discountdays/>
+		    <discountpercentage/>
+		</paymentcondition>
+	    </paymentconditions>
     </dimension>
 </dimensions>
 XML
