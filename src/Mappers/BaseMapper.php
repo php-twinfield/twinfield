@@ -141,7 +141,20 @@ abstract class BaseMapper
 
         $enum = "\\PhpTwinfield\\Enums\\" . $enumName;
 
-        return new $enum($value);
+        try {
+            $classReflex = new \ReflectionClass($enum);
+            $classConstants = $classReflex->getConstants();
+
+            foreach ($classConstants as $classConstant) {
+                if ($value == $classConstant) {
+                    return new $enum($value);
+                }
+            }
+        } catch (\ReflectionException $e) {
+            return null;
+        }
+
+        return null;
     }
 
     protected static function parseMoneyAttribute(?float $value): ?Money

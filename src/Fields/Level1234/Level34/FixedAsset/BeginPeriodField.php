@@ -5,8 +5,7 @@ namespace PhpTwinfield\Fields\Level1234\Level34\FixedAsset;
 trait BeginPeriodField
 {
     /**
-     * BeginPeriod in 'YYYY/PP' format (e.g. '2013/05'). If this tag is not included or if it is left empty, the beginPeriod is
-     * determined by the system based on the provided transaction date.
+     * Begin period in 'YYYY/PP' format (e.g. '2013/05')
      * Used by: FixedAssetFixedAssets
      *
      * @var string

@@ -10,12 +10,12 @@
         <invoiceaddressnumber>1</invoiceaddressnumber>
         <deliveraddressnumber>1</deliveraddressnumber>
         <customer>1000</customer>
-        <period>2012/8</period>
+        <period>2012/08</period>
         <currency>EUR</currency>
         <status>concept</status>
         <paymentmethod>cash</paymentmethod>
-        <headertext/>
-        <footertext/>
+        <headertext>HEADER</headertext>
+        <footertext>FOOTER</footertext>
     </header>
     <lines>
         <line id="1">
@@ -40,7 +40,8 @@
         <vatline>
             <vatcode name="BTW 0%">VN</vatcode>
             <vatvalue>0.00</vatvalue>
-            <performancetype/><performancedate/>
+            <performancetype/>
+            <performancedate/>
         </vatline>
     </vatlines>
     <totals>

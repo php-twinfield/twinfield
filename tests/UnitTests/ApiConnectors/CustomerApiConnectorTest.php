@@ -63,6 +63,5 @@ class CustomerApiConnectorTest extends TestCase
         $this->assertInstanceOf(Customer::class, $mapped);
         $this->assertEquals("D1001", $mapped->getCode());
         $this->assertEquals("Hr E G H Küppers en/of MW M.J. Küppers-Veeneman", $mapped->getName());
-        $this->assertEquals("BE", $mapped->getCountry());
     }
 }

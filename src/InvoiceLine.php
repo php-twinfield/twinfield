@@ -49,7 +49,6 @@ class InvoiceLine extends BaseObject
 
     public function __construct($quantity = null, $article = null, $freeText1 = null, $freeText2 = null)
     {
-        $this->ID = (int)(date('Ymd'). sprintf("%03d", mt_rand(1, 999)));
         $this->quantity  = $quantity;
         $this->article   = $article;
         $this->setFreeText1($freeText1);
