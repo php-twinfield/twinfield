@@ -148,7 +148,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
 
     public function testListAllCustomersWorks()
     {
-        $response = json_decode(file_get_contents(__DIR__ . '/resources/customerListResponse.json'));
+        $response = (object)json_decode(file_get_contents(__DIR__ . '/resources/customerListResponse.json'));
 
         $this->finderService
             ->expects($this->once())
