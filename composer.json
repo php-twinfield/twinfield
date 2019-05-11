@@ -56,6 +56,6 @@
     "mediact/dependency-guard": "^1.0",
     "phpstan/phpstan": "^0.10.1",
     "phpunit/phpunit": "^7.3",
-    "mockery/mockery"
+    "mockery/mockery": "dev-master"
   }
 }
