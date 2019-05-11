@@ -15,9 +15,4 @@ class AssetMethodFreeText extends BaseObject
     use ElementValueField;
     use FreeTextTypeField;
     use IDField;
-
-    public function __construct()
-    {
-        $this->ID = (int)(date('Ymd'). sprintf("%03d", mt_rand(1, 999)));
-    }
 }

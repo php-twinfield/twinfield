@@ -39,9 +39,4 @@ class CustomerBank extends BaseObject
     use NatBicCodeField;
     use PostcodeField;
     use StateField;
-
-    public function __construct()
-    {
-        $this->ID = (int)(date('Ymd'). sprintf("%03d", mt_rand(1, 999)));
-    }
 }

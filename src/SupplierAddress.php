@@ -41,9 +41,4 @@ class SupplierAddress extends BaseObject
     use PostcodeField;
     use TelefaxField;
     use TelephoneField;
-
-    public function __construct()
-    {
-        $this->ID = (int)(date('Ymd'). sprintf("%03d", mt_rand(1, 999)));
-    }
 }

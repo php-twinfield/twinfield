@@ -21,9 +21,4 @@ class RateRateChange extends BaseObject
     use IDField;
     use InternalRateField;
     use StatusField;
-
-    public function __construct()
-    {
-        $this->ID = (int)(date('Ymd'). sprintf("%03d", mt_rand(1, 999)));
-    }
 }

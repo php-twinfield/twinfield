@@ -22,11 +22,6 @@ class CustomerPostingRule extends BaseObject
 
     private $lines = [];
 
-    public function __construct()
-    {
-        $this->ID = (int)(date('Ymd'). sprintf("%03d", mt_rand(1, 999)));
-    }
-
     public function getLines()
     {
         return $this->lines;

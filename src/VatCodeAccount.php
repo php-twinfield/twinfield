@@ -21,9 +21,4 @@ class VatCodeAccount extends BaseObject
     use PercentageField;
     use VatGroupCountryField;
     use VatGroupField;
-
-    public function __construct()
-    {
-        $this->ID = (int)(date('Ymd'). sprintf("%03d", mt_rand(1, 999)));
-    }
 }
