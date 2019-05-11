@@ -44,7 +44,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         });
         
         $article = new Article;
-        $article->getAllowChangeVatCode == true
+        $article->getAllowChangeVatCode == true;
         
         $mockArticleApiConnector = \Mockery::mock('overload:'.ArticleApiConnector::class);
         $mockArticleApiConnector->shouldReceive('get')->andReturnUsing(function() {
