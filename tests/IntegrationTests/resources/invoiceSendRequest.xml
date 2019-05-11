@@ -15,7 +15,7 @@
             <invoicetype>FACTUUR</invoicetype>
             <office>11024</office>
             <paymentmethod>cash</paymentmethod>
-            <period>2012/8</period>
+            <period>2012/08</period>
             <status>concept</status>
         </header>
         <lines>
