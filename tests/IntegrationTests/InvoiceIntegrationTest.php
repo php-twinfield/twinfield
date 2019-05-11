@@ -176,7 +176,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
     {
         
         $invoiceTypeApiConnector = $this->getMockBuilder('\PhpTwinfield\ApiConnectors\InvoiceTypeApiConnector')
-            ->setConstructorArgs($this->connection)
+            ->setConstructorArgs(array($this->connection))
             ->getMock();
         
         $invoiceTypeApiConnector->method("getInvoiceTypeVatType")->willReturn('exclusive');
