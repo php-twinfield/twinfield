@@ -2,8 +2,10 @@
 
 namespace PhpTwinfield\IntegrationTests;
 
+use PhpTwinfield\ApiConnectors\ArticleApiConnector;
 use PhpTwinfield\ApiConnectors\InvoiceApiConnector;
 use PhpTwinfield\ApiConnectors\InvoiceTypeApiConnector;
+use PhpTwinfield\Article;
 use PhpTwinfield\Customer;
 use PhpTwinfield\DomDocuments\InvoicesDocument;
 use PhpTwinfield\Invoice;
@@ -36,9 +38,17 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $this->invoiceApiConnector = new InvoiceApiConnector($this->connection);
         
-        $mock = \Mockery::mock('overload:'.InvoiceTypeApiConnector::class);
-        $mock->shouldReceive('getInvoiceTypeVatType')->andReturnUsing(function() {
+        $mockInvoiceTypeApiConnector = \Mockery::mock('overload:'.InvoiceTypeApiConnector::class);
+        $mockInvoiceTypeApiConnector->shouldReceive('getInvoiceTypeVatType')->andReturnUsing(function() {
             return 'exclusive';
+        });
+        
+        $article = new Article;
+        $article->getAllowChangeVatCode == true
+        
+        $mockArticleApiConnector = \Mockery::mock('overload:'.ArticleApiConnector::class);
+        $mockArticleApiConnector->shouldReceive('get')->andReturnUsing(function() {
+            return $article;
         });
     }
 
