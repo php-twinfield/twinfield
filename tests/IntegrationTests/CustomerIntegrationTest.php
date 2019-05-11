@@ -148,26 +148,25 @@ class CustomerIntegrationTest extends BaseIntegrationTest
 
     public function testListAllCustomersWorks()
     {
-        $response = Response::fromString(file_get_contents(__DIR__ . '/resources/customerListResponse.xml'));
+        $response = (object)json_decode(file_get_contents(__DIR__ . '/resources/customerListResponse.json'), true);
 
         $this->finderService
             ->expects($this->once())
             ->method("searchFinder")
-            ->with($this->isInstanceOf(\PhpTwinfield\Response\Response::class))
             ->willReturn($response);
 
         $customers = $this->customerApiConnector->listAll();
 
         $this->assertCount(3, $customers);
 
-        $this->assertArrayHasKey('D1000', $customers);
-        $this->assertSame('John Doe', $customers['D1000']['name']);
+        $this->assertSame('D1000', $customers[0]->getCode());
+        $this->assertSame('John Doe', $customers[0]->getName());
 
-        $this->assertArrayHasKey('D1001', $customers);
-        $this->assertSame('B. Terwel', $customers['D1001']['name']);
-
-        $this->assertArrayHasKey('D1002', $customers);
-        $this->assertSame('Hr E G H Küppers en/of MW M.J. Küppers-Veeneman', $customers['D1002']['name']);
+        $this->assertSame('D1001', $customers[1]->getCode());
+        $this->assertSame('B. Terwel', $customers[1]->getName());
+        
+        $this->assertSame('D1002', $customers[2]->getCode());
+        $this->assertSame('Hr E G H Küppers en/of MW M.J. Küppers-Veeneman', $customers[2]->getName());
     }
 
     public function testSendCustomerWorks()
