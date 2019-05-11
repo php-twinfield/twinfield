@@ -52,7 +52,7 @@ class ArticlesDocument extends BaseDocument
         $headerElement->appendChild($this->createNodeWithTextContent('allowdecimalquantity', $article->getAllowDecimalQuantityToString()));
         $headerElement->appendChild($this->createNodeWithTextContent('allowdiscountorpremium', $article->getAllowDiscountOrPremiumToString()));
         $headerElement->appendChild($this->createNodeWithTextContent('code', $article->getCode()));
-        $headerElement->appendChild($this->createNodeWithTextContent('office', $article->getOfficeToCode()));
+        $headerElement->appendChild($this->createNodeWithTextContent('office', $article->getOfficeToString()));
         $headerElement->appendChild($this->createNodeWithTextContent('name', $article->getName()));
         $headerElement->appendChild($this->createNodeWithTextContent('percentage', $article->getPercentageToString()));
         $headerElement->appendChild($this->createNodeWithTextContent('performancetype', $article->getPerformanceType()));
@@ -60,7 +60,7 @@ class ArticlesDocument extends BaseDocument
         $headerElement->appendChild($this->createNodeWithTextContent('type', $article->getType()));
         $headerElement->appendChild($this->createNodeWithTextContent('unitnameplural', $article->getUnitNamePlural()));
         $headerElement->appendChild($this->createNodeWithTextContent('unitnamesingular', $article->getUnitNameSingular()));
-        $headerElement->appendChild($this->createNodeWithTextContent('vatcode', $article->getVatCodeToCode()));
+        $headerElement->appendChild($this->createNodeWithTextContent('vatcode', $article->getVatCodeToString()));
 
         //Clear VAT code in case of a discount/premium article with percentage set to true to prevent errors
         if ($article->getType() != "normal" && $article->getPercentage() == true) {
@@ -92,8 +92,8 @@ class ArticlesDocument extends BaseDocument
                     $lineElement->setAttribute('status', $status);
                 }
 
-                $lineElement->appendChild($this->createNodeWithTextContent('freetext1', $line->getFreeText1ToCode()));
-                $lineElement->appendChild($this->createNodeWithTextContent('freetext2', $line->getFreeText2ToCode()));
+                $lineElement->appendChild($this->createNodeWithTextContent('freetext1', $line->getFreeText1ToString()));
+                $lineElement->appendChild($this->createNodeWithTextContent('freetext2', $line->getFreeText2ToString()));
                 $lineElement->appendChild($this->createNodeWithTextContent('freetext3', $line->getFreeText3()));
                 $lineElement->appendChild($this->createNodeWithTextContent('name', $line->getName()));
                 $lineElement->appendChild($this->createNodeWithTextContent('shortname', $line->getShortName()));

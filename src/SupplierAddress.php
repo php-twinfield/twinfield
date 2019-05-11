@@ -3,7 +3,6 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\IDField;
-use PhpTwinfield\Fields\Level1234\Level2\AddressTypeField;
 use PhpTwinfield\Fields\Level1234\Level2\CityField;
 use PhpTwinfield\Fields\Level1234\Level2\CountryField;
 use PhpTwinfield\Fields\Level1234\Level2\DefaultField;
@@ -17,6 +16,7 @@ use PhpTwinfield\Fields\Level1234\Level2\Field6Field;
 use PhpTwinfield\Fields\Level1234\Level2\PostcodeField;
 use PhpTwinfield\Fields\Level1234\Level2\TelefaxField;
 use PhpTwinfield\Fields\Level1234\Level2\TelephoneField;
+use PhpTwinfield\Fields\Level1234\Level2\TypeField;
 use PhpTwinfield\Fields\NameField;
 
 /**
@@ -25,7 +25,6 @@ use PhpTwinfield\Fields\NameField;
  */
 class SupplierAddress extends BaseObject
 {
-    use AddressTypeField;
     use CityField;
     use CountryField;
     use DefaultField;
@@ -41,4 +40,5 @@ class SupplierAddress extends BaseObject
     use PostcodeField;
     use TelefaxField;
     use TelephoneField;
+    use TypeField;
 }

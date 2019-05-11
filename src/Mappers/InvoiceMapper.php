@@ -100,7 +100,7 @@ class InvoiceMapper extends BaseMapper
                     ->setPerformanceDate(self::parseDateAttribute(self::getField($invoiceLine, $lineElement, 'performancedate')))
                     ->setPerformanceType(self::parseEnumAttribute('PerformanceType', self::getField($invoiceLine, $lineElement, 'performancetype')))
                     ->setQuantity(self::getField($invoiceLine, $lineElement, 'quantity'))
-                    ->setSubArticleFromSubCode(self::getField($invoiceLine, $lineElement, 'subarticle'))
+                    ->setSubArticleFromString(self::getField($invoiceLine, $lineElement, 'subarticle'))
                     ->setUnits(self::getField($invoiceLine, $lineElement, 'units'))
                     ->setUnitsPriceExcl(self::parseMoneyAttribute(self::getField($invoiceLine, $lineElement, 'unitspriceexcl')))
                     ->setUnitsPriceInc(self::parseMoneyAttribute(self::getField($invoiceLine, $lineElement, 'unitspriceinc')))

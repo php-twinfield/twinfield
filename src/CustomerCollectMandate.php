@@ -2,8 +2,8 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Fields\Level1234\Level2\Customer\CollectMandateIDField;
 use PhpTwinfield\Fields\Level1234\Level2\Customer\FirstRunDateField;
+use PhpTwinfield\Fields\Level1234\Level2\Customer\IDField;
 use PhpTwinfield\Fields\Level1234\Level2\Customer\SignatureDateField;
 
 /**
@@ -12,7 +12,7 @@ use PhpTwinfield\Fields\Level1234\Level2\Customer\SignatureDateField;
  */
 class CustomerCollectMandate extends BaseObject
 {
-    use CollectMandateIDField;
     use FirstRunDateField;
+    use IDField;
     use SignatureDateField;
 }

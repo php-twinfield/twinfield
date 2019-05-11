@@ -22,7 +22,7 @@ trait PayCodeField
         return $this->payCode;
     }
 
-    public function getPayCodeToCode(): ?string
+    public function getPayCodeToString(): ?string
     {
         if ($this->getPayCode() != null) {
             return $this->payCode->getCode();
@@ -45,7 +45,7 @@ trait PayCodeField
      * @return $this
      * @throws Exception
      */
-    public function setPayCodeFromCode(?string $payCodeCode)
+    public function setPayCodeFromString(?string $payCodeCode)
     {
         $payCode = new PayCode();
         $payCode->setCode($payCodeCode);

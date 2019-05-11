@@ -22,7 +22,7 @@ trait AssetsToActivateField
         return $this->assetsToActivate;
     }
 
-    public function getAssetsToActivateToCode(): ?string
+    public function getAssetsToActivateToString(): ?string
     {
         if ($this->getAssetsToActivate() != null) {
             return $this->assetsToActivate->getCode();
@@ -45,7 +45,7 @@ trait AssetsToActivateField
      * @return $this
      * @throws Exception
      */
-    public function setAssetsToActivateFromCode(?string $assetsToActivateCode)
+    public function setAssetsToActivateFromString(?string $assetsToActivateCode)
     {
         $assetsToActivate = new GeneralLedger();
         $assetsToActivate->setCode($assetsToActivateCode);

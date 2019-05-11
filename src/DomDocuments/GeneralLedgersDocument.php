@@ -48,9 +48,9 @@ class GeneralLedgersDocument extends BaseDocument
         $generalLedgerElement->appendChild($this->createNodeWithTextContent('endperiod', $generalLedger->getEndPeriod()));
         $generalLedgerElement->appendChild($this->createNodeWithTextContent('endyear', $generalLedger->getEndYear()));
         $generalLedgerElement->appendChild($this->createNodeWithTextContent('name', $generalLedger->getName()));
-        $generalLedgerElement->appendChild($this->createNodeWithTextContent('office', $generalLedger->getOfficeToCode()));
+        $generalLedgerElement->appendChild($this->createNodeWithTextContent('office', $generalLedger->getOfficeToString()));
         $generalLedgerElement->appendChild($this->createNodeWithTextContent('shortname', $generalLedger->getShortName()));
-        $generalLedgerElement->appendChild($this->createNodeWithTextContent('type', $generalLedger->getTypeToCode()));
+        $generalLedgerElement->appendChild($this->createNodeWithTextContent('type', $generalLedger->getTypeToString()));
 
         $financials = $generalLedger->getFinancials();
 
@@ -60,7 +60,7 @@ class GeneralLedgersDocument extends BaseDocument
         $financialsElement->appendChild($this->createNodeWithTextContent('accounttype', $financials->getAccountType()));
         $financialsElement->appendChild($this->createNodeWithTextContent('matchtype', $financials->getMatchType()));
         $financialsElement->appendChild($this->createNodeWithTextContent('subanalyse', $financials->getSubAnalyse()));
-        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', $financials->getVatCodeToCode()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', $financials->getVatCodeToString()));
 
         $childValidations = $financials->getChildValidations();
 
@@ -76,7 +76,7 @@ class GeneralLedgersDocument extends BaseDocument
             }
         }
 
-        $group = $generalLedger->getGroupToCode();
+        $group = $generalLedger->getGroupToString();
 
         if (!empty($group)) {
             $groupsElement = $this->createElement('groups');

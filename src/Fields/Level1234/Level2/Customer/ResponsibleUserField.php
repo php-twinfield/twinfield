@@ -22,7 +22,7 @@ trait ResponsibleUserField
         return $this->responsibleUser;
     }
 
-    public function getResponsibleUserToCode(): ?string
+    public function getResponsibleUserToString(): ?string
     {
         if ($this->getResponsibleUser() != null) {
             return $this->responsibleUser->getCode();
@@ -45,7 +45,7 @@ trait ResponsibleUserField
      * @return $this
      * @throws Exception
      */
-    public function setResponsibleUserFromCode(?string $responsibleUserCode)
+    public function setResponsibleUserFromString(?string $responsibleUserCode)
     {
         $responsibleUser = new User();
         $responsibleUser->setCode($responsibleUserCode);

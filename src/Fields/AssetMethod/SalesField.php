@@ -22,7 +22,7 @@ trait SalesField
         return $this->sales;
     }
 
-    public function getSalesToCode(): ?string
+    public function getSalesToString(): ?string
     {
         if ($this->getSales() != null) {
             return $this->sales->getCode();
@@ -45,7 +45,7 @@ trait SalesField
      * @return $this
      * @throws Exception
      */
-    public function setSalesFromCode(?string $salesCode)
+    public function setSalesFromString(?string $salesCode)
     {
         $sales = new GeneralLedger();
         $sales->setCode($salesCode);

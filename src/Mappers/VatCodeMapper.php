@@ -89,7 +89,7 @@ class VatCodeMapper extends BaseMapper
                         $vatCodeAccount->setID($accountElement->getAttribute('id'));
 
                         // Set the vat code percentage account elements from the account element
-                        $vatCodeAccount->setDim1(self::parseObjectAttribute('GeneralLedger', $vatCodeAccount, $accountElement, 'dim1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
+                        $vatCodeAccount->setDim1(self::parseObjectAttribute('GeneralLedger', $vatCodeAccount, $accountElement, 'dim1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                             ->setGroup(self::parseObjectAttribute('VatGroup', $vatCodeAccount, $accountElement, 'group', array('name' => 'setName', 'shortname' => 'setShortName')))
                             ->setGroupCountry(self::parseObjectAttribute('Country', $vatCodeAccount, $accountElement, 'groupcountry', array('name' => 'setName', 'shortname' => 'setShortName')))
                             ->setLineType(self::parseEnumAttribute('LineType', self::getField($vatCodeAccount, $accountElement, 'linetype')))

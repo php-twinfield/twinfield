@@ -48,9 +48,9 @@ class CustomersDocument extends BaseDocument
         $customerElement->appendChild($this->createNodeWithTextContent('endperiod', $customer->getEndPeriod()));
         $customerElement->appendChild($this->createNodeWithTextContent('endyear', $customer->getEndYear()));
         $customerElement->appendChild($this->createNodeWithTextContent('name', $customer->getName()));
-        $customerElement->appendChild($this->createNodeWithTextContent('office', $customer->getOfficeToCode()));
+        $customerElement->appendChild($this->createNodeWithTextContent('office', $customer->getOfficeToString()));
         $customerElement->appendChild($this->createNodeWithTextContent('shortname', $customer->getShortName()));
-        $customerElement->appendChild($this->createNodeWithTextContent('type', $customer->getTypeToCode()));
+        $customerElement->appendChild($this->createNodeWithTextContent('type', $customer->getTypeToString()));
         $customerElement->appendChild($this->createNodeWithTextContent('website', $customer->getWebsite()));
 
         $financials = $customer->getFinancials();
@@ -64,9 +64,9 @@ class CustomersDocument extends BaseDocument
         $financialsElement->appendChild($this->createNodeWithTextContent('ebillmail', $financials->getEBillMail()));
         $financialsElement->appendChild($this->createNodeWithTextContent('meansofpayment', $financials->getMeansOfPayment()));
         $financialsElement->appendChild($this->createNodeWithTextContent('payavailable', $financials->getPayAvailableToString()));
-        $financialsElement->appendChild($this->createNodeWithTextContent('paycode', $financials->getPayCodeToCode()));
-        $financialsElement->appendChild($this->createNodeWithTextContent('substitutewith', $financials->getSubstituteWithToCode()));
-        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', $financials->getVatCodeToCode()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('paycode', $financials->getPayCodeToString()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('substitutewith', $financials->getSubstituteWithToString()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', $financials->getVatCodeToString()));
 
         $collectMandate = $financials->getCollectMandate();
 
@@ -105,14 +105,14 @@ class CustomersDocument extends BaseDocument
         $creditManagementElement->appendChild($this->createNodeWithTextContent('freetext2', $creditManagement->getFreeText2()));
         $creditManagementElement->appendChild($this->createNodeWithTextContent('freetext3', $creditManagement->getFreeText3()));
         $creditManagementElement->appendChild($this->createNodeWithTextContent('reminderemail', $creditManagement->getReminderEmail()));
-        $creditManagementElement->appendChild($this->createNodeWithTextContent('responsibleuser', $creditManagement->getResponsibleUserToCode()));
+        $creditManagementElement->appendChild($this->createNodeWithTextContent('responsibleuser', $creditManagement->getResponsibleUserToString()));
         $creditManagementElement->appendChild($this->createNodeWithTextContent('sendreminder', $creditManagement->getSendReminder()));
 
         // Make invoicing element
         $invoicingElement = $this->createElement('invoicing');
         $customerElement->appendChild($invoicingElement);
 
-        $invoicingElement->appendChild($this->createNodeWithTextContent('discountarticle', $customer->getDiscountArticleToCode()));
+        $invoicingElement->appendChild($this->createNodeWithTextContent('discountarticle', $customer->getDiscountArticleToString()));
 
         $addresses = $customer->getAddresses();
 
@@ -146,7 +146,7 @@ class CustomersDocument extends BaseDocument
                 }
 
                 $addressElement->appendChild($this->createNodeWithTextContent('city', $address->getCity()));
-                $addressElement->appendChild($this->createNodeWithTextContent('country', $address->getCountryToCode()));
+                $addressElement->appendChild($this->createNodeWithTextContent('country', $address->getCountryToString()));
                 $addressElement->appendChild($this->createNodeWithTextContent('email', $address->getEmail()));
                 $addressElement->appendChild($this->createNodeWithTextContent('field1', $address->getField1()));
                 $addressElement->appendChild($this->createNodeWithTextContent('field2', $address->getField2()));
@@ -187,8 +187,8 @@ class CustomersDocument extends BaseDocument
                 }
 
                 $bankAddressElement = $this->createElement('address');
-                $bankAddressElement->appendChild($this->createNodeWithTextContent('field2', $bank->getField2()));
-                $bankAddressElement->appendChild($this->createNodeWithTextContent('field3', $bank->getField3()));
+                $bankAddressElement->appendChild($this->createNodeWithTextContent('field2', $bank->getAddressField2()));
+                $bankAddressElement->appendChild($this->createNodeWithTextContent('field3', $bank->getAddressField3()));
                 $bankElement->appendChild($bankAddressElement);
 
                 $bankElement->appendChild($this->createNodeWithTextContent('ascription', $bank->getAscription()));
@@ -196,7 +196,7 @@ class CustomersDocument extends BaseDocument
                 $bankElement->appendChild($this->createNodeWithTextContent('bankname', $bank->getBankName()));
                 $bankElement->appendChild($this->createNodeWithTextContent('biccode', $bank->getBicCode()));
                 $bankElement->appendChild($this->createNodeWithTextContent('city', $bank->getCity()));
-                $bankElement->appendChild($this->createNodeWithTextContent('country', $bank->getCountryToCode()));
+                $bankElement->appendChild($this->createNodeWithTextContent('country', $bank->getCountryToString()));
                 $bankElement->appendChild($this->createNodeWithTextContent('iban', $bank->getIban()));
                 $bankElement->appendChild($this->createNodeWithTextContent('natbiccode', $bank->getNatBicCode()));
                 $bankElement->appendChild($this->createNodeWithTextContent('postcode', $bank->getPostcode()));
@@ -210,7 +210,7 @@ class CustomersDocument extends BaseDocument
         $remittanceAdviceElement->appendChild($this->createNodeWithTextContent('sendmail', $customer->getRemittanceAdviceSendMail()));
         $remittanceAdviceElement->appendChild($this->createNodeWithTextContent('sendtype', $customer->getRemittanceAdviceSendType()));
 
-        $group = $customer->getGroupToCode();
+        $group = $customer->getGroupToString();
 
         if (!empty($group)) {
             $groupsElement = $this->createElement('groups');
@@ -244,7 +244,7 @@ class CustomersDocument extends BaseDocument
                 }
 
                 $postingRuleElement->appendChild($this->createNodeWithTextContent('amount', $postingRule->getAmountToFloat()));
-                $postingRuleElement->appendChild($this->createNodeWithTextContent('currency', $postingRule->getCurrencyToCode()));
+                $postingRuleElement->appendChild($this->createNodeWithTextContent('currency', $postingRule->getCurrencyToString()));
                 $postingRuleElement->appendChild($this->createNodeWithTextContent('description', $postingRule->getDescription()));
 
                 $postingRuleLines = $postingRule->getLines();
@@ -260,13 +260,13 @@ class CustomersDocument extends BaseDocument
                         $postingRuleLineElement = $this->createElement('line');
                         $postingRuleLinesElement->appendChild($postingRuleLineElement);
 
-                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension1', $postingRuleLine->getDimension1ToCode()));
-                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension2', $postingRuleLine->getDimension2ToCode()));
-                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension3', $postingRuleLine->getDimension3ToCode()));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension1', $postingRuleLine->getDimension1ToString()));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension2', $postingRuleLine->getDimension2ToString()));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension3', $postingRuleLine->getDimension3ToString()));
                         $postingRuleLineElement->appendChild($this->createNodeWithTextContent('description', $postingRuleLine->getDescription()));
-                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('office', $postingRuleLine->getOfficeToCode()));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('office', $postingRuleLine->getOfficeToString()));
                         $postingRuleLineElement->appendChild($this->createNodeWithTextContent('ratio', $postingRuleLine->getRatio()));
-                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('vatcode', $postingRuleLine->getVatCodeToCode()));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('vatcode', $postingRuleLine->getVatCodeToString()));
                     }
                 }
             }

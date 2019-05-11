@@ -5,8 +5,8 @@ namespace PhpTwinfield;
 use PhpTwinfield\Fields\BehaviourField;
 use PhpTwinfield\Fields\CodeField;
 use PhpTwinfield\Fields\InUseField;
-use PhpTwinfield\Fields\Level1234\DimensionGroupField;
-use PhpTwinfield\Fields\Level1234\DimensionTypeField;
+use PhpTwinfield\Fields\Level1234\DimensionGroup\GroupField;
+use PhpTwinfield\Fields\Level1234\DimensionType\TypeField;
 use PhpTwinfield\Fields\NameField;
 use PhpTwinfield\Fields\OfficeField;
 use PhpTwinfield\Fields\ShortNameField;
@@ -23,22 +23,22 @@ class FixedAsset extends BaseObject
 {
     use BehaviourField;
     use CodeField;
-    use DimensionGroupField;
-    use DimensionTypeField;
+    use GroupField;
     use InUseField;
     use NameField;
     use OfficeField;
     use ShortNameField;
     use StatusField;
     use TouchedField;
+    use TypeField;
     use UIDField;
 
     private $financials;
     private $fixedAssets;
-    
+
     public function __construct()
     {
-        $this->setTypeFromCode('AST');
+        $this->setTypeFromString('AST');
         $this->setFinancials(new FixedAssetFinancials);
         $this->setFixedAssets(new FixedAssetFixedAssets);
     }

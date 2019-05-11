@@ -22,7 +22,7 @@ trait RateField
         return $this->rate;
     }
 
-    public function getRateToCode(): ?string
+    public function getRateToString(): ?string
     {
         if ($this->getRate() != null) {
             return $this->rate->getCode();
@@ -45,7 +45,7 @@ trait RateField
      * @return $this
      * @throws Exception
      */
-    public function setRateFromCode(?string $rateCode)
+    public function setRateFromString(?string $rateCode)
     {
         $rate = new Rate();
         $rate->setCode($rateCode);

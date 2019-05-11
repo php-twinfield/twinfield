@@ -22,7 +22,7 @@ trait ToBeInvoicedField
         return $this->toBeInvoiced;
     }
 
-    public function getToBeInvoicedToCode(): ?string
+    public function getToBeInvoicedToString(): ?string
     {
         if ($this->getToBeInvoiced() != null) {
             return $this->toBeInvoiced->getCode();
@@ -45,7 +45,7 @@ trait ToBeInvoicedField
      * @return $this
      * @throws Exception
      */
-    public function setToBeInvoicedFromCode(?string $toBeInvoicedCode)
+    public function setToBeInvoicedFromString(?string $toBeInvoicedCode)
     {
         $toBeInvoiced = new GeneralLedger();
         $toBeInvoiced->setCode($toBeInvoicedCode);

@@ -22,7 +22,7 @@ trait Dim3Field
         return $this->dim3;
     }
 
-    public function getDim3ToCode(): ?string
+    public function getDim3ToString(): ?string
     {
         if ($this->getDim3() != null) {
             return $this->dim3->getCode();
@@ -45,7 +45,7 @@ trait Dim3Field
      * @return $this
      * @throws Exception
      */
-    public function setDim3FromCode(?string $dim3Code)
+    public function setDim3FromString(?string $dim3Code)
     {
         $dim3 = new Dummy();
         $dim3->setCode($dim3Code);

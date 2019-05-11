@@ -5,6 +5,8 @@ namespace PhpTwinfield;
 use PhpTwinfield\Fields\Dim1Field;
 use PhpTwinfield\Fields\Level1234\AmountField;
 use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\AmountLockedField;
+use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\CodeField;
+use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\CodeLockedField;
 use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim1LockedField;
 use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim2Field;
 use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim2LockedField;
@@ -16,8 +18,6 @@ use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim5Field;
 use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim5LockedField;
 use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim6Field;
 use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim6LockedField;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\FixedAssetCodeField;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\FixedAssetCodeLockedField;
 use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\LineField;
 use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\LineLockedField;
 use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\NumberField;
@@ -33,6 +33,8 @@ class FixedAssetTransactionLine extends BaseObject
 {
     use AmountField;
     use AmountLockedField;
+    use CodeField;
+    use CodeLockedField;
     use Dim1Field;
     use Dim1LockedField;
     use Dim2Field;
@@ -45,8 +47,6 @@ class FixedAssetTransactionLine extends BaseObject
     use Dim5LockedField;
     use Dim6Field;
     use Dim6LockedField;
-    use FixedAssetCodeField;
-    use FixedAssetCodeLockedField;
     use LineField;
     use LineLockedField;
     use NumberField;

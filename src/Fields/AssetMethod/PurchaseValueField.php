@@ -22,7 +22,7 @@ trait PurchaseValueField
         return $this->purchaseValue;
     }
 
-    public function getPurchaseValueToCode(): ?string
+    public function getPurchaseValueToString(): ?string
     {
         if ($this->getPurchaseValue() != null) {
             return $this->purchaseValue->getCode();
@@ -45,7 +45,7 @@ trait PurchaseValueField
      * @return $this
      * @throws Exception
      */
-    public function setPurchaseValueFromCode(?string $purchaseValueCode)
+    public function setPurchaseValueFromString(?string $purchaseValueCode)
     {
         $purchaseValue = new GeneralLedger();
         $purchaseValue->setCode($purchaseValueCode);

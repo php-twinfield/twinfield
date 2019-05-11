@@ -44,7 +44,7 @@ class CurrenciesDocument extends BaseDocument
 
         $currencyElement->appendChild($this->createNodeWithTextContent('code', $currency->getCode()));
         $currencyElement->appendChild($this->createNodeWithTextContent('name', $currency->getName()));
-        $currencyElement->appendChild($this->createNodeWithTextContent('office', $currency->getOfficeToCode()));
+        $currencyElement->appendChild($this->createNodeWithTextContent('office', $currency->getOfficeToString()));
         $currencyElement->appendChild($this->createNodeWithTextContent('shortname', $currency->getShortName()));
 
         $rates = $currency->getRates();

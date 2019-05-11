@@ -77,7 +77,7 @@ class SupplierMapper extends BaseMapper
                 ->setRelationsReference(self::getField($supplierFinancials, $financialsElement, 'relationsreference'))
                 ->setSubAnalyse(self::parseEnumAttribute('SubAnalyse', self::getField($supplierFinancials, $financialsElement, 'subanalyse')))
                 ->setSubstitutionLevel(self::getField($supplierFinancials, $financialsElement, 'substitutionlevel'))
-                ->setSubstituteWith(self::parseObjectAttribute('UnknownDimension', $supplierFinancials, $financialsElement, 'substitutewith', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
+                ->setSubstituteWith(self::parseObjectAttribute('UnknownDimension', $supplierFinancials, $financialsElement, 'substitutewith', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                 ->setVatCode(self::parseObjectAttribute('VatCode', $supplierFinancials, $financialsElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
 
             // Set the financials elements from the financials element attributes
@@ -100,7 +100,7 @@ class SupplierMapper extends BaseMapper
 
                     // Set the child validation elements from the child validation element en element attributes
                     $supplierChildValidation->setLevel($childValidationElement->getAttribute('level'))
-                        ->setType(self::parseEnumAttribute('GeneralLedgerType', $childValidationElement->getAttribute('type')))
+                        ->setType(self::parseEnumAttribute('ChildValidationType', $childValidationElement->getAttribute('type')))
                         ->setElementValue($childValidationElement->textContent);
 
                     // Add the child validation to the supplier financials class
@@ -184,14 +184,14 @@ class SupplierMapper extends BaseMapper
                     ->setID($bankElement->getAttribute('id'));
 
                 // Set the bank elements from the bank element
-                $supplierBank->setAscription(self::getField($supplierBank, $bankElement, 'ascription'))
-                    ->setAccountNumber(self::getField($supplierBank, $bankElement, 'accountnumber'))
+                $supplierBank->setAccountNumber(self::getField($supplierBank, $bankElement, 'accountnumber'))
+                    ->setAddressField2(self::getField($supplierBank, $bankElement, 'field2'))
+                    ->setAddressField3(self::getField($supplierBank, $bankElement, 'field3'))
+                    ->setAscription(self::getField($supplierBank, $bankElement, 'ascription'))
                     ->setBankName(self::getField($supplierBank, $bankElement, 'bankname'))
                     ->setBicCode(self::getField($supplierBank, $bankElement, 'biccode'))
                     ->setCity(self::getField($supplierBank, $bankElement, 'city'))
                     ->setCountry(self::parseObjectAttribute('Country', $supplierBank, $bankElement, 'country', array('name' => 'setName', 'shortname' => 'setShortName')))
-                    ->setField2(self::getField($supplierBank, $bankElement, 'field2'))
-                    ->setField3(self::getField($supplierBank, $bankElement, 'field3'))
                     ->setIban(self::getField($supplierBank, $bankElement, 'iban'))
                     ->setNatBicCode(self::getField($supplierBank, $bankElement, 'natbiccode'))
                     ->setPostcode(self::getField($supplierBank, $bankElement, 'postcode'))
@@ -242,9 +242,9 @@ class SupplierMapper extends BaseMapper
 
                         // Set the line elements from the line element
                         $supplierLine->setDescription(self::getField($supplierLine, $lineElement, 'description'))
-                            ->setDimension1(self::parseObjectAttribute('GeneralLedger', $supplierLine, $lineElement, 'dimension1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
-                            ->setDimension2(self::parseObjectAttribute('CostCenter', $supplierLine, $lineElement, 'dimension2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
-                            ->setDimension3(self::parseObjectAttribute('UnknownDimension', $supplierLine, $lineElement, 'dimension3', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
+                            ->setDimension1(self::parseObjectAttribute('GeneralLedger', $supplierLine, $lineElement, 'dimension1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                            ->setDimension2(self::parseObjectAttribute('CostCenter', $supplierLine, $lineElement, 'dimension2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                            ->setDimension3(self::parseObjectAttribute('UnknownDimension', $supplierLine, $lineElement, 'dimension3', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                             ->setOffice(self::parseObjectAttribute('Office', $supplierLine, $lineElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
                             ->setRatio(self::getField($supplierLine, $lineElement, 'ratio'))
                             ->setVatCode(self::parseObjectAttribute('VatCode', $supplierLine, $lineElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));

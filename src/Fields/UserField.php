@@ -22,7 +22,7 @@ trait UserField
         return $this->user;
     }
 
-    public function getUserToCode(): ?string
+    public function getUserToString(): ?string
     {
         if ($this->getUser() != null) {
             return $this->user->getCode();
@@ -45,7 +45,7 @@ trait UserField
      * @return $this
      * @throws Exception
      */
-    public function setUserFromCode(?string $userCode)
+    public function setUserFromString(?string $userCode)
     {
         $user = new User();
         $user->setCode($userCode);

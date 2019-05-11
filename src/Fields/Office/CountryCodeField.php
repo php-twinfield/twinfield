@@ -2,31 +2,53 @@
 
 namespace PhpTwinfield\Fields\Office;
 
+use PhpTwinfield\Country;
+
+/**
+ * The country
+ * Used by: Office
+ *
+ * @package PhpTwinfield\Traits
+ */
 trait CountryCodeField
 {
     /**
-     * Country code field
-     * Used by: Office
-     *
-     * @var string|null
+     * @var Country|null
      */
     private $countryCode;
 
-    /**
-     * @return null|string
-     */
-    public function getCountryCode(): ?string
+    public function getCountryCode(): ?Country
     {
         return $this->countryCode;
     }
 
+    public function getCountryCodeToString(): ?string
+    {
+        if ($this->getCountryCode() != null) {
+            return $this->countryCode->getCode();
+        } else {
+            return null;
+        }
+    }
+
     /**
-     * @param null|string $countryCode
      * @return $this
      */
-    public function setCountryCode(?string $countryCode): self
+    public function setCountryCode(?Country $countryCode): self
     {
         $this->countryCode = $countryCode;
         return $this;
+    }
+
+    /**
+     * @param string|null $countryCode
+     * @return $this
+     * @throws Exception
+     */
+    public function setCountryCodeFromString(?string $countryCode)
+    {
+        $countryCode = new Country();
+        $countryCode->setCode($countryCode);
+        return $this->setCountryCode($countryCode);
     }
 }

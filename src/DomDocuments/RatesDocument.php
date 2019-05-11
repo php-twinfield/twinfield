@@ -43,9 +43,9 @@ class RatesDocument extends BaseDocument
         }
 
         $rateElement->appendChild($this->createNodeWithTextContent('code', $rate->getCode()));
-        $rateElement->appendChild($this->createNodeWithTextContent('currency', $rate->getCurrencyToCode()));
+        $rateElement->appendChild($this->createNodeWithTextContent('currency', $rate->getCurrencyToString()));
         $rateElement->appendChild($this->createNodeWithTextContent('name', $rate->getName()));
-        $rateElement->appendChild($this->createNodeWithTextContent('office', $rate->getOfficeToCode()));
+        $rateElement->appendChild($this->createNodeWithTextContent('office', $rate->getOfficeToString()));
         $rateElement->appendChild($this->createNodeWithTextContent('shortname', $rate->getShortName()));
         $rateElement->appendChild($this->createNodeWithTextContent('type', $rate->getType()));
         $rateElement->appendChild($this->createNodeWithTextContent('unit', $rate->getUnit()));

@@ -5,7 +5,7 @@ namespace PhpTwinfield;
 use PhpTwinfield\Fields\BehaviourField;
 use PhpTwinfield\Fields\CodeField;
 use PhpTwinfield\Fields\InUseField;
-use PhpTwinfield\Fields\Level1234\DimensionTypeField;
+use PhpTwinfield\Fields\Level1234\DimensionType\TypeField;
 use PhpTwinfield\Fields\NameField;
 use PhpTwinfield\Fields\OfficeField;
 use PhpTwinfield\Fields\ShortNameField;
@@ -23,13 +23,13 @@ class Activity extends BaseObject
 {
     use BehaviourField;
     use CodeField;
-    use DimensionTypeField;
     use InUseField;
     use NameField;
     use OfficeField;
     use ShortNameField;
     use StatusField;
     use TouchedField;
+    use TypeField;
     use UIDField;
     use VatCodeField;
 
@@ -37,7 +37,7 @@ class Activity extends BaseObject
 
     public function __construct()
     {
-        $this->setTypeFromCode('ACT');
+        $this->setTypeFromString('ACT');
         $this->setProjects(new ActivityProjects);
     }
 

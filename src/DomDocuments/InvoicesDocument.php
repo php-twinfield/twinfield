@@ -54,9 +54,9 @@ class InvoicesDocument extends BaseDocument
             $headerElement->setAttribute('raisewarning', $raiseWarning);
         }
 
-        $headerElement->appendChild($this->createNodeWithTextContent('bank', $invoice->getBankToCode()));
-        $headerElement->appendChild($this->createNodeWithTextContent('currency', $invoice->getCurrencyToCode()));
-        $headerElement->appendChild($this->createNodeWithTextContent('customer', $invoice->getCustomerToCode()));
+        $headerElement->appendChild($this->createNodeWithTextContent('bank', $invoice->getBankToString()));
+        $headerElement->appendChild($this->createNodeWithTextContent('currency', $invoice->getCurrencyToString()));
+        $headerElement->appendChild($this->createNodeWithTextContent('customer', $invoice->getCustomerToString()));
         $headerElement->appendChild($this->createNodeWithTextContent('deliveraddressnumber', $invoice->getDeliverAddressNumber()));
         $headerElement->appendChild($this->createNodeWithTextContent('duedate', $invoice->getDueDateToString()));
         $headerElement->appendChild($this->createNodeWithTextContent('footertext', $invoice->getFooterText()));
@@ -64,14 +64,14 @@ class InvoicesDocument extends BaseDocument
         $headerElement->appendChild($this->createNodeWithTextContent('invoiceaddressnumber', $invoice->getInvoiceAddressNumber()));
         $headerElement->appendChild($this->createNodeWithTextContent('invoicedate', $invoice->getInvoiceDateToString()));
         $headerElement->appendChild($this->createNodeWithTextContent('invoicenumber', $invoice->getInvoiceNumber()));
-        $headerElement->appendChild($this->createNodeWithTextContent('invoicetype', $invoice->getInvoiceTypeToCode()));
-        $headerElement->appendChild($this->createNodeWithTextContent('office', $invoice->getOfficeToCode()));
+        $headerElement->appendChild($this->createNodeWithTextContent('invoicetype', $invoice->getInvoiceTypeToString()));
+        $headerElement->appendChild($this->createNodeWithTextContent('office', $invoice->getOfficeToString()));
         $headerElement->appendChild($this->createNodeWithTextContent('paymentmethod', $invoice->getPaymentMethod()));
         $headerElement->appendChild($this->createNodeWithTextContent('period', $invoice->getPeriod()));
         $headerElement->appendChild($this->createNodeWithTextContent('status', $invoice->getStatus()));
 
         $invoiceTypeApiConnector = new \PhpTwinfield\ApiConnectors\InvoiceTypeApiConnector($connection);
-        $invoiceVatType = $invoiceTypeApiConnector->getInvoiceTypeVatType($invoice->getInvoiceTypeToCode());
+        $invoiceVatType = $invoiceTypeApiConnector->getInvoiceTypeVatType($invoice->getInvoiceTypeToString());
 
         $articleApiConnector = new \PhpTwinfield\ApiConnectors\ArticleApiConnector($connection);
 
@@ -95,16 +95,16 @@ class InvoicesDocument extends BaseDocument
                 }
 
                 $lineElement->appendChild($this->createNodeWithTextContent('allowdiscountorpremium', $line->getAllowDiscountOrPremiumToString()));
-                $lineElement->appendChild($this->createNodeWithTextContent('article', $line->getArticleToCode()));
+                $lineElement->appendChild($this->createNodeWithTextContent('article', $line->getArticleToString()));
                 $lineElement->appendChild($this->createNodeWithTextContent('description', $line->getDescription()));
-                $lineElement->appendChild($this->createNodeWithTextContent('dim1', $line->getDim1ToCode()));
+                $lineElement->appendChild($this->createNodeWithTextContent('dim1', $line->getDim1ToString()));
                 $lineElement->appendChild($this->createNodeWithTextContent('freetext1', $line->getFreeText1()));
                 $lineElement->appendChild($this->createNodeWithTextContent('freetext2', $line->getFreeText2()));
                 $lineElement->appendChild($this->createNodeWithTextContent('freetext3', $line->getFreeText3()));
                 $lineElement->appendChild($this->createNodeWithTextContent('performancedate', $line->getPerformanceDateToString()));
                 $lineElement->appendChild($this->createNodeWithTextContent('performancetype', $line->getPerformanceType()));
                 $lineElement->appendChild($this->createNodeWithTextContent('quantity', $line->getQuantity()));
-                $lineElement->appendChild($this->createNodeWithTextContent('subarticle', $line->getSubArticleToSubCode()));
+                $lineElement->appendChild($this->createNodeWithTextContent('subarticle', $line->getSubArticleToString()));
                 $lineElement->appendChild($this->createNodeWithTextContent('units', $line->getUnits()));
 
                 if ($invoiceVatType == 'inclusive') {
@@ -113,10 +113,10 @@ class InvoicesDocument extends BaseDocument
                     $lineElement->appendChild($this->createNodeWithTextContent('unitspriceexcl', $line->getUnitsPriceExclToFloat()));
                 }
 
-                $article = $articleApiConnector->get($line->getArticleToCode(), $invoice->getOffice());
+                $article = $articleApiConnector->get($line->getArticleToString(), $invoice->getOffice());
 
                 if ($article->getAllowChangeVatCode() == true) {
-                    $lineElement->appendChild($this->createNodeWithTextContent('vatcode', $line->getVatCodeToCode()));
+                    $lineElement->appendChild($this->createNodeWithTextContent('vatcode', $line->getVatCodeToString()));
                 }
             }
         }

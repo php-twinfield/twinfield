@@ -64,7 +64,7 @@ class FixedAssetMapper extends BaseMapper
                 ->setMatchType(self::parseEnumAttribute('MatchType', self::getField($fixedAssetFinancials, $financialsElement, 'matchtype')))
                 ->setSubAnalyse(self::parseEnumAttribute('SubAnalyse', self::getField($fixedAssetFinancials, $financialsElement, 'subanalyse')))
                 ->setSubstitutionLevel(self::getField($fixedAssetFinancials, $financialsElement, 'substitutionlevel'))
-                ->setSubstituteWith(self::parseObjectAttribute('CostCenter', $fixedAssetFinancials, $financialsElement, 'substitutewith', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromCode')))
+                ->setSubstituteWith(self::parseObjectAttribute('CostCenter', $fixedAssetFinancials, $financialsElement, 'substitutewith', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                 ->setVatCode(self::parseObjectAttribute('VatCode', $fixedAssetFinancials, $financialsElement, 'vatcode'));
 
             // Set the financials elements from the financials element attributes

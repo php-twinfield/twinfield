@@ -12,7 +12,7 @@ use PhpTwinfield\Fields\StatusField;
 use PhpTwinfield\Fields\TouchedField;
 use PhpTwinfield\Fields\UIDField;
 use PhpTwinfield\Fields\UserField;
-use PhpTwinfield\Fields\VatCode\VatCodeTypeField;
+use PhpTwinfield\Fields\VatCode\TypeField;
 
 /**
  * Class VatCode
@@ -29,9 +29,9 @@ class VatCode extends BaseObject
     use ShortNameField;
     use StatusField;
     use TouchedField;
+    use TypeField;
     use UIDField;
     use UserField;
-    use VatCodeTypeField;
 
     private $percentages = [];
 
