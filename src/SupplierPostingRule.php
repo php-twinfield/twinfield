@@ -21,7 +21,7 @@ class SupplierPostingRule extends BaseObject
     use StatusField;
 
     private $lines = [];
-
+  
     public function getLines()
     {
         return $this->lines;
