@@ -120,6 +120,7 @@ class CustomersDocumentUnitTest extends TestCase
 	        <duedays>1</duedays>
 	        <ebilling>true</ebilling>
 	        <ebillmail>ebillingmail@mail.com</ebillmail>
+		<meansofpayment/>
 	        <payavailable>true</payavailable>
 	        <paycode>pay-code</paycode>
 	        <substitutewith/>
