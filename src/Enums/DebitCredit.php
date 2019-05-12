@@ -10,8 +10,8 @@ use MyCLabs\Enum\Enum;
  */
 class DebitCredit extends Enum
 {
-    protected const CREDIT      = "credit";
-    protected const DEBIT       = "debit";
+    public const CREDIT      = "credit";
+    public const DEBIT       = "debit";
 
     final public function invert(): self
     {

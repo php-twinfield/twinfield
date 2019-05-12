@@ -6,12 +6,14 @@ use MyCLabs\Enum\Enum;
 
 /**
  * @method static ChildValidationType CODE()
+ * @method static ChildValidationType EMPTY()
  * @method static ChildValidationType GROUP()
  * @method static ChildValidationType TYPE()
  */
 class ChildValidationType extends Enum
 {
-    protected const CODE        = "code";
-    protected const GROUP       = "group";
-    protected const TYPE        = "type";
+    public const CODE        = "code";
+    public const EMPTY       = "";
+    public const GROUP       = "group";
+    public const TYPE        = "type";
 }
