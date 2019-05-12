@@ -30,7 +30,7 @@ class DimensionTypeApiConnector extends BaseApiConnector
      * @param string $code
      * @param Office $office If no office has been passed it will instead take the default office from the
      *                       passed in config class.
-     * @return DimensionType|bool The requested dimension type or false if it can't be found.
+     * @return DimensionType The requested DimensionType or DimensionType object with error message if it can't be found.
      * @throws Exception
      */
     public function get(string $code, Office $office): DimensionType

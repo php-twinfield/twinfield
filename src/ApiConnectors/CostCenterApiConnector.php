@@ -30,7 +30,7 @@ class CostCenterApiConnector extends BaseApiConnector
      * @param string $code
      * @param Office $office If no office has been passed it will instead take the default office from the
      *                       passed in config class.
-     * @return CostCenter|bool The requested cost center or false if it can't be found.
+     * @return CostCenter    The requested CostCenter or CostCenter object with error message if it can't be found.
      * @throws Exception
      */
     public function get(string $code, Office $office): CostCenter
@@ -122,5 +122,33 @@ class CostCenterApiConnector extends BaseApiConnector
         );
 
         return $this->mapListAll("CostCenter", $response->data, $costCenterArrayListAllTags);
+    }
+    
+    /**
+     * Deletes a specific CostCenter based off the passed in code and optionally the office.
+     *
+     * @param string $code
+     * @param Office $office If no office has been passed it will instead take the default office from the
+     *                       passed in config class.
+     * @return CostCenter    The deleted CostCenter or CostCenter object with error message if it can't be found.
+     * @throws Exception
+     */
+    public function delete(string $code, Office $office): CostCenter
+    {
+        $costCenter = self::get($code, $office);
+        
+        if ($costCenter->getResult() == 1) {        
+            $costCenter->setStatusFromString("deleted");
+
+            try {
+                $costCenterDeleted = self::send($costCenter);
+            } catch (ResponseException $e) {
+                $costCenterDeleted = $e->getReturnedObject();
+            }
+
+            return $costCenterDeleted;
+        } else {
+            return $costCenter;
+        }
     }
 }

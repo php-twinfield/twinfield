@@ -31,7 +31,7 @@ class CurrencyApiConnector extends BaseApiConnector
      * @param string $code
      * @param Office $office If no office has been passed it will instead take the default office from the
      *                       passed in config class.
-     * @return Currency|bool The requested currency or false if it can't be found.
+     * @return Currency      The requested Currency or Currency object with error message if it can't be found.
      * @throws Exception
      */
 

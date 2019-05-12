@@ -30,7 +30,7 @@ class ProjectApiConnector extends BaseApiConnector
      * @param string $code
      * @param Office $office If no office has been passed it will instead take the default office from the
      *                       passed in config class.
-     * @return Project|bool The requested project or false if it can't be found.
+     * @return Project       The requested Project or Project object with error message if it can't be found.
      * @throws Exception
      */
     public function get(string $code, Office $office): Project
@@ -122,5 +122,33 @@ class ProjectApiConnector extends BaseApiConnector
         );
 
         return $this->mapListAll("Project", $response->data, $projectListAllTags);
+    }
+    
+    /**
+     * Deletes a specific Project based off the passed in code and optionally the office.
+     *
+     * @param string $code
+     * @param Office $office If no office has been passed it will instead take the default office from the
+     *                       passed in config class.
+     * @return Project       The deleted Project or Project object with error message if it can't be found.
+     * @throws Exception
+     */
+    public function delete(string $code, Office $office): Project
+    {
+        $project = self::get($code, $office);
+        
+        if ($project->getResult() == 1) {        
+            $project->setStatusFromString("deleted");
+
+            try {
+                $projectDeleted = self::send($project);
+            } catch (ResponseException $e) {
+                $projectDeleted = $e->getReturnedObject();
+            }
+
+            return $projectDeleted;
+        } else {
+            return $project;
+        }
     }
 }

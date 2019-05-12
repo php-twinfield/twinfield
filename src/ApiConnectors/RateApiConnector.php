@@ -30,7 +30,7 @@ class RateApiConnector extends BaseApiConnector
      * @param string $code
      * @param Office $office If no office has been passed it will instead take the default office from the
      *                       passed in config class.
-     * @return Rate|bool The requested rate or false if it can't be found.
+     * @return Rate          The requested Rate or Rate object with error message if it can't be found.
      * @throws Exception
      */
     public function get(string $code, Office $office): Rate
@@ -121,5 +121,33 @@ class RateApiConnector extends BaseApiConnector
         );
 
         return $this->mapListAll("Rate", $response->data, $rateListAllTags);
+    }
+    
+    /**
+     * Deletes a specific Rate based off the passed in code and optionally the office.
+     *
+     * @param string $code
+     * @param Office $office If no office has been passed it will instead take the default office from the
+     *                       passed in config class.
+     * @return Rate          The deleted Rate or Rate object with error message if it can't be found.
+     * @throws Exception
+     */
+    public function delete(string $code, Office $office): Rate
+    {
+        $rate = self::get($code, $office);
+        
+        if ($rate->getResult() == 1) {        
+            $rate->setStatusFromString("deleted");
+
+            try {
+                $rateDeleted = self::send($rate);
+            } catch (ResponseException $e) {
+                $rateDeleted = $e->getReturnedObject();
+            }
+
+            return $rateDeleted;
+        } else {
+            return $rate;
+        }
     }
 }

@@ -31,14 +31,12 @@
     "ext-dom": "*",
     "ext-json": "*",
     "ext-soap": "*",
+    "league/oauth2-client": "^2.2",
     "moneyphp/money": "^3.0",
     "myclabs/php-enum": "^1.5",
     "psr/http-message": "^1.0",
     "psr/log": "^1.0",
     "webmozart/assert": "^1.2"
-  },
-  "suggest": {
-    "league/oauth2-client": "If you want to use OAuth to login"
   },
   "autoload": {
     "psr-4": {
@@ -54,8 +52,8 @@
     "eloquent/liberator": "^2.0",
     "league/oauth2-client": "^2.2",
     "mediact/dependency-guard": "^1.0",
+    "mockery/mockery": "dev-master",
     "phpstan/phpstan": "^0.10.1",
-    "phpunit/phpunit": "^7.3",
-    "mockery/mockery": "dev-master"
+    "phpunit/phpunit": "^7.3"
   }
 }

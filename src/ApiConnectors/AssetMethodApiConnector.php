@@ -30,7 +30,7 @@ class AssetMethodApiConnector extends BaseApiConnector
      * @param string $code
      * @param Office $office If no office has been passed it will instead take the default office from the
      *                       passed in config class.
-     * @return AssetMethod|bool The requested asset method or false if it can't be found.
+     * @return AssetMethod   The requested AssetMethod or AssetMethod object with error message if it can't be found.
      * @throws Exception
      */
     public function get(string $code, Office $office): AssetMethod
@@ -121,5 +121,33 @@ class AssetMethodApiConnector extends BaseApiConnector
         );
 
         return $this->mapListAll("AssetMethod", $response->data, $assetMethodArrayListAllTags);
+    }
+    
+    /**
+     * Deletes a specific AssetMethod based off the passed in code and optionally the office.
+     *
+     * @param string $code
+     * @param Office $office If no office has been passed it will instead take the default office from the
+     *                       passed in config class.
+     * @return AssetMethod   The deleted AssetMethod or AssetMethod object with error message if it can't be found.
+     * @throws Exception
+     */
+    public function delete(string $code, Office $office): AssetMethod
+    {
+        $assetMethod = self::get($code, $office);
+        
+        if ($assetMethod->getResult() == 1) {        
+            $assetMethod->setStatusFromString("deleted");
+
+            try {
+                $assetMethodDeleted = self::send($assetMethod);
+            } catch (ResponseException $e) {
+                $assetMethodDeleted = $e->getReturnedObject();
+            }
+
+            return $assetMethodDeleted;
+        } else {
+            return $assetMethod;
+        }
     }
 }

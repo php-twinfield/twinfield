@@ -30,7 +30,7 @@ class GeneralLedgerApiConnector extends BaseApiConnector
      * @param string $code
      * @param Office $office If no office has been passed it will instead take the default office from the
      *                       passed in config class.
-     * @return GeneralLedger|bool The requested general ledger or false if it can't be found.
+     * @return GeneralLedger The requested GeneralLedger or GeneralLedger object with error message if it can't be found.
      * @throws Exception
      */
     public function get(string $code, string $dimType, Office $office): GeneralLedger
@@ -122,5 +122,33 @@ class GeneralLedgerApiConnector extends BaseApiConnector
         );
 
         return $this->mapListAll("GeneralLedger", $response->data, $generalLedgerListAllTags);
+    }
+
+    /**
+     * Deletes a specific GeneralLedger based off the passed in code and optionally the office.
+     *
+     * @param string $code
+     * @param Office $office If no office has been passed it will instead take the default office from the
+     *                       passed in config class.
+     * @return GeneralLedger The deleted GeneralLedger or GeneralLedger object with error message if it can't be found.
+     * @throws Exception
+     */
+    public function delete(string $code, Office $office): GeneralLedger
+    {
+        $generalLedger = self::get($code, $office);
+
+        if ($generalLedger->getResult() == 1) {
+            $generalLedger->setStatusFromString("deleted");
+
+            try {
+                $generalLedgerDeleted = self::send($generalLedger);
+            } catch (ResponseException $e) {
+                $generalLedgerDeleted = $e->getReturnedObject();
+            }
+
+            return $generalLedgerDeleted;
+        } else {
+            return $generalLedger;
+        }
     }
 }

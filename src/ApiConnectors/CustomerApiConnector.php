@@ -31,7 +31,7 @@ class CustomerApiConnector extends BaseApiConnector
      * @param string $code
      * @param Office $office If no office has been passed it will instead take the default office from the
      *                       passed in config class.
-     * @return Customer|bool The requested customer or false if it can't be found.
+     * @return Customer      The requested Customer or Customer object with error message if it can't be found.
      * @throws Exception
      */
     public function get(string $code, Office $office): Customer
@@ -122,5 +122,33 @@ class CustomerApiConnector extends BaseApiConnector
         );
 
         return $this->mapListAll("Customer", $response->data, $customerListAllTags);
+    }
+
+    /**
+     * Deletes a specific Customer based off the passed in code and optionally the office.
+     *
+     * @param string $code
+     * @param Office $office If no office has been passed it will instead take the default office from the
+     *                       passed in config class.
+     * @return Customer      The deleted Customer or Customer object with error message if it can't be found.
+     * @throws Exception
+     */
+    public function delete(string $code, Office $office): Customer
+    {
+        $customer = self::get($code, $office);
+        
+        if ($customer->getResult() == 1) {        
+            $customer->setStatusFromString("deleted");
+
+            try {
+                $customerDeleted = self::send($customer);
+            } catch (ResponseException $e) {
+                $customerDeleted = $e->getReturnedObject();
+            }
+
+            return $customerDeleted;
+        } else {
+            return $customer;
+        }
     }
 }

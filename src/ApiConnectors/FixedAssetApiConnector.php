@@ -30,7 +30,7 @@ class FixedAssetApiConnector extends BaseApiConnector
      * @param string $code
      * @param Office $office If no office has been passed it will instead take the default office from the
      *                       passed in config class.
-     * @return FixedAsset|bool The requested fixed asset or false if it can't be found.
+     * @return FixedAsset    The requested FixedAsset or FixedAsset object with error message if it can't be found.
      * @throws Exception
      */
     public function get(string $code, Office $office): FixedAsset
@@ -121,5 +121,33 @@ class FixedAssetApiConnector extends BaseApiConnector
         );
 
         return $this->mapListAll("FixedAsset", $response->data, $fixedAssetListAllTags);
+    }
+
+    /**
+     * Deletes a specific FixedAsset based off the passed in code and optionally the office.
+     *
+     * @param string $code
+     * @param Office $office If no office has been passed it will instead take the default office from the
+     *                       passed in config class.
+     * @return FixedAsset    The deleted FixedAsset or FixedAsset object with error message if it can't be found.
+     * @throws Exception
+     */
+    public function delete(string $code, Office $office): FixedAsset
+    {
+        $fixedAsset = self::get($code, $office);
+
+        if ($fixedAsset->getResult() == 1) {
+            $fixedAsset->setStatusFromString("deleted");
+
+            try {
+                $fixedAssetDeleted = self::send($fixedAsset);
+            } catch (ResponseException $e) {
+                $fixedAssetDeleted = $e->getReturnedObject();
+            }
+
+            return $fixedAssetDeleted;
+        } else {
+            return $fixedAsset;
+        }
     }
 }
