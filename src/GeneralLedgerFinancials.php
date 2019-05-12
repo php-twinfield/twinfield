@@ -2,11 +2,11 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Fields\Level1234\AccountTypeField;
-use PhpTwinfield\Fields\Level1234\LevelField;
-use PhpTwinfield\Fields\Level1234\MatchTypeField;
-use PhpTwinfield\Fields\Level1234\SubAnalyseField;
-use PhpTwinfield\Fields\Level1234\VatCodeFixedField;
+use PhpTwinfield\Fields\Dimensions\AccountTypeField;
+use PhpTwinfield\Fields\Dimensions\LevelField;
+use PhpTwinfield\Fields\Dimensions\MatchTypeField;
+use PhpTwinfield\Fields\Dimensions\SubAnalyseField;
+use PhpTwinfield\Fields\Dimensions\VatCodeFixedField;
 use PhpTwinfield\Fields\VatCodeField;
 
 /**

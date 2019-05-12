@@ -10,17 +10,17 @@ use PhpTwinfield\Fields\ShortNameField;
 use PhpTwinfield\Fields\StatusField;
 use PhpTwinfield\Fields\TouchedField;
 use PhpTwinfield\Fields\User\IsCurrentUserField;
-use PhpTwinfield\Fields\User\UserLevelField;
+use PhpTwinfield\Fields\User\LevelField;
 
 class User extends BaseObject
 {
     use CodeField;
     use CreatedField;
     use IsCurrentUserField;
+    use LevelField;
     use ModifiedField;
     use NameField;
     use ShortNameField;
     use StatusField;
-    use TouchedField;    
-    use UserLevelField;
+    use TouchedField;
 }

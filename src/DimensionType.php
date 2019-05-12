@@ -3,7 +3,7 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\CodeField;
-use PhpTwinfield\Fields\Level1234\DimensionType\MaskField;
+use PhpTwinfield\Fields\Dimensions\DimensionType\MaskField;
 use PhpTwinfield\Fields\NameField;
 use PhpTwinfield\Fields\OfficeField;
 use PhpTwinfield\Fields\ShortNameField;

@@ -3,20 +3,20 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\CustomerField;
-use PhpTwinfield\Fields\Level1234\Level34\AuthoriserField;
-use PhpTwinfield\Fields\Level1234\Level34\AuthoriserInheritField;
-use PhpTwinfield\Fields\Level1234\Level34\AuthoriserLockedField;
-use PhpTwinfield\Fields\Level1234\Level34\BillableField;
-use PhpTwinfield\Fields\Level1234\Level34\BillableForRatioField;
-use PhpTwinfield\Fields\Level1234\Level34\BillableInheritField;
-use PhpTwinfield\Fields\Level1234\Level34\BillableLockedField;
-use PhpTwinfield\Fields\Level1234\Level34\CustomerInheritField;
-use PhpTwinfield\Fields\Level1234\Level34\CustomerLockedField;
-use PhpTwinfield\Fields\Level1234\Level34\InvoiceDescriptionField;
-use PhpTwinfield\Fields\Level1234\Level34\RateInheritField;
-use PhpTwinfield\Fields\Level1234\Level34\RateLockedField;
-use PhpTwinfield\Fields\Level1234\Level34\ValidFromField;
-use PhpTwinfield\Fields\Level1234\Level34\ValidTillField;
+use PhpTwinfield\Fields\Dimensions\Level34\AuthoriserField;
+use PhpTwinfield\Fields\Dimensions\Level34\AuthoriserInheritField;
+use PhpTwinfield\Fields\Dimensions\Level34\AuthoriserLockedField;
+use PhpTwinfield\Fields\Dimensions\Level34\BillableField;
+use PhpTwinfield\Fields\Dimensions\Level34\BillableForRatioField;
+use PhpTwinfield\Fields\Dimensions\Level34\BillableInheritField;
+use PhpTwinfield\Fields\Dimensions\Level34\BillableLockedField;
+use PhpTwinfield\Fields\Dimensions\Level34\CustomerInheritField;
+use PhpTwinfield\Fields\Dimensions\Level34\CustomerLockedField;
+use PhpTwinfield\Fields\Dimensions\Level34\InvoiceDescriptionField;
+use PhpTwinfield\Fields\Dimensions\Level34\RateInheritField;
+use PhpTwinfield\Fields\Dimensions\Level34\RateLockedField;
+use PhpTwinfield\Fields\Dimensions\Level34\ValidFromField;
+use PhpTwinfield\Fields\Dimensions\Level34\ValidTillField;
 use PhpTwinfield\Fields\RateField;
 
 /**

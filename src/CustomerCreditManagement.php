@@ -2,17 +2,17 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Fields\Dimensions\Level2\Customer\BaseCreditLimitField;
+use PhpTwinfield\Fields\Dimensions\Level2\Customer\BlockedField;
+use PhpTwinfield\Fields\Dimensions\Level2\Customer\BlockedLockedField;
+use PhpTwinfield\Fields\Dimensions\Level2\Customer\BlockedModifiedField;
+use PhpTwinfield\Fields\Dimensions\Level2\Customer\CommentField;
+use PhpTwinfield\Fields\Dimensions\Level2\Customer\FreeText1Field;
+use PhpTwinfield\Fields\Dimensions\Level2\Customer\ReminderEmailField;
+use PhpTwinfield\Fields\Dimensions\Level2\Customer\ResponsibleUserField;
+use PhpTwinfield\Fields\Dimensions\Level2\Customer\SendReminderField;
 use PhpTwinfield\Fields\FreeText2Field;
 use PhpTwinfield\Fields\FreeText3Field;
-use PhpTwinfield\Fields\Level1234\Level2\Customer\BaseCreditLimitField;
-use PhpTwinfield\Fields\Level1234\Level2\Customer\BlockedField;
-use PhpTwinfield\Fields\Level1234\Level2\Customer\BlockedLockedField;
-use PhpTwinfield\Fields\Level1234\Level2\Customer\BlockedModifiedField;
-use PhpTwinfield\Fields\Level1234\Level2\Customer\CommentField;
-use PhpTwinfield\Fields\Level1234\Level2\Customer\FreeText1Field;
-use PhpTwinfield\Fields\Level1234\Level2\Customer\ReminderEmailField;
-use PhpTwinfield\Fields\Level1234\Level2\Customer\ResponsibleUserField;
-use PhpTwinfield\Fields\Level1234\Level2\Customer\SendReminderField;
 
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers

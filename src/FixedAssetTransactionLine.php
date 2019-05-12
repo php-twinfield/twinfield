@@ -3,26 +3,26 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\Dim1Field;
-use PhpTwinfield\Fields\Level1234\AmountField;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\AmountLockedField;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\CodeField;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\CodeLockedField;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim1LockedField;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim2Field;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim2LockedField;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim3Field;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim3LockedField;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim4Field;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim4LockedField;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim5Field;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim5LockedField;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim6Field;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\Dim6LockedField;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\LineField;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\LineLockedField;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\NumberField;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\NumberLockedField;
-use PhpTwinfield\Fields\Level1234\Level34\FixedAsset\PeriodLockedField;
+use PhpTwinfield\Fields\Dimensions\AmountField;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\AmountLockedField;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\CodeField;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\CodeLockedField;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim1LockedField;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim2Field;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim2LockedField;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim3Field;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim3LockedField;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim4Field;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim4LockedField;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim5Field;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim5LockedField;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim6Field;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim6LockedField;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\LineField;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\LineLockedField;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\NumberField;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\NumberLockedField;
+use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\PeriodLockedField;
 use PhpTwinfield\Fields\PeriodField;
 
 /**
