@@ -26,9 +26,10 @@ use Webmozart\Assert\Assert;
 class GeneralLedgerApiConnector extends BaseApiConnector
 {
     /**
-     * Requests a specific GeneralLedger based off the passed in code and optionally the office.
+     * Requests a specific GeneralLedger based off the passed in code, dimension type and optionally the office.
      *
      * @param string $code
+     * @param string $dimType
      * @param Office $office If no office has been passed it will instead take the default office from the
      *                       passed in config class.
      * @return GeneralLedger The requested GeneralLedger or GeneralLedger object with error message if it can't be found.
@@ -129,14 +130,15 @@ class GeneralLedgerApiConnector extends BaseApiConnector
      * Deletes a specific GeneralLedger based off the passed in code and optionally the office.
      *
      * @param string $code
+     * @param string $dimType
      * @param Office $office If no office has been passed it will instead take the default office from the
      *                       passed in config class.
      * @return GeneralLedger The deleted GeneralLedger or GeneralLedger object with error message if it can't be found.
      * @throws Exception
      */
-    public function delete(string $code, Office $office): GeneralLedger
+    public function delete(string $code, string $dimType, Office $office): GeneralLedger
     {
-        $generalLedger = self::get($code, $office);
+        $generalLedger = self::get($code, $dimType, $office);
 
         if ($generalLedger->getResult() == 1) {
             $generalLedger->setStatusFromString("deleted");
