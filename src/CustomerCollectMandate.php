@@ -2,9 +2,9 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Fields\Level1234\Level2\Customer\FirstRunDateField;
-use PhpTwinfield\Fields\Level1234\Level2\Customer\IDField;
-use PhpTwinfield\Fields\Level1234\Level2\Customer\SignatureDateField;
+use PhpTwinfield\Fields\Dimensions\Level2\Customer\FirstRunDateField;
+use PhpTwinfield\Fields\Dimensions\Level2\Customer\IDField;
+use PhpTwinfield\Fields\Dimensions\Level2\Customer\SignatureDateField;
 
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers

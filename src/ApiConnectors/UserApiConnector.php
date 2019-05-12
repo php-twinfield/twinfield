@@ -36,7 +36,7 @@ class UserApiConnector extends BaseApiConnector
      * @param string $code
      * @param Office $office If no office has been passed it will instead take the default office from the
      *                       passed in config class.
-     * @return User|bool The requested User or false if it can't be found.
+     * @return User          The requested User or User object with error message if it can't be found.
      * @throws Exception
      */
     public function get(string $code, Office $office): User

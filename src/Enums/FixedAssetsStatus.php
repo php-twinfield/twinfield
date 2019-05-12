@@ -6,14 +6,16 @@ use MyCLabs\Enum\Enum;
 
 /**
  * @method static FixedAssetsStatus ACTIVE()
+ * @method static FixedAssetsStatus EMPTY()
  * @method static FixedAssetsStatus INACTIVE()
  * @method static FixedAssetsStatus SOLD()
  * @method static FixedAssetsStatus TOBEACTIVATED()
  */
 class FixedAssetsStatus extends Enum
 {
-    protected const ACTIVE              = "active";
-    protected const INACTIVE            = "inactive";
-    protected const SOLD                = "sold";
-    protected const TOBEACTIVATED       = "tobeactivated";
+    public const ACTIVE              = "active";
+    public const EMPTY                = "";
+    public const INACTIVE            = "inactive";
+    public const SOLD                = "sold";
+    public const TOBEACTIVATED       = "tobeactivated";
 }

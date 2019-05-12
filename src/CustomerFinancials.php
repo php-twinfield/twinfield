@@ -2,22 +2,22 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Fields\Level1234\AccountTypeField;
-use PhpTwinfield\Fields\Level1234\Level2\Customer\CollectionSchemaField;
-use PhpTwinfield\Fields\Level1234\Level2\Customer\EBillingField;
-use PhpTwinfield\Fields\Level1234\Level2\Customer\EBillMailField;
-use PhpTwinfield\Fields\Level1234\Level2\DueDaysField;
-use PhpTwinfield\Fields\Level1234\Level2\MeansOfPaymentField;
-use PhpTwinfield\Fields\Level1234\Level2\PayAvailableField;
-use PhpTwinfield\Fields\Level1234\Level2\PayCodeField;
-use PhpTwinfield\Fields\Level1234\Level2\PayCodeIDField;
-use PhpTwinfield\Fields\Level1234\LevelField;
-use PhpTwinfield\Fields\Level1234\MatchTypeField;
-use PhpTwinfield\Fields\Level1234\SubAnalyseField;
-use PhpTwinfield\Fields\Level1234\SubstitutionLevelField;
-use PhpTwinfield\Fields\Level1234\SubstituteWithField;
-use PhpTwinfield\Fields\Level1234\SubstituteWithIDField;
-use PhpTwinfield\Fields\Level1234\VatCodeFixedField;
+use PhpTwinfield\Fields\Dimensions\AccountTypeField;
+use PhpTwinfield\Fields\Dimensions\Level2\Customer\CollectionSchemaField;
+use PhpTwinfield\Fields\Dimensions\Level2\Customer\EBillingField;
+use PhpTwinfield\Fields\Dimensions\Level2\Customer\EBillMailField;
+use PhpTwinfield\Fields\Dimensions\Level2\DueDaysField;
+use PhpTwinfield\Fields\Dimensions\Level2\MeansOfPaymentField;
+use PhpTwinfield\Fields\Dimensions\Level2\PayAvailableField;
+use PhpTwinfield\Fields\Dimensions\Level2\PayCodeField;
+use PhpTwinfield\Fields\Dimensions\Level2\PayCodeIDField;
+use PhpTwinfield\Fields\Dimensions\LevelField;
+use PhpTwinfield\Fields\Dimensions\MatchTypeField;
+use PhpTwinfield\Fields\Dimensions\SubAnalyseField;
+use PhpTwinfield\Fields\Dimensions\SubstitutionLevelField;
+use PhpTwinfield\Fields\Dimensions\SubstituteWithField;
+use PhpTwinfield\Fields\Dimensions\SubstituteWithIDField;
+use PhpTwinfield\Fields\Dimensions\VatCodeFixedField;
 use PhpTwinfield\Fields\VatCodeField;
 
 /**

@@ -2,8 +2,8 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Fields\Level1234\DimensionGroup\CodeField;
-use PhpTwinfield\Fields\Level1234\DimensionType\TypeField;
+use PhpTwinfield\Fields\Dimensions\DimensionGroup\CodeField;
+use PhpTwinfield\Fields\Dimensions\DimensionType\TypeField;
 
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionGroups

@@ -11,6 +11,7 @@ use MyCLabs\Enum\Enum;
  *
  * @method static self CURRENCY()
  * @method static self DISCOUNT()
+ * @method static self EMPTY()
  * @method static self WRITEOFF()
  *
  * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching
@@ -19,5 +20,6 @@ final class WriteOffType extends Enum
 {
     private const CURRENCY      = "currency";
     private const DISCOUNT      = "discount";
+    private const EMPTY         = "";
     private const WRITEOFF      = "writeoff";
 }

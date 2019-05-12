@@ -10,6 +10,7 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Response\ResponseException;
 use PhpTwinfield\Services\FinderService;
 use Webmozart\Assert\Assert;
 
@@ -28,9 +29,9 @@ class DimensionGroupApiConnector extends BaseApiConnector
      * Requests a specific DimensionGroup based off the passed in code and optionally the office.
      *
      * @param string $code
-     * @param Office $office If no office has been passed it will instead take the default office from the
-     *                       passed in config class.
-     * @return DimensionGroup|bool The requested dimension group or false if it can't be found.
+     * @param Office $office   If no office has been passed it will instead take the default office from the
+     *                         passed in config class.
+     * @return DimensionGroup  The requested DimensionGroup or DimensionGroup object with error message if it can't be found.
      * @throws Exception
      */
     public function get(string $code, Office $office): DimensionGroup
@@ -121,5 +122,33 @@ class DimensionGroupApiConnector extends BaseApiConnector
         );
 
         return $this->mapListAll("DimensionGroup", $response->data, $dimensionGroupListAllTags);
+    }
+
+    /**
+     * Deletes a specific DimensionGroup based off the passed in code and optionally the office.
+     *
+     * @param string $code
+     * @param Office $office   If no office has been passed it will instead take the default office from the
+     *                         passed in config class.
+     * @return DimensionGroup  The deleted DimensionGroup or DimensionGroup object with error message if it can't be found.
+     * @throws Exception
+     */
+    public function delete(string $code, Office $office): DimensionGroup
+    {
+        $dimensionGroup = self::get($code, $office);
+
+        if ($dimensionGroup->getResult() == 1) {
+            $dimensionGroup->setStatusFromString("deleted");
+
+            try {
+                $dimensionGroupDeleted = self::send($dimensionGroup);
+            } catch (ResponseException $e) {
+                $dimensionGroupDeleted = $e->getReturnedObject();
+            }
+
+            return $dimensionGroupDeleted;
+        } else {
+            return $dimensionGroup;
+        }
     }
 }

@@ -10,12 +10,14 @@ use MyCLabs\Enum\Enum;
  * @method static PaymentMethod CASHONDELIVERY()
  * @method static PaymentMethod CHEQUE()
  * @method static PaymentMethod DA()
+ * @method static PaymentMethod EMPTY()
  */
 class PaymentMethod extends Enum
 {
-    protected const BANK                = 'bank';
-    protected const CASH                = 'cash';
-    protected const CASHONDELIVERY      = 'cashondelivery';
-    protected const CHEQUE              = 'cheque';
-    protected const DA                  = 'da';
+    public const BANK                = 'bank';
+    public const CASH                = 'cash';
+    public const CASHONDELIVERY      = 'cashondelivery';
+    public const CHEQUE              = 'cheque';
+    public const DA                  = 'da';
+    public const EMPTY                = '';
 }

@@ -3,13 +3,13 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\DescriptionField;
-use PhpTwinfield\Fields\Level1234\Level2\Dimension1Field;
-use PhpTwinfield\Fields\Level1234\Level2\Dimension1IDField;
-use PhpTwinfield\Fields\Level1234\Level2\Dimension2Field;
-use PhpTwinfield\Fields\Level1234\Level2\Dimension2IDField;
-use PhpTwinfield\Fields\Level1234\Level2\Dimension3Field;
-use PhpTwinfield\Fields\Level1234\Level2\Dimension3IDField;
-use PhpTwinfield\Fields\Level1234\Level2\RatioField;
+use PhpTwinfield\Fields\Dimensions\Level2\Dimension1Field;
+use PhpTwinfield\Fields\Dimensions\Level2\Dimension1IDField;
+use PhpTwinfield\Fields\Dimensions\Level2\Dimension2Field;
+use PhpTwinfield\Fields\Dimensions\Level2\Dimension2IDField;
+use PhpTwinfield\Fields\Dimensions\Level2\Dimension3Field;
+use PhpTwinfield\Fields\Dimensions\Level2\Dimension3IDField;
+use PhpTwinfield\Fields\Dimensions\Level2\RatioField;
 use PhpTwinfield\Fields\OfficeField;
 use PhpTwinfield\Fields\VatCodeField;
 

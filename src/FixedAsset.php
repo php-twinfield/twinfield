@@ -4,9 +4,9 @@ namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\BehaviourField;
 use PhpTwinfield\Fields\CodeField;
+use PhpTwinfield\Fields\Dimensions\DimensionGroup\GroupField;
+use PhpTwinfield\Fields\Dimensions\DimensionType\TypeField;
 use PhpTwinfield\Fields\InUseField;
-use PhpTwinfield\Fields\Level1234\DimensionGroup\GroupField;
-use PhpTwinfield\Fields\Level1234\DimensionType\TypeField;
 use PhpTwinfield\Fields\NameField;
 use PhpTwinfield\Fields\OfficeField;
 use PhpTwinfield\Fields\ShortNameField;

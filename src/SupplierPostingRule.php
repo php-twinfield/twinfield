@@ -4,8 +4,8 @@ namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\CurrencyField;
 use PhpTwinfield\Fields\DescriptionField;
+use PhpTwinfield\Fields\Dimensions\AmountField;
 use PhpTwinfield\Fields\IDField;
-use PhpTwinfield\Fields\Level1234\AmountField;
 use PhpTwinfield\Fields\StatusField;
 
 /**

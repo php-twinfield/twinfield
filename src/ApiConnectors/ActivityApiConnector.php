@@ -10,6 +10,7 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Response\ResponseException;
 use PhpTwinfield\Services\FinderService;
 use Webmozart\Assert\Assert;
 
@@ -30,7 +31,7 @@ class ActivityApiConnector extends BaseApiConnector
      * @param string $code
      * @param Office $office If no office has been passed it will instead take the default office from the
      *                       passed in config class.
-     * @return Activity|bool The requested activity or false if it can't be found.
+     * @return Activity      The requested Activity or Activity object with error message if it can't be found.
      * @throws Exception
      */
     public function get(string $code, Office $office): Activity
@@ -122,5 +123,33 @@ class ActivityApiConnector extends BaseApiConnector
         );
 
         return $this->mapListAll("Activity", $response->data, $activityArrayListAllTags);
+    }
+    
+    /**
+     * Deletes a specific Activity based off the passed in code and optionally the office.
+     *
+     * @param string $code
+     * @param Office $office If no office has been passed it will instead take the default office from the
+     *                       passed in config class.
+     * @return Activity      The deleted Activity or Activity object with error message if it can't be found.
+     * @throws Exception
+     */
+    public function delete(string $code, Office $office): Activity
+    {
+        $activity = self::get($code, $office);
+        
+        if ($activity->getResult() == 1) {        
+            $activity->setStatusFromString("deleted");
+
+            try {
+                $activityDeleted = self::send($activity);
+            } catch (ResponseException $e) {
+                $activityDeleted = $e->getReturnedObject();
+            }
+
+            return $activityDeleted;
+        } else {
+            return $activity;
+        }
     }
 }

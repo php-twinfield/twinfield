@@ -2,21 +2,21 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Fields\Dimensions\Level2\AccountNumberField;
+use PhpTwinfield\Fields\Dimensions\Level2\AddressField2Field;
+use PhpTwinfield\Fields\Dimensions\Level2\AddressField3Field;
+use PhpTwinfield\Fields\Dimensions\Level2\AscriptionField;
+use PhpTwinfield\Fields\Dimensions\Level2\BankBlockedField;
+use PhpTwinfield\Fields\Dimensions\Level2\BankNameField;
+use PhpTwinfield\Fields\Dimensions\Level2\BicCodeField;
+use PhpTwinfield\Fields\Dimensions\Level2\CityField;
+use PhpTwinfield\Fields\Dimensions\Level2\CountryField;
+use PhpTwinfield\Fields\Dimensions\Level2\DefaultField;
+use PhpTwinfield\Fields\Dimensions\Level2\IbanField;
+use PhpTwinfield\Fields\Dimensions\Level2\NatBicCodeField;
+use PhpTwinfield\Fields\Dimensions\Level2\PostcodeField;
+use PhpTwinfield\Fields\Dimensions\Level2\StateField;
 use PhpTwinfield\Fields\IDField;
-use PhpTwinfield\Fields\Level1234\Level2\AccountNumberField;
-use PhpTwinfield\Fields\Level1234\Level2\AddressField2Field;
-use PhpTwinfield\Fields\Level1234\Level2\AddressField3Field;
-use PhpTwinfield\Fields\Level1234\Level2\AscriptionField;
-use PhpTwinfield\Fields\Level1234\Level2\BankBlockedField;
-use PhpTwinfield\Fields\Level1234\Level2\BankNameField;
-use PhpTwinfield\Fields\Level1234\Level2\BicCodeField;
-use PhpTwinfield\Fields\Level1234\Level2\CityField;
-use PhpTwinfield\Fields\Level1234\Level2\CountryField;
-use PhpTwinfield\Fields\Level1234\Level2\DefaultField;
-use PhpTwinfield\Fields\Level1234\Level2\IbanField;
-use PhpTwinfield\Fields\Level1234\Level2\NatBicCodeField;
-use PhpTwinfield\Fields\Level1234\Level2\PostcodeField;
-use PhpTwinfield\Fields\Level1234\Level2\StateField;
 
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers

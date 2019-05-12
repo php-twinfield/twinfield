@@ -2,7 +2,7 @@
 A PHP library for Twinfield Integration.
 Use the Twinfield SOAP Services to have your PHP application communicate directly with your Twinfield account.
 
-**:warning: Note that this libary is *not* created or mainained by Twinfield. You can only get support on the code in this library here. For any questions related to your Twinfield administration or how to do certain things with the Twinfield API, contact your Twinfield account manager.** 
+**:warning: Note that this libary is *not* created or mainained by Twinfield. You can only get support on the code in this library here. For any questions related to your Twinfield administration or how to do certain things with the Twinfield API, contact your Twinfield account manager.**
 
 ## Installation
 
@@ -16,10 +16,10 @@ composer require 'php-twinfield/twinfield:^2.0'
 ## Usage
 
 ### Authentication
-You need to set up a `\PhpTwinfield\Secure\AuthenticatedConnection` class with your credentials. 
+You need to set up a `\PhpTwinfield\Secure\AuthenticatedConnection` class with your credentials.
 
 #### Session Login
-**:warning: Note that Twinfield has stated that session login is deprecated and will be removed. End of life date will be announced later. See https://c3.twinfield.com/webservices/documentation/#/ApiReference/Authentication/WebServices** 
+**:warning: Note that Twinfield has stated that session login is deprecated and will be removed. End of life date will be announced later. See https://c3.twinfield.com/webservices/documentation/#/ApiReference/Authentication/WebServices**
 
 When using basic username and password authentication, the `\PhpTwinfield\Secure\WebservicesAuthentication` class should be used, as follows:
 
@@ -58,7 +58,7 @@ if (!isset($_GET['code'])) {
     $options = [
         'scope' => ['twf.user','twf.organisation','twf.organisationUser','offline_access','openid']
     ];
-	
+
     $authorizationUrl = $provider->getAuthorizationUrl($options);
 
     // Get the state generated for you and store it to the session.
@@ -73,7 +73,7 @@ if (!isset($_GET['code'])) {
     if (isset($_SESSION['oauth2state'])) {
         unset($_SESSION['oauth2state']);
     }
-    
+
     exit('Invalid state');
 } else {
     try {
@@ -82,28 +82,28 @@ if (!isset($_GET['code'])) {
             'code' => $_GET['code']
         ]);
 
-        //Twinfield's Refresh Token is valid for 550 days. 
+        //Twinfield's Refresh Token is valid for 550 days.
         //Remember to put in place functionality to request the user to renew their authorization.
         //This can be done by requesting the user to reload this page and logging into Twinfield
         //before the refresh token is invalidated after 550 days.
-        $refresh_expiry = strtotime(date('Ymd') . " +550 days"); 
-        
+        $refresh_expiry = strtotime(date('Ymd') . " +550 days");
+
         //Save Refresh Token and Refresh Token Expiry Time to storage
         $refreshTokenStorage                      = array();
         $refreshTokenStorage['refresh_token']     = $accessToken->getRefreshToken();
         $refreshTokenStorage['refresh_expiry']    = $refresh_expiry;
-        
+
         SaveRefreshTokenToStore($refreshTokenStorage);
-        
+
         //OPTIONAL: Save Access Token, Access Token Expiry Time and Cluster to storage
         $validationUrl    = "https://login.twinfield.com/auth/authentication/connect/accesstokenvalidation?token=";
         $validationResult = @file_get_contents($validationUrl . urlencode($accessToken->getToken()));
 
         if ($validationResult !== false) {
-            $resultDecoded                    = \json_decode($validationResult, true); 
+            $resultDecoded                    = \json_decode($validationResult, true);
             $accessTokenStorage                     = array();
             $accessTokenStorage['access_token']     = $accessToken->getToken();
-            $accessTokenStorage['access_expiry']    = $accessToken->getExpires();               
+            $accessTokenStorage['access_expiry']    = $accessToken->getExpires();
             $accessTokenStorage['access_cluster']   = $resultDecoded["twf.clusterUrl"];
             SaveAccessTokenToStore($accessTokenStorage);
         }
@@ -115,7 +115,7 @@ if (!isset($_GET['code'])) {
 ```
 
 ##### Optionally: Store a valid access token and cluster through a sceduled task/cron job running in the background
-Running the following code every 60 minutes (or a bit less as Access Tokens are valid for exactly 60 minutes) will reduce connection time when working with the Api (by about 2 seconds). It will also reduce connection load on Twinfield when making more than 20-30 connections/day. 
+Running the following code every 60 minutes (or a bit less as Access Tokens are valid for exactly 60 minutes) will reduce connection time when working with the Api (by about 2 seconds). It will also reduce connection load on Twinfield when making more than 20-30 connections/day.
 
 ```php
 $refreshTokenStorage = retrieveRefreshTokenFromStore();
@@ -174,7 +174,7 @@ if ($accessTokenStorage['access_expiry'] > time()) {
 In order to communicate with the Twinfield API, you need to create an `ApiConnector` instance for the corresponding
 resource and use the `get()` or `list()` method.
 
-The `ApiConnector` takes a `Secure\AuthenticatedConnection` object:  
+The `ApiConnector` takes a `Secure\AuthenticatedConnection` object:
 
 An example:
 
@@ -221,7 +221,7 @@ $customer->addAddress($customer_address);
 $customer_factory->send($customer);
 ```
 
-You can also send multiple objects in one batch, chunking is handled automatically. 
+You can also send multiple objects in one batch, chunking is handled automatically.
 
 ### Browse data
 In order to get financial data out of Twinfield like general ledger transactions, sales invoices, and so on, you can use the the browse data functionality.
@@ -230,7 +230,7 @@ More information about the browse data functionality in Twinfield can be found i
 #### Browse definition
 
 You can retrieve the browse definition of a browse code as follows.
-You don't need to retrieve the browse definition for getting the browse data. It's only for viewing the browse definition of a browse code to know exactly which columns are available. 
+You don't need to retrieve the browse definition for getting the browse data. It's only for viewing the browse definition of a browse code to know exactly which columns are available.
 
 ```php
 $connector = new BrowseDataApiConnector($connection);
@@ -314,35 +314,35 @@ $browseData = $connector->getBrowseData('000', $columns, $sortFields);
 Not all resources from the Twinfield API are currently implemented. Feel free to create a pull request when you need
 support for another resource.
 
-| Component                                                                                                       | get()              | listAll()          | send()             | delete()           |  Mapper             |
-| --------------------------------------------------------------------------------------------------------------- | :----------------: | :----------------: | :----------------: | :----------------: | :----------------: |
-| [Activities](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Activities)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| [Articles](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| [Asset Methods](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/AssetMethods)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| [Browse Data](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Request/BrowseData)             | :white_check_mark: |                    |                    |                    | :white_check_mark: |
-| Cash and Bank books                  |                    | :white_check_mark: |                    |                    | :white_check_mark: |
-| [Cost Centers](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/CostCenters)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| Countries                  |                    | :white_check_mark: |                    |                    | :white_check_mark: |
-| [Currencies](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Currencies)                 |                    | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| [Customers](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| [Dimension Groups](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionGroups)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| [Dimension Types](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionTypes)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| [Electronic Bank Statements](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankStatements)|         |                    | :white_check_mark: |                    |                    |
-| [Fixed Assets](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/FixedAssets)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| [General Ledger Accounts](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/BalanceSheets)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| [Matching](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching)            |                    |                    | :white_check_mark: |                    | :white_check_mark: |                    |
-| [Offices](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Offices)                    | :white_check_mark: | :white_check_mark: |                    |                    | :white_check_mark: |
-| Paycodes               |                    | :white_check_mark: |                    |                    | :white_check_mark: |
-| [Projects](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Projects)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| [Rates](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Rates)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| [Sales Invoices](https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices)               | :white_check_mark: |   :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| [Sales Invoice Types](https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices)               |                    | :white_check_mark: |                    |                    | :white_check_mark: |
-| [Suppliers](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers)                | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
+| Component                                                                                                                            | get()              | listAll()          | send()             | delete()           |  Mapper            |
+| ---------------------------------------------------------------------------------------------------------------                      | :----------------: | :----------------: | :----------------: | :----------------: | :----------------: |
+| [Activities](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Activities)                                   | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [Articles](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles)                                       | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [Asset Methods](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/AssetMethods)                              | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [Browse Data](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Request/BrowseData)                                  | :white_check_mark: |                    |                    |                    | :white_check_mark: |
+| Cash and Bank books                                                                                                                  |                    | :white_check_mark: |                    |                    | :white_check_mark: |
+| [Cost Centers](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/CostCenters)                                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Countries                                                                                                                            |                    | :white_check_mark: |                    |                    | :white_check_mark: |
+| [Currencies](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Currencies)                                   |                    | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
+| [Customers](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers)                                     | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [Dimension Groups](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionGroups)                        | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [Dimension Types](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionTypes)                          | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
+| [Electronic Bank Statements](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankStatements)|         |                    | :white_check_mark: |                    |                    |                    |
+| [Fixed Assets](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/FixedAssets)                                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [General Ledger Accounts](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/BalanceSheets)                   | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [Matching](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching)                                 |                    |                    | :white_check_mark: |                    | :white_check_mark: |
+| [Offices](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Offices)                                         | :white_check_mark: | :white_check_mark: |                    |                    | :white_check_mark: |
+| Paycodes                                                                                                                             |                    | :white_check_mark: |                    |                    | :white_check_mark: |
+| [Projects](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Projects)                                       | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [Rates](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Rates)                                             | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [Sales Invoices](https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices)                                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
+| [Sales Invoice Types](https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices)                               |                    | :white_check_mark: |                    |                    | :white_check_mark: |
+| [Suppliers](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers)                                     | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | Transactions:<br> [Purchase](https://c3.twinfield.com/webservices/documentation/#/ApiReference/PurchaseTransactions), [Sale](https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesTransactions), [Journal](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/JournalTransactions), [Cash](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/CashTransactions), [Bank](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions) | :white_check_mark: |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| [Users](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Users)                        | :white_check_mark: | :white_check_mark: |                    |                    | :white_check_mark: |
-| User Roles                        |                    | :white_check_mark: |                    |                    | :white_check_mark: |
-| [VAT](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/VAT)                      | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| VAT Groups                  |                    | :white_check_mark: |                    |                    | :white_check_mark: |
+| [Users](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Users)                                             | :white_check_mark: | :white_check_mark: |                    |                    | :white_check_mark: |
+| User Roles                                                                                                                           |                    | :white_check_mark: |                    |                    | :white_check_mark: |
+| [VAT](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/VAT)                                                 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| VAT Groups                                                                                                                           |                    | :white_check_mark: |                    |                    | :white_check_mark: |
 
 ## Links
 

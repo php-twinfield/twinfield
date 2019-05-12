@@ -8,7 +8,7 @@ use PhpTwinfield\Fields\NameField;
 use PhpTwinfield\Fields\OfficeField;
 use PhpTwinfield\Fields\ShortNameField;
 use PhpTwinfield\Fields\StatusField;
-use PhpTwinfield\Fields\Rate\RateTypeField;
+use PhpTwinfield\Fields\Rate\TypeField;
 use PhpTwinfield\Fields\Rate\UnitField;
 use PhpTwinfield\Fields\UserField;
 
@@ -25,7 +25,7 @@ class Rate extends BaseObject
     use OfficeField;
     use ShortNameField;
     use StatusField;
-    use RateTypeField;
+    use TypeField;
     use UnitField;
     use UserField;
 

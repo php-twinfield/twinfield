@@ -36,6 +36,12 @@ class AssetMethodsDocument extends BaseDocument
         $assetMethodElement = $this->createElement('assetmethod');
         $this->rootElement->appendChild($assetMethodElement);
 
+        $status = $assetMethod->getStatus();
+
+        if (!empty($status)) {
+            $assetMethodElement->setAttribute('status', $status);
+        }
+
         $assetMethodElement->appendChild($this->createNodeWithTextContent('calcmethod', $assetMethod->getCalcMethod()));
         $assetMethodElement->appendChild($this->createNodeWithTextContent('code', $assetMethod->getCode()));
         $assetMethodElement->appendChild($this->createNodeWithTextContent('depreciatereconciliation', $assetMethod->getDepreciateReconciliation()));

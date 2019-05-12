@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\DomDocuments;
 
+use PhpTwinfield\Article;
 use PhpTwinfield\Invoice;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 
@@ -113,7 +114,12 @@ class InvoicesDocument extends BaseDocument
                     $lineElement->appendChild($this->createNodeWithTextContent('unitspriceexcl', $line->getUnitsPriceExclToFloat()));
                 }
 
-                $article = $articleApiConnector->get($line->getArticleToString(), $invoice->getOffice());
+                if ($line->getArticleToString() != '0') {
+                    $article = $articleApiConnector->get($line->getArticleToString(), $invoice->getOffice());
+                } else {
+                    $article = new Article;
+                    $article->setAllowChangeVatCode(true);
+                }
 
                 if ($article->getAllowChangeVatCode() == true) {
                     $lineElement->appendChild($this->createNodeWithTextContent('vatcode', $line->getVatCodeToString()));

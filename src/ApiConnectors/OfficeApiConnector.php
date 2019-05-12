@@ -24,7 +24,7 @@ class OfficeApiConnector extends BaseApiConnector
      * Requests a specific Office based off the passed in code.
      *
      * @param string $code
-     * @return Office|bool The requested office or false if it can't be found.
+     * @return Office      The requested Office or Office object with error message if it can't be found.
      * @throws Exception
      */
     public function get(string $code): Office

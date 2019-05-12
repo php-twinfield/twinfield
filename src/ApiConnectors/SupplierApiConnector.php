@@ -9,6 +9,7 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Response\ResponseException;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Supplier;
 use Webmozart\Assert\Assert;
@@ -31,7 +32,7 @@ class SupplierApiConnector extends BaseApiConnector
      * @param string $code
      * @param Office $office If no office has been passed it will instead take the default office from the
      *                       passed in config class.
-     * @return Supplier|bool The requested supplier or false if it can't be found.
+     * @return Supplier      The requested Supplier or Supplier object with error message if it can't be found.
      * @throws Exception
      */
     public function get(string $code, Office $office): Supplier
@@ -122,5 +123,33 @@ class SupplierApiConnector extends BaseApiConnector
         );
 
         return $this->mapListAll("Supplier", $response->data, $supplierListAllTags);
+    }
+    
+    /**
+     * Deletes a specific Supplier based off the passed in code and optionally the office.
+     *
+     * @param string $code
+     * @param Office $office If no office has been passed it will instead take the default office from the
+     *                       passed in config class.
+     * @return Supplier      The deleted Supplier or Supplier object with error message if it can't be found.
+     * @throws Exception
+     */
+    public function delete(string $code, Office $office): Supplier
+    {
+        $supplier = self::get($code, $office);
+        
+        if ($supplier->getResult() == 1) {        
+            $supplier->setStatusFromString("deleted");
+
+            try {
+                $supplierDeleted = self::send($supplier);
+            } catch (ResponseException $e) {
+                $supplierDeleted = $e->getReturnedObject();
+            }
+
+            return $supplierDeleted;
+        } else {
+            return $supplier;
+        }
     }
 }

@@ -9,6 +9,7 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Response\ResponseException;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\VatCode;
 use Webmozart\Assert\Assert;
@@ -30,7 +31,7 @@ class VatCodeApiConnector extends BaseApiConnector
      * @param string $code
      * @param Office $office If no office has been passed it will instead take the default office from the
      *                       passed in config class.
-     * @return VatCode|bool The requested VAT code or false if it can't be found.
+     * @return VatCode       The requested VatCode or VatCode object with error message if it can't be found.
      * @throws Exception
      */
     public function get(string $code, Office $office): VatCode
@@ -121,5 +122,33 @@ class VatCodeApiConnector extends BaseApiConnector
         );
 
         return $this->mapListAll("VatCode", $response->data, $vatCodeListAllTags);
+    }
+    
+    /**
+     * Deletes a specific VatCode based off the passed in code and optionally the office.
+     *
+     * @param string $code
+     * @param Office $office If no office has been passed it will instead take the default office from the
+     *                       passed in config class.
+     * @return VatCode       The deleted VatCode or VatCode object with error message if it can't be found.
+     * @throws Exception
+     */
+    public function delete(string $code, Office $office): VatCode
+    {
+        $vatCode = self::get($code, $office);
+        
+        if ($vatCode->getResult() == 1) {        
+            $vatCode->setStatusFromString("deleted");
+
+            try {
+                $vatCodeDeleted = self::send($vatCode);
+            } catch (ResponseException $e) {
+                $vatCodeDeleted = $e->getReturnedObject();
+            }
+
+            return $vatCodeDeleted;
+        } else {
+            return $vatCode;
+        }
     }
 }

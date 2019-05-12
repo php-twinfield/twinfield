@@ -2,12 +2,12 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Fields\Level1234\DimensionType\Label1Field;
-use PhpTwinfield\Fields\Level1234\DimensionType\Label2Field;
-use PhpTwinfield\Fields\Level1234\DimensionType\Label3Field;
-use PhpTwinfield\Fields\Level1234\DimensionType\Label4Field;
-use PhpTwinfield\Fields\Level1234\DimensionType\Label5Field;
-use PhpTwinfield\Fields\Level1234\DimensionType\Label6Field;
+use PhpTwinfield\Fields\Dimensions\DimensionType\Label1Field;
+use PhpTwinfield\Fields\Dimensions\DimensionType\Label2Field;
+use PhpTwinfield\Fields\Dimensions\DimensionType\Label3Field;
+use PhpTwinfield\Fields\Dimensions\DimensionType\Label4Field;
+use PhpTwinfield\Fields\Dimensions\DimensionType\Label5Field;
+use PhpTwinfield\Fields\Dimensions\DimensionType\Label6Field;
 
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionTypes

@@ -2,10 +2,10 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Fields\Level1234\Level34\BillableField;
-use PhpTwinfield\Fields\Level1234\Level34\BillableLockedField;
-use PhpTwinfield\Fields\Level1234\Level34\LabelField;
-use PhpTwinfield\Fields\Level1234\Level34\MandatoryField;
+use PhpTwinfield\Fields\Dimensions\Level34\BillableField;
+use PhpTwinfield\Fields\Dimensions\Level34\BillableLockedField;
+use PhpTwinfield\Fields\Dimensions\Level34\LabelField;
+use PhpTwinfield\Fields\Dimensions\Level34\MandatoryField;
 use PhpTwinfield\Fields\RateField;
 
 /**

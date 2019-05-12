@@ -7,11 +7,13 @@ use MyCLabs\Enum\Enum;
 /**
  * @method static Status ACTIVE()
  * @method static Status DELETED()
+ * @method static Status EMPTY()
  * @method static Status HIDDEN()
  */
 class Status extends Enum
 {
-    protected const ACTIVE      = 'active';
-    protected const DELETED     = 'deleted';
-    protected const HIDDEN      = 'hide';
+    public const ACTIVE      = 'active';
+    public const DELETED     = 'deleted';
+    public const EMPTY       = '';
+    public const HIDDEN      = 'hide';
 }
