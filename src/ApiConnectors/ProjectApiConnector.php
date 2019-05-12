@@ -10,6 +10,7 @@ use PhpTwinfield\Project;
 use PhpTwinfield\Request as Request;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Response\ResponseException;
 use PhpTwinfield\Services\FinderService;
 use Webmozart\Assert\Assert;
 

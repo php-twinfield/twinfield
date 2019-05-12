@@ -9,6 +9,7 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Response\ResponseException;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Supplier;
 use Webmozart\Assert\Assert;

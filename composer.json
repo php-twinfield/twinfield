@@ -50,7 +50,6 @@
   },
   "require-dev": {
     "eloquent/liberator": "^2.0",
-    "league/oauth2-client": "^2.2",
     "mediact/dependency-guard": "^1.0",
     "mockery/mockery": "dev-master",
     "phpstan/phpstan": "^0.10.1",
