@@ -39,9 +39,9 @@ Go to the [Twinfield web site](https://www.twinfield.nl/openid-connect-request/)
 * Post logout URL: Your choice, can be left blank
 * Add more post logout URL's?: Your choice
 
-##### Grant Authorisation and retrieve intitial Access Token
+##### Grant Authorization and retrieve initial Access Token
 On loading a page containing the following code the user will be redirected to the Twinfield Login page.
-After succesfull login and optionally consent (see above) the user will be redirected back to the page at which point the Access Token and Refresh Token can be retrieved.
+After succesful login and optionally consent (see above) the user will be redirected back to the page at which point the Access Token and Refresh Token can be retrieved.
 
 For more information, please refer to: https://github.com/thephpleague/oauth2-client#usage
 
@@ -114,7 +114,7 @@ if (!isset($_GET['code'])) {
 }
 ```
 
-##### Optionally: Store a valid access token and cluster through a sceduled task/cron job running in the background
+##### Optionally: Store a valid access token and cluster through a scheduled task/cron job running in the background
 Running the following code every 60 minutes (or a bit less as Access Tokens are valid for exactly 60 minutes) will reduce connection time when working with the Api (by about 2 seconds). It will also reduce connection load on Twinfield when making more than 20-30 connections/day.
 
 ```php
@@ -166,7 +166,7 @@ $office       = \PhpTwinfield\Office::fromCode("someOfficeCode");
 if ($accessTokenStorage['access_expiry'] > time()) {
     $connection  = new \PhpTwinfield\Secure\OpenIdConnectAuthentication($provider, $refreshTokenStorage['refresh_token'], $office, $accessTokenStorage['access_token'], $accessTokenStorage['access_cluster']);
 } else {
-    $connection  = new \PhpTwinfield\Secure\OpenIdConnectAuthentication($provider, $refreshTokenStorage['refresh_token'], $office)
+    $connection  = new \PhpTwinfield\Secure\OpenIdConnectAuthentication($provider, $refreshTokenStorage['refresh_token'], $office);
 }
 ```
 
