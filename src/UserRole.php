@@ -11,7 +11,7 @@ use PhpTwinfield\Fields\ShortNameField;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class UserRole extends BaseObject
+class UserRole
 {
     use CodeField;
     use NameField;

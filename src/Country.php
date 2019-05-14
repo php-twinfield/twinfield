@@ -11,7 +11,7 @@ use PhpTwinfield\Fields\ShortNameField;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class Country extends BaseObject
+class Country
 {
     use CodeField;
     use NameField;

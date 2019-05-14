@@ -2,10 +2,10 @@
 
 namespace PhpTwinfield\Fields\VatCode;
 
-use PhpTwinfield\Country;
+use PhpTwinfield\VatGroupCountry;
 
 /**
- * The country
+ * The VAT group country
  * Used by: VatCodeAccount
  *
  * @package PhpTwinfield\Traits
@@ -13,11 +13,11 @@ use PhpTwinfield\Country;
 trait GroupCountryField
 {
     /**
-     * @var Country|null
+     * @var VatGroupCountry|null
      */
     private $groupCountry;
 
-    public function getGroupCountry(): ?Country
+    public function getGroupCountry(): ?VatGroupCountry
     {
         return $this->groupCountry;
     }
@@ -34,7 +34,7 @@ trait GroupCountryField
     /**
      * @return $this
      */
-    public function setGroupCountry(?Country $groupCountry): self
+    public function setGroupCountry(?VatGroupCountry $groupCountry): self
     {
         $this->groupCountry = $groupCountry;
         return $this;
@@ -47,7 +47,7 @@ trait GroupCountryField
      */
     public function setGroupCountryFromString(?string $groupCountryCode)
     {
-        $groupCountry = new Country();
+        $groupCountry = new VatGroupCountry();
         $groupCountry->setCode($groupCountryCode);
         return $this->setGroupCountry($groupCountry);
     }
