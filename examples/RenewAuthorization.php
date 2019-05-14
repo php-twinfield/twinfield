@@ -21,6 +21,9 @@ function SendEmail(string $toEmail, string $fromEmail, string $subject, string $
 // Only allow the script to run from the command line interface e.g. Cron
 if (php_sapi_name() !='cli') exit;
 
+// The FQDN URI of the script used for initial authorization, must be filled out on the form (Redirect URL) when requesting the client ID/Secret from Twinfield.
+$twin_redirect_uri = 'https://example.org/twinfield/Authorization.php';
+
 // Amount of days before the refresh token expires after 550 days to start asking the user for renewal
 $daysLeftAfterWhichRequestRenewal = 60;
 
@@ -41,9 +44,6 @@ Please renew the authorization as soon as possible.<br />
 Renew the authorization by clicking <a href=\"{$twin_redirect_uri}\">here</a> and logging in with Twinfield.<br /><br />
 
 You will receive this email once a week until the authorization is renewed.";
-
-// The FQDN URI of the script used for initial authorization, must be filled out on the form (Redirect URL) when requesting the client ID/Secret from Twinfield.
-$twin_redirect_uri = 'https://example.org/twinfield/Authorization.php';
 
 if ($refreshTokenStorage['refresh_expiry'] < (time() + ($daysLeftAfterWhichRequestRenewal * 60 * 60 * 24))) {
 	SendEmail($accountingAdminEmail, $fromEmail, $subject, $body);
