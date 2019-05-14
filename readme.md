@@ -15,7 +15,7 @@ composer require 'php-twinfield/twinfield:^2.0'
 
 ## Usage
 
-See [Usage] (usage.md)
+See [Usage](usage.md)
 
 ### Supported resources
 Not all resources from the Twinfield API are currently implemented. Feel free to create a pull request when you need
