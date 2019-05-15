@@ -23,6 +23,8 @@ use PhpTwinfield\Fields\User\FileManagerQuotaLockedField;
 use PhpTwinfield\Fields\User\IsCurrentUserField;
 use PhpTwinfield\Fields\User\LevelField;
 use PhpTwinfield\Fields\User\PasswordField;
+use PhpTwinfield\Fields\User\RoleField;
+use PhpTwinfield\Fields\User\RoleLockedField;
 use PhpTwinfield\Fields\User\TypeField;
 use PhpTwinfield\Fields\User\TypeLockedField;
 
@@ -46,6 +48,8 @@ class User extends BaseObject
     use ModifiedField;
     use NameField;
     use PasswordField;
+    use RoleField;
+    use RoleLockedField;
     use ShortNameField;
     use StatusField;
     use TouchedField;

@@ -43,12 +43,29 @@ class UserMapper extends BaseMapper
         $user->setStatus(self::parseEnumAttribute('Status', $userElement->getAttribute('status')));
 
         // Set the user elements from the user element
-        $user->setCode(self::getField($user, $userElement, 'code'))
+        $user->setAcceptExtraCostField(self::parseBooleanAttribute(self::getField($user, $userElement, 'acceptextracost')))
+            ->setCulture(self::getField($user, $userElement, 'culture'))
+            ->setCode(self::getField($user, $userElement, 'code'))
             ->setCreated(self::parseDateTimeAttribute(self::getField($user, $userElement, 'created')))
+            ->setDemo(self::parseBooleanAttribute(self::getField($user, $userElement, 'demo')))
+            ->setEmail(self::getField($user, $userElement, 'email'))
+            ->setExchangeQuota(self::getField($user, $userElement, 'exchangequota'))
+            ->setFileManagerQuota(self::getField($user, $userElement, 'filemanagerquota'))
             ->setModified(self::parseDateTimeAttribute(self::getField($user, $userElement, 'modified')))
             ->setName(self::getField($user, $userElement, 'name'))
+            ->setRole(self::parseObjectAttribute('UserRole', $user, $userElement, 'method', array('level' => 'setLevel', 'name' => 'setName', 'shortname' => 'setShortName')))
             ->setShortName(self::getField($user, $userElement, 'shortname'))
-            ->setTouched(self::getField($user, $userElement, 'touched'));
+            ->setTouched(self::getField($user, $userElement, 'touched'))
+            ->setType(self::parseEnumAttribute('UserType', self::getField($user, $userElement, 'type')));
+
+        // Set the user elements from the user element attributes
+        $user->setCultureName(self::getAttribute($userElement, 'culture', 'name'))
+            ->setCultureNativeName(self::getAttribute($userElement, 'culture', 'nativename'))
+            ->setDemoLocked(self::getAttribute($userElement, 'demo', 'locked'))
+            ->setExchangeQuotaLocked(self::getAttribute($userElement, 'exchangequota', 'locked'))
+            ->setFileManagerQuotaLocked(self::getAttribute($userElement, 'filemanagerquota', 'locked'))
+            ->setRoleLocked(self::getAttribute($userElement, 'role', 'locked'))
+            ->setTypeLocked(self::getAttribute($userElement, 'type', 'locked'));
 
         // Return the complete object
         return $user;

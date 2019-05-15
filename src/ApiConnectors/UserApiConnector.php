@@ -2,7 +2,6 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
-use PhpTwinfield\DomDocuments\UsersDocument;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\UserMapper;
 use PhpTwinfield\Office;
@@ -51,48 +50,6 @@ class UserApiConnector extends BaseApiConnector
         $response = $this->sendXmlDocument($request_user);
 
         return UserMapper::map($response);
-    }
-
-    /**
-     * Sends a User instance to Twinfield to update or add.
-     *
-     * @param User $user
-     * @return User
-     * @throws Exception
-     */
-    public function send(User $user): User
-    {
-        foreach($this->sendAll([$user]) as $each) {
-            return $each->unwrap();
-        }
-    }
-
-    /**
-     * @param User[] $users
-     * @return MappedResponseCollection
-     * @throws Exception
-     */
-    public function sendAll(array $users): MappedResponseCollection
-    {
-        Assert::allIsInstanceOf($users, User::class);
-
-        /** @var Response[] $responses */
-        $responses = [];
-
-        foreach ($this->getProcessXmlService()->chunk($users) as $chunk) {
-
-            $usersDocument = new UsersDocument();
-
-            foreach ($chunk as $user) {
-                $usersDocument->addUser($user);
-            }
-
-            $responses[] = $this->sendXmlDocument($usersDocument);
-        }
-
-        return $this->getProcessXmlService()->mapAll($responses, "user", function(Response $response): User {
-            return UserMapper::map($response);
-        });
     }
 
     /**

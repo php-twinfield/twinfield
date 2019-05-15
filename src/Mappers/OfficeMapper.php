@@ -40,7 +40,12 @@ class OfficeMapper extends BaseMapper
 
         // Set the office elements from the office element
         $office->setCode(self::getField($office, $officeElement, 'code'))
-            ->setName(self::getField($office, $officeElement, 'name'));
+            ->setCreated(self::parseDateTimeAttribute(self::getField($office, $officeElement, 'created')))
+            ->setModified(self::parseDateTimeAttribute(self::getField($office, $officeElement, 'modified')))
+            ->setName(self::getField($office, $officeElement, 'name'))
+            ->setShortName(self::getField($office, $officeElement, 'shortname'))
+            ->setTouched(self::getField($office, $officeElement, 'touched'))
+            ->setUser(self::parseObjectAttribute('User', $office, $officeElement, 'user', array('name' => 'setName', 'shortname' => 'setShortName')));
 
         // Return the complete object
         return $office;
