@@ -1,12 +1,12 @@
 <?php
 
-namespace PhpTwinfield\Fields\Dimensions;
+namespace PhpTwinfield\Fields;
 
 trait LevelField
 {
     /**
      * Level field
-     * Used by: CustomerChildValidation, CustomerFinancials, FixedAssetFinancials, GeneralLedgerChildValidation, GeneralLedgerFinancials, SupplierChildValidation, SupplierFinancials
+     * Used by: CustomerChildValidation, CustomerFinancials, FixedAssetFinancials, GeneralLedgerChildValidation, GeneralLedgerFinancials, SupplierChildValidation, SupplierFinancials, UserRole
      *
      * @var int|null
      */

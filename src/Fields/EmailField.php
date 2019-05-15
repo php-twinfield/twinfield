@@ -1,12 +1,12 @@
 <?php
 
-namespace PhpTwinfield\Fields\Dimensions\Level2;
+namespace PhpTwinfield\Fields;
 
 trait EmailField
 {
     /**
      * Email field
-     * Used by: CustomerAddress, SupplierAddress
+     * Used by: CustomerAddress, SupplierAddress, User
      *
      * @var string|null
      */

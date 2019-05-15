@@ -2,9 +2,9 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Fields\Dimensions\LevelField;
 use PhpTwinfield\Fields\Dimensions\TypeField;
 use PhpTwinfield\Fields\ElementValueField;
+use PhpTwinfield\Fields\LevelField;
 
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers

@@ -3,10 +3,10 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\Dimensions\AccountTypeField;
-use PhpTwinfield\Fields\Dimensions\LevelField;
 use PhpTwinfield\Fields\Dimensions\MatchTypeField;
 use PhpTwinfield\Fields\Dimensions\SubAnalyseField;
 use PhpTwinfield\Fields\Dimensions\VatCodeFixedField;
+use PhpTwinfield\Fields\LevelField;
 use PhpTwinfield\Fields\VatCodeField;
 
 /**

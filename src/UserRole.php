@@ -3,6 +3,7 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\CodeField;
+use PhpTwinfield\Fields\LevelField;
 use PhpTwinfield\Fields\NameField;
 use PhpTwinfield\Fields\ShortNameField;
 

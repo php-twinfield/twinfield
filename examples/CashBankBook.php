@@ -17,6 +17,11 @@ require_once('Connection.php');
  * \PhpTwinfield\ApiConnectors\CashBankBookApiConnector
  * Available methods: listAll
  */
+ 
+// Run all or only some of the following examples
+$executeListAllWithFilter           = false;
+$executeListAllWithoutFilter        = true;
+$executeNew                         = false;
 
 $cashBankBookApiConnector = new \PhpTwinfield\ApiConnectors\CashBankBookApiConnector($connection);
 
@@ -42,24 +47,32 @@ $cashBankBookApiConnector = new \PhpTwinfield\ApiConnectors\CashBankBookApiConne
  */
 
 //List all with pattern "BNK", field 0 (= search code or number), firstRow 1, maxRows 10, options -> banktype = 0
-$options = array('banktype' => 0);
+if ($executeListAllWithFilter) {
+    $options = array('banktype' => 0);
 
-try {
-    $cashBankBooks = $cashBankBookApiConnector->listAll('BNK', 0, 1, 10, $options);
-} catch (ResponseException $e) {
-    $cashBankBooks = $e->getReturnedObject();
+    try {
+        $cashBankBooks = $cashBankBookApiConnector->listAll('BNK', 0, 1, 10, $options);
+    } catch (ResponseException $e) {
+        $cashBankBooks = $e->getReturnedObject();
+    }
+
+    echo "<pre>";
+    print_r($cashBankBooks);
+    echo "</pre>";
 }
 
 //List all with default settings (pattern '*', field 0, firstRow 1, maxRows 100, options [])
-try {
-    $cashBankBooks = $cashBankBookApiConnector->listAll();
-} catch (ResponseException $e) {
-    $cashBankBooks = $e->getReturnedObject();
-}
+if ($executeListAllWithoutFilter) {
+    try {
+        $cashBankBooks = $cashBankBookApiConnector->listAll();
+    } catch (ResponseException $e) {
+        $cashBankBooks = $e->getReturnedObject();
+    }
 
-echo "<pre>";
-print_r($cashBankBooks);
-echo "</pre>";
+    echo "<pre>";
+    print_r($cashBankBooks);
+    echo "</pre>";
+}
 
 /* CashBankBook
  * \PhpTwinfield\CashBankBook
@@ -67,19 +80,22 @@ echo "</pre>";
  * Available setters: setCode, setName, setShortName
  */
 
-foreach ($cashBankBooks as $key => $cashBankBook) {
-    echo "CashBankBook {$key}<br />";
-    echo "Code: {$cashBankBook->getCode()}<br />";
-    echo "Name: {$cashBankBook->getName()}<br /><br />";
+if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
+    foreach ($cashBankBooks as $key => $cashBankBook) {
+        echo "CashBankBook {$key}<br />";
+        echo "Code: {$cashBankBook->getCode()}<br />";
+        echo "Name: {$cashBankBook->getName()}<br /><br />";
+    }
 }
 
 // NOTE: Because the CashBankBookApiConnector only supports the listAll method at the moment it is not particularly useful to create a new CashBankBook
+if ($executeNew) {
+    $cashBankBook = new \PhpTwinfield\CashBankBook;
+    $cashBankBook->setCode("BNK");
+    $cashBankBook->setName("Standaard bank");
+    $cashBankBook->setShortName("StdBank");
 
-$cashBankBook = new \PhpTwinfield\CashBankBook;
-$cashBankBook->setCode("BNK");
-$cashBankBook->setName("Standaard bank");
-$cashBankBook->setShortName("StdBank");
-
-echo "<pre>";
-print_r($cashBankBook);
-echo "</pre>";
+    echo "<pre>";
+    print_r($cashBankBook);
+    echo "</pre>";
+}

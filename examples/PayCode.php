@@ -17,6 +17,11 @@ require_once('Connection.php');
  * \PhpTwinfield\ApiConnectors\PayCodeApiConnector
  * Available methods: listAll
  */
+ 
+// Run all or only some of the following examples
+$executeListAllWithFilter           = false;
+$executeListAllWithoutFilter        = true;
+$executeNew                         = false;
 
 $payCodeApiConnector = new \PhpTwinfield\ApiConnectors\PayCodeApiConnector($connection);
 
@@ -42,44 +47,55 @@ $payCodeApiConnector = new \PhpTwinfield\ApiConnectors\PayCodeApiConnector($conn
  */
 
 //List all with pattern "SEPA*", field 0 (= search code or number), firstRow 5, maxRows 10, options -> paytype = pay
-$options = array('paytype' => 'pay');
+if ($executeListAllWithFilter) {
+    $options = array('paytype' => 'pay');
 
-try {
-    $payCodes = $payCodeApiConnector->listAll("SEPA*", 0, 5, 10, $options);
-} catch (ResponseException $e) {
-    $payCodes = $e->getReturnedObject();
+    try {
+        $payCodes = $payCodeApiConnector->listAll("SEPA*", 0, 5, 10, $options);
+    } catch (ResponseException $e) {
+        $payCodes = $e->getReturnedObject();
+    }
+
+    echo "<pre>";
+    print_r($payCodes);
+    echo "</pre>";
 }
 
 //List all with default settings (pattern '*', field 0, firstRow 1, maxRows 100, options [])
-try {
-    $payCodes = $payCodeApiConnector->listAll();
-} catch (ResponseException $e) {
-    $payCodes = $e->getReturnedObject();
-}
+if ($executeListAllWithoutFilter) {
+    try {
+        $payCodes = $payCodeApiConnector->listAll();
+    } catch (ResponseException $e) {
+        $payCodes = $e->getReturnedObject();
+    }
 
-echo "<pre>";
-print_r($payCodes);
-echo "</pre>";
+    echo "<pre>";
+    print_r($payCodes);
+    echo "</pre>";
+}
 
 /* PayCode
  * \PhpTwinfield\PayCode
  * Available getters: getCode, getName, getShortName
  * Available setters: setCode, setName, setShortName
  */
-
-foreach ($payCodes as $key => $payCode) {
-    echo "PayCode {$key}<br />";
-    echo "Code: {$payCode->getCode()}<br />";
-    echo "Name: {$payCode->getName()}<br /><br />";
+ 
+if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
+    foreach ($payCodes as $key => $payCode) {
+        echo "PayCode {$key}<br />";
+        echo "Code: {$payCode->getCode()}<br />";
+        echo "Name: {$payCode->getName()}<br /><br />";
+    }
 }
 
 // NOTE: Because the PayCodeApiConnector only supports the listAll method at the moment it is not particularly useful to create a new PayCode
+if ($executeNew) {
+    $payCode = new \PhpTwinfield\PayCode;
+    $payCode->setCode("SEPATEST");
+    $payCode->setName("SEPA Test pay code");
+    $payCode->setShortName("SEPATestPayCode");
 
-$payCode = new \PhpTwinfield\PayCode;
-$payCode->setCode("SEPATEST");
-$payCode->setName("SEPA Test pay code");
-$payCode->setShortName("SEPATestPayCode");
-
-echo "<pre>";
-print_r($payCode);
-echo "</pre>";
+    echo "<pre>";
+    print_r($payCode);
+    echo "</pre>";
+}

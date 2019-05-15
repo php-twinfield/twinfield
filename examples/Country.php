@@ -18,6 +18,11 @@ require_once('Connection.php');
  * Available methods: listAll
  */
 
+// Run all or only some of the following examples
+$executeListAllWithFilter           = false;
+$executeListAllWithoutFilter        = true;
+$executeNew                         = false;
+
 $countryApiConnector = new \PhpTwinfield\ApiConnectors\CountryApiConnector($connection);
 
 /* List all countries
@@ -38,22 +43,30 @@ $countryApiConnector = new \PhpTwinfield\ApiConnectors\CountryApiConnector($conn
  */
 
 //List all with pattern "NL", field 0 (= search code or number), firstRow 1, maxRows 10
-try {
-    $countries = $countryApiConnector->listAll('NL', 0, 1, 10);
-} catch (ResponseException $e) {
-    $countries = $e->getReturnedObject();
+if ($executeListAllWithFilter) {
+    try {
+        $countries = $countryApiConnector->listAll('NL', 0, 1, 10);
+    } catch (ResponseException $e) {
+        $countries = $e->getReturnedObject();
+    }
+
+    echo "<pre>";
+    print_r($countries);
+    echo "</pre>";
 }
 
 //List all with default settings (pattern '*', field 0, firstRow 1, maxRows 100, options [])
-try {
-    $countries = $countryApiConnector->listAll();
-} catch (ResponseException $e) {
-    $countries = $e->getReturnedObject();
-}
+if ($executeListAllWithoutFilter) {
+    try {
+        $countries = $countryApiConnector->listAll();
+    } catch (ResponseException $e) {
+        $countries = $e->getReturnedObject();
+    }
 
-echo "<pre>";
-print_r($countries);
-echo "</pre>";
+    echo "<pre>";
+    print_r($countries);
+    echo "</pre>";
+}
 
 /* Country
  * \PhpTwinfield\Country
@@ -61,19 +74,22 @@ echo "</pre>";
  * Available setters: setCode, setName, setShortName
  */
 
-foreach ($countries as $key => $country) {
-    echo "Country {$key}<br />";
-    echo "Code: {$country->getCode()}<br />";
-    echo "Name: {$country->getName()}<br /><br />";
+if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
+    foreach ($countries as $key => $country) {
+        echo "Country {$key}<br />";
+        echo "Code: {$country->getCode()}<br />";
+        echo "Name: {$country->getName()}<br /><br />";
+    }
 }
 
 // NOTE: Because the CountryApiConnector only supports the listAll method at the moment it is not particularly useful to create a new Country
+if ($executeNew) {
+    $country = new \PhpTwinfield\Country;
+    $country->setCode("NL");
+    $country->setName("Nederland");
+    $country->setShortName("Nederland");
 
-$country = new \PhpTwinfield\Country;
-$country->setCode("NL");
-$country->setName("Nederland");
-$country->setShortName("Nederland");
-
-echo "<pre>";
-print_r($country);
-echo "</pre>";
+    echo "<pre>";
+    print_r($country);
+    echo "</pre>";
+}

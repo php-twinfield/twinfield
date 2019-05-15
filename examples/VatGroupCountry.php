@@ -17,6 +17,11 @@ require_once('Connection.php');
  * \PhpTwinfield\ApiConnectors\VatGroupCountryApiConnector
  * Available methods: listAll
  */
+ 
+// Run all or only some of the following examples
+$executeListAllWithFilter           = false;
+$executeListAllWithoutFilter        = true;
+$executeNew                         = false;
 
 $vatGroupCountryApiConnector = new \PhpTwinfield\ApiConnectors\VatGroupCountryApiConnector($connection);
 
@@ -41,24 +46,32 @@ $vatGroupCountryApiConnector = new \PhpTwinfield\ApiConnectors\VatGroupCountryAp
  */
 
 //List all with pattern "*", field 0 (= search code or number), firstRow 1, maxRows 10, options -> country = NL
-$options = array('country' => 'NL');
+if ($executeListAllWithFilter) {
+    $options = array('country' => 'NL');
 
-try {
-    $vatGroupCountries = $vatGroupCountryApiConnector->listAll('*', 0, 1, 10, $options);
-} catch (ResponseException $e) {
-    $vatGroupCountries = $e->getReturnedObject();
+    try {
+        $vatGroupCountries = $vatGroupCountryApiConnector->listAll('*', 0, 1, 10, $options);
+    } catch (ResponseException $e) {
+        $vatGroupCountries = $e->getReturnedObject();
+    }
+
+    echo "<pre>";
+    print_r($vatGroupCountries);
+    echo "</pre>";
 }
 
 //List all with default settings (pattern '*', field 0, firstRow 1, maxRows 100, options [])
-try {
-    $vatGroupCountries = $vatGroupCountryApiConnector->listAll();
-} catch (ResponseException $e) {
-    $vatGroupCountries = $e->getReturnedObject();
-}
+if ($executeListAllWithoutFilter) {
+    try {
+        $vatGroupCountries = $vatGroupCountryApiConnector->listAll();
+    } catch (ResponseException $e) {
+        $vatGroupCountries = $e->getReturnedObject();
+    }
 
-echo "<pre>";
-print_r($vatGroupCountries);
-echo "</pre>";
+    echo "<pre>";
+    print_r($vatGroupCountries);
+    echo "</pre>";
+}
 
 /* VatGroupCountry
  * \PhpTwinfield\VatGroupCountry
@@ -66,19 +79,22 @@ echo "</pre>";
  * Available setters: setCode, setName, setShortName
  */
 
-foreach ($vatGroupCountries as $key => $vatGroupCountry) {
-    echo "VatGroupCountry {$key}<br />";
-    echo "Code: {$vatGroupCountry->getCode()}<br />";
-    echo "Name: {$vatGroupCountry->getName()}<br /><br />";
+if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
+    foreach ($vatGroupCountries as $key => $vatGroupCountry) {
+        echo "VatGroupCountry {$key}<br />";
+        echo "Code: {$vatGroupCountry->getCode()}<br />";
+        echo "Name: {$vatGroupCountry->getName()}<br /><br />";
+    }
 }
 
 // NOTE: Because the VatGroupCountryApiConnector only supports the listAll method at the moment it is not particularly useful to create a new VatGroupCountry
+if ($executeNew) {
+    $vatGroupCountry = new \PhpTwinfield\VatGroupCountry;
+    $vatGroupCountry->setCode("NL");
+    $vatGroupCountry->setName("NL1A");
+    $vatGroupCountry->setShortName("NL1A");
 
-$vatGroupCountry = new \PhpTwinfield\VatGroupCountry;
-$vatGroupCountry->setCode("NL");
-$vatGroupCountry->setName("NL1A");
-$vatGroupCountry->setShortName("NL1A");
-
-echo "<pre>";
-print_r($vatGroupCountry);
-echo "</pre>";
+    echo "<pre>";
+    print_r($vatGroupCountry);
+    echo "</pre>";
+}
