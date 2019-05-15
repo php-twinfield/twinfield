@@ -54,10 +54,10 @@ $office = \PhpTwinfield\Office::fromCode($officeCode);
  *                         Usage:                  $options['office'] = 'SomeOfficeCode';
  */
 
-//List all with pattern "EUR", field 0 (= search code or number), firstRow 5, maxRows 10, options []
+//List all with pattern "EUR", field 0 (= search code or number), firstRow 1, maxRows 10, options []
 if ($executeListAllWithFilter) {
     try {
-        $currencies = $currencyApiConnector->listAll("EUR", 0, 5, 10);
+        $currencies = $currencyApiConnector->listAll("EUR", 0, 1, 10);
     } catch (ResponseException $e) {
         $currencies = $e->getReturnedObject();
     }
@@ -102,7 +102,7 @@ if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
 
 // Read a Currency based off the passed in code and optionally the office.
 if ($executeRead) {
-    $currency = $currencyApiConnector->get("EUR", $office);
+    $currency = $currencyApiConnector->get("USD", $office);
 
     echo "<pre>";
     print_r($currency);
@@ -119,7 +119,7 @@ if ($executeRead) {
     echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($currency->getOffice(), true) . "</pre><br />";                 // Office|null                  Office of the currency.
     echo "Office (string): {$currency->getOfficeToString()}<br />";                                                         // string|null
     echo "Result: {$currency->getResult()}<br />";                                                                          // int|null                     Result (0 = error, 1 = success).
-    echo "ShortName: {$currency->getShortName()}<br />";                                                                    // string|null                  Short name of the currency.
+    echo "ShortName: {$currency->getShortName()}<br />";                                                                    // string|null                  Short name of the currency. NOTE: Because of the "hackish" way a currency is read (because Twinfield does not officially support reading currencies) the get() method will not return the current Short Name
     echo "Status: {$currency->getStatus()}<br />";                                                                          // Status|null                  Status of the currency.
 
     $currencyRates = $currency->getRates();                                                                                 // Array|null                   Array of CurrencyRate objects.
@@ -141,8 +141,8 @@ if ($executeRead) {
 
 // Copy an existing Currency to a new entity
 if ($executeCopy) {
-    $currency = $currencyApiConnector->get("EUR", $office);
-    $currency->setCode("EUR2");
+    $currency = $currencyApiConnector->get("USD", $office);
+    $currency->setCode("USD2");
 
     try {
         $currencyCopy = $currencyApiConnector->send($currency);
@@ -166,7 +166,7 @@ if ($executeNew) {
     $currency->setCode('JPY');                                                                                    // string|null                    The code of the currency.
     $currency->setName("Japanese yen");                                                                           // string|null                    Name of the currency.
     $currency->setOffice($office);                                                                                // Office|null                    Office code of the currency.
-    $currency->setOfficefromCode($officeCode);                                                                    // string|null
+    $currency->setOfficeFromString($officeCode);                                                                  // string|null
 
     // Optional values for creating a new Currency
     $currency->setShortName("Yen");                                                                               // string|null                    Short name of the currency.
@@ -180,14 +180,13 @@ if ($executeNew) {
     // The minimum amount of CurrencyRates linked to a Currency object is 0
     $currencyRate = new \PhpTwinfield\CurrencyRate;
     $currencyRate->setRate(122.87);                                                                               // float|null                     Conversion rate to be used as of the start date.
-    $startDate = DateTime::createFromFormat('d-m-Y', '01-01-2019');
+    $startDate = \DateTime::createFromFormat('d-m-Y', '01-01-2019');
     $currencyRate->setStartDate($startDate);                                                                      // \DateTimeInterface|null        Starting date of the rate.
     $currencyRate->setStartDateFromString('20190101');                                                            // string|null
-    $currencyRate->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                               // Status|null                    For creating and updating status may be left empty.
-    //$currencyRate->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                            // Status|null                    For deleting deleted should be used. In case a dimension that is used in a transaction is deleted,
+    //$currencyRate->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                            // Status|null                    For creating and updating status may be left empty. NOTE: Do not use $currencyRate->setStatusFromString(\PhpTwinfield\Enums\Status::ACTIVE());
+                                                                                                                  //                                For deleting deleted should be used. In case a dimension that is used in a transaction is deleted,
                                                                                                                   //                                its status has been changed into hide. Hidden dimensions can be activated by using active.
-    $currencyRate->setStatusFromString('active');                                                                 // string|null
-    //$currencyRate->setStatusFromString('deleted');                                                              // string|null
+    //$currencyRate->setStatusFromString('deleted');                                                              // string|null                    NOTE: Do not use $currencyRate->setStatusFromString('active');
 
     $currency->addRate($currencyRate);                                                                            // CurrencyRate                   Add a CurrencyRate object to the Currency object
     //$currency->removeRate(0);                                                                                   // int                            Remove a rate based on the index of the rate within the array
@@ -209,7 +208,7 @@ if ($executeNew) {
 // Delete a Currency based off the passed in code and optionally the office.
 if ($executeDelete) {
     try {
-        $currencyDeleted = $currencyApiConnector->delete("SomeCurrencyCode", $office);
+        $currencyDeleted = $currencyApiConnector->delete("JPY", $office);
     } catch (ResponseException $e) {
         $currencyDeleted = $e->getReturnedObject();
     }

@@ -25,6 +25,9 @@ Go to the [Twinfield web site](https://www.twinfield.nl/openid-connect-request/)
 * Add more post logout URL's?: Your choice
 
 ##### Grant Authorization and retrieve initial Access Token
+See [Authorization Example](examples/Authorization.php) for a complete example
+Also see [RenewAuthorization Example](examples/RenewAuthorization.php) for a complete example on how/when to request users to renew their authorization
+
 On loading a page containing the following code the user will be redirected to the Twinfield Login page.
 After successful login and optionally consent (see above) the user will be redirected back to the page at which point the Access Token and Refresh Token can be retrieved.
 
@@ -100,6 +103,8 @@ if (!isset($_GET['code'])) {
 ```
 
 ##### Optionally: Store a valid access token and cluster through a scheduled task/cron job running in the background
+See [RenewAccessToken Example](examples/RenewAccessToken.php) for a complete example
+
 Running the following code every 60 minutes (or a bit less as Access Tokens are valid for exactly 60 minutes) will reduce connection time when working with the Api (by about 2 seconds). It will also reduce connection load on Twinfield when making more than 20-30 connections/day.
 
 ```php
@@ -131,6 +136,8 @@ if ($validationResult !== false) {
 ```
 
 ##### Connection
+See [Connection Example](examples/Connection.php) for a complete example
+
 Using the stored Refresh Token and optionally Access Token/Cluster, we can create an instance of the `\PhpTwinfield\Secure\OpenIdConnectAuthentication` class, as follows:
 
 ```php
@@ -156,6 +163,8 @@ if ($accessTokenStorage['access_expiry'] > time()) {
 ```
 
 ### Getting data from the API
+See [Customer Example](examples/Customer.php) among others for a complete example
+
 In order to communicate with the Twinfield API, you need to create an `ApiConnector` instance for the corresponding
 resource and use the `get()` or `list()` method.
 
@@ -177,6 +186,8 @@ $customer = $customerApiConnector->listAll($office);
 ```
 
 ### Creating or updating objects
+See [Customer Example](examples/Customer.php) among others for a complete example
+
 If you want to create or update a customer or any other object, it's just as easy:
 
 ```php
@@ -209,6 +220,8 @@ $customer_factory->send($customer);
 You can also send multiple objects in one batch, chunking is handled automatically.
 
 ### Browse data
+See [BrowseData Example](examples/BrowseData.php) for a complete example
+
 In order to get financial data out of Twinfield like general ledger transactions, sales invoices, and so on, you can use the the browse data functionality.
 More information about the browse data functionality in Twinfield can be found in the [documentation](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Request/BrowseData).
 

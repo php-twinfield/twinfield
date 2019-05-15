@@ -28,7 +28,7 @@ class CurrencyApiConnector extends BaseApiConnector
     /**
      * Requests a specific Currency based off the passed in code and optionally the office.
      * NOTE: The Twinfield API does not currently officially support reading currencies
-     * This function uses the fact that the API will return a complete object when sending an existing code with an explicit error (no name)
+     * This function uses the fact that the API will return part of an existing object when sending a known code with an explicit error (no name)
      *
      * @param string $code
      * @param Office $office If no office has been passed it will instead take the default office from the
@@ -42,12 +42,33 @@ class CurrencyApiConnector extends BaseApiConnector
         $currency = new Currency;
         $currency->setCode($code);
         $currency->setOffice($office);
+        $currencyName = '';
+
+        $currencies = self::listAll($code, 1, 1, 100, array('office' => $office->getCode()));
+
+        if (count($currencies) == 0) {
+            $currency->setResult(0);
+            return $currency;
+        }
+
+        foreach ($currencies as $currencyListing) {
+            if ($currencyListing->getCode() == $code) {
+                $currencyName = $currencyListing->getName();
+                break;
+            }
+        }
+
+        if (empty($currencyName)) {
+            $currency->setResult(0);
+            return $currency;
+        }
 
         try {
             $currencyResponse = $this->send($currency);
         } catch (ResponseException $e) {
             $currencyResponse = $e->getReturnedObject();
             $currencyResponse->setMessages(null);
+            $currencyResponse->setName($currencyName);
             $currencyResponse->setResult(1);
         }
 

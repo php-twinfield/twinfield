@@ -21,7 +21,6 @@ require_once('Connection.php');
 // Run all or only some of the following examples
 $executeListAllWithFilter           = false;
 $executeListAllWithoutFilter        = true;
-$executeNew                         = false;
 
 $countryApiConnector = new \PhpTwinfield\ApiConnectors\CountryApiConnector($connection);
 
@@ -80,16 +79,4 @@ if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
         echo "Code: {$country->getCode()}<br />";
         echo "Name: {$country->getName()}<br /><br />";
     }
-}
-
-// NOTE: Because the CountryApiConnector only supports the listAll method at the moment it is not particularly useful to create a new Country
-if ($executeNew) {
-    $country = new \PhpTwinfield\Country;
-    $country->setCode("NL");
-    $country->setName("Nederland");
-    $country->setShortName("Nederland");
-
-    echo "<pre>";
-    print_r($country);
-    echo "</pre>";
 }

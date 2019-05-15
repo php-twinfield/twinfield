@@ -65,12 +65,12 @@ $office = \PhpTwinfield\Office::fromCode($officeCode);
  *                         Usage:                  $options['group'] = 'DimensionGroup';
  */
 
-//List all with pattern "Apeldoorn", field 0 (= search code or number), firstRow 5, maxRows 10, options -> modifiedsince = '20190101100000', group = 'DimensionGroup'
+//List all with pattern "Apeldoorn", field 0 (= search code or number), firstRow 1, maxRows 10, options -> modifiedsince = '20190101100000', group = 'DimensionGroup'
 if ($executeListAllWithFilter) {
     $options = array('modifiedsince' => '20190101100000', 'group' => 'DimensionGroup');
 
     try {
-        $costCenters = $costCenterApiConnector->listAll("Apeldoorn", 0, 5, 10, $options);
+        $costCenters = $costCenterApiConnector->listAll("Apeldoorn", 0, 1, 10, $options);
     } catch (ResponseException $e) {
         $costCenters = $e->getReturnedObject();
     }
@@ -133,7 +133,7 @@ if ($executeRead) {
     echo "ShortName: {$costCenter->getShortName()}<br />";                                                          // string|null          Not in use.
     echo "Status: {$costCenter->getStatus()}<br />";                                                                // Status|null          Status of the cost center.
     echo "Touched: {$costCenter->getTouched()}<br />";                                                              // int|null             Count of the number of times the dimension settings are changed. Read-only attribute.
-    echo "Type: {$costCenter->getType()}<br />";                                                                    // DimensionType|null   Dimension type. See Dimension type. Dimension type of cost centers is KPL.
+    echo "Type: <pre>" . print_r($costCenter->getType(), true) . "</pre><br />";                                    // DimensionType|null   Dimension type. See Dimension type. Dimension type of cost centers is KPL.
     echo "Type: {$costCenter->getTypeToString()}<br />";                                                            // string|null
     echo "UID: {$costCenter->getUID()}<br />";                                                                      // string|null          Unique identification of the dimension. Read-only attribute.
 }
@@ -141,7 +141,7 @@ if ($executeRead) {
 // Copy an existing CostCenter to a new entity
 if ($executeCopy) {
     $costCenter = $costCenterApiConnector->get("00000", $office);
-    $costCenter->setCode(null);
+    $costCenter->setCode("00010");                                                                                  // string|null          Dimension code, must be compliant with the mask of the KPL Dimension type.
 
     try {
         $costCenterCopy = $costCenterApiConnector->send($costCenter);
@@ -153,6 +153,7 @@ if ($executeCopy) {
     print_r($costCenterCopy);
     echo "</pre>";
 
+    echo "Result of copy process: {$costCenterCopy->getResult()}<br />";
     echo "Code of copied CostCenter: {$costCenterCopy->getCode()}<br />";
 }
 
@@ -162,18 +163,17 @@ if ($executeNew) {
 
     // Required values for creating a new CostCenter
     $costCenter->setName("CostCenterName");                                                                         // string|null          Name of the dimension.
+    $costCenter->setCode('00020');                                                                                  // string|null          Dimension code, must be compliant with the mask of the KPL Dimension type.
     $costCenter->setOffice($office);                                                                                // Office|null          Office.
-    $costCenter->setOfficefromCode($officeCode);                                                                    // string|null
+    $costCenter->setOfficeFromString($officeCode);                                                                  // string|null
 
     // Optional values for creating a new CostCenter
-    $costCenter->setCode(null);                                                                                     // string|null          Dimension code, must be compliant with the mask of the KPL Dimension type.
-    //$costCenter->setCode('00020');                                                                                // string|null
     $costCenter->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                   // Status|null          For creating and updating status may be left empty.
     //$costCenter->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                // Status|null          For deleting deleted should be used. In case a dimension that is used in a transaction is deleted,
                                                                                                                     //                      its status has been changed into hide. Hidden dimensions can be activated by using active.
     $costCenter->setStatusFromString('active');                                                                     // string|null
     //$costCenter->setStatusFromString('deleted');                                                                  // string|null
-                                                                                                                    //
+
     $dimensionType = new \PhpTwinfield\DimensionType;
     $dimensionType->setCode('KPL');
     $costCenter->setType($dimensionType);                                                                           // DimensionType|null   Dimension type. See Dimension type. Dimension type of cost centers is KPL.
@@ -189,13 +189,14 @@ if ($executeNew) {
     print_r($costCenterNew);
     echo "</pre>";
 
+    echo "Result of creation process: {$costCenterNew->getResult()}<br />";
     echo "Code of new CostCenter: {$costCenterNew->getCode()}<br />";
 }
 
 // Delete a CostCenter based off the passed in code and optionally the office.
 if ($executeDelete) {
     try {
-        $costCenterDeleted = $costCenterApiConnector->delete("SomeCostCenterCode", $office);
+        $costCenterDeleted = $costCenterApiConnector->delete("00020", $office);
     } catch (ResponseException $e) {
         $costCenterDeleted = $e->getReturnedObject();
     }
@@ -203,4 +204,6 @@ if ($executeDelete) {
     echo "<pre>";
     print_r($costCenterDeleted);
     echo "</pre>";
+
+    echo "Result of deletion process: {$costCenterDeleted->getResult()}<br />";
 }

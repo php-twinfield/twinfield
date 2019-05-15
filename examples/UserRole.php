@@ -1,6 +1,6 @@
 <?php
 
-//PayCode
+//UserRole
 
 //Optionally declare the namespace PhpTwinfield so u can call classes without prepending \PhpTwinfield\
 namespace PhpTwinfield;
@@ -13,8 +13,8 @@ require_once('vendor/autoload.php');
 // Retrieve an OAuth 2 connection
 require_once('Connection.php');
 
-/* PayCode API Connector
- * \PhpTwinfield\ApiConnectors\PayCodeApiConnector
+/* UserRole API Connector
+ * \PhpTwinfield\ApiConnectors\UserRoleApiConnector
  * Available methods: listAll
  */
 
@@ -22,9 +22,9 @@ require_once('Connection.php');
 $executeListAllWithFilter           = false;
 $executeListAllWithoutFilter        = true;
 
-$payCodeApiConnector = new \PhpTwinfield\ApiConnectors\PayCodeApiConnector($connection);
+$userRoleApiConnector = new \PhpTwinfield\ApiConnectors\UserRoleApiConnector($connection);
 
-/* List all pay codes
+/* List all user roles
  * @param string $pattern  The search pattern. May contain wildcards * and ?
  * @param int    $field    The search field determines which field or fields will be searched. The available fields
  *                         depends on the finder type. Passing a value outside the specified values will cause an
@@ -35,54 +35,48 @@ $payCodeApiConnector = new \PhpTwinfield\ApiConnectors\PayCodeApiConnector($conn
  *                         to add multiple options. An option name may be used once, specifying an option multiple
  *                         times will cause an error.
  *
- *                         Available options:      office, paytype
+ *                         Available options:      office
  *
  *                         office                  Sets the office code.
  *                         Usage:                  $options['office'] = 'SomeOfficeCode';
- *
- *                         paytype                 Specifies which type of pay and collect types should be returned.
- *                         Available values:       pay, collect
- *                         Usage:                  $options['paytype'] = 'pay';
  */
 
-//List all with pattern "SEPA*", field 0 (= search code or number), firstRow 1, maxRows 10, options -> paytype = pay
+//List all with pattern "LVL1*", field 0 (= search code or number), firstRow 1, maxRows 10
 if ($executeListAllWithFilter) {
-    $options = array('paytype' => 'pay');
-
     try {
-        $payCodes = $payCodeApiConnector->listAll("SEPA*", 0, 1, 10, $options);
+        $userRoles = $userRoleApiConnector->listAll("LVL1*", 0, 1, 10);
     } catch (ResponseException $e) {
-        $payCodes = $e->getReturnedObject();
+        $userRoles = $e->getReturnedObject();
     }
 
     echo "<pre>";
-    print_r($payCodes);
+    print_r($userRoles);
     echo "</pre>";
 }
 
 //List all with default settings (pattern '*', field 0, firstRow 1, maxRows 100, options [])
 if ($executeListAllWithoutFilter) {
     try {
-        $payCodes = $payCodeApiConnector->listAll();
+        $userRoles = $userRoleApiConnector->listAll();
     } catch (ResponseException $e) {
-        $payCodes = $e->getReturnedObject();
+        $userRoles = $e->getReturnedObject();
     }
 
     echo "<pre>";
-    print_r($payCodes);
+    print_r($userRoles);
     echo "</pre>";
 }
 
-/* PayCode
- * \PhpTwinfield\PayCode
+/* UserRole
+ * \PhpTwinfield\UserRole
  * Available getters: getCode, getName, getShortName
  * Available setters: setCode, setName, setShortName
  */
 
 if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
-    foreach ($payCodes as $key => $payCode) {
-        echo "PayCode {$key}<br />";
-        echo "Code: {$payCode->getCode()}<br />";
-        echo "Name: {$payCode->getName()}<br /><br />";
+    foreach ($userRoles as $key => $userRole) {
+        echo "UserRole {$key}<br />";
+        echo "Code: {$userRole->getCode()}<br />";
+        echo "Name: {$userRole->getName()}<br /><br />";
     }
 }

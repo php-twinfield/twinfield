@@ -17,11 +17,10 @@ require_once('Connection.php');
  * \PhpTwinfield\ApiConnectors\VatGroupApiConnector
  * Available methods: listAll
  */
- 
+
 // Run all or only some of the following examples
 $executeListAllWithFilter           = false;
 $executeListAllWithoutFilter        = true;
-$executeNew                         = false;
 
 $vatGroupApiConnector = new \PhpTwinfield\ApiConnectors\VatGroupApiConnector($connection);
 
@@ -42,10 +41,10 @@ $vatGroupApiConnector = new \PhpTwinfield\ApiConnectors\VatGroupApiConnector($co
  *                         Usage:                  $options['office'] = 'SomeOfficeCode';
  */
 
-//List all with pattern "1*", field 0 (= search code or number), firstRow 5, maxRows 10
+//List all with pattern "1*", field 0 (= search code or number), firstRow 1, maxRows 10
 if ($executeListAllWithFilter) {
     try {
-        $vatGroups = $vatGroupApiConnector->listAll("1*", 0, 5, 10);
+        $vatGroups = $vatGroupApiConnector->listAll("1*", 0, 1, 10);
     } catch (ResponseException $e) {
         $vatGroups = $e->getReturnedObject();
     }
@@ -80,16 +79,4 @@ if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
         echo "Code: {$vatGroup->getCode()}<br />";
         echo "Name: {$vatGroup->getName()}<br /><br />";
     }
-}
-
-// NOTE: Because the VatGroupApiConnector only supports the listAll method at the moment it is not particularly useful to create a new VatGroup
-if ($executeNew) {
-    $vatGroup = new \PhpTwinfield\VatGroup;
-    $vatGroup->setCode("1A");
-    $vatGroup->setName("High (1a)");
-    $vatGroup->setShortName("High1A");
-
-    echo "<pre>";
-    print_r($vatGroup);
-    echo "</pre>";
 }

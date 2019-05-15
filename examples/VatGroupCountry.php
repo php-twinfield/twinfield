@@ -17,11 +17,10 @@ require_once('Connection.php');
  * \PhpTwinfield\ApiConnectors\VatGroupCountryApiConnector
  * Available methods: listAll
  */
- 
+
 // Run all or only some of the following examples
 $executeListAllWithFilter           = false;
 $executeListAllWithoutFilter        = true;
-$executeNew                         = false;
 
 $vatGroupCountryApiConnector = new \PhpTwinfield\ApiConnectors\VatGroupCountryApiConnector($connection);
 
@@ -85,16 +84,4 @@ if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
         echo "Code: {$vatGroupCountry->getCode()}<br />";
         echo "Name: {$vatGroupCountry->getName()}<br /><br />";
     }
-}
-
-// NOTE: Because the VatGroupCountryApiConnector only supports the listAll method at the moment it is not particularly useful to create a new VatGroupCountry
-if ($executeNew) {
-    $vatGroupCountry = new \PhpTwinfield\VatGroupCountry;
-    $vatGroupCountry->setCode("NL");
-    $vatGroupCountry->setName("NL1A");
-    $vatGroupCountry->setShortName("NL1A");
-
-    echo "<pre>";
-    print_r($vatGroupCountry);
-    echo "</pre>";
 }

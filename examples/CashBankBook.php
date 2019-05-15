@@ -17,11 +17,10 @@ require_once('Connection.php');
  * \PhpTwinfield\ApiConnectors\CashBankBookApiConnector
  * Available methods: listAll
  */
- 
+
 // Run all or only some of the following examples
 $executeListAllWithFilter           = false;
 $executeListAllWithoutFilter        = true;
-$executeNew                         = false;
 
 $cashBankBookApiConnector = new \PhpTwinfield\ApiConnectors\CashBankBookApiConnector($connection);
 
@@ -86,16 +85,4 @@ if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
         echo "Code: {$cashBankBook->getCode()}<br />";
         echo "Name: {$cashBankBook->getName()}<br /><br />";
     }
-}
-
-// NOTE: Because the CashBankBookApiConnector only supports the listAll method at the moment it is not particularly useful to create a new CashBankBook
-if ($executeNew) {
-    $cashBankBook = new \PhpTwinfield\CashBankBook;
-    $cashBankBook->setCode("BNK");
-    $cashBankBook->setName("Standaard bank");
-    $cashBankBook->setShortName("StdBank");
-
-    echo "<pre>";
-    print_r($cashBankBook);
-    echo "</pre>";
 }
