@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\Fields\Transaction;
 
+use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\Enums\LineType;
 use Webmozart\Assert\Assert;
 
@@ -70,10 +71,10 @@ trait LinesField
     }
 
     /**
-     * @param $line
+     * @param BaseTransaction $line
      * @return $this
      */
-    public function addLine($line)
+    public function addLine(BaseTransaction $line)
     {
         Assert::isInstanceOf($line, $this->getLineClassName());
 
