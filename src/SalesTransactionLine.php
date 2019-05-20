@@ -65,7 +65,7 @@ class SalesTransactionLine extends BaseTransactionLine
         if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType("baseline", $this);
         }
-        return parent::setBaseline($baseline);
+        return $this;
     }
 
     /*
@@ -167,7 +167,7 @@ class SalesTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performanceType', $this);
         }
 
-        return parent::setPerformanceType($performanceType);
+        return $this;
     }
 
     /*
@@ -183,7 +183,7 @@ class SalesTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performanceCountry', $this);
         }
 
-        return parent::setPerformanceCountry($performanceCountry);
+        return $this;
     }
 
     /*
@@ -199,7 +199,7 @@ class SalesTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performanceVatNumber', $this);
         }
 
-        return parent::setPerformanceVatNumber($performanceVatNumber);
+        return $this;
     }
 
     /*
@@ -215,7 +215,7 @@ class SalesTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performanceDate', $this);
         }
 
-        return parent::setPerformanceDate($performanceDate);
+        return $this;
     }
 
     /*
@@ -231,7 +231,7 @@ class SalesTransactionLine extends BaseTransactionLine
             throw Exception::invalidRelationForLineType($relation, $this);
         }
 
-        return $this;
+        return parent::setRelation($relation);
     }
 
     /*
@@ -263,7 +263,7 @@ class SalesTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('valueOpen', $this);
         }
 
-        return parent::setValueOpen($valueOpen);
+        return $this;
     }
 
     /*

@@ -62,6 +62,25 @@ abstract class BaseTransactionLine
     use VatValueField;
 
     /*
+     * Set the transaction on the line. This is needed later on.
+     *
+     * @param $object
+     * @throws \InvalidArgumentException If a transaction is invalid or if a transaction is already set.
+     * @internal
+     */
+    public function setTransaction($object): void;
+
+    /*
+     * Gets the transaction from the line.
+     *
+     * Note that you should add the return type when implementing.
+     *
+     * @see MatchReferenceInterface
+     * @internal
+     */
+    public function getTransaction();
+
+    /*
      * This will get you a unique reference to the object in Twinfield.
      *
      * With this reference, you can perform matching.
@@ -109,6 +128,7 @@ abstract class BaseTransactionLine
         if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType('vatbaseturnover', $this);
         }
+        
         return $this;
     }
 
@@ -155,6 +175,7 @@ abstract class BaseTransactionLine
         if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType('vatrepturnover', $this);
         }
+        
         return $this;
     }
 
@@ -170,7 +191,6 @@ abstract class BaseTransactionLine
         }
 
         $this->vatRepValue = $vatRepValue;
-
         return $this;
     }
 
@@ -186,6 +206,7 @@ abstract class BaseTransactionLine
         if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType('vatturnover', $this);
         }
+        
         return $this;
     }
 
@@ -201,7 +222,6 @@ abstract class BaseTransactionLine
         }
 
         $this->vatValue = $vatValue;
-
         return $this;
     }
 }

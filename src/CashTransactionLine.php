@@ -80,7 +80,7 @@ class CashTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('currencyDate', $this);
         }
 
-        return parent::setCurrencyDate($currencyDate);
+        return $this;
     }
 
     /*
@@ -166,7 +166,7 @@ class CashTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performanceType', $this);
         }
 
-        return parent::setPerformanceType($performanceType);
+        return $this;
     }
 
     /*
@@ -182,7 +182,7 @@ class CashTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performanceCountry', $this);
         }
 
-        return parent::setPerformanceCountry($performanceCountry);
+        return $this;
     }
 
     /*
@@ -198,7 +198,7 @@ class CashTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performanceVatNumber', $this);
         }
 
-        return parent::setPerformanceVatNumber($performanceVatNumber);
+        return $this;
     }
 
     /*
@@ -214,7 +214,7 @@ class CashTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performanceDate', $this);
         }
 
-        return parent::setPerformanceDate($performanceDate);
+        return $this;
     }
 
     /*
@@ -230,7 +230,7 @@ class CashTransactionLine extends BaseTransactionLine
             throw Exception::invalidRelationForLineType($relation, $this);
         }
 
-        return $this;
+        return parent::setRelation($relation);
     }
 
     /*

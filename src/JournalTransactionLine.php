@@ -61,7 +61,8 @@ class JournalTransactionLine extends BaseTransactionLine
         if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType("baseline", $this);
         }
-        return parent::setBaseline($baseline);
+        
+        return $this;
     }
 
     /*
@@ -93,7 +94,7 @@ class JournalTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('currencyDate', $this);
         }
 
-        return parent::setCurrencyDate($currencyDate);
+        return $this;
     }
 
     /*
@@ -143,7 +144,7 @@ class JournalTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('invoiceNumber', $this);
         }
 
-        return parent::setInvoiceNumber($invoiceNumber);
+        return $this;
     }
 
     /*
@@ -204,7 +205,7 @@ class JournalTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performanceType', $this);
         }
 
-        return parent::setPerformanceType($performanceType);
+        return $this;
     }
 
     /*
@@ -220,7 +221,7 @@ class JournalTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performanceCountry', $this);
         }
 
-        return parent::setPerformanceCountry($performanceCountry);
+        return $this;
     }
 
     /*
@@ -236,7 +237,7 @@ class JournalTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performanceVatNumber', $this);
         }
 
-        return parent::setPerformanceVatNumber($performanceVatNumber);
+        return $this;
     }
 
     /*
@@ -252,7 +253,7 @@ class JournalTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performanceDate', $this);
         }
 
-        return parent::setPerformanceDate($performanceDate);
+        return $this;
     }
 
     /*
@@ -268,7 +269,7 @@ class JournalTransactionLine extends BaseTransactionLine
             throw Exception::invalidRelationForLineType($relation, $this);
         }
 
-        return $this;
+        return parent::setRelation($relation);
     }
 
     /*

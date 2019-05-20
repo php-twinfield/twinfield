@@ -59,7 +59,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
         if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType("baseline", $this);
         }
-        return parent::setBaseline($baseline);
+        return $this;
     }
 
     /*
@@ -125,7 +125,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('matchDate', $this);
         }
 
-        return parent::setMatchDate($matchDate);
+        return $this;
     }
 
     /*
@@ -157,7 +157,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
             throw Exception::invalidRelationForLineType($relation, $this);
         }
 
-        return $this;
+        return parent::setRelation($relation);
     }
 
     /*
@@ -189,7 +189,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('valueOpen', $this);
         }
 
-        return parent::setValueOpen($valueOpen);
+        return $this;
     }
 
     /*

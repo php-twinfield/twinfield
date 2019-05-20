@@ -2,7 +2,6 @@
 
 namespace PhpTwinfield;
 
-use Money\Currency;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Fields\DateField;
@@ -60,8 +59,11 @@ class ElectronicBankStatement
 
     public function __construct()
     {
-        $this->currency   = new Currency("EUR");
-        $this->startValue = new Money(0, $this->getCurrency());
+        $currency = new \PhpTwinfield\Currency;
+        $currency->setCode('EUR');
+        $this->currency   = $currency;
+        $this->closeValue = new \Money\Money(0, new \Money\Currency('EUR'));
+        $this->startValue = new \Money\Money(0, new \Money\Currency('EUR'));
     }
 
     public function getAccount(): ?string
@@ -130,17 +132,17 @@ class ElectronicBankStatement
     public function setTransactions(array $transactions): void
     {
         Assert::allIsInstanceOf($transactions, ElectronicBankStatementTransaction::class);
-        Assert::notEmpty($this->startvalue);
+        Assert::notEmpty($this->startValue);
 
         $this->transactions = $transactions;
 
-        $this->closevalue = $this->startvalue;
+        $this->closeValue = $this->startValue;
 
         foreach ($transactions as $transaction) {
             if ($transaction->getDebitCredit() == DebitCredit::CREDIT()) {
-                $this->closevalue = $this->closevalue->add($transaction->getValue());
+                $this->closeValue = $this->closeValue->add($transaction->getValue());
             } else {
-                $this->closevalue = $this->closevalue->subtract($transaction->getValue());
+                $this->closeValue = $this->closeValue->subtract($transaction->getValue());
             }
         }
     }
