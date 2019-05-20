@@ -269,7 +269,7 @@ class TransactionsDocument extends BaseDocument
             }
 
             if (!LineType::TOTAL()->equals($transactionLine->getLineType()) && $transactionLine->getVatCode() !== null) {
-                $vatCodeElement = $this->createNodeWithTextContent('vatcode', $transactionLine->getVatCodeToSring());
+                $vatCodeElement = $this->createNodeWithTextContent('vatcode', $transactionLine->getVatCodeToString());
                 $lineElement->appendChild($vatCodeElement);
             }
         }
