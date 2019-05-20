@@ -79,7 +79,7 @@ class SalesTransactionLine extends BaseTransactionLine
     public function setBaseValueOpen(?Money $baseValueOpen): parent
     {
         if ($baseValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('baseValueOpen', $this);
+            throw Exception::invalidFieldForLineType('basevalueopen', $this);
         }
 
         return parent::setBaseValueOpen($baseValueOpen);
@@ -149,12 +149,12 @@ class SalesTransactionLine extends BaseTransactionLine
     public function setMatchLevel(?int $matchLevel): parent
     {
         if ($matchLevel !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('matchLevel', $this);
+            throw Exception::invalidFieldForLineType('matchlevel', $this);
         }
 
         return parent::setMatchLevel($matchLevel);
     }
-    
+
     /*
      * Payment status of the transaction. If line type detail or vat always notmatchable. Read-only attribute.
      *
@@ -181,7 +181,7 @@ class SalesTransactionLine extends BaseTransactionLine
     public function setPerformanceType(?PerformanceType $performanceType): self
     {
         if ($performanceType !== null && $this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('performanceType', $this);
+            throw Exception::invalidFieldForLineType('performancetype', $this);
         }
 
         return $this;
@@ -197,7 +197,7 @@ class SalesTransactionLine extends BaseTransactionLine
     public function setPerformanceCountry(?Country $performanceCountry): self
     {
         if ($performanceCountry !== null && $this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('performanceCountry', $this);
+            throw Exception::invalidFieldForLineType('performancecountry', $this);
         }
 
         return $this;
@@ -213,7 +213,7 @@ class SalesTransactionLine extends BaseTransactionLine
     public function setPerformanceVatNumber(?string $performanceVatNumber): self
     {
         if ($performanceVatNumber !== null && $this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('performanceVatNumber', $this);
+            throw Exception::invalidFieldForLineType('performancevatnumber', $this);
         }
 
         return $this;
@@ -229,7 +229,7 @@ class SalesTransactionLine extends BaseTransactionLine
     public function setPerformanceDate(?\DateTimeInterface $performanceDate): self
     {
         if ($performanceDate !== null && (!$this->getPerformanceType()->equals(PerformanceType::SERVICES()) || $this->getLineType()->equals(LineType::TOTAL()))) {
-            throw Exception::invalidFieldForLineType('performanceDate', $this);
+            throw Exception::invalidFieldForLineType('performancedate', $this);
         }
 
         return $this;
@@ -261,7 +261,7 @@ class SalesTransactionLine extends BaseTransactionLine
     public function setRepValueOpen(?Money $reValueOpen): parent
     {
         if ($reValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('reValueOpen', $this);
+            throw Exception::invalidFieldForLineType('repvalueopen', $this);
         }
 
         return parent::setRepValueOpen($reValueOpen);
@@ -277,7 +277,7 @@ class SalesTransactionLine extends BaseTransactionLine
     public function setValueOpen(?Money $valueOpen): self
     {
         if ($valueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('valueOpen', $this);
+            throw Exception::invalidFieldForLineType('valueopen', $this);
         }
 
         return $this;
@@ -293,7 +293,7 @@ class SalesTransactionLine extends BaseTransactionLine
     public function setVatTotal(?Money $vatTotal): self
     {
         if ($vatTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('vatTotal', $this);
+            throw Exception::invalidFieldForLineType('vattotal', $this);
         }
 
         return $this;
@@ -309,7 +309,7 @@ class SalesTransactionLine extends BaseTransactionLine
     public function setVatBaseTotal(?Money $vatBaseTotal): self
     {
         if ($vatBaseTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('vatBaseTotal', $this);
+            throw Exception::invalidFieldForLineType('vatbasetotal', $this);
         }
 
         return $this;
@@ -325,7 +325,7 @@ class SalesTransactionLine extends BaseTransactionLine
     public function setVatRepTotal(?Money $vatRepTotal): self
     {
         if ($vatRepTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('vatRepTotal', $this);
+            throw Exception::invalidFieldForLineType('vatreptotal', $this);
         }
 
         return $this;

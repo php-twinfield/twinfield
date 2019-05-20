@@ -29,11 +29,13 @@ class MatchSetMapper extends BaseMapper
 
     private static function createMatchSetFrom(\DOMDocument $document): MatchSet
     {
+        $MatchSetElement = $document->documentElement;
+
         $matchSet = new MatchSet();
 
-        $matchSet->setOffice(Office::fromCode(self::getField(null, $document, "office")));
-        $matchSet->setMatchCode(new MatchCode(self::getField(null, $document, "matchcode")));
-        $matchSet->setMatchDate(\DateTimeImmutable::createFromFormat("Ymd", self::getField(null, $document, "matchdate")));
+        $matchSet->setOffice(Office::fromCode(self::getField(null, $MatchSetElement, "office")));
+        $matchSet->setMatchCode(new MatchCode(self::getField(null, $MatchSetElement, "matchcode")));
+        $matchSet->setMatchDate(\DateTimeImmutable::createFromFormat("Ymd", self::getField(null, $MatchSetElement, "matchdate")));
 
         return $matchSet;
     }

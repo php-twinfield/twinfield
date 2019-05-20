@@ -73,7 +73,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
     public function setBaseValueOpen(?Money $baseValueOpen): parent
     {
         if ($baseValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('baseValueOpen', $this);
+            throw Exception::invalidFieldForLineType('basevalueopen', $this);
         }
 
         return parent::setBaseValueOpen($baseValueOpen);
@@ -123,7 +123,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
     public function setMatchDate(?\DateTimeInterface $matchDate): self
     {
         if ($matchDate !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('matchDate', $this);
+            throw Exception::invalidFieldForLineType('matchdate', $this);
         }
 
         return $this;
@@ -139,7 +139,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
     public function setMatchLevel(?int $matchLevel): parent
     {
         if ($matchLevel !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('matchLevel', $this);
+            throw Exception::invalidFieldForLineType('matchlevel', $this);
         }
 
         return parent::setMatchLevel($matchLevel);
@@ -187,7 +187,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
     public function setRepValueOpen(?Money $repValueOpen): parent
     {
         if ($repValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('repValueOpen', $this);
+            throw Exception::invalidFieldForLineType('repvalueopen', $this);
         }
 
         return parent::setRepValueOpen($repValueOpen);
@@ -203,7 +203,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
     public function setValueOpen(?Money $valueOpen): self
     {
         if ($valueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('valueOpen', $this);
+            throw Exception::invalidFieldForLineType('valueopen', $this);
         }
 
         return $this;
@@ -219,7 +219,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
     public function setVatTotal(?Money $vatTotal): self
     {
         if ($vatTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('vatTotal', $this);
+            throw Exception::invalidFieldForLineType('vattotal', $this);
         }
 
         return $this;
@@ -235,7 +235,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
     public function setVatBaseTotal(?Money $vatBaseTotal): self
     {
         if ($vatBaseTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('vatBaseTotal', $this);
+            throw Exception::invalidFieldForLineType('vatbasetotal', $this);
         }
 
         return $this;
@@ -251,7 +251,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
     public function setVatRepTotal(?Money $vatRepTotal): self
     {
         if ($vatRepTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('vatRepTotal', $this);
+            throw Exception::invalidFieldForLineType('vatreptotal', $this);
         }
 
         return $this;

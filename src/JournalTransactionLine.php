@@ -76,7 +76,7 @@ class JournalTransactionLine extends BaseTransactionLine
     public function setBaseValueOpen(?Money $baseValueOpen): parent
     {
         if ($baseValueOpen !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
-            throw Exception::invalidFieldForLineType('baseValueOpen', $this);
+            throw Exception::invalidFieldForLineType('basevalueopen', $this);
         }
 
         return parent::setBaseValueOpen($baseValueOpen);
@@ -92,7 +92,7 @@ class JournalTransactionLine extends BaseTransactionLine
     public function setCurrencyDate(?\DateTimeInterface $currencyDate): self
     {
         if ($currencyDate !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
-            throw Exception::invalidFieldForLineType('currencyDate', $this);
+            throw Exception::invalidFieldForLineType('currencydate', $this);
         }
 
         return $this;
@@ -142,7 +142,7 @@ class JournalTransactionLine extends BaseTransactionLine
     public function setInvoiceNumber(?string $invoiceNumber): self
     {
         if ($invoiceNumber !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
-            throw Exception::invalidFieldForLineType('invoiceNumber', $this);
+            throw Exception::invalidFieldForLineType('invoicenumber', $this);
         }
 
         return $this;
@@ -187,7 +187,7 @@ class JournalTransactionLine extends BaseTransactionLine
     public function setMatchLevel(?int $matchLevel): parent
     {
         if ($matchLevel !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
-            throw Exception::invalidFieldForLineType('matchLevel', $this);
+            throw Exception::invalidFieldForLineType('matchlevel', $this);
         }
 
         return parent::setMatchLevel($matchLevel);
@@ -219,7 +219,7 @@ class JournalTransactionLine extends BaseTransactionLine
     public function setPerformanceType(?PerformanceType $performanceType): self
     {
         if ($performanceType !== null && $this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('performanceType', $this);
+            throw Exception::invalidFieldForLineType('performancetype', $this);
         }
 
         return $this;
@@ -235,7 +235,7 @@ class JournalTransactionLine extends BaseTransactionLine
     public function setPerformanceCountry(?Country $performanceCountry): self
     {
         if ($performanceCountry !== null && $this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('performanceCountry', $this);
+            throw Exception::invalidFieldForLineType('performancecountry', $this);
         }
 
         return $this;
@@ -251,7 +251,7 @@ class JournalTransactionLine extends BaseTransactionLine
     public function setPerformanceVatNumber(?string $performanceVatNumber): self
     {
         if ($performanceVatNumber !== null && $this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('performanceVatNumber', $this);
+            throw Exception::invalidFieldForLineType('performancevatnumber', $this);
         }
 
         return $this;
@@ -267,7 +267,7 @@ class JournalTransactionLine extends BaseTransactionLine
     public function setPerformanceDate(?\DateTimeInterface $performanceDate): self
     {
         if ($performanceDate !== null && (!$this->getPerformanceType()->equals(PerformanceType::SERVICES()) || $this->getLineType()->equals(LineType::TOTAL()))) {
-            throw Exception::invalidFieldForLineType('performanceDate', $this);
+            throw Exception::invalidFieldForLineType('performancedate', $this);
         }
 
         return $this;
@@ -299,7 +299,7 @@ class JournalTransactionLine extends BaseTransactionLine
     public function setRepValueOpen(?Money $repValueOpen): parent
     {
         if ($repValueOpen !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
-            throw Exception::invalidFieldForLineType('repValueOpen', $this);
+            throw Exception::invalidFieldForLineType('repvalueopen', $this);
         }
 
         return parent::setRepValueOpen($repValueOpen);
