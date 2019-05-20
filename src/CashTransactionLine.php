@@ -3,7 +3,6 @@
 namespace PhpTwinfield;
 
 use Money\Money;
-use PhpTwinfield\Dummy;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Fields\PerformanceDateField;
 use PhpTwinfield\Fields\PerformanceTypeField;
@@ -90,11 +89,11 @@ class CashTransactionLine extends BaseTransactionLine
      *
      * If line type = vat empty.
      *
-     * @param Dummy|null $dim2
+     * @param $dim2
      * @return $this
      * @throws Exception
      */
-    public function setDim2(?Dummy $dim2): parent
+    public function setDim2($dim2): parent
     {
         if ($dim2 !== null && ($this->getLineType()->equals(LineType::VAT()) || $this->getLineType()->equals(LineType::TOTAL()))) {
             throw Exception::invalidDimensionForLineType(2, $this);
@@ -110,11 +109,11 @@ class CashTransactionLine extends BaseTransactionLine
      *
      * If line type = vat empty.
      *
-     * @param Dummy|null $dim3
+     * @param $dim3
      * @return $this
      * @throws Exception
      */
-    public function setDim3(?Dummy $dim3): parent
+    public function setDim3($dim3): parent
     {
         if ($dim3 !== null && ($this->getLineType()->equals(LineType::VAT()) || $this->getLineType()->equals(LineType::TOTAL()))) {
             throw Exception::invalidDimensionForLineType(3, $this);

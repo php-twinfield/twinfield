@@ -90,7 +90,6 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine1->getPerformanceCountry());
         $this->assertNull($detailLine1->getPerformanceVatNumber());
         $this->assertNull($detailLine1->getPerformanceDate());
-        $this->assertNull($detailLine1->getInvoiceNumber());
 
         $this->assertEquals(LineType::DETAIL(), $detailLine2->getLineType());
         $this->assertSame(2, $detailLine2->getId());
@@ -112,7 +111,6 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine2->getPerformanceCountry());
         $this->assertNull($detailLine2->getPerformanceVatNumber());
         $this->assertNull($detailLine2->getPerformanceDate());
-        $this->assertSame('11001770', $detailLine2->getInvoiceNumber());
     }
 
     public function testSendJournalTransactionWorks()
@@ -139,7 +137,6 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
             ->setDim1FromString('1300')
             ->setDim2FromString('1000')
             ->setValue(Money::EUR(43555))
-            ->setInvoiceNumber('11001770')
             ->setDescription('Invoice paid');
 
         $journalTransaction

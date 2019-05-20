@@ -3,7 +3,6 @@
 namespace PhpTwinfield;
 
 use Money\Money;
-use PhpTwinfield\Dummy;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Fields\Transaction\TransactionLine\BaselineField;
@@ -86,11 +85,11 @@ class PurchaseTransactionLine extends BaseTransactionLine
      *
      * If line type = vat the project or asset or empty.
      *
-     * @param Dummy|null $dim3
+     * @param $dim3
      * @return $this
      * @throws Exception
      */
-    public function setDim3(?Dummy $dim3): parent
+    public function setDim3($dim3): parent
     {
         if ($dim3 !== null && $this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidDimensionForLineType(3, $this);
