@@ -45,13 +45,13 @@ class ElectronicBankStatementDocumentUnitTest extends \PHPUnit\Framework\TestCas
             <transaction>
                 <type>N100</type>
                 <debitcredit>credit</debitcredit>
-                <value>151.00</value>
+                <value>151</value>
                 <description>Invoice 3722838</description>
             </transaction>
             <transaction>
                 <type>N999</type>
                 <debitcredit>debit</debitcredit>
-                <value>7.50</value>
+                <value>7.5</value>
                 <description>Costs *300</description>
             </transaction>
         </transactions>
@@ -78,8 +78,8 @@ XML
     <statement target="electronicstatements" importduplicate="1">
         <date>20171130</date>
         <currency>EUR</currency>
-        <startvalue>0.00</startvalue>
-        <closevalue>0.00</closevalue>
+        <startvalue>0</startvalue>
+        <closevalue>0</closevalue>
         <statementnumber>236</statementnumber>
         <transactions />
     </statement>

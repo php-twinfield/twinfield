@@ -10,8 +10,8 @@ use PhpTwinfield\Util;
  * Used by: MatchSet, PurchaseTransactionLine
  *
  * @package PhpTwinfield\Traits
- * @see Util::formatDateTime()
- * @see Util::parseDateTime()
+ * @see Util::formatDate()
+ * @see Util::parseDate()
  */
 trait MatchDateField
 {
@@ -34,7 +34,7 @@ trait MatchDateField
     public function getMatchDateToString(): ?string
     {
         if ($this->getMatchDate() != null) {
-            return Util::formatDateTime($this->getMatchDate());
+            return Util::formatDate($this->getMatchDate());
         } else {
             return null;
         }
@@ -58,7 +58,7 @@ trait MatchDateField
     public function setMatchDateFromString(?string $matchDateString)
     {
         if ((bool)strtotime($matchDateString)) {
-            return $this->setMatchDate(Util::parseDateTime($matchDateString));
+            return $this->setMatchDate(Util::parseDate($matchDateString));
         } else {
             return $this->setMatchDate(null);
         }

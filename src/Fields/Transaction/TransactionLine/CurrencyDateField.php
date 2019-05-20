@@ -10,8 +10,8 @@ use PhpTwinfield\Util;
  * Used by: BankTransactionLine, CashTransactionLine, JournalTransactionLine
  *
  * @package PhpTwinfield\Traits
- * @see Util::formatDateTime()
- * @see Util::parseDateTime()
+ * @see Util::formatDate()
+ * @see Util::parseDate()
  */
 trait CurrencyDateField
 {
@@ -34,7 +34,7 @@ trait CurrencyDateField
     public function getCurrencyDateToString(): ?string
     {
         if ($this->getCurrencyDate() != null) {
-            return Util::formatDateTime($this->getCurrencyDate());
+            return Util::formatDate($this->getCurrencyDate());
         } else {
             return null;
         }
@@ -58,7 +58,7 @@ trait CurrencyDateField
     public function setCurrencyDateFromString(?string $currencyDateString)
     {
         if ((bool)strtotime($currencyDateString)) {
-            return $this->setCurrencyDate(Util::parseDateTime($currencyDateString));
+            return $this->setCurrencyDate(Util::parseDate($currencyDateString));
         } else {
             return $this->setCurrencyDate(null);
         }
