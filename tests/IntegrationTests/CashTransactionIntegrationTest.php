@@ -66,7 +66,7 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($cashTransaction->getFreetext1());
         $this->assertNull($cashTransaction->getFreetext2());
         $this->assertNull($cashTransaction->getFreetext3());
-        $this->assertSame(4, $cashTransaction->getStatementnumber());
+        $this->assertSame(4, $cashTransaction->getStatementNumber());
         $this->assertTrue(Money::EUR(97401)->equals($cashTransaction->getStartValue()));
         $this->assertTrue(Money::EUR(140956)->equals($cashTransaction->getCloseValue()));
 
@@ -132,8 +132,8 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
             ->setCode('CASH')
             ->setCurrencyFromString('EUR')
             ->setDate(new DateTimeImmutable('2013-11-04'))
-            ->setStatementnumber(4)
-            ->setStartvalue(Money::EUR(97401));
+            ->setStatementNumber(4)
+            ->setStartValue(Money::EUR(97401));
 
         $totalLine = new CashTransactionLine();
         $totalLine

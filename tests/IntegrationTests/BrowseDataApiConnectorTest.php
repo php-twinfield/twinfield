@@ -37,7 +37,7 @@ class BrowseDataApiConnectorTest extends BaseIntegrationTest
 
         $this->assertInstanceOf(BrowseDefinition::class, $browseDefinition);
 
-        $this->assertEquals('001', $browseDefinition->getOfficeToCode());
+        $this->assertEquals('001', $browseDefinition->getOfficeToString());
         $this->assertEquals('000', $browseDefinition->getCode());
         $this->assertEquals('General ledger transactions', $browseDefinition->getName());
         $this->assertEquals('General ledger transactions', $browseDefinition->getShortName());

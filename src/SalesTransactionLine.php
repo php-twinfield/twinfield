@@ -117,7 +117,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setDim3(?Dummy $dim3): parent
     {
-        if ($dim3 !== null && ($this->getLineType()->equals(LineType::TOTAL()) || $this->getLineType()->equals(LineType::VAT())) {
+        if ($dim3 !== null && ($this->getLineType()->equals(LineType::TOTAL()) || $this->getLineType()->equals(LineType::VAT()))) {
             throw Exception::invalidDimensionForLineType(3, $this);
         }
 

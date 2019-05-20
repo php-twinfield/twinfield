@@ -64,7 +64,7 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($bankTransaction->getFreetext1());
         $this->assertNull($bankTransaction->getFreetext2());
         $this->assertNull($bankTransaction->getFreetext3());
-        $this->assertSame(4, $bankTransaction->getStatementnumber());
+        $this->assertSame(4, $bankTransaction->getStatementNumber());
         $this->assertTrue(Money::EUR(97401)->equals($bankTransaction->getStartValue()));
         $this->assertTrue(Money::EUR(140956)->equals($bankTransaction->getCloseValue()));
 
@@ -130,7 +130,7 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
             ->setCode('BNK')
             ->setCurrencyFromString('EUR')
             ->setDate(new DateTimeImmutable('2013-11-04'))
-            ->setStatementnumber(4)
+            ->setStatementNumber(4)
             ->setStartValue(Money::EUR(97401));
 
         $totalLine = new BankTransactionLine();

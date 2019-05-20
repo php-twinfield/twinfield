@@ -52,8 +52,8 @@ class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
     {
         $this->line->setLineType(LineType::DETAIL());
 
-        $this->assertEquals($this->line, $this->line->setDim2('test'), 'Fluid interface is expected');
-        $this->assertSame('test', $this->line->getDim2());
+        $this->assertEquals($this->line, $this->line->setDim2FromString('test'), 'Fluid interface is expected');
+        $this->assertSame('test', $this->line->getDim2ToString());
     }
 
     public function testCanNotSetDim2IfLineTypeIsNotDetail()
@@ -68,8 +68,8 @@ class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
     {
         $this->line->setLineType(LineType::DETAIL());
 
-        $this->assertEquals($this->line, $this->line->setDim3('test'), 'Fluid interface is expected');
-        $this->assertSame('test', $this->line->getDim3());
+        $this->assertEquals($this->line, $this->line->setDim3FromString('test'), 'Fluid interface is expected');
+        $this->assertSame('test', $this->line->getDim3ToString());
     }
 
     public function testCanNotSetDim3IfLineTypeIsNotDetail()

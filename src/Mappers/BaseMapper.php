@@ -10,7 +10,7 @@ use Webmozart\Assert\Assert;
 
 abstract class BaseMapper
 {
-    private static function checkForMessage($object, \DOMElement $element): void
+    protected static function checkForMessage($object, \DOMElement $element): void
     {
         if ($element->hasAttribute('msg')) {
             $message = new Message();
