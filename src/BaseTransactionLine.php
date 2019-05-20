@@ -91,9 +91,9 @@ abstract class BaseTransactionLine
     public function setVatBaseTurnover(?Money $vatBaseTurnover): self
     {
         if (!$this->getLineType()->equals(LineType::VAT())) {
-            throw Exception::invalidFieldForLineType('vatbaseturnover', $this);
+            throw Exception::invalidFieldForLineType('vatBaseTurnover', $this);
         }
-        
+
         return $this;
     }
 
@@ -138,9 +138,9 @@ abstract class BaseTransactionLine
     public function setVatRepTurnover(?Money $vatRepTurnover): self
     {
         if (!$this->getLineType()->equals(LineType::VAT())) {
-            throw Exception::invalidFieldForLineType('vatrepturnover', $this);
+            throw Exception::invalidFieldForLineType('vatRepTurnover', $this);
         }
-        
+
         return $this;
     }
 
@@ -169,9 +169,9 @@ abstract class BaseTransactionLine
     public function setVatTurnover(?Money $vatTurnover): self
     {
         if (!$this->getLineType()->equals(LineType::VAT())) {
-            throw Exception::invalidFieldForLineType('vatturnover', $this);
+            throw Exception::invalidFieldForLineType('vatTurnover', $this);
         }
-        
+
         return $this;
     }
 

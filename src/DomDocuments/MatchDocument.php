@@ -12,7 +12,7 @@ class MatchDocument extends BaseDocument
     {
         $set = $this->createElement("set");
 
-        $set->appendChild($this->createNodeWithTextContent('office', $transaction->getOfficeToString()));
+        $set->appendChild($this->createNodeWithTextContent('office', $matchSet->getOfficeToString()));
 
         $set->appendChild($this->createNodeWithTextContent("matchcode", $matchSet->getMatchCode()->getValue()));
 
