@@ -4,6 +4,7 @@ namespace PhpTwinfield;
 
 use Money\Money;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Enums\PerformanceType;
 use PhpTwinfield\Fields\PerformanceDateField;
 use PhpTwinfield\Fields\PerformanceTypeField;
 use PhpTwinfield\Fields\Transaction\InvoiceNumberField;

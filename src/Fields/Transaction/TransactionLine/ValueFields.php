@@ -5,6 +5,7 @@ namespace PhpTwinfield\Fields\Transaction\TransactionLine;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Util;
 use Webmozart\Assert\Assert;
 
 trait ValueFields

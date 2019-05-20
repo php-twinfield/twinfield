@@ -33,10 +33,10 @@ class CashTransaction extends BaseTransaction
     }
 
     /*
-     * @param CashTransactionLine $line
+     * @param $line
      * @return $this
      */
-    public function addLine(CashTransactionLine $line)
+    public function addLine($line)
     {
         parent::addLine($line);
 
