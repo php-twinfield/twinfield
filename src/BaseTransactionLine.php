@@ -82,22 +82,6 @@ abstract class BaseTransactionLine
     }
 
     /*
-     * Payment status of the transaction. If line type total or vat always notmatchable. Read-only attribute.
-     *
-     * @param MatchStatus|null $matchStatus
-     * @return $this
-     * @throws Exception
-     */
-    public function setMatchStatus(?MatchStatus $matchStatus): self
-    {
-        if ($matchStatus !== null && in_array($this->getLineType(), [LineType::TOTAL(), LineType::VAT()]) && $matchStatus != MatchStatus::NOTMATCHABLE()) {
-            throw Exception::invalidMatchStatusForLineType($matchStatus, $this);
-        }
-
-        return $this;
-    }
-
-    /*
      * Only if line type is vat. Amount on which VAT was calculated in base currency.
      *
      * @param Money|null $vatBaseTurnover

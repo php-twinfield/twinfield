@@ -5,6 +5,7 @@ namespace PhpTwinfield;
 use Money\Money;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Enums\PerformanceType;
+use PhpTwinfield\Enums\MatchStatus;
 use PhpTwinfield\Fields\PerformanceDateField;
 use PhpTwinfield\Fields\PerformanceTypeField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\CurrencyDateField;
@@ -151,6 +152,22 @@ class BankTransactionLine extends BaseTransactionLine
         }
 
         return parent::setMatchLevel($matchLevel);
+    }
+
+    /*
+     * Payment status of the transaction. If line type total or vat always notmatchable. Read-only attribute.
+     *
+     * @param MatchStatus|null $matchStatus
+     * @return $this
+     * @throws Exception
+     */
+    public function setMatchStatus(?MatchStatus $matchStatus): parent
+    {
+        if ($matchStatus !== null && in_array($this->getLineType(), [LineType::TOTAL(), LineType::VAT()]) && $matchStatus != MatchStatus::NOTMATCHABLE()) {
+            throw Exception::invalidMatchStatusForLineType($matchStatus, $this);
+        }
+
+        return parent::setMatchStatus($matchStatus);
     }
 
     /*

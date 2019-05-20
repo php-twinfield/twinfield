@@ -53,10 +53,10 @@ class TransactionsDocument extends BaseDocument
         $transactionElement->setAttribute('destiny', $transaction->getDestiny());
 
         if ($transaction->getRaiseWarning() !== null) {
-            $transactionElement->appendChild($this->createNodeWithTextContent('raisewarning', $transaction->getRaiseWarningToString()));
+            $transactionElement->setAttribute('raisewarning', $transaction->getRaiseWarningToString());
         }
         if ($transaction->getAutoBalanceVat() !== null) {
-            $transactionElement->appendChild($this->createNodeWithTextContent('autobalancevat', $transaction->getAutoBalanceVatToString()));
+            $transactionElement->setAttribute('autobalancevat', $transaction->getAutoBalanceVatToString());
         }
 
         $this->rootElement->appendChild($transactionElement);

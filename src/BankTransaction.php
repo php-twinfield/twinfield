@@ -53,9 +53,9 @@ class BankTransaction extends BaseTransaction
         }
 
         if ($line->getDebitCredit()->equals(DebitCredit::CREDIT())) {
-            $this->closeValue = $this->getCloseValue()->add($line->startValue());
+            $this->closeValue = $this->getCloseValue()->add($line->getStartValue());
         } else {
-            $this->closeValue = $this->getCloseValue()->subtract($line->startValue());
+            $this->closeValue = $this->getCloseValue()->subtract($line->getStartValue());
         }
 
         return $this;
