@@ -52,7 +52,7 @@ class CashTransaction extends BaseTransaction
             }
         }
 
-        if ($line->getDebitCredit()->equals(DebitCredit::CREDIT())) {.
+        if ($line->getDebitCredit()->equals(DebitCredit::CREDIT())) {
             $this->closeValue = $this->getCloseValue()->add($line->startValue());
         } else {
             $this->closeValue = $this->getCloseValue()->subtract($line->startValue());
