@@ -175,20 +175,4 @@ class BankTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
         $this->line->setLineType(LineType::DETAIL());
         $this->line->setVatRepTurnover(Money::EUR(100));
     }
-
-    public function testSetInvoiceNumber()
-    {
-        $this->line->setLineType(LineType::DETAIL());
-
-        $this->assertEquals($this->line, $this->line->setInvoiceNumber('11001770'), 'Fluid interface is expected');
-        $this->assertSame('11001770', $this->line->getInvoiceNumber());
-    }
-
-    public function testCanNotSetInvoiceNumberIfLineTypeIsNotDetail()
-    {
-        $this->expectExceptionMessage('Invalid field \'invoicenumber\' for line class PhpTwinfield\BankTransactionLine and type \'total\'.');
-
-        $this->line->setLineType(LineType::TOTAL());
-        $this->line->setInvoiceNumber('11001770');
-    }
 }

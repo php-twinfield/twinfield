@@ -256,13 +256,13 @@ class BankTransactionLine extends BaseTransactionLine
      * @return $this
      * @throws Exception
      */
-    public function setVatTotal(?Money $vatTotal): parent
+    public function setVatTotal(?Money $vatTotal): self
     {
         if ($vatTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('vatTotal', $this);
         }
 
-        return parent::setVatTotal($vatTotal);
+        return $this;
     }
 
     /*
@@ -272,13 +272,13 @@ class BankTransactionLine extends BaseTransactionLine
      * @return $this
      * @throws Exception
      */
-    public function setVatBaseTotal(?Money $vatBaseTotal): parent
+    public function setVatBaseTotal(?Money $vatBaseTotal): self
     {
         if ($vatBaseTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('vatBaseTotal', $this);
         }
 
-        return parent::setVatBaseTotal($vatBaseTotal);
+        return $this;
     }
 
     /*
@@ -288,12 +288,12 @@ class BankTransactionLine extends BaseTransactionLine
      * @return $this
      * @throws Exception
      */
-    public function setVatRepTotal(?Money $vatRepTotal): parent
+    public function setVatRepTotal(?Money $vatRepTotal): self
     {
         if ($vatRepTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('vatRepTotal', $this);
         }
 
-        return parent::setVatRepTotal($vatRepTotal);
+        return $this;
     }
 }

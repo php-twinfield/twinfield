@@ -4,6 +4,7 @@ namespace PhpTwinfield;
 
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Fields\CurrencyField;
 use PhpTwinfield\Fields\DateField;
 use PhpTwinfield\Fields\OfficeField;
 use PhpTwinfield\Fields\Transaction\CloseValueField;
@@ -17,6 +18,7 @@ use Webmozart\Assert\Assert;
 class ElectronicBankStatement
 {
     use CloseValueField;
+    use CurrencyField;
     use DateField;
     use OfficeField;
     use StartValueField;
