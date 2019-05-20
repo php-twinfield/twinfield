@@ -16,6 +16,7 @@ use PhpTwinfield\Fields\PerformanceTypeField;
 use PhpTwinfield\Fields\Transaction\InvoiceNumberField;
 use PhpTwinfield\Fields\Transaction\PaymentReferenceField;
 use PhpTwinfield\Fields\Transaction\StatementNumberField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\BaselineField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\FreeCharField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\PerformanceCountryField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\PerformanceVatNumberField;
@@ -256,11 +257,8 @@ class TransactionsDocument extends BaseDocument
                 $lineElement->appendChild($vatElement);
             }
 
-            $baseline = $transactionLine->getBaseline();
-
-            if (!empty($baseline)) {
-                $baselineElement = $this->createNodeWithTextContent('baseline', $baseline);
-                $lineElement->appendChild($baselineElement);
+             if (Util::objectUses(BaselineField::class, $transactionLine) && $transactionLine->getBaseline() !== null) {
+                $lineElement->appendChild($this->createNodeWithTextContent('baseline', $transactionLine->getBaseline()));
             }
 
             if ($transactionLine->getDescription() !== null) {

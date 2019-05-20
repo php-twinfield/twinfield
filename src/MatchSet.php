@@ -2,11 +2,14 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Enums\MatchCode;
 use PhpTwinfield\Fields\OfficeField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\MatchDateField;
 use Webmozart\Assert\Assert;
 
 class MatchSet
 {
+    use MatchDateField;
     use OfficeField;
 
     /**
@@ -15,49 +18,25 @@ class MatchSet
     private $matchCode;
 
     /**
-     * @var \DateTimeInterface
-     */
-    private $matchDate;
-
-    /**
      * @var MatchLine[]
      */
     private $lines = [];
 
     /**
-     * @return Enums\MatchCode
+     * @return MatchCode
      */
-    public function getMatchCode(): Enums\MatchCode
+    public function getMatchCode(): MatchCode
     {
         return $this->matchCode;
     }
 
     /**
-     * @param Enums\MatchCode $matchCode
+     * @param MatchCode $matchCode
      * @return $this
      */
-    public function setMatchCode(Enums\MatchCode $matchCode)
+    public function setMatchCode(MatchCode $matchCode)
     {
         $this->matchCode = $matchCode;
-
-        return $this;
-    }
-
-    /**
-     * @return \DateTimeInterface
-     */
-    public function getMatchDate(): \DateTimeInterface
-    {
-        return $this->matchDate;
-    }
-
-    /**
-     * @param \DateTimeInterface $matchDate
-     * @return $this
-     */
-    public function setMatchDate(\DateTimeInterface $matchDate)
-    {
-        $this->matchDate = $matchDate;
 
         return $this;
     }

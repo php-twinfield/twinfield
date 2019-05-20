@@ -7,7 +7,7 @@ use PhpTwinfield\Util;
 
 /**
  * Match date field
- * Used by: PurchaseTransactionLine
+ * Used by: MatchSet, PurchaseTransactionLine
  *
  * @package PhpTwinfield\Traits
  * @see Util::formatDateTime()
