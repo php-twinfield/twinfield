@@ -54,7 +54,7 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertInstanceOf(CashTransaction::class, $cashTransaction);
         $this->assertEquals(Destiny::TEMPORARY(), $cashTransaction->getDestiny());
-        $this->assertNull($cashTransaction->isAutoBalanceVat());
+        $this->assertNull($cashTransaction->getAutoBalanceVat());
         $this->assertSame(false, $cashTransaction->getRaiseWarning());
         $this->assertEquals(Office::fromCode('001'), $cashTransaction->getOffice());
         $this->assertSame('CASH', $cashTransaction->getCode());
@@ -101,7 +101,6 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame('1300', $detailLine->getDim1ToString());
         $this->assertSame('1000', $detailLine->getDim2ToString());
         $this->assertEquals(DebitCredit::CREDIT(), $detailLine->getDebitCredit());
-        $this->assertSame('11001770', $detailLine->getInvoiceNumber());
         $this->assertEquals(Money::EUR(43555), $detailLine->getValue());
         $this->assertEquals(Money::EUR(43555), $totalLine->getBaseValue());
         $this->assertSame(1.0, $totalLine->getRate());
@@ -149,7 +148,6 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
             ->setDim1FromString('1300')
             ->setDim2FromString('1000')
             ->setValue(Money::EUR(43555))
-            ->setInvoiceNumber('11001770')
             ->setDescription('Invoice paid');
 
         $cashTransaction

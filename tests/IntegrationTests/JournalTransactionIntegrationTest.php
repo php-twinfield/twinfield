@@ -51,7 +51,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertInstanceOf(JournalTransaction::class, $journalTransaction);
         $this->assertEquals(Destiny::TEMPORARY(), $journalTransaction->getDestiny());
-        $this->assertNull($journalTransaction->isAutoBalanceVat());
+        $this->assertNull($journalTransaction->getAutoBalanceVat());
         $this->assertNull($journalTransaction->getRaiseWarning());
         $this->assertEquals(Office::fromCode('0-0-1-NL-001'), $journalTransaction->getOffice());
         $this->assertSame('MEMO', $journalTransaction->getCode());

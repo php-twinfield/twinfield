@@ -50,7 +50,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertInstanceOf(SalesTransaction::class, $salesTransaction);
         $this->assertEquals(Destiny::TEMPORARY(), $salesTransaction->getDestiny());
-        $this->assertNull($salesTransaction->isAutoBalanceVat());
+        $this->assertNull($salesTransaction->getAutoBalanceVat());
         $this->assertSame(false, $salesTransaction->getRaiseWarning());
         $this->assertEquals(Office::fromCode('001'), $salesTransaction->getOffice());
         $this->assertSame('SLS', $salesTransaction->getCode());

@@ -50,7 +50,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertInstanceOf(PurchaseTransaction::class, $purchaseTransaction);
         $this->assertEquals(Destiny::TEMPORARY(), $purchaseTransaction->getDestiny());
-        $this->assertNull($purchaseTransaction->isAutoBalanceVat());
+        $this->assertNull($purchaseTransaction->getAutoBalanceVat());
         $this->assertSame(false, $purchaseTransaction->getRaiseWarning());
         $this->assertEquals(Office::fromCode('001'), $purchaseTransaction->getOffice());
         $this->assertSame('INK', $purchaseTransaction->getCode());

@@ -52,7 +52,7 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertInstanceOf(BankTransaction::class, $bankTransaction);
         $this->assertEquals(Destiny::TEMPORARY(), $bankTransaction->getDestiny());
-        $this->assertNull($bankTransaction->isAutoBalanceVat());
+        $this->assertNull($bankTransaction->getAutoBalanceVat());
         $this->assertSame(false, $bankTransaction->getRaiseWarning());
         $this->assertEquals(Office::fromCode('001'), $bankTransaction->getOffice());
         $this->assertSame('BNK', $bankTransaction->getCode());
@@ -99,7 +99,6 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame('1300', $detailLine->getDim1ToString());
         $this->assertSame('1000', $detailLine->getDim2ToString());
         $this->assertEquals(DebitCredit::CREDIT(), $detailLine->getDebitCredit());
-        $this->assertSame('11001770', $detailLine->getInvoiceNumber());
         $this->assertEquals(Money::EUR(43555), $detailLine->getValue());
         $this->assertEquals(Money::EUR(43555), $totalLine->getBaseValue());
         $this->assertSame(1.0, $totalLine->getRate());
@@ -147,7 +146,6 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
             ->setDim1FromString('1300')
             ->setDim2FromString('1000')
             ->setValue(Money::EUR(43555))
-            ->setInvoiceNumber('11001770')
             ->setDescription('Invoice paid');
 
         $bankTransaction

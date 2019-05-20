@@ -13,7 +13,7 @@ trait MatchStatusField
      */
     private $matchStatus;
 
-    public function getStatus(): ?MatchStatus
+    public function getMatchStatus(): ?MatchStatus
     {
         return $this->matchStatus;
     }

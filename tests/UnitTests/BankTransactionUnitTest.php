@@ -23,6 +23,7 @@ class BankTransactionUnitTest extends \PHPUnit\Framework\TestCase
     public function testSetStartValue()
     {
         $this->bankTransaction->setStartValue(Money::EUR(100));
+        $this->bankTransaction->setCurrencyFromString('EUR');
 
         $this->assertEquals('EUR', $this->bankTransaction->getCurrencyToString());
         $this->assertEquals(Money::EUR(100), $this->bankTransaction->getStartValue());

@@ -55,8 +55,8 @@ class TransactionsDocument extends BaseDocument
         if ($transaction->getRaiseWarning() !== null) {
             $transactionElement->appendChild($this->createNodeWithTextContent('raisewarning', $transaction->getRaiseWarningToString()));
         }
-        if ($transaction->isAutoBalanceVat() !== null) {
-            $transactionElement->appendChild($this->createNodeWithTextContent('autobalancevat', $transaction->isAutoBalanceVatToString()));
+        if ($transaction->getAutoBalanceVat() !== null) {
+            $transactionElement->appendChild($this->createNodeWithTextContent('autobalancevat', $transaction->getAutoBalanceVatToString()));
         }
 
         $this->rootElement->appendChild($transactionElement);
