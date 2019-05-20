@@ -2,11 +2,11 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Fields\CommentField;
 use PhpTwinfield\Fields\Dimensions\Level2\Customer\BaseCreditLimitField;
 use PhpTwinfield\Fields\Dimensions\Level2\Customer\BlockedField;
 use PhpTwinfield\Fields\Dimensions\Level2\Customer\BlockedLockedField;
 use PhpTwinfield\Fields\Dimensions\Level2\Customer\BlockedModifiedField;
-use PhpTwinfield\Fields\Dimensions\Level2\Customer\CommentField;
 use PhpTwinfield\Fields\Dimensions\Level2\Customer\FreeText1Field;
 use PhpTwinfield\Fields\Dimensions\Level2\Customer\ReminderEmailField;
 use PhpTwinfield\Fields\Dimensions\Level2\Customer\ResponsibleUserField;

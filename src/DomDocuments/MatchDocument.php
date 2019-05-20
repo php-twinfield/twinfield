@@ -12,11 +12,11 @@ class MatchDocument extends BaseDocument
     {
         $set = $this->createElement("set");
 
-        $this->appendOfficeField($set, $matchSet->getOffice());
+        $set->appendChild($this->createNodeWithTextContent('office', $transaction->getOfficeToString()));
 
         $set->appendChild($this->createNodeWithTextContent("matchcode", $matchSet->getMatchCode()->getValue()));
 
-        $this->appendDateElement($set, "matchdate", $matchSet->getMatchDate());
+        $set->appendChild($this->createNodeWithTextContent("matchdate", $matchSet->getMatchDateToString()));
 
         $lines = $this->createElement("lines");
 
@@ -33,9 +33,9 @@ class MatchDocument extends BaseDocument
     {
         $element = $this->createElement("line");
 
-        $element->appendChild($this->createNodeWithTextContent("transcode", $line->getTranscode()));
-        $element->appendChild($this->createNodeWithTextContent("transnumber", $line->getTransnumber()));
-        $element->appendChild($this->createNodeWithTextContent("transline", $line->getTransline()));
+        $element->appendChild($this->createNodeWithTextContent("transcode", $line->getTransCode()));
+        $element->appendChild($this->createNodeWithTextContent("transnumber", $line->getTransNumber()));
+        $element->appendChild($this->createNodeWithTextContent("transline", $line->getTransLine()));
 
         if ($line->getMatchValue() !== null) {
             $element->appendChild($this->createNodeWithTextContent("matchvalue", Util::formatMoney($line->getMatchValue())));

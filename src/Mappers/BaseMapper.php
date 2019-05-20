@@ -5,63 +5,21 @@ namespace PhpTwinfield\Mappers;
 use Money\Currency;
 use Money\Money;
 use PhpTwinfield\Message\Message;
-use PhpTwinfield\Office;
 use PhpTwinfield\Util;
 use Webmozart\Assert\Assert;
 
 abstract class BaseMapper
 {
-    /**
-     * @throws \PhpTwinfield\Exception
-     */
-    protected static function setFromTagValue(\DOMDocument $document, string $tag, callable $setter): void
+    private static function checkForMessage($object, \DOMElement $element): void
     {
-        $value = self::getValueFromTag($document, $tag);
+        if ($element->hasAttribute('msg')) {
+            $message = new Message();
+            $message->setType($element->getAttribute('msgtype'));
+            $message->setMessage($element->getAttribute('msg'));
+            $message->setField($element->nodeName);
 
-        if ($value === null) {
-            return;
+            $object->addMessage($message);
         }
-
-        if ($tag === "office") {
-            \call_user_func($setter, Office::fromCode($value));
-            return;
-        }
-
-        if ($tag === "date") {
-            \call_user_func($setter, Util::parseDate($value));
-            return;
-        }
-
-        if ($tag === "startvalue") {
-            $currency = new Currency(self::getValueFromTag($document, "currency"));
-
-            \call_user_func($setter, Util::parseMoney($value, $currency));
-
-            return;
-        }
-
-        \call_user_func($setter, $value);
-    }
-
-    protected static function getValueFromTag(\DOMDocument $document, string $tag): ?string
-    {
-        /** @var \DOMNodeList $nodelist */
-        $nodelist = $document->getElementsByTagName($tag);
-
-        if ($nodelist->length === 0) {
-            return null;
-        }
-
-        Assert::greaterThanEq($nodelist->length, 1);
-
-        /** @var \DOMElement $element */
-        $element = $nodelist[0];
-
-        if ("" === $element->textContent) {
-            return null;
-        }
-
-        return $element->textContent;
     }
 
     protected static function getAttribute(\DOMElement $element, string $fieldTagName, string $attributeName): ?string
@@ -96,18 +54,6 @@ abstract class BaseMapper
         }
 
         return $fieldElement->textContent;
-    }
-
-    private static function checkForMessage($object, \DOMElement $element): void
-    {
-        if ($element->hasAttribute('msg')) {
-            $message = new Message();
-            $message->setType($element->getAttribute('msgtype'));
-            $message->setMessage($element->getAttribute('msg'));
-            $message->setField($element->nodeName);
-
-            $object->addMessage($message);
-        }
     }
 
     protected static function parseBooleanAttribute(?string $value): ?bool

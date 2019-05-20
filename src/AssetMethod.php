@@ -40,6 +40,7 @@ class AssetMethod extends BaseObject
 
     private $balanceAccounts;
     private $profitLossAccounts;
+
     private $freeTexts = [];
 
     public function __construct()
@@ -81,10 +82,10 @@ class AssetMethod extends BaseObject
         return $this;
     }
 
-    public function removeFreeText($index)
+    public function removeFreeText($id)
     {
-        if (array_key_exists($index, $this->freeTexts)) {
-            unset($this->freeTexts[$index]);
+        if (array_key_exists($id, $this->freeTexts)) {
+            unset($this->freeTexts[$id]);
             return true;
         } else {
             return false;

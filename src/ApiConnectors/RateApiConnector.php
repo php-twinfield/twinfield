@@ -123,7 +123,7 @@ class RateApiConnector extends BaseApiConnector
 
         return $this->mapListAll("Rate", $response->data, $rateListAllTags);
     }
-    
+
     /**
      * Deletes a specific Rate based off the passed in code and optionally the office.
      *
@@ -136,8 +136,8 @@ class RateApiConnector extends BaseApiConnector
     public function delete(string $code, Office $office): Rate
     {
         $rate = self::get($code, $office);
-        
-        if ($rate->getResult() == 1) {        
+
+        if ($rate->getResult() == 1) {
             $rate->setStatusFromString("deleted");
 
             try {

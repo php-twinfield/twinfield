@@ -2,10 +2,11 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Fields\CodeField;
+
 class BrowseField
 {
-    /** @var string */
-    private $code;
+    use CodeField;
 
     /** @var string */
     private $dataType;
@@ -25,24 +26,6 @@ class BrowseField
     public function __construct()
     {
         $this->options = [];
-    }
-
-    /**
-     * @return string
-     */
-    public function getCode(): string
-    {
-        return $this->code;
-    }
-
-    /**
-     * @param string $code
-     * @return BrowseField
-     */
-    public function setCode(string $code): BrowseField
-    {
-        $this->code = $code;
-        return $this;
     }
 
     /**

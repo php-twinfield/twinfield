@@ -6,7 +6,7 @@ use PhpTwinfield\Currency;
 
 /**
  * The currency
- * Used by: CustomerPostingRule, Invoice, Rate, SupplierPostingRule
+ * Used by: BaseTransaction, CustomerPostingRule, Invoice, Rate, SupplierPostingRule
  *
  * @package PhpTwinfield\Traits
  */

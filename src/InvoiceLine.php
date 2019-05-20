@@ -9,8 +9,6 @@ use PhpTwinfield\Fields\FreeText3Field;
 use PhpTwinfield\Fields\IDField;
 use PhpTwinfield\Fields\Invoice\AllowDiscountOrPremiumField;
 use PhpTwinfield\Fields\Invoice\ArticleField;
-use PhpTwinfield\Fields\Invoice\PerformanceDateField;
-use PhpTwinfield\Fields\Invoice\PerformanceTypeField;
 use PhpTwinfield\Fields\Invoice\QuantityField;
 use PhpTwinfield\Fields\Invoice\SubArticleField;
 use PhpTwinfield\Fields\Invoice\UnitsField;
@@ -18,8 +16,10 @@ use PhpTwinfield\Fields\Invoice\UnitsPriceExclField;
 use PhpTwinfield\Fields\Invoice\UnitsPriceIncField;
 use PhpTwinfield\Fields\Invoice\ValueExclField;
 use PhpTwinfield\Fields\Invoice\ValueIncField;
-use PhpTwinfield\Fields\Invoice\VatValueField;
+use PhpTwinfield\Fields\PerformanceDateField;
+use PhpTwinfield\Fields\PerformanceTypeField;
 use PhpTwinfield\Fields\VatCodeField;
+use PhpTwinfield\Fields\VatValueField;
 
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices

@@ -38,7 +38,7 @@ class UserRoleMapper extends BaseMapper
         $userRole->setCode(self::getField($userRole, $userRoleElement, 'code'))
             ->setName(self::getField($userRole, $userRoleElement, 'name'))
             ->setShortName(self::getField($userRole, $userRoleElement, 'shortname'));
-        
+
         // Return the complete object
         return $userRole;
     }

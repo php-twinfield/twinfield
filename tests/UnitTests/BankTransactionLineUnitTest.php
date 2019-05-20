@@ -7,6 +7,7 @@ use Money\Money;
 use PhpTwinfield\BankTransaction;
 use PhpTwinfield\BankTransactionLine;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Enums\MatchStatus;
 use PhpTwinfield\SalesTransaction;
 
 class BankTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
@@ -83,8 +84,8 @@ class BankTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
     {
         $this->line->setLineType(LineType::DETAIL());
 
-        $this->assertEquals($this->line, $this->line->setMatchStatus(BankTransactionLine::MATCHSTATUS_MATCHED), 'Fluid interface is expected');
-        $this->assertSame(BankTransactionLine::MATCHSTATUS_MATCHED, $this->line->getMatchStatus());
+        $this->assertEquals($this->line, $this->line->setMatchStatus(MatchStatus::MATCHED()), 'Fluid interface is expected');
+        $this->assertSame(MatchStatus::MATCHED(), $this->line->getMatchStatus());
     }
 
     public function testCanNotSetMatchStatusOtherThanNotMatchableIfLineTypeIsNotDetail()
@@ -92,7 +93,7 @@ class BankTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
         $this->expectExceptionMessage('Invalid match status \'matched\' for line class PhpTwinfield\BankTransactionLine and type \'vat\'.');
 
         $this->line->setLineType(LineType::VAT());
-        $this->line->setMatchStatus(BankTransactionLine::MATCHSTATUS_MATCHED);
+        $this->line->setMatchStatus(MatchStatus::MATCHED());
     }
 
     public function testSetMatchLevel()

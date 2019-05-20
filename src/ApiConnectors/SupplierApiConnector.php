@@ -124,7 +124,7 @@ class SupplierApiConnector extends BaseApiConnector
 
         return $this->mapListAll("Supplier", $response->data, $supplierListAllTags);
     }
-    
+
     /**
      * Deletes a specific Supplier based off the passed in code and optionally the office.
      *
@@ -137,8 +137,8 @@ class SupplierApiConnector extends BaseApiConnector
     public function delete(string $code, Office $office): Supplier
     {
         $supplier = self::get($code, $office);
-        
-        if ($supplier->getResult() == 1) {        
+
+        if ($supplier->getResult() == 1) {
             $supplier->setStatusFromString("deleted");
 
             try {

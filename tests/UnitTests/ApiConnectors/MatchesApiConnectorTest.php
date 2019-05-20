@@ -87,15 +87,15 @@ class MatchesApiConnectorTest extends TestCase
         $this->assertCount(2, $lines);
 
         $line = $lines[0];
-        $this->assertEquals("VRK", $line->getTranscode());
-        $this->assertSame(201700103, $line->getTransnumber());
-        $this->assertSame(1, $line->getTransline());
+        $this->assertEquals("VRK", $line->getTransCode());
+        $this->assertSame(201700103, $line->getTransNumber());
+        $this->assertSame(1, $line->getTransLine());
         $this->assertEquals(Money::EUR(526), $line->getMatchValue());
 
         $line = $lines[1];
-        $this->assertEquals("DUM2", $line->getTranscode());
-        $this->assertSame(201700029, $line->getTransnumber());
-        $this->assertSame(79, $line->getTransline());
+        $this->assertEquals("DUM2", $line->getTransCode());
+        $this->assertSame(201700029, $line->getTransNumber());
+        $this->assertSame(79, $line->getTransLine());
         $this->assertEquals(Money::EUR(-526), $line->getMatchValue());
 
         /** @var MatchSet $matchSet */
@@ -113,15 +113,15 @@ class MatchesApiConnectorTest extends TestCase
         $this->assertCount(2, $lines);
 
         $line = $lines[0];
-        $this->assertEquals("VRK", $line->getTranscode());
-        $this->assertSame(201700100, $line->getTransnumber());
-        $this->assertSame(1, $line->getTransline());
+        $this->assertEquals("VRK", $line->getTransCode());
+        $this->assertSame(201700100, $line->getTransNumber());
+        $this->assertSame(1, $line->getTransLine());
         $this->assertEquals(Money::EUR(140), $line->getMatchValue());
 
         $line = $lines[1];
-        $this->assertEquals("DUM2", $line->getTranscode());
-        $this->assertSame(201700029, $line->getTransnumber());
-        $this->assertSame(64, $line->getTransline());
+        $this->assertEquals("DUM2", $line->getTransCode());
+        $this->assertSame(201700029, $line->getTransNumber());
+        $this->assertSame(64, $line->getTransLine());
         $this->assertEquals(Money::EUR(-140), $line->getMatchValue());
     }
 }

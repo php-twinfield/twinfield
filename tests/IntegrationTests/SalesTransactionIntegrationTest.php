@@ -2,13 +2,13 @@
 
 namespace PhpTwinfield\IntegrationTests;
 
-use Money\Currency;
 use Money\Money;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Enums\MatchStatus;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
@@ -56,7 +56,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame('SLS', $salesTransaction->getCode());
         $this->assertSame(201300095, $salesTransaction->getNumber());
         $this->assertSame('2013/05', $salesTransaction->getPeriod());
-        $this->assertEquals(new Currency('EUR'), $salesTransaction->getCurrency());
+        $this->assertEquals('EUR', $salesTransaction->getCurrencyToString());
         $this->assertEquals(new \DateTimeImmutable('2013-05-02'), $salesTransaction->getDate());
         $this->assertSame('import', $salesTransaction->getOrigin());
         $this->assertNull($salesTransaction->getFreetext1());
@@ -74,8 +74,8 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertEquals(LineType::TOTAL(), $totalLine->getLineType());
         $this->assertSame(1, $totalLine->getId());
-        $this->assertSame('1300', $totalLine->getDim1());
-        $this->assertSame('1000', $totalLine->getDim2());
+        $this->assertSame('1300', $totalLine->getDim1ToString());
+        $this->assertSame('1000', $totalLine->getDim2ToString());
         $this->assertEquals(DebitCredit::DEBIT(), $totalLine->getDebitCredit());
         $this->assertEquals(Money::EUR(12100), $totalLine->getValue());
         $this->assertEquals(Money::EUR(12100), $totalLine->getBaseValue());
@@ -83,7 +83,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(15653), $totalLine->getRepValue());
         $this->assertSame(1.293600000, $totalLine->getRepRate());
         $this->assertSame('', $totalLine->getDescription());
-        $this->assertSame(SalesTransactionLine::MATCHSTATUS_AVAILABLE, $totalLine->getMatchStatus());
+        $this->assertSame(MatchStatus::AVAILABLE(), $totalLine->getMatchStatus());
         $this->assertSame(2, $totalLine->getMatchLevel());
         $this->assertEquals(Money::EUR(12100), $totalLine->getBaseValueOpen());
         $this->assertNull($totalLine->getVatCode());
@@ -98,7 +98,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertEquals(LineType::DETAIL(), $detailLine->getLineType());
         $this->assertSame(2, $detailLine->getId());
-        $this->assertSame('8020', $detailLine->getDim1());
+        $this->assertSame('8020', $detailLine->getDim1ToString());
         $this->assertNull($detailLine->getDim2());
         $this->assertEquals(DebitCredit::CREDIT(), $detailLine->getDebitCredit());
         $this->assertEquals(Money::EUR(10000), $detailLine->getValue());
@@ -107,10 +107,10 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(12936), $detailLine->getRepValue());
         $this->assertSame(1.293600000, $detailLine->getRepRate());
         $this->assertSame('Outfit', $detailLine->getDescription());
-        $this->assertSame(SalesTransactionLine::MATCHSTATUS_NOTMATCHABLE, $detailLine->getMatchStatus());
+        $this->assertSame(MatchStatus::NOTMATCHABLE(), $detailLine->getMatchStatus());
         $this->assertNull($detailLine->getMatchLevel());
         $this->assertNull($detailLine->getBaseValueOpen());
-        $this->assertSame('VH', $detailLine->getVatCode());
+        $this->assertSame('VH', $detailLine->getVatCodeToString());
         $this->assertEquals(Money::EUR(2100), $detailLine->getVatValue());
         $this->assertNull($detailLine->getVatTotal());
         $this->assertNull($detailLine->getVatBaseTotal());
@@ -122,7 +122,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertEquals(LineType::VAT(), $vatLine->getLineType());
         $this->assertSame(3, $vatLine->getId());
-        $this->assertSame('1530', $vatLine->getDim1());
+        $this->assertSame('1530', $vatLine->getDim1ToString());
         $this->assertNull($vatLine->getDim2());
         $this->assertEquals(DebitCredit::CREDIT(), $vatLine->getDebitCredit());
         $this->assertEquals(Money::EUR(2100), $vatLine->getValue());
@@ -134,7 +134,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($vatLine->getMatchStatus());
         $this->assertNull($vatLine->getMatchLevel());
         $this->assertNull($vatLine->getBaseValueOpen());
-        $this->assertSame('VH', $vatLine->getVatCode());
+        $this->assertSame('VH', $vatLine->getVatCodeToString());
         $this->assertNull($vatLine->getVatValue());
         $this->assertNull($vatLine->getVatTotal());
         $this->assertNull($vatLine->getVatBaseTotal());
@@ -152,7 +152,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
             ->setDestiny(Destiny::TEMPORARY())
             ->setRaiseWarning(false)
             ->setCode('SLS')
-            ->setCurrency(new Currency('EUR'))
+            ->setCurrencyFromString('EUR')
             ->setDate(new \DateTimeImmutable('2013-05-02'))
             ->setPeriod('2013/05')
             ->setInvoiceNumber('20130-6000')
@@ -164,8 +164,8 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $totalLine
             ->setLineType(LineType::TOTAL())
             ->setId('1')
-            ->setDim1('1300')
-            ->setDim2('1000')
+            ->setDim1FromString('1300')
+            ->setDim2FromString('1000')
             ->setValue(Money::EUR(12100))
             ->setDescription('');
 
@@ -173,10 +173,10 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $detailLine
             ->setLineType(LineType::DETAIL())
             ->setId('2')
-            ->setDim1('8020')
+            ->setDim1FromString('8020')
             ->setValue(Money::EUR(10000))
             ->setDescription('Outfit')
-            ->setVatCode('VH');
+            ->setVatCodeFromString('VH');
 
         $salesTransaction
             ->addLine($totalLine)

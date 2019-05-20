@@ -3,16 +3,16 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\Dim1Field;
+use PhpTwinfield\Fields\Dim2Field;
+use PhpTwinfield\Fields\Dim3Field;
+use PhpTwinfield\Fields\Dim4Field;
 use PhpTwinfield\Fields\Dimensions\AmountField;
 use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\AmountLockedField;
 use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\CodeField;
 use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\CodeLockedField;
 use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim1LockedField;
-use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim2Field;
 use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim2LockedField;
-use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim3Field;
 use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim3LockedField;
-use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim4Field;
 use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim4LockedField;
 use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim5Field;
 use PhpTwinfield\Fields\Dimensions\Level34\FixedAsset\Dim5LockedField;

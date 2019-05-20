@@ -1,9 +1,9 @@
-## Usage
+# Usage
 
-### Authentication
+## Authentication
 You need to set up a `\PhpTwinfield\Secure\AuthenticatedConnection` class with your credentials.
 
-#### Session Login
+### Session Login
 **:warning: Note that Twinfield has stated that session login is deprecated and will be removed. End of life date will be announced later. See https://c3.twinfield.com/webservices/documentation/#/ApiReference/Authentication/WebServices**
 
 When using basic username and password authentication, the `\PhpTwinfield\Secure\WebservicesAuthentication` class should be used, as follows:
@@ -12,10 +12,10 @@ When using basic username and password authentication, the `\PhpTwinfield\Secure
 $connection = new Secure\WebservicesAuthentication("username", "password", "organization");
 ```
 
-#### OAuth2
+### OAuth2
 In order to use OAuth2 to authenticate with Twinfield, one should use the `\PhpTwinfield\Secure\Provider\OAuthProvider` to retrieve an `\League\OAuth2\Client\Token\AccessToken` object, and extract the refresh token from this object. Furthermore, it is required to set up a default `\PhpTwinfield\Office`, that will be used during requests to Twinfield. **Please note:** when a different office is specified when sending a request through one of the `ApiConnectors`, this Office will override the default.
 
-##### Request a client ID/Secret from Twinfield
+#### Request a client ID/Secret from Twinfield
 Go to the [Twinfield web site](https://www.twinfield.nl/openid-connect-request/) in order to register your OpenID Connect / OAuth 2.0 client and get your Client ID and Secret. Fill in your personal information en pick the following:
 * Flow: Authorization Code
 * Consent: Your choice
@@ -24,9 +24,9 @@ Go to the [Twinfield web site](https://www.twinfield.nl/openid-connect-request/)
 * Post logout URL: Your choice, can be left blank
 * Add more post logout URL's?: Your choice
 
-##### Grant Authorization and retrieve initial Access Token
-See [Authorization Example](examples/Authorization.php) for a complete example
-Also see [RenewAuthorization Example](examples/RenewAuthorization.php) for a complete example on how/when to request users to renew their authorization
+#### Grant Authorization and retrieve initial Access Token
+See [Authorization Example](examples/Authorization.php) for a complete example.
+Also see [RenewAuthorization Example](examples/RenewAuthorization.php) for a complete example on how/when to request users to renew their authorization.
 
 On loading a page containing the following code the user will be redirected to the Twinfield Login page.
 After successful login and optionally consent (see above) the user will be redirected back to the page at which point the Access Token and Refresh Token can be retrieved.
@@ -102,8 +102,8 @@ if (!isset($_GET['code'])) {
 }
 ```
 
-##### Optionally: Store a valid access token and cluster through a scheduled task/cron job running in the background
-See [RenewAccessToken Example](examples/RenewAccessToken.php) for a complete example
+#### Optionally: Store a valid access token and cluster through a scheduled task/cron job running in the background
+See [RenewAccessToken Example](examples/RenewAccessToken.php) for a complete example.
 
 Running the following code every 60 minutes (or a bit less as Access Tokens are valid for exactly 60 minutes) will reduce connection time when working with the Api (by about 2 seconds). It will also reduce connection load on Twinfield when making more than 20-30 connections/day.
 
@@ -135,8 +135,8 @@ if ($validationResult !== false) {
 }
 ```
 
-##### Connection
-See [Connection Example](examples/Connection.php) for a complete example
+#### Connection
+See [Connection Example](examples/Connection.php) for a complete example.
 
 Using the stored Refresh Token and optionally Access Token/Cluster, we can create an instance of the `\PhpTwinfield\Secure\OpenIdConnectAuthentication` class, as follows:
 
@@ -162,8 +162,8 @@ if ($accessTokenStorage['access_expiry'] > time()) {
 }
 ```
 
-### Getting data from the API
-See [Customer Example](examples/Customer.php) among others for a complete example
+## Getting data from the API
+See [Customer Example](examples/Customer.php) among others for a complete example.
 
 In order to communicate with the Twinfield API, you need to create an `ApiConnector` instance for the corresponding
 resource and use the `get()` or `list()` method.
@@ -173,8 +173,6 @@ The `ApiConnector` takes a `Secure\AuthenticatedConnection` object:
 An example:
 
 ```php
-
-$connection = new Secure\WebservicesAuthentication("username", "password", "organization");
 $customerApiConnector = new ApiConnectors\CustomerApiConnector($connection);
 
 // Get one customer.
@@ -185,13 +183,13 @@ $customer = $customerApiConnector->get('1001', $office);
 $customer = $customerApiConnector->listAll($office);
 ```
 
-### Creating or updating objects
-See [Customer Example](examples/Customer.php) among others for a complete example
+## Creating or updating objects
+See [Customer Example](examples/Customer.php) among others for a complete example.
 
 If you want to create or update a customer or any other object, it's just as easy:
 
 ```php
-$customer_factory = new ApiConnectors\CustomerApiConnector($connection);
+$customerApiConnector = new ApiConnectors\CustomerApiConnector($connection);
 
 // First, create the objects you want to send.
 $customer = new Customer();
@@ -201,8 +199,8 @@ $customer
     ->setOffice($office)
     ->setEBilling(false);
 
-$customer_address = new CustomerAddress();
-$customer_address
+$customerAddress = new CustomerAddress();
+$customerAddress
     ->setType('invoice')
     ->setDefault(false)
     ->setPostcode('1212 AB')
@@ -211,46 +209,46 @@ $customer_address
     ->setTelephone('010-12345')
     ->setFax('010-1234')
     ->setEmail('johndoe@example.com');
-$customer->addAddress($customer_address);
+$customer->addAddress($customerAddress);
 
 // And secondly, send it to Twinfield.
-$customer_factory->send($customer);
+$customerApiConnector->send($customer);
 ```
 
 You can also send multiple objects in one batch, chunking is handled automatically.
 
-### Browse data
-See [BrowseData Example](examples/BrowseData.php) for a complete example
+## Browse data
+See [BrowseData Example](examples/BrowseData.php) for a complete example.
 
 In order to get financial data out of Twinfield like general ledger transactions, sales invoices, and so on, you can use the the browse data functionality.
 More information about the browse data functionality in Twinfield can be found in the [documentation](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Request/BrowseData).
 
-#### Browse definition
+### Browse definition
 
 You can retrieve the browse definition of a browse code as follows.
 You don't need to retrieve the browse definition for getting the browse data. It's only for viewing the browse definition of a browse code to know exactly which columns are available.
 
 ```php
-$connector = new BrowseDataApiConnector($connection);
-$browseDefinition = $connector->getBrowseDefinition('000');
+$browseDataApiConnector = new BrowseDataApiConnector($connection);
+$browseDefinition = $browseDataApiConnector->getBrowseDefinition('000');
 ```
 
-#### Browse fields
+### Browse fields
 
 You can retrieve the browse fields as follows.
 You don't need to retrieve the browse fields for getting the browse data. It's only for viewing the definitions of all browse fields so you now what you can expect when retrieving browse data.
 
 ```php
-$connector = new BrowseDataApiConnector($connection);
-$browseFields = $connector->getBrowseFields();
+$browseDataApiConnector = new BrowseDataApiConnector($connection);
+$browseFields = $browseDataApiConnector->getBrowseFields();
 ```
 
-#### Browse data
+### Browse data
 
 You can retrieve browse data of a browse code as follows.
 
 ```php
-$connector = new BrowseDataApiConnector($connection);
+$browseDataApiConnector = new BrowseDataApiConnector($connection);
 
 // First, create the columns that you want to retrieve (see the browse definition for which columns are available)
 $columns[] = (new BrowseColumn())
@@ -305,5 +303,5 @@ $columns[] = (new BrowseColumn())
 $sortFields[] = new BrowseSortField('fin.trs.head.code');
 
 // Get the browse data
-$browseData = $connector->getBrowseData('000', $columns, $sortFields);
+$browseData = $browseDataApiConnector->getBrowseData('000', $columns, $sortFields);
 ```

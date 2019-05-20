@@ -2,10 +2,11 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Fields\CodeField;
+
 class BrowseDataHeader
 {
-    /** @var string */
-    private $code;
+    use CodeField;
 
     /** @var string */
     private $label;
@@ -15,24 +16,6 @@ class BrowseDataHeader
 
     /** @var string */
     private $type;
-
-    /**
-     * @return string
-     */
-    public function getCode(): string
-    {
-        return $this->code;
-    }
-
-    /**
-     * @param string $code
-     * @return BrowseDataHeader
-     */
-    public function setCode(string $code): BrowseDataHeader
-    {
-        $this->code = $code;
-        return $this;
-    }
 
     /**
      * @return string

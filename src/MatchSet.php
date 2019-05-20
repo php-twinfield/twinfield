@@ -2,7 +2,7 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Transactions\TransactionFields\OfficeField;
+use PhpTwinfield\Fields\OfficeField;
 use Webmozart\Assert\Assert;
 
 class MatchSet

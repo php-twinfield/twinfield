@@ -3,32 +3,38 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Enums\LineType;
-use PhpTwinfield\Transactions\TransactionLineFields\FourDimFields;
-use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
+use PhpTwinfield\Fields\Dim1Field;
+use PhpTwinfield\Fields\Dim2Field;
+use PhpTwinfield\Fields\Dim3Field;
+use PhpTwinfield\Fields\Dim4Field;
+use PhpTwinfield\Fields\Transaction\TransactionLine\ValueFields;
 
 class ElectronicBankStatementTransaction
 {
+    use Dim1Field;
+    use Dim2Field;
+    use Dim3Field;
+    use Dim4Field;
     use ValueFields;
-    use FourDimFields;
 
     /**
-     * Contra account number in BBAN format. Either use contraaccount or contraiban or leave empty.
+     * Contra account number in BBAN format. Either use contraAccount or contraIban or leave empty.
      *
      * @var string
      */
-    private $contraaccount;
+    private $contraAccount;
+
     /**
-     * Contra account number in IBAN format. Either use contraaccount or contraiban or leave empty.
+     * Contra account number in IBAN format. Either use contraAccount or contraIban or leave empty.
      *
      * @var string
      */
-    private $contraiban;
+    private $contraIban;
+
     /**
-     * Transaction type code.
-     *
      * @var string
      */
-    private $type;
+    private $description;
 
     /**
      * Reference for own use.
@@ -38,50 +44,32 @@ class ElectronicBankStatementTransaction
     private $reference;
 
     /**
+     * Transaction type code.
+     *
      * @var string
      */
-    private $description;
+    private $type;
 
-    public function getContraaccount(): ?string
+    public function getContraAccount(): ?string
     {
-        return $this->contraaccount;
+        return $this->contraAccount;
     }
 
-    public function setContraaccount(string $contraaccount): void
+    public function setContraAccount(string $contraAccount): void
     {
-        $this->contraaccount = $contraaccount;
-        $this->contraiban = null;
+        $this->contraAccount = $contraAccount;
+        $this->contraIban = null;
     }
 
-    public function getContraiban(): ?string
+    public function getContraIban(): ?string
     {
-        return $this->contraiban;
+        return $this->contraIban;
     }
 
-    public function setContraiban(string $contraiban): void
+    public function setContraIban(string $contraIban): void
     {
-        $this->contraiban = $contraiban;
-        $this->contraaccount = null;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): void
-    {
-        $this->type = $type;
-    }
-
-    public function getReference(): ?string
-    {
-        return $this->reference;
-    }
-
-    public function setReference(string $reference): void
-    {
-        $this->reference = $reference;
+        $this->contraIban = $contraIban;
+        $this->contraAccount = null;
     }
 
     public function getDescription(): string
@@ -100,6 +88,26 @@ class ElectronicBankStatementTransaction
          * Electronic bank statement transactions don't have line types.
          */
         return null;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(string $reference): void
+    {
+        $this->reference = $reference;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): void
+    {
+        $this->type = $type;
     }
 
     /**

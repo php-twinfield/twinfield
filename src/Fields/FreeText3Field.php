@@ -6,7 +6,7 @@ trait FreeText3Field
 {
     /**
      * Free text 3 field
-     * Used by: CustomerCreditManagement, FixedAssetFixedAssets, InvoiceLine
+     * Used by: BaseTransaction, CustomerCreditManagement, FixedAssetFixedAssets, InvoiceLine
      *
      * @var string|null
      */

@@ -14,10 +14,7 @@ final class MatchReference implements MatchReferenceInterface
      */
     private $lineId;
 
-    public static function fromBookingReference(
-        BookingReferenceInterface $bookingReference,
-        int $lineId
-    ): MatchReferenceInterface {
+    public static function fromBookingReference(BookingReferenceInterface $bookingReference, int $lineId): MatchReferenceInterface {
         return new self(
             $bookingReference->getOffice(),
             $bookingReference->getCode(),

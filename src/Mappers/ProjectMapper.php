@@ -32,7 +32,7 @@ class ProjectMapper extends BaseMapper
 
         // Gets the raw DOMDocument response.
         $responseDOM = $response->getResponseDocument();
-        
+
         // Get the root/project element
         $projectElement = $responseDOM->documentElement;
 

@@ -4,8 +4,6 @@ namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\ElectronicBankStatement;
 
-/**
- */
 class ElectronicBankStatementDocument extends BaseDocument
 {
     final protected function getRootTagName(): string
@@ -30,14 +28,14 @@ class ElectronicBankStatementDocument extends BaseDocument
             $statement->appendChild($this->createNodeWithTextContent("code", $electronicBankStatement->getCode()));
         }
 
-        $statement->appendChild($this->createNodeWithTextContent("date", $electronicBankStatement->getDate()->format("Ymd")));
-
-        $this->appendStartCloseValues($statement, $electronicBankStatement);
-
+        $statement->appendChild($this->createNodeWithTextContent("date", $electronicBankStatement->getDateToString()));
+        $statement->appendChild($this->createNodeWithTextContent("currency", $electronicBankStatement->getCurrencyToString()));
+        $statement->appendChild($this->createNodeWithTextContent("startvalue", $electronicBankStatement->getStartValueToFloat()));
+        $statement->appendChild($this->createNodeWithTextContent("closevalue", $electronicBankStatement->getCloseValueToFloat()));
         $statement->appendChild($this->createNodeWithTextContent("statementnumber", $electronicBankStatement->getStatementnumber()));
 
         if ($electronicBankStatement->getOffice()) {
-            $statement->appendChild($this->createNodeWithTextContent("office", $electronicBankStatement->getOffice()->getCode()));
+            $statement->appendChild($this->createNodeWithTextContent("office", $electronicBankStatement->getOfficeToString()));
         }
 
         $transactions = $this->createElement("transactions");
@@ -46,10 +44,10 @@ class ElectronicBankStatementDocument extends BaseDocument
 
             $node = $this->createElement("transaction");
 
-            if ($transaction->getContraaccount()) {
-                $node->appendChild($this->createNodeWithTextContent("contraaccount", $transaction->getContraaccount()));
-            } elseif ($transaction->getContraiban()) {
-                $node->appendChild($this->createNodeWithTextContent("contraiban", $transaction->getContraiban()));
+            if ($transaction->getContraAccount()) {
+                $node->appendChild($this->createNodeWithTextContent("contraaccount", $transaction->getContraAccount()));
+            } elseif ($transaction->getContraIban()) {
+                $node->appendChild($this->createNodeWithTextContent("contraiban", $transaction->getContraIban()));
             }
 
             $node->appendChild($this->createNodeWithTextContent("type", $transaction->getType()));
@@ -58,15 +56,14 @@ class ElectronicBankStatementDocument extends BaseDocument
                 $node->appendChild($this->createNodeWithTextContent("reference", $transaction->getReference()));
             }
 
-            $this->appendValueValues($node, $transaction);
-
+            $node->appendChild($this->createNodeWithTextContent('debitcredit', $transaction->getDebitCredit()));
+            $node->appendChild($this->createNodeWithTextContent('value', $transaction->getValueToFloat()));
             $node->appendChild($this->createNodeWithTextContent("description", $transaction->getDescription()));
 
             $transactions->appendChild($node);
         }
 
         $statement->appendChild($transactions);
-
         $this->rootElement->appendChild($statement);
     }
 }

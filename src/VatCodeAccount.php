@@ -2,12 +2,12 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Fields\IDField;
 use PhpTwinfield\Fields\Dim1Field;
+use PhpTwinfield\Fields\IDField;
+use PhpTwinfield\Fields\LineTypeField;
 use PhpTwinfield\Fields\PercentageField;
 use PhpTwinfield\Fields\VatCode\GroupCountryField;
 use PhpTwinfield\Fields\VatCode\GroupField;
-use PhpTwinfield\Fields\VatCode\LineTypeField;
 
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/VAT
@@ -15,8 +15,8 @@ use PhpTwinfield\Fields\VatCode\LineTypeField;
  */
 class VatCodeAccount extends BaseObject
 {
-    use IDField;
     use Dim1Field;
+    use IDField;
     use GroupCountryField;
     use GroupField;
     use LineTypeField;

@@ -124,7 +124,7 @@ class ActivityApiConnector extends BaseApiConnector
 
         return $this->mapListAll("Activity", $response->data, $activityArrayListAllTags);
     }
-    
+
     /**
      * Deletes a specific Activity based off the passed in code and optionally the office.
      *
@@ -137,8 +137,8 @@ class ActivityApiConnector extends BaseApiConnector
     public function delete(string $code, Office $office): Activity
     {
         $activity = self::get($code, $office);
-        
-        if ($activity->getResult() == 1) {        
+
+        if ($activity->getResult() == 1) {
             $activity->setStatusFromString("deleted");
 
             try {

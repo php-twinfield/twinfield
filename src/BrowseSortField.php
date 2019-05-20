@@ -3,11 +3,11 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Enums\Order;
+use PhpTwinfield\Fields\CodeField;
 
 class BrowseSortField
 {
-    /** @var string */
-    private $code;
+    use CodeField;
 
     /** @var Order|null */
     private $order;
@@ -22,22 +22,6 @@ class BrowseSortField
     {
         $this->code = $code;
         $this->order = $order;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCode(): string
-    {
-        return $this->code;
-    }
-
-    /**
-     * @param string $code
-     */
-    public function setCode(string $code): void
-    {
-        $this->code = $code;
     }
 
     /**

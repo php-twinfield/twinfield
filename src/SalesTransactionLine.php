@@ -3,27 +3,37 @@
 namespace PhpTwinfield;
 
 use Money\Money;
-use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Dummy;
 use PhpTwinfield\Enums\LineType;
-use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
-use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
-use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
-use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
+use PhpTwinfield\Fields\PerformanceDateField;
+use PhpTwinfield\Fields\PerformanceTypeField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\BaselineField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\PerformanceCountryField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\PerformanceVatNumberField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\ValueOpenField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\VatBaseTotalField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\VatRepTotalField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\VatTotalField;
 use Webmozart\Assert\Assert;
 
 class SalesTransactionLine extends BaseTransactionLine
 {
-    use VatTotalFields;
+    use BaselineField;
+    use PerformanceCountryField;
+    use PerformanceDateField;
+    use PerformanceTypeField;
+    use PerformanceVatNumberField;
     use ValueOpenField;
-    use PerformanceFields;
-    use FreeTextFields;
+    use VatBaseTotalField;
+    use VatRepTotalField;
+    use VatTotalField;
 
-    /**
+    /*
      * @var SalesTransaction
      */
     private $transaction;
 
-    /**
+    /*
      * @param SalesTransaction $object
      */
     public function setTransaction($object): void
@@ -33,7 +43,7 @@ class SalesTransactionLine extends BaseTransactionLine
         $this->transaction = $object;
     }
 
-    /**
+    /*
      * References the transaction this line belongs too.
      *
      * @return SalesTransaction
@@ -43,119 +53,29 @@ class SalesTransactionLine extends BaseTransactionLine
         return $this->transaction;
     }
 
-    /**
-     * If line type = total the accounts receivable balance account. When dim1 is omitted, by default the general ledger
-     * account will be taken as entered at the customer in Twinfield.
+    /*
+     * Only if line type is vat. The value of the baseline tag is a reference to the line ID of the VAT rate.
      *
-     * If line type = detail the profit and loss account.
-     *
-     * If line type = vat the VAT balance account. When an empty dim1 is entered, by default the general ledger account
-     * will be taken as entered at the VAT code in Twinfield.
-     *
-     * @param string|null $dim1
-     * @return $this
-     */
-    public function setDim1(?string $dim1): BaseTransactionLine
-    {
-        return parent::setDim1($dim1);
-    }
-
-    /**
-     * If line type = total the account receivable.
-     *
-     * If line type = detail the cost center or empty.
-     *
-     * If line type = vat empty.
-     *
-     * @param string|null $dim2
+     * @param int|null $baseline
      * @return $this
      * @throws Exception
      */
-    public function setDim2(?string $dim2): BaseTransactionLine
+    public function setBaseline(?int $baseline): self
     {
-        if ($dim2 !== null && $this->getLineType()->equals(LineType::VAT())) {
-            throw Exception::invalidDimensionForLineType(2, $this);
+        if (!$this->getLineType()->equals(LineType::VAT())) {
+            throw Exception::invalidFieldForLineType("baseline", $this);
         }
-
-        return parent::setDim2($dim2);
+        return parent::setBaseline($baseline);
     }
 
-    /**
-     * If line type = total
-     * - In case of a 'normal' sales transaction debit.
-     * - In case of a credit sales transaction credit.
-     *
-     * If line type = detail or vat
-     * - In case of a 'normal' sales transaction credit.
-     * - In case of a credit sales transaction debit.
-     *
-     * @param DebitCredit $debitCredit
-     * @return $this
-     */
-    public function setDebitCredit(DebitCredit $debitCredit): BaseTransactionLine
-    {
-        return parent::setDebitCredit($debitCredit);
-    }
-
-    /**
-     * If line type = total amount including VAT.
-     *
-     * If line type = detail amount without VAT.
-     *
-     * If line type = vat VAT amount.
-     *
-     * @param Money $value
-     * @return $this
-     */
-    public function setValue(Money $value): BaseTransactionLine
-    {
-        return parent::setValue($value);
-    }
-
-    /**
-     * Payment status of the sales transaction. If line type detail or vat always notmatchable. Read-only attribute.
-     *
-     * @param string|null $matchStatus
-     * @return $this
-     * @throws Exception
-     */
-    public function setMatchStatus(?string $matchStatus): BaseTransactionLine
-    {
-        if (
-            $matchStatus !== null &&
-            in_array($this->getLineType(), [LineType::DETAIL(), LineType::VAT()]) &&
-            $matchStatus != self::MATCHSTATUS_NOTMATCHABLE
-        ) {
-            throw Exception::invalidMatchStatusForLineType($matchStatus, $this);
-        }
-
-        return parent::setMatchStatus($matchStatus);
-    }
-
-    /**
-     * Only if line type is total. The level of the matchable dimension. Read-only attribute.
-     *
-     * @param int|null $matchLevel
-     * @return $this
-     * @throws Exception
-     */
-    public function setMatchLevel(?int $matchLevel): BaseTransactionLine
-    {
-        if ($matchLevel !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('matchLevel', $this);
-        }
-
-        return parent::setMatchLevel($matchLevel);
-    }
-
-    /**
+    /*
      * Only if line type is total. The amount still owed in base currency. Read-only attribute.
      *
      * @param Money|null $baseValueOpen
      * @return $this
      * @throws Exception
      */
-    public function setBaseValueOpen(?Money $baseValueOpen): BaseTransactionLine
+    public function setBaseValueOpen(?Money $baseValueOpen): parent
     {
         if ($baseValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('baseValueOpen', $this);
@@ -164,83 +84,47 @@ class SalesTransactionLine extends BaseTransactionLine
         return parent::setBaseValueOpen($baseValueOpen);
     }
 
-    /**
-     * If line type = detail the project or asset or empty.
+    /*
+     * If line type = total the account receivable.
      *
-     * @param string $dim3
+     * If line type = detail the cost center or empty.
+     *
+     * If line type = vat empty.
+     *
+     * @param Dummy|null $dim2
      * @return $this
      * @throws Exception
      */
-    public function setProjectAsset(string $dim3)
+    public function setDim2(?Dummy $dim2): parent
     {
-        if (!$this->getLineType()->equals(LineType::DETAIL())) {
+        if ($dim2 !== null && $this->getLineType()->equals(LineType::VAT())) {
+            throw Exception::invalidDimensionForLineType(2, $this);
+        }
+
+        return parent::setDim2($dim2);
+    }
+
+    /*
+     * If line type = total empty.
+     *
+     * If line type = detail the project or asset or empty.
+     *
+     * If line type = empty.
+     *
+     * @param Dummy|null $dim3
+     * @return $this
+     * @throws Exception
+     */
+    public function setDim3(?Dummy $dim3): parent
+    {
+        if ($dim3 !== null && ($this->getLineType()->equals(LineType::TOTAL()) || $this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidDimensionForLineType(3, $this);
         }
 
-        return $this->setDim3($dim3);
+        return parent::setDim3($dim3);
     }
 
-    /**
-     * Only if line type is vat. Amount on which VAT was calculated in the currency of the sales transaction.
-     *
-     * @param Money|null $vatTurnover
-     * @return $this
-     * @throws Exception
-     */
-    public function setVatTurnover(?Money $vatTurnover)
-    {
-        if (!$this->getLineType()->equals(LineType::VAT())) {
-            throw Exception::invalidFieldForLineType("vatturnover", $this);
-        }
-        return parent::setVatTurnOver($vatTurnover);
-    }
-
-    /**
-     * Only if line type is vat. Amount on which VAT was calculated in base currency.
-     *
-     * @param Money|null $vatBaseTurnover
-     * @return $this
-     * @throws Exception
-     */
-    public function setVatBaseTurnover(?Money $vatBaseTurnover)
-    {
-        if (!$this->getLineType()->equals(LineType::VAT())) {
-            throw Exception::invalidFieldForLineType("vatbaseturnover", $this);
-        }
-        return parent::setVatBaseTurnover($vatBaseTurnover);
-    }
-
-    /**
-     * Only if line type is vat. Amount on which VAT was calculated in reporting currency.
-     *
-     * @param Money|null $vatRepTurnover
-     * @return $this
-     * @throws Exception
-     */
-    public function setVatRepTurnover(?Money $vatRepTurnover)
-    {
-        if (!$this->getLineType()->equals(LineType::VAT())) {
-            throw Exception::invalidFieldForLineType("vatrepturnover", $this);
-        }
-        return parent::setVatRepTurnover($vatRepTurnover);
-    }
-
-    /**
-     * Only if line type is vat. The value of the baseline tag is a reference to the line ID of the VAT rate.
-     *
-     * @param int|null $baseline
-     * @return $this
-     * @throws Exception
-     */
-    public function setBaseline(?int $baseline)
-    {
-        if (!$this->getLineType()->equals(LineType::VAT())) {
-            throw Exception::invalidFieldForLineType("baseline", $this);
-        }
-        return parent::setBaseline($baseline);
-    }
-
-    /**
+    /*
      * Returns true if a positive amount in the TOTAL line means the amount is 'debit'. Examples of incoming transaction
      * types are Sales Transactions, Electronic Bank Statements and Bank Transactions.
      *
@@ -252,5 +136,181 @@ class SalesTransactionLine extends BaseTransactionLine
     protected function isIncomingTransactionType(): bool
     {
         return true;
+    }
+
+    /*
+     * Only if line type is total. The level of the matchable dimension. Read-only attribute.
+     *
+     * @param int|null $matchLevel
+     * @return $this
+     * @throws Exception
+     */
+    public function setMatchLevel(?int $matchLevel): parent
+    {
+        if ($matchLevel !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
+            throw Exception::invalidFieldForLineType('matchLevel', $this);
+        }
+
+        return parent::setMatchLevel($matchLevel);
+    }
+
+    /*
+     * Only if line type is detail or vat. Mandatory in case of an ICT VAT code. The performance type.
+     *
+     * @param PerformanceType|null $performanceType
+     * @return $this
+     * @throws Exception
+     */
+    public function setPerformanceType(?PerformanceType $performanceType): self
+    {
+        if ($performanceType !== null && $this->getLineType()->equals(LineType::TOTAL())) {
+            throw Exception::invalidFieldForLineType('performanceType', $this);
+        }
+
+        return parent::setPerformanceType($performanceType);
+    }
+
+    /*
+     * Only if line type is detail or vat. Mandatory in case of an ICT VAT code. The ISO country codes are used. If not added to the request, by default the country code of the customer will be taken.
+     *
+     * @param Country|null $performanceCountry
+     * @return $this
+     * @throws Exception
+     */
+    public function setPerformanceCountry(?Country $performanceCountry): self
+    {
+        if ($performanceCountry !== null && $this->getLineType()->equals(LineType::TOTAL())) {
+            throw Exception::invalidFieldForLineType('performanceCountry', $this);
+        }
+
+        return parent::setPerformanceCountry($performanceCountry);
+    }
+
+    /*
+     * Only if line type is detail or vat. Mandatory in case of an ICT VAT code. If not added to the request, by default the VAT number of the customer will be taken.
+     *
+     * @param string|null $performanceVatNumber
+     * @return $this
+     * @throws Exception
+     */
+    public function setPerformanceVatNumber(?string $performanceVatNumber): self
+    {
+        if ($performanceVatNumber !== null && $this->getLineType()->equals(LineType::TOTAL())) {
+            throw Exception::invalidFieldForLineType('performanceVatNumber', $this);
+        }
+
+        return parent::setPerformanceVatNumber($performanceVatNumber);
+    }
+
+    /*
+     * Only if line type is detail or vat. Mandatory in case of an ICT VAT code but only if performancetype is services.
+     *
+     * @param \DateTimeInterface|null $performanceDate
+     * @return $this
+     * @throws Exception
+     */
+    public function setPerformanceDate(?\DateTimeInterface $performanceDate): self
+    {
+        if ($performanceDate !== null && (!$this->getPerformanceType()->equals(PerformanceType::SERVICES()) || $this->getLineType()->equals(LineType::TOTAL()))) {
+            throw Exception::invalidFieldForLineType('performanceDate', $this);
+        }
+
+        return parent::setPerformanceDate($performanceDate);
+    }
+
+    /*
+     * Relation of the transaction. Only if line type is total. Read-only attribute.
+     *
+     * @param string|null $relation
+     * @return $this
+     * @throws Exception
+     */
+    public function setRelation(?string $relation): parent
+    {
+        if ($relation !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
+            throw Exception::invalidRelationForLineType($relation, $this);
+        }
+
+        return $this;
+    }
+
+    /*
+     * Only if line type is total. The amount still owed in reporting currency. Read-only attribute.
+     *
+     * @param Money|null $reValueOpen
+     * @return $this
+     * @throws Exception
+     */
+    public function setRepValueOpen(?Money $reValueOpen): parent
+    {
+        if ($reValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
+            throw Exception::invalidFieldForLineType('reValueOpen', $this);
+        }
+
+        return parent::setRepValueOpen($reValueOpen);
+    }
+
+    /*
+     * Only if line type is total. The amount still to be paid in the currency of the sales transaction. Read-only attribute.
+     *
+     * @param Money|null $valueOpen
+     * @return $this
+     * @throws Exception
+     */
+    public function setValueOpen(?Money $valueOpen): self
+    {
+        if ($valueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
+            throw Exception::invalidFieldForLineType('valueOpen', $this);
+        }
+
+        return parent::setValueOpen($valueOpen);
+    }
+
+    /*
+     * Only if line type is total. The total VAT amount in the currency of the sales transaction
+     *
+     * @param Money|null $vatValueOpen
+     * @return $this
+     * @throws Exception
+     */
+    public function setVatValueOpen(?Money $vatValueOpen): parent
+    {
+        if ($vatValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
+            throw Exception::invalidFieldForLineType('vatValueOpen', $this);
+        }
+
+        return parent::setVatValueOpen($vatValueOpen);
+    }
+
+    /*
+     * Only if line type is total. The total VAT amount in base currency.
+     *
+     * @param Money|null $vatBaseValueOpen
+     * @return $this
+     * @throws Exception
+     */
+    public function setVatBaseValueOpen(?Money $vatBaseValueOpen): parent
+    {
+        if ($vatBaseValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
+            throw Exception::invalidFieldForLineType('vatBaseValueOpen', $this);
+        }
+
+        return parent::setVatBaseValueOpen($vatBaseValueOpen);
+    }
+
+    /*
+     * Only if line type is total. The total VAT amount in reporting currency.
+     *
+     * @param Money|null $vatRepValueOpen
+     * @return $this
+     * @throws Exception
+     */
+    public function setVatRepValueOpen(?Money $vatRepValueOpen): parent
+    {
+        if ($vatRepValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
+            throw Exception::invalidFieldForLineType('vatRepValueOpen', $this);
+        }
+
+        return parent::setVatRepValueOpen($vatRepValueOpen);
     }
 }

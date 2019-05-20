@@ -55,6 +55,7 @@ class Supplier extends BaseObject
     use WebsiteField;
 
     private $financials;
+
     private $addresses = [];
     private $banks = [];
     private $postingRules = [];
@@ -92,10 +93,10 @@ class Supplier extends BaseObject
         return $this;
     }
 
-    public function removeAddress($index)
+    public function removeAddress($id)
     {
-        if (array_key_exists($index, $this->addresses)) {
-            unset($this->addresses[$index]);
+        if (array_key_exists($id, $this->addresses)) {
+            unset($this->addresses[$id]);
             return true;
         } else {
             return false;
@@ -113,10 +114,10 @@ class Supplier extends BaseObject
         return $this;
     }
 
-    public function removeBank($index)
+    public function removeBank($id)
     {
-        if (array_key_exists($index, $this->banks)) {
-            unset($this->banks[$index]);
+        if (array_key_exists($id, $this->banks)) {
+            unset($this->banks[$id]);
             return true;
         } else {
             return false;
@@ -134,10 +135,10 @@ class Supplier extends BaseObject
         return $this;
     }
 
-    public function removePostingRule($index)
+    public function removePostingRule($id)
     {
-        if (array_key_exists($index, $this->postingRules)) {
-            unset($this->postingRules[$index]);
+        if (array_key_exists($id, $this->postingRules)) {
+            unset($this->postingRules[$id]);
             return true;
         } else {
             return false;

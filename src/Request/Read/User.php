@@ -19,7 +19,7 @@ class User extends Read
     public function __construct($office = null, $code = null)
     {
         parent::__construct();
-        
+
         $this->add('type', 'user');
 
         if (null !== $office) {

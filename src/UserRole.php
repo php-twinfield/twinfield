@@ -15,6 +15,7 @@ use PhpTwinfield\Fields\ShortNameField;
 class UserRole
 {
     use CodeField;
+    use LevelField;
     use NameField;
     use ShortNameField;
 }

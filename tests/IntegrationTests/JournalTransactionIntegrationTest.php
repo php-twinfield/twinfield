@@ -2,13 +2,13 @@
 
 namespace PhpTwinfield\IntegrationTests;
 
-use Money\Currency;
 use Money\Money;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Enums\MatchStatus;
 use PhpTwinfield\JournalTransaction;
 use PhpTwinfield\JournalTransactionLine;
 use PhpTwinfield\Mappers\TransactionMapper;
@@ -57,7 +57,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame('MEMO', $journalTransaction->getCode());
         $this->assertSame(201300003, $journalTransaction->getNumber());
         $this->assertSame('2013/11', $journalTransaction->getPeriod());
-        $this->assertEquals(new Currency('EUR'), $journalTransaction->getCurrency());
+        $this->assertEquals('EUR', $journalTransaction->getCurrencyToString());
         $this->assertEquals(new \DateTimeImmutable('2013-11-04'), $journalTransaction->getDate());
         $this->assertSame('import', $journalTransaction->getOrigin());
         $this->assertNull($journalTransaction->getFreetext1());
@@ -72,7 +72,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertEquals(LineType::DETAIL(), $detailLine1->getLineType());
         $this->assertSame(1, $detailLine1->getId());
-        $this->assertSame('4008', $detailLine1->getDim1());
+        $this->assertSame('4008', $detailLine1->getDim1ToString());
         $this->assertNull($detailLine1->getDim2());
         $this->assertEquals(DebitCredit::DEBIT(), $detailLine1->getDebitCredit());
         $this->assertEquals(Money::EUR(43555), $detailLine1->getValue());
@@ -81,7 +81,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(65333), $detailLine1->getRepValue());
         $this->assertSame(1.500000000, $detailLine1->getRepRate());
         $this->assertNull($detailLine1->getDescription());
-        $this->assertSame(JournalTransactionLine::MATCHSTATUS_NOTMATCHABLE, $detailLine1->getMatchStatus());
+        $this->assertSame(MatchStatus::NOTMATCHABLE(), $detailLine1->getMatchStatus());
         $this->assertNull($detailLine1->getMatchLevel());
         $this->assertNull($detailLine1->getBaseValueOpen());
         $this->assertNull($detailLine1->getVatCode());
@@ -94,8 +94,8 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertEquals(LineType::DETAIL(), $detailLine2->getLineType());
         $this->assertSame(2, $detailLine2->getId());
-        $this->assertSame('1300', $detailLine2->getDim1());
-        $this->assertSame('1000', $detailLine2->getDim2());
+        $this->assertSame('1300', $detailLine2->getDim1ToString());
+        $this->assertSame('1000', $detailLine2->getDim2ToString());
         $this->assertEquals(DebitCredit::CREDIT(), $detailLine2->getDebitCredit());
         $this->assertEquals(Money::EUR(43555), $detailLine2->getValue());
         $this->assertEquals(Money::EUR(43555), $detailLine2->getBaseValue());
@@ -103,7 +103,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(65333), $detailLine2->getRepValue());
         $this->assertSame(1.500000000, $detailLine2->getRepRate());
         $this->assertSame('Invoice paid', $detailLine2->getDescription());
-        $this->assertSame(JournalTransactionLine::MATCHSTATUS_AVAILABLE, $detailLine2->getMatchStatus());
+        $this->assertSame(MatchStatus::AVAILABLE(), $detailLine2->getMatchStatus());
         $this->assertSame(2, $detailLine2->getMatchLevel());
         $this->assertEquals(Money::EUR(43555), $detailLine2->getBaseValueOpen());
         $this->assertNull($detailLine2->getVatCode());
@@ -121,7 +121,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $journalTransaction
             ->setDestiny(Destiny::TEMPORARY())
             ->setCode('MEMO')
-            ->setCurrency(new Currency('EUR'))
+            ->setCurrencyFromString('EUR')
             ->setDate(new \DateTimeImmutable('2013-11-04'))
             ->setOffice(Office::fromCode('001'));
 
@@ -129,15 +129,15 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $detailLine1
             ->setLineType(LineType::DETAIL())
             ->setId('1')
-            ->setDim1('4008')
+            ->setDim1FromString('4008')
             ->setValue(Money::EUR(-43555));
 
         $detailLine2 = new JournalTransactionLine();
         $detailLine2
             ->setLineType(LineType::DETAIL())
             ->setId('2')
-            ->setDim1('1300')
-            ->setDim2('1000')
+            ->setDim1FromString('1300')
+            ->setDim2FromString('1000')
             ->setValue(Money::EUR(43555))
             ->setInvoiceNumber('11001770')
             ->setDescription('Invoice paid');

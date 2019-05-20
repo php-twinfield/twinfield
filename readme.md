@@ -20,7 +20,8 @@ composer require 'league/oauth2-client'
 
 ## Usage
 
-See [Usage](usage.md)
+See [Usage](usage.md).
+For breaking changes since 2.6.2 see [Breaking Changes since 2.6.2](breaking262.md).
 
 ### Supported resources
 Not all resources from the Twinfield API are currently implemented. Feel free to create a pull request when you need

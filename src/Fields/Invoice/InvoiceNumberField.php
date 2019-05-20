@@ -8,23 +8,23 @@ trait InvoiceNumberField
      * Invoice number field
      * Used by: Invoice
      *
-     * @var int|null
+     * @var string|null
      */
     private $invoiceNumber;
 
     /**
-     * @return null|int
+     * @return null|string
      */
-    public function getInvoiceNumber(): ?int
+    public function getInvoiceNumber(): ?string
     {
         return $this->invoiceNumber;
     }
 
     /**
-     * @param null|int $invoiceNumber
+     * @param null|string $invoiceNumber
      * @return $this
      */
-    public function setInvoiceNumber(?int $invoiceNumber): self
+    public function setInvoiceNumber(?string $invoiceNumber): self
     {
         $this->invoiceNumber = $invoiceNumber;
         return $this;

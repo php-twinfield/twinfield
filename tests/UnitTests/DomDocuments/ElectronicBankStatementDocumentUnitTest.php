@@ -13,9 +13,9 @@ class ElectronicBankStatementDocumentUnitTest extends \PHPUnit\Framework\TestCas
     {
         $statement = new ElectronicBankStatement();
         $statement->setIban("NL91ABNA0417164300");
-        $statement->setStartvalue(Money::EUR(768));
+        $statement->setStartValue(Money::EUR(768));
         $statement->setDate(new \DateTimeImmutable("2013-11-08"));
-        $statement->setStatementnumber(2);
+        $statement->setStatementNumber(2);
 
         $transaction1 = new ElectronicBankStatementTransaction();
         $transaction1->setType("N100");
@@ -66,8 +66,8 @@ XML
         $statement = new ElectronicBankStatement();
         $statement->setImportDuplicate(true);
         $statement->setDate(new \DateTimeImmutable("2017-11-30"));
-        $statement->setStartvalue(Money::EUR(0));
-        $statement->setStatementnumber(236);
+        $statement->setStartValue(Money::EUR(0));
+        $statement->setStatementNumber(236);
 
         $domdocument = new ElectronicBankStatementDocument();
         $domdocument->addStatement($statement);
@@ -96,8 +96,8 @@ XML
         $statement = new ElectronicBankStatement();
         $statement->setImportDuplicate(true);
         $statement->setDate(new \DateTimeImmutable("2017-11-30"));
-        $statement->setStartvalue(Money::EUR(-1));
-        $statement->setStatementnumber(237);
+        $statement->setStartValue(Money::EUR(-1));
+        $statement->setStatementNumber(237);
 
         $domdocument = new ElectronicBankStatementDocument();
         $domdocument->addStatement($statement);

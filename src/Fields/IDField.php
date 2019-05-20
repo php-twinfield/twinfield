@@ -6,7 +6,7 @@ trait IDField
 {
     /**
      * ID field
-     * Used by: ArticleLine, AssetMethodFreeText, CustomerAddress, CustomerBank, CustomerPostingRule, InvoiceLine, RateRateChange, SupplierAddress, SupplierBank, SupplierPostingRule, VatCodeAccount
+     * Used by: ArticleLine, AssetMethodFreeText, BaseTransactionLine, CustomerAddress, CustomerBank, CustomerPostingRule, InvoiceLine, RateRateChange, SupplierAddress, SupplierBank, SupplierPostingRule, VatCodeAccount
      *
      * @var int|null
      */

@@ -1,10 +1,10 @@
 <?php
 namespace PhpTwinfield;
 
-use PhpTwinfield\Fields\Invoice\PerformanceDateField;
-use PhpTwinfield\Fields\Invoice\PerformanceTypeField;
-use PhpTwinfield\Fields\Invoice\VatValueField;
+use PhpTwinfield\Fields\PerformanceDateField;
+use PhpTwinfield\Fields\PerformanceTypeField;
 use PhpTwinfield\Fields\VatCodeField;
+use PhpTwinfield\Fields\VatValueField;
 
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices
@@ -14,6 +14,6 @@ class InvoiceVatLine extends BaseObject
 {
     use PerformanceDateField;
     use PerformanceTypeField;
-    use VatValueField;
     use VatCodeField;
+    use VatValueField;
 }

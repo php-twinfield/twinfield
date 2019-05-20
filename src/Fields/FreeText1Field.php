@@ -6,7 +6,7 @@ trait FreeText1Field
 {
     /**
      * Free text 1 field
-     * Used by: FixedAssetFixedAssets, InvoiceLine
+     * Used by: BaseTransaction, FixedAssetFixedAssets, InvoiceLine
      *
      * @var string|null
      */

@@ -45,6 +45,7 @@ class CustomerFinancials extends BaseObject
     use VatCodeFixedField;
 
     private $collectMandate;
+
     private $childValidations = [];
 
     public function __construct()

@@ -6,7 +6,7 @@ use PhpTwinfield\VatCode;
 
 /**
  * The VAT code
- * Used by: Activity, Article, CustomerFinancials, CustomerLine, FixedAssetFinancials, GeneralLedgerFinancials, InvoiceLine, InvoiceVatLine, Project, SupplierFinancials, SupplierLine
+ * Used by: Activity, Article, BaseTransactionLine, CustomerFinancials, CustomerLine, FixedAssetFinancials, GeneralLedgerFinancials, InvoiceLine, InvoiceVatLine, Project, SupplierFinancials, SupplierLine
  *
  * @package PhpTwinfield\Traits
  */

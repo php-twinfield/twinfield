@@ -6,7 +6,7 @@ use PhpTwinfield\User;
 
 /**
  * The user
- * Used by: AssetMethod, Office, Rate, VatCode, VatCodePercentage
+ * Used by: AssetMethod, BaseTransaction, Office, Rate, VatCode, VatCodePercentage
  *
  * @package PhpTwinfield\Traits
  */

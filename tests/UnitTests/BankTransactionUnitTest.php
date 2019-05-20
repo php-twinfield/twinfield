@@ -2,7 +2,6 @@
 namespace PhpTwinfield\UnitTests;
 
 use InvalidArgumentException;
-use Money\Currency;
 use Money\Money;
 use PhpTwinfield\BankTransaction;
 use PhpTwinfield\BankTransactionLine;
@@ -23,46 +22,46 @@ class BankTransactionUnitTest extends \PHPUnit\Framework\TestCase
 
     public function testSetStartValue()
     {
-        $this->bankTransaction->setStartvalue(Money::EUR(100));
+        $this->bankTransaction->setStartValue(Money::EUR(100));
 
-        $this->assertEquals(new Currency('EUR'), $this->bankTransaction->getCurrency());
-        $this->assertEquals(Money::EUR(100), $this->bankTransaction->getStartvalue());
-        $this->assertEquals(Money::EUR(100), $this->bankTransaction->getClosevalue());
+        $this->assertEquals('EUR', $this->bankTransaction->getCurrencyToString());
+        $this->assertEquals(Money::EUR(100), $this->bankTransaction->getStartValue());
+        $this->assertEquals(Money::EUR(100), $this->bankTransaction->getCloseValue());
     }
 
     public function testSetCurrencyWithoutStartValue()
     {
-        $this->bankTransaction->setCurrency(new Currency('EUR'));
-        $this->assertEquals(new Currency('EUR'), $this->bankTransaction->getCurrency());
+        $this->bankTransaction->setCurrencyFromString('EUR');
+        $this->assertEquals('EUR', $this->bankTransaction->getCurrencyToString());
     }
 
     public function testSetCurrencyWithZeroStartValue()
     {
         $this->bankTransaction->setStartvalue(Money::EUR(0));
-        $this->bankTransaction->setCurrency(new Currency('EUR'));
+        $this->bankTransaction->setCurrencyFromString('EUR');
 
-        $this->assertEquals(new Currency('EUR'), $this->bankTransaction->getCurrency());
+        $this->assertEquals('EUR', $this->bankTransaction->getCurrencyToString());
     }
 
     public function testSetCurrencyWithStartValue()
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->bankTransaction->setStartvalue(Money::EUR(100));
-        $this->bankTransaction->setCurrency(new Currency('EUR'));
+        $this->bankTransaction->setStartValue(Money::EUR(100));
+        $this->bankTransaction->setCurrencyFromString('EUR');
     }
 
     public function testAddLineWithWrongTransactionLine()
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->bankTransaction->setStartvalue(Money::EUR(100));
+        $this->bankTransaction->setStartValue(Money::EUR(100));
         $this->bankTransaction->addLine(new SalesTransactionLine());
     }
 
     public function testAddLineUpdatesCloseValue()
     {
-        $this->bankTransaction->setStartvalue(Money::EUR(100));
+        $this->bankTransaction->setStartValue(Money::EUR(100));
 
         $totalLine = new BankTransactionLine();
         $totalLine
@@ -83,6 +82,6 @@ class BankTransactionUnitTest extends \PHPUnit\Framework\TestCase
         $this->bankTransaction->addLine($detailLine1);
         $this->bankTransaction->addLine($detailLine2);
 
-        $this->assertEquals(Money::EUR(200), $this->bankTransaction->getClosevalue());
+        $this->assertEquals(Money::EUR(200), $this->bankTransaction->getCloseValue());
     }
 }
