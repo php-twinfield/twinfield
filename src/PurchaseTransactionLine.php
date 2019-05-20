@@ -211,11 +211,11 @@ class PurchaseTransactionLine extends BaseTransactionLine
     /*
      * Relation of the transaction. Only if line type is total. Read-only attribute.
      *
-     * @param string|null $relation
+     * @param int|null $relation
      * @return $this
      * @throws Exception
      */
-    public function setRelation(?string $relation): parent
+    public function setRelation(?int $relation): parent
     {
         if ($relation !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidRelationForLineType($relation, $this);

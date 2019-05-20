@@ -7,6 +7,7 @@ use PhpTwinfield\Fields\Transaction\InvoiceNumberField;
 use PhpTwinfield\Fields\Transaction\InvoiceNumberRaiseWarningField;
 use PhpTwinfield\Fields\Transaction\OriginReferenceField;
 use PhpTwinfield\Fields\Transaction\PaymentReferenceField;
+use PhpTwinfield\SalesTransactionLine;
 
 /*
  * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesTransactions
@@ -25,5 +26,16 @@ class SalesTransaction extends BaseTransaction
     public function getLineClassName(): string
     {
         return SalesTransactionLine::class;
+    }
+
+    /*
+     * @param SalesTransactionLine $line
+     * @return $this
+     */
+    public function addLine(SalesTransactionLine $line)
+    {
+        parent::addLine($line);
+
+        return $this;
     }
 }

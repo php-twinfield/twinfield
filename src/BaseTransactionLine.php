@@ -109,7 +109,7 @@ abstract class BaseTransactionLine
         if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType('vatbaseturnover', $this);
         }
-        return parent::setVatBaseTurnover($vatBaseTurnover);
+        return $this;
     }
 
     /*
@@ -155,7 +155,7 @@ abstract class BaseTransactionLine
         if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType('vatrepturnover', $this);
         }
-        return parent::setVatRepTurnover($vatRepTurnover);
+        return $this;
     }
 
     /*
@@ -186,7 +186,7 @@ abstract class BaseTransactionLine
         if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType('vatturnover', $this);
         }
-        return parent::setVatTurnover($vatTurnover);
+        return $this;
     }
 
     /*
