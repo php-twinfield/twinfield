@@ -228,7 +228,7 @@ class SalesTransactionLine extends BaseTransactionLine
     public function setRelation(?int $relation): parent
     {
         if ($relation !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidRelationForLineType($relation, $this);
+            throw Exception::invalidFieldForLineType('relation', $this);
         }
 
         return parent::setRelation($relation);
@@ -269,48 +269,48 @@ class SalesTransactionLine extends BaseTransactionLine
     /*
      * Only if line type is total. The total VAT amount in the currency of the sales transaction
      *
-     * @param Money|null $vatValueOpen
+     * @param Money|null $vatTotal
      * @return $this
      * @throws Exception
      */
-    public function setVatValueOpen(?Money $vatValueOpen): parent
+    public function setVatTotal(?Money $vatTotal): parent
     {
-        if ($vatValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('vatValueOpen', $this);
+        if ($vatTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
+            throw Exception::invalidFieldForLineType('vatTotal', $this);
         }
 
-        return parent::setVatValueOpen($vatValueOpen);
+        return parent::setVatTotal($vatTotal);
     }
 
     /*
      * Only if line type is total. The total VAT amount in base currency.
      *
-     * @param Money|null $vatBaseValueOpen
+     * @param Money|null $vatBaseTotal
      * @return $this
      * @throws Exception
      */
-    public function setVatBaseValueOpen(?Money $vatBaseValueOpen): parent
+    public function setVatBaseTotal(?Money $vatBaseTotal): parent
     {
-        if ($vatBaseValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('vatBaseValueOpen', $this);
+        if ($vatBaseTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
+            throw Exception::invalidFieldForLineType('vatBaseTotal', $this);
         }
 
-        return parent::setVatBaseValueOpen($vatBaseValueOpen);
+        return parent::setVatBaseTotal($vatBaseTotal);
     }
 
     /*
      * Only if line type is total. The total VAT amount in reporting currency.
      *
-     * @param Money|null $vatRepValueOpen
+     * @param Money|null $vatRepTotal
      * @return $this
      * @throws Exception
      */
-    public function setVatRepValueOpen(?Money $vatRepValueOpen): parent
+    public function setVatRepTotal(?Money $vatRepTotal): parent
     {
-        if ($vatRepValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('vatRepValueOpen', $this);
+        if ($vatRepTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
+            throw Exception::invalidFieldForLineType('vatRepTotal', $this);
         }
 
-        return parent::setVatRepValueOpen($vatRepValueOpen);
+        return parent::setVatRepTotal($vatRepTotal);
     }
 }

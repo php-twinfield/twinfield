@@ -266,7 +266,7 @@ class JournalTransactionLine extends BaseTransactionLine
     public function setRelation(?int $relation): parent
     {
         if ($relation !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
-            throw Exception::invalidRelationForLineType($relation, $this);
+            throw Exception::invalidFieldForLineType('relation', $this);
         }
 
         return parent::setRelation($relation);
