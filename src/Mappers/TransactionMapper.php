@@ -13,17 +13,17 @@ use PhpTwinfield\Fields\FreeText2Field;
 use PhpTwinfield\Fields\FreeText3Field;
 use PhpTwinfield\Fields\PerformanceDateField;
 use PhpTwinfield\Fields\PerformanceTypeField;
+use PhpTwinfield\Fields\Transaction\CloseAndStartValueFields;
 use PhpTwinfield\Fields\Transaction\InvoiceNumberField;
+use PhpTwinfield\Fields\Transaction\OriginReferenceField;
 use PhpTwinfield\Fields\Transaction\PaymentReferenceField;
+use PhpTwinfield\Fields\Transaction\RegimeField;
 use PhpTwinfield\Fields\Transaction\StatementNumberField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\BaselineField;
-use PhpTwinfield\Fields\Transaction\TransactionLine\CloseAndStartValueFields;
 use PhpTwinfield\Fields\Transaction\TransactionLine\CurrencyDateField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\MatchDateField;
-use PhpTwinfield\Fields\Transaction\TransactionLine\OriginReferenceField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\PerformanceCountryField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\PerformanceVatNumberField;
-use PhpTwinfield\Fields\Transaction\TransactionLine\RegimeField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\ValueOpenField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\VatBaseTotalField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\VatRepTotalField;
@@ -96,6 +96,10 @@ class TransactionMapper extends BaseMapper
             ->setNumber(self::getField($transaction, $transactionElement, 'number'))
             ->setPeriod(self::getField($transaction, $transactionElement, 'period'));
 
+        if (Util::objectUses(CloseAndStartValueFields::class, $transaction)) {
+            $transaction->setStartValueFromFloat(self::getField($transaction, $transactionElement, 'startvalue'));
+        }
+
         if (Util::objectUses(DueDateField::class, $transaction)) {
             $transaction->setDueDateFromString(self::getField($transaction, $transactionElement, 'duedate'));
         }
@@ -105,24 +109,20 @@ class TransactionMapper extends BaseMapper
             $transaction->setInvoiceNumberRaiseWarning(self::parseBooleanAttribute(self::getAttribute($transactionElement, 'invoicenumber', 'raisewarning')));
         }
 
-        if (Util::objectUses(PaymentReferenceField::class, $transaction)) {
-            $transaction->setPaymentReference(self::getField($transaction, $transactionElement, 'paymentreference'));
-        }
-
-        if (Util::objectUses(StatementNumberField::class, $transaction)) {
-            $transaction->setStatementnumber(self::getField($transaction, $transactionElement, 'statementnumber'));
-        }
-
         if (Util::objectUses(OriginReferenceField::class, $transaction)) {
             $transaction->setOriginReference(self::getField($transaction, $transactionElement, 'originreference'));
+        }
+
+        if (Util::objectUses(PaymentReferenceField::class, $transaction)) {
+            $transaction->setPaymentReference(self::getField($transaction, $transactionElement, 'paymentreference'));
         }
 
         if (Util::objectUses(RegimeField::class, $transaction)) {
             $transaction->setRegime(self::getField($transaction, $transactionElement, 'regime'));
         }
 
-        if (Util::objectUses(CloseAndStartValueFields::class, $transaction)) {
-            $transaction->setStartValueFromFloat(self::getField($transaction, $transactionElement, 'startvalue'));
+        if (Util::objectUses(StatementNumberField::class, $transaction)) {
+            $transaction->setStatementnumber(self::getField($transaction, $transactionElement, 'statementnumber'));
         }
 
         // Parse the transaction lines
