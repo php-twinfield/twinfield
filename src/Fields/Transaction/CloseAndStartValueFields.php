@@ -113,9 +113,9 @@ trait CloseAndStartValueFields
     public function setStartValueFromFloat(?float $startValueFloat)
     {
         if ((float)$startValueFloat) {
-            $this->setStartValue(Money::EUR(100 * $startValueFloat));
+            $this->setStartValue(new Money(100 * $startValueFloat, new \Money\Currency($this->getCurrencyToString())));
         } else {
-            $this->setStartValue(Money::EUR(0));
+            $this->setStartValue(new Money(0, new \Money\Currency($this->getCurrencyToString())));
         }
     }
 

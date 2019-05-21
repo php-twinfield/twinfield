@@ -124,7 +124,6 @@ class TransactionMapper extends BaseMapper
         }
 
         if ($transaction instanceof BankTransaction || $transaction instanceof CashTransaction) {
-            $transaction->setCloseValueFromFloat(self::getField($transaction, $transactionElement, 'closevalue'));
             $transaction->setStartValueFromFloat(self::getField($transaction, $transactionElement, 'startvalue'));
         }
 
