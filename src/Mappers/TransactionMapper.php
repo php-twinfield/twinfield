@@ -157,9 +157,9 @@ class TransactionMapper extends BaseMapper
                     ->setRate(self::getField($transaction, $lineElement, 'rate'))
                     ->setRepRate(self::getField($transaction, $lineElement, 'reprate'))
                     ->setRepValueFromFloat(self::getField($transaction, $lineElement, 'repvalue'));
-                    
+
                 $freeChar = self::getField($transaction, $lineElement, 'freechar');
-                
+
                 if ($freeChar !== null && strlen($freeChar) == 1) {
                     $transactionLine->setFreeChar($freeChar);
                 }
@@ -181,8 +181,10 @@ class TransactionMapper extends BaseMapper
                 }
 
                 if ($transaction instanceof PurchaseTransaction || $transaction instanceof SalesTransaction) {
-                    if (!($transaction instanceof SalesTransaction && $lineType == LineType::VAT())) {
+                    if ($lineType == LineType::DETAIL()) {
                         $transactionLine->setDim2FromString(self::getField($transaction, $lineElement, 'dim2'));
+                        $transactionLine->setDim3FromString(self::getField($transaction, $lineElement, 'dim3'));
+                    } elseif ($transaction instanceof PurchaseTransaction && $lineType == LineType::VAT()) {
                         $transactionLine->setDim3FromString(self::getField($transaction, $lineElement, 'dim3'));
                     }
 
