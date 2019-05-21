@@ -97,7 +97,10 @@ trait CloseAndStartValueFields
      */
     public function setStartValue(?Money $startValue): void
     {
-        $this->setCurrencyFromString($startValue->getCurrency());
+        $currency = new Currency();
+        $currency->setCode($startValue->getCurrency());
+
+        $this->currency = $currency;
         $this->startValue = $startValue;
         $this->closeValue = $startValue;
     }
