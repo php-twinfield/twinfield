@@ -41,14 +41,14 @@ trait UserField
     }
 
     /**
-     * @param string|null $userCode
+     * @param string|null $userString
      * @return $this
      * @throws Exception
      */
-    public function setUserFromString(?string $userCode)
+    public function setUserFromString(?string $userString)
     {
         $user = new User();
-        $user->setCode($userCode);
+        $user->setCode($userString);
         return $this->setUser($user);
     }
 }

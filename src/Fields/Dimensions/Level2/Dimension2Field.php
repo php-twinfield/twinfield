@@ -41,14 +41,14 @@ trait Dimension2Field
     }
 
     /**
-     * @param string|null $dimension2Code
+     * @param string|null $dimension2String
      * @return $this
      * @throws Exception
      */
-    public function setDimension2FromString(?string $dimension2Code)
+    public function setDimension2FromString(?string $dimension2String)
     {
         $dimension2 = new CostCenter();
-        $dimension2->setCode($dimension2Code);
+        $dimension2->setCode($dimension2String);
         return $this->setDimension2($dimension2);
     }
 }

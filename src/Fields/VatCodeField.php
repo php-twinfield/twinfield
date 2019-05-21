@@ -41,14 +41,14 @@ trait VatCodeField
     }
 
     /**
-     * @param string|null $vatCodeCode
+     * @param string|null $vatCodeString
      * @return $this
      * @throws Exception
      */
-    public function setVatCodeFromString(?string $vatCodeCode)
+    public function setVatCodeFromString(?string $vatCodeString)
     {
         $vatCode = new VatCode();
-        $vatCode->setCode($vatCodeCode);
+        $vatCode->setCode($vatCodeString);
         return $this->setVatCode($vatCode);
     }
 }

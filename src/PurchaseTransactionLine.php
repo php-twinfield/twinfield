@@ -60,6 +60,9 @@ class PurchaseTransactionLine extends BaseTransactionLine
         if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType("baseline", $this);
         }
+
+        $this->baseline = $baseline;
+
         return $this;
     }
 
@@ -126,6 +129,8 @@ class PurchaseTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('matchdate', $this);
         }
 
+        $this->matchDate = $matchDate;
+
         return $this;
     }
 
@@ -144,7 +149,7 @@ class PurchaseTransactionLine extends BaseTransactionLine
 
         return parent::setMatchLevel($matchLevel);
     }
-    
+
     /*
      * Payment status of the transaction. If line type detail or vat always notmatchable. Read-only attribute.
      *
@@ -206,6 +211,8 @@ class PurchaseTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('valueopen', $this);
         }
 
+        $this->valueOpen = $valueOpen;
+
         return $this;
     }
 
@@ -221,6 +228,8 @@ class PurchaseTransactionLine extends BaseTransactionLine
         if ($vatTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('vattotal', $this);
         }
+
+        $this->vatTotal = $vatTotal;
 
         return $this;
     }
@@ -238,6 +247,8 @@ class PurchaseTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('vatbasetotal', $this);
         }
 
+        $this->vatBaseTotal = $vatBaseTotal;
+
         return $this;
     }
 
@@ -253,6 +264,8 @@ class PurchaseTransactionLine extends BaseTransactionLine
         if ($vatRepTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('vatreptotal', $this);
         }
+
+        $this->vatRepTotal = $vatRepTotal;
 
         return $this;
     }

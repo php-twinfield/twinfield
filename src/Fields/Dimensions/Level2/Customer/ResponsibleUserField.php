@@ -41,14 +41,14 @@ trait ResponsibleUserField
     }
 
     /**
-     * @param string|null $responsibleUserCode
+     * @param string|null $responsibleUserString
      * @return $this
      * @throws Exception
      */
-    public function setResponsibleUserFromString(?string $responsibleUserCode)
+    public function setResponsibleUserFromString(?string $responsibleUserString)
     {
         $responsibleUser = new User();
-        $responsibleUser->setCode($responsibleUserCode);
+        $responsibleUser->setCode($responsibleUserString);
         return $this->setResponsibleUser($responsibleUser);
     }
 }

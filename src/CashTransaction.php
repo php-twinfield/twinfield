@@ -41,6 +41,7 @@ class CashTransaction extends BaseTransaction
     public function setCurrency(?Currency $currency): parent
     {
         $this->traitSetCurrency($currency);
+
         return $this;
     }
 

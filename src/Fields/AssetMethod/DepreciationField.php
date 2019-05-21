@@ -41,14 +41,14 @@ trait DepreciationField
     }
 
     /**
-     * @param string|null $depreciationCode
+     * @param string|null $depreciationString
      * @return $this
      * @throws Exception
      */
-    public function setDepreciationFromString(?string $depreciationCode)
+    public function setDepreciationFromString(?string $depreciationString)
     {
         $depreciation = new GeneralLedger();
-        $depreciation->setCode($depreciationCode);
+        $depreciation->setCode($depreciationString);
         return $this->setDepreciation($depreciation);
     }
 }

@@ -41,14 +41,14 @@ trait ToBeInvoicedField
     }
 
     /**
-     * @param string|null $toBeInvoicedCode
+     * @param string|null $toBeInvoicedString
      * @return $this
      * @throws Exception
      */
-    public function setToBeInvoicedFromString(?string $toBeInvoicedCode)
+    public function setToBeInvoicedFromString(?string $toBeInvoicedString)
     {
         $toBeInvoiced = new GeneralLedger();
-        $toBeInvoiced->setCode($toBeInvoicedCode);
+        $toBeInvoiced->setCode($toBeInvoicedString);
         return $this->setToBeInvoiced($toBeInvoiced);
     }
 }

@@ -41,14 +41,14 @@ trait RoleField
     }
 
     /**
-     * @param string|null $roleCode
+     * @param string|null $roleString
      * @return $this
      * @throws Exception
      */
-    public function setRoleFromString(?string $roleCode)
+    public function setRoleFromString(?string $roleString)
     {
         $role = new UserRole();
-        $role->setCode($roleCode);
+        $role->setCode($roleString);
         return $this->setRole($role);
     }
 }

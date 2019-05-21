@@ -41,14 +41,14 @@ trait Dim6Field
     }
     
     /**
-     * @param string|null $dim6Code
+     * @param string|null $dim6String
      * @return $this
      * @throws Exception
      */
-    public function setDim6FromString(?string $dim6Code)
+    public function setDim6FromString(?string $dim6String)
     {
         $dim6 = new Dummy();
-        $dim6->setCode($dim6Code);
+        $dim6->setCode($dim6String);
         return $this->setDim6($dim6);
     }
 }

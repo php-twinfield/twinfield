@@ -41,14 +41,14 @@ trait SubArticleField
     }
 
     /**
-     * @param string|null $subArticleCode
+     * @param string|null $subArticleString
      * @return $this
      * @throws Exception
      */
-    public function setSubArticleFromString(?string $subArticleCode)
+    public function setSubArticleFromString(?string $subArticleString)
     {
         $subArticle = new ArticleLine();
-        $subArticle->setSubCode($subArticleCode);
+        $subArticle->setSubCode($subArticleString);
         return $this->setSubArticle($subArticle);
     }
 }

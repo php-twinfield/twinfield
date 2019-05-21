@@ -40,14 +40,14 @@ trait DestOfficeField
     }
 
     /**
-     * @param string|null $officeCode
+     * @param string|null $officeString
      * @return $this
      * @throws Exception
      */
-    public function setDestOfficeFromString(?string $officeCode)
+    public function setDestOfficeFromString(?string $officeString)
     {
         $destOffice = new Office();
-        $destOffice->setCode($officeCode);
+        $destOffice->setCode($officeString);
         return $this->setDestOffice($destOffice);
     }
 }

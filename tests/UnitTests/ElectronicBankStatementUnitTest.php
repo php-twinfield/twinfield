@@ -16,7 +16,7 @@ class ElectronicBankStatementUnitTest extends TestCase
         $ebs = new ElectronicBankStatement();
         $ebs->setCurrencyFromString("HUF");
 
-        $this->assertEquals("HUF", $ebs->getCurrency());
+        $this->assertEquals("HUF", $ebs->getCurrencyToCode());
     }
 
     /**

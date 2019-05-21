@@ -41,14 +41,14 @@ trait CurrencyField
     }
 
     /**
-     * @param string|null $currencyCode
+     * @param string|null $currencyString
      * @return $this
      * @throws Exception
      */
-    public function setCurrencyFromString(?string $currencyCode)
+    public function setCurrencyFromString(?string $currencyString)
     {
         $currency = new Currency();
-        $currency->setCode($currencyCode);
+        $currency->setCode($currencyString);
         return $this->setCurrency($currency);
     }
 }

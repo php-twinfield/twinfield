@@ -81,6 +81,8 @@ class CashTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('currencydate', $this);
         }
 
+        $this->currencyDate = $currencyDate;
+
         return $this;
     }
 
@@ -183,6 +185,8 @@ class CashTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performancetype', $this);
         }
 
+        $this->performanceType = $performanceType;
+
         return $this;
     }
 
@@ -198,6 +202,8 @@ class CashTransactionLine extends BaseTransactionLine
         if ($performanceCountry !== null && $this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('performancecountry', $this);
         }
+
+        $this->performanceCountry = $performanceCountry;
 
         return $this;
     }
@@ -215,6 +221,8 @@ class CashTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performancevatnumber', $this);
         }
 
+        $this->performanceVatNumber = $performanceVatNumber;
+
         return $this;
     }
 
@@ -230,6 +238,8 @@ class CashTransactionLine extends BaseTransactionLine
         if ($performanceDate !== null && (!$this->getPerformanceType()->equals(PerformanceType::SERVICES()) || $this->getLineType()->equals(LineType::TOTAL()))) {
             throw Exception::invalidFieldForLineType('performancedate', $this);
         }
+
+        $this->performanceDate = $performanceDate;
 
         return $this;
     }
@@ -279,6 +289,8 @@ class CashTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('vattotal', $this);
         }
 
+        $this->vatTotal = $vatTotal;
+
         return $this;
     }
 
@@ -295,6 +307,8 @@ class CashTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('vatbasetotal', $this);
         }
 
+        $this->vatBaseTotal = $vatBaseTotal;
+
         return $this;
     }
 
@@ -310,6 +324,8 @@ class CashTransactionLine extends BaseTransactionLine
         if ($vatRepTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('vatreptotal', $this);
         }
+
+        $this->vatRepTotal = $vatRepTotal;
 
         return $this;
     }

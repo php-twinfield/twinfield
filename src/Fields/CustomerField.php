@@ -41,14 +41,14 @@ trait CustomerField
     }
 
     /**
-     * @param string|null $customerCode
+     * @param string|null $customerString
      * @return $this
      * @throws Exception
      */
-    public function setCustomerFromString(?string $customerCode)
+    public function setCustomerFromString(?string $customerString)
     {
         $customer = new Customer();
-        $customer->setCode($customerCode);
+        $customer->setCode($customerString);
         return $this->setCustomer($customer);
     }
 }

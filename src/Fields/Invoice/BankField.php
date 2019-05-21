@@ -41,14 +41,14 @@ trait BankField
     }
 
     /**
-     * @param string|null $bankCode
+     * @param string|null $bankString
      * @return $this
      * @throws Exception
      */
-    public function setBankFromString(?string $bankCode)
+    public function setBankFromString(?string $bankString)
     {
         $bank = new CashBankBook();
-        $bank->setCode($bankCode);
+        $bank->setCode($bankString);
         return $this->setBank($bank);
     }
 }

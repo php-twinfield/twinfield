@@ -41,14 +41,14 @@ trait PurchaseValueGroupField
     }
 
     /**
-     * @param string|null $purchaseValueGroupCode
+     * @param string|null $purchaseValueGroupString
      * @return $this
      * @throws Exception
      */
-    public function setPurchaseValueGroupFromString(?string $purchaseValueGroupCode)
+    public function setPurchaseValueGroupFromString(?string $purchaseValueGroupString)
     {
         $purchaseValueGroup = new DimensionGroup();
-        $purchaseValueGroup->setCode($purchaseValueGroupCode);
+        $purchaseValueGroup->setCode($purchaseValueGroupString);
         return $this->setPurchaseValueGroup($purchaseValueGroup);
     }
 }

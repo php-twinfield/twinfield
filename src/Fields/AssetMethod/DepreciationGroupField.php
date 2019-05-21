@@ -41,14 +41,14 @@ trait DepreciationGroupField
     }
 
     /**
-     * @param string|null $depreciationGroupCode
+     * @param string|null $depreciationGroupString
      * @return $this
      * @throws Exception
      */
-    public function setDepreciationGroupFromString(?string $depreciationGroupCode)
+    public function setDepreciationGroupFromString(?string $depreciationGroupString)
     {
         $depreciationGroup = new DimensionGroup();
-        $depreciationGroup->setCode($depreciationGroupCode);
+        $depreciationGroup->setCode($depreciationGroupString);
         return $this->setDepreciationGroup($depreciationGroup);
     }
 }

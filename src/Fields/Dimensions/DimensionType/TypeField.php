@@ -41,14 +41,14 @@ trait TypeField
     }
 
     /**
-     * @param string|null $typeCode
+     * @param string|null $typeString
      * @return $this
      * @throws Exception
      */
-    public function setTypeFromString(?string $typeCode)
+    public function setTypeFromString(?string $typeString)
     {
         $type = new DimensionType();
-        $type->setCode($typeCode);
+        $type->setCode($typeString);
         return $this->setType($type);
     }
 }

@@ -41,14 +41,14 @@ trait PayCodeField
     }
 
     /**
-     * @param string|null $payCodeCode
+     * @param string|null $payCodeString
      * @return $this
      * @throws Exception
      */
-    public function setPayCodeFromString(?string $payCodeCode)
+    public function setPayCodeFromString(?string $payCodeString)
     {
         $payCode = new PayCode();
-        $payCode->setCode($payCodeCode);
+        $payCode->setCode($payCodeString);
         return $this->setPayCode($payCode);
     }
 }

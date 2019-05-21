@@ -41,14 +41,14 @@ trait Dim4Field
     }
     
     /**
-     * @param string|null $dim4Code
+     * @param string|null $dim4String
      * @return $this
      * @throws Exception
      */
-    public function setDim4FromString(?string $dim4Code)
+    public function setDim4FromString(?string $dim4String)
     {
         $dim4 = new Dummy();
-        $dim4->setCode($dim4Code);
+        $dim4->setCode($dim4String);
         return $this->setDim4($dim4);
     }
 }

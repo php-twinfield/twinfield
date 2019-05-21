@@ -41,14 +41,14 @@ trait Dim3Field
     }
     
     /**
-     * @param string|null $dim3Code
+     * @param string|null $dim3String
      * @return $this
      * @throws Exception
      */
-    public function setDim3FromString(?string $dim3Code)
+    public function setDim3FromString(?string $dim3String)
     {
         $dim3 = new Dummy();
-        $dim3->setCode($dim3Code);
+        $dim3->setCode($dim3String);
         return $this->setDim3($dim3);
     }
 }

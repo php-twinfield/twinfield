@@ -62,7 +62,9 @@ class JournalTransactionLine extends BaseTransactionLine
         if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType("baseline", $this);
         }
-        
+
+        $this->baseline = $baseline;
+
         return $this;
     }
 
@@ -94,6 +96,8 @@ class JournalTransactionLine extends BaseTransactionLine
         if ($currencyDate !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
             throw Exception::invalidFieldForLineType('currencydate', $this);
         }
+
+        $this->currencyDate = $currencyDate;
 
         return $this;
     }
@@ -145,6 +149,8 @@ class JournalTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('invoicenumber', $this);
         }
 
+        $this->invoiceNumber = $invoiceNumber;
+
         return $this;
     }
 
@@ -192,7 +198,7 @@ class JournalTransactionLine extends BaseTransactionLine
 
         return parent::setMatchLevel($matchLevel);
     }
-    
+
     /*
      * Payment status of the transaction. If line type vat always notmatchable. Read-only attribute.
      *
@@ -208,7 +214,7 @@ class JournalTransactionLine extends BaseTransactionLine
 
         return parent::setMatchStatus($matchStatus);
     }
-    
+
     /*
      * Only if line type is detail or vat. Mandatory in case of an ICT VAT code. The performance type.
      *
@@ -221,6 +227,8 @@ class JournalTransactionLine extends BaseTransactionLine
         if ($performanceType !== null && $this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('performancetype', $this);
         }
+
+        $this->performanceType = $performanceType;
 
         return $this;
     }
@@ -238,6 +246,8 @@ class JournalTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performancecountry', $this);
         }
 
+        $this->performanceCountry = $performanceCountry;
+
         return $this;
     }
 
@@ -254,6 +264,8 @@ class JournalTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performancevatnumber', $this);
         }
 
+        $this->performanceVatNumber = $performanceVatNumber;
+
         return $this;
     }
 
@@ -269,6 +281,8 @@ class JournalTransactionLine extends BaseTransactionLine
         if ($performanceDate !== null && (!$this->getPerformanceType()->equals(PerformanceType::SERVICES()) || $this->getLineType()->equals(LineType::TOTAL()))) {
             throw Exception::invalidFieldForLineType('performancedate', $this);
         }
+
+        $this->performanceDate = $performanceDate;
 
         return $this;
     }

@@ -41,14 +41,14 @@ trait DiscountArticleField
     }
 
     /**
-     * @param string|null $discountArticleCode
+     * @param string|null $discountArticleString
      * @return $this
      * @throws Exception
      */
-    public function setDiscountArticleFromString(?string $discountArticleCode)
+    public function setDiscountArticleFromString(?string $discountArticleString)
     {
         $discountArticle = new Article();
-        $discountArticle->setCode($discountArticleCode);
+        $discountArticle->setCode($discountArticleString);
         return $this->setDiscountArticle($discountArticle);
     }
 }

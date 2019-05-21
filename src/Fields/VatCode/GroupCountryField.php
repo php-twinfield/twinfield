@@ -41,14 +41,14 @@ trait GroupCountryField
     }
 
     /**
-     * @param string|null $groupCountryCode
+     * @param string|null $groupCountryString
      * @return $this
      * @throws Exception
      */
-    public function setGroupCountryFromString(?string $groupCountryCode)
+    public function setGroupCountryFromString(?string $groupCountryString)
     {
         $groupCountry = new VatGroupCountry();
-        $groupCountry->setCode($groupCountryCode);
+        $groupCountry->setCode($groupCountryString);
         return $this->setGroupCountry($groupCountry);
     }
 }

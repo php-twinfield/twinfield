@@ -41,14 +41,14 @@ trait InvoiceTypeField
     }
 
     /**
-     * @param string|null $invoiceTypeCode
+     * @param string|null $invoiceTypeString
      * @return $this
      * @throws Exception
      */
-    public function setInvoiceTypeFromString(?string $invoiceTypeCode)
+    public function setInvoiceTypeFromString(?string $invoiceTypeString)
     {
         $invoiceType = new InvoiceType();
-        $invoiceType->setCode($invoiceTypeCode);
+        $invoiceType->setCode($invoiceTypeString);
         return $this->setInvoiceType($invoiceType);
     }
 }

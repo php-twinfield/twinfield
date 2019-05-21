@@ -66,6 +66,9 @@ class SalesTransactionLine extends BaseTransactionLine
         if (!$this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType("baseline", $this);
         }
+
+        $this->baseline = $baseline;
+
         return $this;
     }
 
@@ -184,6 +187,8 @@ class SalesTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performancetype', $this);
         }
 
+        $this->performanceType = $performanceType;
+
         return $this;
     }
 
@@ -199,6 +204,8 @@ class SalesTransactionLine extends BaseTransactionLine
         if ($performanceCountry !== null && $this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('performancecountry', $this);
         }
+
+        $this->performanceCountry = $performanceCountry;
 
         return $this;
     }
@@ -216,6 +223,8 @@ class SalesTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('performancevatnumber', $this);
         }
 
+        $this->performanceVatNumber = $performanceVatNumber;
+
         return $this;
     }
 
@@ -231,6 +240,8 @@ class SalesTransactionLine extends BaseTransactionLine
         if ($performanceDate !== null && (!$this->getPerformanceType()->equals(PerformanceType::SERVICES()) || $this->getLineType()->equals(LineType::TOTAL()))) {
             throw Exception::invalidFieldForLineType('performancedate', $this);
         }
+
+        $this->performanceDate = $performanceDate;
 
         return $this;
     }
@@ -280,6 +291,8 @@ class SalesTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('valueopen', $this);
         }
 
+        $this->valueOpen = $valueOpen;
+
         return $this;
     }
 
@@ -295,6 +308,8 @@ class SalesTransactionLine extends BaseTransactionLine
         if ($vatTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('vattotal', $this);
         }
+
+        $this->vatTotal = $vatTotal;
 
         return $this;
     }
@@ -312,6 +327,8 @@ class SalesTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('vatbasetotal', $this);
         }
 
+        $this->vatBaseTotal = $vatBaseTotal;
+
         return $this;
     }
 
@@ -327,6 +344,8 @@ class SalesTransactionLine extends BaseTransactionLine
         if ($vatRepTotal !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
             throw Exception::invalidFieldForLineType('vatreptotal', $this);
         }
+
+        $this->vatRepTotal = $vatRepTotal;
 
         return $this;
     }

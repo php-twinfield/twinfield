@@ -41,14 +41,14 @@ trait PerformanceCountryField
     }
 
     /**
-     * @param string|null $performanceCountryCode
+     * @param string|null $performanceCountryString
      * @return $this
      * @throws Exception
      */
-    public function setPerformanceCountryFromString(?string $performanceCountryCode)
+    public function setPerformanceCountryFromString(?string $performanceCountryString)
     {
         $performanceCountry = new Country();
-        $performanceCountry->setCode($performanceCountryCode);
+        $performanceCountry->setCode($performanceCountryString);
         return $this->setPerformanceCountry($performanceCountry);
     }
 }

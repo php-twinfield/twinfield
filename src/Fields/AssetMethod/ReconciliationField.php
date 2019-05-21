@@ -41,14 +41,14 @@ trait ReconciliationField
     }
 
     /**
-     * @param string|null $reconciliationCode
+     * @param string|null $reconciliationString
      * @return $this
      * @throws Exception
      */
-    public function setReconciliationFromString(?string $reconciliationCode)
+    public function setReconciliationFromString(?string $reconciliationString)
     {
         $reconciliation = new GeneralLedger();
-        $reconciliation->setCode($reconciliationCode);
+        $reconciliation->setCode($reconciliationString);
         return $this->setReconciliation($reconciliation);
     }
 }

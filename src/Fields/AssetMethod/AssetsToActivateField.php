@@ -41,14 +41,14 @@ trait AssetsToActivateField
     }
 
     /**
-     * @param string|null $assetsToActivateCode
+     * @param string|null $assetsToActivateString
      * @return $this
      * @throws Exception
      */
-    public function setAssetsToActivateFromString(?string $assetsToActivateCode)
+    public function setAssetsToActivateFromString(?string $assetsToActivateString)
     {
         $assetsToActivate = new GeneralLedger();
-        $assetsToActivate->setCode($assetsToActivateCode);
+        $assetsToActivate->setCode($assetsToActivateString);
         return $this->setAssetsToActivate($assetsToActivate);
     }
 }

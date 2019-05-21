@@ -41,14 +41,14 @@ trait ArticleField
     }
 
     /**
-     * @param string|null $articleCode
+     * @param string|null $articleString
      * @return $this
      * @throws Exception
      */
-    public function setArticleFromString(?string $articleCode)
+    public function setArticleFromString(?string $articleString)
     {
         $article = new Article();
-        $article->setCode($articleCode);
+        $article->setCode($articleString);
         return $this->setArticle($article);
     }
 }

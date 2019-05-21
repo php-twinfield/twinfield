@@ -41,14 +41,14 @@ trait Dimension1Field
     }
 
     /**
-     * @param string|null $dimension1Code
+     * @param string|null $dimension1String
      * @return $this
      * @throws Exception
      */
-    public function setDimension1FromString(?string $dimension1Code)
+    public function setDimension1FromString(?string $dimension1String)
     {
         $dimension1 = new GeneralLedger();
-        $dimension1->setCode($dimension1Code);
+        $dimension1->setCode($dimension1String);
         return $this->setDimension1($dimension1);
     }
 }
