@@ -118,7 +118,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine->getVatBaseTotal());
         $this->assertNull($detailLine->getValueOpen());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\PerformanceType');
-        $this->assertSame($ReflectObject->getConstant(''), (string)$detailLine->getPerformanceType());
+        $this->assertSame($ReflectObject->getConstant('EMPTY'), (string)$detailLine->getPerformanceType());
         $this->assertNull($detailLine->getPerformanceCountry());
         $this->assertNull($detailLine->getPerformanceVatNumber());
         $this->assertNull($detailLine->getPerformanceDate());

@@ -117,7 +117,8 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(0), $detailLine->getVatValue());
         $this->assertNull($detailLine->getVatTotal());
         $this->assertNull($detailLine->getVatBaseTotal());
-        $this->assertNull($detailLine->getPerformanceType());
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\PerformanceType');
+        $this->assertSame($ReflectObject->getConstant('EMPTY'), (string)$detailLine->getPerformanceType());
         $this->assertNull($detailLine->getPerformanceCountry());
         $this->assertNull($detailLine->getPerformanceVatNumber());
         $this->assertNull($detailLine->getPerformanceDate());
