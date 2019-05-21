@@ -153,7 +153,7 @@ class TransactionMapper extends BaseMapper
                     ->setDim1FromString(self::getField($transaction, $lineElement, 'dim1'))
                     ->setId($lineElement->getAttribute('id'))
                     ->setLineType(new LineType($lineType))
-                    ->setMatchStatusFromString(self::getField($transaction, $lineElement, 'matchstatus'))
+                    ->setMatchStatus(self::parseEnumAttribute('MatchStatus', self::getField($transaction, $lineElement, 'matchstatus')))
                     ->setRate(self::getField($transaction, $lineElement, 'rate'))
                     ->setRepRate(self::getField($transaction, $lineElement, 'reprate'))
                     ->setRepValueFromFloat(self::getField($transaction, $lineElement, 'repvalue'));
