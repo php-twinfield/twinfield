@@ -17,7 +17,6 @@
                 <dim2>1000</dim2>
                 <debitcredit>credit</debitcredit>
                 <value>435.55</value>
-                <invoicenumber>11001770</invoicenumber>
                 <description>Invoice paid</description>
             </line>
         </lines>

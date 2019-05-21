@@ -94,6 +94,8 @@ abstract class BaseTransactionLine
             throw Exception::invalidFieldForLineType('vatbaseturnover', $this);
         }
 
+        $this->vatBaseTurnover = $vatBaseTurnover;
+
         return $this;
     }
 
@@ -125,6 +127,7 @@ abstract class BaseTransactionLine
         }
 
         $this->vatCode = $vatCode;
+
         return $this;
     }
 
@@ -141,6 +144,8 @@ abstract class BaseTransactionLine
             throw Exception::invalidFieldForLineType('vatrepturnover', $this);
         }
 
+        $this->vatRepTurnover = $vatRepTurnover;
+
         return $this;
     }
 
@@ -156,6 +161,7 @@ abstract class BaseTransactionLine
         }
 
         $this->vatRepValue = $vatRepValue;
+
         return $this;
     }
 
@@ -172,6 +178,8 @@ abstract class BaseTransactionLine
             throw Exception::invalidFieldForLineType('vatturnover', $this);
         }
 
+        $this->vatTurnover = $vatTurnover;
+
         return $this;
     }
 
@@ -187,6 +195,7 @@ abstract class BaseTransactionLine
         }
 
         $this->vatValue = $vatValue;
+
         return $this;
     }
 }
