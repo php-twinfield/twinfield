@@ -2,78 +2,49 @@
 
 namespace PhpTwinfield;
 
-use Money\Currency;
-use PhpTwinfield\Transactions\Transaction;
-use PhpTwinfield\Transactions\TransactionFields\AutoBalanceVatField;
-use PhpTwinfield\Transactions\TransactionFields\CodeNumberOfficeFields;
-use PhpTwinfield\Transactions\TransactionFields\DestinyField;
-use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
-use PhpTwinfield\Transactions\TransactionFields\LinesField;
-use PhpTwinfield\Transactions\TransactionFields\RaiseWarningField;
-use PhpTwinfield\Transactions\TransactionLineFields\DateField;
-use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
+use PhpTwinfield\BookingReference;
+use PhpTwinfield\Fields\CodeField;
+use PhpTwinfield\Fields\CurrencyField;
+use PhpTwinfield\Fields\DateField;
+use PhpTwinfield\Fields\FreeText1Field;
+use PhpTwinfield\Fields\FreeText2Field;
+use PhpTwinfield\Fields\FreeText3Field;
+use PhpTwinfield\Fields\OfficeField;
+use PhpTwinfield\Fields\PeriodField;
+use PhpTwinfield\Fields\Transaction\AutoBalanceVatField;
+use PhpTwinfield\Fields\Transaction\DateRaiseWarningField;
+use PhpTwinfield\Fields\Transaction\DestinyField;
+use PhpTwinfield\Fields\Transaction\InputDateField;
+use PhpTwinfield\Fields\Transaction\LinesField;
+use PhpTwinfield\Fields\Transaction\ModificationDateField;
+use PhpTwinfield\Fields\Transaction\NumberField;
+use PhpTwinfield\Fields\Transaction\OriginField;
+use PhpTwinfield\Fields\Transaction\RaiseWarningField;
+use PhpTwinfield\Fields\UserField;
+use PhpTwinfield\MatchReferenceInterface;
 
-/**
- * @todo $modificationDate The date/time on which the transaction was modified the last time. Read-only attribute.
- * @todo $user The user who created the transaction. Read-only attribute.
- * @todo $inputDate The date/time on which the transaction was created. Read-only attribute.
- */
-abstract class BaseTransaction extends BaseObject implements Transaction
+abstract class BaseTransaction extends BaseObject
 {
     use AutoBalanceVatField;
-    use CodeNumberOfficeFields;
-    use DestinyField;
-    use FreeTextFields;
-    use LinesField;
-    use RaiseWarningField;
+    use CodeField;
+    use CurrencyField;
     use DateField;
+    use DateRaiseWarningField;
+    use DestinyField;
+    use FreeText1Field;
+    use FreeText2Field;
+    use FreeText3Field;
+    use InputDateField;
+    use LinesField;
+    use ModificationDateField;
+    use NumberField;
+    use OfficeField;
+    use OriginField;
     use PeriodField;
+    use RaiseWarningField;
 
-    /**
-     * @var Currency|null The currency.
-     */
-    private $currency;
-
-    /**
-     * @var string|null The sales transaction origin. Read-only attribute.
-     */
-    private $origin;
-
-    /**
-     * @return Currency|null
-     */
-    public function getCurrency(): ?Currency
+    public function getBookingReference(): BookingReference
     {
-        return $this->currency;
-    }
-
-    /**
-     * @param Currency|null $currency
-     * @return $this
-     */
-    public function setCurrency(?Currency $currency): BaseTransaction
-    {
-        $this->currency = $currency;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getOrigin(): ?string
-    {
-        return $this->origin;
-    }
-
-    /**
-     * @param string|null $origin
-     * @return $this
-     */
-    public function setOrigin(?string $origin): BaseTransaction
-    {
-        $this->origin = $origin;
-
-        return $this;
+        return new BookingReference($this->office, $this->code, $this->number);
     }
 }

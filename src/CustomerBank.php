@@ -28,8 +28,8 @@ class CustomerBank extends BaseObject
     use AddressField2Field;
     use AddressField3Field;
     use AscriptionField;
-    use BankNameField;
     use BankBlockedField;
+    use BankNameField;
     use BicCodeField;
     use CityField;
     use CountryField;

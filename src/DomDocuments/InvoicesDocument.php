@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield\DomDocuments;
 
+use PhpTwinfield\ApiConnectors\ArticleApiConnector;
+use PhpTwinfield\ApiConnectors\InvoiceTypeApiConnector;
 use PhpTwinfield\Article;
 use PhpTwinfield\Invoice;
 use PhpTwinfield\Secure\AuthenticatedConnection;
@@ -71,10 +73,10 @@ class InvoicesDocument extends BaseDocument
         $headerElement->appendChild($this->createNodeWithTextContent('period', $invoice->getPeriod()));
         $headerElement->appendChild($this->createNodeWithTextContent('status', $invoice->getStatus()));
 
-        $invoiceTypeApiConnector = new \PhpTwinfield\ApiConnectors\InvoiceTypeApiConnector($connection);
+        $invoiceTypeApiConnector = new InvoiceTypeApiConnector($connection);
         $invoiceVatType = $invoiceTypeApiConnector->getInvoiceTypeVatType($invoice->getInvoiceTypeToString());
 
-        $articleApiConnector = new \PhpTwinfield\ApiConnectors\ArticleApiConnector($connection);
+        $articleApiConnector = new ArticleApiConnector($connection);
 
         $lines = $invoice->getLines();
 

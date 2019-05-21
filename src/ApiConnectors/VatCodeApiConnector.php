@@ -123,7 +123,7 @@ class VatCodeApiConnector extends BaseApiConnector
 
         return $this->mapListAll("VatCode", $response->data, $vatCodeListAllTags);
     }
-    
+
     /**
      * Deletes a specific VatCode based off the passed in code and optionally the office.
      *
@@ -136,8 +136,8 @@ class VatCodeApiConnector extends BaseApiConnector
     public function delete(string $code, Office $office): VatCode
     {
         $vatCode = self::get($code, $office);
-        
-        if ($vatCode->getResult() == 1) {        
+
+        if ($vatCode->getResult() == 1) {
             $vatCode->setStatusFromString("deleted");
 
             try {

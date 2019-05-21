@@ -11,7 +11,7 @@ use PhpTwinfield\Fields\ShortNameField;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class VatGroup extends BaseObject
+class VatGroup
 {
     use CodeField;
     use NameField;

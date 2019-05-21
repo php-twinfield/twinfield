@@ -122,7 +122,7 @@ class TransactionApiConnectorTest extends TestCase
         $mapped = $this->apiConnector->send($transaction);
 
         $this->assertEquals("VRK", $mapped->getCode());
-        $this->assertEquals(new Currency("EUR"), $mapped->getCurrency());
+        $this->assertEquals("EUR", $mapped->getCurrencyToString());
         $this->assertEquals("2017/09", $mapped->getPeriod());
         $this->assertEquals("INV123458", $mapped->getInvoiceNumber());
         $this->assertEquals(new \DateTimeImmutable("2017-09-01"), $mapped->getDate());

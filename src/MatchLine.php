@@ -12,36 +12,36 @@ class MatchLine
      *
      * @var string
      */
-    private $transcode;
+    private $transCode;
 
     /**
      * Transaction number.
      *
      * @var int
      */
-    private $transnumber;
+    private $transNumber;
 
     /**
      * Transaction line number.
      *
      * @var int
      */
-    private $transline;
+    private $transLine;
 
     /**
      * @var Money|null
      */
-    private $matchvalue;
+    private $matchValue;
 
     /**
      * @var Money|null
      */
-    private $writeoff;
+    private $writeOff;
 
     /**
      * @var Enums\WriteOffType|null
      */
-    private $writeofftype;
+    private $writeOffType;
 
     /**
      * Create a new matchline based on a MatchReferenceInterface.
@@ -54,10 +54,10 @@ class MatchLine
         Assert::eq($set->getOffice(), $reference->getOffice());
 
         $instance = new self;
-        $instance->transcode   = $reference->getCode();
-        $instance->transnumber = $reference->getNumber();
-        $instance->transline   = $reference->getLineId();
-        $instance->setMatchvalue($value);
+        $instance->transCode   = $reference->getCode();
+        $instance->transNumber = $reference->getNumber();
+        $instance->transLine   = $reference->getLineId();
+        $instance->setMatchValue($value);
 
         $set->addLine($instance);
 
@@ -73,39 +73,39 @@ class MatchLine
     /**
      * @return string
      */
-    public function getTranscode(): string
+    public function getTransCode(): string
     {
-        return $this->transcode;
+        return $this->transCode;
     }
 
-    public function getTransnumber(): int
+    public function getTransNumber(): int
     {
-        return $this->transnumber;
+        return $this->transNumber;
     }
 
-    public function getTransline(): int
+    public function getTransLine(): int
     {
-        return $this->transline;
+        return $this->transLine;
     }
 
     public function getMatchValue(): ?Money
     {
-        return $this->matchvalue;
+        return $this->matchValue;
     }
 
     /**
      * Optional; only for partial payments. Include an "-" on credit lines.
      */
-    public function setMatchvalue(?Money $matchvalue): self
+    public function setMatchValue(?Money $matchValue): self
     {
-        $this->matchvalue = $matchvalue;
+        $this->matchValue = $matchValue;
 
         return $this;
     }
 
     public function getWriteOff(): ?Money
     {
-        return $this->writeoff;
+        return $this->writeOff;
     }
 
     /**
@@ -113,8 +113,8 @@ class MatchLine
      */
     public function setWriteOff(Money $amount, Enums\WriteOffType $type): self
     {
-        $this->writeoff = $amount;
-        $this->writeofftype = $type;
+        $this->writeOff = $amount;
+        $this->writeOffType = $type;
 
         return $this;
     }
@@ -124,6 +124,6 @@ class MatchLine
      */
     public function getWriteOffType(): ?Enums\WriteOffType
     {
-        return $this->writeofftype;
+        return $this->writeOffType;
     }
 }

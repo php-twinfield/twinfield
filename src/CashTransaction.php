@@ -2,30 +2,29 @@
 
 namespace PhpTwinfield;
 
-use Money\Currency;
-use Money\Money;
+use PhpTwinfield\CashTransactionLine;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
-use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
-use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
-use PhpTwinfield\Transactions\TransactionLine;
+use PhpTwinfield\Fields\Transaction\CloseAndStartValueFields;
+use PhpTwinfield\Fields\Transaction\StatementNumberField;
 
-/**
+/*
  * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/CashTransactions
  */
 class CashTransaction extends BaseTransaction
 {
-    use StatementNumberField;
-    use StartAndCloseValueFields {
+    use CloseAndStartValueFields {
         setCurrency as protected traitSetCurrency;
     }
 
+    use StatementNumberField;
+
     public function __construct()
     {
-        $this->startvalue = new Money(0, new Currency('EUR'));
+        $this->startValue = new \Money\Money(0, new \Money\Currency('EUR'));
     }
 
-    /**
+    /*
      * @return string
      */
     public function getLineClassName(): string
@@ -33,35 +32,36 @@ class CashTransaction extends BaseTransaction
         return CashTransactionLine::class;
     }
 
-    /**
+    /*
      * Set the currency. Can only be done when the start value is still 0.
      *
      * @param Currency $currency
      * @return $this
      */
-    public function setCurrency(?Currency $currency): BaseTransaction
+    public function setCurrency(?Currency $currency): parent
     {
         $this->traitSetCurrency($currency);
+
         return $this;
     }
 
-    /**
-     * @param TransactionLine $line
+    /*
+     * @param $line
      * @return $this
      */
-    public function addLine(TransactionLine $line)
+    public function addLine($line)
     {
         parent::addLine($line);
 
-        /** @var CashTransactionLine $line */
+        /* @var CashTransactionLine $line */
         if (!$line->getLineType()->equals(LineType::TOTAL())) {
             /*
-             * Don't add total lines to the closevalue, they are summaries of the details and vat lines.
+             * Don't add total lines to the close value, they are summaries of the details and vat lines.
              */
             if ($line->getDebitCredit()->equals(DebitCredit::CREDIT())) {
-                $this->closevalue = $this->getClosevalue()->add($line->getValue());
+                $this->closeValue = $this->getCloseValue()->add($line->getValue());
             } else {
-                $this->closevalue = $this->getClosevalue()->subtract($line->getValue());
+                $this->closeValue = $this->getCloseValue()->subtract($line->getValue());
             }
         }
 

@@ -12,7 +12,7 @@ use PhpTwinfield\Fields\ShortNameField;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class Dummy extends BaseObject
+class Dummy
 {
     use CodeField;
     use NameField;

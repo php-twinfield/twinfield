@@ -2,13 +2,13 @@
 
 namespace PhpTwinfield\IntegrationTests;
 
-use Money\Currency;
 use Money\Money;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Enums\MatchStatus;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\PurchaseTransaction;
@@ -50,13 +50,13 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertInstanceOf(PurchaseTransaction::class, $purchaseTransaction);
         $this->assertEquals(Destiny::TEMPORARY(), $purchaseTransaction->getDestiny());
-        $this->assertNull($purchaseTransaction->isAutoBalanceVat());
+        $this->assertNull($purchaseTransaction->getAutoBalanceVat());
         $this->assertSame(false, $purchaseTransaction->getRaiseWarning());
         $this->assertEquals(Office::fromCode('001'), $purchaseTransaction->getOffice());
         $this->assertSame('INK', $purchaseTransaction->getCode());
         $this->assertSame(201300021, $purchaseTransaction->getNumber());
         $this->assertSame('2013/05', $purchaseTransaction->getPeriod());
-        $this->assertEquals(new Currency('EUR'), $purchaseTransaction->getCurrency());
+        $this->assertEquals('EUR', $purchaseTransaction->getCurrencyToString());
         $this->assertEquals(new \DateTimeImmutable('2013-05-02'), $purchaseTransaction->getDate());
         $this->assertSame('import', $purchaseTransaction->getOrigin());
         $this->assertNull($purchaseTransaction->getFreetext1());
@@ -73,16 +73,17 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertEquals(LineType::TOTAL(), $totalLine->getLineType());
         $this->assertSame(1, $totalLine->getId());
-        $this->assertSame('1600', $totalLine->getDim1());
-        $this->assertSame('2000', $totalLine->getDim2());
+        $this->assertSame('1600', $totalLine->getDim1ToString());
+        $this->assertSame('2000', $totalLine->getDim2ToString());
         $this->assertEquals(DebitCredit::CREDIT(), $totalLine->getDebitCredit());
         $this->assertEquals(Money::EUR(12100), $totalLine->getValue());
         $this->assertEquals(Money::EUR(12100), $totalLine->getBaseValue());
         $this->assertSame(1.0, $totalLine->getRate());
         $this->assertEquals(Money::EUR(15653), $totalLine->getRepValue());
         $this->assertSame(1.293600000, $totalLine->getRepRate());
-        $this->assertSame('', $totalLine->getDescription());
-        $this->assertSame(PurchaseTransactionLine::MATCHSTATUS_AVAILABLE, $totalLine->getMatchStatus());
+        $this->assertNull($totalLine->getDescription());
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
+        $this->assertSame($ReflectObject->getConstant('AVAILABLE'), (string)$totalLine->getMatchStatus());
         $this->assertSame(2, $totalLine->getMatchLevel());
         $this->assertEquals(Money::EUR(12100), $totalLine->getBaseValueOpen());
         $this->assertNull($totalLine->getVatCode());
@@ -93,8 +94,8 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertEquals(LineType::DETAIL(), $detailLine->getLineType());
         $this->assertSame(2, $detailLine->getId());
-        $this->assertSame('8020', $detailLine->getDim1());
-        $this->assertNull($detailLine->getDim2());
+        $this->assertSame('8020', $detailLine->getDim1ToString());
+        $this->assertNull($detailLine->getDim2ToString());
         $this->assertEquals(DebitCredit::DEBIT(), $detailLine->getDebitCredit());
         $this->assertEquals(Money::EUR(10000), $detailLine->getValue());
         $this->assertEquals(Money::EUR(10000), $detailLine->getBaseValue());
@@ -102,10 +103,11 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(12936), $detailLine->getRepValue());
         $this->assertSame(1.293600000, $detailLine->getRepRate());
         $this->assertSame('Outfit', $detailLine->getDescription());
-        $this->assertSame(PurchaseTransactionLine::MATCHSTATUS_NOTMATCHABLE, $detailLine->getMatchStatus());
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
+        $this->assertSame($ReflectObject->getConstant('NOTMATCHABLE'), (string)$detailLine->getMatchStatus());
         $this->assertNull($detailLine->getMatchLevel());
         $this->assertNull($detailLine->getBaseValueOpen());
-        $this->assertSame('IH', $detailLine->getVatCode());
+        $this->assertSame('IH', $detailLine->getVatCodeToString());
         $this->assertEquals(Money::EUR(2100), $detailLine->getVatValue());
         $this->assertNull($detailLine->getVatTotal());
         $this->assertNull($detailLine->getVatBaseTotal());
@@ -113,7 +115,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertEquals(LineType::VAT(), $vatLine->getLineType());
         $this->assertSame(3, $vatLine->getId());
-        $this->assertSame('1510', $vatLine->getDim1());
+        $this->assertSame('1510', $vatLine->getDim1ToString());
         $this->assertNull($vatLine->getDim2());
         $this->assertEquals(DebitCredit::DEBIT(), $vatLine->getDebitCredit());
         $this->assertEquals(Money::EUR(2100), $vatLine->getValue());
@@ -125,7 +127,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($vatLine->getMatchStatus());
         $this->assertNull($vatLine->getMatchLevel());
         $this->assertNull($vatLine->getBaseValueOpen());
-        $this->assertSame('IH', $vatLine->getVatCode());
+        $this->assertSame('IH', $vatLine->getVatCodeToString());
         $this->assertNull($vatLine->getVatValue());
         $this->assertNull($vatLine->getVatTotal());
         $this->assertNull($vatLine->getVatBaseTotal());
@@ -139,7 +141,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
             ->setDestiny(Destiny::TEMPORARY())
             ->setRaiseWarning(false)
             ->setCode('INK')
-            ->setCurrency(new Currency('EUR'))
+            ->setCurrencyFromString('EUR')
             ->setDate(new \DateTimeImmutable('2013-05-02'))
             ->setPeriod('2013/05')
             ->setInvoiceNumber('20130-5481')
@@ -151,8 +153,8 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $totalLine
             ->setLineType(LineType::TOTAL())
             ->setId('1')
-            ->setDim1('1600')
-            ->setDim2('2000')
+            ->setDim1FromString('1600')
+            ->setDim2FromString('2000')
             ->setValue(Money::EUR(12100))
             ->setDescription('');
 
@@ -160,10 +162,10 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $detailLine
             ->setLineType(LineType::DETAIL())
             ->setId('2')
-            ->setDim1('8020')
+            ->setDim1FromString('8020')
             ->setValue(Money::EUR(10000))
             ->setDescription('Outfit')
-            ->setVatCode('IH');
+            ->setVatCodeFromString('IH');
 
         $purchaseTransaction
             ->addLine($totalLine)

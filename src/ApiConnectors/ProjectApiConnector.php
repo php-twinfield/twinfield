@@ -124,7 +124,7 @@ class ProjectApiConnector extends BaseApiConnector
 
         return $this->mapListAll("Project", $response->data, $projectListAllTags);
     }
-    
+
     /**
      * Deletes a specific Project based off the passed in code and optionally the office.
      *
@@ -137,8 +137,8 @@ class ProjectApiConnector extends BaseApiConnector
     public function delete(string $code, Office $office): Project
     {
         $project = self::get($code, $office);
-        
-        if ($project->getResult() == 1) {        
+
+        if ($project->getResult() == 1) {
             $project->setStatusFromString("deleted");
 
             try {

@@ -6,7 +6,7 @@ trait DescriptionField
 {
     /**
      * Description field
-     * Used by: CustomerLine, CustomerPostingRule, InvoiceLine, SupplierLine, SupplierPostingRule
+     * Used by: BaseTransactionLine, CustomerLine, CustomerPostingRule, InvoiceLine, SupplierLine, SupplierPostingRule
      *
      * @var string|null
      */

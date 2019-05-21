@@ -41,14 +41,14 @@ trait CodeField
     }
 
     /**
-     * @param string|null $codeCode
+     * @param string|null $codeString
      * @return $this
      * @throws Exception
      */
-    public function setCodeFromString(?string $codeCode)
+    public function setCodeFromString(?string $codeString)
     {
         $code = new Dummy();
-        $code->setCode($codeCode);
+        $code->setCode($codeString);
         return $this->setCode($code);
     }
 }

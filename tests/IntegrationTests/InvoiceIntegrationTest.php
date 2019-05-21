@@ -66,7 +66,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertInstanceOf(Invoice::class, $invoice);
         $this->assertEquals(Office::fromCode("11024"), $invoice->getOffice());
         $this->assertSame('FACTUUR', $invoice->getInvoiceTypeToString());
-        $this->assertSame(5, $invoice->getInvoiceNumber());
+        $this->assertSame('5', $invoice->getInvoiceNumber());
         $this->assertSame('20120831', $invoice->getInvoiceDateToString());
         $this->assertSame('BNK', $invoice->getBankToString());
         $this->assertSame(1, $invoice->getInvoiceAddressNumber());
@@ -134,7 +134,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertInstanceOf(Invoice::class, $invoice);
         $this->assertEquals(Office::fromCode("11024"), $invoice->getOffice());
         $this->assertSame('FACTUUR', $invoice->getInvoiceTypeToString());
-        $this->assertSame(5, $invoice->getInvoiceNumber());
+        $this->assertSame('5', $invoice->getInvoiceNumber());
         $this->assertSame('20120831', $invoice->getInvoiceDateToString());
         $this->assertSame('BNK', $invoice->getBankToString());
         $this->assertSame(1, $invoice->getInvoiceAddressNumber());
@@ -195,7 +195,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoice = new Invoice();
         $invoice->setOffice(Office::fromCode('11024'));
         $invoice->setInvoiceTypeFromString('FACTUUR');
-        $invoice->setInvoiceNumber(5);
+        $invoice->setInvoiceNumber('5');
         $invoice->setInvoiceDateFromString('20120831');
         $invoice->setBankFromString('BNK');
         $invoice->setInvoiceAddressNumber(1);

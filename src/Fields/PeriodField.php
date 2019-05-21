@@ -6,7 +6,7 @@ trait PeriodField
 {
     /**
      * Period in 'YYYY/PP' format (e.g. '2013/05')
-     * Used by: FixedAssetTransactionLine, Invoice
+     * Used by: BaseTransaction, FixedAssetTransactionLine, Invoice
      *
      * @var string
      */

@@ -3,6 +3,7 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\CodeField;
+use PhpTwinfield\Fields\LevelField;
 use PhpTwinfield\Fields\NameField;
 use PhpTwinfield\Fields\ShortNameField;
 
@@ -11,9 +12,10 @@ use PhpTwinfield\Fields\ShortNameField;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class UserRole extends BaseObject
+class UserRole
 {
     use CodeField;
+    use LevelField;
     use NameField;
     use ShortNameField;
 }

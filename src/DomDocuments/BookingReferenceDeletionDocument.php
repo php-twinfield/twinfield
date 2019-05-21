@@ -18,7 +18,7 @@ class BookingReferenceDeletionDocument extends BaseDocument
         $this->rootElement->setAttribute("action", "delete");
         $this->rootElement->setAttribute("reason", $reason);
 
-        $this->appendOfficeField($this->rootElement, $bookingReference->getOffice());
+        $this->rootElement->appendChild($this->createNodeWithTextContent('office', $bookingReference->getOfficeToString()));
 
         $this->rootElement->appendChild(
             $this->createNodeWithTextContent("code", $bookingReference->getCode())

@@ -11,7 +11,7 @@ use PhpTwinfield\Fields\ShortNameField;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class PayCode extends BaseObject
+class PayCode
 {
     use CodeField;
     use NameField;

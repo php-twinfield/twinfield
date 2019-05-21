@@ -29,23 +29,23 @@ class Rate extends BaseObject
     use UnitField;
     use UserField;
 
-    private $ratechanges = [];
+    private $rateChanges = [];
 
     public function getRateChanges()
     {
-        return $this->ratechanges;
+        return $this->rateChanges;
     }
 
-    public function addRateChange(RateRateChange $ratechange)
+    public function addRateChange(RateRateChange $rateChange)
     {
-        $this->ratechanges[$ratechange->getID()] = $ratechange;
+        $this->rateChanges[$rateChange->getID()] = $rateChange;
         return $this;
     }
 
-    public function removeRateChange($index)
+    public function removeRateChange($id)
     {
-        if (array_key_exists($index, $this->ratechanges)) {
-            unset($this->ratechanges[$index]);
+        if (array_key_exists($id, $this->rateChanges)) {
+            unset($this->rateChanges[$id]);
             return true;
         } else {
             return false;

@@ -6,7 +6,7 @@ use PhpTwinfield\VatCode;
 
 /**
  * The VAT code
- * Used by: Activity, Article, CustomerFinancials, CustomerLine, FixedAssetFinancials, GeneralLedgerFinancials, InvoiceLine, InvoiceVatLine, Project, SupplierFinancials, SupplierLine
+ * Used by: Activity, Article, BaseTransactionLine, CustomerFinancials, CustomerLine, FixedAssetFinancials, GeneralLedgerFinancials, InvoiceLine, InvoiceVatLine, Project, SupplierFinancials, SupplierLine
  *
  * @package PhpTwinfield\Traits
  */
@@ -41,14 +41,14 @@ trait VatCodeField
     }
 
     /**
-     * @param string|null $vatCodeCode
+     * @param string|null $vatCodeString
      * @return $this
      * @throws Exception
      */
-    public function setVatCodeFromString(?string $vatCodeCode)
+    public function setVatCodeFromString(?string $vatCodeString)
     {
         $vatCode = new VatCode();
-        $vatCode->setCode($vatCodeCode);
+        $vatCode->setCode($vatCodeString);
         return $this->setVatCode($vatCode);
     }
 }

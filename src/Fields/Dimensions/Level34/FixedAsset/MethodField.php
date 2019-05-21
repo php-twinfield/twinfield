@@ -41,14 +41,14 @@ trait MethodField
     }
 
     /**
-     * @param string|null $methodCode
+     * @param string|null $methodString
      * @return $this
      * @throws Exception
      */
-    public function setMethodFromString(?string $methodCode)
+    public function setMethodFromString(?string $methodString)
     {
         $method = new AssetMethod();
-        $method->setCode($methodCode);
+        $method->setCode($methodString);
         return $this->setMethod($method);
     }
 }

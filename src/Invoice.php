@@ -3,12 +3,12 @@ namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\CurrencyField;
 use PhpTwinfield\Fields\CustomerField;
+use PhpTwinfield\Fields\DueDateField;
 use PhpTwinfield\Fields\Invoice\BankField;
 use PhpTwinfield\Fields\Invoice\CalculateOnlyField;
 use PhpTwinfield\Fields\Invoice\CustomerNameField;
 use PhpTwinfield\Fields\Invoice\DebitCreditField;
 use PhpTwinfield\Fields\Invoice\DeliverAddressNumberField;
-use PhpTwinfield\Fields\Invoice\DueDateField;
 use PhpTwinfield\Fields\Invoice\FinancialCodeField;
 use PhpTwinfield\Fields\Invoice\FinancialNumberField;
 use PhpTwinfield\Fields\Invoice\FooterTextField;
@@ -19,10 +19,10 @@ use PhpTwinfield\Fields\Invoice\InvoiceDateField;
 use PhpTwinfield\Fields\Invoice\InvoiceNumberField;
 use PhpTwinfield\Fields\Invoice\InvoiceTypeField;
 use PhpTwinfield\Fields\Invoice\PaymentMethodField;
-use PhpTwinfield\Fields\Invoice\PerformanceDateField;
 use PhpTwinfield\Fields\Invoice\RaiseWarningField;
 use PhpTwinfield\Fields\Invoice\StatusField;
 use PhpTwinfield\Fields\OfficeField;
+use PhpTwinfield\Fields\PerformanceDateField;
 use PhpTwinfield\Fields\PeriodField;
 
 /**
@@ -72,18 +72,19 @@ class Invoice extends BaseObject
     use StatusField;
 
     private $totals;
+
     private $lines = [];
-    private $vatlines = [];
+    private $vatLines = [];
+
+    public function getTotals(): InvoiceTotals
+    {
+        return $this->totals;
+    }
 
     public function setTotals(InvoiceTotals $totals)
     {
         $this->totals = $totals;
         return $this;
-    }
-
-    public function getTotals(): InvoiceTotals
-    {
-        return $this->totals;
     }
 
     /**
@@ -100,10 +101,10 @@ class Invoice extends BaseObject
         return $this;
     }
 
-    public function removeLine($index)
+    public function removeLine($id)
     {
-        if (array_key_exists($index, $this->lines)) {
-            unset($this->lines[$index]);
+        if (array_key_exists($id, $this->lines)) {
+            unset($this->lines[$id]);
             return true;
         } else {
             return false;
@@ -115,13 +116,23 @@ class Invoice extends BaseObject
      */
     public function getVatLines(): array
     {
-        return $this->vatlines;
+        return $this->vatLines;
     }
 
-    public function addVatLine(InvoiceVatLine $vatline)
+    public function addVatLine(InvoiceVatLine $vatLine)
     {
-        $this->vatlines[] = $vatline;
+        $this->vatLines[] = $vatLine;
         return $this;
+    }
+
+    public function removeVatLine($index)
+    {
+        if (array_key_exists($index, $this->vatLines)) {
+            unset($this->vatLines[$index]);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function getMatchReference(): MatchReferenceInterface

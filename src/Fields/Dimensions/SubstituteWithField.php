@@ -41,14 +41,14 @@ trait SubstituteWithField
     }
 
     /**
-     * @param string|null $substituteWithCode
+     * @param string|null $substituteWithString
      * @return $this
      * @throws Exception
      */
-    public function setSubstituteWithFromString(?string $substituteWithCode)
+    public function setSubstituteWithFromString(?string $substituteWithString)
     {
         $substituteWith = new Dummy();
-        $substituteWith->setCode($substituteWithCode);
+        $substituteWith->setCode($substituteWithString);
         return $this->setSubstituteWith($substituteWith);
     }
 }

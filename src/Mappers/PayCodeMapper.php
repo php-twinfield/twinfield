@@ -31,10 +31,10 @@ class PayCodeMapper extends BaseMapper
         // Gets the raw DOMDocument response.
         $responseDOM = $response->getResponseDocument();
 
-        // Get the root/vat group element
+        // Get the root/paycode element
         $payCodeElement = $responseDOM->documentElement;
 
-        // Set the vat group elements from the vat group element
+        // Set the paycode elements from the paycode element
         $payCode->setCode(self::getField($payCode, $payCodeElement, 'code'))
             ->setName(self::getField($payCode, $payCodeElement, 'name'))
             ->setShortName(self::getField($payCode, $payCodeElement, 'shortname'));

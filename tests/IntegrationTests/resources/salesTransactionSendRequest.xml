@@ -1,27 +1,26 @@
 <transactions>
     <transaction destiny="temporary" raisewarning="false">
         <header>
-            <code>SLS</code>
-            <currency>EUR</currency>
-            <date>20130502</date>
-            <period>2013/05</period>
-            <invoicenumber>20130-6000</invoicenumber>
-            <paymentreference>+++100/0160/01495+++</paymentreference>
             <office>001</office>
+            <code>SLS</code>
+            <period>2013/05</period>
+            <currency>EUR</currency>
+            <date raisewarning="false">20130502</date>
             <duedate>20130506</duedate>
+            <invoicenumber raisewarning="false">20130-6000</invoicenumber>
+            <paymentreference>+++100/0160/01495+++</paymentreference>
         </header>
         <lines>
             <line type="total" id="1">
                 <dim1>1300</dim1>
                 <dim2>1000</dim2>
                 <debitcredit>debit</debitcredit>
-                <value>121.00</value>
-                <description />
+                <value>121</value>
             </line>
             <line type="detail" id="2">
                 <dim1>8020</dim1>
                 <debitcredit>credit</debitcredit>
-                <value>100.00</value>
+                <value>100</value>
                 <description>Outfit</description>
                 <vatcode>VH</vatcode>
             </line>

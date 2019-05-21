@@ -3,11 +3,11 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\CreatedField;
+use PhpTwinfield\Fields\DateField;
 use PhpTwinfield\Fields\NameField;
 use PhpTwinfield\Fields\PercentageField;
 use PhpTwinfield\Fields\ShortNameField;
 use PhpTwinfield\Fields\UserField;
-use PhpTwinfield\Fields\VatCode\DateField;
 
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/VAT
@@ -35,10 +35,10 @@ class VatCodePercentage extends BaseObject
         return $this;
     }
 
-    public function removeAccount($index)
+    public function removeAccount($id)
     {
-        if (array_key_exists($index, $this->accounts)) {
-            unset($this->accounts[$index]);
+        if (array_key_exists($id, $this->accounts)) {
+            unset($this->accounts[$id]);
             return true;
         } else {
             return false;

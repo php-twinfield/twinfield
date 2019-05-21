@@ -41,14 +41,14 @@ trait GroupField
     }
 
     /**
-     * @param string|null $groupCode
+     * @param string|null $groupString
      * @return $this
      * @throws Exception
      */
-    public function setGroupFromString(?string $groupCode)
+    public function setGroupFromString(?string $groupString)
     {
         $group = new VatGroup();
-        $group->setCode($groupCode);
+        $group->setCode($groupString);
         return $this->setGroup($group);
     }
 }

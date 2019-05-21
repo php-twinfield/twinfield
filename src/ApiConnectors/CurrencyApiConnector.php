@@ -10,6 +10,7 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Response\ResponseException;
 use PhpTwinfield\Services\FinderService;
 use Webmozart\Assert\Assert;
 
@@ -26,7 +27,8 @@ class CurrencyApiConnector extends BaseApiConnector
 {
     /**
      * Requests a specific Currency based off the passed in code and optionally the office.
-     * NOTE: The Twinfield API does not currently support reading currencies
+     * NOTE: The Twinfield API does not currently officially support reading currencies
+     * This function uses the fact that the API will return part of an existing object when sending a known code with an explicit error (no name)
      *
      * @param string $code
      * @param Office $office If no office has been passed it will instead take the default office from the
@@ -35,21 +37,43 @@ class CurrencyApiConnector extends BaseApiConnector
      * @throws Exception
      */
 
-    /*
     public function get(string $code, Office $office): Currency
     {
-        // Make a request to read a single Currency. Set the required values
-        $request_currency = new Request\Read\Currency();
-        $request_currency
-            ->setOffice($office->getCode())
-            ->setCode($code);
+        $currency = new Currency;
+        $currency->setCode($code);
+        $currency->setOffice($office);
+        $currencyName = '';
 
-        // Send the Request document and set the response to this instance.
-        $response = $this->sendXmlDocument($request_currency);
+        $currencies = self::listAll($code, 1, 1, 100, array('office' => $office->getCode()));
 
-        return CurrencyMapper::map($response);
+        if (count($currencies) == 0) {
+            $currency->setResult(0);
+            return $currency;
+        }
+
+        foreach ($currencies as $currencyListing) {
+            if ($currencyListing->getCode() == $code) {
+                $currencyName = $currencyListing->getName();
+                break;
+            }
+        }
+
+        if (empty($currencyName)) {
+            $currency->setResult(0);
+            return $currency;
+        }
+
+        try {
+            $currencyResponse = $this->send($currency);
+        } catch (ResponseException $e) {
+            $currencyResponse = $e->getReturnedObject();
+            $currencyResponse->setMessages(null);
+            $currencyResponse->setName($currencyName);
+            $currencyResponse->setResult(1);
+        }
+
+        return $currencyResponse;
     }
-    */
 
     /**
      * Sends a Currency instance to Twinfield to update or add.
@@ -125,5 +149,33 @@ class CurrencyApiConnector extends BaseApiConnector
         );
 
         return $this->mapListAll("Currency", $response->data, $currencyArrayListAllTags);
+    }
+
+    /**
+     * Deletes a specific Currency based off the passed in code and optionally the office.
+     *
+     * @param string $code
+     * @param Office $office If no office has been passed it will instead take the default office from the
+     *                       passed in config class.
+     * @return Currency      The deleted Currency or Currency object with error message if it can't be found.
+     * @throws Exception
+     */
+    public function delete(string $code, Office $office): Currency
+    {
+        $currency = self::get($code, $office);
+
+        if ($currency->getResult() == 1) {
+            $currency->setStatusFromString("deleted");
+
+            try {
+                $currencyDeleted = self::send($currency);
+            } catch (ResponseException $e) {
+                $currencyDeleted = $e->getReturnedObject();
+            }
+
+            return $currencyDeleted;
+        } else {
+            return $currency;
+        }
     }
 }

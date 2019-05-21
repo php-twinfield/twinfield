@@ -41,14 +41,14 @@ trait SalesField
     }
 
     /**
-     * @param string|null $salesCode
+     * @param string|null $salesString
      * @return $this
      * @throws Exception
      */
-    public function setSalesFromString(?string $salesCode)
+    public function setSalesFromString(?string $salesString)
     {
         $sales = new GeneralLedger();
-        $sales->setCode($salesCode);
+        $sales->setCode($salesString);
         return $this->setSales($sales);
     }
 }

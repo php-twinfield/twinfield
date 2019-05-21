@@ -22,7 +22,9 @@ class MatchesApiConnector extends BaseApiConnector
      */
     public function send(MatchSet $matchSet): MatchSet
     {
-        return $this->sendAll([$matchSet])[0]->unwrap();
+        foreach($this->sendAll([$matchSet]) as $each) {
+            return $each->unwrap();
+        }
     }
 
     /**
@@ -38,7 +40,6 @@ class MatchesApiConnector extends BaseApiConnector
         $responses = [];
 
         foreach ($this->getProcessXmlService()->chunk($matchSets) as $chunk) {
-
             $document = new MatchDocument();
 
             foreach ($chunk as $matchSet) {

@@ -19,7 +19,7 @@ class VatCode extends Read
     public function __construct($office = null, $code = null)
     {
         parent::__construct();
-        
+
         $this->add('type', 'vat');
 
         if (null !== $office) {

@@ -41,14 +41,14 @@ trait CountryCodeField
     }
 
     /**
-     * @param string|null $countryCode
+     * @param string|null $countryCodeString
      * @return $this
      * @throws Exception
      */
-    public function setCountryCodeFromString(?string $countryCode)
+    public function setCountryCodeFromString(?string $countryCodeString)
     {
         $countryCode = new Country();
-        $countryCode->setCode($countryCode);
+        $countryCode->setCode($countryCodeString);
         return $this->setCountryCode($countryCode);
     }
 }

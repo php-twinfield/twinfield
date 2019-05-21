@@ -124,7 +124,7 @@ class CostCenterApiConnector extends BaseApiConnector
 
         return $this->mapListAll("CostCenter", $response->data, $costCenterArrayListAllTags);
     }
-    
+
     /**
      * Deletes a specific CostCenter based off the passed in code and optionally the office.
      *
@@ -137,8 +137,8 @@ class CostCenterApiConnector extends BaseApiConnector
     public function delete(string $code, Office $office): CostCenter
     {
         $costCenter = self::get($code, $office);
-        
-        if ($costCenter->getResult() == 1) {        
+
+        if ($costCenter->getResult() == 1) {
             $costCenter->setStatusFromString("deleted");
 
             try {

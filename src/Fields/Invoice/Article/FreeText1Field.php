@@ -41,14 +41,14 @@ trait FreeText1Field
     }
 
     /**
-     * @param string|null $freeText1Code
+     * @param string|null $freeText1String
      * @return $this
      * @throws Exception
      */
-    public function setFreeText1FromString(?string $freeText1Code)
+    public function setFreeText1FromString(?string $freeText1String)
     {
         $freeText1 = new GeneralLedger();
-        $freeText1->setCode($freeText1Code);
+        $freeText1->setCode($freeText1String);
         return $this->setFreeText1($freeText1);
     }
 }

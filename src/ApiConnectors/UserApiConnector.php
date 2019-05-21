@@ -2,7 +2,6 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
-use PhpTwinfield\DomDocuments\UsersDocument;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\UserMapper;
 use PhpTwinfield\Office;
@@ -24,12 +23,6 @@ use Webmozart\Assert\Assert;
  */
 class UserApiConnector extends BaseApiConnector
 {
-    const ACCESS_RULES_DISABLED = 0;
-    const ACCESS_RULES_ENABLED = 1;
-
-    const MUTUAL_OFFICES_DISABLED = 0;
-    const MUTUAL_OFFICES_ENABLED = 1;
-
     /**
      * Requests a specific User based off the passed in code and optionally the office.
      *
@@ -54,53 +47,8 @@ class UserApiConnector extends BaseApiConnector
     }
 
     /**
-     * Sends a User instance to Twinfield to update or add.
-     *
-     * @param User $user
-     * @return User
-     * @throws Exception
-     */
-    public function send(User $user): User
-    {
-        foreach($this->sendAll([$user]) as $each) {
-            return $each->unwrap();
-        }
-    }
-
-    /**
-     * @param User[] $users
-     * @return MappedResponseCollection
-     * @throws Exception
-     */
-    public function sendAll(array $users): MappedResponseCollection
-    {
-        Assert::allIsInstanceOf($users, User::class);
-
-        /** @var Response[] $responses */
-        $responses = [];
-
-        foreach ($this->getProcessXmlService()->chunk($users) as $chunk) {
-
-            $usersDocument = new UsersDocument();
-
-            foreach ($chunk as $user) {
-                $usersDocument->addUser($user);
-            }
-
-            $responses[] = $this->sendXmlDocument($usersDocument);
-        }
-
-        return $this->getProcessXmlService()->mapAll($responses, "user", function(Response $response): User {
-            return UserMapper::map($response);
-        });
-    }
-
-    /**
      * List all users.
      *
-     * @param string|null  $officeCode    The office code, if only users from one office should be listed
-     * @param integer|null $accessRules   One of the self::ACCESS_RULES_* constants.
-     * @param integer|null $mutualOffices One of the self::MUTUAL_OFFICES_* constants.
      * @param string       $pattern       The search pattern. May contain wildcards * and ?
      * @param int          $field         The search field determines which field or fields will be searched. The
      *                                    available fields depends on the finder type. Passing a value outside the
@@ -114,25 +62,12 @@ class UserApiConnector extends BaseApiConnector
      * @return User[] The users found.
      */
     public function listAll(
-        $officeCode = null,
-        $accessRules = null,
-        $mutualOffices = null,
         $pattern = '*',
         $field = 0,
         $firstRow = 1,
         $maxRows = 100,
         $options = array()
     ): array {
-        if (!is_null($officeCode)) {
-            $options['office'] = $officeCode;
-        }
-        if (!is_null($accessRules)) {
-            $options['accessRules'] = $accessRules;
-        }
-        if (!is_null($mutualOffices)) {
-            $options['mutualOffices'] = $mutualOffices;
-        }
-
         $optionsArrayOfString = $this->convertOptionsToArrayOfString($options);
 
         $response = $this->getFinderService()->searchFinder(FinderService::TYPE_USERS, $pattern, $field, $firstRow, $maxRows, $optionsArrayOfString);

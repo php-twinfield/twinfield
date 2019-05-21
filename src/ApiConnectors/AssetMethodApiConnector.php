@@ -123,7 +123,7 @@ class AssetMethodApiConnector extends BaseApiConnector
 
         return $this->mapListAll("AssetMethod", $response->data, $assetMethodArrayListAllTags);
     }
-    
+
     /**
      * Deletes a specific AssetMethod based off the passed in code and optionally the office.
      *
@@ -136,8 +136,8 @@ class AssetMethodApiConnector extends BaseApiConnector
     public function delete(string $code, Office $office): AssetMethod
     {
         $assetMethod = self::get($code, $office);
-        
-        if ($assetMethod->getResult() == 1) {        
+
+        if ($assetMethod->getResult() == 1) {
             $assetMethod->setStatusFromString("deleted");
 
             try {

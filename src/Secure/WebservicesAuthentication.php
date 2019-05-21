@@ -10,7 +10,7 @@ class WebservicesAuthentication extends AuthenticatedConnection
     /**
      * @var string
      */
-    private $username;
+    private $userName;
     /**
      * @var string
      */
@@ -37,15 +37,15 @@ class WebservicesAuthentication extends AuthenticatedConnection
      */
     private $cluster = 'https://c3.twinfield.com';
 
-    public function __construct(string $username, string $password, string $organization)
+    public function __construct(string $userName, string $password, string $organization)
     {
-        $this->username = $username;
+        $this->userName = $userName;
         $this->password = $password;
         $this->organization = $organization;
     }
 
     /**
-     * Login using username / password / organization combo.
+     * Login using userName / password / organization combo.
      *
      * @throws Exception
      */
@@ -60,16 +60,16 @@ class WebservicesAuthentication extends AuthenticatedConnection
             private const LOGIN_OK = "Ok";
 
             /**
-             * @param string $username
+             * @param string $userName
              * @param string $password
              * @param string $organization
              * @return string[]
              * @throws Exception
              */
-            public function getSessionIdAndCluster(string $username, string $password, string $organization): array
+            public function getSessionIdAndCluster(string $userName, string $password, string $organization): array
             {
                 $response = $this->Logon([
-                    "user"         => $username,
+                    "user"         => $userName,
                     "password"     => $password,
                     "organisation" => $organization,
                 ]);
@@ -105,7 +105,7 @@ class WebservicesAuthentication extends AuthenticatedConnection
             }
         };
 
-        [$this->sessionID, $this->cluster] = $loginService->getSessionIdAndCluster($this->username, $this->password, $this->organization);
+        [$this->sessionID, $this->cluster] = $loginService->getSessionIdAndCluster($this->userName, $this->password, $this->organization);
     }
 
     protected function getSoapHeaders()

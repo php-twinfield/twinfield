@@ -41,14 +41,14 @@ trait FreeText2Field
     }
 
     /**
-     * @param string|null $freeText2Code
+     * @param string|null $freeText2String
      * @return $this
      * @throws Exception
      */
-    public function setFreeText2FromString(?string $freeText2Code)
+    public function setFreeText2FromString(?string $freeText2String)
     {
         $freeText2 = new CostCenter();
-        $freeText2->setCode($freeText2Code);
+        $freeText2->setCode($freeText2String);
         return $this->setFreeText2($freeText2);
     }
 }

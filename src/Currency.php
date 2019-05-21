@@ -15,10 +15,10 @@ use PhpTwinfield\Fields\StatusField;
 class Currency extends BaseObject
 {
     use CodeField;
-    use StatusField;
     use NameField;
     use OfficeField;
     use ShortNameField;
+    use StatusField;
 
     private $rates = [];
 

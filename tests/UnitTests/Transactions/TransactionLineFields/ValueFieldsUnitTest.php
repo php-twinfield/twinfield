@@ -3,7 +3,7 @@
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
-use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
+use PhpTwinfield\Fields\Transaction\TransactionLine\ValueFields;
 use PHPUnit\Framework\TestCase;
 
 /**

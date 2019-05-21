@@ -41,14 +41,14 @@ trait Dim5Field
     }
     
     /**
-     * @param string|null $dim5Code
+     * @param string|null $dim5String
      * @return $this
      * @throws Exception
      */
-    public function setDim5FromString(?string $dim5Code)
+    public function setDim5FromString(?string $dim5String)
     {
         $dim5 = new Dummy();
-        $dim5->setCode($dim5Code);
+        $dim5->setCode($dim5String);
         return $this->setDim5($dim5);
     }
 }

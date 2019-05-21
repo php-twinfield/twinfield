@@ -41,14 +41,14 @@ trait AuthoriserField
     }
 
     /**
-     * @param string|null $authoriserCode
+     * @param string|null $authoriserString
      * @return $this
      * @throws Exception
      */
-    public function setAuthoriserFromString(?string $authoriserCode)
+    public function setAuthoriserFromString(?string $authoriserString)
     {
         $authoriser = new User();
-        $authoriser->setCode($authoriserCode);
+        $authoriser->setCode($authoriserString);
         return $this->setAuthoriser($authoriser);
     }
 }

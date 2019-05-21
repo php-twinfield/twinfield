@@ -41,14 +41,14 @@ trait PurchaseValueField
     }
 
     /**
-     * @param string|null $purchaseValueCode
+     * @param string|null $purchaseValueString
      * @return $this
      * @throws Exception
      */
-    public function setPurchaseValueFromString(?string $purchaseValueCode)
+    public function setPurchaseValueFromString(?string $purchaseValueString)
     {
         $purchaseValue = new GeneralLedger();
-        $purchaseValue->setCode($purchaseValueCode);
+        $purchaseValue->setCode($purchaseValueString);
         return $this->setPurchaseValue($purchaseValue);
     }
 }

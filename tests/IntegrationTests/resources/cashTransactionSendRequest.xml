@@ -1,10 +1,10 @@
 <transactions>
     <transaction destiny="temporary" raisewarning="false">
         <header>
+            <office>001</office>
             <code>CASH</code>
             <currency>EUR</currency>
-            <date>20131104</date>
-            <office>001</office>
+            <date raisewarning="false">20131104</date>
             <statementnumber>4</statementnumber>
             <startvalue>974.01</startvalue>
             <closevalue>1409.56</closevalue>
@@ -20,7 +20,6 @@
                 <dim2>1000</dim2>
                 <debitcredit>credit</debitcredit>
                 <value>435.55</value>
-                <invoicenumber>11001770</invoicenumber>
                 <description>Invoice paid</description>
             </line>
         </lines>

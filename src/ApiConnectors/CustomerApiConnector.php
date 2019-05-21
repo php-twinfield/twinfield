@@ -137,8 +137,8 @@ class CustomerApiConnector extends BaseApiConnector
     public function delete(string $code, Office $office): Customer
     {
         $customer = self::get($code, $office);
-        
-        if ($customer->getResult() == 1) {        
+
+        if ($customer->getResult() == 1) {
             $customer->setStatusFromString("deleted");
 
             try {

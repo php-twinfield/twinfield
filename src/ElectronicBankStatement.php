@@ -2,13 +2,13 @@
 
 namespace PhpTwinfield;
 
-use Money\Currency;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
-use PhpTwinfield\Transactions\TransactionFields\OfficeField;
-use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
-use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
-use PhpTwinfield\Transactions\TransactionLineFields\DateField;
+use PhpTwinfield\Fields\CurrencyField;
+use PhpTwinfield\Fields\DateField;
+use PhpTwinfield\Fields\OfficeField;
+use PhpTwinfield\Fields\Transaction\CloseAndStartValueFields;
+use PhpTwinfield\Fields\Transaction\StatementNumberField;
 use Webmozart\Assert\Assert;
 
 /**
@@ -16,50 +16,52 @@ use Webmozart\Assert\Assert;
  */
 class ElectronicBankStatement
 {
-    use StartAndCloseValueFields;
+    use CloseAndStartValueFields;
     use DateField;
     use OfficeField;
     use StatementNumberField;
 
-    /**
-     * Optional attribute to indicate whether duplicates may be imported or not.
-     *
-     * @var bool
-     */
-    private $importDuplicate = false;
-
-    /**
-     * Contains the bank statement transactions.
-     *
-     * @var array
-     */
-    private $transactions = [];
-
-    /**
+    /*
      * Account number. Either account or iban or code should be set.
      *
      * @var ?string
      */
     private $account;
 
-    /**
-     * IBAN account number. Either account or iban or code should be set.
-     *
-     * @var ?string
-     */
-    private $iban;
-
-    /**
+    /*
      * Code of the corresponding bank book. Either account or iban or code should be set.
      *
      * @var ?string
      */
     private $code;
 
+    /*
+     * IBAN account number. Either account or iban or code should be set.
+     *
+     * @var ?string
+     */
+    private $iban;
+
+    /*
+     * Optional attribute to indicate whether duplicates may be imported or not.
+     *
+     * @var bool
+     */
+    private $importDuplicate = false;
+
+    /*
+     * Contains the bank statement transactions.
+     *
+     * @var array
+     */
+    private $transactions = [];
+
     public function __construct()
     {
-        $this->currency   = new Currency("EUR");
-        $this->startvalue = new Money(0, $this->getCurrency());
+        $currency = new \PhpTwinfield\Currency;
+        $currency->setCode('EUR');
+        $this->currency   = $currency;
+        $this->startValue = new \Money\Money(0, new \Money\Currency($currency->getCode()));
     }
 
     public function getAccount(): ?string
@@ -71,18 +73,6 @@ class ElectronicBankStatement
     {
         $this->account = $account;
         $this->iban = null;
-        $this->code = null;
-    }
-
-    public function getIban(): ?string
-    {
-        return $this->iban;
-    }
-
-    public function setIban(string $iban): void
-    {
-        $this->iban = $iban;
-        $this->account = null;
         $this->code = null;
     }
 
@@ -99,6 +89,18 @@ class ElectronicBankStatement
         $this->code = $code;
         $this->account = null;
         $this->iban = null;
+    }
+
+    public function getIban(): ?string
+    {
+        return $this->iban;
+    }
+
+    public function setIban(string $iban): void
+    {
+        $this->iban = $iban;
+        $this->account = null;
+        $this->code = null;
     }
 
     /**
@@ -128,17 +130,17 @@ class ElectronicBankStatement
     public function setTransactions(array $transactions): void
     {
         Assert::allIsInstanceOf($transactions, ElectronicBankStatementTransaction::class);
-        Assert::notEmpty($this->startvalue);
+        Assert::notEmpty($this->startValue);
 
         $this->transactions = $transactions;
 
-        $this->closevalue = $this->startvalue;
+        $this->closeValue = $this->startValue;
 
         foreach ($transactions as $transaction) {
             if ($transaction->getDebitCredit() == DebitCredit::CREDIT()) {
-                $this->closevalue = $this->closevalue->add($transaction->getValue());
+                $this->closeValue = $this->closeValue->add($transaction->getValue());
             } else {
-                $this->closevalue = $this->closevalue->subtract($transaction->getValue());
+                $this->closeValue = $this->closeValue->subtract($transaction->getValue());
             }
         }
     }

@@ -12,9 +12,9 @@ use PhpTwinfield\Fields\Invoice\Article\PercentageField;
 use PhpTwinfield\Fields\Invoice\Article\TypeField;
 use PhpTwinfield\Fields\Invoice\Article\UnitNamePluralField;
 use PhpTwinfield\Fields\Invoice\Article\UnitNameSingularField;
-use PhpTwinfield\Fields\Invoice\PerformanceTypeField;
 use PhpTwinfield\Fields\NameField;
 use PhpTwinfield\Fields\OfficeField;
+use PhpTwinfield\Fields\PerformanceTypeField;
 use PhpTwinfield\Fields\ShortNameField;
 use PhpTwinfield\Fields\StatusField;
 use PhpTwinfield\Fields\VatCodeField;
@@ -64,10 +64,10 @@ class Article extends BaseObject
         return $this;
     }
 
-    public function removeLine($index)
+    public function removeLine($id)
     {
-        if (array_key_exists($index, $this->lines)) {
-            unset($this->lines[$index]);
+        if (array_key_exists($id, $this->lines)) {
+            unset($this->lines[$id]);
             return true;
         } else {
             return false;
