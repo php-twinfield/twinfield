@@ -85,8 +85,8 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame($ReflectObject->getConstant('NOTMATCHABLE'), (string)$detailLine1->getMatchStatus());
         $this->assertNull($detailLine1->getMatchLevel());
         $this->assertNull($detailLine1->getBaseValueOpen());
-        $this->assertNull($detailLine1->getVatCode());
-        $this->assertNull($detailLine1->getVatValue());
+        $this->assertNull($detailLine1->getVatCodeToString());
+        $this->assertEquals(Money::EUR(0), $detailLine->getVatValue());
         $this->assertNull($detailLine1->getPerformanceType());
         $this->assertNull($detailLine1->getPerformanceCountry());
         $this->assertNull($detailLine1->getPerformanceVatNumber());
@@ -108,7 +108,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame(2, $detailLine2->getMatchLevel());
         $this->assertEquals(Money::EUR(43555), $detailLine2->getBaseValueOpen());
         $this->assertNull($detailLine2->getVatCodeToString());
-        $this->assertNull($detailLine2->getVatValue());
+        $this->assertEquals(Money::EUR(0), $detailLine2->getVatValue());
         $this->assertNull($detailLine2->getPerformanceType());
         $this->assertNull($detailLine2->getPerformanceCountry());
         $this->assertNull($detailLine2->getPerformanceVatNumber());
