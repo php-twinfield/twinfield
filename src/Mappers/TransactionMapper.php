@@ -146,6 +146,7 @@ class TransactionMapper extends BaseMapper
                 $transactionLine
                     ->setBaseValueFromFloat(self::getField($transaction, $lineElement, 'basevalue'))
                     ->setComment(self::getField($transaction, $lineElement, 'comment'))
+                    ->setValueFromFloat(self::getField($transaction, $lineElement, 'value'))
                     ->setDebitCredit(self::parseEnumAttribute('DebitCredit', self::getField($transaction, $lineElement, 'debitcredit')))
                     ->setDescription(self::getField($transaction, $lineElement, 'description'))
                     ->setDestOfficeFromString(self::getField($transaction, $lineElement, 'destoffice'))
@@ -156,8 +157,7 @@ class TransactionMapper extends BaseMapper
                     ->setMatchStatusFromString(self::getField($transaction, $lineElement, 'matchstatus'))
                     ->setRate(self::getField($transaction, $lineElement, 'rate'))
                     ->setRepRate(self::getField($transaction, $lineElement, 'reprate'))
-                    ->setRepValueFromFloat(self::getField($transaction, $lineElement, 'repvalue'))
-                    ->setValueFromFloat(self::getField($transaction, $lineElement, 'value'));
+                    ->setRepValueFromFloat(self::getField($transaction, $lineElement, 'repvalue'));
 
                 if ($transaction instanceof BankTransaction || $transaction instanceof CashTransaction || $transaction instanceof JournalTransaction) {
                     if ($lineType == LineType::DETAIL()) {
