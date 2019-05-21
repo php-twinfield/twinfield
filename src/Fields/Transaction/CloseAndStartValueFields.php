@@ -4,6 +4,7 @@ namespace PhpTwinfield\Fields\Transaction;
 
 use Money\Money;
 use PhpTwinfield\Currency;
+use PhpTwinfield\Util;
 use Webmozart\Assert\Assert;
 
 trait CloseAndStartValueFields
