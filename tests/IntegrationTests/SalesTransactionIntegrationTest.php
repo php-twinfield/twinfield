@@ -65,7 +65,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(new \DateTimeImmutable('2013-05-06'), $salesTransaction->getDueDate());
         $this->assertSame('20130-6000', $salesTransaction->getInvoiceNumber());
         $this->assertSame('+++100/0160/01495+++', $salesTransaction->getPaymentReference());
-        $this->assertSame('', $salesTransaction->getOriginReference());
+        $this->assertNull($salesTransaction->getOriginReference());
 
         /** @var SalesTransactionLine[] $salesTransactionLines */
         $salesTransactionLines = $salesTransaction->getLines();

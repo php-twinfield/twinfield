@@ -1,10 +1,10 @@
 <transactions>
     <transaction destiny="temporary">
         <header>
+            <office>001</office>
             <code>MEMO</code>
             <currency>EUR</currency>
-            <date>20131104</date>
-            <office>001</office>
+            <date raisewarning="false">20131104</date>
         </header>
         <lines>
             <line type="detail" id="1">

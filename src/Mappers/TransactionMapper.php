@@ -186,9 +186,9 @@ class TransactionMapper extends BaseMapper
                         $transactionLine->setDim3FromString(self::getField($transaction, $lineElement, 'dim3'));
                     } elseif ($transaction instanceof PurchaseTransaction && $lineType == LineType::VAT()) {
                         $transactionLine->setDim3FromString(self::getField($transaction, $lineElement, 'dim3'));
-                    }
+                    } elseif ($lineType == LineType::TOTAL()) {
+                        $transactionLine->setDim2FromString(self::getField($transaction, $lineElement, 'dim2'));
 
-                    if ($lineType == LineType::TOTAL()) {
                         $baseValueOpen = self::getField($transaction, $lineElement, 'basevalueopen') ?: self::getField($transaction, $lineElement, 'openbasevalue');
 
                         if ($baseValueOpen) {
@@ -213,9 +213,7 @@ class TransactionMapper extends BaseMapper
                     $transactionLine->setVatBaseValueFromFloat(self::getField($transaction, $lineElement, 'vatbasevalue'));
                     $transactionLine->setVatRepValueFromFloat(self::getField($transaction, $lineElement, 'vatrepvalue'));
                     $transactionLine->setVatValueFromFloat(self::getField($transaction, $lineElement, 'vatvalue'));
-                }
-
-                if ($lineType == LineType::VAT()) {
+                } elseif ($lineType == LineType::VAT()) {
                     if (Util::objectUses(BaselineField::class, $transactionLine)) {
                         $transactionLine->setBaseline(self::getField($transaction, $lineElement, 'baseline'));
                     }
@@ -223,29 +221,7 @@ class TransactionMapper extends BaseMapper
                     $transactionLine->setVatBaseTurnoverFromFloat(self::getField($transaction, $lineElement, 'vatbaseturnover'));
                     $transactionLine->setVatRepTurnoverFromFloat(self::getField($transaction, $lineElement, 'vatrepturnover'));
                     $transactionLine->setVatTurnoverFromFloat(self::getField($transaction, $lineElement, 'vatturnover'));
-                }
-
-                if ($lineType != LineType::TOTAL()) {
-                    if (Util::objectUses(PerformanceCountryField::class, $transactionLine)) {
-                        $transactionLine->setPerformanceCountryFromString(self::getField($transaction, $lineElement, 'performancecountry'));
-                    }
-
-                    if (Util::objectUses(PerformanceDateField::class, $transactionLine)) {
-                        $transactionLine->setPerformanceDateFromString(self::getField($transaction, $lineElement, 'performancedate'));
-                    }
-
-                    if (Util::objectUses(PerformanceTypeField::class, $transactionLine)) {
-                        $transactionLine->setPerformanceTypeFromString(self::getField($transaction, $lineElement, 'performancetype'));
-                    }
-
-                    if (Util::objectUses(PerformanceVatNumberField::class, $transactionLine)) {
-                        $transactionLine->setPerformanceVatNumber(self::getField($transaction, $lineElement, 'performancevatnumber'));
-                    }
-
-                    $transactionLine->setVatCodeFromString(self::getField($transaction, $lineElement, 'vatcode'));
-                }
-
-                if ($lineType == LineType::TOTAL()) {
+                } elseif ($lineType == LineType::TOTAL()) {
                     if (Util::objectUses(MatchDateField::class, $transactionLine)) {
                         $transactionLine->setMatchDateFromString(self::getField($transaction, $lineElement, 'matchdate'));
                     }
@@ -269,6 +245,26 @@ class TransactionMapper extends BaseMapper
                     if (Util::objectUses(VatTotalField::class, $transactionLine)) {
                         $transactionLine->setVatTotalFromFloat(self::getField($transaction, $lineElement, 'vattotal'));
                     }
+                }
+
+                if ($lineType != LineType::TOTAL()) {
+                    if (Util::objectUses(PerformanceCountryField::class, $transactionLine)) {
+                        $transactionLine->setPerformanceCountryFromString(self::getField($transaction, $lineElement, 'performancecountry'));
+                    }
+
+                    if (Util::objectUses(PerformanceDateField::class, $transactionLine)) {
+                        $transactionLine->setPerformanceDateFromString(self::getField($transaction, $lineElement, 'performancedate'));
+                    }
+
+                    if (Util::objectUses(PerformanceTypeField::class, $transactionLine)) {
+                        $transactionLine->setPerformanceTypeFromString(self::getField($transaction, $lineElement, 'performancetype'));
+                    }
+
+                    if (Util::objectUses(PerformanceVatNumberField::class, $transactionLine)) {
+                        $transactionLine->setPerformanceVatNumber(self::getField($transaction, $lineElement, 'performancevatnumber'));
+                    }
+
+                    $transactionLine->setVatCodeFromString(self::getField($transaction, $lineElement, 'vatcode'));
                 }
 
                 $transaction->addLine($transactionLine);
