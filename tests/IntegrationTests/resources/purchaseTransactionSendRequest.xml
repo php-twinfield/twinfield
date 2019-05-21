@@ -15,13 +15,13 @@
                 <dim1>1600</dim1>
                 <dim2>2000</dim2>
                 <debitcredit>credit</debitcredit>
-                <value>121.00</value>
+                <value>121</value>
                 <description />
             </line>
             <line type="detail" id="2">
                 <dim1>8020</dim1>
                 <debitcredit>debit</debitcredit>
-                <value>100.00</value>
+                <value>100</value>
                 <description>Outfit</description>
                 <vatcode>IH</vatcode>
             </line>

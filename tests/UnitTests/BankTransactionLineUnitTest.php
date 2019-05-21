@@ -106,7 +106,7 @@ class BankTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
 
     public function testCanNotSetMatchLevelIfLineTypeIsNotDetail()
     {
-        $this->expectExceptionMessage('Invalid field \'matchLevel\' for line class PhpTwinfield\BankTransactionLine and type \'vat\'.');
+        $this->expectExceptionMessage('Invalid field \'matchlevel\' for line class PhpTwinfield\BankTransactionLine and type \'vat\'.');
 
         $this->line->setLineType(LineType::VAT());
         $this->line->setMatchLevel(1);
@@ -122,7 +122,7 @@ class BankTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
 
     public function testCanNotSetBaseValueOpenIfLineTypeIsNotDetail()
     {
-        $this->expectExceptionMessage('Invalid field \'baseValueOpen\' for line class PhpTwinfield\BankTransactionLine and type \'vat\'.');
+        $this->expectExceptionMessage('Invalid field \'basevalueopen\' for line class PhpTwinfield\BankTransactionLine and type \'vat\'.');
 
         $this->line->setLineType(LineType::VAT());
         $this->line->setBaseValueOpen(Money::EUR(100));

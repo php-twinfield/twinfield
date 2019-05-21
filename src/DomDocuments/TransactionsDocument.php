@@ -114,7 +114,7 @@ class TransactionsDocument extends BaseDocument
             $headerElement->appendChild($this->createNodeWithTextContent('closevalue', $transaction->getCloseValueToFloat()));
         }
 
-        if (Util::objectUses(FreeText1Field::class, $transaction)) {
+        if (Util::objectUses(FreeText1Field::class, $transaction) && $transaction->getFreetext1() !== null) {
             $headerElement->appendChild($this->createNodeWithTextContent("freetext1", $transaction->getFreetext1()));
         }
 
@@ -122,7 +122,7 @@ class TransactionsDocument extends BaseDocument
             $headerElement->appendChild($this->createNodeWithTextContent("freetext2", $transaction->getFreetext2()));
         }
 
-        if (Util::objectUses(FreeText3Field::class, $transaction)) {
+        if (Util::objectUses(FreeText3Field::class, $transaction) && $transaction->getFreetext3() !== null) {
             $headerElement->appendChild($this->createNodeWithTextContent("freetext3", $transaction->getFreetext3()));
         }
 
