@@ -87,7 +87,7 @@ class TransactionsDocument extends BaseDocument
             $headerElement->appendChild($this->createNodeWithTextContent('regime', $transaction->getRegime()));
         }
 
-        $headerElement->appendChild($this->createNodeWithTextContent("date", $transaction->getDateToString(), array('raisewarning' => 'getDateRaiseWarningToString')));
+        $headerElement->appendChild($this->createNodeWithTextContent("date", $transaction->getDateToString(), $transaction, array('raisewarning' => 'getDateRaiseWarningToString')));
 
         if (Util::objectUses(StatementNumberField::class, $transaction) && $transaction->getStatementnumber() !== null) {
             $headerElement->appendChild($this->createNodeWithTextContent('statementnumber', $transaction->getStatementnumber()));
@@ -103,7 +103,7 @@ class TransactionsDocument extends BaseDocument
         }
 
         if (Util::objectUses(InvoiceNumberField::class, $transaction) && $transaction->getInvoiceNumber() !== null) {
-            $headerElement->appendChild($this->createNodeWithTextContent('invoicenumber', $transaction->getInvoiceNumber(), array('raisewarning' => 'getInvoiceNumberRaiseWarningToString')));
+            $headerElement->appendChild($this->createNodeWithTextContent('invoicenumber', $transaction->getInvoiceNumber(), $transaction, array('raisewarning' => 'getInvoiceNumberRaiseWarningToString')));
         }
 
         if (Util::objectUses(PaymentReferenceField::class, $transaction) && $transaction->getPaymentReference() !== null) {

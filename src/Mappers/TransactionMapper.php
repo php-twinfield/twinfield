@@ -151,13 +151,18 @@ class TransactionMapper extends BaseMapper
                     ->setDescription(self::getField($transaction, $lineElement, 'description'))
                     ->setDestOfficeFromString(self::getField($transaction, $lineElement, 'destoffice'))
                     ->setDim1FromString(self::getField($transaction, $lineElement, 'dim1'))
-                    ->setFreeChar(self::getField($transaction, $lineElement, 'freechar'))
                     ->setId($lineElement->getAttribute('id'))
                     ->setLineType(new LineType($lineType))
                     ->setMatchStatusFromString(self::getField($transaction, $lineElement, 'matchstatus'))
                     ->setRate(self::getField($transaction, $lineElement, 'rate'))
                     ->setRepRate(self::getField($transaction, $lineElement, 'reprate'))
                     ->setRepValueFromFloat(self::getField($transaction, $lineElement, 'repvalue'));
+                    
+                $freeChar = self::getField($transaction, $lineElement, 'freechar');
+                
+                if ($freeChar !== null && strlen($freeChar) == 1) {
+                    $transactionLine->setFreeChar($freeChar);
+                }
 
                 if ($transaction instanceof BankTransaction || $transaction instanceof CashTransaction || $transaction instanceof JournalTransaction) {
                     if ($lineType == LineType::DETAIL()) {
