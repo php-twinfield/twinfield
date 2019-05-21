@@ -26,13 +26,14 @@ use PhpTwinfield\Fields\Transaction\TransactionLine\PerformanceVatNumberField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\ValueFields;
 use PhpTwinfield\Fields\Transaction\TransactionLine\ValueOpenField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\VatBaseTotalField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\VatRepTotalField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\VatTotalField;
 use PhpTwinfield\Util;
 
 /**
  * TransactionsDocument class.
  *
- * @author Dylan Schoenmakers <dylan@opifer.nl>
+ * @author Dylan Schoenmakers <dylan@opifer.nl>, extended by Yannick Aerssens <y.r.aerssens@gmail.com>
  */
 class TransactionsDocument extends BaseDocument
 {
