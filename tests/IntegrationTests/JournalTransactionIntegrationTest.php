@@ -86,7 +86,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine1->getMatchLevel());
         $this->assertNull($detailLine1->getBaseValueOpen());
         $this->assertNull($detailLine1->getVatCodeToString());
-        $this->assertEquals(Money::EUR(0), $detailLine->getVatValue());
+        $this->assertEquals(Money::EUR(0), $detailLine1->getVatValue());
         $this->assertNull($detailLine1->getPerformanceType());
         $this->assertNull($detailLine1->getPerformanceCountry());
         $this->assertNull($detailLine1->getPerformanceVatNumber());
