@@ -5,8 +5,7 @@ namespace PhpTwinfield;
 use PhpTwinfield\BankTransactionLine;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
-use PhpTwinfield\Fields\Transaction\CloseValueField;
-use PhpTwinfield\Fields\Transaction\StartValueField;
+use PhpTwinfield\Fields\Transaction\CloseAndStartValueFields;
 use PhpTwinfield\Fields\Transaction\StatementNumberField;
 
 /*
@@ -14,13 +13,14 @@ use PhpTwinfield\Fields\Transaction\StatementNumberField;
  */
 class BankTransaction extends BaseTransaction
 {
-    use CloseValueField;
-    use StartValueField;
+    use CloseAndStartValueFields {
+        setCurrency as protected traitSetCurrency;
+    }
+
     use StatementNumberField;
 
     public function __construct()
     {
-        $this->closeValue = new \Money\Money(0, new \Money\Currency('EUR'));
         $this->startValue = new \Money\Money(0, new \Money\Currency('EUR'));
     }
 
@@ -30,6 +30,18 @@ class BankTransaction extends BaseTransaction
     public function getLineClassName(): string
     {
         return BankTransactionLine::class;
+    }
+
+    /*
+     * Set the currency. Can only be done when the start value is still 0.
+     *
+     * @param Currency $currency
+     * @return $this
+     */
+    public function setCurrency(?Currency $currency): parent
+    {
+        $this->traitSetCurrency($currency);
+        return $this;
     }
 
     /*
@@ -50,12 +62,6 @@ class BankTransaction extends BaseTransaction
             } else {
                 $this->closeValue = $this->getCloseValue()->subtract($line->getValue());
             }
-        }
-
-        if ($line->getDebitCredit()->equals(DebitCredit::CREDIT())) {
-            $this->closeValue = $this->getCloseValue()->add($this->getStartValue());
-        } else {
-            $this->closeValue = $this->getCloseValue()->subtract($this->getStartValue());
         }
 
         return $this;

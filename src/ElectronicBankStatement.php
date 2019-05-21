@@ -7,8 +7,7 @@ use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Fields\CurrencyField;
 use PhpTwinfield\Fields\DateField;
 use PhpTwinfield\Fields\OfficeField;
-use PhpTwinfield\Fields\Transaction\CloseValueField;
-use PhpTwinfield\Fields\Transaction\StartValueField;
+use PhpTwinfield\Fields\Transaction\CloseAndStartValueFields;
 use PhpTwinfield\Fields\Transaction\StatementNumberField;
 use Webmozart\Assert\Assert;
 
@@ -17,11 +16,9 @@ use Webmozart\Assert\Assert;
  */
 class ElectronicBankStatement
 {
-    use CloseValueField;
-    use CurrencyField;
+    use CloseAndStartValueFields;
     use DateField;
     use OfficeField;
-    use StartValueField;
     use StatementNumberField;
 
     /*
@@ -64,8 +61,7 @@ class ElectronicBankStatement
         $currency = new \PhpTwinfield\Currency;
         $currency->setCode('EUR');
         $this->currency   = $currency;
-        $this->closeValue = new \Money\Money(0, new \Money\Currency('EUR'));
-        $this->startValue = new \Money\Money(0, new \Money\Currency('EUR'));
+        $this->startValue = new \Money\Money(0, new \Money\Currency($currency->getCode()));
     }
 
     public function getAccount(): ?string

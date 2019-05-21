@@ -45,10 +45,6 @@ abstract class BaseTransaction extends BaseObject
 
     public function getBookingReference(): BookingReference
     {
-        return new BookingReference(
-            $this->office,
-            $this->code,
-            $this->number
-        );
+        return new BookingReference($this->office, $this->code, $this->number);
     }
 }
