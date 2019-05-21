@@ -95,7 +95,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(LineType::DETAIL(), $detailLine->getLineType());
         $this->assertSame(2, $detailLine->getId());
         $this->assertSame('8020', $detailLine->getDim1ToString());
-        $this->assertNull($detailLine->getDim2());
+        $this->assertNull($detailLine->getDim2ToString());
         $this->assertEquals(DebitCredit::DEBIT(), $detailLine->getDebitCredit());
         $this->assertEquals(Money::EUR(10000), $detailLine->getValue());
         $this->assertEquals(Money::EUR(10000), $detailLine->getBaseValue());

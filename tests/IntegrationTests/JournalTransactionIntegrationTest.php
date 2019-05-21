@@ -107,7 +107,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame($ReflectObject->getConstant('AVAILABLE'), (string)$detailLine2->getMatchStatus());
         $this->assertSame(2, $detailLine2->getMatchLevel());
         $this->assertEquals(Money::EUR(43555), $detailLine2->getBaseValueOpen());
-        $this->assertNull($detailLine2->getVatCode());
+        $this->assertNull($detailLine2->getVatCodeToString());
         $this->assertNull($detailLine2->getVatValue());
         $this->assertNull($detailLine2->getPerformanceType());
         $this->assertNull($detailLine2->getPerformanceCountry());

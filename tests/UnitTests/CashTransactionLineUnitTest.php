@@ -85,7 +85,8 @@ class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
         $this->line->setLineType(LineType::DETAIL());
 
         $this->assertEquals($this->line, $this->line->setMatchStatus(MatchStatus::MATCHED()), 'Fluid interface is expected');
-        $this->assertSame(MatchStatus::MATCHED(), $this->line->getMatchStatus());
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
+        $this->assertSame($ReflectObject->getConstant('MATCHED'), (string)$this->line->getMatchStatus());
     }
 
     public function testCanNotSetMatchStatusOtherThanNotMatchableIfLineTypeIsNotDetail()

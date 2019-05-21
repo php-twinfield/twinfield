@@ -111,7 +111,7 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame(2, $detailLine->getMatchLevel());
         $this->assertEquals(Money::EUR(43555), $detailLine->getBaseValueOpen());
         $this->assertEquals(Money::EUR(65333), $detailLine->getRepValue());
-        $this->assertNull($detailLine->getVatCode());
+        $this->assertNull($detailLine->getVatCodeToString());
         $this->assertNull($detailLine->getVatValue());
         $this->assertNull($detailLine->getVatTotal());
         $this->assertNull($detailLine->getVatBaseTotal());
