@@ -8,20 +8,6 @@ use PhpTwinfield\MatchReferenceInterface;
 interface TransactionLineInterface
 {
     /**
-     * Get the type of line.
-     *
-     * @return LineType
-     */
-    public function getLineType(): LineType;
-
-    /**
-     * Get the id of the line (or null if not sent to Twinfield yet).
-     *
-     * @return int|null
-     */
-    public function getId(): ?int;
-
-    /**
      * Set the transaction on the line. This is needed later on.
      *
      * @param $object
