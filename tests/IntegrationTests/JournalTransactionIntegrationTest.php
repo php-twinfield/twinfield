@@ -73,7 +73,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(LineType::DETAIL(), $detailLine1->getLineType());
         $this->assertSame(1, $detailLine1->getId());
         $this->assertSame('4008', $detailLine1->getDim1ToString());
-        $this->assertNull($detailLine1->getDim2());
+        $this->assertNull($detailLine1->getDim2ToString());
         $this->assertEquals(DebitCredit::DEBIT(), $detailLine1->getDebitCredit());
         $this->assertEquals(Money::EUR(43555), $detailLine1->getValue());
         $this->assertEquals(Money::EUR(43555), $detailLine1->getBaseValue());
@@ -81,7 +81,8 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(65333), $detailLine1->getRepValue());
         $this->assertSame(1.500000000, $detailLine1->getRepRate());
         $this->assertNull($detailLine1->getDescription());
-        $this->assertSame(MatchStatus::NOTMATCHABLE(), $detailLine1->getMatchStatus());
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
+        $this->assertSame($ReflectObject->getConstant('NOTMATCHABLE'), (string)$detailLine1->getMatchStatus());
         $this->assertNull($detailLine1->getMatchLevel());
         $this->assertNull($detailLine1->getBaseValueOpen());
         $this->assertNull($detailLine1->getVatCode());
@@ -102,7 +103,8 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(65333), $detailLine2->getRepValue());
         $this->assertSame(1.500000000, $detailLine2->getRepRate());
         $this->assertSame('Invoice paid', $detailLine2->getDescription());
-        $this->assertSame(MatchStatus::AVAILABLE(), $detailLine2->getMatchStatus());
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
+        $this->assertSame($ReflectObject->getConstant('AVAILABLE'), (string)$detailLine2->getMatchStatus());
         $this->assertSame(2, $detailLine2->getMatchLevel());
         $this->assertEquals(Money::EUR(43555), $detailLine2->getBaseValueOpen());
         $this->assertNull($detailLine2->getVatCode());

@@ -90,8 +90,8 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($totalLine->getBaseValueOpen());
         $this->assertNull($totalLine->getVatCode());
         $this->assertNull($totalLine->getVatValue());
-        $this->assertNull($totalLine->getVatTotal());
-        $this->assertNull($totalLine->getVatBaseTotal());
+        $this->assertEquals(Money::EUR(0), $totalLine->getVatTotal());
+        $this->assertEquals(Money::EUR(0), $totalLine->getVatBaseTotal());
         $this->assertNull($totalLine->getPerformanceType());
         $this->assertNull($totalLine->getPerformanceCountry());
         $this->assertNull($totalLine->getPerformanceVatNumber());

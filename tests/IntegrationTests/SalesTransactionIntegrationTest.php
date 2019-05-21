@@ -82,8 +82,9 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame(1.0, $totalLine->getRate());
         $this->assertEquals(Money::EUR(15653), $totalLine->getRepValue());
         $this->assertSame(1.293600000, $totalLine->getRepRate());
-        $this->assertSame('', $totalLine->getDescription());
-        $this->assertSame(MatchStatus::AVAILABLE(), $totalLine->getMatchStatus());
+        $this->assertNull($totalLine->getDescription());
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
+        $this->assertSame($ReflectObject->getConstant('AVAILABLE'), (string)$totalLine->getMatchStatus());
         $this->assertSame(2, $totalLine->getMatchLevel());
         $this->assertEquals(Money::EUR(12100), $totalLine->getBaseValueOpen());
         $this->assertNull($totalLine->getVatCode());
@@ -107,7 +108,8 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(12936), $detailLine->getRepValue());
         $this->assertSame(1.293600000, $detailLine->getRepRate());
         $this->assertSame('Outfit', $detailLine->getDescription());
-        $this->assertSame(MatchStatus::NOTMATCHABLE(), $detailLine->getMatchStatus());
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
+        $this->assertSame($ReflectObject->getConstant('NOTMATCHABLE'), (string)$detailLine->getMatchStatus());
         $this->assertNull($detailLine->getMatchLevel());
         $this->assertNull($detailLine->getBaseValueOpen());
         $this->assertSame('VH', $detailLine->getVatCodeToString());
