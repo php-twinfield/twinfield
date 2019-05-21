@@ -19,6 +19,7 @@ use PhpTwinfield\Fields\Transaction\PaymentReferenceField;
 use PhpTwinfield\Fields\Transaction\RegimeField;
 use PhpTwinfield\Fields\Transaction\StatementNumberField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\BaselineField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\CurrencyDateField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\FreeCharField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\PerformanceCountryField;
 use PhpTwinfield\Fields\Transaction\TransactionLine\PerformanceVatNumberField;
@@ -135,11 +136,11 @@ class TransactionsDocument extends BaseDocument
 
             $lineElement->appendChild($this->createNodeWithTextContent('dim1', $transactionLine->getDim1ToString()));
 
-            if (!empty($transactionLine->getDim2ToString())) {
+            if (!empty($transactionLine->getDim2())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('dim2', $transactionLine->getDim2ToString()));
             }
 
-            if (!empty($transactionLine->getDim3ToString())) {
+            if (!empty($transactionLine->getDim3())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('dim3', $transactionLine->getDim3ToString()));
             }
 
@@ -151,36 +152,40 @@ class TransactionsDocument extends BaseDocument
             if (Util::objectUses(BaselineField::class, $transactionLine) && !empty($transactionLine->getBaseline())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('baseline', $transactionLine->getBaseline()));
             }
+            
+            if (!empty($transactionLine->getBaseValue())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('basevalue', $transactionLine->getBaseValueToFloat()));
+            }
+            
+            if (!empty($transactionLine->getComment())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('comment', $transactionLine->getComment()));
+            }
+            
+            if (Util::objectUses(CurrencyDateField::class, $transactionLine) && !empty($transactionLine->getCurrencyDate())) {
+                $lineElement->appendChild($this->createNodeWithTextContent("currencydate", $transactionLine->getCurrencyDateToString()));
+            }
 
             if (!empty($transactionLine->getDescription())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('description', $transactionLine->getDescription()));
+            }
+            
+            if (!empty($transactionLine->getDestOffice())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('destoffice', $transactionLine->getDestOfficeToString()));
             }
 
             if (Util::objectUses(FreeCharField::class, $transactionLine) && !empty($transactionLine->getFreeChar())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('freechar', $transactionLine->getFreeChar()));
             }
 
-            if (Util::objectUses(FreeText1Field::class, $transactionLine) && !empty($transactionLine->getFreetext1())) {
-                $lineElement->appendChild($this->createNodeWithTextContent('freetext1', $transactionLine->getFreetext1()));
-            }
-
-            if (Util::objectUses(FreeText2Field::class, $transactionLine) && !empty($transactionLine->getFreetext2())) {
-                $lineElement->appendChild($this->createNodeWithTextContent('freetext2', $transactionLine->getFreetext2()));
-            }
-
-            if (Util::objectUses(FreeText3Field::class, $transactionLine) && !empty($transactionLine->getFreetext3())) {
-                $lineElement->appendChild($this->createNodeWithTextContent('freetext3', $transactionLine->getFreetext3()));
-            }
-
             if (Util::objectUses(InvoiceNumberField::class, $transactionLine) && !empty($transactionLine->getInvoiceNumber())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('invoicenumber', $transactionLine->getInvoiceNumber()));
             }
 
-            if (Util::objectUses(PerformanceCountryField::class, $transactionLine) && !empty($transactionLine->getPerformanceCountryToString())) {
+            if (Util::objectUses(PerformanceCountryField::class, $transactionLine) && !empty($transactionLine->getPerformanceCountry())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('performancecountry', $transactionLine->getPerformanceCountryToString()));
             }
 
-            if (Util::objectUses(PerformanceDateField::class, $transactionLine) && !empty($transactionLine->getPerformanceDateToString())) {
+            if (Util::objectUses(PerformanceDateField::class, $transactionLine) && !empty($transactionLine->getPerformanceDate())) {
                 $lineElement->appendChild($this->createNodeWithTextContent("performancedate", $transactionLine->getPerformanceDateToString()));
             }
 
@@ -191,23 +196,57 @@ class TransactionsDocument extends BaseDocument
             if (Util::objectUses(PerformanceVatNumberField::class, $transactionLine) && !empty($transactionLine->getPerformanceVatNumber())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('performancevatnumber', $transactionLine->getPerformanceVatNumber()));
             }
+            
+            if (!empty($transactionLine->getRate())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('rate', $transactionLine->getRate()));
+            }
+            
+            if (!empty($transactionLine->getRepRate())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('reprate', $transactionLine->getRepRate()));
+            }
+            
+            if (!empty($transactionLine->getRepValue())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('repvalue', $transactionLine->getRepValueToFloat()));
+            }
+            
+            if (Util::objectUses(VatBaseTotalField::class, $transactionLine) && !empty($transactionLine->getVatBaseTotal())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatbasetotal', $transactionLine->getVatBaseTotalToFloat()));
+            }
+            
+            if (!empty($transactionLine->getVatBaseTurnover())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatbaseturnover', $transactionLine->getVatBaseTurnoverToFloat()));
+            }
+            
+            if (!empty($transactionLine->getVatBaseValue())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatbasevalue', $transactionLine->getVatBaseValueToFloat()));
+            }
 
-            // ** //
+            if (!empty($transactionLine->getVatCode())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatcode', $transactionLine->getVatCodeToString()));
+            }
+            
+            if (Util::objectUses(VatRepTotalField::class, $transactionLine) && !empty($transactionLine->getVatRepTotal())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatreptotal', $transactionLine->getVatRepTotalToFloat()));
+            }
+            
+            if (!empty($transactionLine->getVatRepValue())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatrepvalue', $transactionLine->getVatRepValueToFloat()));
+            }
+            
+            if (!empty($transactionLine->getVatRepTurnover())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatrepturnover', $transactionLine->getVatRepTurnoverToFloat()));
+            }
 
             if (Util::objectUses(VatTotalField::class, $transactionLine) && !empty($transactionLine->getVatTotal())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('vattotal', $transactionLine->getVatTotalToFloat()));
             }
-
-            if (Util::objectUses(VatBaseTotalField::class, $transactionLine) && !empty($transactionLine->getVatBaseTotal())) {
-                $lineElement->appendChild($this->createNodeWithTextContent('vatbasetotal', $transactionLine->getVatBaseTotalToFloat()));
+            
+            if (!empty($transactionLine->getVatTurnover())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatturnover', $transactionLine->getVatTurnoverToFloat()));
             }
-
+            
             if (!empty($transactionLine->getVatValue())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('vatvalue', $transactionLine->getVatValueToFloat()));
-            }
-
-            if ($transactionLine->getVatCode() !== null) {
-                $lineElement->appendChild($this->createNodeWithTextContent('vatcode', $transactionLine->getVatCodeToString()));
             }
         }
     }

@@ -2,7 +2,6 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\MatchReferenceInterface;
 
 interface TransactionLineInterface
