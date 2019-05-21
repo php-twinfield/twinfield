@@ -53,7 +53,7 @@ trait CloseAndStartValueFields
     {
         Assert::true($this->startValue->isZero());
         $this->setStartValue(new Money(0, new \Money\Currency($currency->getCode())));
-        
+
         return $this;
     }
 
@@ -66,9 +66,10 @@ trait CloseAndStartValueFields
     {
         $currency = new Currency();
         $currency->setCode($currencyCode);
+
         return $this->setCurrency($currency);
     }
-    
+
     /**
      * @return Money|null
      */
@@ -93,13 +94,11 @@ trait CloseAndStartValueFields
      * @param Money|null $startValue
      * @return $this
      */
-    public function setStartValue(?Money $startValue)
+    public function setStartValue(?Money $startValue): void
     {
         $this->setCurrencyFromString($startValue->getCurrency());
         $this->startValue = $startValue;
         $this->closeValue = $startValue;
-
-        return $this;
     }
 
     /**
@@ -110,9 +109,9 @@ trait CloseAndStartValueFields
     public function setStartValueFromFloat(?float $startValueFloat)
     {
         if ((float)$startValueFloat) {
-            return $this->setStartValue(Money::EUR(100 * $startValueFloat));
+            $this->setStartValue(Money::EUR(100 * $startValueFloat));
         } else {
-            return $this->setStartValue(Money::EUR(0));
+            $this->setStartValue(Money::EUR(0));
         }
     }
 
