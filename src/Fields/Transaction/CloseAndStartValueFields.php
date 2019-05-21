@@ -123,4 +123,16 @@ trait CloseAndStartValueFields
     {
         return $this->closeValue ?? new Money(0, new \Money\Currency($this->getCurrencyToString()));
     }
+
+    /**
+     * @return float|null
+     */
+    public function getCloseValueToFloat(): ?float
+    {
+        if ($this->getCloseValue() != null) {
+            return Util::formatMoney($this->getCloseValue());
+        } else {
+            return 0;
+        }
+    }
 }
