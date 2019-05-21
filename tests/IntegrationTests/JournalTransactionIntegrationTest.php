@@ -89,7 +89,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(0), $detailLine1->getVatValue());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\PerformanceType');
         $this->assertSame($ReflectObject->getConstant('EMPTY'), (string)$detailLine1->getPerformanceType());
-        $this->assertNull($detailLine1->getPerformanceCountry());
+        $this->assertNull($detailLine1->getPerformanceCountryToString());
         $this->assertNull($detailLine1->getPerformanceVatNumber());
         $this->assertNull($detailLine1->getPerformanceDate());
 
@@ -112,7 +112,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(0), $detailLine2->getVatValue());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\PerformanceType');
         $this->assertSame($ReflectObject->getConstant('EMPTY'), (string)$detailLine2->getPerformanceType());
-        $this->assertNull($detailLine2->getPerformanceCountry());
+        $this->assertNull($detailLine2->getPerformanceCountryToString());
         $this->assertNull($detailLine2->getPerformanceVatNumber());
         $this->assertNull($detailLine2->getPerformanceDate());
     }

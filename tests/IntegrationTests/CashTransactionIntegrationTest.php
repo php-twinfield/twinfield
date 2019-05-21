@@ -15,8 +15,6 @@ use PhpTwinfield\Enums\MatchStatus;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
-use PhpTwinfield\SalesTransaction;
-use PhpTwinfield\SalesTransactionLine;
 
 /**
  * @covers SalesTransaction
@@ -119,7 +117,7 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine->getVatBaseTotal());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\PerformanceType');
         $this->assertSame($ReflectObject->getConstant('EMPTY'), (string)$detailLine->getPerformanceType());
-        $this->assertNull($detailLine->getPerformanceCountry());
+        $this->assertNull($detailLine->getPerformanceCountryToString());
         $this->assertNull($detailLine->getPerformanceVatNumber());
         $this->assertNull($detailLine->getPerformanceDate());
     }
