@@ -6,7 +6,7 @@ trait TouchedField
 {
     /**
      * Touched field
-     * Used by: Activity, AssetMethod, CostCenter, Customer, FixedAsset, GeneralLedger, Office, Project, Supplier, User, VatCode
+     * Used by: Activity, AssetMethod, CostCenter, Customer, FixedAsset, GeneralLedger, Office, Project, Rate, Supplier, User, VatCode
      *
      * @var int|null
      */

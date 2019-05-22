@@ -192,9 +192,8 @@ if ($executeNew) {
     $startDate = \DateTime::createFromFormat('d-m-Y', '01-01-2019');
     $currencyRate->setStartDate($startDate);                                                                      // \DateTimeInterface|null        Starting date of the rate.
     $currencyRate->setStartDateFromString('20190101');                                                            // string|null
-    //$currencyRate->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                            // Status|null                    For creating and updating status may be left empty. NOTE: Do not use $currencyRate->setStatusFromString(\PhpTwinfield\Enums\Status::ACTIVE());
-                                                                                                                  //                                For deleting deleted should be used. In case a dimension that is used in a transaction is deleted,
-                                                                                                                  //                                its status has been changed into hide. Hidden dimensions can be activated by using active.
+    //$currencyRate->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                            // Status|null                    For creating and updating status may be left empty. NOTE: Do not use $currencyRate->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());
+                                                                                                                  //                                For deleting deleted should be used.
     //$currencyRate->setStatusFromString('deleted');                                                              // string|null                    NOTE: Do not use $currencyRate->setStatusFromString('active');
 
     $currency->addRate($currencyRate);                                                                            // CurrencyRate                   Add a CurrencyRate object to the Currency object

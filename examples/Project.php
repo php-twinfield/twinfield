@@ -260,7 +260,7 @@ if ($executeNew) {
     $project->setName("Example Project");                                                                       // string|null                  Project description.
     $project->setOffice($office);                                                                               // Office|null                  Office code.
     $project->setOfficeFromString($officeCode);                                                                 // string|null
-    //$project->setStatus(\PhpTwinfield\Enums\Status::PRJIVE());                                                // Status|null                  For creating and updating status may be left empty. For deleting deleted should be used.
+    //$project->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                // Status|null                  For creating and updating status may be left empty. For deleting deleted should be used.
     //$project->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                               // Status|null                  In case a project is in use, its status has been changed into hide. Hidden projects can be activated by using active.
     //$project->setStatusFromString('active');                                                                  // string|null
     //$project->setStatusFromString('deleted');                                                                 // string|null
