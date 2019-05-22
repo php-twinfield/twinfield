@@ -102,7 +102,11 @@ if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
 
 // Read a Currency based off the passed in code and optionally the office.
 if ($executeRead) {
-    $currency = $currencyApiConnector->get("USD", $office);
+    try {
+        $currency = $currencyApiConnector->get("USD", $office);
+    } catch (ResponseException $e) {
+        $currency = $e->getReturnedObject();
+    }
 
     echo "<pre>";
     print_r($currency);
@@ -118,7 +122,7 @@ if ($executeRead) {
     echo "Name: {$currency->getName()}<br />";                                                                              // string|null                  Name of the currency.
     echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($currency->getOffice(), true) . "</pre><br />";                 // Office|null                  Office of the currency.
     echo "Office (string): {$currency->getOfficeToString()}<br />";                                                         // string|null
-    echo "Result: {$currency->getResult()}<br />";                                                                          // int|null                     Result (0 = error, 1 = success).
+    echo "Result: {$currency->getResult()}<br />";                                                                          // int|null                     Result (0 = error, 1 or empty = success).
     echo "ShortName: {$currency->getShortName()}<br />";                                                                    // string|null                  Short name of the currency. NOTE: Because of the "hackish" way a currency is read (because Twinfield does not officially support reading currencies) the get() method will not return the current Short Name
     echo "Status: {$currency->getStatus()}<br />";                                                                          // Status|null                  Status of the currency.
 
@@ -132,7 +136,7 @@ if ($executeRead) {
         }
 
         echo "Rate: {$currencyRate->getRate()}<br />";                                                                      // float|null                   Conversion rate to be used as of the start date.
-        echo "Result: {$currencyRate->getResult()}<br />";                                                                  // int|null                     Result (0 = error, 1 = success).
+        echo "Result: {$currencyRate->getResult()}<br />";                                                                  // int|null                     Result (0 = error, 1 or empty = success).
         echo "StartDate (\\DateTimeInterface): <pre>" . print_r($currencyRate->getStartDate(), true) . "</pre><br />";      // \DateTimeInterface|null      Starting date of the rate.
         echo "StartDate (string): {$currencyRate->getStartDateToString()}<br />";                                           // string|null
         echo "Status: {$currencyRate->getStatus()}<br />";                                                                  // Status|null                  Status of the currency rate.
@@ -141,7 +145,12 @@ if ($executeRead) {
 
 // Copy an existing Currency to a new entity
 if ($executeCopy) {
-    $currency = $currencyApiConnector->get("USD", $office);
+    try {
+        $currency = $currencyApiConnector->get("USD", $office);
+    } catch (ResponseException $e) {
+        $currency = $e->getReturnedObject();
+    }
+
     $currency->setCode("USD2");
 
     try {

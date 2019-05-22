@@ -62,16 +62,18 @@ class ProjectsDocument extends BaseDocument
 
         foreach ($inheritArray as $inheritVar => $method) {
             $methodLocked = "get" . ucfirst($inheritVar) . "Locked";
+            $methodLockedString = $methodLocked . "ToString";
             $methodInherit = "get" . ucfirst($inheritVar) . "Inherit";
+            $methodInheritString = $methodInherit . "ToString";
             $elementVar = "";
 
-            if ($projects->$methodLocked() !== true || $projects->$methodInherit() !== true) {
+            if ($projects->$methodLocked() != true || $projects->$methodInherit() != true) {
                 $elementVar = $projects->$method();
             } elseif ($inheritVar == 'billable') {
                 $projects->setBillableForRatio(false);
             }
 
-            $attributesArray = array('locked' => $methodLocked, 'inherit' => $methodInherit);
+            $attributesArray = array('locked' => $methodLockedString, 'inherit' => $methodInheritString);
 
             if ($inheritVar == 'billable') {
                 $attributesArray['forratio'] = 'getBillableForRatioToString';

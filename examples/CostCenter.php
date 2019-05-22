@@ -110,7 +110,11 @@ if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
 
 // Read a CostCenter based off the passed in code and optionally the office.
 if ($executeRead) {
-    $costCenter = $costCenterApiConnector->get("00000", $office);
+    try {
+        $costCenter = $costCenterApiConnector->get("00000", $office);
+    } catch (ResponseException $e) {
+        $costCenter = $e->getReturnedObject();
+    }
 
     echo "<pre>";
     print_r($costCenter);
@@ -129,18 +133,23 @@ if ($executeRead) {
     echo "Name: {$costCenter->getName()}<br />";                                                                    // string|null          Name of the dimension.
     echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($costCenter->getOffice(), true) . "</pre><br />";       // Office|null          Office.
     echo "Office (string): {$costCenter->getOfficeToString()}<br />";                                               // string|null
-    echo "Result: {$costCenter->getResult()}<br />";                                                                // int|null             Result (0 = error, 1 = success).
+    echo "Result: {$costCenter->getResult()}<br />";                                                                // int|null             Result (0 = error, 1 or empty = success).
     echo "ShortName: {$costCenter->getShortName()}<br />";                                                          // string|null          Not in use.
     echo "Status: {$costCenter->getStatus()}<br />";                                                                // Status|null          Status of the cost center.
     echo "Touched: {$costCenter->getTouched()}<br />";                                                              // int|null             Count of the number of times the dimension settings are changed. Read-only attribute.
-    echo "Type: <pre>" . print_r($costCenter->getType(), true) . "</pre><br />";                                    // DimensionType|null   Dimension type. See Dimension type. Dimension type of cost centers is KPL.
-    echo "Type: {$costCenter->getTypeToString()}<br />";                                                            // string|null
+    echo "Type (\\PhpTwinfield\\DimensionType): <pre>" . print_r($costCenter->getType(), true) . "</pre><br />";    // DimensionType|null   Dimension type. See Dimension type. Dimension type of cost centers is KPL.
+    echo "Type (string): {$costCenter->getTypeToString()}<br />";                                                   // string|null
     echo "UID: {$costCenter->getUID()}<br />";                                                                      // string|null          Unique identification of the dimension. Read-only attribute.
 }
 
 // Copy an existing CostCenter to a new entity
 if ($executeCopy) {
-    $costCenter = $costCenterApiConnector->get("00000", $office);
+    try {
+        $costCenter = $costCenterApiConnector->get("00000", $office);
+    } catch (ResponseException $e) {
+        $costCenter = $e->getReturnedObject();
+    }
+
     $costCenter->setCode("00010");                                                                                  // string|null          Dimension code, must be compliant with the mask of the KPL Dimension type.
 
     try {
