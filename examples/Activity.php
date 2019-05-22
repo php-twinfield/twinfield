@@ -256,87 +256,87 @@ if ($executeNew) {
     $activity = new \PhpTwinfield\Activity;
 
     // Required values for creating a new Activity
-    $activity->setCode('A100');                                                                                   // string|null                    Dimension code, must be compliant with the mask of the ACT Dimension type.
-    $activity->setName("Example Activity");                                                                       // string|null                    Activity description.
-    $activity->setOffice($office);                                                                                // Office|null                    Office code.
-    $activity->setOfficeFromString($officeCode);                                                                  // string|null
-    //$activity->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                 // Status|null                    For creating and updating status may be left empty. For deleting deleted should be used.
-    //$activity->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                // Status|null                    In case an activity is in use, its status has been changed into hide. Hidden activities can be activated by using active.
-    //$activity->setStatusFromString('active');                                                                   // string|null
-    //$activity->setStatusFromString('deleted');                                                                  // string|null
+    $activity->setCode('A100');                                                                                                                     // string|null                  Dimension code, must be compliant with the mask of the ACT Dimension type.
+    $activity->setName("Example Activity");                                                                                                         // string|null                  Activity description.
+    $activity->setOffice($office);                                                                                                                  // Office|null                  Office code.
+    $activity->setOfficeFromString($officeCode);                                                                                                    // string|null
+    //$activity->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                                   // Status|null                  For creating and updating status may be left empty. For deleting deleted should be used.
+    //$activity->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                                                  // Status|null                  In case an activity is in use, its status has been changed into hide. Hidden activities can be activated by using active.
+    //$activity->setStatusFromString('active');                                                                                                     // string|null
+    //$activity->setStatusFromString('deleted');                                                                                                    // string|null
     $dimensionType = new \PhpTwinfield\DimensionType;
     $dimensionType->setCode('ACT');
-    $activity->setType($dimensionType);                                                                           // DimensionType|null             Dimension type. See Dimension type. Dimension type of cost centers is ACT.
-    $activity->setTypeFromString('ACT');                                                                          // string|null
+    $activity->setType($dimensionType);                                                                                                             // DimensionType|null           Dimension type. See Dimension type. Dimension type of cost centers is ACT.
+    $activity->setTypeFromString('ACT');                                                                                                            // string|null
 
     // Optional values for creating a new Activity
-    $activity->setShortName("ExmplAct");                                                                          // string|null                   Short activity description.
+    $activity->setShortName("ExmplAct");                                                                                                            // string|null                  Short activity description.
     $vatCode = new \PhpTwinfield\VatCode;
     $vatCode->setCode('VH');
-    $activity->setVatCode($vatCode);                                                                              // VatCode|null                 The VAT code if one code will apply for all activities within the project. Note that if any VAT codes are
-    $activity->setVatCodeFromString('VH');                                                                        // string|null                  defined on activity level, these will apply regardless of what is defined on project level.
+    $activity->setVatCode($vatCode);                                                                                                                // VatCode|null                 The VAT code if one code will apply for all activities within the project. Note that if any VAT codes are
+    $activity->setVatCodeFromString('VH');                                                                                                          // string|null                  defined on activity level, these will apply regardless of what is defined on project level.
 
     $activityProjects = new \PhpTwinfield\ActivityProjects;
 
     $authoriser = new \PhpTwinfield\User;
     $authoriser->setCode('TWINAPPS');
-    $activityProjects->setAuthoriser($authoriser);                      		                                // User|null                    A specific authoriser for an activity.
-    $activityProjects->setAuthoriserFromString('TWINAPPS');                                                   // string|null                  If "change" = allow then locked = false and inherit = false
-    $activityProjects->setAuthoriserInherit(false);                                                              // bool|null
-    $activityProjects->setAuthoriserInheritFromString('false');                                                  // string|null                  If "change" = disallow then locked = true and inherit = false
-    $activityProjects->setAuthoriserLocked(false);                                                               // bool|null
-    $activityProjects->setAuthoriserLockedFromString('false');                                                   // string|null                  If "change" = inherit then locked = true and inherit = true
-    $activityProjects->setBillable(false);                                                                      // bool|null                    Choose to make an activity billable (true) or not (false) and whether or not it should be included when calculating the "productivity" ratio (@forratio).
-    $activityProjects->setBillableFromString('false');                                                          // string|null                  You could also decide that these settings should be inherited from project or user level (@inherit).
-    $activityProjects->setBillableForRatio(false);                                                              // bool|null                    You can also set whether a change of these settings is allowed or disallowed when a user is entering their timesheet (@locked).
-    $activityProjects->setBillableForRatioFromString('false');                                                  // string|null                  If "change" = allow then locked = false and inherit = false.
-    $activityProjects->setBillableInherit(false);                                                               // bool|null
-    $activityProjects->setBillableInheritFromString('false');                                                   // string|null                  If "change" = disallow then locked = true and inherit = false.
-    $activityProjects->setBillableLocked(false);                                                                // bool|null
-    $activityProjects->setBillableLockedFromString('false');                                                    // string|null                  If "change" = inherit then locked = true and inherit = true
+    $activityProjects->setAuthoriser($authoriser);                      		                                                                    // User|null                    A specific authoriser for an activity.
+    $activityProjects->setAuthoriserFromString('TWINAPPS');                                                                                         // string|null                  If "change" = allow then locked = false and inherit = false
+    $activityProjects->setAuthoriserInherit(false);                                                                                                 // bool|null
+    $activityProjects->setAuthoriserInheritFromString('false');                                                                                     // string|null                  If "change" = disallow then locked = true and inherit = false
+    $activityProjects->setAuthoriserLocked(false);                                                                                                  // bool|null
+    $activityProjects->setAuthoriserLockedFromString('false');                                                                                      // string|null                  If "change" = inherit then locked = true and inherit = true
+    $activityProjects->setBillable(false);                                                                                                          // bool|null                    Choose to make an activity billable (true) or not (false) and whether or not it should be included when calculating the "productivity" ratio (@forratio).
+    $activityProjects->setBillableFromString('false');                                                                                              // string|null                  You could also decide that these settings should be inherited from project or user level (@inherit).
+    $activityProjects->setBillableForRatio(false);                                                                                                  // bool|null                    You can also set whether a change of these settings is allowed or disallowed when a user is entering their timesheet (@locked).
+    $activityProjects->setBillableForRatioFromString('false');                                                                                      // string|null                  If "change" = allow then locked = false and inherit = false.
+    $activityProjects->setBillableInherit(false);                                                                                                   // bool|null
+    $activityProjects->setBillableInheritFromString('false');                                                                                       // string|null                  If "change" = disallow then locked = true and inherit = false.
+    $activityProjects->setBillableLocked(false);                                                                                                    // bool|null
+    $activityProjects->setBillableLockedFromString('false');                                                                                        // string|null                  If "change" = inherit then locked = true and inherit = true
     $customer = new \PhpTwinfield\Customer;
     $customer->setCode('1000');
-    //$activityProjects->setCustomer($customer);                                                                // Customer|null                An activity always needs to be linked to a customer.
-    //$activityProjects->setCustomerFromString('1000');                                                         // string|null                  Choose to have the customer ‘inherited’ (from a project) or you can specify the customer here.
-    $activityProjects->setCustomerInherit(true);                                                                // bool|null
-    $activityProjects->setCustomerInheritFromString('true');                                                    // string|null                  If "change" = allow then locked = false and inherit = false
-    $activityProjects->setCustomerLocked(true);                                                                 // bool|null                    If "change" = disallow then locked = true and inherit = false
-    $activityProjects->setCustomerLockedFromString('true');                                                     // string|null                  If "change" = inherit then locked = true and inherit = true
-    $activityProjects->setInvoiceDescription('Example Invoice Description');                                    // string|null                  This field can be used to enter a longer activity description which will be available on the invoice template.
+    //$activityProjects->setCustomer($customer);                                                                                                    // Customer|null                An activity always needs to be linked to a customer.
+    //$activityProjects->setCustomerFromString('1000');                                                                                             // string|null                  Choose to have the customer ‘inherited’ (from a project) or you can specify the customer here.
+    $activityProjects->setCustomerInherit(true);                                                                                                    // bool|null
+    $activityProjects->setCustomerInheritFromString('true');                                                                                        // string|null                  If "change" = allow then locked = false and inherit = false
+    $activityProjects->setCustomerLocked(true);                                                                                                     // bool|null                    If "change" = disallow then locked = true and inherit = false
+    $activityProjects->setCustomerLockedFromString('true');                                                                                         // string|null                  If "change" = inherit then locked = true and inherit = true
+    $activityProjects->setInvoiceDescription('Example Invoice Description');                                                                        // string|null                  This field can be used to enter a longer activity description which will be available on the invoice template.
     $rate = new \PhpTwinfield\Rate;
     $rate->setCode('DIRECT');
-    $activityProjects->setRate($rate);                      		                                            // Rate|null                    Choose to define a specific rate code here or you could also decide that these settings should be inherited from project or user level (@inherit).
-    $activityProjects->setRateFromString('DIRECT');                                                             // string|null                  You can also set whether a change of the rate code is allowed or disallowed when a user is entering their timesheet (@locked).
-    $activityProjects->setRateInherit(false);                                                                   // bool|null
-    $activityProjects->setRateInheritFromString('false');                                                       // string|null                  If "change" = allow then locked = false and inherit = false
-    $activityProjects->setRateLocked(true);                                                                     // bool|null                    If "change" = disallow then locked = true and inherit = false
-    $activityProjects->setRateLockedFromString('true');                                                         // string|null                  If "change" = inherit then locked = true and inherit = true
+    $activityProjects->setRate($rate);                      		                                                                                // Rate|null                    Choose to define a specific rate code here or you could also decide that these settings should be inherited from project or user level (@inherit).
+    $activityProjects->setRateFromString('DIRECT');                                                                                                 // string|null                  You can also set whether a change of the rate code is allowed or disallowed when a user is entering their timesheet (@locked).
+    $activityProjects->setRateInherit(false);                                                                                                       // bool|null
+    $activityProjects->setRateInheritFromString('false');                                                                                           // string|null                  If "change" = allow then locked = false and inherit = false
+    $activityProjects->setRateLocked(true);                                                                                                         // bool|null                    If "change" = disallow then locked = true and inherit = false
+    $activityProjects->setRateLockedFromString('true');                                                                                             // string|null                  If "change" = inherit then locked = true and inherit = true
     $validFrom = \DateTime::createFromFormat('d-m-Y', '01-01-2019');
-    $activityProjects->setValidFrom($validFrom);                                                                // \DateTimeInterface|null      An activity can be set to only be valid for certain dates. Users will then only be able to book hours to the activity during these dates.
-    $activityProjects->setValidFromFromString('20190101');                                                      // string|null
+    $activityProjects->setValidFrom($validFrom);                                                                                                    // \DateTimeInterface|null      An activity can be set to only be valid for certain dates. Users will then only be able to book hours to the activity during these dates.
+    $activityProjects->setValidFromFromString('20190101');                                                                                          // string|null
     $validTill = \DateTime::createFromFormat('d-m-Y', '31-12-2019');
-    $activityProjects->setValidTill($validTill);                                                                // \DateTimeInterface|null      An activity can be set to only be valid for certain dates. Users will then only be able to book hours to the activity during these dates.
-    $activityProjects->setValidTillFromString('20191231');                                                      // string|null
+    $activityProjects->setValidTill($validTill);                                                                                                    // \DateTimeInterface|null      An activity can be set to only be valid for certain dates. Users will then only be able to book hours to the activity during these dates.
+    $activityProjects->setValidTillFromString('20191231');                                                                                          // string|null
 
     // The minimum amount of ActivityQuantities linked to a ActivityProjects object is 0, the maximum amount is 4
     $activityQuantity = new \PhpTwinfield\ActivityQuantity;
 
-    $activityQuantity->setBillable(false);                                                                      // bool|null                    Is the quantity line billable or not.
-    $activityQuantity->setBillableFromString('false');                                                          // string|null                  If "billable" = true and "change is not allowed" then locked = true
-    $activityQuantity->setBillableLocked(false);                                                                // bool|null
-    $activityQuantity->setBillableLockedFromString('false');                                                    // string|null                  If "billable" = true and "change is allowed" then locked = false
-    $activityQuantity->setLabel('Example Quantity');                                                       	    // string|null
-    $activityQuantity->setMandatory(false);                                                                     // bool|null                    Is the quantity line mandatory or not.
-    $activityQuantity->setMandatoryFromString('false');                                                         // string|null
+    $activityQuantity->setBillable(false);                                                                                                          // bool|null                    Is the quantity line billable or not.
+    $activityQuantity->setBillableFromString('false');                                                                                              // string|null                  If "billable" = true and "change is not allowed" then locked = true
+    $activityQuantity->setBillableLocked(false);                                                                                                    // bool|null
+    $activityQuantity->setBillableLockedFromString('false');                                                                                        // string|null                  If "billable" = true and "change is allowed" then locked = false
+    $activityQuantity->setLabel('Example Quantity');                                                       	                                        // string|null
+    $activityQuantity->setMandatory(false);                                                                                                         // bool|null                    Is the quantity line mandatory or not.
+    $activityQuantity->setMandatoryFromString('false');                                                                                             // string|null
     $rate = new \PhpTwinfield\Rate;
     $rate->setCode('KILOMETERS');
-    $activityQuantity->setRate($rate);                      		                                            // Rate|null                    The rate.
-    $activityQuantity->setRateFromString('KILOMETERS');                                                       	// string|null
+    $activityQuantity->setRate($rate);                      		                                                                                // Rate|null                    The rate.
+    $activityQuantity->setRateFromString('KILOMETERS');                                                       	                                    // string|null
 
-    $activityProjects->addQuantity($activityQuantity);                                                          // ActivityQuantity             Add an ActivityQuantity object to the ActivityProjects object
-    //$activityProjects->removeQuantity(0);                                                                     // int                          Remove a quantity based on the index of the quantity within the array
+    $activityProjects->addQuantity($activityQuantity);                                                                                              // ActivityQuantity             Add an ActivityQuantity object to the ActivityProjects object
+    //$activityProjects->removeQuantity(0);                                                                                                         // int                          Remove a quantity based on the index of the quantity within the array
 
-    $activity->setProjects($activityProjects);                                                                  // ActivityProjects             Set the ActivityProjects object tot the Activity object
+    $activity->setProjects($activityProjects);                                                                                                      // ActivityProjects             Set the ActivityProjects object tot the Activity object
 
     try {
         $activityNew = $activityApiConnector->send($activity);

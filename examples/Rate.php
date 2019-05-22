@@ -195,43 +195,43 @@ if ($executeNew) {
     $rate = new \PhpTwinfield\Rate;
 
     // Required values for creating a new Rate
-    $rate->setCode('DIRECT2');                                                                                // string|null                    Rate code.
+    $rate->setCode('DIRECT2');                                                                                              // string|null                  Rate code.
     $currency = new \PhpTwinfield\Currency;
     $currency->setCode('EUR');
-    $rate->setCurrency($currency);                                                                            // Currency|null                  Currency code.
-    $rate->setCurrencyFromString('EUR');                                                                      // string|null
-    $rate->setName("Example Rate");                                                                           // string|null                    Rate description.
-    $rate->setOffice($office);                                                                                // Office|null                    Office code.
-    $rate->setOfficeFromString($officeCode);                                                                  // string|null
-    $rate->setType(\PhpTwinfield\Enums\RateType::TIME());                                                  	  // RateType|null                  The rate type.
-    $rate->setTypeFromString('time');                                                                     	  // string|null
-    $rate->setUnit(60);                                                                                       // int|null                       How will be charged e.g. if charged per hour Time, set it to 60. If charged per 8 hours, set it to 8 * 60 = 460.
-                                                                                                              //                                Quantities refers to items such as kilometers. If charged per kilometer set it to 1.
+    $rate->setCurrency($currency);                                                                                          // Currency|null                Currency code.
+    $rate->setCurrencyFromString('EUR');                                                                                    // string|null
+    $rate->setName("Example Rate");                                                                                         // string|null                  Rate description.
+    $rate->setOffice($office);                                                                                              // Office|null                  Office code.
+    $rate->setOfficeFromString($officeCode);                                                                                // string|null
+    $rate->setType(\PhpTwinfield\Enums\RateType::TIME());                                                  	                // RateType|null                The rate type.
+    $rate->setTypeFromString('time');                                                                     	                // string|null
+    $rate->setUnit(60);                                                                                                     // int|null                     How will be charged e.g. if charged per hour Time, set it to 60. If charged per 8 hours, set it to 8 * 60 = 460.
+                                                                                                                            //                              Quantities refers to items such as kilometers. If charged per kilometer set it to 1.
     // Optional values for creating a new Rate
-    $rate->setShortName("ExmpleRate");                                                                        // string|null                    Short rate description.
-    $rate->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                   // Status|null                    For creating and updating status may be left empty.
-    //$rate->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                //                                For deleting deleted should be used. In case a rate that is in use, its status has been changed into hide.
-                                                                                                              //                                Hidden rates can be activated by using active.
-    $rate->setStatusFromString('active');                                                                     // string|null
-    //$rate->setStatusFromString('deleted');                                                                  // string|null
+    $rate->setShortName("ExmpleRate");                                                                                      // string|null                  Short rate description.
+    $rate->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                 // Status|null                  For creating and updating status may be left empty.
+    //$rate->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                              //                              For deleting deleted should be used. In case a rate that is in use, its status has been changed into hide.
+                                                                                                                            //                              Hidden rates can be activated by using active.
+    $rate->setStatusFromString('active');                                                                                   // string|null
+    //$rate->setStatusFromString('deleted');                                                                                // string|null
 
     // The minimum amount of RateRateChanges linked to a Rate object is 0
     $rateRateChange = new \PhpTwinfield\RateRateChange;
     $beginDate = \DateTime::createFromFormat('d-m-Y', '01-01-2019');
-    $rateRateChange->setBeginDate($beginDate);                                                                // \DateTimeInterface|null        Begin date of the rate.
-    $rateRateChange->setBeginDateFromString('20190101');                                                      // string|null
+    $rateRateChange->setBeginDate($beginDate);                                                                              // \DateTimeInterface|null      Begin date of the rate.
+    $rateRateChange->setBeginDateFromString('20190101');                                                                    // string|null
     $endDate = \DateTime::createFromFormat('d-m-Y', '31-12-2019');
-    $rateRateChange->setEndDate($endDate);                                                                    // \DateTimeInterface|null        Begin date of the rate.
-    $rateRateChange->setEndDateFromString('20191231');                                                        // string|null
-    $rateRateChange->setExternalRate(60);                                                                     // float|null                     The internal rate e.g. the cost price per unit.
-    $rateRateChange->setID(2);                                                                                // int|null                       Line ID.
-    $rateRateChange->setInternalRate(120);                                                                    // float|null                     The internal rate e.g. the cost price per unit.
-    //$rateRateChange->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                      // Status|null                    Status of the rate line. For creating and updating status may be left empty. NOTE: Do not use $rateRateChange->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());
-                                                                                                              //                                For deleting deleted should be used.
-    //$rateRateChange->setStatusFromString('deleted');                                                        // string|null                    NOTE: Do not use $rateRateChange->setStatusFromString('active');
+    $rateRateChange->setEndDate($endDate);                                                                                  // \DateTimeInterface|null      Begin date of the rate.
+    $rateRateChange->setEndDateFromString('20191231');                                                                      // string|null
+    $rateRateChange->setExternalRate(60);                                                                                   // float|null                   The internal rate e.g. the cost price per unit.
+    $rateRateChange->setID(2);                                                                                              // int|null                     Line ID.
+    $rateRateChange->setInternalRate(120);                                                                                  // float|null                   The internal rate e.g. the cost price per unit.
+    //$rateRateChange->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                    // Status|null                  Status of the rate line. For creating and updating status may be left empty. NOTE: Do not use $rateRateChange->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());
+                                                                                                                            //                              For deleting deleted should be used.
+    //$rateRateChange->setStatusFromString('deleted');                                                                      // string|null                  NOTE: Do not use $rateRateChange->setStatusFromString('active');
 
-    $rate->addRateChange($rateRateChange);                                                                    // RateRateChange                 Add a RateRateChange object to the Rate object
-    //$rate->removeRateChange(2);                                                                             // int                            Remove a rate change based on the id of the rate change
+    $rate->addRateChange($rateRateChange);                                                                                  // RateRateChange               Add a RateRateChange object to the Rate object
+    //$rate->removeRateChange(2);                                                                                           // int                          Remove a rate change based on the id of the rate change
 
     try {
         $rateNew = $rateApiConnector->send($rate);

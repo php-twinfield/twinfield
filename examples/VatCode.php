@@ -220,55 +220,56 @@ if ($executeNew) {
     $vatCode = new \PhpTwinfield\VatCode;
 
     // Required values for creating a new VatCode
-    $vatCode->setCode('VH2');                                                                                    // string|null                    VAT code.
-    $vatCode->setName("BTW 21%");                                                                                // string|null                    Name of the VAT.
-    $vatCode->setOffice($office);                                                                                // Office|null                    Office code.
-    $vatCode->setOfficeFromString($officeCode);                                                                  // string|null
-    $vatCode->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                   // Status|null                    For creating and updating active should be used. For deleting deleted should be used.
-    //$vatCode->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                // Status|null
-    $vatCode->setStatusFromString('active');                                                                     // string|null
-    //$vatCode->setStatusFromString('deleted');                                                                  // string|null
-    $vatCode->setType(\PhpTwinfield\Enums\VatType::SALES());                                                     // VatType|null
-    $vatCode->setTypeFromString('sales');                                                                        // string|null
+                                                                                                                                                    //
+    $vatCode->setCode('VH2');                                                                                                                       // string|null                  VAT code.
+    $vatCode->setName("BTW 21%");                                                                                                                   // string|null                  Name of the VAT.
+    $vatCode->setOffice($office);                                                                                                                   // Office|null                  Office code.
+    $vatCode->setOfficeFromString($officeCode);                                                                                                     // string|null
+    $vatCode->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                                      // Status|null                  For creating and updating active should be used. For deleting deleted should be used.
+    //$vatCode->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                                                   // Status|null
+    $vatCode->setStatusFromString('active');                                                                                                        // string|null
+    //$vatCode->setStatusFromString('deleted');                                                                                                     // string|null
+    $vatCode->setType(\PhpTwinfield\Enums\VatType::SALES());                                                                                        // VatType|null
+    $vatCode->setTypeFromString('sales');                                                                                                           // string|null
 
     // Optional values for creating a new VatCode
-    $vatCode->setShortName("VH 21%");                                                                            // string|null                    Short name of the VAT.
+    $vatCode->setShortName("VH 21%");                                                                                                               // string|null                  Short name of the VAT.
 
     // The minimum amount of VatCodePercentages linked to a VatCode object is 0
     $vatCodePercentage = new \PhpTwinfield\VatCodePercentage;
     $date = \DateTime::createFromFormat('d-m-Y', '01-01-2019');
-    $vatCodePercentage->setDate($date);                                                                          // \DateTimeInterface|null        Effective date.
-    $vatCodePercentage->setDateFromString('20190101');                                                           // string|null
-    $vatCodePercentage->setName("BTW 21%");                                                                      // string|null                    Name of the VAT line.
-    $vatCodePercentage->setPercentage(21);                                                                       // float|null                     Percentage of the VAT line.
-    $vatCodePercentage->setShortName("VH 21%");                                                                  // string|null                    Short name of the VAT line.
+    $vatCodePercentage->setDate($date);                                                                                                             // \DateTimeInterface|null      Effective date.
+    $vatCodePercentage->setDateFromString('20190101');                                                                                              // string|null
+    $vatCodePercentage->setName("BTW 21%");                                                                                                         // string|null                  Name of the VAT line.
+    $vatCodePercentage->setPercentage(21);                                                                                                          // float|null                   Percentage of the VAT line.
+    $vatCodePercentage->setShortName("VH 21%");                                                                                                     // string|null                  Short name of the VAT line.
 
     // The minimum amount of VatCodeAccounts linked to a VatCodePercentage object is 1
     $vatCodeAccount = new \PhpTwinfield\VatCodeAccount;
     $generalLedger = new \PhpTwinfield\GeneralLedger;
     $generalLedger->setCode('1530');
-    $vatCodeAccount->setDim1($generalLedger);                                                                    // GeneralLedger|null             General ledger account on which the VAT amount will be posted.
-    $vatCodeAccount->setDim1FromString('1530');                                                                  // string|null
+    $vatCodeAccount->setDim1($generalLedger);                                                                                                       // GeneralLedger|null           General ledger account on which the VAT amount will be posted.
+    $vatCodeAccount->setDim1FromString('1530');                                                                                                     // string|null
     $vatGroup = new \PhpTwinfield\VatGroup;
     $vatGroup->setCode('NL1A');
-    $vatCodeAccount->setGroup($vatGroup);                                                                        // VatGroup|null                  The VAT group.
-    $vatCodeAccount->setGroupFromString('NL1A');                                                                 // string|null
+    $vatCodeAccount->setGroup($vatGroup);                                                                                                           // VatGroup|null                The VAT group.
+    $vatCodeAccount->setGroupFromString('NL1A');                                                                                                    // string|null
     $vatGroupCountry = new \PhpTwinfield\VatGroupCountry;
     $vatGroupCountry->setCode('NL');
-    $vatCodeAccount->setGroupCountry($vatGroupCountry);                                                          // VatGroupCountry|null           Country code of the VAT group.
-    $vatCodeAccount->setGroupCountryFromString('NL');                                                            // string|null
+    $vatCodeAccount->setGroupCountry($vatGroupCountry);                                                                                             // VatGroupCountry|null         Country code of the VAT group.
+    $vatCodeAccount->setGroupCountryFromString('NL');                                                                                               // string|null
 
-    $vatCodeAccount->setID(1);                                                                                   // int|null                       Line ID.
-    $vatCodeAccount->setLineType(\PhpTwinfield\Enums\LineType::VAT());                                           // LineType|null                  Is it a vat line or not detail. Use detail in case a part of the calculated vat value should be posted on a different general ledger account.
-    $vatCodeAccount->setLineTypeFromString('vat');                                                               // string|null
+    $vatCodeAccount->setID(1);                                                                                                                      // int|null                     Line ID.
+    $vatCodeAccount->setLineType(\PhpTwinfield\Enums\LineType::VAT());                                                                              // LineType|null                Is it a vat line or not detail. Use detail in case a part of the calculated vat value should be posted on a different general ledger account.
+    $vatCodeAccount->setLineTypeFromString('vat');                                                                                                  // string|null
 
-    $vatCodeAccount->setPercentage(100);                                                                         // float|null                     Percentage of the VAT line.
+    $vatCodeAccount->setPercentage(100);                                                                                                            // float|null                   Percentage of the VAT line.
 
-    $vatCodePercentage->addAccount($vatCodeAccount);                                                             // VatCodeAccount                 Add a VatCodeAccount object to the VatCodePercentage object
-    //$vatCodePercentage->removeAccount(1);                                                                      // int                            Remove an account based on the id of the account
+    $vatCodePercentage->addAccount($vatCodeAccount);                                                                                                // VatCodeAccount               Add a VatCodeAccount object to the VatCodePercentage object
+    //$vatCodePercentage->removeAccount(1);                                                                                                         // int                          Remove an account based on the id of the account
 
-    $vatCode->addPercentage($vatCodePercentage);                                                                 // VatCodePercentage              Add a VatCodePercentage object to the VatCode object
-    //$vatCode->removePercentage(0);                                                                             // int                            Remove a percentage based on the index of the percentage within the array
+    $vatCode->addPercentage($vatCodePercentage);                                                                                                    // VatCodePercentage            Add a VatCodePercentage object to the VatCode object
+    //$vatCode->removePercentage(0);                                                                                                                // int                          Remove a percentage based on the index of the percentage within the array
 
     try {
         $vatCodeNew = $vatCodeApiConnector->send($vatCode);

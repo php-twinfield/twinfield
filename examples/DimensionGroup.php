@@ -48,7 +48,7 @@ $office = \PhpTwinfield\Office::fromCode($officeCode);
  *                         to add multiple options. An option name may be used once, specifying an option multiple
  *                         times will cause an error.
  *
- *                         Available options:      office, vattype
+ *                         Available options:      office, prefix, dimtype
  *
  *                         office                  Sets the office code.
  *                         Usage:                  $options['office'] = 'SomeOfficeCode';
@@ -182,17 +182,17 @@ if ($executeNew) {
     $dimensionGroup = new \PhpTwinfield\DimensionGroup;
 
     // Required values for creating a new DimensionGroup
-    $dimensionGroup->setCode('DIMGRP2');                                                                                // string|null                    Dimension group code.
-    $dimensionGroup->setName("Dimension Group 2");                                                                      // string|null                    Name of the dimension group.
-    $dimensionGroup->setOffice($office);                                                                                // Office|null                    Office code.
-    $dimensionGroup->setOfficeFromString($officeCode);                                                                  // string|null
-    $dimensionGroup->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                   // Status|null                    For creating and updating active should be used. For deleting deleted should be used.
-    //$dimensionGroup->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                // Status|null
-    $dimensionGroup->setStatusFromString('active');                                                                     // string|null
-    //$dimensionGroup->setStatusFromString('deleted');                                                                  // string|null
+    $dimensionGroup->setCode('DIMGRP2');                                                                                                                // string|null                    Dimension group code.
+    $dimensionGroup->setName("Dimension Group 2");                                                                                                      // string|null                    Name of the dimension group.
+    $dimensionGroup->setOffice($office);                                                                                                                // Office|null                    Office code.
+    $dimensionGroup->setOfficeFromString($officeCode);                                                                                                  // string|null
+    $dimensionGroup->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                                   // Status|null                    For creating and updating active should be used. For deleting deleted should be used.
+    //$dimensionGroup->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                                                // Status|null
+    $dimensionGroup->setStatusFromString('active');                                                                                                     // string|null
+    //$dimensionGroup->setStatusFromString('deleted');                                                                                                  // string|null
 
     // Optional values for creating a new DimensionGroup
-    $dimensionGroup->setShortName("DIM GRP 2");                                                                         // string|null                    Short name of the dimension group.
+    $dimensionGroup->setShortName("DIM GRP 2");                                                                                                         // string|null                    Short name of the dimension group.
 
     // The minimum amount of DimensionGroupDimensions linked to a DimensionGroup object is 0
     $dimensionGroupDimension = new \PhpTwinfield\DimensionGroupDimension;
@@ -201,13 +201,13 @@ if ($executeNew) {
     $code = new \PhpTwinfield\GeneralLedger;
     $code->setType($type);
     $code->setCode('1010');
-    $dimensionGroupDimension->setCode($code);                                                                           // object|null                    Code of the dimension.
-    $dimensionGroupDimension->setCodeFromString('1010');                                                                // string|null
-    $dimensionGroupDimension->setType($type);                                                                           // DimensionType|null             Dimension type.
-    $dimensionGroupDimension->setTypeFromString('BAS');                                                                 // string|null
+    $dimensionGroupDimension->setCode($code);                                                                                                           // object|null                    Code of the dimension.
+    $dimensionGroupDimension->setCodeFromString('1010');                                                                                                // string|null
+    $dimensionGroupDimension->setType($type);                                                                                                           // DimensionType|null             Dimension type.
+    $dimensionGroupDimension->setTypeFromString('BAS');                                                                                                 // string|null
 
-    $dimensionGroup->addDimension($dimensionGroupDimension);                                                            // DimensionGroupDimension        Add a DimensionGroupDimension object to the DimensionGroup object
-    //$dimensionGroup->removeDimension(0);                                                                              // int                            Remove a dimension based on the index of the dimension within the array
+    $dimensionGroup->addDimension($dimensionGroupDimension);                                                                                            // DimensionGroupDimension        Add a DimensionGroupDimension object to the DimensionGroup object
+    //$dimensionGroup->removeDimension(0);                                                                                                              // int                            Remove a dimension based on the index of the dimension within the array
 
     try {
         $dimensionGroupNew = $dimensionGroupApiConnector->send($dimensionGroup);

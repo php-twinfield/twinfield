@@ -256,87 +256,88 @@ if ($executeNew) {
     $project = new \PhpTwinfield\Project;
 
     // Required values for creating a new Project
-    $project->setCode('P0100');                                                                                 // string|null                  Dimension code, must be compliant with the mask of the PRJ Dimension type.
-    $project->setName("Example Project");                                                                       // string|null                  Project description.
-    $project->setOffice($office);                                                                               // Office|null                  Office code.
-    $project->setOfficeFromString($officeCode);                                                                 // string|null
-    //$project->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                // Status|null                  For creating and updating status may be left empty. For deleting deleted should be used.
-    //$project->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                               // Status|null                  In case a project is in use, its status has been changed into hide. Hidden projects can be activated by using active.
-    //$project->setStatusFromString('active');                                                                  // string|null
-    //$project->setStatusFromString('deleted');                                                                 // string|null
+                                                                                                                                                    //
+    $project->setCode('P0100');                                                                                                                     // string|null                  Dimension code, must be compliant with the mask of the PRJ Dimension type.
+    $project->setName("Example Project");                                                                                                           // string|null                  Project description.
+    $project->setOffice($office);                                                                                                                   // Office|null                  Office code.
+    $project->setOfficeFromString($officeCode);                                                                                                     // string|null
+    //$project->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                                    // Status|null                  For creating and updating status may be left empty. For deleting deleted should be used.
+    //$project->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                                                   // Status|null                  In case a project is in use, its status has been changed into hide. Hidden projects can be activated by using active.
+    //$project->setStatusFromString('active');                                                                                                      // string|null
+    //$project->setStatusFromString('deleted');                                                                                                     // string|null
     $dimensionType = new \PhpTwinfield\DimensionType;
     $dimensionType->setCode('PRJ');
-    $project->setType($dimensionType);                                                                          // DimensionType|null           Dimension type. See Dimension type. Dimension type of cost centers is PRJ.
-    $project->setTypeFromString('PRJ');                                                                         // string|null
+    $project->setType($dimensionType);                                                                                                              // DimensionType|null           Dimension type. See Dimension type. Dimension type of cost centers is PRJ.
+    $project->setTypeFromString('PRJ');                                                                                                             // string|null
 
     // Optional values for creating a new Project
-    $project->setShortName("ExmplAct");                                                                         // string|null                  Short project description.
+    $project->setShortName("ExmplAct");                                                                                                             // string|null                  Short project description.
     $vatCode = new \PhpTwinfield\VatCode;
     $vatCode->setCode('VH');
-    $project->setVatCode($vatCode);                                                                             // VatCode|null                 The VAT code if one code will apply for all projects within the project. Note that if any VAT codes are
-    $project->setVatCodeFromString('VH');                                                                       // string|null                  defined on project level, these will apply regardless of what is defined on project level.
+    $project->setVatCode($vatCode);                                                                                                                 // VatCode|null                 The VAT code if one code will apply for all projects within the project. Note that if any VAT codes are
+    $project->setVatCodeFromString('VH');                                                                                                           // string|null                  defined on project level, these will apply regardless of what is defined on project level.
 
     $projectProjects = new \PhpTwinfield\ProjectProjects;
 
     $authoriser = new \PhpTwinfield\User;
     $authoriser->setCode('TWINAPPS');
-    $projectProjects->setAuthoriser($authoriser);                      		                                    // User|null                    A specific authoriser for a project.
-    $projectProjects->setAuthoriserFromString('TWINAPPS');                                                      // string|null                  If "change" = allow then locked = false and inherit = false
-    $projectProjects->setAuthoriserInherit(false);                                                              // bool|null
-    $projectProjects->setAuthoriserInheritFromString('false');                                                  // string|null                  If "change" = disallow then locked = true and inherit = false
-    $projectProjects->setAuthoriserLocked(false);                                                               // bool|null
-    $projectProjects->setAuthoriserLockedFromString('false');                                                   // string|null                  If "change" = inherit then locked = true and inherit = true
-    $projectProjects->setBillable(false);                                                                       // bool|null                    Choose to make a project billable (true) or not (false) and whether or not it should be included when calculating the "productivity" ratio (@forratio).
-    $projectProjects->setBillableFromString('false');                                                           // string|null                  You could also decide that these settings should be inherited from project or user level (@inherit).
-    $projectProjects->setBillableForRatio(false);                                                               // bool|null                    You can also set whether a change of these settings is allowed or disallowed when a user is entering their timesheet (@locked).
-    $projectProjects->setBillableForRatioFromString('false');                                                   // string|null                  If "change" = allow then locked = false and inherit = false.
-    $projectProjects->setBillableInherit(false);                                                                // bool|null
-    $projectProjects->setBillableInheritFromString('false');                                                    // string|null                  If "change" = disallow then locked = true and inherit = false.
-    $projectProjects->setBillableLocked(false);                                                                 // bool|null
-    $projectProjects->setBillableLockedFromString('false');                                                     // string|null                  If "change" = inherit then locked = true and inherit = true
+    $projectProjects->setAuthoriser($authoriser);                      		                                                                        // User|null                    A specific authoriser for a project.
+    $projectProjects->setAuthoriserFromString('TWINAPPS');                                                                                          // string|null                  If "change" = allow then locked = false and inherit = false
+    $projectProjects->setAuthoriserInherit(false);                                                                                                  // bool|null
+    $projectProjects->setAuthoriserInheritFromString('false');                                                                                      // string|null                  If "change" = disallow then locked = true and inherit = false
+    $projectProjects->setAuthoriserLocked(false);                                                                                                   // bool|null
+    $projectProjects->setAuthoriserLockedFromString('false');                                                                                       // string|null                  If "change" = inherit then locked = true and inherit = true
+    $projectProjects->setBillable(false);                                                                                                           // bool|null                    Choose to make a project billable (true) or not (false) and whether or not it should be included when calculating the "productivity" ratio (@forratio).
+    $projectProjects->setBillableFromString('false');                                                                                               // string|null                  You could also decide that these settings should be inherited from project or user level (@inherit).
+    $projectProjects->setBillableForRatio(false);                                                                                                   // bool|null                    You can also set whether a change of these settings is allowed or disallowed when a user is entering their timesheet (@locked).
+    $projectProjects->setBillableForRatioFromString('false');                                                                                       // string|null                  If "change" = allow then locked = false and inherit = false.
+    $projectProjects->setBillableInherit(false);                                                                                                    // bool|null
+    $projectProjects->setBillableInheritFromString('false');                                                                                        // string|null                  If "change" = disallow then locked = true and inherit = false.
+    $projectProjects->setBillableLocked(false);                                                                                                     // bool|null
+    $projectProjects->setBillableLockedFromString('false');                                                                                         // string|null                  If "change" = inherit then locked = true and inherit = true
     $customer = new \PhpTwinfield\Customer;
     $customer->setCode('1000');
-    //$projectProjects->setCustomer($customer);                                                                 // Customer|null                A project always needs to be linked to a customer.
-    //$projectProjects->setCustomerFromString('1000');                                                          // string|null                  Choose to have the customer ‘inherited’ (from a project) or you can specify the customer here.
-    $projectProjects->setCustomerInherit(true);                                                                 // bool|null
-    $projectProjects->setCustomerInheritFromString('true');                                                     // string|null                  If "change" = allow then locked = false and inherit = false
-    $projectProjects->setCustomerLocked(true);                                                                  // bool|null                    If "change" = disallow then locked = true and inherit = false
-    $projectProjects->setCustomerLockedFromString('true');                                                      // string|null                  If "change" = inherit then locked = true and inherit = true
-    $projectProjects->setInvoiceDescription('Example Invoice Description');                                     // string|null                  This field can be used to enter a longer project description which will be available on the invoice template.
+    //$projectProjects->setCustomer($customer);                                                                                                     // Customer|null                A project always needs to be linked to a customer.
+    //$projectProjects->setCustomerFromString('1000');                                                                                              // string|null                  Choose to have the customer ‘inherited’ (from a project) or you can specify the customer here.
+    $projectProjects->setCustomerInherit(true);                                                                                                     // bool|null
+    $projectProjects->setCustomerInheritFromString('true');                                                                                         // string|null                  If "change" = allow then locked = false and inherit = false
+    $projectProjects->setCustomerLocked(true);                                                                                                      // bool|null                    If "change" = disallow then locked = true and inherit = false
+    $projectProjects->setCustomerLockedFromString('true');                                                                                          // string|null                  If "change" = inherit then locked = true and inherit = true
+    $projectProjects->setInvoiceDescription('Example Invoice Description');                                                                         // string|null                  This field can be used to enter a longer project description which will be available on the invoice template.
     $rate = new \PhpTwinfield\Rate;
     $rate->setCode('DIRECT');
-    $projectProjects->setRate($rate);                      		                                                // Rate|null                    Choose to define a specific rate code here or you could also decide that these settings should be inherited from project or user level (@inherit).
-    $projectProjects->setRateFromString('DIRECT');                                                              // string|null                  You can also set whether a change of the rate code is allowed or disallowed when a user is entering their timesheet (@locked).
-    $projectProjects->setRateInherit(false);                                                                    // bool|null
-    $projectProjects->setRateInheritFromString('false');                                                        // string|null                  If "change" = allow then locked = false and inherit = false
-    $projectProjects->setRateLocked(true);                                                                      // bool|null                    If "change" = disallow then locked = true and inherit = false
-    $projectProjects->setRateLockedFromString('true');                                                          // string|null                  If "change" = inherit then locked = true and inherit = true
+    $projectProjects->setRate($rate);                      		                                                                                    // Rate|null                    Choose to define a specific rate code here or you could also decide that these settings should be inherited from project or user level (@inherit).
+    $projectProjects->setRateFromString('DIRECT');                                                                                                  // string|null                  You can also set whether a change of the rate code is allowed or disallowed when a user is entering their timesheet (@locked).
+    $projectProjects->setRateInherit(false);                                                                                                        // bool|null
+    $projectProjects->setRateInheritFromString('false');                                                                                            // string|null                  If "change" = allow then locked = false and inherit = false
+    $projectProjects->setRateLocked(true);                                                                                                          // bool|null                    If "change" = disallow then locked = true and inherit = false
+    $projectProjects->setRateLockedFromString('true');                                                                                              // string|null                  If "change" = inherit then locked = true and inherit = true
     $validFrom = \DateTime::createFromFormat('d-m-Y', '01-01-2019');
-    $projectProjects->setValidFrom($validFrom);                                                                 // \DateTimeInterface|null      A project can be set to only be valid for certain dates. Users will then only be able to book hours to the project during these dates.
-    $projectProjects->setValidFromFromString('20190101');                                                       // string|null
+    $projectProjects->setValidFrom($validFrom);                                                                                                     // \DateTimeInterface|null      A project can be set to only be valid for certain dates. Users will then only be able to book hours to the project during these dates.
+    $projectProjects->setValidFromFromString('20190101');                                                                                           // string|null
     $validTill = \DateTime::createFromFormat('d-m-Y', '31-12-2019');
-    $projectProjects->setValidTill($validTill);                                                                 // \DateTimeInterface|null      A project can be set to only be valid for certain dates. Users will then only be able to book hours to the project during these dates.
-    $projectProjects->setValidTillFromString('20191231');                                                       // string|null
+    $projectProjects->setValidTill($validTill);                                                                                                     // \DateTimeInterface|null      A project can be set to only be valid for certain dates. Users will then only be able to book hours to the project during these dates.
+    $projectProjects->setValidTillFromString('20191231');                                                                                           // string|null
 
     // The minimum amount of ProjectQuantities linked to a ProjectProjects object is 0, the maximum amount is 4
     $projectQuantity = new \PhpTwinfield\ProjectQuantity;
 
-    $projectQuantity->setBillable(false);                                                                       // bool|null                    Is the quantity line billable or not.
-    $projectQuantity->setBillableFromString('false');                                                           // string|null                  If "billable" = true and "change is not allowed" then locked = true
-    $projectQuantity->setBillableLocked(false);                                                                 // bool|null
-    $projectQuantity->setBillableLockedFromString('false');                                                     // string|null                  If "billable" = true and "change is allowed" then locked = false
-    $projectQuantity->setLabel('Example Quantity');                                                       	    // string|null
-    $projectQuantity->setMandatory(false);                                                                      // bool|null                    Is the quantity line mandatory or not.
-    $projectQuantity->setMandatoryFromString('false');                                                          // string|null
+    $projectQuantity->setBillable(false);                                                                                                           // bool|null                    Is the quantity line billable or not.
+    $projectQuantity->setBillableFromString('false');                                                                                               // string|null                  If "billable" = true and "change is not allowed" then locked = true
+    $projectQuantity->setBillableLocked(false);                                                                                                     // bool|null
+    $projectQuantity->setBillableLockedFromString('false');                                                                                         // string|null                  If "billable" = true and "change is allowed" then locked = false
+    $projectQuantity->setLabel('Example Quantity');                                                       	                                        // string|null
+    $projectQuantity->setMandatory(false);                                                                                                          // bool|null                    Is the quantity line mandatory or not.
+    $projectQuantity->setMandatoryFromString('false');                                                                                              // string|null
     $rate = new \PhpTwinfield\Rate;
     $rate->setCode('KILOMETERS');
-    $projectQuantity->setRate($rate);                      		                                                // Rate|null                    The rate.
-    $projectQuantity->setRateFromString('KILOMETERS');                                                       	// string|null
+    $projectQuantity->setRate($rate);                      		                                                                                    // Rate|null                    The rate.
+    $projectQuantity->setRateFromString('KILOMETERS');                                                       	                                    // string|null
 
-    $projectProjects->addQuantity($projectQuantity);                                                            // ProjectQuantity              Add a ProjectQuantity object to the ProjectProjects object
-    //$projectProjects->removeQuantity(0);                                                                      // int                          Remove a quantity based on the index of the quantity within the array
+    $projectProjects->addQuantity($projectQuantity);                                                                                                // ProjectQuantity              Add a ProjectQuantity object to the ProjectProjects object
+    //$projectProjects->removeQuantity(0);                                                                                                          // int                          Remove a quantity based on the index of the quantity within the array
 
-    $project->setProjects($projectProjects);                                                                    // ProjectProjects              Set the ProjectProjects object tot the Project object
+    $project->setProjects($projectProjects);                                                                                                        // ProjectProjects              Set the ProjectProjects object tot the Project object
 
     try {
         $projectNew = $projectApiConnector->send($project);
