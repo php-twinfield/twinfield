@@ -95,7 +95,7 @@ if (!isset($_GET['code'])) {
         $validationResult = @file_get_contents($validationUrl . urlencode($accessToken->getToken()));
 
         if ($validationResult !== false) {
-            $resultDecoded                    = \json_decode($validationResult, true);
+            $resultDecoded                          = \json_decode($validationResult, true);
             $accessTokenStorage                     = array();
             $accessTokenStorage['access_token']     = $accessToken->getToken();
             $accessTokenStorage['access_expiry']    = $accessToken->getExpires();

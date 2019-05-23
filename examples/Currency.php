@@ -102,7 +102,11 @@ if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
 
 // Read a Currency based off the passed in code and optionally the office.
 if ($executeRead) {
-    $currency = $currencyApiConnector->get("USD", $office);
+    try {
+        $currency = $currencyApiConnector->get("USD", $office);
+    } catch (ResponseException $e) {
+        $currency = $e->getReturnedObject();
+    }
 
     echo "<pre>";
     print_r($currency);
@@ -118,7 +122,7 @@ if ($executeRead) {
     echo "Name: {$currency->getName()}<br />";                                                                              // string|null                  Name of the currency.
     echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($currency->getOffice(), true) . "</pre><br />";                 // Office|null                  Office of the currency.
     echo "Office (string): {$currency->getOfficeToString()}<br />";                                                         // string|null
-    echo "Result: {$currency->getResult()}<br />";                                                                          // int|null                     Result (0 = error, 1 = success).
+    echo "Result: {$currency->getResult()}<br />";                                                                          // int|null                     Result (0 = error, 1 or empty = success).
     echo "ShortName: {$currency->getShortName()}<br />";                                                                    // string|null                  Short name of the currency. NOTE: Because of the "hackish" way a currency is read (because Twinfield does not officially support reading currencies) the get() method will not return the current Short Name
     echo "Status: {$currency->getStatus()}<br />";                                                                          // Status|null                  Status of the currency.
 
@@ -132,7 +136,7 @@ if ($executeRead) {
         }
 
         echo "Rate: {$currencyRate->getRate()}<br />";                                                                      // float|null                   Conversion rate to be used as of the start date.
-        echo "Result: {$currencyRate->getResult()}<br />";                                                                  // int|null                     Result (0 = error, 1 = success).
+        echo "Result: {$currencyRate->getResult()}<br />";                                                                  // int|null                     Result (0 = error, 1 or empty = success).
         echo "StartDate (\\DateTimeInterface): <pre>" . print_r($currencyRate->getStartDate(), true) . "</pre><br />";      // \DateTimeInterface|null      Starting date of the rate.
         echo "StartDate (string): {$currencyRate->getStartDateToString()}<br />";                                           // string|null
         echo "Status: {$currencyRate->getStatus()}<br />";                                                                  // Status|null                  Status of the currency rate.
@@ -141,7 +145,12 @@ if ($executeRead) {
 
 // Copy an existing Currency to a new entity
 if ($executeCopy) {
-    $currency = $currencyApiConnector->get("USD", $office);
+    try {
+        $currency = $currencyApiConnector->get("USD", $office);
+    } catch (ResponseException $e) {
+        $currency = $e->getReturnedObject();
+    }
+
     $currency->setCode("USD2");
 
     try {
@@ -163,33 +172,32 @@ if ($executeNew) {
     $currency = new \PhpTwinfield\Currency;
 
     // Required values for creating a new Currency
-    $currency->setCode('JPY');                                                                                    // string|null                    The code of the currency.
-    $currency->setName("Japanese yen");                                                                           // string|null                    Name of the currency.
-    $currency->setOffice($office);                                                                                // Office|null                    Office code of the currency.
-    $currency->setOfficeFromString($officeCode);                                                                  // string|null
+    $currency->setCode('JPY');                                                                                              // string|null                 The code of the currency.
+    $currency->setName("Japanese yen");                                                                                     // string|null                 Name of the currency.
+    $currency->setOffice($office);                                                                                          // Office|null                 Office code of the currency.
+    $currency->setOfficeFromString($officeCode);                                                                            // string|null
 
     // Optional values for creating a new Currency
-    $currency->setShortName("Yen");                                                                               // string|null                    Short name of the currency.
-    //$currency->setShortName("&yen;");                                                                           // string|null
-    $currency->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                   // Status|null                    For creating and updating status may be left empty.
-    //$currency->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                // Status|null                    For deleting deleted should be used. In case a dimension that is used in a transaction is deleted,
-                                                                                                                  //                                its status has been changed into hide. Hidden dimensions can be activated by using active.
-    $currency->setStatusFromString('active');                                                                     // string|null
-    //$currency->setStatusFromString('deleted');                                                                  // string|null
+    $currency->setShortName("Yen");                                                                                         // string|null                 Short name of the currency.
+    //$currency->setShortName("&yen;");                                                                                     // string|null
+    $currency->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                             // Status|null                 For creating and updating status may be left empty.
+    //$currency->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                          // Status|null                 For deleting deleted should be used. In case a dimension that is used in a transaction is deleted,
+                                                                                                                            //                             its status has been changed into hide. Hidden dimensions can be activated by using active.
+    $currency->setStatusFromString('active');                                                                               // string|null
+    //$currency->setStatusFromString('deleted');                                                                            // string|null
 
     // The minimum amount of CurrencyRates linked to a Currency object is 0
     $currencyRate = new \PhpTwinfield\CurrencyRate;
-    $currencyRate->setRate(122.87);                                                                               // float|null                     Conversion rate to be used as of the start date.
+    $currencyRate->setRate(122.87);                                                                                         // float|null                  Conversion rate to be used as of the start date.
     $startDate = \DateTime::createFromFormat('d-m-Y', '01-01-2019');
-    $currencyRate->setStartDate($startDate);                                                                      // \DateTimeInterface|null        Starting date of the rate.
-    $currencyRate->setStartDateFromString('20190101');                                                            // string|null
-    //$currencyRate->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                            // Status|null                    For creating and updating status may be left empty. NOTE: Do not use $currencyRate->setStatusFromString(\PhpTwinfield\Enums\Status::ACTIVE());
-                                                                                                                  //                                For deleting deleted should be used. In case a dimension that is used in a transaction is deleted,
-                                                                                                                  //                                its status has been changed into hide. Hidden dimensions can be activated by using active.
-    //$currencyRate->setStatusFromString('deleted');                                                              // string|null                    NOTE: Do not use $currencyRate->setStatusFromString('active');
+    $currencyRate->setStartDate($startDate);                                                                                // \DateTimeInterface|null     Starting date of the rate.
+    $currencyRate->setStartDateFromString('20190101');                                                                      // string|null
+    //$currencyRate->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                      // Status|null                 For creating and updating status may be left empty. NOTE: Do not use $currencyRate->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());
+                                                                                                                            //                             For deleting deleted should be used.
+    //$currencyRate->setStatusFromString('deleted');                                                                        // string|null                 NOTE: Do not use $currencyRate->setStatusFromString('active');
 
-    $currency->addRate($currencyRate);                                                                            // CurrencyRate                   Add a CurrencyRate object to the Currency object
-    //$currency->removeRate(0);                                                                                   // int                            Remove a rate based on the index of the rate within the array
+    $currency->addRate($currencyRate);                                                                                      // CurrencyRate                Add a CurrencyRate object to the Currency object
+    //$currency->removeRate(0);                                                                                             // int                         Remove a rate based on the index of the rate within the array
 
     try {
         $currencyNew = $currencyApiConnector->send($currency);

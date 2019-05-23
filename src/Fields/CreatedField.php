@@ -7,7 +7,7 @@ use PhpTwinfield\Util;
 
 /**
  * Created field
- * Used by: AssetMethod, Office, User, VatCode, VatCodePercentage
+ * Used by: AssetMethod, Office, Rate, User, VatCode, VatCodePercentage
  *
  * @package PhpTwinfield\Traits
  * @see Util::formatDateTime()

@@ -41,10 +41,13 @@ class RateMapper extends BaseMapper
 
         // Set the rate elements from the rate element
         $rate->setCode(self::getField($rate, $rateElement, 'code'))
+            ->setCreated(self::parseDateTimeAttribute(self::getField($rate, $rateElement, 'created')))
             ->setCurrency(self::parseObjectAttribute('Currency', $rate, $rateElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setModified(self::parseDateTimeAttribute(self::getField($rate, $rateElement, 'modified')))
             ->setName(self::getField($rate, $rateElement, 'name'))
             ->setOffice(self::parseObjectAttribute('Office', $rate, $rateElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setShortName(self::getField($rate, $rateElement, 'shortname'))
+            ->setTouched(self::getField($rate, $rateElement, 'touched'))
             ->setType(self::parseEnumAttribute('RateType', self::getField($rate, $rateElement, 'type')))
             ->setUnit(self::getField($rate, $rateElement, 'unit'))
             ->setUser(self::parseObjectAttribute('User', $rate, $rateElement, 'user', array('name' => 'setName', 'shortname' => 'setShortName')));

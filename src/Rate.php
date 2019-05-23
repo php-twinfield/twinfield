@@ -3,11 +3,14 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\CodeField;
+use PhpTwinfield\Fields\CreatedField;
 use PhpTwinfield\Fields\CurrencyField;
+use PhpTwinfield\Fields\ModifiedField;
 use PhpTwinfield\Fields\NameField;
 use PhpTwinfield\Fields\OfficeField;
 use PhpTwinfield\Fields\ShortNameField;
 use PhpTwinfield\Fields\StatusField;
+use PhpTwinfield\Fields\TouchedField;
 use PhpTwinfield\Fields\Rate\TypeField;
 use PhpTwinfield\Fields\Rate\UnitField;
 use PhpTwinfield\Fields\UserField;
@@ -20,11 +23,14 @@ use PhpTwinfield\Fields\UserField;
 class Rate extends BaseObject
 {
     use CodeField;
+    use CreatedField;
     use CurrencyField;
+    use ModifiedField;
     use NameField;
     use OfficeField;
     use ShortNameField;
     use StatusField;
+    use TouchedField;
     use TypeField;
     use UnitField;
     use UserField;
