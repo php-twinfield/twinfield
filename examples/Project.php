@@ -271,7 +271,7 @@ if ($executeNew) {
     $project->setTypeFromString('PRJ');                                                                                                             // string|null
 
     // Optional values for creating a new Project
-    $project->setShortName("ExmplAct");                                                                                                             // string|null                  Short project description.
+    $project->setShortName("ExmplPrj");                                                                                                             // string|null                  Short project description.
     $vatCode = new \PhpTwinfield\VatCode;
     $vatCode->setCode('VH');
     $project->setVatCode($vatCode);                                                                                                                 // VatCode|null                 The VAT code if one code will apply for all projects within the project. Note that if any VAT codes are

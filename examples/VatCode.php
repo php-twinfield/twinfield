@@ -37,7 +37,7 @@ $officeCode = "SomeOfficeCode";
 // Create a new Office object from the $officeCode
 $office = \PhpTwinfield\Office::fromCode($officeCode);
 
-/* List all vatCodes
+/* List all VAT codes
  * @param string $pattern  The search pattern. May contain wildcards * and ?
  * @param int    $field    The search field determines which field or fields will be searched. The available fields
  *                         depends on the finder type. Passing a value outside the specified values will cause an

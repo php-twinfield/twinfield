@@ -19,6 +19,7 @@ use PhpTwinfield\Fields\Invoice\InvoiceDateField;
 use PhpTwinfield\Fields\Invoice\InvoiceNumberField;
 use PhpTwinfield\Fields\Invoice\InvoiceTypeField;
 use PhpTwinfield\Fields\Invoice\PaymentMethodField;
+use PhpTwinfield\Fields\Invoice\PeriodRaiseWarningField;
 use PhpTwinfield\Fields\Invoice\RaiseWarningField;
 use PhpTwinfield\Fields\Invoice\StatusField;
 use PhpTwinfield\Fields\OfficeField;
@@ -68,6 +69,7 @@ class Invoice extends BaseObject
     use PaymentMethodField;
     use PerformanceDateField;
     use PeriodField;
+    use PeriodRaiseWarningField;
     use RaiseWarningField;
     use StatusField;
 
