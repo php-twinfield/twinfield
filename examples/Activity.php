@@ -69,7 +69,7 @@ $office = \PhpTwinfield\Office::fromCode($officeCode);
  *
  */
 
-//List all with pattern "A*", field 0 (= search code or number), firstRow 1, maxRows 10, options -> accessrules = 0
+//List all with pattern "A*", field 0 (= search code or name), firstRow 1, maxRows 10, options -> accessrules = 0
 if ($executeListAllWithFilter) {
     $options = array('accessrules' => 0);
 

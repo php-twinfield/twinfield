@@ -3,7 +3,7 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\DueDateField;
-use PhpTwinfield\Fields\Transaction\InvoiceNumberField;
+use PhpTwinfield\Fields\InvoiceNumberField;
 use PhpTwinfield\Fields\Transaction\InvoiceNumberRaiseWarningField;
 use PhpTwinfield\Fields\Transaction\OriginReferenceField;
 use PhpTwinfield\Fields\Transaction\PaymentReferenceField;

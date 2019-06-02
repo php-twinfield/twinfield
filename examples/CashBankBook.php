@@ -45,7 +45,7 @@ $cashBankBookApiConnector = new \PhpTwinfield\ApiConnectors\CashBankBookApiConne
  *                         Usage:                  $options['banktype'] = -1;
  */
 
-//List all with pattern "BNK", field 0 (= search code or number), firstRow 1, maxRows 10, options -> banktype = 0
+//List all with pattern "BNK", field 0 (= search code or name), firstRow 1, maxRows 10, options -> banktype = 0
 if ($executeListAllWithFilter) {
     $options = array('banktype' => 0);
 

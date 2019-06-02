@@ -45,7 +45,7 @@ $payCodeApiConnector = new \PhpTwinfield\ApiConnectors\PayCodeApiConnector($conn
  *                         Usage:                  $options['paytype'] = 'pay';
  */
 
-//List all with pattern "SEPA*", field 0 (= search code or number), firstRow 1, maxRows 10, options -> paytype = pay
+//List all with pattern "SEPA*", field 0 (= search code or name), firstRow 1, maxRows 10, options -> paytype = pay
 if ($executeListAllWithFilter) {
     $options = array('paytype' => 'pay');
 

@@ -2,17 +2,17 @@
 
 namespace PhpTwinfield\UnitTests;
 
-use PhpTwinfield\ApiConnectors\CustomerApiConnector;
-use PhpTwinfield\Customer;
+use PhpTwinfield\ApiConnectors\DimensionTypeApiConnector;
+use PhpTwinfield\DimensionType;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
 
-class CustomerApiConnectorTest extends TestCase
+class DimensionTypeApiConnectorTest extends TestCase
 {
     /**
-     * @var CustomerApiConnector
+     * @var DimensionTypeApiConnector
      */
     protected $apiConnector;
 
@@ -37,31 +37,31 @@ class CustomerApiConnectorTest extends TestCase
             ->method("getAuthenticatedClient")
             ->willReturn($this->processXmlService);
 
-        $this->apiConnector = new CustomerApiConnector($connection);
+        $this->apiConnector = new DimensionTypeApiConnector($connection);
     }
 
-    private function createCustomer(): Customer
+    private function createDimensionType(): DimensionType
     {
-        $customer = new Customer();
-        return $customer;
+        $dimensionType = new DimensionType();
+        return $dimensionType;
     }
 
     public function testSendAllReturnsMappedObjects()
     {
         $response = Response::fromString(file_get_contents(
-            __DIR__."/resources/customer-response.xml"
+            __DIR__."/resources/dimensiontype-response.xml"
         ));
 
         $this->processXmlService->expects($this->once())
             ->method("sendDocument")
             ->willReturn($response);
 
-        $customer = $this->createCustomer();
+        $dimensionType = $this->createDimensionType();
 
-        $mapped = $this->apiConnector->send($customer);
+        $mapped = $this->apiConnector->send($dimensionType);
 
-        $this->assertInstanceOf(Customer::class, $mapped);
-        $this->assertEquals("D1001", $mapped->getCode());
-        $this->assertEquals("Hr E G H Küppers en/of MW M.J. Küppers-Veeneman", $mapped->getName());
+        $this->assertInstanceOf(DimensionType::class, $mapped);
+        $this->assertEquals("DEB", $mapped->getCode());
+        $this->assertEquals("Debiteuren", $mapped->getName());
     }
 }

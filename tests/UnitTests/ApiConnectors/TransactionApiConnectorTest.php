@@ -2,7 +2,6 @@
 
 namespace PhpTwinfield\UnitTests;
 
-use Money\Currency;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\Enums\Destiny;

@@ -2,17 +2,17 @@
 
 namespace PhpTwinfield\UnitTests;
 
-use PhpTwinfield\ApiConnectors\CustomerApiConnector;
-use PhpTwinfield\Customer;
+use PhpTwinfield\ApiConnectors\RateApiConnector;
+use PhpTwinfield\Rate;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
 
-class CustomerApiConnectorTest extends TestCase
+class RateApiConnectorTest extends TestCase
 {
     /**
-     * @var CustomerApiConnector
+     * @var RateApiConnector
      */
     protected $apiConnector;
 
@@ -37,31 +37,31 @@ class CustomerApiConnectorTest extends TestCase
             ->method("getAuthenticatedClient")
             ->willReturn($this->processXmlService);
 
-        $this->apiConnector = new CustomerApiConnector($connection);
+        $this->apiConnector = new RateApiConnector($connection);
     }
 
-    private function createCustomer(): Customer
+    private function createRate(): Rate
     {
-        $customer = new Customer();
-        return $customer;
+        $rate = new Rate();
+        return $rate;
     }
 
     public function testSendAllReturnsMappedObjects()
     {
         $response = Response::fromString(file_get_contents(
-            __DIR__."/resources/customer-response.xml"
+            __DIR__."/resources/rate-response.xml"
         ));
 
         $this->processXmlService->expects($this->once())
             ->method("sendDocument")
             ->willReturn($response);
 
-        $customer = $this->createCustomer();
+        $rate = $this->createRate();
 
-        $mapped = $this->apiConnector->send($customer);
+        $mapped = $this->apiConnector->send($rate);
 
-        $this->assertInstanceOf(Customer::class, $mapped);
-        $this->assertEquals("D1001", $mapped->getCode());
-        $this->assertEquals("Hr E G H Küppers en/of MW M.J. Küppers-Veeneman", $mapped->getName());
+        $this->assertInstanceOf(Rate::class, $mapped);
+        $this->assertEquals("DIRECT", $mapped->getCode());
+        $this->assertEquals("Direct rate", $mapped->getName());
     }
 }

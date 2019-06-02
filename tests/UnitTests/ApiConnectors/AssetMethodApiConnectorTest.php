@@ -2,17 +2,17 @@
 
 namespace PhpTwinfield\UnitTests;
 
-use PhpTwinfield\ApiConnectors\CustomerApiConnector;
-use PhpTwinfield\Customer;
+use PhpTwinfield\ApiConnectors\AssetMethodApiConnector;
+use PhpTwinfield\AssetMethod;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
 
-class CustomerApiConnectorTest extends TestCase
+class AssetMethodApiConnectorTest extends TestCase
 {
     /**
-     * @var CustomerApiConnector
+     * @var AssetMethodApiConnector
      */
     protected $apiConnector;
 
@@ -37,31 +37,31 @@ class CustomerApiConnectorTest extends TestCase
             ->method("getAuthenticatedClient")
             ->willReturn($this->processXmlService);
 
-        $this->apiConnector = new CustomerApiConnector($connection);
+        $this->apiConnector = new AssetMethodApiConnector($connection);
     }
 
-    private function createCustomer(): Customer
+    private function createAssetMethod(): AssetMethod
     {
-        $customer = new Customer();
-        return $customer;
+        $assetMethod = new AssetMethod();
+        return $assetMethod;
     }
 
     public function testSendAllReturnsMappedObjects()
     {
         $response = Response::fromString(file_get_contents(
-            __DIR__."/resources/customer-response.xml"
+            __DIR__."/resources/assetmethod-response.xml"
         ));
 
         $this->processXmlService->expects($this->once())
             ->method("sendDocument")
             ->willReturn($response);
 
-        $customer = $this->createCustomer();
+        $assetMethod = $this->createAssetMethod();
 
-        $mapped = $this->apiConnector->send($customer);
+        $mapped = $this->apiConnector->send($assetMethod);
 
-        $this->assertInstanceOf(Customer::class, $mapped);
-        $this->assertEquals("D1001", $mapped->getCode());
-        $this->assertEquals("Hr E G H Küppers en/of MW M.J. Küppers-Veeneman", $mapped->getName());
+        $this->assertInstanceOf(AssetMethod::class, $mapped);
+        $this->assertEquals("101", $mapped->getCode());
+        $this->assertEquals("Inventaris", $mapped->getName());
     }
 }

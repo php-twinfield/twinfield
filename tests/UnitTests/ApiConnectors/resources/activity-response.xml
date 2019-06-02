@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<dimension status="active" result="1">
+    <office name="Development BV" shortname="Development BV">DEV1000</office>
+    <type name="Activiteiten" shortname="Activiteiten">ACT</type>
+    <code>A001</code>
+    <uid>149e5dcb-8b37-446b-b865-f3928572618f</uid>
+    <name>Test Activity</name>
+    <shortname>TstAct</shortname>
+    <inuse>false</inuse
+    ><behaviour>normal</behaviour>
+    <touched>1</touched>
+    <beginperiod>0</beginperiod>
+    <beginyear>0</beginyear>
+    <endperiod>0</endperiod>
+    <endyear>0</endyear>
+    <website/>
+    <cocnumber/>
+    <vatnumber/>
+    <editdimensionname>true</editdimensionname>
+    <financials>
+        <matchtype>notmatchable</matchtype>
+        <accounttype>inherit</accounttype>
+        <subanalyse>false</subanalyse>
+        <duedays>0</duedays>
+        <level>4</level>
+        <payavailable>false</payavailable>
+        <meansofpayment>none</meansofpayment>
+        <paycode name="" shortname=""/>
+        <ebilling>false</ebilling>
+        <ebillmail/>
+        <substitutionlevel>0</substitutionlevel>
+        <substitutewith/>
+        <relationsreference/>
+        <vattype name="" shortname=""/>
+        <vatcode fixed="false"/>
+        <vatobligatory>false</vatobligatory>
+        <performancetype/>
+        <collectmandate>
+            <id>A001</id>
+            <signaturedate/>
+            <firstrundate/>
+        </collectmandate>
+        <collectionschema>core</collectionschema>
+        <childvalidations>
+            <childvalidation type="type" level="3">PRJ</childvalidation>
+        </childvalidations>
+    </financials>
+    <remittanceadvice>
+        <sendtype>ToFileManager</sendtype>
+        <sendmail/>
+    </remittanceadvice>
+    <banks/>
+    <projects>
+        <invoicedescription/>
+        <validfrom/>
+        <validtill/>
+        <authoriser locked="true" inherit="true"/>
+        <customer locked="true" inherit="true"/>
+        <billable locked="false" inherit="false" forratio="false">true</billable>
+        <rate locked="true" inherit="true"/>
+        <quantities/>
+    </projects>
+</dimension>

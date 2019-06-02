@@ -41,7 +41,7 @@ $countryApiConnector = new \PhpTwinfield\ApiConnectors\CountryApiConnector($conn
  *                         Usage:                  $options['office'] = 'SomeOfficeCode';
  */
 
-//List all with pattern "NL", field 0 (= search code or number), firstRow 1, maxRows 10
+//List all with pattern "NL", field 0 (= search code or name), firstRow 1, maxRows 10
 if ($executeListAllWithFilter) {
     try {
         $countries = $countryApiConnector->listAll('NL', 0, 1, 10);

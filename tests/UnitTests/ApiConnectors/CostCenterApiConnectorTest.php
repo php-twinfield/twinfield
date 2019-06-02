@@ -2,17 +2,17 @@
 
 namespace PhpTwinfield\UnitTests;
 
-use PhpTwinfield\ApiConnectors\CustomerApiConnector;
-use PhpTwinfield\Customer;
+use PhpTwinfield\ApiConnectors\CostCenterApiConnector;
+use PhpTwinfield\CostCenter;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
 
-class CustomerApiConnectorTest extends TestCase
+class CostCenterApiConnectorTest extends TestCase
 {
     /**
-     * @var CustomerApiConnector
+     * @var CostCenterApiConnector
      */
     protected $apiConnector;
 
@@ -37,31 +37,31 @@ class CustomerApiConnectorTest extends TestCase
             ->method("getAuthenticatedClient")
             ->willReturn($this->processXmlService);
 
-        $this->apiConnector = new CustomerApiConnector($connection);
+        $this->apiConnector = new CostCenterApiConnector($connection);
     }
 
-    private function createCustomer(): Customer
+    private function createCostCenter(): CostCenter
     {
-        $customer = new Customer();
-        return $customer;
+        $costCenter = new CostCenter();
+        return $costCenter;
     }
 
     public function testSendAllReturnsMappedObjects()
     {
         $response = Response::fromString(file_get_contents(
-            __DIR__."/resources/customer-response.xml"
+            __DIR__."/resources/costcenter-response.xml"
         ));
 
         $this->processXmlService->expects($this->once())
             ->method("sendDocument")
             ->willReturn($response);
 
-        $customer = $this->createCustomer();
+        $costCenter = $this->createCostCenter();
 
-        $mapped = $this->apiConnector->send($customer);
+        $mapped = $this->apiConnector->send($costCenter);
 
-        $this->assertInstanceOf(Customer::class, $mapped);
-        $this->assertEquals("D1001", $mapped->getCode());
-        $this->assertEquals("Hr E G H Küppers en/of MW M.J. Küppers-Veeneman", $mapped->getName());
+        $this->assertInstanceOf(CostCenter::class, $mapped);
+        $this->assertEquals("00001", $mapped->getCode());
+        $this->assertEquals("Hoevelaken", $mapped->getName());
     }
 }

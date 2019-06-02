@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<dimension status="active" result="1">
+    <office name="Development BV" shortname="Development BV">DEV1000</office>
+    <type name="Projecten" shortname="Projecten">PRJ</type>
+    <code>P0000</code>
+    <uid>149e5dcb-8b37-446b-b865-f3928572618f</uid>
+    <name>Project direct</name>
+    <shortname>Project directK</shortname>
+    <inuse>false</inuse>
+    <behaviour>normal</behaviour>
+    <touched>0</touched>
+    <beginperiod>0</beginperiod>
+    <beginyear>0</beginyear>
+    <endperiod>0</endperiod>
+    <endyear>0</endyear>
+    <website/>
+    <cocnumber/>
+    <vatnumber/>
+    <editdimensionname>true</editdimensionname>
+    <financials>
+        <matchtype>matchable</matchtype>
+        <accounttype>inherit</accounttype>
+        <subanalyse>maybe</subanalyse>
+        <duedays>0</duedays>
+        <level>3</level>
+        <payavailable>false</payavailable>
+        <meansofpayment>none</meansofpayment>
+        <paycode name="" shortname=""/>
+        <ebilling>false</ebilling>
+        <ebillmail/>
+        <substitutionlevel>2</substitutionlevel>
+        <substitutewith name="" shortname="" dimensiontype="">09999</substitutewith>
+        <relationsreference/>
+        <vattype name="" shortname=""/>
+        <vatcode fixed="false"/>
+        <vatobligatory>false</vatobligatory>
+        <performancetype/>
+        <collectmandate>
+            <id>P0000</id>
+            <signaturedate/>
+            <firstrundate/>
+        </collectmandate>
+        <collectionschema>core</collectionschema>
+        <childvalidations>
+            <childvalidation type="type" level="2">KPL</childvalidation>
+            <childvalidation type="type" level="4">ACT</childvalidation>
+        </childvalidations>
+    </financials>
+    <remittanceadvice>
+        <sendtype>ToFileManager</sendtype>
+        <sendmail/>
+    </remittanceadvice>
+    <banks/>
+    <projects>
+        <invoicedescription>Project direct invoice description</invoicedescription>
+        <validfrom/>
+        <validtill/>
+        <authoriser locked="true" inherit="true"/>
+        <customer locked="true" inherit="true"/>
+        <billable locked="true" inherit="true" forratio="false"/>
+        <rate locked="true" inherit="true"/>
+        <quantities>
+            <quantity>
+                <label>Kilometers</label>
+                <rate>KILOMETERS</rate>
+                <billable locked="false">true</billable>
+                <mandatory>false</mandatory>
+            </quantity>
+        </quantities>
+    </projects>
+</dimension>

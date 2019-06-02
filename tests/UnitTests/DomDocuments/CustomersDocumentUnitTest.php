@@ -34,14 +34,14 @@ class CustomersDocumentUnitTest extends TestCase
         $customer->setOffice(Office::fromCode("DEV-10000"));
         $customer->setStatusFromString('active');
 
-	$financials = new CustomerFinancials();
+        $financials = new CustomerFinancials();
         $financials->setDueDays(1);
         $financials->setPayAvailable(true);
         $financials->setPayCodeFromString('pay-code');
         $financials->setVatCodeFromString('vat-code');
         $financials->setEBilling(true);
         $financials->setEBillMail('ebillingmail@mail.com');
-	$customer->setFinancials($financials);
+        $customer->setFinancials($financials);
 
         $customer->setCreditManagement(
             (new CustomerCreditManagement())
@@ -54,6 +54,7 @@ class CustomersDocumentUnitTest extends TestCase
                 ->setFreeText2('free2')
                 ->setComment('comment    comment')
         );
+
         $customer->addAddress(
             (new CustomerAddress())
                 ->setDefault(true)
@@ -72,6 +73,7 @@ class CustomersDocumentUnitTest extends TestCase
                 ->setField5('field 5')
                 ->setField6('field 6')
         );
+
         $customer->addBank(
             (new CustomerBank())
                 ->setDefault(true)

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<article result="1">
+    <header status="active">
+        <office>DEV1000</office>
+        <code>9060</code>
+        <type>normal</type>
+        <name>Test Article</name>
+        <shortname>TstArt</shortname>
+        <unitnamesingular>Test Article</unitnamesingular>
+        <unitnameplural>Test Articles</unitnameplural>
+        <vatcode>VN</vatcode>
+        <allowchangevatcode>false</allowchangevatcode>
+        <performancetype/>
+        <allowchangeperformancetype>false</allowchangeperformancetype>
+        <percentage>false</percentage>
+        <allowdiscountorpremium>true</allowdiscountorpremium>
+        <allowchangeunitsprice>true</allowchangeunitsprice>
+        <allowdecimalquantity>true</allowdecimalquantity>
+    </header>
+    <lines>
+        <line inuse="true" status="active">
+            <unitspriceexcl>0.00</unitspriceexcl>
+            <unitspriceinc>0.00</unitspriceinc>
+            <units>1</units>
+            <name>Test SubArticle</name>
+            <shortname>TstSubArt</shortname>
+            <subcode>9060</subcode>
+            <freetext1 name="Afrondingsverschillen" shortname="Afrondingsverschille" dimensiontype="PNL">9060</freetext1>
+            <freetext2 name="" shortname="" dimensiontype=""/>
+            <freetext3/>
+            <freetext4/>
+            <freetext5/>
+            <freetext6/>
+        </line>
+    </lines>
+</article>

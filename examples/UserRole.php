@@ -41,7 +41,7 @@ $userRoleApiConnector = new \PhpTwinfield\ApiConnectors\UserRoleApiConnector($co
  *                         Usage:                  $options['office'] = 'SomeOfficeCode';
  */
 
-//List all with pattern "LVL1*", field 0 (= search code or number), firstRow 1, maxRows 10
+//List all with pattern "LVL1*", field 0 (= search code or name), firstRow 1, maxRows 10
 if ($executeListAllWithFilter) {
     try {
         $userRoles = $userRoleApiConnector->listAll("LVL1*", 0, 1, 10);

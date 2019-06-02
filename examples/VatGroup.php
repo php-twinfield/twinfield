@@ -41,7 +41,7 @@ $vatGroupApiConnector = new \PhpTwinfield\ApiConnectors\VatGroupApiConnector($co
  *                         Usage:                  $options['office'] = 'SomeOfficeCode';
  */
 
-//List all with pattern "1*", field 0 (= search code or number), firstRow 1, maxRows 10
+//List all with pattern "1*", field 0 (= search code or name), firstRow 1, maxRows 10
 if ($executeListAllWithFilter) {
     try {
         $vatGroups = $vatGroupApiConnector->listAll("1*", 0, 1, 10);

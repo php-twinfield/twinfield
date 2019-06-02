@@ -60,7 +60,7 @@ $office = \PhpTwinfield\Office::fromCode($officeCode);
  *
  */
 
-//List all with pattern "O*", field 0 (= search code or number), firstRow 1, maxRows 10, options -> vat = 'inclusive'
+//List all with pattern "O*", field 0 (= search code or name), firstRow 1, maxRows 10, options -> vat = 'inclusive'
 if ($executeListAllWithFilter) {
     $options = array('vat' => 'inclusive');
 

@@ -44,7 +44,7 @@ $vatGroupCountryApiConnector = new \PhpTwinfield\ApiConnectors\VatGroupCountryAp
  *                         Usage:                  $options['country'] = 'NL';
  */
 
-//List all with pattern "*", field 0 (= search code or number), firstRow 1, maxRows 10, options -> country = NL
+//List all with pattern "*", field 0 (= search code or name), firstRow 1, maxRows 10, options -> country = NL
 if ($executeListAllWithFilter) {
     $options = array('country' => 'NL');
 

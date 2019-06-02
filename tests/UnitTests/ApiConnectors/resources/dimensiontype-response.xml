@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<dimensiontype status="active" result="1">
+    <office name="Development BV" shortname="Development BV">DEV1000</office>
+    <code>DEB</code>
+    <name>Debiteuren</name>
+    <shortname>Debiteuren</shortname>
+    <mask>1[0-9][0-9][0-9]</mask>
+    <touched>8</touched>
+    <levels>
+        <financials>2</financials>
+        <time>0</time>
+        <fixedassets>0</fixedassets>
+        <invoices>0</invoices>
+    </levels>
+    <address>
+        <label1>Tav</label1>
+        <label2>Adres</label2>
+        <label3>Postadres</label3>
+        <label4>BTW nummer</label4>
+        <label5>KVK nummer</label5>
+        <label6/>
+    </address>
+</dimensiontype>

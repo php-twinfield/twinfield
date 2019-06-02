@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<dimensiongroup status="active" result="1">
+    <office name="Development BV" shortname="Development BV">DEV1000</office>
+    <code>TSTDIMGRP</code>
+    <name>Test Dimension Group</name>
+    <shortname>TstDimGrp</shortname>
+    <touched>35</touched>
+    <dimensions>
+        <dimension>
+            <type name="Balans" shortname="Balans">BAS</type>
+            <code name="Goodwill" shortname="Goodwill">0100</code>
+        </dimension>
+        <dimension>
+            <type name="Balans" shortname="Balans">BAS</type>
+            <code name="Afschr goodwill" shortname="Afschr goodwill">0105</code>
+        </dimension>
+    </dimensions>
+</dimensiongroup>

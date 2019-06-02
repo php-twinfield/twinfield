@@ -59,7 +59,7 @@ $office = \PhpTwinfield\Office::fromCode($officeCode);
  *
  */
 
-//List all with pattern "V*", field 0 (= search code or number), firstRow 1, maxRows 10, options -> vattype = 'sales'
+//List all with pattern "V*", field 0 (= search code or name), firstRow 1, maxRows 10, options -> vattype = 'sales'
 if ($executeListAllWithFilter) {
     $options = array('vattype' => 'sales');
 

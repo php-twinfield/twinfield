@@ -2,17 +2,17 @@
 
 namespace PhpTwinfield\UnitTests;
 
-use PhpTwinfield\ApiConnectors\CustomerApiConnector;
-use PhpTwinfield\Customer;
+use PhpTwinfield\ApiConnectors\GeneralLedgerApiConnector;
+use PhpTwinfield\GeneralLedger;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
 
-class CustomerApiConnectorTest extends TestCase
+class GeneralLedgerApiConnectorTest extends TestCase
 {
     /**
-     * @var CustomerApiConnector
+     * @var GeneralLedgerApiConnector
      */
     protected $apiConnector;
 
@@ -37,31 +37,31 @@ class CustomerApiConnectorTest extends TestCase
             ->method("getAuthenticatedClient")
             ->willReturn($this->processXmlService);
 
-        $this->apiConnector = new CustomerApiConnector($connection);
+        $this->apiConnector = new GeneralLedgerApiConnector($connection);
     }
 
-    private function createCustomer(): Customer
+    private function createGeneralLedger(): GeneralLedger
     {
-        $customer = new Customer();
-        return $customer;
+        $generalLedger = new GeneralLedger();
+        return $generalLedger;
     }
 
     public function testSendAllReturnsMappedObjects()
     {
         $response = Response::fromString(file_get_contents(
-            __DIR__."/resources/customer-response.xml"
+            __DIR__."/resources/generalledger-response.xml"
         ));
 
         $this->processXmlService->expects($this->once())
             ->method("sendDocument")
             ->willReturn($response);
 
-        $customer = $this->createCustomer();
+        $generalLedger = $this->createGeneralLedger();
 
-        $mapped = $this->apiConnector->send($customer);
+        $mapped = $this->apiConnector->send($generalLedger);
 
-        $this->assertInstanceOf(Customer::class, $mapped);
-        $this->assertEquals("D1001", $mapped->getCode());
-        $this->assertEquals("Hr E G H Küppers en/of MW M.J. Küppers-Veeneman", $mapped->getName());
+        $this->assertInstanceOf(GeneralLedger::class, $mapped);
+        $this->assertEquals("4004", $mapped->getCode());
+        $this->assertEquals("Bonussen/gratificaties", $mapped->getName());
     }
 }

@@ -7,7 +7,7 @@ use PhpTwinfield\Fields\Transaction\TransactionLine\ValueFields;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \PhpTwinfield\Transactions\TransactionLineFields\ValueFields
+ * @covers \PhpTwinfield\Fields\Transaction\TransactionLine\ValueFields
  */
 class ValueFieldsUnitTest extends TestCase
 {

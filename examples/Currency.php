@@ -54,7 +54,7 @@ $office = \PhpTwinfield\Office::fromCode($officeCode);
  *                         Usage:                  $options['office'] = 'SomeOfficeCode';
  */
 
-//List all with pattern "EUR", field 0 (= search code or number), firstRow 1, maxRows 10, options []
+//List all with pattern "EUR", field 0 (= search code or name), firstRow 1, maxRows 10, options []
 if ($executeListAllWithFilter) {
     try {
         $currencies = $currencyApiConnector->listAll("EUR", 0, 1, 10);

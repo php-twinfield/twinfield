@@ -64,7 +64,7 @@ $office = \PhpTwinfield\Office::fromCode($officeCode);
  *
  */
 
-//List all with pattern "2019*", field 0 (= search code or number), firstRow 1, maxRows 10, options -> openvalue = 50.25
+//List all with pattern "2019*", field 0 (= search code or name), firstRow 1, maxRows 10, options -> openvalue = 50.25
 if ($executeListAllWithFilter) {
     $options = array('openvalue' => 50.25);
 
