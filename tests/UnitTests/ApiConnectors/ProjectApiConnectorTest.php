@@ -2,17 +2,17 @@
 
 namespace PhpTwinfield\UnitTests;
 
-use PhpTwinfield\ApiConnectors\CustomerApiConnector;
-use PhpTwinfield\Customer;
+use PhpTwinfield\ApiConnectors\ProjectApiConnector;
+use PhpTwinfield\Project;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
 
-class CustomerApiConnectorTest extends TestCase
+class ProjectApiConnectorTest extends TestCase
 {
     /**
-     * @var CustomerApiConnector
+     * @var ProjectApiConnector
      */
     protected $apiConnector;
 
@@ -37,31 +37,31 @@ class CustomerApiConnectorTest extends TestCase
             ->method("getAuthenticatedClient")
             ->willReturn($this->processXmlService);
 
-        $this->apiConnector = new CustomerApiConnector($connection);
+        $this->apiConnector = new ProjectApiConnector($connection);
     }
 
-    private function createCustomer(): Customer
+    private function createProject(): Project
     {
-        $customer = new Customer();
-        return $customer;
+        $project = new Project();
+        return $project;
     }
 
     public function testSendAllReturnsMappedObjects()
     {
         $response = Response::fromString(file_get_contents(
-            __DIR__."/resources/customer-response.xml"
+            __DIR__."/resources/project-response.xml"
         ));
 
         $this->processXmlService->expects($this->once())
             ->method("sendDocument")
             ->willReturn($response);
 
-        $customer = $this->createCustomer();
+        $project = $this->createProject();
 
-        $mapped = $this->apiConnector->send($customer);
+        $mapped = $this->apiConnector->send($project);
 
-        $this->assertInstanceOf(Customer::class, $mapped);
-        $this->assertEquals("D1001", $mapped->getCode());
-        $this->assertEquals("Hr E G H Küppers en/of MW M.J. Küppers-Veeneman", $mapped->getName());
+        $this->assertInstanceOf(Project::class, $mapped);
+        $this->assertEquals("P0000", $mapped->getCode());
+        $this->assertEquals("Project direct", $mapped->getName());
     }
 }

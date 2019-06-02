@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<dimension status="active" result="1">
+    <office name="Development BV" shortname="Development BV">DEV1000</office>
+    <type name="Vaste activa" shortname="">AST</type>
+    <code>60000</code>
+    <uid>149e5dcb-8b37-446b-b865-f3928572618f</uid>
+    <name>Afschrijving Computer</name>
+    <shortname/>
+    <inuse>false</inuse>
+    <behaviour>normal</behaviour>
+    <touched>0</touched>
+    <beginperiod>0</beginperiod>
+    <beginyear>0</beginyear>
+    <endperiod>0</endperiod>
+    <endyear>0</endyear>
+    <website/>
+    <cocnumber/>
+    <vatnumber/>
+    <editdimensionname>true</editdimensionname>
+    <financials>
+        <matchtype>notmatchable</matchtype>
+        <accounttype>inherit</accounttype>
+        <subanalyse>false</subanalyse>
+        <duedays>30</duedays>
+        <level>3</level>
+        <payavailable>false</payavailable>
+        <meansofpayment>none</meansofpayment>
+        <paycode name="" shortname=""/>
+        <ebilling>false</ebilling>
+        <ebillmail/>
+        <substitutionlevel>2</substitutionlevel>
+        <substitutewith name="Hoevelaken" shortname="" dimensiontype="KPL" id="235B085C-AFB8-4479-BFC5-C210E18D51F9">00001</substitutewith>
+        <relationsreference/>
+        <vattype name="" shortname=""/>
+        <vatcode fixed="false"/>
+        <vatobligatory>false</vatobligatory>
+        <performancetype/>
+        <collectmandate>
+            <id>60000</id>
+            <signaturedate/>
+            <firstrundate/>
+        </collectmandate>
+        <collectionschema>core</collectionschema>
+    </financials>
+    <remittanceadvice>
+        <sendtype>ToFileManager</sendtype>
+        <sendmail/>
+    </remittanceadvice>
+    <banks/>
+    <fixedassets>
+        <status locked="true">active</status>
+        <residualvalue locked="false">500.00</residualvalue>
+        <stopvalue locked="false">0.00</stopvalue>
+        <method name="Afschrijving Computers" shortname="AfschrijvingComp" locked="false">100</method>
+        <beginperiod locked="false">2019/01</beginperiod>
+        <purchasedate locked="false">20180401</purchasedate>
+        <selldate locked="true"/>
+        <freetext1 locked="false"/>
+        <freetext2 locked="false"/>
+        <freetext3 locked="false"/>
+        <freetext4 locked="false"/>
+        <freetext5 locked="false"/>
+        <translines locked="true"/>
+        <nrofperiods inherited="true" locked="false">0</nrofperiods>
+        <percentage locked="false">10</percentage>
+        <lastdepreciation locked="false">2019/12</lastdepreciation>
+    </fixedassets>
+</dimension>

@@ -2,17 +2,17 @@
 
 namespace PhpTwinfield\UnitTests;
 
-use PhpTwinfield\ApiConnectors\CustomerApiConnector;
-use PhpTwinfield\Customer;
+use PhpTwinfield\ApiConnectors\DimensionGroupApiConnector;
+use PhpTwinfield\DimensionGroup;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
 
-class CustomerApiConnectorTest extends TestCase
+class DimensionGroupApiConnectorTest extends TestCase
 {
     /**
-     * @var CustomerApiConnector
+     * @var DimensionGroupApiConnector
      */
     protected $apiConnector;
 
@@ -37,31 +37,31 @@ class CustomerApiConnectorTest extends TestCase
             ->method("getAuthenticatedClient")
             ->willReturn($this->processXmlService);
 
-        $this->apiConnector = new CustomerApiConnector($connection);
+        $this->apiConnector = new DimensionGroupApiConnector($connection);
     }
 
-    private function createCustomer(): Customer
+    private function createDimensionGroup(): DimensionGroup
     {
-        $customer = new Customer();
-        return $customer;
+        $dimensionGroup = new DimensionGroup();
+        return $dimensionGroup;
     }
 
     public function testSendAllReturnsMappedObjects()
     {
         $response = Response::fromString(file_get_contents(
-            __DIR__."/resources/customer-response.xml"
+            __DIR__."/resources/dimensiongroup-response.xml"
         ));
 
         $this->processXmlService->expects($this->once())
             ->method("sendDocument")
             ->willReturn($response);
 
-        $customer = $this->createCustomer();
+        $dimensionGroup = $this->createDimensionGroup();
 
-        $mapped = $this->apiConnector->send($customer);
+        $mapped = $this->apiConnector->send($dimensionGroup);
 
-        $this->assertInstanceOf(Customer::class, $mapped);
-        $this->assertEquals("D1001", $mapped->getCode());
-        $this->assertEquals("Hr E G H Küppers en/of MW M.J. Küppers-Veeneman", $mapped->getName());
+        $this->assertInstanceOf(DimensionGroup::class, $mapped);
+        $this->assertEquals("TSTDIMGRP", $mapped->getCode());
+        $this->assertEquals("Test Dimension Group", $mapped->getName());
     }
 }

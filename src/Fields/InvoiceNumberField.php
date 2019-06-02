@@ -1,12 +1,12 @@
 <?php
 
-namespace PhpTwinfield\Fields\Transaction;
+namespace PhpTwinfield\Fields;
 
 trait InvoiceNumberField
 {
     /**
      * Invoice number field
-     * Used by: JournalTransactionLine, PurchaseTransaction, SalesTransaction
+     * Used by: Invoice, JournalTransactionLine, PurchaseTransaction, SalesTransaction
      *
      * @var string|null
      */

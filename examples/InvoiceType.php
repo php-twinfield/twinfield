@@ -35,7 +35,7 @@ $invoiceTypeApiConnector = new \PhpTwinfield\ApiConnectors\InvoiceTypeApiConnect
  *                         to add multiple options. An option name may be used once, specifying an option multiple
  *                         times will cause an error.
  *
- *                         Available options:      office
+ *                         Available options:      office, vat
  *
  *                         office                  Sets the office code.
  *                         Usage:                  $options['office'] = 'SomeOfficeCode';
@@ -45,7 +45,7 @@ $invoiceTypeApiConnector = new \PhpTwinfield\ApiConnectors\InvoiceTypeApiConnect
  *                         Usage:                  $options['vat'] = 'inclusive';
  */
 
-//List all with pattern "INV*", field 0 (= search code or number), firstRow 1, maxRows 10, options, options -> vat = 'exclusive'
+//List all with pattern "INV*", field 0 (= search code or name), firstRow 1, maxRows 10, options, options -> vat = 'exclusive'
 if ($executeListAllWithFilter) {
     $options = array('vat' => 'exclusive');
 

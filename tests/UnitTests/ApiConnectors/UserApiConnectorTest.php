@@ -2,17 +2,17 @@
 
 namespace PhpTwinfield\UnitTests;
 
-use PhpTwinfield\ApiConnectors\CustomerApiConnector;
-use PhpTwinfield\Customer;
+use PhpTwinfield\ApiConnectors\UserApiConnector;
+use PhpTwinfield\User;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
 
-class CustomerApiConnectorTest extends TestCase
+class UserApiConnectorTest extends TestCase
 {
     /**
-     * @var CustomerApiConnector
+     * @var UserApiConnector
      */
     protected $apiConnector;
 
@@ -37,31 +37,31 @@ class CustomerApiConnectorTest extends TestCase
             ->method("getAuthenticatedClient")
             ->willReturn($this->processXmlService);
 
-        $this->apiConnector = new CustomerApiConnector($connection);
+        $this->apiConnector = new UserApiConnector($connection);
     }
 
-    private function createCustomer(): Customer
+    private function createUser(): User
     {
-        $customer = new Customer();
-        return $customer;
+        $user = new User();
+        return $user;
     }
 
     public function testSendAllReturnsMappedObjects()
     {
         $response = Response::fromString(file_get_contents(
-            __DIR__."/resources/customer-response.xml"
+            __DIR__."/resources/user-response.xml"
         ));
 
         $this->processXmlService->expects($this->once())
             ->method("sendDocument")
             ->willReturn($response);
 
-        $customer = $this->createCustomer();
+        $user = $this->createUser();
 
-        $mapped = $this->apiConnector->send($customer);
+        $mapped = $this->apiConnector->send($user);
 
-        $this->assertInstanceOf(Customer::class, $mapped);
-        $this->assertEquals("D1001", $mapped->getCode());
-        $this->assertEquals("Hr E G H Küppers en/of MW M.J. Küppers-Veeneman", $mapped->getName());
+        $this->assertInstanceOf(User::class, $mapped);
+        $this->assertEquals("API000001", $mapped->getCode());
+        $this->assertEquals("Test User", $mapped->getName());
     }
 }

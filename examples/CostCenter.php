@@ -65,7 +65,7 @@ $office = \PhpTwinfield\Office::fromCode($officeCode);
  *                         Usage:                  $options['group'] = 'DimensionGroup';
  */
 
-//List all with pattern "Apeldoorn", field 0 (= search code or number), firstRow 1, maxRows 10, options -> modifiedsince = '20190101100000', group = 'DimensionGroup'
+//List all with pattern "Apeldoorn", field 0 (= search code or name), firstRow 1, maxRows 10, options -> modifiedsince = '20190101100000', group = 'DimensionGroup'
 if ($executeListAllWithFilter) {
     $options = array('modifiedsince' => '20190101100000', 'group' => 'DimensionGroup');
 
