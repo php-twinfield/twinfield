@@ -41,18 +41,6 @@ class SupplierDocumentUnitTest extends TestCase
         $financials->setVatCodeFromString('vat-code');
         $supplier->setFinancials($financials);
 
-        $supplier->setCreditManagement(
-            (new SupplierCreditManagement())
-                ->setResponsibleUserFromString('responsible-user')
-                ->setBaseCreditLimitFromFloat(50)
-                ->setSendReminderFromString('true')
-                ->setReminderEmail('reminderemail@mail.com')
-                ->setBlocked(false)
-                ->setFreeText1FromString('true')
-                ->setFreeText2('free2')
-                ->setComment('comment    comment')
-        );
-
         $supplier->addAddress(
             (new SupplierAddress())
                 ->setDefault(true)
