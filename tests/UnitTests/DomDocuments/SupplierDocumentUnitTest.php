@@ -39,8 +39,6 @@ class SupplierDocumentUnitTest extends TestCase
         $financials->setPayAvailable(true);
         $financials->setPayCodeFromString('pay-code');
         $financials->setVatCodeFromString('vat-code');
-        $financials->setEBilling(true);
-        $financials->setEBillMail('ebillingmail@mail.com');
         $supplier->setFinancials($financials);
 
         $supplier->setCreditManagement(
