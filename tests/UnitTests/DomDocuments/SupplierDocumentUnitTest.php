@@ -100,38 +100,17 @@ class SupplierDocumentUnitTest extends TestCase
 	    <name>Chuck Norris</name>
 	    <office>DEV-10000</office>
 	    <shortname/>
-	    <type>DEB</type>
+	    <type>CRD</type>
 	    <website>http://example.org</website>
 	    <financials>
-	        <collectionschema>core</collectionschema>
 	        <duedays>1</duedays>
-	        <ebilling>true</ebilling>
-	        <ebillmail>ebillingmail@mail.com</ebillmail>
-		<meansofpayment/>
+	        <meansofpayment/>
 	        <payavailable>true</payavailable>
 	        <paycode>pay-code</paycode>
-	        <substitutewith/>
+	        <relationsreference/>
+            <substitutewith/>
 	        <vatcode>vat-code</vatcode>
-	        <collectmandate>
-		    <firstrundate/>
-	            <id/>
-		    <signaturedate/>
-	        </collectmandate>
-            </financials>
-        <creditmanagement>
-            <basecreditlimit>50</basecreditlimit>
-	    <blocked>false</blocked>
-	    <comment>comment    comment</comment>
-	    <freetext1>true</freetext1>
-            <freetext2>free2</freetext2>
-	    <freetext3/>
-	    <reminderemail>reminderemail@mail.com</reminderemail>
-	    <responsibleuser>responsible-user</responsibleuser>
-            <sendreminder>true</sendreminder>
-        </creditmanagement>
-	<invoicing>
-	    <discountarticle/>
-	</invoicing>
+        </financials>
         <addresses>
             <address default="true" type="invoice">
                 <city>city</city>
@@ -144,14 +123,14 @@ class SupplierDocumentUnitTest extends TestCase
                 <field5>field 5</field5>
                 <field6>field 6</field6>
                 <name>My Address</name>
-		<postcode>postal code</postcode>
-		<telefax>fax number</telefax>
+                <postcode>postal code</postcode>
+                <telefax>fax number</telefax>
                 <telephone>phone number</telephone>
             </address>
         </addresses>
         <banks>
-            <bank default="true">
-	        <address>
+            <bank blocked="false" default="true">
+                <address>
                     <field2>address 2</field2>
                     <field3>address 3</field3>
                 </address>
@@ -167,16 +146,20 @@ class SupplierDocumentUnitTest extends TestCase
                 <state>state</state>
             </bank>
         </banks>
-	<remittanceadvice>
-	    <sendmail/>
+        <remittanceadvice>
+            <sendmail/>
             <sendtype/>
-	</remittanceadvice>
-	<paymentconditions>
-	    <paymentcondition>
-	        <discountdays/>
+        </remittanceadvice>
+        <paymentconditions>
+            <paymentcondition>
+                <discountdays/>
                 <discountpercentage/>
             </paymentcondition>
         </paymentconditions>
+        <blockedaccountpaymentconditions>
+            <includevat/>
+            <percentage/>
+        </blockedaccountpaymentconditions>
     </dimension>
     <dimension status="deleted">
 	    <beginperiod>0</beginperiod>
@@ -187,48 +170,31 @@ class SupplierDocumentUnitTest extends TestCase
 	    <name>Nuck Chorris</name>
 	    <office>DEV-00001</office>
 	    <shortname/>
-	    <type>DEB</type>
+	    <type>CRD</type>
 	    <website>http://example.org</website>
 	    <financials>
-		<collectionschema>core</collectionschema>
-		<duedays>30</duedays>
-		<ebilling>false</ebilling>
-		<ebillmail/>
-		<meansofpayment/>
-		<payavailable>false</payavailable>
-		<paycode/>
-		<substitutewith/>
-		<vatcode/>
-		<collectmandate>
-		    <firstrundate/>
-		    <id/>
-		    <signaturedate/>
-		</collectmandate>
+            <duedays>30</duedays>
+            <meansofpayment/>
+            <payavailable>false</payavailable>
+            <paycode/>
+            <relationsreference/>
+            <substitutewith/>
+            <vatcode/>
 	    </financials>
-	    <creditmanagement>
-		<basecreditlimit>0</basecreditlimit>
-		<blocked>false</blocked>
-		<comment/>
-		<freetext1>false</freetext1>
-		<freetext2/>
-		<freetext3/>
-		<reminderemail/>
-		<responsibleuser/>
-		<sendreminder>true</sendreminder>
-	    </creditmanagement>
-	    <invoicing>
-		<discountarticle/>
-	    </invoicing>
 	    <remittanceadvice>
-		<sendmail/>
-		<sendtype/>
+            <sendmail/>
+            <sendtype/>
 	    </remittanceadvice>
 	    <paymentconditions>
-		<paymentcondition>
-		    <discountdays/>
-		    <discountpercentage/>
-		</paymentcondition>
+            <paymentcondition>
+                <discountdays/>
+                <discountpercentage/>
+            </paymentcondition>
 	    </paymentconditions>
+        <blockedaccountpaymentconditions>
+            <includevat/>
+            <percentage/>
+        </blockedaccountpaymentconditions>
     </dimension>
 </dimensions>
 XML
