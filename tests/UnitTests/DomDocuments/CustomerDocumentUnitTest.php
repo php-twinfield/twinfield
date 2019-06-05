@@ -11,7 +11,7 @@ use PhpTwinfield\DomDocuments\CustomersDocument;
 use PhpTwinfield\Office;
 use PHPUnit\Framework\TestCase;
 
-class CustomersDocumentUnitTest extends TestCase
+class CustomerDocumentUnitTest extends TestCase
 {
     /**
      * @var CustomersDocument
