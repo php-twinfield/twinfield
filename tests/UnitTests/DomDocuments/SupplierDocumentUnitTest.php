@@ -5,7 +5,6 @@ namespace PhpTwinfield\UnitTests;
 use PhpTwinfield\Supplier;
 use PhpTwinfield\SupplierAddress;
 use PhpTwinfield\SupplierBank;
-use PhpTwinfield\SupplierCreditManagement;
 use PhpTwinfield\SupplierFinancials;
 use PhpTwinfield\DomDocuments\SuppliersDocument;
 use PhpTwinfield\Office;
