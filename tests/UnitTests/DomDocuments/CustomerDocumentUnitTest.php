@@ -214,11 +214,6 @@ class CustomerDocumentUnitTest extends TestCase
 		<paycode/>
 		<substitutewith/>
 		<vatcode/>
-		<collectmandate>
-		    <firstrundate/>
-		    <id/>
-		    <signaturedate/>
-		</collectmandate>
 	    </financials>
 	    <creditmanagement>
 		<basecreditlimit>0</basecreditlimit>
