@@ -42,7 +42,10 @@ class FixedAssetsDocument extends BaseDocument
             $fixedAssetElement->setAttribute('status', $status);
         }
 
-        $fixedAssetElement->appendChild($this->createNodeWithTextContent('code', $fixedAsset->getCode()));
+        if (!empty($fixedAsset->getCode())) {
+            $fixedAssetElement->appendChild($this->createNodeWithTextContent('code', $fixedAsset->getCode()));
+        }
+
         $fixedAssetElement->appendChild($this->createNodeWithTextContent('name', $fixedAsset->getName()));
         $fixedAssetElement->appendChild($this->createNodeWithTextContent('office', $fixedAsset->getOfficeToString()));
         $fixedAssetElement->appendChild($this->createNodeWithTextContent('type', $fixedAsset->getTypeToString()));

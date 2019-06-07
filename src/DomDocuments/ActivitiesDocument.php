@@ -41,8 +41,11 @@ class ActivitiesDocument extends BaseDocument
         if (!empty($status)) {
             $activityElement->setAttribute('status', $status);
         }
+        
+        if (!empty($activity->getCode())) {
+            $activityElement->appendChild($this->createNodeWithTextContent('code', $activity->getCode()));
+        }
 
-        $activityElement->appendChild($this->createNodeWithTextContent('code', $activity->getCode()));
         $activityElement->appendChild($this->createNodeWithTextContent('name', $activity->getName()));
         $activityElement->appendChild($this->createNodeWithTextContent('office', $activity->getOfficeToString()));
         $activityElement->appendChild($this->createNodeWithTextContent('shortname', $activity->getShortName()));

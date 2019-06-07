@@ -44,7 +44,11 @@ class CustomersDocument extends BaseDocument
 
         $customerElement->appendChild($this->createNodeWithTextContent('beginperiod', $customer->getBeginPeriod()));
         $customerElement->appendChild($this->createNodeWithTextContent('beginyear', $customer->getBeginYear()));
-        $customerElement->appendChild($this->createNodeWithTextContent('code', $customer->getCode()));
+
+        if (!empty($customer->getCode())) {
+            $customerElement->appendChild($this->createNodeWithTextContent('code', $customer->getCode()));
+        }
+
         $customerElement->appendChild($this->createNodeWithTextContent('endperiod', $customer->getEndPeriod()));
         $customerElement->appendChild($this->createNodeWithTextContent('endyear', $customer->getEndYear()));
         $customerElement->appendChild($this->createNodeWithTextContent('name', $customer->getName()));
@@ -70,13 +74,15 @@ class CustomersDocument extends BaseDocument
 
         $collectMandate = $financials->getCollectMandate();
 
-        // Make collectmandate element
-        $collectMandateElement = $this->createElement('collectmandate');
-        $financialsElement->appendChild($collectMandateElement);
+        if (!empty($collectMandate->getID())) {
+            // Make collectmandate element
+            $collectMandateElement = $this->createElement('collectmandate');
+            $financialsElement->appendChild($collectMandateElement);
 
-        $collectMandateElement->appendChild($this->createNodeWithTextContent('firstrundate', $collectMandate->getFirstRunDateToString()));
-        $collectMandateElement->appendChild($this->createNodeWithTextContent('id', $collectMandate->getID()));
-        $collectMandateElement->appendChild($this->createNodeWithTextContent('signaturedate', $collectMandate->getSignatureDateToString()));
+            $collectMandateElement->appendChild($this->createNodeWithTextContent('firstrundate', $collectMandate->getFirstRunDateToString()));
+            $collectMandateElement->appendChild($this->createNodeWithTextContent('id', $collectMandate->getID()));
+            $collectMandateElement->appendChild($this->createNodeWithTextContent('signaturedate', $collectMandate->getSignatureDateToString()));
+        }
 
         $childValidations = $financials->getChildValidations();
 

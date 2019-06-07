@@ -41,8 +41,11 @@ class ProjectsDocument extends BaseDocument
         if (!empty($status)) {
             $projectElement->setAttribute('status', $status);
         }
-
-        $projectElement->appendChild($this->createNodeWithTextContent('code', $project->getCode()));
+        
+        if (!empty($project->getCode())) {
+            $projectElement->appendChild($this->createNodeWithTextContent('code', $project->getCode()));
+        }
+        
         $projectElement->appendChild($this->createNodeWithTextContent('name', $project->getName()));
         $projectElement->appendChild($this->createNodeWithTextContent('office', $project->getOfficeToString()));
         $projectElement->appendChild($this->createNodeWithTextContent('shortname', $project->getShortName()));

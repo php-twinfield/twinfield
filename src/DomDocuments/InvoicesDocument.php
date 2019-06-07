@@ -66,7 +66,11 @@ class InvoicesDocument extends BaseDocument
         $headerElement->appendChild($this->createNodeWithTextContent('headertext', $invoice->getHeaderText()));
         $headerElement->appendChild($this->createNodeWithTextContent('invoiceaddressnumber', $invoice->getInvoiceAddressNumber()));
         $headerElement->appendChild($this->createNodeWithTextContent('invoicedate', $invoice->getInvoiceDateToString()));
-        $headerElement->appendChild($this->createNodeWithTextContent('invoicenumber', $invoice->getInvoiceNumber()));
+        
+        if (!empty($invoice->getInvoiceNumber())) {
+            $headerElement->appendChild($this->createNodeWithTextContent('invoicenumber', $invoice->getInvoiceNumber()));
+        }
+        
         $headerElement->appendChild($this->createNodeWithTextContent('invoicetype', $invoice->getInvoiceTypeToString()));
         $headerElement->appendChild($this->createNodeWithTextContent('office', $invoice->getOfficeToString()));
         $headerElement->appendChild($this->createNodeWithTextContent('paymentmethod', $invoice->getPaymentMethod()));
