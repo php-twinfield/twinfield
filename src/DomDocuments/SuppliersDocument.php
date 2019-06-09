@@ -44,7 +44,11 @@ class SuppliersDocument extends BaseDocument
 
         $supplierElement->appendChild($this->createNodeWithTextContent('beginperiod', $supplier->getBeginPeriod()));
         $supplierElement->appendChild($this->createNodeWithTextContent('beginyear', $supplier->getBeginYear()));
-        $supplierElement->appendChild($this->createNodeWithTextContent('code', $supplier->getCode()));
+        
+        if (!empty($supplier->getCode())) {
+            $supplierElement->appendChild($this->createNodeWithTextContent('code', $supplier->getCode()));
+        }
+        
         $supplierElement->appendChild($this->createNodeWithTextContent('endperiod', $supplier->getEndPeriod()));
         $supplierElement->appendChild($this->createNodeWithTextContent('endyear', $supplier->getEndYear()));
         $supplierElement->appendChild($this->createNodeWithTextContent('name', $supplier->getName()));

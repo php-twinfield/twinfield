@@ -41,8 +41,11 @@ class CostCentersDocument extends BaseDocument
         if (!empty($status)) {
             $costCenterElement->setAttribute('status', $status);
         }
+        
+        if (!empty($costCenter->getCode())) {
+            $costCenterElement->appendChild($this->createNodeWithTextContent('code', $costCenter->getCode()));
+        }
 
-        $costCenterElement->appendChild($this->createNodeWithTextContent('code', $costCenter->getCode()));
         $costCenterElement->appendChild($this->createNodeWithTextContent('name', $costCenter->getName()));
         $costCenterElement->appendChild($this->createNodeWithTextContent('office', $costCenter->getOfficeToString()));
         $costCenterElement->appendChild($this->createNodeWithTextContent('type', $costCenter->getTypeToString()));

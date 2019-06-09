@@ -31,14 +31,14 @@ class VatCodePercentage extends BaseObject
 
     public function addAccount(VatCodeAccount $account)
     {
-        $this->accounts[$account->getID()] = $account;
+        $this->accounts[] = $account;
         return $this;
     }
 
-    public function removeAccount($id)
+    public function removeAccount($index)
     {
-        if (array_key_exists($id, $this->accounts)) {
-            unset($this->accounts[$id]);
+        if (array_key_exists($index, $this->accounts)) {
+            unset($this->accounts[$index]);
             return true;
         } else {
             return false;

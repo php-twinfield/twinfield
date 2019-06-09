@@ -74,10 +74,10 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         // Addresses
         $addresses = $customer->getAddresses();
         $this->assertCount(1, $addresses);
-        $this->assertArrayHasKey('1', $addresses);
+        $this->assertArrayHasKey(0, $addresses);
 
         /** @var CustomerAddress $address */
-        $address = $addresses['1'];
+        $address = $addresses[0];
 
         $this->assertSame(1, $address->getID());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\AddressType');
@@ -100,10 +100,10 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         // Banks
         $banks = $customer->getBanks();
         $this->assertCount(1, $banks);
-        $this->assertArrayHasKey('-1', $banks);
+        $this->assertArrayHasKey(0, $banks);
 
         /** @var CustomerBank $bank */
-        $bank = $banks['-1'];
+        $bank = $banks[0];
 
         $this->assertSame(-1, $bank->getID());
         $this->assertSame(true, $bank->getDefault());

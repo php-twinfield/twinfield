@@ -220,10 +220,6 @@ if ($executeNew) {
     $article->setName("Example Article");                                                                                                           // string|null                  Article description.
     $article->setOffice($office);                                                                                                                   // Office|null                  Office code.
     $article->setOfficeFromString($officeCode);                                                                                                     // string|null
-    //$article->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                                    // Status|null                  For creating and updating status may be left empty. For deleting deleted should be used.
-    //$article->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                                                   // Status|null                  In case an article is in use, its status has been changed into hide. Hidden articles can be activated by using active.
-    //$article->setStatusFromString('active');                                                                                                      // string|null
-    //$article->setStatusFromString('deleted');                                                                                                     // string|null
     $article->setUnitNamePlural("Example Art Units");                                                                                               // string|null                  Unit name for multiple items
     $article->setUnitNameSingular("Example Art Unit");                                                                                              // string|null                  Unit name for a single item
 
@@ -243,6 +239,10 @@ if ($executeNew) {
     $article->setPerformanceType(\PhpTwinfield\Enums\PerformanceType::SERVICES());                                                                  // PerformanceType|null         The performance type.
     $article->setPerformanceTypeFromString('services');                                                                                             // string|null
     $article->setShortName("ExmplArt");                                                                                                             // string|null                  Short article description.
+    //$article->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                                    // Status|null                  For creating and updating status may be left empty. For deleting deleted should be used.
+    //$article->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                                                   // Status|null                  In case an article is in use, its status has been changed into hide. Hidden articles can be activated by using active.
+    //$article->setStatusFromString('active');                                                                                                      // string|null
+    //$article->setStatusFromString('deleted');                                                                                                     // string|null
     $article->setType(\PhpTwinfield\Enums\ArticleType::NORMAL());                                                                                   // ArticleType|null             Set to normal in case special item is none. Set to either discount or premium in case special item is deduction or premium respectively.
     $article->setTypeFromString('normal');                                                                                                          // string|null
     $vatCode = new \PhpTwinfield\VatCode;
@@ -259,7 +259,7 @@ if ($executeNew) {
     $articleLine->setFreeText1FromString('9060');                                                       	                                        // string|null
     $freeText2 = new \PhpTwinfield\CostCenter;
     $freeText2->setCode('00000');
-    //$articleLine->setFreeText2($freeText1);                      		                                                                            // CostCenter|null              Mandatory. The general ledger code linked to the article.
+    //$articleLine->setFreeText2($freeText1);                      		                                                                            // CostCenter|null              Optional. The cost center linked to the article.
     //$articleLine->setFreeText2FromString('00000');                                                       	                                        // string|null
     //$articleLine->setFreetext3("");                                                                                                               // string|null                  Free text element 3
     $articleLine->setID(1);                                                                                                                         // int|null                     Line ID.
@@ -278,7 +278,7 @@ if ($executeNew) {
     //$articleLine->setUnitsPriceIncFromFloat(12.10);                                                                                               // float|null
 
     $article->addLine($articleLine);                                                                                                                // ArticleLine                  Add an ArticleLine object to the Article object
-    //$article->removeLine(1);                                                                                                                      // int                          Remove an article line based on the id of the article line
+    //$article->removeLine(0);                                                                                                                      // int                          Remove an article line based on the index of the article line
 
     try {
         $articleNew = $articleApiConnector->send($article);

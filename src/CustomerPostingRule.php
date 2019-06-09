@@ -22,6 +22,11 @@ class CustomerPostingRule extends BaseObject
 
     private $lines = [];
 
+    public function __construct()
+    {
+        $this->setID(1);
+    }
+
     public function getLines()
     {
         return $this->lines;

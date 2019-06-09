@@ -11,7 +11,7 @@ use PhpTwinfield\DomDocuments\CustomersDocument;
 use PhpTwinfield\Office;
 use PHPUnit\Framework\TestCase;
 
-class CustomersDocumentUnitTest extends TestCase
+class CustomerDocumentUnitTest extends TestCase
 {
     /**
      * @var CustomersDocument
@@ -127,11 +127,6 @@ class CustomersDocumentUnitTest extends TestCase
 	        <paycode>pay-code</paycode>
 	        <substitutewith/>
 	        <vatcode>vat-code</vatcode>
-	        <collectmandate>
-		    <firstrundate/>
-	            <id/>
-		    <signaturedate/>
-	        </collectmandate>
             </financials>
         <creditmanagement>
             <basecreditlimit>50</basecreditlimit>
@@ -214,11 +209,6 @@ class CustomersDocumentUnitTest extends TestCase
 		<paycode/>
 		<substitutewith/>
 		<vatcode/>
-		<collectmandate>
-		    <firstrundate/>
-		    <id/>
-		    <signaturedate/>
-		</collectmandate>
 	    </financials>
 	    <creditmanagement>
 		<basecreditlimit>0</basecreditlimit>

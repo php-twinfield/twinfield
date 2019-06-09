@@ -83,15 +83,15 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $invoiceLines = $invoice->getLines();
         $this->assertCount(1, $invoiceLines);
-        $this->assertArrayHasKey('1', $invoiceLines);
+        $this->assertArrayHasKey(0, $invoiceLines);
 
         /** @var InvoiceLine $invoiceLine */
-        $invoiceLine = $invoiceLines['1'];
+        $invoiceLine = $invoiceLines[0];
 
         $this->assertSame(1, $invoiceLine->getID());
         $this->assertSame('0', $invoiceLine->getArticleToString());
         $this->assertSame('118', $invoiceLine->getSubArticleToString());
-        $this->assertSame(1, $invoiceLine->getQuantity());
+        $this->assertSame(1.0, $invoiceLine->getQuantity());
         $this->assertSame(1, $invoiceLine->getUnits());
         $this->assertSame(true, $invoiceLine->getAllowDiscountOrPremium());
         $this->assertSame('CoalesceFunctioningOnImpatienceTShirt', $invoiceLine->getDescription());
@@ -151,15 +151,15 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $invoiceLines = $invoice->getLines();
         $this->assertCount(1, $invoiceLines);
-        $this->assertArrayHasKey('1', $invoiceLines);
+        $this->assertArrayHasKey(0, $invoiceLines);
 
         /** @var InvoiceLine $invoiceLine */
-        $invoiceLine = $invoiceLines['1'];
+        $invoiceLine = $invoiceLines[0];
 
         $this->assertSame(1, $invoiceLine->getID());
         $this->assertSame('0', $invoiceLine->getArticleToString());
         $this->assertSame('118', $invoiceLine->getSubArticleToString());
-        $this->assertSame(1, $invoiceLine->getQuantity());
+        $this->assertSame(1.0, $invoiceLine->getQuantity());
         $this->assertSame(1, $invoiceLine->getUnits());
         $this->assertSame(true, $invoiceLine->getAllowDiscountOrPremium());
         $this->assertSame('CoalesceFunctioningOnImpatienceTShirt', $invoiceLine->getDescription());

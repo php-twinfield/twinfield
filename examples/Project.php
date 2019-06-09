@@ -158,7 +158,7 @@ if ($executeRead) {
     echo "ShortName: {$project->getShortName()}<br />";                                                                         					// string|null                  Short project description.
     echo "Status: {$project->getStatus()}<br />";                                                                               					// Status|null                  Status of the project.
     echo "Touched: {$project->getTouched()}<br />";                                                                                                 // int|null                     Count of the number of times the dimension settings are changed. Read-only attribute.
-    echo "Type (\\PhpTwinfield\\DimensionType): <pre>" . print_r($project->getType(), true) . "</pre><br />";                                       // DimensionType|null           Dimension type. See Dimension type. Dimension type of cost centers is PRJ.
+    echo "Type (\\PhpTwinfield\\DimensionType): <pre>" . print_r($project->getType(), true) . "</pre><br />";                                       // DimensionType|null           Dimension type. See Dimension type. Dimension type of projects is PRJ.
     echo "Type (string): {$project->getTypeToString()}<br />";                                                                                      // string|null
     echo "UID: {$project->getUID()}<br />";                                                                                                         // string|null                  Unique identification of the dimension. Read-only attribute.
     echo "VatCode (\\PhpTwinfield\\VatCode): <pre>" . print_r($project->getVatCode(), true) . "</pre><br />";                                       // VatCode|null                 The VAT code if one code will apply for all projects within the project. Note that if any VAT codes are
@@ -199,9 +199,9 @@ if ($executeRead) {
     echo "Rate Locked (bool): {$projectProjects->getRateLocked()}<br />";                                                                           // bool|null                    If "change" = disallow then locked = true and inherit = false
     echo "Rate Locked (string): {$projectProjects->getRateLockedToString()}<br />";                                                                 // string|null                  If "change" = inherit then locked = true and inherit = true
     echo "Result: {$projectProjects->getResult()}<br />";                                                                                           // int|null                     Result (0 = error, 1 or empty = success).
-    echo "Valid From (\\DateTimeInterface): <pre>" . print_r($projectProjects->getValidFrom(), true) . "</pre><br />";                              // \DateTimeInterface|null      A project can be set to only be valid for certain dates. Users will then only be able to book hours to the project during these dates.
+    echo "Valid From (\\DateTimeInterface): <pre>" . print_r($projectProjects->getValidFrom(), true) . "</pre><br />";                              // DateTimeInterface|null       A project can be set to only be valid for certain dates. Users will then only be able to book hours to the project during these dates.
     echo "Valid From (string): {$projectProjects->getValidFromToString()}<br />";                                                                   // string|null
-    echo "Valid Till (\\DateTimeInterface): <pre>" . print_r($projectProjects->getValidTill(), true) . "</pre><br />";                              // \DateTimeInterface|null      A project can be set to only be valid for certain dates. Users will then only be able to book hours to the project during these dates.
+    echo "Valid Till (\\DateTimeInterface): <pre>" . print_r($projectProjects->getValidTill(), true) . "</pre><br />";                              // DateTimeInterface|null       A project can be set to only be valid for certain dates. Users will then only be able to book hours to the project during these dates.
     echo "Valid Till (string): {$projectProjects->getValidTillToString()}<br />";                                                                   // string|null
 
     $projectQuantities = $projectProjects->getQuantities();                                                                                         // array|null                   Array of ProjectQuantity objects.
@@ -235,7 +235,8 @@ if ($executeCopy) {
         $project = $e->getReturnedObject();
     }
 
-    $project->setCode("P0100");
+    $project->setCode(null);                                                                                                                        // string|null                  Set to null to let Twinfield assign a Dimension code based on the Dimension type mask
+    //$project->setCode('P0100');                                                                                                                   // string|null                  Dimension code, must be compliant with the mask of the PRJ Dimension type.
 
     try {
         $projectCopy = $projectApiConnector->send($project);
@@ -257,21 +258,18 @@ if ($executeNew) {
 
     // Required values for creating a new Project
                                                                                                                                                     //
-    $project->setCode('P0100');                                                                                                                     // string|null                  Dimension code, must be compliant with the mask of the PRJ Dimension type.
+    $project->setCode(null);                                                                                                                        // string|null                  Set to null to let Twinfield assign a Dimension code based on the Dimension type mask
+    //$project->setCode('P0100');                                                                                                                   // string|null                  Dimension code, must be compliant with the mask of the PRJ Dimension type.
     $project->setName("Example Project");                                                                                                           // string|null                  Project description.
     $project->setOffice($office);                                                                                                                   // Office|null                  Office code.
     $project->setOfficeFromString($officeCode);                                                                                                     // string|null
+
+    // Optional values for creating a new Project
+    $project->setShortName("ExmplPrj");                                                                                                             // string|null                  Short project description.
     //$project->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                                    // Status|null                  For creating and updating status may be left empty. For deleting deleted should be used.
     //$project->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                                                   // Status|null                  In case a project is in use, its status has been changed into hide. Hidden projects can be activated by using active.
     //$project->setStatusFromString('active');                                                                                                      // string|null
     //$project->setStatusFromString('deleted');                                                                                                     // string|null
-    $dimensionType = new \PhpTwinfield\DimensionType;
-    $dimensionType->setCode('PRJ');
-    $project->setType($dimensionType);                                                                                                              // DimensionType|null           Dimension type. See Dimension type. Dimension type of cost centers is PRJ.
-    $project->setTypeFromString('PRJ');                                                                                                             // string|null
-
-    // Optional values for creating a new Project
-    $project->setShortName("ExmplPrj");                                                                                                             // string|null                  Short project description.
     $vatCode = new \PhpTwinfield\VatCode;
     $vatCode->setCode('VH');
     $project->setVatCode($vatCode);                                                                                                                 // VatCode|null                 The VAT code if one code will apply for all projects within the project. Note that if any VAT codes are
@@ -313,15 +311,14 @@ if ($executeNew) {
     $projectProjects->setRateLocked(true);                                                                                                          // bool|null                    If "change" = disallow then locked = true and inherit = false
     $projectProjects->setRateLockedFromString('true');                                                                                              // string|null                  If "change" = inherit then locked = true and inherit = true
     $validFrom = \DateTime::createFromFormat('d-m-Y', '01-01-2019');
-    $projectProjects->setValidFrom($validFrom);                                                                                                     // \DateTimeInterface|null      A project can be set to only be valid for certain dates. Users will then only be able to book hours to the project during these dates.
+    $projectProjects->setValidFrom($validFrom);                                                                                                     // DateTimeInterface|null       A project can be set to only be valid for certain dates. Users will then only be able to book hours to the project during these dates.
     $projectProjects->setValidFromFromString('20190101');                                                                                           // string|null
     $validTill = \DateTime::createFromFormat('d-m-Y', '31-12-2019');
-    $projectProjects->setValidTill($validTill);                                                                                                     // \DateTimeInterface|null      A project can be set to only be valid for certain dates. Users will then only be able to book hours to the project during these dates.
+    $projectProjects->setValidTill($validTill);                                                                                                     // DateTimeInterface|null       A project can be set to only be valid for certain dates. Users will then only be able to book hours to the project during these dates.
     $projectProjects->setValidTillFromString('20191231');                                                                                           // string|null
 
     // The minimum amount of ProjectQuantities linked to a ProjectProjects object is 0, the maximum amount is 4
     $projectQuantity = new \PhpTwinfield\ProjectQuantity;
-
     $projectQuantity->setBillable(false);                                                                                                           // bool|null                    Is the quantity line billable or not.
     $projectQuantity->setBillableFromString('false');                                                                                               // string|null                  If "billable" = true and "change is not allowed" then locked = true
     $projectQuantity->setBillableLocked(false);                                                                                                     // bool|null

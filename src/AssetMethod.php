@@ -78,14 +78,14 @@ class AssetMethod extends BaseObject
 
     public function addFreeText(AssetMethodFreeText $freeText)
     {
-        $this->freeTexts[$freeText->getID()] = $freeText;
+        $this->freeTexts[] = $freeText;
         return $this;
     }
 
-    public function removeFreeText($id)
+    public function removeFreeText($index)
     {
-        if (array_key_exists($id, $this->freeTexts)) {
-            unset($this->freeTexts[$id]);
+        if (array_key_exists($index, $this->freeTexts)) {
+            unset($this->freeTexts[$index]);
             return true;
         } else {
             return false;
