@@ -83,10 +83,10 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $invoiceLines = $invoice->getLines();
         $this->assertCount(1, $invoiceLines);
-        $this->assertArrayHasKey('1', $invoiceLines);
+        $this->assertArrayHasKey(0, $invoiceLines);
 
         /** @var InvoiceLine $invoiceLine */
-        $invoiceLine = $invoiceLines['1'];
+        $invoiceLine = $invoiceLines[0];
 
         $this->assertSame(1, $invoiceLine->getID());
         $this->assertSame('0', $invoiceLine->getArticleToString());
@@ -151,10 +151,10 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $invoiceLines = $invoice->getLines();
         $this->assertCount(1, $invoiceLines);
-        $this->assertArrayHasKey('1', $invoiceLines);
+        $this->assertArrayHasKey(0, $invoiceLines);
 
         /** @var InvoiceLine $invoiceLine */
-        $invoiceLine = $invoiceLines['1'];
+        $invoiceLine = $invoiceLines[0];
 
         $this->assertSame(1, $invoiceLine->getID());
         $this->assertSame('0', $invoiceLine->getArticleToString());
