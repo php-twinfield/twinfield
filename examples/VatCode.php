@@ -238,7 +238,7 @@ if ($executeNew) {
     // The minimum amount of VatCodePercentages linked to a VatCode object is 0
     $vatCodePercentage = new \PhpTwinfield\VatCodePercentage;
     $date = \DateTime::createFromFormat('d-m-Y', '01-01-2019');
-    $vatCodePercentage->setDate($date);                                                                                                             // \DateTimeInterface|null      Effective date.
+    $vatCodePercentage->setDate($date);                                                                                                             // DateTimeInterface|null       Effective date.
     $vatCodePercentage->setDateFromString('20190101');                                                                                              // string|null
     $vatCodePercentage->setName("BTW 21%");                                                                                                         // string|null                  Name of the VAT line.
     $vatCodePercentage->setPercentage(21);                                                                                                          // float|null                   Percentage of the VAT line.
@@ -266,7 +266,7 @@ if ($executeNew) {
     $vatCodeAccount->setPercentage(100);                                                                                                            // float|null                   Percentage of the VAT line.
 
     $vatCodePercentage->addAccount($vatCodeAccount);                                                                                                // VatCodeAccount               Add a VatCodeAccount object to the VatCodePercentage object
-    //$vatCodePercentage->removeAccount(1);                                                                                                         // int                          Remove an account based on the id of the account
+    //$vatCodePercentage->removeAccount(0);                                                                                                         // int                          Remove an account based on the index of the account
 
     $vatCode->addPercentage($vatCodePercentage);                                                                                                    // VatCodePercentage            Add a VatCodePercentage object to the VatCode object
     //$vatCode->removePercentage(0);                                                                                                                // int                          Remove a percentage based on the index of the percentage within the array

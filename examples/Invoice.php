@@ -155,14 +155,14 @@ if ($executeRead) {
     echo "Customer (\\PhpTwinfield\\Customer): <pre>" . print_r($invoice->getCustomer(), true) . "</pre><br />";                      				// Customer|null                Customer code.
     echo "Customer (string): {$invoice->getCustomerToString()}<br />";                                                              				// string|null
     echo "DeliverAddressNumber: {$invoice->getDeliverAddressNumber()}<br />";                                                                       // int|null
-    echo "DueDate (\\DateTimeInterface): <pre>" . print_r($invoice->getDueDate(), true) . "</pre><br />";                                           // \DateTimeInterface|null      Due date.
+    echo "DueDate (\\DateTimeInterface): <pre>" . print_r($invoice->getDueDate(), true) . "</pre><br />";                                           // DateTimeInterface|null       Due date.
     echo "DueDate (string): {$invoice->getDueDateToString()}<br />";                                                                                // string|null
     echo "FinancialCode: {$invoice->getFinancialCode()}<br />";                                                                                     // string|null                  The transaction type code. Read-only attribute.
     echo "FinancialNumber: {$invoice->getFinancialNumber()}<br />";                                                                                 // string|null                  The transaction number. Read-only attribute.
     echo "FooterText: {$invoice->getFooterText()}<br />";                                                                                           // string|null                  Footer text on the invoice.
     echo "HeaderText: {$invoice->getHeaderText()}<br />";                                                                                           // string|null                  Header text on the invoice.
     echo "InvoiceAddressNumber: {$invoice->getInvoiceAddressNumber()}<br />";                                                                       // int|null
-    echo "InvoiceDate (\\DateTimeInterface): <pre>" . print_r($invoice->getInvoiceDate(), true) . "</pre><br />";                                   // \DateTimeInterface|null      Invoice date.
+    echo "InvoiceDate (\\DateTimeInterface): <pre>" . print_r($invoice->getInvoiceDate(), true) . "</pre><br />";                                   // DateTimeInterface|null       Invoice date.
     echo "InvoiceDate (string): {$invoice->getInvoiceDateToString()}<br />";                                                                        // string|null
     echo "InvoiceNumber: {$invoice->getInvoiceNumber()}<br />";                                                                                     // string|null                  Invoice Number.
     echo "InvoiceType (\\PhpTwinfield\\InvoiceType): <pre>" . print_r($invoice->getInvoiceType(), true) . "</pre><br />";                      		// InvoiceType|null             Invoice type code.
@@ -173,7 +173,7 @@ if ($executeRead) {
     }
 
     echo "PaymentMethod: {$invoice->getPaymentMethod()}<br />";                                                             					    // PaymentMethod|null           The payment method.
-    echo "PerformanceDate (\\DateTimeInterface): <pre>" . print_r($invoice->getPerformanceDate(), true) . "</pre><br />";                           // \DateTimeInterface|null      Performance date, when set-up on the invoice header.
+    echo "PerformanceDate (\\DateTimeInterface): <pre>" . print_r($invoice->getPerformanceDate(), true) . "</pre><br />";                           // DateTimeInterface|null       Performance date, when set-up on the invoice header.
     echo "PerformanceDate (string): {$invoice->getPerformanceDateToString()}<br />";                                                                // string|null
     echo "Period: {$invoice->getPeriod()}<br />";                                                                                                   // string|null                  Period in YYYY/PP format.
     echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($invoice->getOffice(), true) . "</pre><br />";                      					// Office|null                  Office code.
@@ -221,7 +221,7 @@ if ($executeRead) {
             echo "Messages: " . print_r($invoiceLine->getMessages(), true) . "<br />";                                    					        // Array|null                   (Error) messages.
         }
 
-        echo "PerformanceDate (\\DateTimeInterface): <pre>" . print_r($invoiceLine->getPerformanceDate(), true) . "</pre><br />";                   // \DateTimeInterface|null      Performance date, when set-up on invoice lines.
+        echo "PerformanceDate (\\DateTimeInterface): <pre>" . print_r($invoiceLine->getPerformanceDate(), true) . "</pre><br />";                   // DateTimeInterface|null       Performance date, when set-up on invoice lines.
         echo "PerformanceDate (string): {$invoiceLine->getPerformanceDateToString()}<br />";                                                        // string|null
         echo "PerformanceType: {$invoiceLine->getPerformanceType()}<br />";                                                                         // PerformanceType|null         The performance type in case of an ICT sales invoice.
         echo "Quantity: {$invoiceLine->getQuantity()}<br />";                                                                               		// int|null                     The quantity on the sales invoice line.
@@ -252,7 +252,7 @@ if ($executeRead) {
             echo "Messages: " . print_r($invoiceVatLine->getMessages(), true) . "<br />";                                    					    // Array|null                   (Error) messages.
         }
 
-        echo "PerformanceDate (\\DateTimeInterface): <pre>" . print_r($invoiceVatLine->getPerformanceDate(), true) . "</pre><br />";                // \DateTimeInterface|null      The performance date. Only in case performancetype = services. Read-only attribute.
+        echo "PerformanceDate (\\DateTimeInterface): <pre>" . print_r($invoiceVatLine->getPerformanceDate(), true) . "</pre><br />";                // DateTimeInterface|null       The performance date. Only in case performancetype = services. Read-only attribute.
         echo "PerformanceDate (string): {$invoiceVatLine->getPerformanceDateToString()}<br />";                                                     // string|null
         echo "PerformanceType: {$invoiceVatLine->getPerformanceType()}<br />";                                                                      // PerformanceType|null         The performance type. Read-only attribute.
         echo "Result: {$invoiceVatLine->getResult()}<br />";                                                                                        // int|null                     Result (0 = error, 1 or empty = success).
@@ -321,18 +321,18 @@ if ($executeNew) {
     $invoice->setCurrencyFromString("EUR");
     $invoice->setDeliverAddressNumber(1);                                                                                                           // int|null                     If you want the default address, omit the tag or leave it empty.
     $dueDate = \DateTime::createFromFormat('d-m-Y', '01-07-2019');
-    $invoice->setDueDate($dueDate);                                                                                                                 // \DateTimeInterface|null      Due date.
+    $invoice->setDueDate($dueDate);                                                                                                                 // DateTimeInterface|null       Due date.
     $invoice->setDueDateFromString("20190701");                                                                                                     // string|null
     $invoice->setFooterText("Example Footer");                                                                                                      // string|null                  Footer text on the invoice.
     $invoice->setHeaderText("Example Header");                                                                                                      // string|null                  Header text on the invoice.
     $invoice->setInvoiceAddressNumber(1);                                                                                                           // int|null                     If you want the default address, omit the tag or leave it empty.
     $invoiceDate = \DateTime::createFromFormat('d-m-Y', '01-07-2019');
-    $invoice->setInvoiceDate($invoiceDate);                                                                                                         // \DateTimeInterface|null      Optional; when the invoicedate is not supplied Twinfield uses the system date as the invoice date.
+    $invoice->setInvoiceDate($invoiceDate);                                                                                                         // DateTimeInterface|null       Optional; when the invoicedate is not supplied Twinfield uses the system date as the invoice date.
     $invoice->setInvoiceDateFromString("20190701");                                                                                                 // string|null
     $invoice->setPaymentMethod(\PhpTwinfield\Enums\PaymentMethod::BANK());                                                                          // PaymentMethod|null           The payment method.
     $invoice->setPaymentMethodFromString("bank");                                                                                                   // string|null
     $performanceDate = \DateTime::createFromFormat('d-m-Y', '01-07-2019');
-    $invoice->setPerformanceDate($performanceDate);                                                                                                 // \DateTimeInterface|null      Performance date, when set-up on the invoice header.
+    $invoice->setPerformanceDate($performanceDate);                                                                                                 // DateTimeInterface|null       Performance date, when set-up on the invoice header.
     $invoice->setPerformanceDateFromString("20190701");                                                                                             // string|null
     $invoice->setPeriod("2019/07");                                                                                                                 // string|null                  Period in YYYY/PP format.
     $invoice->setPeriodRaiseWarning(false);                                                                                                         // bool|null                    Optionally, it is possible to suppress warnings about 'date out of range for the given period' by adding the raisewarning attribute and set its value to false.
@@ -361,9 +361,9 @@ if ($executeNew) {
     //$invoiceLine->setFreeText2('Example Free Text 2');                                                       	                                    // string|null                  Free text field 2 as entered on the invoice type.
     //$invoiceLine->setFreetext3("Example Free Text 3");                                                                                            // string|null                  Free text field 3 as entered on the invoice type.
     $invoiceLine->setID(1);                                                                                                                         // int|null                     Line ID.
-    //$invoice->setPerformanceType(\PhpTwinfield\Enums\PerformanceType::SERVICES());                                                                // PerformanceType|null         The performance type in case of an ICT sales invoice.
-    //$invoice->setPerformanceTypeFromString("services");                                                                                           // string|null
-    //$invoiceLine->setPerformanceDate($performanceDate);                                                                                           // \DateTimeInterface|null      Performance date, when set-up on invoice lines.
+    //$invoiceLine->setPerformanceType(\PhpTwinfield\Enums\PerformanceType::SERVICES());                                                            // PerformanceType|null         The performance type in case of an ICT sales invoice.
+    //$invoiceLine->setPerformanceTypeFromString("services");                                                                                       // string|null
+    //$invoiceLine->setPerformanceDate($performanceDate);                                                                                           // DateTimeInterface|null       Performance date, when set-up on invoice lines.
     //$invoiceLine->setPerformanceDateFromString("20190701");                                                                                       // string|null
     $invoiceLine->setQuantity(1);                                                                                                                   // int|null                     The quantity on the sales invoice line.
     $subArticle = new \PhpTwinfield\ArticleLine;
@@ -381,7 +381,7 @@ if ($executeNew) {
     //$invoiceLine->setVatCodeFromString('VH');                                                                                                     // string|null
 
     $invoice->addLine($invoiceLine);                                                                                                                // InvoiceLine                  Add an InvoiceLine object to the Invoice object
-    //$invoice->removeLine(1);                                                                                                                      // int                          Remove an invoice line based on the id of the invoice line
+    //$invoice->removeLine(0);                                                                                                                      // int                          Remove an invoice line based on the index of the invoice line
 
     try {
         $invoiceNew = $invoiceApiConnector->send($invoice);

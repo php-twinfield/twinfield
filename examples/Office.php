@@ -136,14 +136,14 @@ if ($executeRead) {
     echo "Code: {$office->getCode()}<br />";                                                                              	// string|null
     //echo "CountryCode (\\PhpTwinfield\\Country): <pre>" . print_r($office->getCountryCode(), true) . "</pre><br />";      // Country|null
     //echo "CountryCode (string): {$office->getCountryCodeToString()}<br />";                                               // string|null
-    echo "Created (\\DateTimeInterface): <pre>" . print_r($office->getCreated(), true) . "</pre><br />";              	    // \DateTimeInterface|null      The date/time the office was created.
+    echo "Created (\\DateTimeInterface): <pre>" . print_r($office->getCreated(), true) . "</pre><br />";              	    // DateTimeInterface|null       The date/time the office was created.
     echo "Created (string): {$office->getCreatedToString()}<br />";                                                   	    // string|null
 
     if ($office->hasMessages()) {                                                                                         	// bool                         Object contains (error) messages true/false.
         echo "Messages: " . print_r($office->getMessages(), true) . "<br />";                                             	// Array|null                   (Error) messages.
     }
 
-    echo "Modified (\\DateTimeInterface): <pre>" . print_r($office->getModified(), true) . "</pre><br />";            	    // \DateTimeInterface|null      The date/time the office was modified.
+    echo "Modified (\\DateTimeInterface): <pre>" . print_r($office->getModified(), true) . "</pre><br />";            	    // DateTimeInterface|null       The date/time the office was modified.
     echo "Modified (string): {$office->getModifiedToString()}<br />";                                                 	    // string|null
     echo "Name: {$office->getName()}<br />";                                                                              	// string|null
     echo "Result: {$office->getResult()}<br />";                                                                          	// int|null                     Result (0 = error, 1 or empty = success).

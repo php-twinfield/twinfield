@@ -8,23 +8,23 @@ trait QuantityField
      * Quantity field
      * Used by: InvoiceLine
      *
-     * @var int|null
+     * @var float|null
      */
     private $quantity;
 
     /**
-     * @return null|int
+     * @return null|float
      */
-    public function getQuantity(): ?int
+    public function getQuantity(): ?float
     {
         return $this->quantity;
     }
 
     /**
-     * @param null|int $quantity
+     * @param null|float $quantity
      * @return $this
      */
-    public function setQuantity(?int $quantity): self
+    public function setQuantity(?float $quantity): self
     {
         $this->quantity = $quantity;
         return $this;

@@ -102,14 +102,14 @@ class Customer extends BaseObject
 
     public function addAddress(CustomerAddress $address)
     {
-        $this->addresses[$address->getID()] = $address;
+        $this->addresses[] = $address;
         return $this;
     }
 
-    public function removeAddress($id)
+    public function removeAddress($index)
     {
-        if (array_key_exists($id, $this->addresses)) {
-            unset($this->addresses[$id]);
+        if (array_key_exists($index, $this->addresses)) {
+            unset($this->addresses[$index]);
             return true;
         } else {
             return false;
@@ -123,14 +123,14 @@ class Customer extends BaseObject
 
     public function addBank(CustomerBank $bank)
     {
-        $this->banks[$bank->getID()] = $bank;
+        $this->banks[] = $bank;
         return $this;
     }
 
-    public function removeBank($id)
+    public function removeBank($index)
     {
-        if (array_key_exists($id, $this->banks)) {
-            unset($this->banks[$id]);
+        if (array_key_exists($index, $this->banks)) {
+            unset($this->banks[$index]);
             return true;
         } else {
             return false;
@@ -144,14 +144,14 @@ class Customer extends BaseObject
 
     public function addPostingRule(CustomerPostingRule $postingRule)
     {
-        $this->postingRules[$postingRule->getID()] = $postingRule;
+        $this->postingRules[] = $postingRule;
         return $this;
     }
 
-    public function removePostingRule($id)
+    public function removePostingRule($index)
     {
-        if (array_key_exists($id, $this->postingRules)) {
-            unset($this->postingRules[$id]);
+        if (array_key_exists($index, $this->postingRules)) {
+            unset($this->postingRules[$index]);
             return true;
         } else {
             return false;

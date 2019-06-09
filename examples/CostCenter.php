@@ -150,7 +150,8 @@ if ($executeCopy) {
         $costCenter = $e->getReturnedObject();
     }
 
-    $costCenter->setCode("00010");                                                                                  // string|null          Dimension code, must be compliant with the mask of the KPL Dimension type.
+    $costCenter->setCode(null);                                                                                     // string|null          Set to null to let Twinfield assign a Dimension code based on the Dimension type mask
+    //$costCenter->setCode("00010");                                                                                // string|null          Dimension code, must be compliant with the mask of the KPL Dimension type.
 
     try {
         $costCenterCopy = $costCenterApiConnector->send($costCenter);
@@ -172,7 +173,8 @@ if ($executeNew) {
 
     // Required values for creating a new CostCenter
     $costCenter->setName("CostCenterName");                                                                         // string|null          Name of the dimension.
-    $costCenter->setCode('00020');                                                                                  // string|null          Dimension code, must be compliant with the mask of the KPL Dimension type.
+    $costCenter->setCode(null);                                                                                     // string|null          Set to null to let Twinfield assign a Dimension code based on the Dimension type mask
+    //$costCenter->setCode('00020');                                                                                // string|null          Dimension code, must be compliant with the mask of the KPL Dimension type.
     $costCenter->setOffice($office);                                                                                // Office|null          Office.
     $costCenter->setOfficeFromString($officeCode);                                                                  // string|null
 
@@ -182,11 +184,6 @@ if ($executeNew) {
                                                                                                                     //                      its status has been changed into hide. Hidden dimensions can be activated by using active.
     $costCenter->setStatusFromString('active');                                                                     // string|null
     //$costCenter->setStatusFromString('deleted');                                                                  // string|null
-
-    $dimensionType = new \PhpTwinfield\DimensionType;
-    $dimensionType->setCode('KPL');
-    $costCenter->setType($dimensionType);                                                                           // DimensionType|null   Dimension type. See Dimension type. Dimension type of cost centers is KPL.
-    $costCenter->setTypeFromString('KPL');                                                                          // string|null
 
     try {
         $costCenterNew = $costCenterApiConnector->send($costCenter);

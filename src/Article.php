@@ -60,14 +60,14 @@ class Article extends BaseObject
 
     public function addLine(ArticleLine $line)
     {
-        $this->lines[$line->getID()] = $line;
+        $this->lines[] = $line;
         return $this;
     }
 
-    public function removeLine($id)
+    public function removeLine($index)
     {
-        if (array_key_exists($id, $this->lines)) {
-            unset($this->lines[$id]);
+        if (array_key_exists($index, $this->lines)) {
+            unset($this->lines[$index]);
             return true;
         } else {
             return false;

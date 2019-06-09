@@ -44,14 +44,14 @@ class Rate extends BaseObject
 
     public function addRateChange(RateRateChange $rateChange)
     {
-        $this->rateChanges[$rateChange->getID()] = $rateChange;
+        $this->rateChanges[] = $rateChange;
         return $this;
     }
 
-    public function removeRateChange($id)
+    public function removeRateChange($index)
     {
-        if (array_key_exists($id, $this->rateChanges)) {
-            unset($this->rateChanges[$id]);
+        if (array_key_exists($index, $this->rateChanges)) {
+            unset($this->rateChanges[$index]);
             return true;
         } else {
             return false;

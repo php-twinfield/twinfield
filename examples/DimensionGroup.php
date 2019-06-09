@@ -196,13 +196,12 @@ if ($executeNew) {
 
     // The minimum amount of DimensionGroupDimensions linked to a DimensionGroup object is 0
     $dimensionGroupDimension = new \PhpTwinfield\DimensionGroupDimension;
-    $type = new \PhpTwinfield\DimensionType;
-    $type->setCode('BAS');
     $code = new \PhpTwinfield\GeneralLedger;
-    $code->setType($type);
     $code->setCode('1010');
     $dimensionGroupDimension->setCode($code);                                                                                                           // object|null                    Code of the dimension.
     $dimensionGroupDimension->setCodeFromString('1010');                                                                                                // string|null
+    $type = new \PhpTwinfield\DimensionType;
+    $type->setCode('BAS');
     $dimensionGroupDimension->setType($type);                                                                                                           // DimensionType|null             Dimension type.
     $dimensionGroupDimension->setTypeFromString('BAS');                                                                                                 // string|null
 

@@ -137,7 +137,7 @@ if ($executeRead) {
 
         echo "Rate: {$currencyRate->getRate()}<br />";                                                                      // float|null                   Conversion rate to be used as of the start date.
         echo "Result: {$currencyRate->getResult()}<br />";                                                                  // int|null                     Result (0 = error, 1 or empty = success).
-        echo "StartDate (\\DateTimeInterface): <pre>" . print_r($currencyRate->getStartDate(), true) . "</pre><br />";      // \DateTimeInterface|null      Starting date of the rate.
+        echo "StartDate (\\DateTimeInterface): <pre>" . print_r($currencyRate->getStartDate(), true) . "</pre><br />";      // DateTimeInterface|null       Starting date of the rate.
         echo "StartDate (string): {$currencyRate->getStartDateToString()}<br />";                                           // string|null
         echo "Status: {$currencyRate->getStatus()}<br />";                                                                  // Status|null                  Status of the currency rate.
     }
@@ -190,7 +190,7 @@ if ($executeNew) {
     $currencyRate = new \PhpTwinfield\CurrencyRate;
     $currencyRate->setRate(122.87);                                                                                         // float|null                  Conversion rate to be used as of the start date.
     $startDate = \DateTime::createFromFormat('d-m-Y', '01-01-2019');
-    $currencyRate->setStartDate($startDate);                                                                                // \DateTimeInterface|null     Starting date of the rate.
+    $currencyRate->setStartDate($startDate);                                                                                // DateTimeInterface|null      Starting date of the rate.
     $currencyRate->setStartDateFromString('20190101');                                                                      // string|null
     //$currencyRate->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                      // Status|null                 For creating and updating status may be left empty. NOTE: Do not use $currencyRate->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());
                                                                                                                             //                             For deleting deleted should be used.

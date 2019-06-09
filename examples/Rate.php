@@ -120,7 +120,7 @@ if ($executeRead) {
 
     echo "Rate<br />";
     echo "Code: {$rate->getCode()}<br />";                                                                              	// string|null                  Rate code.
-    echo "Created (\\DateTimeInterface): <pre>" . print_r($rate->getCreated(), true) . "</pre><br />";              	    // \DateTimeInterface|null      The date/time the rate was created. Read-only attribute.
+    echo "Created (\\DateTimeInterface): <pre>" . print_r($rate->getCreated(), true) . "</pre><br />";              	    // DateTimeInterface|null       The date/time the rate was created. Read-only attribute.
     echo "Created (string): {$rate->getCreatedToString()}<br />";                                                   	    // string|null
     echo "Currency (\\PhpTwinfield\\Currency): <pre>" . print_r($rate->getCurrency(), true) . "</pre><br />";           	// Currency|null                Currency code.
     echo "Currency (string): {$rate->getCurrencyToString()}<br />";                                                     	// string|null
@@ -129,7 +129,7 @@ if ($executeRead) {
         echo "Messages: " . print_r($rate->getMessages(), true) . "<br />";                                             	// Array|null                   (Error) messages.
     }
 
-    echo "Modified (\\DateTimeInterface): <pre>" . print_r($rate->getModified(), true) . "</pre><br />";            	    // \DateTimeInterface|null      The date/time the rate was modified. Read-only attribute.
+    echo "Modified (\\DateTimeInterface): <pre>" . print_r($rate->getModified(), true) . "</pre><br />";            	    // DateTimeInterface|null       The date/time the rate was modified. Read-only attribute.
     echo "Modified (string): {$rate->getModifiedToString()}<br />";                                                 	    // string|null
     echo "Name: {$rate->getName()}<br />";                                                                              	// string|null                  Rate description.
     echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($rate->getOffice(), true) . "</pre><br />";                 	// Office|null                  Office code.
@@ -149,9 +149,9 @@ if ($executeRead) {
     foreach ($rateRateChanges as $key => $rateRateChange) {
         echo "RateRateChange {$key}<br />";
 
-        echo "BeginDate (\\DateTimeInterface): <pre>" . print_r($rateRateChange->getBeginDate(), true) . "</pre><br />";    // \DateTimeInterface|null      Begin date of the rate.
+        echo "BeginDate (\\DateTimeInterface): <pre>" . print_r($rateRateChange->getBeginDate(), true) . "</pre><br />";    // DateTimeInterface|null       Begin date of the rate.
         echo "BeginDate (string): {$rateRateChange->getBeginDateToString()}<br />";                                         // string|null
-        echo "EndDate (\\DateTimeInterface): <pre>" . print_r($rateRateChange->getEndDate(), true) . "</pre><br />";        // \DateTimeInterface|null      End date of the rate.
+        echo "EndDate (\\DateTimeInterface): <pre>" . print_r($rateRateChange->getEndDate(), true) . "</pre><br />";        // DateTimeInterface|null       End date of the rate.
         echo "EndDate (string): {$rateRateChange->getEndDateToString()}<br />";                                             // string|null
         echo "ExternalRate: {$rateRateChange->getExternalRate()}<br />";                                                    // int|null                     The external rate e.g. the selling price per unit.
         echo "ID: {$rateRateChange->getID()}<br />";                                                                        // int|null                     Line ID.
@@ -218,10 +218,10 @@ if ($executeNew) {
     // The minimum amount of RateRateChanges linked to a Rate object is 0
     $rateRateChange = new \PhpTwinfield\RateRateChange;
     $beginDate = \DateTime::createFromFormat('d-m-Y', '01-01-2019');
-    $rateRateChange->setBeginDate($beginDate);                                                                              // \DateTimeInterface|null      Begin date of the rate.
+    $rateRateChange->setBeginDate($beginDate);                                                                              // DateTimeInterface|null       Begin date of the rate.
     $rateRateChange->setBeginDateFromString('20190101');                                                                    // string|null
     $endDate = \DateTime::createFromFormat('d-m-Y', '31-12-2019');
-    $rateRateChange->setEndDate($endDate);                                                                                  // \DateTimeInterface|null      Begin date of the rate.
+    $rateRateChange->setEndDate($endDate);                                                                                  // DateTimeInterface|null       Begin date of the rate.
     $rateRateChange->setEndDateFromString('20191231');                                                                      // string|null
     $rateRateChange->setExternalRate(60);                                                                                   // float|null                   The internal rate e.g. the cost price per unit.
     $rateRateChange->setID(2);                                                                                              // int|null                     Line ID.
@@ -231,7 +231,7 @@ if ($executeNew) {
     //$rateRateChange->setStatusFromString('deleted');                                                                      // string|null                  NOTE: Do not use $rateRateChange->setStatusFromString('active');
 
     $rate->addRateChange($rateRateChange);                                                                                  // RateRateChange               Add a RateRateChange object to the Rate object
-    //$rate->removeRateChange(2);                                                                                           // int                          Remove a rate change based on the id of the rate change
+    //$rate->removeRateChange(0);                                                                                           // int                          Remove a rate change based on the index of the rate change
 
     try {
         $rateNew = $rateApiConnector->send($rate);
