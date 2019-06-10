@@ -15,6 +15,7 @@ class Office extends Read
      * Sets office and code if they are present.
      *
      * @access public
+     * @param string $code     
      */
     public function __construct($code = null)
     {

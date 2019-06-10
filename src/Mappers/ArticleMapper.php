@@ -42,7 +42,7 @@ class ArticleMapper extends BaseMapper
         $headerElement = $articleElement->getElementsByTagName('header')->item(0);
 
         // Set the status attribute
-        $article->setStatus(self::parseEnumAttribute('Status', $headerElement->getAttribute('status')));
+        $article->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $headerElement->getAttribute('status')));
 
         // Set the article elements from the header
         $article->setAllowChangePerformanceType(self::parseBooleanAttribute(self::getField($headerElement, 'allowchangeperformancetype', $article)))
@@ -52,14 +52,14 @@ class ArticleMapper extends BaseMapper
             ->setAllowDiscountOrPremium(self::parseBooleanAttribute(self::getField($headerElement, 'allowdiscountorpremium', $article)))
             ->setCode(self::getField($headerElement, 'code', $article))
             ->setName(self::getField($headerElement, 'name', $article))
-            ->setOffice(self::parseObjectAttribute('Office', $article, $headerElement, 'office'))
+            ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $article, $headerElement, 'office'))
             ->setPercentage(self::parseBooleanAttribute(self::getField($headerElement, 'percentage', $article)))
-            ->setPerformanceType(self::parseEnumAttribute('PerformanceType', self::getField($headerElement, 'performancetype', $article)))
+            ->setPerformanceType(self::parseEnumAttribute(\PhpTwinfield\Enums\PerformanceType::class, self::getField($headerElement, 'performancetype', $article)))
             ->setShortName(self::getField($headerElement, 'shortname', $article))
-            ->setType(self::parseEnumAttribute('ArticleType', self::getField($headerElement, 'type', $article)))
+            ->setType(self::parseEnumAttribute(\PhpTwinfield\Enums\ArticleType::class, self::getField($headerElement, 'type', $article)))
             ->setUnitNameSingular(self::getField($headerElement, 'unitnamesingular', $article))
             ->setUnitNamePlural(self::getField($headerElement, 'unitnameplural', $article))
-            ->setVatCode(self::parseObjectAttribute('VatCode', $article, $headerElement, 'vatcode'));
+            ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $article, $headerElement, 'vatcode'));
 
         // Get the lines element
         $linesDOMTag = $responseDOM->getElementsByTagName('lines');
@@ -91,8 +91,8 @@ class ArticleMapper extends BaseMapper
                 $articleLine->setStatusFromString($lineElement->getAttribute('status'));
 
                 // Set the article line elements
-                $articleLine->setFreeText1(self::parseObjectAttribute('GeneralLedger', $articleLine, $lineElement, 'freetext1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
-                    ->setFreeText2(self::parseObjectAttribute('CostCenter', $articleLine, $lineElement, 'freetext2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                $articleLine->setFreeText1(self::parseObjectAttribute(\PhpTwinfield\GeneralLedger::class, $articleLine, $lineElement, 'freetext1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                    ->setFreeText2(self::parseObjectAttribute(\PhpTwinfield\CostCenter::class, $articleLine, $lineElement, 'freetext2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                     ->setFreeText3(self::getField($lineElement, 'freetext3', $articleLine))
                     ->setUnits(self::getField($lineElement, 'units', $articleLine))
                     ->setName(self::getField($lineElement, 'name', $articleLine))

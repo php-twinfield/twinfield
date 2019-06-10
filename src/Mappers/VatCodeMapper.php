@@ -38,7 +38,7 @@ class VatCodeMapper extends BaseMapper
 
         // Set the result and status attribute
         $vatCode->setResult($vatCodeElement->getAttribute('result'))
-            ->setStatus(self::parseEnumAttribute('Status', $vatCodeElement->getAttribute('status')));
+            ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $vatCodeElement->getAttribute('status')));
 
         // Set the vat code elements from the vat element
         $vatCode->setCode(self::getField($vatCodeElement, 'code', $vatCode))
@@ -47,9 +47,9 @@ class VatCodeMapper extends BaseMapper
             ->setName(self::getField($vatCodeElement, 'name', $vatCode))
             ->setShortName(self::getField($vatCodeElement, 'shortname', $vatCode))
             ->setTouched(self::getField($vatCodeElement, 'touched', $vatCode))
-            ->setType(self::parseEnumAttribute('VatType', self::getField($vatCodeElement, 'type', $vatCode)))
+            ->setType(self::parseEnumAttribute(\PhpTwinfield\Enums\VatType::class, self::getField($vatCodeElement, 'type', $vatCode)))
             ->setUID(self::getField($vatCodeElement, 'uid', $vatCode))
-            ->setUser(self::parseObjectAttribute('User', $vatCode, $vatCodeElement, 'user', array('name' => 'setName', 'shortname' => 'setShortName')));
+            ->setUser(self::parseObjectAttribute(\PhpTwinfield\User::class, $vatCode, $vatCodeElement, 'user', array('name' => 'setName', 'shortname' => 'setShortName')));
 
         // Get the percentages element
         $percentagesDOMTag = $responseDOM->getElementsByTagName('percentages');
@@ -70,7 +70,7 @@ class VatCodeMapper extends BaseMapper
                     ->setName(self::getField($percentageElement, 'name', $vatCodePercentage))
                     ->setPercentage(self::getField($percentageElement, 'percentage', $vatCodePercentage))
                     ->setShortName(self::getField($percentageElement, 'shortname', $vatCodePercentage))
-                    ->setUser(self::parseObjectAttribute('User', $vatCodePercentage, $percentageElement, 'user', array('name' => 'setName', 'shortname' => 'setShortName')));
+                    ->setUser(self::parseObjectAttribute(\PhpTwinfield\User::class, $vatCodePercentage, $percentageElement, 'user', array('name' => 'setName', 'shortname' => 'setShortName')));
 
                 // Get the accounts element
                 $accountsDOMTag = $percentageElement->getElementsByTagName('accounts');
@@ -89,10 +89,10 @@ class VatCodeMapper extends BaseMapper
                         $vatCodeAccount->setID($accountElement->getAttribute('id'));
 
                         // Set the vat code percentage account elements from the account element
-                        $vatCodeAccount->setDim1(self::parseObjectAttribute('GeneralLedger', $vatCodeAccount, $accountElement, 'dim1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
-                            ->setGroup(self::parseObjectAttribute('VatGroup', $vatCodeAccount, $accountElement, 'group', array('name' => 'setName', 'shortname' => 'setShortName')))
-                            ->setGroupCountry(self::parseObjectAttribute('VatGroupCountry', $vatCodeAccount, $accountElement, 'groupcountry', array('name' => 'setName', 'shortname' => 'setShortName')))
-                            ->setLineType(self::parseEnumAttribute('LineType', self::getField($accountElement, 'linetype', $vatCodeAccount)))
+                        $vatCodeAccount->setDim1(self::parseObjectAttribute(\PhpTwinfield\GeneralLedger::class, $vatCodeAccount, $accountElement, 'dim1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                            ->setGroup(self::parseObjectAttribute(\PhpTwinfield\VatGroup::class, $vatCodeAccount, $accountElement, 'group', array('name' => 'setName', 'shortname' => 'setShortName')))
+                            ->setGroupCountry(self::parseObjectAttribute(\PhpTwinfield\VatGroupCountry::class, $vatCodeAccount, $accountElement, 'groupcountry', array('name' => 'setName', 'shortname' => 'setShortName')))
+                            ->setLineType(self::parseEnumAttribute(\PhpTwinfield\Enums\LineType::class, self::getField($accountElement, 'linetype', $vatCodeAccount)))
                             ->setPercentage(self::getField($accountElement, 'percentage', $vatCodeAccount));
 
                         // Add the account to the percentage

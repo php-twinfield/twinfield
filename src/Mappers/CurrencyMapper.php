@@ -37,12 +37,12 @@ class CurrencyMapper extends BaseMapper
 
          // Set the result and status attribute
         $currency->setResult($currencyElement->getAttribute('result'))
-            ->setStatus(self::parseEnumAttribute('Status', $currencyElement->getAttribute('status')));
+            ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $currencyElement->getAttribute('status')));
 
         // Set the currency elements from the currency element
         $currency->setCode(self::getField($currencyElement, 'code', $currency))
             ->setName(self::getField($currencyElement, 'name', $currency))
-            ->setOffice(self::parseObjectAttribute('Office', $currency, $currencyElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $currency, $currencyElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setShortName(self::getField($currencyElement, 'shortname', $currency));
 
         // Get the rates element

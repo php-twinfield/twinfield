@@ -37,20 +37,20 @@ class RateMapper extends BaseMapper
 
         // Set the result and status attribute
         $rate->setResult($rateElement->getAttribute('result'))
-            ->setStatus(self::parseEnumAttribute('Status', $rateElement->getAttribute('status')));
+            ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $rateElement->getAttribute('status')));
 
         // Set the rate elements from the rate element
         $rate->setCode(self::getField($rateElement, 'code', $rate))
             ->setCreated(self::parseDateTimeAttribute(self::getField($rateElement, 'created', $rate)))
-            ->setCurrency(self::parseObjectAttribute('Currency', $rate, $rateElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setCurrency(self::parseObjectAttribute(\PhpTwinfield\Currency::class, $rate, $rateElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setModified(self::parseDateTimeAttribute(self::getField($rateElement, 'modified', $rate)))
             ->setName(self::getField($rateElement, 'name', $rate))
-            ->setOffice(self::parseObjectAttribute('Office', $rate, $rateElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $rate, $rateElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setShortName(self::getField($rateElement, 'shortname', $rate))
             ->setTouched(self::getField($rateElement, 'touched', $rate))
-            ->setType(self::parseEnumAttribute('RateType', self::getField($rateElement, 'type', $rate)))
+            ->setType(self::parseEnumAttribute(\PhpTwinfield\Enums\RateType::class, self::getField($rateElement, 'type', $rate)))
             ->setUnit(self::getField($rateElement, 'unit', $rate))
-            ->setUser(self::parseObjectAttribute('User', $rate, $rateElement, 'user', array('name' => 'setName', 'shortname' => 'setShortName')));
+            ->setUser(self::parseObjectAttribute(\PhpTwinfield\User::class, $rate, $rateElement, 'user', array('name' => 'setName', 'shortname' => 'setShortName')));
 
         // Get the ratechanges element
         $ratechangesDOMTag = $responseDOM->getElementsByTagName('ratechanges');
@@ -66,7 +66,7 @@ class RateMapper extends BaseMapper
                 $rateRateChange = new RateRateChange();
 
                 $rateRateChange->setID($ratechangeElement->getAttribute('id'))
-                    ->setStatus(self::parseEnumAttribute('Status', $rateElement->getAttribute('status')));
+                    ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $rateElement->getAttribute('status')));
 
                 // Set the project rate rate change elements from the ratechange element
                 $rateRateChange->setBeginDate(self::parseDateAttribute(self::getField($ratechangeElement, 'begindate', $rateRateChange)))

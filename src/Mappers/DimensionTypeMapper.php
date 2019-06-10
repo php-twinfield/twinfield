@@ -38,13 +38,13 @@ class DimensionTypeMapper extends BaseMapper
 
         // Set the result and status attribute
         $dimensiontype->setResult($dimensiontypeElement->getAttribute('result'))
-            ->setStatus(self::parseEnumAttribute('Status', $dimensiontypeElement->getAttribute('status')));
+            ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $dimensiontypeElement->getAttribute('status')));
 
         // Set the dimension type elements from the dimension type element
         $dimensiontype->setCode(self::getField($dimensiontypeElement, 'code', $dimensiontype))
             ->setMask(self::getField($dimensiontypeElement, 'mask', $dimensiontype))
             ->setName(self::getField($dimensiontypeElement, 'name', $dimensiontype))
-            ->setOffice(self::parseObjectAttribute('Office', $dimensiontype, $dimensiontypeElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $dimensiontype, $dimensiontypeElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setShortName(self::getField($dimensiontypeElement, 'shortname', $dimensiontype));
 
         // Get the levels element

@@ -43,22 +43,22 @@ class CustomerMapper extends BaseMapper
 
         // Set the result and status attribute
         $customer->setResult($customerElement->getAttribute('result'))
-            ->setStatus(self::parseEnumAttribute('Status', $customerElement->getAttribute('status')));
+            ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $customerElement->getAttribute('status')));
 
         // Set the customer elements from the customer element
         $customer->setBeginPeriod(self::getField($customerElement, 'beginperiod', $customer))
             ->setBeginYear(self::getField($customerElement, 'beginyear', $customer))
-            ->setBehaviour(self::parseEnumAttribute('Behaviour', self::getField($customerElement, 'behaviour', $customer)))
-            ->setDiscountArticle(self::parseObjectAttribute('Article', $customer, $customerElement, 'discountarticle', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setBehaviour(self::parseEnumAttribute(\PhpTwinfield\Enums\Behaviour::class, self::getField($customerElement, 'behaviour', $customer)))
+            ->setDiscountArticle(self::parseObjectAttribute(\PhpTwinfield\Article::class, $customer, $customerElement, 'discountarticle', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setCode(self::getField($customerElement, 'code', $customer))
             ->setEndPeriod(self::getField($customerElement, 'endperiod', $customer))
             ->setEndYear(self::getField($customerElement, 'endyear', $customer))
-            ->setGroup(self::parseObjectAttribute('DimensionGroup', $customer, $customerElement, 'group', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setGroup(self::parseObjectAttribute(\PhpTwinfield\DimensionGroup::class, $customer, $customerElement, 'group', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setInUse(self::parseBooleanAttribute(self::getField($customerElement, 'name', $customer)))
             ->setName(self::getField($customerElement, 'name', $customer))
-            ->setOffice(self::parseObjectAttribute('Office', $customer, $customerElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $customer, $customerElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setTouched(self::getField($customerElement, 'touched', $customer))
-            ->setType(self::parseObjectAttribute('DimensionType', $customer, $customerElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setType(self::parseObjectAttribute(\PhpTwinfield\DimensionType::class, $customer, $customerElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setUID(self::getField($customerElement, 'uid', $customer))
             ->setWebsite(self::getField($customerElement, 'website', $customer));
 
@@ -73,20 +73,20 @@ class CustomerMapper extends BaseMapper
             $customerFinancials = new CustomerFinancials();
 
             // Set the financials elements from the financials element
-            $customerFinancials->setAccountType(self::parseEnumAttribute('AccountType', self::getField($financialsElement, 'accounttype', $customerFinancials)))
-                ->setCollectionSchema(self::parseEnumAttribute('CollectionSchema', self::getField($financialsElement, 'collectionschema', $customerFinancials)))
+            $customerFinancials->setAccountType(self::parseEnumAttribute(\PhpTwinfield\Enums\AccountType::class, self::getField($financialsElement, 'accounttype', $customerFinancials)))
+                ->setCollectionSchema(self::parseEnumAttribute(\PhpTwinfield\Enums\CollectionSchema::class, self::getField($financialsElement, 'collectionschema', $customerFinancials)))
                 ->setDueDays(self::getField($financialsElement, 'duedays', $customerFinancials))
                 ->setEBilling(self::parseBooleanAttribute(self::getField($financialsElement, 'ebilling', $customerFinancials)))
                 ->setEBillMail(self::getField($financialsElement, 'ebillmail', $customerFinancials))
                 ->setLevel(self::getField($financialsElement, 'level', $customerFinancials))
-                ->setMatchType(self::parseEnumAttribute('MatchType', self::getField($financialsElement, 'matchtype', $customerFinancials)))
-                ->setMeansOfPayment(self::parseEnumAttribute('MeansOfPayment', self::getField($financialsElement, 'meansofpayment', $customerFinancials)))
+                ->setMatchType(self::parseEnumAttribute(\PhpTwinfield\Enums\MatchType::class, self::getField($financialsElement, 'matchtype', $customerFinancials)))
+                ->setMeansOfPayment(self::parseEnumAttribute(\PhpTwinfield\Enums\MeansOfPayment::class, self::getField($financialsElement, 'meansofpayment', $customerFinancials)))
                 ->setPayAvailable(self::parseBooleanAttribute(self::getField($financialsElement, 'payavailable', $customerFinancials)))
-                ->setPayCode(self::parseObjectAttribute('PayCode', $customerFinancials, $financialsElement, 'paycode', array('name' => 'setName', 'shortname' => 'setShortName')))
-                ->setSubAnalyse(self::parseEnumAttribute('SubAnalyse', self::getField($financialsElement, 'subanalyse', $customerFinancials)))
+                ->setPayCode(self::parseObjectAttribute(\PhpTwinfield\PayCode::class, $customerFinancials, $financialsElement, 'paycode', array('name' => 'setName', 'shortname' => 'setShortName')))
+                ->setSubAnalyse(self::parseEnumAttribute(\PhpTwinfield\Enums\SubAnalyse::class, self::getField($financialsElement, 'subanalyse', $customerFinancials)))
                 ->setSubstitutionLevel(self::getField($financialsElement, 'substitutionlevel', $customerFinancials))
-                ->setSubstituteWith(self::parseObjectAttribute('UnknownDimension', $customerFinancials, $financialsElement, 'substitutewith', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
-                ->setVatCode(self::parseObjectAttribute('VatCode', $customerFinancials, $financialsElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
+                ->setSubstituteWith(self::parseObjectAttribute(\PhpTwinfield\UnknownDimension::class, $customerFinancials, $financialsElement, 'substitutewith', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $customerFinancials, $financialsElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
 
             // Set the financials elements from the financials element attributes
             $customerFinancials->setPayCodeID(self::getAttribute($financialsElement, 'paycode', 'id'))
@@ -127,7 +127,7 @@ class CustomerMapper extends BaseMapper
 
                     // Set the child validation elements from the child validation element en element attributes
                     $customerChildValidation->setLevel($childValidationElement->getAttribute('level'))
-                        ->setType(self::parseEnumAttribute('ChildValidationType', $childValidationElement->getAttribute('type')))
+                        ->setType(self::parseEnumAttribute(\PhpTwinfield\Enums\ChildValidationType::class, $childValidationElement->getAttribute('type')))
                         ->setElementValue($childValidationElement->textContent);
 
                     // Add the child validation to the customer financials class
@@ -157,8 +157,8 @@ class CustomerMapper extends BaseMapper
                 ->setFreeText2(self::getField($creditManagementElement, 'freetext2', $customerCreditManagement))
                 ->setFreeText3(self::getField($creditManagementElement, 'freetext3', $customerCreditManagement))
                 ->setReminderEmail(self::getField($creditManagementElement, 'reminderemail', $customerCreditManagement))
-                ->setResponsibleUser(self::parseObjectAttribute('User', $customerCreditManagement, $creditManagementElement, 'responsibleuser', array('name' => 'setName', 'shortname' => 'setShortName')))
-                ->setSendReminder(self::parseEnumAttribute('SendReminder', self::getField($creditManagementElement, 'sendreminder', $customerCreditManagement)));
+                ->setResponsibleUser(self::parseObjectAttribute(\PhpTwinfield\User::class, $customerCreditManagement, $creditManagementElement, 'responsibleuser', array('name' => 'setName', 'shortname' => 'setShortName')))
+                ->setSendReminder(self::parseEnumAttribute(\PhpTwinfield\Enums\SendReminder::class, self::getField($creditManagementElement, 'sendreminder', $customerCreditManagement)));
 
             // Set the customer credit management elements from the creditmanagement element attributes
             $customerCreditManagement->setBlockedLocked(self::parseBooleanAttribute(self::getAttribute($creditManagementElement, 'blocked', 'locked')))
@@ -173,7 +173,7 @@ class CustomerMapper extends BaseMapper
 
         if ($remittanceAdviceElement !== null) {
             // Set the customer elements from the remittanceadvice element
-            $customer->setRemittanceAdviceSendType(self::parseEnumAttribute('RemittanceAdviceSendType', self::getField($remittanceAdviceElement, 'sendtype', $customer)))
+            $customer->setRemittanceAdviceSendType(self::parseEnumAttribute(\PhpTwinfield\Enums\RemittanceAdviceSendType::class, self::getField($remittanceAdviceElement, 'sendtype', $customer)))
                 ->setRemittanceAdviceSendMail(self::getField($remittanceAdviceElement, 'sendmail', $customer));
         }
 
@@ -193,11 +193,11 @@ class CustomerMapper extends BaseMapper
                 // Set the default, id and type attribute
                 $customerAddress->setDefault(self::parseBooleanAttribute($addressElement->getAttribute('default')))
                     ->setID($addressElement->getAttribute('id'))
-                    ->setType(self::parseEnumAttribute('AddressType', $addressElement->getAttribute('type')));
+                    ->setType(self::parseEnumAttribute(\PhpTwinfield\Enums\AddressType::class, $addressElement->getAttribute('type')));
 
                 // Set the address elements from the address element
                 $customerAddress->setCity(self::getField($addressElement, 'city', $customerAddress))
-                    ->setCountry(self::parseObjectAttribute('Country', $customerAddress, $addressElement, 'country', array('name' => 'setName', 'shortname' => 'setShortName')))
+                    ->setCountry(self::parseObjectAttribute(\PhpTwinfield\Country::class, $customerAddress, $addressElement, 'country', array('name' => 'setName', 'shortname' => 'setShortName')))
                     ->setEmail(self::getField($addressElement, 'email', $customerAddress))
                     ->setField1(self::getField($addressElement, 'field1', $customerAddress))
                     ->setField2(self::getField($addressElement, 'field2', $customerAddress))
@@ -244,7 +244,7 @@ class CustomerMapper extends BaseMapper
                     ->setBankName(self::getField($bankElement, 'bankname', $customerBank))
                     ->setBicCode(self::getField($bankElement, 'biccode', $customerBank))
                     ->setCity(self::getField($bankElement, 'city', $customerBank))
-                    ->setCountry(self::parseObjectAttribute('Country', $customerBank, $bankElement, 'country', array('name' => 'setName', 'shortname' => 'setShortName')))
+                    ->setCountry(self::parseObjectAttribute(\PhpTwinfield\Country::class, $customerBank, $bankElement, 'country', array('name' => 'setName', 'shortname' => 'setShortName')))
                     ->setIban(self::getField($bankElement, 'iban', $customerBank))
                     ->setNatBicCode(self::getField($bankElement, 'natbiccode', $customerBank))
                     ->setPostcode(self::getField($bankElement, 'postcode', $customerBank))
@@ -273,11 +273,11 @@ class CustomerMapper extends BaseMapper
 
                 // Set the id and status attribute
                 $customerPostingRule->setID($postingruleElement->getAttribute('id'))
-                    ->setStatus(self::parseEnumAttribute('Status', $postingruleElement->getAttribute('status')));
+                    ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $postingruleElement->getAttribute('status')));
 
                 // Set the postingrule elements from the postingrule element
                 $customerPostingRule->setAmount(self::parseMoneyAttribute(self::getField($postingruleElement, 'amount', $customerPostingRule)))
-                    ->setCurrency(self::parseObjectAttribute('Currency', $customerPostingRule, $postingruleElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
+                    ->setCurrency(self::parseObjectAttribute(\PhpTwinfield\Currency::class, $customerPostingRule, $postingruleElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
                     ->setDescription(self::getField($postingruleElement, 'description', $customerPostingRule));
 
                 // Get the lines element
@@ -295,12 +295,12 @@ class CustomerMapper extends BaseMapper
 
                         // Set the line elements from the line element
                         $customerLine->setDescription(self::getField($lineElement, 'description', $customerLine))
-                            ->setDimension1(self::parseObjectAttribute('GeneralLedger', $customerLine, $lineElement, 'dimension1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
-                            ->setDimension2(self::parseObjectAttribute('CostCenter', $customerLine, $lineElement, 'dimension2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
-                            ->setDimension3(self::parseObjectAttribute('UnknownDimension', $customerLine, $lineElement, 'dimension3', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
-                            ->setOffice(self::parseObjectAttribute('Office', $customerLine, $lineElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
+                            ->setDimension1(self::parseObjectAttribute(\PhpTwinfield\GeneralLedger::class, $customerLine, $lineElement, 'dimension1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                            ->setDimension2(self::parseObjectAttribute(\PhpTwinfield\CostCenter::class, $customerLine, $lineElement, 'dimension2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                            ->setDimension3(self::parseObjectAttribute(\PhpTwinfield\UnknownDimension::class, $customerLine, $lineElement, 'dimension3', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                            ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $customerLine, $lineElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
                             ->setRatio(self::getField($lineElement, 'ratio', $customerLine))
-                            ->setVatCode(self::parseObjectAttribute('VatCode', $customerLine, $lineElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
+                            ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $customerLine, $lineElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
 
                         // Set the line elements from the line element attributes
                         $customerLine->setDimension1ID(self::getAttribute($lineElement, 'dimension1', 'id'))

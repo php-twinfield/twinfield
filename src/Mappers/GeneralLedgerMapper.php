@@ -38,22 +38,22 @@ class GeneralLedgerMapper extends BaseMapper
 
         // Set the result and status attribute
         $generalLedger->setResult($generalLedgerElement->getAttribute('result'))
-            ->setStatus(self::parseEnumAttribute('Status', $generalLedgerElement->getAttribute('status')));
+            ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $generalLedgerElement->getAttribute('status')));
 
         // Set the general ledger elements from the general ledger element
         $generalLedger->setBeginPeriod(self::getField($generalLedgerElement, 'beginperiod', $generalLedger))
             ->setBeginYear(self::getField($generalLedgerElement, 'beginyear', $generalLedger))
-            ->setBehaviour(self::parseEnumAttribute('Behaviour', self::getField($generalLedgerElement, 'behaviour', $generalLedger)))
+            ->setBehaviour(self::parseEnumAttribute(\PhpTwinfield\Enums\Behaviour::class, self::getField($generalLedgerElement, 'behaviour', $generalLedger)))
             ->setCode(self::getField($generalLedgerElement, 'code', $generalLedger))
             ->setEndPeriod(self::getField($generalLedgerElement, 'endperiod', $generalLedger))
             ->setEndYear(self::getField($generalLedgerElement, 'endyear', $generalLedger))
-            ->setGroup(self::parseObjectAttribute('DimensionGroup', $generalLedger, $generalLedgerElement, 'group', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setGroup(self::parseObjectAttribute(\PhpTwinfield\DimensionGroup::class, $generalLedger, $generalLedgerElement, 'group', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setInUse(self::parseBooleanAttribute(self::getField($generalLedgerElement, 'inuse', $generalLedger)))
             ->setName(self::getField($generalLedgerElement, 'name', $generalLedger))
-            ->setOffice(self::parseObjectAttribute('Office', $generalLedger, $generalLedgerElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $generalLedger, $generalLedgerElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setShortName(self::getField($generalLedgerElement, 'shortname', $generalLedger))
             ->setTouched(self::getField($generalLedgerElement, 'touched', $generalLedger))
-            ->setType(self::parseObjectAttribute('DimensionType', $generalLedger, $generalLedgerElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setType(self::parseObjectAttribute(\PhpTwinfield\DimensionType::class, $generalLedger, $generalLedgerElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setUID(self::getField($generalLedgerElement, 'uid', $generalLedger));
 
         // Get the financials element
@@ -64,11 +64,11 @@ class GeneralLedgerMapper extends BaseMapper
             $generalLedgerFinancials = new GeneralLedgerFinancials();
 
             // Set the financials elements from the financials element
-            $generalLedgerFinancials->setAccountType(self::parseEnumAttribute('AccountType', self::getField($financialsElement, 'accounttype', $generalLedgerFinancials)))
+            $generalLedgerFinancials->setAccountType(self::parseEnumAttribute(\PhpTwinfield\Enums\AccountType::class, self::getField($financialsElement, 'accounttype', $generalLedgerFinancials)))
                 ->setLevel(self::getField($financialsElement, 'level', $generalLedgerFinancials))
-                ->setMatchType(self::parseEnumAttribute('MatchType', self::getField($financialsElement, 'matchtype', $generalLedgerFinancials)))
-                ->setSubAnalyse(self::parseEnumAttribute('SubAnalyse', self::getField($financialsElement, 'subanalyse', $generalLedgerFinancials)))
-                ->setVatCode(self::parseObjectAttribute('VatCode', $generalLedgerFinancials, $financialsElement, 'vatcode'));
+                ->setMatchType(self::parseEnumAttribute(\PhpTwinfield\Enums\MatchType::class, self::getField($financialsElement, 'matchtype', $generalLedgerFinancials)))
+                ->setSubAnalyse(self::parseEnumAttribute(\PhpTwinfield\Enums\SubAnalyse::class, self::getField($financialsElement, 'subanalyse', $generalLedgerFinancials)))
+                ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $generalLedgerFinancials, $financialsElement, 'vatcode'));
 
             // Set the financials elements from the financials element attributes
             $generalLedgerFinancials->setVatCodeFixed(self::parseBooleanAttribute(self::getAttribute($financialsElement, 'vatcode', 'fixed')));
@@ -88,7 +88,7 @@ class GeneralLedgerMapper extends BaseMapper
 
                     // Set the child validation elements from the child validation element en element attributes
                     $generalLedgerChildValidation->setLevel($childValidationElement->getAttribute('level'));
-                    $generalLedgerChildValidation->setType(self::parseEnumAttribute('ChildValidationType', $childValidationElement->getAttribute('type')));
+                    $generalLedgerChildValidation->setType(self::parseEnumAttribute(\PhpTwinfield\Enums\ChildValidationType::class, $childValidationElement->getAttribute('type')));
                     $generalLedgerChildValidation->setElementValue($childValidationElement->textContent);
 
                     // Add the child validation to the general ledger financials class

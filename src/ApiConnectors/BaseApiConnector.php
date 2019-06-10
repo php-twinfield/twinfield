@@ -47,7 +47,13 @@ abstract class BaseApiConnector implements LoggerAwareInterface
         $this->connection = $connection;
     }
 
-    public function getConnection()
+    /**
+     * Will return the current connection
+     *
+     * @return \PhpTwinfield\Secure\AuthenticatedConnection
+     * @throws Exception
+     */
+    public function getConnection(): AuthenticatedConnection
     {
         return $this->connection;
     }
@@ -169,31 +175,32 @@ abstract class BaseApiConnector implements LoggerAwareInterface
 
     /**
      * Convert options array to an ArrayOfString which is accepted by Twinfield.
+     * 
+     * In some cases you are not allowed to change certain options (such as the dimtype, which should always be DEB when using CustomerApiConnector->ListAll()),
+     * in which case the $forcedOptions parameter will be set by the ApiConnector for this option, which will override any user settings in $options
      *
      * @param array $options
-     * @param array|null $forcedOptions
+     * @param array $forcedOptions
      * @return array
      * @throws Exception
      */
-    public function convertOptionsToArrayOfString(array $options, array $forcedOptions = null): array {
+    public function convertOptionsToArrayOfString(array $options, array $forcedOptions = []): array {
         if (isset($options['ArrayOfString'])) {
             return $options;
-        } else {
-            $optionsArrayOfString = array('ArrayOfString' => array());
-
-            if (isset($forcedOptions)) {
-                foreach ($forcedOptions as $key => $value) {
-                    unset($options[$key]);
-                    $optionsArrayOfString['ArrayOfString'][] = array($key, $value);
-                }
-            }
-
-            foreach ($options as $key => $value) {
-                $optionsArrayOfString['ArrayOfString'][] = array($key, $value);
-            }
-
-            return $optionsArrayOfString;
         }
+        
+        $optionsArrayOfString = ['ArrayOfString' => []];
+
+        foreach ($forcedOptions as $key => $value) {
+            unset($options[$key]);
+            $optionsArrayOfString['ArrayOfString'][] = array($key, $value);
+        }
+
+        foreach ($options as $key => $value) {
+            $optionsArrayOfString['ArrayOfString'][] = array($key, $value);
+        }
+
+        return $optionsArrayOfString;
     }
 
     /**

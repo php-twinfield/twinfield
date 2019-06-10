@@ -61,7 +61,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Invoice::class))
             ->willReturn($response);
 
-        $invoice = $this->invoiceApiConnector->get('FACTUUR', '5', $this->office);
+        $invoice = $this->invoiceApiConnector->get('FACTUUR', '5', Office::fromCode('001'));
 
         $this->assertInstanceOf(Invoice::class, $invoice);
         $this->assertEquals(Office::fromCode("11024"), $invoice->getOffice());
@@ -129,7 +129,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Invoice::class))
             ->willReturn($response);
 
-        $invoice = $this->invoiceApiConnector->get('FACTUUR', '5', $this->office);
+        $invoice = $this->invoiceApiConnector->get('FACTUUR', '5', Office::fromCode('001'));
 
         $this->assertInstanceOf(Invoice::class, $invoice);
         $this->assertEquals(Office::fromCode("11024"), $invoice->getOffice());

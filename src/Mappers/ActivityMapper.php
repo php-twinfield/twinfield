@@ -38,19 +38,19 @@ class ActivityMapper extends BaseMapper
 
         // Set the result and status attribute
         $activity->setResult($activityElement->getAttribute('result'))
-            ->setStatus(self::parseEnumAttribute('Status', $activityElement->getAttribute('status')));
+            ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $activityElement->getAttribute('status')));
 
         // Set the activity elements from the activity element
-        $activity->setBehaviour(self::parseEnumAttribute('Behaviour', self::getField($activityElement, 'behaviour', $activity)))
+        $activity->setBehaviour(self::parseEnumAttribute(\PhpTwinfield\Enums\Behaviour::class, self::getField($activityElement, 'behaviour', $activity)))
             ->setCode(self::getField($activityElement, 'code', $activity))
             ->setInUse(self::parseBooleanAttribute(self::getField($activityElement, 'name', $activity)))
             ->setName(self::getField($activityElement, 'name', $activity))
-            ->setOffice(self::parseObjectAttribute('Office', $activity, $activityElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $activity, $activityElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setShortName(self::getField($activityElement, 'shortname', $activity))
             ->setTouched(self::getField($activityElement, 'touched', $activity))
-            ->setType(self::parseObjectAttribute('DimensionType', $activity, $activityElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setType(self::parseObjectAttribute(\PhpTwinfield\DimensionType::class, $activity, $activityElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setUID(self::getField($activityElement, 'uid', $activity))
-            ->setVatCode(self::parseObjectAttribute('VatCode', $activity, $activityElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
+            ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $activity, $activityElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
 
         // Get the projects element
         $projectsElement = $responseDOM->getElementsByTagName('projects')->item(0);
@@ -60,11 +60,11 @@ class ActivityMapper extends BaseMapper
             $activityProjects = new ActivityProjects();
 
             // Set the projects elements from the projects element
-            $activityProjects->setAuthoriser(self::parseObjectAttribute('User', $activityProjects, $projectsElement, 'authoriser'))
+            $activityProjects->setAuthoriser(self::parseObjectAttribute(\PhpTwinfield\User::class, $activityProjects, $projectsElement, 'authoriser'))
                 ->setBillable(self::parseBooleanAttribute(self::getField($projectsElement, 'billable', $activityProjects)))
-                ->setCustomer(self::parseObjectAttribute('Customer', $activityProjects, $projectsElement, 'customer'))
+                ->setCustomer(self::parseObjectAttribute(\PhpTwinfield\Customer::class, $activityProjects, $projectsElement, 'customer'))
                 ->setInvoiceDescription(self::getField($projectsElement, 'invoicedescription', $activityProjects))
-                ->setRate(self::parseObjectAttribute('Rate', $activityProjects, $projectsElement, 'rate'))
+                ->setRate(self::parseObjectAttribute(\PhpTwinfield\Rate::class, $activityProjects, $projectsElement, 'rate'))
                 ->setValidFrom(self::parseDateAttribute(self::getField($projectsElement, 'validfrom', $activityProjects)))
                 ->setValidTill(self::parseDateAttribute(self::getField($projectsElement, 'validtill', $activityProjects)));
 
@@ -96,7 +96,7 @@ class ActivityMapper extends BaseMapper
                     $activityQuantity->setBillable(self::parseBooleanAttribute(self::getField($quantityElement, 'billable', $activityQuantity)))
                         ->setLabel(self::getField($quantityElement, 'label', $activityQuantity))
                         ->setMandatory(self::parseBooleanAttribute(self::getField($quantityElement, 'mandatory', $activityQuantity)))
-                        ->setRate(self::parseObjectAttribute('Rate', $activityQuantity, $quantityElement, 'rate'));
+                        ->setRate(self::parseObjectAttribute(\PhpTwinfield\Rate::class, $activityQuantity, $quantityElement, 'rate'));
 
                     // Set the quantity elements from the quantity element attributes
                     $activityQuantity->setBillableLocked(self::parseBooleanAttribute(self::getAttribute($quantityElement, 'billable', 'locked')));

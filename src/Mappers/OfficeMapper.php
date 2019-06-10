@@ -36,7 +36,7 @@ class OfficeMapper extends BaseMapper
 
         // Set the result and status attribute
         $office->setResult($officeElement->getAttribute('result'))
-            ->setStatus(self::parseEnumAttribute('Status', $officeElement->getAttribute('status')));
+            ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $officeElement->getAttribute('status')));
 
         // Set the office elements from the office element
         $office->setCode(self::getField($officeElement, 'code', $office))
@@ -45,7 +45,7 @@ class OfficeMapper extends BaseMapper
             ->setName(self::getField($officeElement, 'name', $office))
             ->setShortName(self::getField($officeElement, 'shortname', $office))
             ->setTouched(self::getField($officeElement, 'touched', $office))
-            ->setUser(self::parseObjectAttribute('User', $office, $officeElement, 'user', array('name' => 'setName', 'shortname' => 'setShortName')));
+            ->setUser(self::parseObjectAttribute(\PhpTwinfield\User::class, $office, $officeElement, 'user', array('name' => 'setName', 'shortname' => 'setShortName')));
 
         // Return the complete object
         return $office;

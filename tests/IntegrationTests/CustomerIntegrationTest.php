@@ -49,7 +49,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Customer::class))
             ->willReturn($response);
 
-        $customer = $this->customerApiConnector->get('CODE', $this->office);
+        $customer = $this->customerApiConnector->get('CODE', Office::fromCode('001'));
 
         $this->assertInstanceOf(Customer::class, $customer);
         $this->assertSame('001', $customer->getOfficeToString());
@@ -58,7 +58,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->assertSame('http://www.example.com', $customer->getWebsite());
 
         // Financials
-        $financials = $customer->getFinancials();        
+        $financials = $customer->getFinancials();
         $this->assertSame(30, $financials->getDueDays());
         $this->assertSame(true, $financials->getPayAvailable());
         $this->assertSame('SEPANLDD', $financials->getPayCodeToString());
@@ -164,7 +164,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
 
         $this->assertSame('D1001', $customers[1]->getCode());
         $this->assertSame('B. Terwel', $customers[1]->getName());
-        
+
         $this->assertSame('D1002', $customers[2]->getCode());
         $this->assertSame('Hr E G H Küppers en/of MW M.J. Küppers-Veeneman', $customers[2]->getName());
     }
@@ -174,18 +174,18 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $customer = new Customer();
         $customer->setOffice(Office::fromCode('001'));
         $customer->setName('Customer 0');
-        
+
         $financials = new CustomerFinancials();
         $financials->setDueDays(30);
         $financials->setPayAvailable(true);
         $financials->setPayCodeFromString('SEPANLDD');
-        
+
         $collectMandate = new CustomerCollectMandate();
         $collectMandate->setID(1);
         $collectMandate->setSignatureDateFromString('20180604');
         $collectMandate->setFirstRunDateFromString('20180608');
         $financials->setCollectMandate($collectMandate);
-        
+
         $customer->setFinancials($financials);
 
         $address = new CustomerAddress();

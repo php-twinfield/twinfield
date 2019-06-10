@@ -38,19 +38,19 @@ class ProjectMapper extends BaseMapper
 
         // Set the result and status attribute
         $project->setResult($projectElement->getAttribute('result'))
-            ->setStatus(self::parseEnumAttribute('Status', $projectElement->getAttribute('status')));
+            ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $projectElement->getAttribute('status')));
 
         // Set the project elements from the project element
-        $project->setBehaviour(self::parseEnumAttribute('Behaviour', self::getField($projectElement, 'behaviour', $project)))
+        $project->setBehaviour(self::parseEnumAttribute(\PhpTwinfield\Enums\Behaviour::class, self::getField($projectElement, 'behaviour', $project)))
             ->setCode(self::getField($projectElement, 'code', $project))
             ->setInUse(self::parseBooleanAttribute(self::getField($projectElement, 'name', $project)))
             ->setName(self::getField($projectElement, 'name', $project))
-            ->setOffice(self::parseObjectAttribute('Office', $project, $projectElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $project, $projectElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setShortName(self::getField($projectElement, 'shortname', $project))
             ->setTouched(self::getField($projectElement, 'touched', $project))
-            ->setType(self::parseObjectAttribute('DimensionType', $project, $projectElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setType(self::parseObjectAttribute(\PhpTwinfield\DimensionType::class, $project, $projectElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setUID(self::getField($projectElement, 'uid', $project))
-            ->setVatCode(self::parseObjectAttribute('VatCode', $project, $projectElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
+            ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $project, $projectElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
 
         // Get the projects element
         $projectsElement = $responseDOM->getElementsByTagName('projects')->item(0);
@@ -60,11 +60,11 @@ class ProjectMapper extends BaseMapper
             $projectProjects = new ProjectProjects();
 
             // Set the projects elements from the projects element
-            $projectProjects->setAuthoriser(self::parseObjectAttribute('User', $projectProjects, $projectsElement, 'authoriser'))
+            $projectProjects->setAuthoriser(self::parseObjectAttribute(\PhpTwinfield\User::class, $projectProjects, $projectsElement, 'authoriser'))
                 ->setBillable(self::parseBooleanAttribute(self::getField($projectsElement, 'billable', $projectProjects)))
-                ->setCustomer(self::parseObjectAttribute('Customer', $projectProjects, $projectsElement, 'customer'))
+                ->setCustomer(self::parseObjectAttribute(\PhpTwinfield\Customer::class, $projectProjects, $projectsElement, 'customer'))
                 ->setInvoiceDescription(self::getField($projectsElement, 'invoicedescription', $projectProjects))
-                ->setRate(self::parseObjectAttribute('Rate', $projectProjects, $projectsElement, 'rate'))
+                ->setRate(self::parseObjectAttribute(\PhpTwinfield\Rate::class, $projectProjects, $projectsElement, 'rate'))
                 ->setValidFrom(self::parseDateAttribute(self::getField($projectsElement, 'validfrom', $projectProjects)))
                 ->setValidTill(self::parseDateAttribute(self::getField($projectsElement, 'validtill', $projectProjects)));
 
@@ -96,7 +96,7 @@ class ProjectMapper extends BaseMapper
                     $projectQuantity->setBillable(self::parseBooleanAttribute(self::getField($quantityElement, 'billable', $projectQuantity)))
                         ->setLabel(self::getField($quantityElement, 'label', $projectQuantity))
                         ->setMandatory(self::parseBooleanAttribute(self::getField($quantityElement, 'mandatory', $projectQuantity)))
-                        ->setRate(self::parseObjectAttribute('Rate', $projectQuantity, $quantityElement, 'rate'));
+                        ->setRate(self::parseObjectAttribute(\PhpTwinfield\Rate::class, $projectQuantity, $quantityElement, 'rate'));
 
                     // Set the quantity elements from the quantity element attributes
                     $projectQuantity->setBillableLocked(self::parseBooleanAttribute(self::getAttribute($quantityElement, 'billable', 'locked')));

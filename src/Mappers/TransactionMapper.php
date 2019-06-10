@@ -76,7 +76,7 @@ class TransactionMapper extends BaseMapper
         }
 
         if (!empty($destiny)) {
-            $transaction->setDestiny(self::parseEnumAttribute('Destiny', $destiny));
+            $transaction->setDestiny(self::parseEnumAttribute(\PhpTwinfield\Enums\Destiny::class, $destiny));
         }
 
         $raiseWarning = $transactionElement->getAttribute('raisewarning');
@@ -147,13 +147,13 @@ class TransactionMapper extends BaseMapper
                     ->setBaseValueFromFloat(self::getField($lineElement, 'basevalue', $transactionLine))
                     ->setComment(self::getField($lineElement, 'comment', $transactionLine))
                     ->setValueFromFloat(self::getField($lineElement, 'value', $transactionLine))
-                    ->setDebitCredit(self::parseEnumAttribute('DebitCredit', self::getField($lineElement, 'debitcredit', $transactionLine)))
+                    ->setDebitCredit(self::parseEnumAttribute(\PhpTwinfield\Enums\DebitCredit::class, self::getField($lineElement, 'debitcredit', $transactionLine)))
                     ->setDescription(self::getField($lineElement, 'description', $transactionLine))
                     ->setDestOfficeFromString(self::getField($lineElement, 'destoffice', $transactionLine))
                     ->setDim1FromString(self::getField($lineElement, 'dim1', $transactionLine))
                     ->setId($lineElement->getAttribute('id'))
                     ->setLineType(new LineType($lineType))
-                    ->setMatchStatus(self::parseEnumAttribute('MatchStatus', self::getField($lineElement, 'matchstatus', $transactionLine)))
+                    ->setMatchStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\MatchStatus::class, self::getField($lineElement, 'matchstatus', $transactionLine)))
                     ->setRate(self::getField($lineElement, 'rate', $transactionLine))
                     ->setRepRate(self::getField($lineElement, 'reprate', $transactionLine))
                     ->setRepValueFromFloat(self::getField($lineElement, 'repvalue', $transactionLine));

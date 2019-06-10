@@ -40,7 +40,7 @@ class UserMapper extends BaseMapper
         $user->setIsCurrentUser(self::parseBooleanAttribute($userElement->getAttribute('iscurrentuser')));
         $user->setLevel($userElement->getAttribute('level'));
         $user->setResult($userElement->getAttribute('result'));
-        $user->setStatus(self::parseEnumAttribute('Status', $userElement->getAttribute('status')));
+        $user->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $userElement->getAttribute('status')));
 
         // Set the user elements from the user element
         $user->setAcceptExtraCostField(self::parseBooleanAttribute(self::getField($userElement, 'acceptextracost', $user)))
@@ -53,10 +53,10 @@ class UserMapper extends BaseMapper
             ->setFileManagerQuota(self::getField($userElement, 'filemanagerquota', $user))
             ->setModified(self::parseDateTimeAttribute(self::getField($userElement, 'modified', $user)))
             ->setName(self::getField($userElement, 'name', $user))
-            ->setRole(self::parseObjectAttribute('UserRole', $user, $userElement, 'method', array('level' => 'setLevel', 'name' => 'setName', 'shortname' => 'setShortName')))
+            ->setRole(self::parseObjectAttribute(\PhpTwinfield\UserRole::class, $user, $userElement, 'method', array('level' => 'setLevel', 'name' => 'setName', 'shortname' => 'setShortName')))
             ->setShortName(self::getField($userElement, 'shortname', $user))
             ->setTouched(self::getField($userElement, 'touched', $user))
-            ->setType(self::parseEnumAttribute('UserType', self::getField($userElement, 'type', $user)));
+            ->setType(self::parseEnumAttribute(\PhpTwinfield\Enums\UserType::class, self::getField($userElement, 'type', $user)));
 
         // Set the user elements from the user element attributes
         $user->setCultureName(self::getAttribute($userElement, 'culture', 'name'))
