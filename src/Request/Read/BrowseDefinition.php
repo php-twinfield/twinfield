@@ -8,9 +8,9 @@ class BrowseDefinition extends Read
      * Sets office and code if they are present.
      *
      * @param string $code
-     * @param Office|null $office
+     * @param $office
      */
-    public function __construct(string $code, Office $office = null)
+    public function __construct(string $code, $office = null)
     {
         parent::__construct();
 

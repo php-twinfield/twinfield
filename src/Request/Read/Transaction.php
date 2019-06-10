@@ -18,7 +18,7 @@ class Transaction extends Read
      * sets the office, code and number if they are present.
      * 
      * @access public
-     * @param int $office
+     * @param $office
      * @param string $code
      * @param int $number
      */
