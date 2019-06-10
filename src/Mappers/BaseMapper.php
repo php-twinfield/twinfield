@@ -120,7 +120,7 @@ abstract class BaseMapper
         if (false !== strtotime($value)) {
             return Util::parseDate($value);
         }
-        
+
         return null;
     }
 
@@ -129,7 +129,7 @@ abstract class BaseMapper
         if (false !== strtotime($value)) {
             return Util::parseDateTime($value);
         }
-        
+
         return null;
     }
 
@@ -140,19 +140,10 @@ abstract class BaseMapper
         }
 
         try {
-            $classReflex = new \ReflectionClass($enumClass);
-            $classConstants = $classReflex->getConstants();
-
-            foreach ($classConstants as $classConstant) {
-                if ($value == $classConstant) {
-                    return new $enumClass($value);
-                }
-            }
-        } catch (\ReflectionException $e) {
-            throw new \Exception("Non existant Enum, got \"{$enumClass}\".");
+            return new $enumClass($value);
+        } catch (\Exception $e) {
+             return null;
         }
-
-        return null;
     }
 
     protected static function parseMoneyAttribute(?float $value): ?Money
