@@ -85,8 +85,6 @@ abstract class BaseMapper
             return null;
         }
 
-        $enum = "\\PhpTwinfield\\Enums\\" . $enumName;
-
         try {
             $classReflex = new \ReflectionClass($enumClass);
             $classConstants = $classReflex->getConstants();
@@ -97,7 +95,7 @@ abstract class BaseMapper
                 }
             }
         } catch (\ReflectionException $e) {
-            throw new Exception("Non existant Enum, got \"{$enumClass}\".");
+            throw new \Exception("Non existant Enum, got \"{$enumClass}\".");
         }
 
         return null;
@@ -148,7 +146,7 @@ abstract class BaseMapper
                     $objectClass = \PhpTwinfield\Project::class;
                     break;
                 default:
-                    throw new InvalidArgumentException("parseObjectAttribute function does not accept \"{$objectClass}\" as valid input for the \$object argument");
+                    throw new \InvalidArgumentException("parseObjectAttribute function does not accept \"{$objectClass}\" as valid input for the \$object argument");
             }
         }
 
