@@ -36,17 +36,17 @@ class CostCenterMapper extends BaseMapper
 
         // Set the result and status attribute
         $costCenter->setResult($costCenterElement->getAttribute('result'))
-            ->setStatus(self::parseEnumAttribute('Status', $costCenterElement->getAttribute('status')));
+            ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $costCenterElement->getAttribute('status')));
 
         // Set the cost center elements from the cost center element
-        $costCenter->setBehaviour(self::parseEnumAttribute('Behaviour', self::getField($costCenter, $costCenterElement, 'behaviour')))
-            ->setCode(self::getField($costCenter, $costCenterElement, 'code'))
-            ->setInUse(self::parseBooleanAttribute(self::getField($costCenter, $costCenterElement, 'name')))
-            ->setName(self::getField($costCenter, $costCenterElement, 'name'))
-            ->setOffice(self::parseObjectAttribute('Office', $costCenter, $costCenterElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setTouched(self::getField($costCenter, $costCenterElement, 'touched'))
-            ->setType(self::parseObjectAttribute('DimensionType', $costCenter, $costCenterElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setUID(self::getField($costCenter, $costCenterElement, 'uid'));
+        $costCenter->setBehaviour(self::parseEnumAttribute(\PhpTwinfield\Enums\Behaviour::class, self::getField($costCenterElement, 'behaviour', $costCenter)))
+            ->setCode(self::getField($costCenterElement, 'code', $costCenter))
+            ->setInUse(self::parseBooleanAttribute(self::getField($costCenterElement, 'name', $costCenter)))
+            ->setName(self::getField($costCenterElement, 'name', $costCenter))
+            ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $costCenter, $costCenterElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setTouched(self::getField($costCenterElement, 'touched', $costCenter))
+            ->setType(self::parseObjectAttribute(\PhpTwinfield\DimensionType::class, $costCenter, $costCenterElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setUID(self::getField($costCenterElement, 'uid', $costCenter));
 
         // Return the complete object
         return $costCenter;

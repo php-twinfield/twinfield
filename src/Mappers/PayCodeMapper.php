@@ -35,9 +35,9 @@ class PayCodeMapper extends BaseMapper
         $payCodeElement = $responseDOM->documentElement;
 
         // Set the paycode elements from the paycode element
-        $payCode->setCode(self::getField($payCode, $payCodeElement, 'code'))
-            ->setName(self::getField($payCode, $payCodeElement, 'name'))
-            ->setShortName(self::getField($payCode, $payCodeElement, 'shortname'));
+        $payCode->setCode(self::getField($payCodeElement, 'code', $payCode))
+            ->setName(self::getField($payCodeElement, 'name', $payCode))
+            ->setShortName(self::getField($payCodeElement, 'shortname', $payCode));
 
         // Return the complete object
         return $payCode;

@@ -39,7 +39,7 @@ class ActivityApiConnector extends BaseApiConnector
         // Make a request to read a single Activity. Set the required values
         $request_activity = new Request\Read\Activity();
         $request_activity
-            ->setOffice($office->getCode())
+            ->setOffice($office)
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
@@ -122,7 +122,7 @@ class ActivityApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll("Activity", $response->data, $activityArrayListAllTags);
+        return $this->mapListAll(\PhpTwinfield\Activity::class, $response->data, $activityArrayListAllTags);
     }
 
     /**

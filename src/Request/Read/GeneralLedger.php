@@ -1,6 +1,8 @@
 <?php
 namespace PhpTwinfield\Request\Read;
 
+use PhpTwinfield\Office;
+
 /**
  * Used to request a specific GeneralLedger from a certain office and code.
  *
@@ -15,8 +17,10 @@ class GeneralLedger extends Read
      * Sets office and code if they are present.
      *
      * @access public
+     * @param Office|null $office
+     * @param string $code
      */
-    public function __construct($office = null, $code = null, $dimType = null)
+    public function __construct(?Office $office = null, $code = null, $dimType = null)
     {
         parent::__construct();
 

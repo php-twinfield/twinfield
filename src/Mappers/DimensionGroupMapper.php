@@ -38,13 +38,13 @@ class DimensionGroupMapper extends BaseMapper
 
         // Set the result and status attribute
         $dimensiongroup->setResult($dimensiongroupElement->getAttribute('result'))
-            ->setStatus(self::parseEnumAttribute('Status', $dimensiongroupElement->getAttribute('status')));
+            ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $dimensiongroupElement->getAttribute('status')));
 
         // Set the dimension group elements from the dimension group element
-        $dimensiongroup->setCode(self::getField($dimensiongroup, $dimensiongroupElement, 'code'))
-            ->setName(self::getField($dimensiongroup, $dimensiongroupElement, 'name'))
-            ->setOffice(self::parseObjectAttribute('Office', $dimensiongroup, $dimensiongroupElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setShortName(self::getField($dimensiongroup, $dimensiongroupElement, 'shortname'));
+        $dimensiongroup->setCode(self::getField($dimensiongroupElement, 'code', $dimensiongroup))
+            ->setName(self::getField($dimensiongroupElement, 'name', $dimensiongroup))
+            ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $dimensiongroup, $dimensiongroupElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setShortName(self::getField($dimensiongroupElement, 'shortname', $dimensiongroup));
 
         // Get the dimensions element
         $dimensionsDOMTag = $responseDOM->getElementsByTagName('dimensions');
@@ -60,7 +60,7 @@ class DimensionGroupMapper extends BaseMapper
                 $dimensionGroupDimension = new DimensionGroupDimension();
 
                 // Set the dimension group dimension elements from the dimension element
-                $dimensionGroupDimension->setType(self::parseObjectAttribute('DimensionType', $dimensionGroupDimension, $dimensionElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')));
+                $dimensionGroupDimension->setType(self::parseObjectAttribute(\PhpTwinfield\DimensionType::class, $dimensionGroupDimension, $dimensionElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')));
                 $dimensionGroupDimension->setCode(self::parseObjectAttribute('DimensionGroupDimension', $dimensionGroupDimension, $dimensionElement, 'code', array('name' => 'setName', 'shortname' => 'setShortName')));
 
                 // Add the dimension to the dimension group

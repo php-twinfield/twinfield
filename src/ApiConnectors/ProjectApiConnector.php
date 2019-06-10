@@ -39,7 +39,7 @@ class ProjectApiConnector extends BaseApiConnector
         // Make a request to read a single Project. Set the required values
         $request_project = new Request\Read\Project();
         $request_project
-            ->setOffice($office->getCode())
+            ->setOffice($office)
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
@@ -122,7 +122,7 @@ class ProjectApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll("Project", $response->data, $projectListAllTags);
+        return $this->mapListAll(\PhpTwinfield\Project::class, $response->data, $projectListAllTags);
     }
 
     /**

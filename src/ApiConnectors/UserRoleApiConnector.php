@@ -48,6 +48,6 @@ class UserRoleApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll("UserRole", $response->data, $userRoleListAllTags);
+        return $this->mapListAll(\PhpTwinfield\UserRole::class, $response->data, $userRoleListAllTags);
     }
 }

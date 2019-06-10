@@ -39,7 +39,7 @@ class DimensionGroupApiConnector extends BaseApiConnector
         // Make a request to read a single DimensionGroup. Set the required values
         $request_dimensionGroup = new Request\DimensionGroup();
         $request_dimensionGroup
-            ->setOffice($office->getCode())
+            ->setOffice($office)
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
@@ -121,7 +121,7 @@ class DimensionGroupApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll("DimensionGroup", $response->data, $dimensionGroupListAllTags);
+        return $this->mapListAll(\PhpTwinfield\DimensionGroup::class, $response->data, $dimensionGroupListAllTags);
     }
 
     /**

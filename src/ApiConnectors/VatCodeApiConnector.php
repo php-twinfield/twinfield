@@ -39,7 +39,7 @@ class VatCodeApiConnector extends BaseApiConnector
         // Make a request to read a single VatCode. Set the required values
         $request_vatCode = new Request\Read\VatCode();
         $request_vatCode
-            ->setOffice($office->getCode())
+            ->setOffice($office)
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
@@ -121,7 +121,7 @@ class VatCodeApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll("VatCode", $response->data, $vatCodeListAllTags);
+        return $this->mapListAll(\PhpTwinfield\VatCode::class, $response->data, $vatCodeListAllTags);
     }
 
     /**

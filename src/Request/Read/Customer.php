@@ -1,6 +1,8 @@
 <?php
 namespace PhpTwinfield\Request\Read;
 
+use PhpTwinfield\Office;
+
 /**
  * Used to request a specific Customer from a certain
  * office and code.
@@ -18,8 +20,10 @@ class Customer extends Read
      * sets the dimtype, office and code if they are present.
      *
      * @access public
+     * @param Office|null $office
+     * @param string $code     
      */
-    public function __construct($office = null, $code = null)
+    public function __construct(?Office $office = null, $code = null)
     {
         parent::__construct();
 

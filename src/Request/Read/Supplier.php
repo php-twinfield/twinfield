@@ -1,6 +1,8 @@
 <?php
 namespace PhpTwinfield\Request\Read;
 
+use PhpTwinfield\Office;
+
 /**
  * Used to request a specific custom from a certain
  * office and code.
@@ -18,8 +20,10 @@ class Supplier extends Read
      * sets the office and code if they are present.
      *
      * @access public
+     * @param Office $office
+     * @param string $code
      */
-    public function __construct($office = null, $code = null)
+    public function __construct(?Office $office = null, $code = null)
     {
         parent::__construct();
 

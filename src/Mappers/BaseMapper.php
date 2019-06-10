@@ -37,7 +37,7 @@ abstract class BaseMapper
         return $fieldElement->getAttribute($attributeName);
     }
 
-    protected static function getField($object, \DOMElement $element, string $fieldTagName): ?string
+    protected static function getField(\DOMElement $element, string $fieldTagName, $object = null): ?string
     {
         $fieldElement = $element->getElementsByTagName($fieldTagName)->item(0);
 
@@ -63,44 +63,33 @@ abstract class BaseMapper
 
     protected static function parseDateAttribute(?string $value): ?\DateTimeImmutable
     {
-        if ((bool)strtotime($value)) {
+        if (false !== strtotime($value)) {
             return Util::parseDate($value);
-        } else {
-            return null;
         }
+        
+        return null;
     }
 
     protected static function parseDateTimeAttribute(?string $value): ?\DateTimeImmutable
     {
-        if ((bool)strtotime($value)) {
+        if (false !== strtotime($value)) {
             return Util::parseDateTime($value);
-        } else {
-            return null;
         }
+        
+        return null;
     }
 
-    protected static function parseEnumAttribute(string $enumName, ?string $value)
+    protected static function parseEnumAttribute(string $enumClass, ?string $value)
     {
         if ($value === null) {
             return null;
         }
 
-        $enum = "\\PhpTwinfield\\Enums\\" . $enumName;
-
         try {
-            $classReflex = new \ReflectionClass($enum);
-            $classConstants = $classReflex->getConstants();
-
-            foreach ($classConstants as $classConstant) {
-                if ($value == $classConstant) {
-                    return new $enum($value);
-                }
-            }
-        } catch (\ReflectionException $e) {
-            return null;
+            return new $enumClass($value);
+        } catch (\Exception $e) {
+             return null;
         }
-
-        return null;
     }
 
     protected static function parseMoneyAttribute(?float $value): ?Money
@@ -112,54 +101,51 @@ abstract class BaseMapper
         return Util::parseMoney($value, new Currency('EUR'));
     }
 
-    protected static function parseObjectAttribute(string $className, $object, \DOMElement $element, string $fieldTagName, array $attributes = null)
+    /** @var SomeClassWithMethodsetCode $object2 */
+    protected static function parseObjectAttribute(string $objectClass, $object, \DOMElement $element, string $fieldTagName, array $attributes = [])
     {
-        if ($className == "DimensionGroupDimension" || $className == "UnknownDimension") {
-            if ($className == "DimensionGroupDimension") {
-                $type = self::getField($object, $element, "type");
-            } elseif ($className == "UnknownDimension") {
+        if ($objectClass == "DimensionGroupDimension" || $objectClass == "UnknownDimension") {
+            if ($objectClass == "DimensionGroupDimension") {
+                $type = self::getField($element, "type", $object);
+            } elseif ($objectClass == "UnknownDimension") {
                 $type = self::getAttribute($element, $fieldTagName, "dimensiontype");
             }
 
             switch ($type) {
                 case "ACT":
-                    $className = "Activity";
+                    $objectClass = \PhpTwinfield\Activity::class;
                     break;
                 case "AST":
-                    $className = "FixedAsset";
+                    $objectClass = \PhpTwinfield\FixedAsset::class;
                     break;
                 case "BAS":
-                    $className = "GeneralLedger";
+                    $objectClass = \PhpTwinfield\GeneralLedger::class;
                     break;
                 case "CRD":
-                    $className = "Supplier";
+                    $objectClass = \PhpTwinfield\Supplier::class;
                     break;
                 case "DEB":
-                    $className = "Customer";
+                    $objectClass = \PhpTwinfield\Customer::class;
                     break;
                 case "KPL":
-                    $className = "CostCenter";
+                    $objectClass = \PhpTwinfield\CostCenter::class;
                     break;
                 case "PNL":
-                    $className = "GeneralLedger";
+                    $objectClass = \PhpTwinfield\GeneralLedger::class;
                     break;
                 case "PRJ":
-                    $className = "Project";
+                    $objectClass = \PhpTwinfield\Project::class;
                     break;
                 default:
-                    return null;
+                    throw new \InvalidArgumentException("parseObjectAttribute function does not accept \"{$objectClass}\" as valid input for the \$object argument");
             }
         }
 
-        $class = "\\PhpTwinfield\\" . $className;
+        $object2 = new $objectClass();
+        $object2->setCode(self::getField($element, $fieldTagName, $object));
 
-        $object2 = new $class();
-        $object2->setCode(self::getField($object, $element, $fieldTagName));
-
-        if (isset($attributes)) {
-            foreach ($attributes as $attributeName => $method) {
-                $object2->$method(self::getAttribute($element, $fieldTagName, $attributeName));
-            }
+        foreach ($attributes as $attributeName => $method) {
+            $object2->$method(self::getAttribute($element, $fieldTagName, $attributeName));
         }
 
         return $object2;

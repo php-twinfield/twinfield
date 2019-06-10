@@ -40,7 +40,7 @@ class SupplierApiConnector extends BaseApiConnector
         // Make a request to read a single supplier. Set the required values
         $request_supplier = new Request\Read\Supplier();
         $request_supplier
-            ->setOffice($office->getCode())
+            ->setOffice($office)
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
@@ -122,7 +122,7 @@ class SupplierApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll("Supplier", $response->data, $supplierListAllTags);
+        return $this->mapListAll(\PhpTwinfield\Supplier::class, $response->data, $supplierListAllTags);
     }
 
     /**

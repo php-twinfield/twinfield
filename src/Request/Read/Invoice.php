@@ -1,6 +1,8 @@
 <?php
 namespace PhpTwinfield\Request\Read;
 
+use PhpTwinfield\Office;
+
 /**
  * Used to request a specific Invoice from a certain
  * code, invoice number and office.
@@ -19,11 +21,11 @@ class Invoice extends Read
      * are present.
      *
      * @access public
-     * @param int $office
+     * @param Office|null $office
      * @param string $code
      * @param int $invoiceNumber
      */
-    public function __construct($office = null, $code = null, $invoiceNumber = null)
+    public function __construct(?Office $office = null, $code = null, $invoiceNumber = null)
     {
         parent::__construct();
 

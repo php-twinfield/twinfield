@@ -41,7 +41,7 @@ class InvoiceApiConnector extends BaseApiConnector
         $request_invoice
             ->setCode($code)
             ->setInvoiceNumber($invoiceNumber)
-            ->setOffice($office->getCode());
+            ->setOffice($office);
 
         // Send the Request document and set the response to this instance
         $response = $this->sendXmlDocument($request_invoice);
@@ -124,6 +124,6 @@ class InvoiceApiConnector extends BaseApiConnector
             4       => 'setDebitCreditFromString',
         );
 
-        return $this->mapListAll("Invoice", $response->data, $invoiceListAllTags);
+        return $this->mapListAll(\PhpTwinfield\Invoice::class, $response->data, $invoiceListAllTags);
     }
 }

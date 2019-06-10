@@ -20,11 +20,11 @@ class Transaction extends Read
      * sets the office, code and number if they are present.
      *
      * @access public
-     * @param int $office
+     * @param Office $office
      * @param string $code
      * @param int $number
      */
-    public function __construct($office = null, $code = null, $number = null)
+    public function __construct(?Office $office = null, $code = null, $number = null)
     {
         parent::__construct();
 

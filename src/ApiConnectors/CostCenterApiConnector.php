@@ -39,7 +39,7 @@ class CostCenterApiConnector extends BaseApiConnector
         // Make a request to read a single CostCenter. Set the required values
         $request_costCenter = new Request\Read\CostCenter();
         $request_costCenter
-            ->setOffice($office->getCode())
+            ->setOffice($office)
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
@@ -122,7 +122,7 @@ class CostCenterApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll("CostCenter", $response->data, $costCenterArrayListAllTags);
+        return $this->mapListAll(\PhpTwinfield\CostCenter::class, $response->data, $costCenterArrayListAllTags);
     }
 
     /**

@@ -35,9 +35,9 @@ class VatGroupMapper extends BaseMapper
         $vatGroupElement = $responseDOM->documentElement;
 
         // Set the vat group elements from the vat group element
-        $vatGroup->setCode(self::getField($vatGroup, $vatGroupElement, 'code'))
-            ->setName(self::getField($vatGroup, $vatGroupElement, 'name'))
-            ->setShortName(self::getField($vatGroup, $vatGroupElement, 'shortname'));
+        $vatGroup->setCode(self::getField($vatGroupElement, 'code', $vatGroup))
+            ->setName(self::getField($vatGroupElement, 'name', $vatGroup))
+            ->setShortName(self::getField($vatGroupElement, 'shortname', $vatGroup));
 
         // Return the complete object
         return $vatGroup;

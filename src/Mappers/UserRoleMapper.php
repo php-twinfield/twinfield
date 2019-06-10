@@ -35,9 +35,9 @@ class UserRoleMapper extends BaseMapper
         $userRoleElement = $responseDOM->documentElement;
 
         // Set the user role elements from the user role element
-        $userRole->setCode(self::getField($userRole, $userRoleElement, 'code'))
-            ->setName(self::getField($userRole, $userRoleElement, 'name'))
-            ->setShortName(self::getField($userRole, $userRoleElement, 'shortname'));
+        $userRole->setCode(self::getField($userRoleElement, 'code', $userRole))
+            ->setName(self::getField($userRoleElement, 'name', $userRole))
+            ->setShortName(self::getField($userRoleElement, 'shortname', $userRole));
 
         // Return the complete object
         return $userRole;

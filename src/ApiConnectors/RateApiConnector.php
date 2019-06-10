@@ -39,7 +39,7 @@ class RateApiConnector extends BaseApiConnector
         // Make a request to read a single Rate. Set the required values
         $request_rate = new Request\Read\Rate();
         $request_rate
-            ->setOffice($office->getCode())
+            ->setOffice($office)
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
@@ -121,7 +121,7 @@ class RateApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll("Rate", $response->data, $rateListAllTags);
+        return $this->mapListAll(\PhpTwinfield\Rate::class, $response->data, $rateListAllTags);
     }
 
     /**

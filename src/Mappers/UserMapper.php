@@ -40,23 +40,23 @@ class UserMapper extends BaseMapper
         $user->setIsCurrentUser(self::parseBooleanAttribute($userElement->getAttribute('iscurrentuser')));
         $user->setLevel($userElement->getAttribute('level'));
         $user->setResult($userElement->getAttribute('result'));
-        $user->setStatus(self::parseEnumAttribute('Status', $userElement->getAttribute('status')));
+        $user->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $userElement->getAttribute('status')));
 
         // Set the user elements from the user element
-        $user->setAcceptExtraCostField(self::parseBooleanAttribute(self::getField($user, $userElement, 'acceptextracost')))
-            ->setCulture(self::getField($user, $userElement, 'culture'))
-            ->setCode(self::getField($user, $userElement, 'code'))
-            ->setCreated(self::parseDateTimeAttribute(self::getField($user, $userElement, 'created')))
-            ->setDemo(self::parseBooleanAttribute(self::getField($user, $userElement, 'demo')))
-            ->setEmail(self::getField($user, $userElement, 'email'))
-            ->setExchangeQuota(self::getField($user, $userElement, 'exchangequota'))
-            ->setFileManagerQuota(self::getField($user, $userElement, 'filemanagerquota'))
-            ->setModified(self::parseDateTimeAttribute(self::getField($user, $userElement, 'modified')))
-            ->setName(self::getField($user, $userElement, 'name'))
-            ->setRole(self::parseObjectAttribute('UserRole', $user, $userElement, 'method', array('level' => 'setLevel', 'name' => 'setName', 'shortname' => 'setShortName')))
-            ->setShortName(self::getField($user, $userElement, 'shortname'))
-            ->setTouched(self::getField($user, $userElement, 'touched'))
-            ->setType(self::parseEnumAttribute('UserType', self::getField($user, $userElement, 'type')));
+        $user->setAcceptExtraCostField(self::parseBooleanAttribute(self::getField($userElement, 'acceptextracost', $user)))
+            ->setCulture(self::getField($userElement, 'culture', $user))
+            ->setCode(self::getField($userElement, 'code', $user))
+            ->setCreated(self::parseDateTimeAttribute(self::getField($userElement, 'created', $user)))
+            ->setDemo(self::parseBooleanAttribute(self::getField($userElement, 'demo', $user)))
+            ->setEmail(self::getField($userElement, 'email', $user))
+            ->setExchangeQuota(self::getField($userElement, 'exchangequota', $user))
+            ->setFileManagerQuota(self::getField($userElement, 'filemanagerquota', $user))
+            ->setModified(self::parseDateTimeAttribute(self::getField($userElement, 'modified', $user)))
+            ->setName(self::getField($userElement, 'name', $user))
+            ->setRole(self::parseObjectAttribute(\PhpTwinfield\UserRole::class, $user, $userElement, 'method', array('level' => 'setLevel', 'name' => 'setName', 'shortname' => 'setShortName')))
+            ->setShortName(self::getField($userElement, 'shortname', $user))
+            ->setTouched(self::getField($userElement, 'touched', $user))
+            ->setType(self::parseEnumAttribute(\PhpTwinfield\Enums\UserType::class, self::getField($userElement, 'type', $user)));
 
         // Set the user elements from the user element attributes
         $user->setCultureName(self::getAttribute($userElement, 'culture', 'name'))
