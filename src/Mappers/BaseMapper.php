@@ -170,7 +170,7 @@ abstract class BaseMapper
     {
         if ($className == "DimensionGroupDimension" || $className == "UnknownDimension") {
             if ($className == "DimensionGroupDimension") {
-                $type = self::getField($object, $element, "type");
+                $type = self::getField($element, "type", $object);
             } elseif ($className == "UnknownDimension") {
                 $type = self::getAttribute($element, $fieldTagName, "dimensiontype");
             }
@@ -208,7 +208,7 @@ abstract class BaseMapper
         $class = "\\PhpTwinfield\\" . $className;
 
         $object2 = new $class();
-        $object2->setCode(self::getField($object, $element, $fieldTagName));
+        $object2->setCode(self::getField($element, $fieldTagName, $object));
 
         if (isset($attributes)) {
             foreach ($attributes as $attributeName => $method) {
