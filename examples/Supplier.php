@@ -164,7 +164,7 @@ if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
     }
 }
 
-// Read an Supplier based off the passed in code and optionally the office.
+// Read a Supplier based off the passed in code and optionally the office.
 if ($executeRead) {
     try {
         $supplier = $supplierApiConnector->get("2000", $office);
@@ -279,7 +279,7 @@ if ($executeRead) {
     echo "AccountType: {$supplierFinancials->getAccountType()}<br />";                                                                              // AccountType|null                 Fixed value inherit.
     echo "DueDays: {$supplierFinancials->getDueDays()}<br />";                                                                                      // int|null                         The number of due days.
     echo "Level: {$supplierFinancials->getLevel()}<br />";                                                                                          // int|null                        	Specifies the dimension level. Normally the level of suppliers is level 2. Read-only attribute.
-    echo "MatchType: {$supplierFinancials->getMatchType()}<br />";                                                                                  // MatchType|null                   Fixed value suppliersupplier.
+    echo "MatchType: {$supplierFinancials->getMatchType()}<br />";                                                                                  // MatchType|null                   Fixed value customersupplier.
     echo "MeansOfPayment: {$supplierFinancials->getMeansOfPayment()}<br />";                                                                        // MeansOfPayment|null              The option none is only allowed in case payavailable is set to false. The option paymentfile is only allowed in case payavailable is set to true.
 
     if ($supplierFinancials->hasMessages()) {                                                                                					    // bool                             Object contains (error) messages true/false.

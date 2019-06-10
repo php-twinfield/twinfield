@@ -176,7 +176,7 @@ if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
     }
 }
 
-// Read an Customer based off the passed in code and optionally the office.
+// Read a Customer based off the passed in code and optionally the office.
 if ($executeRead) {
     try {
         $customer = $customerApiConnector->get("1000", $office);
