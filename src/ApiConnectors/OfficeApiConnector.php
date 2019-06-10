@@ -97,6 +97,6 @@ class OfficeApiConnector extends BaseApiConnector
             4       => 'setVatFirstQuarterStartsIn',
         );
 
-        return $this->mapListAll("Office", $response->data, $officeListAllTags);
+        return $this->mapListAll(\PhpTwinfield\Office::class, $response->data, $officeListAllTags);
     }
 }

@@ -39,7 +39,7 @@ class FixedAssetApiConnector extends BaseApiConnector
         // Make a request to read a single FixedAsset. Set the required values
         $request_fixedAsset = new Request\Read\FixedAsset();
         $request_fixedAsset
-            ->setOffice($office->getCode())
+            ->setOffice($office)
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
@@ -121,7 +121,7 @@ class FixedAssetApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll("FixedAsset", $response->data, $fixedAssetListAllTags);
+        return $this->mapListAll(\PhpTwinfield\FixedAsset::class, $response->data, $fixedAssetListAllTags);
     }
 
     /**

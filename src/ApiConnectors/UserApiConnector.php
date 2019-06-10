@@ -37,7 +37,7 @@ class UserApiConnector extends BaseApiConnector
         // Make a request to read a single User. Set the required values
         $request_user = new Request\Read\User();
         $request_user
-            ->setOffice($office->getCode())
+            ->setOffice($office)
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
@@ -77,6 +77,6 @@ class UserApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll("User", $response->data, $userListAllTags);
+        return $this->mapListAll(\PhpTwinfield\User::class, $response->data, $userListAllTags);
     }
 }

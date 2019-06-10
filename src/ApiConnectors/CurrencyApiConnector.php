@@ -148,7 +148,7 @@ class CurrencyApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll("Currency", $response->data, $currencyArrayListAllTags);
+        return $this->mapListAll(\PhpTwinfield\Currency::class, $response->data, $currencyArrayListAllTags);
     }
 
     /**

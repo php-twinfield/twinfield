@@ -38,7 +38,7 @@ class DimensionTypeApiConnector extends BaseApiConnector
         // Make a request to read a single DimensionType. Set the required values
         $request_dimensionType = new Request\DimensionType();
         $request_dimensionType
-            ->setOffice($office->getCode())
+            ->setOffice($office)
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
@@ -120,6 +120,6 @@ class DimensionTypeApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll("DimensionType", $response->data, $dimensionTypeListAllTags);
+        return $this->mapListAll(\PhpTwinfield\DimensionType::class, $response->data, $dimensionTypeListAllTags);
     }
 }

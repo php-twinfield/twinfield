@@ -40,7 +40,7 @@ class CustomerApiConnector extends BaseApiConnector
         // Make a request to read a single customer. Set the required values
         $request_customer = new Request\Read\Customer();
         $request_customer
-            ->setOffice($office->getCode())
+            ->setOffice($office)
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
@@ -122,7 +122,7 @@ class CustomerApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll("Customer", $response->data, $customerListAllTags);
+        return $this->mapListAll(\PhpTwinfield\Customer::class, $response->data, $customerListAllTags);
     }
 
     /**

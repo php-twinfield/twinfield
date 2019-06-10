@@ -39,7 +39,7 @@ class AssetMethodApiConnector extends BaseApiConnector
         // Make a request to read a single AssetMethod. Set the required values
         $request_assetMethod = new Request\AssetMethod();
         $request_assetMethod
-            ->setOffice($office->getCode())
+            ->setOffice($office)
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
@@ -121,7 +121,7 @@ class AssetMethodApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll("AssetMethod", $response->data, $assetMethodArrayListAllTags);
+        return $this->mapListAll(\PhpTwinfield\AssetMethod::class, $response->data, $assetMethodArrayListAllTags);
     }
 
     /**

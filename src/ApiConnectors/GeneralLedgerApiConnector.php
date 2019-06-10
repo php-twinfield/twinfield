@@ -40,7 +40,7 @@ class GeneralLedgerApiConnector extends BaseApiConnector
         // Make a request to read a single GeneralLedger. Set the required values
         $request_generalLedger = new Request\Read\GeneralLedger();
         $request_generalLedger
-            ->setOffice($office->getCode())
+            ->setOffice($office)
             ->setDimType($dimType)
             ->setCode($code);
 
@@ -123,7 +123,7 @@ class GeneralLedgerApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll("GeneralLedger", $response->data, $generalLedgerListAllTags);
+        return $this->mapListAll(\PhpTwinfield\GeneralLedger::class, $response->data, $generalLedgerListAllTags);
     }
 
     /**

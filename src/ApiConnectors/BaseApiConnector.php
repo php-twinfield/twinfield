@@ -206,13 +206,13 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     /**
      * Map the response of a listAll to an array of the requested class
      *
-     * @param string $className
+     * @param string $objectClass
      * @param $data
      * @param array $objectListAllTags
      * @return array
      * @throws Exception
      */
-    public function mapListAll(string $className, $data, array $objectListAllTags): array {
+    public function mapListAll(string $objectClass, $data, array $objectListAllTags): array {
         if ($data->TotalRows == 0) {
             return [];
         }
@@ -220,9 +220,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
         $objects = [];
 
         foreach ($data->Items->ArrayOfString as $responseArrayElement) {
-            $class = "\\PhpTwinfield\\" . $className;
-
-            $object = new $class();
+            $object = new $objectClass();
 
             if (isset($responseArrayElement->string[0])) {
                 $elementArray = $responseArrayElement->string;
