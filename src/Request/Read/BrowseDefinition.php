@@ -2,8 +2,6 @@
 
 namespace PhpTwinfield\Request\Read;
 
-use PhpTwinfield\Office;
-
 class BrowseDefinition extends Read
 {
     /**
@@ -31,10 +29,10 @@ class BrowseDefinition extends Read
      * Sets the office code for this BrowseData request.
      *
      * @access public
-     * @param Office $office
+     * @param $office
      * @return BrowseDefinition
      */
-    public function setOffice(Office $office)
+    public function setOffice($office)
     {
         $this->add('office', $office->getCode());
         return $this;

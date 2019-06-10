@@ -1,8 +1,6 @@
 <?php
 namespace PhpTwinfield\Request\Read;
 
-use PhpTwinfield\Office;
-
 /**
  * Used to request a specific custom from a certain
  * office and code.
@@ -38,10 +36,10 @@ class Article extends Read
      * Sets the office code for this Article request.
      * 
      * @access public
-     * @param Office $office
+     * @param $office
      * @return \PhpTwinfield\Request\Read\Article
      */
-    public function setOffice(Office $office)
+    public function setOffice($office)
     {
         $this->add('office', $office);
         return $this;

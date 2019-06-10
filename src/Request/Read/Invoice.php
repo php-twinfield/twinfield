@@ -1,8 +1,6 @@
 <?php
 namespace PhpTwinfield\Request\Read;
 
-use PhpTwinfield\Office;
-
 /**
  * Used to request a specific invoice from a certain
  * code, number and office.
@@ -49,10 +47,10 @@ class Invoice extends Read
      * request. It is an optional field.
      * 
      * @access public
-     * @param Office $office
+     * @param $office
      * @return \PhpTwinfield\Request\Read\Invoice
      */
-    public function setOffice(Office $office)
+    public function setOffice($office)
     {
         $this->add('office', $office);
         return $this;

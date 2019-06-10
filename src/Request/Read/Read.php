@@ -1,8 +1,6 @@
 <?php
 namespace PhpTwinfield\Request\Read;
 
-use PhpTwinfield\Office;
-
 /**
  * Abstract parent class Read. Read is the name for the request component
  * READ.
@@ -65,10 +63,10 @@ abstract class Read extends \DOMDocument
      * Sets the office code for this request.
      *
      * @access public
-     * @param Office $office
+     * @param $office
      * @return \PhpTwinfield\Request\Read\Read
      */
-    public function setOffice(Office $office)
+    public function setOffice($office)
     {
         $this->add('office', $office);
         return $this;
