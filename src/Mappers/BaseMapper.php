@@ -37,7 +37,7 @@ abstract class BaseMapper
         return $fieldElement->getAttribute($attributeName);
     }
 
-    protected static function getField($object, \DOMElement $element, string $fieldTagName): ?string
+    protected static function getField(\DOMElement $element, string $fieldTagName, $object): ?string
     {
         $fieldElement = $element->getElementsByTagName($fieldTagName)->item(0);
 
