@@ -37,7 +37,7 @@ class ProcessXmlService extends BaseService
      *
      * If there is an error in the response, an Exception is thrown, but it can also throw SoapFaults.
      *
-     * Note that you will probably have to chunk the objects into several documents if you want to send many objects. 
+     * Note that you will probably have to chunk the objects into several documents if you want to send many objects.
      *
      * @param \DOMDocument $document
      * @return Response The response from the request

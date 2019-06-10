@@ -156,13 +156,24 @@ abstract class BaseDocument extends \DOMDocument
      * Use this instead of createElement().
      *
      * @param string $tag
-     * @param string $textContent
+     * @param string|null $textContent
+     * @param $object
+     * @param array|null $attributes
      * @return \DOMElement
      */
-    final protected function createNodeWithTextContent(string $tag, string $textContent): \DOMElement
+    final protected function createNodeWithTextContent(string $tag, ?string $textContent, $object = null, array $attributes = null): \DOMElement
     {
         $element = $this->createElement($tag);
-        $element->textContent = $textContent;
+
+        if ($textContent != null) {
+            $element->textContent = $textContent;
+        }
+
+        if (isset($object) && isset($attributes)) {
+            foreach ($attributes as $attributeName => $method) {
+                $element->setAttribute($attributeName, $object->$method());
+            }
+        }
 
         return $element;
     }
