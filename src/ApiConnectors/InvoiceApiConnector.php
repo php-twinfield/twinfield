@@ -40,7 +40,7 @@ class InvoiceApiConnector extends BaseApiConnector
         $request_invoice
             ->setCode($code)
             ->setNumber($invoiceNumber)
-            ->setOffice($office->getCode());
+            ->setOffice($office);
 
         // Send the Request document and set the response to this instance
         $response = $this->sendXmlDocument($request_invoice);

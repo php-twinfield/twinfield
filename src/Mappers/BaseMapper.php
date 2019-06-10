@@ -176,13 +176,13 @@ abstract class BaseMapper
 
             switch ($type) {
                 case "ACT":
-                    $objectClass = \PhpTwinfield\Activity::class;
+                    //$objectClass = \PhpTwinfield\Activity::class;
                     break;
                 case "AST":
-                    $objectClass = \PhpTwinfield\FixedAsset::class;
+                    //$objectClass = \PhpTwinfield\FixedAsset::class;
                     break;
                 case "BAS":
-                    $objectClass = \PhpTwinfield\GeneralLedger::class;
+                    //$objectClass = \PhpTwinfield\GeneralLedger::class;
                     break;
                 case "CRD":
                     $objectClass = \PhpTwinfield\Supplier::class;
@@ -191,13 +191,13 @@ abstract class BaseMapper
                     $objectClass = \PhpTwinfield\Customer::class;
                     break;
                 case "KPL":
-                    $objectClass = \PhpTwinfield\CostCenter::class;
+                    //$objectClass = \PhpTwinfield\CostCenter::class;
                     break;
                 case "PNL":
-                    $objectClass = \PhpTwinfield\GeneralLedger::class;
+                    //$objectClass = \PhpTwinfield\GeneralLedger::class;
                     break;
                 case "PRJ":
-                    $objectClass = \PhpTwinfield\Project::class;
+                    //$objectClass = \PhpTwinfield\Project::class;
                     break;
                 default:
                     throw new \InvalidArgumentException("parseObjectAttribute function does not accept \"{$objectClass}\" as valid input for the \$object argument");

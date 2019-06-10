@@ -37,7 +37,7 @@ class ArticleApiConnector extends BaseApiConnector
         // Make a request to read a single Article. Set the required values
         $request_article = new Request\Read\Article();
         $request_article
-            ->setOffice($office->getCode())
+            ->setOffice($office)
             ->setCode($code);
 
         // Send the Request document and set the response to this instance.
