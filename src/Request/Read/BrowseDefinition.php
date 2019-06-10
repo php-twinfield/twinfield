@@ -2,15 +2,17 @@
 
 namespace PhpTwinfield\Request\Read;
 
+use PhpTwinfield\Office;
+
 class BrowseDefinition extends Read
 {
     /**
      * Sets office and code if they are present.
      *
      * @param string $code
-     * @param $office
+     * @param Office|null $office
      */
-    public function __construct(string $code, $office = null)
+    public function __construct(string $code, ?Office $office = null)
     {
         parent::__construct();
 
@@ -23,31 +25,5 @@ class BrowseDefinition extends Read
         if (null !== $code) {
             $this->setCode($code);
         }
-    }
-
-    /**
-     * Sets the office code for this BrowseData request.
-     *
-     * @access public
-     * @param $office
-     * @return BrowseDefinition
-     */
-    public function setOffice($office)
-    {
-        $this->add('office', $office->getCode());
-        return $this;
-    }
-
-    /**
-     * Sets the code for this BrowseData request.
-     *
-     * @access public
-     * @param string $code
-     * @return BrowseDefinition
-     */
-    public function setCode($code)
-    {
-        $this->add('code', $code);
-        return $this;
     }
 }

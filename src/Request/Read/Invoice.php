@@ -1,84 +1,59 @@
 <?php
 namespace PhpTwinfield\Request\Read;
 
+use PhpTwinfield\Office;
+
 /**
- * Used to request a specific invoice from a certain
- * code, number and office.
- * 
+ * Used to request a specific Invoice from a certain
+ * code, invoice number and office.
+ *
  * @package PhpTwinfield
  * @subpackage Request\Read
  * @author Leon Rowland <leon@rowland.nl>
- * @copyright (c) 2013, Pronamic 
+ * @copyright (c) 2013, Pronamic
  * @version 0.0.1
  */
 class Invoice extends Read
 {
      /**
      * Sets the <type> to salesinvoice for the request
-     * and sets the office, code and number if they
+     * and sets the office, code and invoice number if they
      * are present.
-     * 
+     *
      * @access public
-     * @param int $office
+     * @param Office|null $office
      * @param string $code
-     * @param int $number
+     * @param int $invoiceNumber
      */
-    public function __construct($office = null, $code = null, $number = null)
+    public function __construct(?Office $office = null, $code = null, $invoiceNumber = null)
     {
         parent::__construct();
 
         $this->add('type', 'salesinvoice');
-        
+
         if (null !== $office) {
             $this->setOffice($office);
         }
-        
+
         if (null !== $code) {
             $this->setCode($code);
         }
-        
-        if (null !== $number) {
-            $this->setNumber($number);
+
+        if (null !== $invoiceNumber) {
+            $this->setInvoiceNumber($invoiceNumber);
         }
     }
 
-     /**
-     * Sets the office code for this salesinvoice
-     * request. It is an optional field.
-     * 
-     * @access public
-     * @param $office
-     * @return \PhpTwinfield\Request\Read\Invoice
-     */
-    public function setOffice($office)
-    {
-        $this->add('office', $office);
-        return $this;
-    }
-
-     /**
-     * Sets the code for this salesinvoice request.
+    /**
+     * Sets the invoice number for this request.
      *
      * @access public
-     * @param string $code
+     * @param string $invoiceNumber
      * @return \PhpTwinfield\Request\Read\Invoice
      */
-    public function setCode($code)
+    public function setInvoiceNumber($invoiceNumber)
     {
-        $this->add('code', $code);
-        return $this;
-    }
-
-     /**
-     * Sets the invoicenumber for this request.
-     * 
-     * @access public
-     * @param int $number
-     * @return \PhpTwinfield\Request\Read\Invoice
-     */
-    public function setNumber($number)
-    {
-        $this->add('invoicenumber', $number);
+        $this->add('invoicenumber', $invoiceNumber);
         return $this;
     }
 }

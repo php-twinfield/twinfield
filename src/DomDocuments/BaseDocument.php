@@ -158,10 +158,10 @@ abstract class BaseDocument extends \DOMDocument
      * @param string $tag
      * @param string|null $textContent
      * @param $object
-     * @param array|null $attributes
+     * @param array $methodToAttributeMap
      * @return \DOMElement
      */
-    final protected function createNodeWithTextContent(string $tag, ?string $textContent, $object = null, array $attributes = null): \DOMElement
+    final protected function createNodeWithTextContent(string $tag, ?string $textContent, $object = null, array $methodToAttributeMap = []): \DOMElement
     {
         $element = $this->createElement($tag);
 
@@ -169,8 +169,8 @@ abstract class BaseDocument extends \DOMDocument
             $element->textContent = $textContent;
         }
 
-        if (isset($object) && isset($attributes)) {
-            foreach ($attributes as $attributeName => $method) {
+        if (isset($object)) {
+            foreach ($methodToAttributeMap as $attributeName => $method) {
                 $element->setAttribute($attributeName, $object->$method());
             }
         }
