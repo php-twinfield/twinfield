@@ -63,7 +63,7 @@ abstract class Read extends \DOMDocument
      * Sets the office code for this request.
      *
      * @access public
-     * @param int $office
+     * @param $office
      * @return \PhpTwinfield\Request\Read\Read
      */
     public function setOffice($office)

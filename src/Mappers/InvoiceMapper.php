@@ -44,19 +44,19 @@ class InvoiceMapper extends BaseMapper
         $invoice->setBank(self::parseObjectAttribute('CashBankBook', $invoice, $invoiceElement, 'bank'))
             ->setCurrency(self::parseObjectAttribute('Currency', $invoice, $invoiceElement, 'currency'))
             ->setCustomer(self::parseObjectAttribute('Customer', $invoice, $invoiceElement, 'customer'))
-            ->setDeliverAddressNumber(self::getField($invoice, $invoiceElement, 'deliveraddressnumber'))
-            ->setDueDate(self::parseDateAttribute(self::getField($invoice, $invoiceElement, 'duedate')))
-            ->setFooterText(self::getField($invoice, $invoiceElement, 'footertext'))
-            ->setHeaderText(self::getField($invoice, $invoiceElement, 'headertext'))
-            ->setInvoiceAddressNumber(self::getField($invoice, $invoiceElement, 'invoiceaddressnumber'))
-            ->setInvoiceDate(self::parseDateAttribute(self::getField($invoice, $invoiceElement, 'invoicedate')))
-            ->setInvoiceNumber(self::getField($invoice, $invoiceElement, 'invoicenumber'))
+            ->setDeliverAddressNumber(self::getField($invoiceElement, 'deliveraddressnumber', $invoice))
+            ->setDueDate(self::parseDateAttribute(self::getField($invoiceElement, 'duedate', $invoice)))
+            ->setFooterText(self::getField($invoiceElement, 'footertext', $invoice))
+            ->setHeaderText(self::getField($invoiceElement, 'headertext', $invoice))
+            ->setInvoiceAddressNumber(self::getField($invoiceElement, 'invoiceaddressnumber', $invoice))
+            ->setInvoiceDate(self::parseDateAttribute(self::getField($invoiceElement, 'invoicedate', $invoice)))
+            ->setInvoiceNumber(self::getField($invoiceElement, 'invoicenumber', $invoice))
             ->setInvoiceType(self::parseObjectAttribute('InvoiceType', $invoice, $invoiceElement, 'invoicetype'))
             ->setOffice(self::parseObjectAttribute('Office', $invoice, $invoiceElement, 'office'))
-            ->setPaymentMethod(self::parseEnumAttribute('PaymentMethod', self::getField($invoice, $invoiceElement, 'paymentmethod')))
-            ->setPeriod(self::getField($invoice, $invoiceElement, 'period'))
-            ->setPerformanceDate(self::parseDateAttribute(self::getField($invoice, $invoiceElement, 'performancedate')))
-            ->setStatus(self::parseEnumAttribute('InvoiceStatus', self::getField($invoice, $invoiceElement, 'status')));
+            ->setPaymentMethod(self::parseEnumAttribute('PaymentMethod', self::getField($invoiceElement, 'paymentmethod', $invoice)))
+            ->setPeriod(self::getField($invoiceElement, 'period', $invoice))
+            ->setPerformanceDate(self::parseDateAttribute(self::getField($invoiceElement, 'performancedate', $invoice)))
+            ->setStatus(self::parseEnumAttribute('InvoiceStatus', self::getField($invoiceElement, 'status', $invoice)));
 
         // Get the totals element
         $totalsElement = $responseDOM->getElementsByTagName('totals')->item(0);
@@ -66,8 +66,8 @@ class InvoiceMapper extends BaseMapper
             $invoiceTotals = new InvoiceTotals();
 
             // Set the invoice totals elements from the totals element
-            $invoiceTotals->setValueExcl(self::parseMoneyAttribute(self::getField($invoiceTotals, $totalsElement, 'valueexcl')))
-                ->setValueInc(self::parseMoneyAttribute(self::getField($invoiceTotals, $totalsElement, 'valueinc')));
+            $invoiceTotals->setValueExcl(self::parseMoneyAttribute(self::getField($totalsElement, 'valueexcl', $invoiceTotals)))
+                ->setValueInc(self::parseMoneyAttribute(self::getField($totalsElement, 'valueinc', $invoiceTotals)));
 
             // Set the custom class to the invoice
             $invoice->setTotals($invoiceTotals);
@@ -90,24 +90,24 @@ class InvoiceMapper extends BaseMapper
                 $invoiceLine->setID($lineElement->getAttribute('id'));
 
                 // Set the invoice line elements from the line element
-                $invoiceLine->setAllowDiscountOrPremium(self::parseBooleanAttribute(self::getField($invoiceLine, $lineElement, 'allowdiscountorpremium')))
+                $invoiceLine->setAllowDiscountOrPremium(self::parseBooleanAttribute(self::getField($lineElement, 'allowdiscountorpremium', $invoiceLine)))
                     ->setArticle(self::parseObjectAttribute('Article', $invoiceLine, $lineElement, 'article'))
-                    ->setDescription(self::getField($invoiceLine, $lineElement, 'description'))
+                    ->setDescription(self::getField($lineElement, 'description', $invoiceLine))
                     ->setDim1(self::parseObjectAttribute('GeneralLedger', $invoiceLine, $lineElement, 'dim1'))
-                    ->setFreeText1(self::getField($invoiceLine, $lineElement, 'freetext1'))
-                    ->setFreeText2(self::getField($invoiceLine, $lineElement, 'freetext2'))
-                    ->setFreeText3(self::getField($invoiceLine, $lineElement, 'freetext3'))
-                    ->setPerformanceDate(self::parseDateAttribute(self::getField($invoiceLine, $lineElement, 'performancedate')))
-                    ->setPerformanceType(self::parseEnumAttribute('PerformanceType', self::getField($invoiceLine, $lineElement, 'performancetype')))
-                    ->setQuantity(self::getField($invoiceLine, $lineElement, 'quantity'))
-                    ->setSubArticleFromString(self::getField($invoiceLine, $lineElement, 'subarticle'))
-                    ->setUnits(self::getField($invoiceLine, $lineElement, 'units'))
-                    ->setUnitsPriceExcl(self::parseMoneyAttribute(self::getField($invoiceLine, $lineElement, 'unitspriceexcl')))
-                    ->setUnitsPriceInc(self::parseMoneyAttribute(self::getField($invoiceLine, $lineElement, 'unitspriceinc')))
-                    ->setValueExcl(self::parseMoneyAttribute(self::getField($invoiceLine, $lineElement, 'valueexcl')))
-                    ->setValueInc(self::parseMoneyAttribute(self::getField($invoiceLine, $lineElement, 'valueinc')))
+                    ->setFreeText1(self::getField($lineElement, 'freetext1', $invoiceLine))
+                    ->setFreeText2(self::getField($lineElement, 'freetext2', $invoiceLine))
+                    ->setFreeText3(self::getField($lineElement, 'freetext3', $invoiceLine))
+                    ->setPerformanceDate(self::parseDateAttribute(self::getField($lineElement, 'performancedate', $invoiceLine)))
+                    ->setPerformanceType(self::parseEnumAttribute('PerformanceType', self::getField($lineElement, 'performancetype', $invoiceLine)))
+                    ->setQuantity(self::getField($lineElement, 'quantity', $invoiceLine))
+                    ->setSubArticleFromString(self::getField($lineElement, 'subarticle', $invoiceLine))
+                    ->setUnits(self::getField($lineElement, 'units', $invoiceLine))
+                    ->setUnitsPriceExcl(self::parseMoneyAttribute(self::getField($lineElement, 'unitspriceexcl', $invoiceLine)))
+                    ->setUnitsPriceInc(self::parseMoneyAttribute(self::getField($lineElement, 'unitspriceinc', $invoiceLine)))
+                    ->setValueExcl(self::parseMoneyAttribute(self::getField($lineElement, 'valueexcl', $invoiceLine)))
+                    ->setValueInc(self::parseMoneyAttribute(self::getField($lineElement, 'valueinc', $invoiceLine)))
                     ->setVatCode(self::parseObjectAttribute('VatCode', $invoiceLine, $lineElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
-                    ->setVatValue(self::parseMoneyAttribute(self::getField($invoiceLine, $lineElement, 'vatvalue')));
+                    ->setVatValue(self::parseMoneyAttribute(self::getField($lineElement, 'vatvalue', $invoiceLine)));
 
                 // Set the custom class to the invoice
                 $invoice->addLine($invoiceLine);
@@ -128,10 +128,10 @@ class InvoiceMapper extends BaseMapper
                 $invoiceVatLine = new InvoiceVatLine();
 
                 // Set the invoice vat line elements from the vat line element
-                $invoiceVatLine->setPerformanceDate(self::parseDateAttribute(self::getField($invoiceVatLine, $vatlineElement, 'performancedate')))
-                    ->setPerformanceType(self::parseEnumAttribute('PerformanceType', self::getField($invoiceVatLine, $vatlineElement, 'performancetype')))
+                $invoiceVatLine->setPerformanceDate(self::parseDateAttribute(self::getField($vatlineElement, 'performancedate', $invoiceVatLine)))
+                    ->setPerformanceType(self::parseEnumAttribute('PerformanceType', self::getField($vatlineElement, 'performancetype', $invoiceVatLine)))
                     ->setVatCode(self::parseObjectAttribute('VatCode', $invoiceVatLine, $vatlineElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
-                    ->setVatValue(self::parseMoneyAttribute(self::getField($invoiceVatLine, $vatlineElement, 'vatvalue')));
+                    ->setVatValue(self::parseMoneyAttribute(self::getField($vatlineElement, 'vatvalue', $invoiceVatLine)));
 
                 // Set the custom class to the invoice
                 $invoice->addVatLine($invoiceVatLine);
@@ -143,8 +143,8 @@ class InvoiceMapper extends BaseMapper
 
         if ($financialsElement !== null) {
             // Set the invoice elements from the financials element
-            $invoice->setFinancialCode(self::getField($invoice, $financialsElement, 'code'))
-                ->setFinancialNumber(self::getField($invoice, $financialsElement, 'number'));
+            $invoice->setFinancialCode(self::getField($financialsElement, 'code', $invoice))
+                ->setFinancialNumber(self::getField($financialsElement, 'number', $invoice));
         }
 
         //Return the complete object

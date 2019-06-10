@@ -46,21 +46,21 @@ class CustomerMapper extends BaseMapper
             ->setStatus(self::parseEnumAttribute('Status', $customerElement->getAttribute('status')));
 
         // Set the customer elements from the customer element
-        $customer->setBeginPeriod(self::getField($customer, $customerElement, 'beginperiod'))
-            ->setBeginYear(self::getField($customer, $customerElement, 'beginyear'))
-            ->setBehaviour(self::parseEnumAttribute('Behaviour', self::getField($customer, $customerElement, 'behaviour')))
+        $customer->setBeginPeriod(self::getField($customerElement, 'beginperiod', $customer))
+            ->setBeginYear(self::getField($customerElement, 'beginyear', $customer))
+            ->setBehaviour(self::parseEnumAttribute('Behaviour', self::getField($customerElement, 'behaviour', $customer)))
             ->setDiscountArticle(self::parseObjectAttribute('Article', $customer, $customerElement, 'discountarticle', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setCode(self::getField($customer, $customerElement, 'code'))
-            ->setEndPeriod(self::getField($customer, $customerElement, 'endperiod'))
-            ->setEndYear(self::getField($customer, $customerElement, 'endyear'))
+            ->setCode(self::getField($customerElement, 'code', $customer))
+            ->setEndPeriod(self::getField($customerElement, 'endperiod', $customer))
+            ->setEndYear(self::getField($customerElement, 'endyear', $customer))
             ->setGroup(self::parseObjectAttribute('DimensionGroup', $customer, $customerElement, 'group', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setInUse(self::parseBooleanAttribute(self::getField($customer, $customerElement, 'name')))
-            ->setName(self::getField($customer, $customerElement, 'name'))
+            ->setInUse(self::parseBooleanAttribute(self::getField($customerElement, 'name', $customer)))
+            ->setName(self::getField($customerElement, 'name', $customer))
             ->setOffice(self::parseObjectAttribute('Office', $customer, $customerElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setTouched(self::getField($customer, $customerElement, 'touched'))
+            ->setTouched(self::getField($customerElement, 'touched', $customer))
             ->setType(self::parseObjectAttribute('DimensionType', $customer, $customerElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setUID(self::getField($customer, $customerElement, 'uid'))
-            ->setWebsite(self::getField($customer, $customerElement, 'website'));
+            ->setUID(self::getField($customerElement, 'uid', $customer))
+            ->setWebsite(self::getField($customerElement, 'website', $customer));
 
         // Set the customer elements from the customer element attributes
         $customer->setDiscountArticleID(self::getAttribute($customerElement, 'discountarticle', 'id'));
@@ -73,18 +73,18 @@ class CustomerMapper extends BaseMapper
             $customerFinancials = new CustomerFinancials();
 
             // Set the financials elements from the financials element
-            $customerFinancials->setAccountType(self::parseEnumAttribute('AccountType', self::getField($customerFinancials, $financialsElement, 'accounttype')))
-                ->setCollectionSchema(self::parseEnumAttribute('CollectionSchema', self::getField($customerFinancials, $financialsElement, 'collectionschema')))
-                ->setDueDays(self::getField($customerFinancials, $financialsElement, 'duedays'))
-                ->setEBilling(self::parseBooleanAttribute(self::getField($customerFinancials, $financialsElement, 'ebilling')))
-                ->setEBillMail(self::getField($customerFinancials, $financialsElement, 'ebillmail'))
-                ->setLevel(self::getField($customerFinancials, $financialsElement, 'level'))
-                ->setMatchType(self::parseEnumAttribute('MatchType', self::getField($customerFinancials, $financialsElement, 'matchtype')))
-                ->setMeansOfPayment(self::parseEnumAttribute('MeansOfPayment', self::getField($customerFinancials, $financialsElement, 'meansofpayment')))
-                ->setPayAvailable(self::parseBooleanAttribute(self::getField($customerFinancials, $financialsElement, 'payavailable')))
+            $customerFinancials->setAccountType(self::parseEnumAttribute('AccountType', self::getField($financialsElement, 'accounttype', $customerFinancials)))
+                ->setCollectionSchema(self::parseEnumAttribute('CollectionSchema', self::getField($financialsElement, 'collectionschema', $customerFinancials)))
+                ->setDueDays(self::getField($financialsElement, 'duedays', $customerFinancials))
+                ->setEBilling(self::parseBooleanAttribute(self::getField($financialsElement, 'ebilling', $customerFinancials)))
+                ->setEBillMail(self::getField($financialsElement, 'ebillmail', $customerFinancials))
+                ->setLevel(self::getField($financialsElement, 'level', $customerFinancials))
+                ->setMatchType(self::parseEnumAttribute('MatchType', self::getField($financialsElement, 'matchtype', $customerFinancials)))
+                ->setMeansOfPayment(self::parseEnumAttribute('MeansOfPayment', self::getField($financialsElement, 'meansofpayment', $customerFinancials)))
+                ->setPayAvailable(self::parseBooleanAttribute(self::getField($financialsElement, 'payavailable', $customerFinancials)))
                 ->setPayCode(self::parseObjectAttribute('PayCode', $customerFinancials, $financialsElement, 'paycode', array('name' => 'setName', 'shortname' => 'setShortName')))
-                ->setSubAnalyse(self::parseEnumAttribute('SubAnalyse', self::getField($customerFinancials, $financialsElement, 'subanalyse')))
-                ->setSubstitutionLevel(self::getField($customerFinancials, $financialsElement, 'substitutionlevel'))
+                ->setSubAnalyse(self::parseEnumAttribute('SubAnalyse', self::getField($financialsElement, 'subanalyse', $customerFinancials)))
+                ->setSubstitutionLevel(self::getField($financialsElement, 'substitutionlevel', $customerFinancials))
                 ->setSubstituteWith(self::parseObjectAttribute('UnknownDimension', $customerFinancials, $financialsElement, 'substitutewith', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                 ->setVatCode(self::parseObjectAttribute('VatCode', $customerFinancials, $financialsElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
 
@@ -101,9 +101,9 @@ class CustomerMapper extends BaseMapper
                 $customerCollectMandate = new CustomerCollectMandate();
 
                 // Set the collect mandate elements from the collect mandate element
-                $customerCollectMandate->setFirstRunDate(self::parseDateAttribute(self::getField($customerCollectMandate, $collectMandateElement, 'firstrundate')))
-                    ->setID(self::getField($customerCollectMandate, $collectMandateElement, 'id'))
-                    ->setSignatureDate(self::parseDateAttribute(self::getField($customerCollectMandate, $collectMandateElement, 'signaturedate')));
+                $customerCollectMandate->setFirstRunDate(self::parseDateAttribute(self::getField($collectMandateElement, 'firstrundate', $customerCollectMandate)))
+                    ->setID(self::getField($collectMandateElement, 'id', $customerCollectMandate))
+                    ->setSignatureDate(self::parseDateAttribute(self::getField($collectMandateElement, 'signaturedate', $customerCollectMandate)));
 
                 // Add the collect mandate element to the customer financials class
                 $customerFinancials->setCollectMandate($customerCollectMandate);
@@ -150,15 +150,15 @@ class CustomerMapper extends BaseMapper
             $customerCreditManagement = new CustomerCreditManagement();
 
             // Set the customer credit management elements from the creditmanagement element
-            $customerCreditManagement->setBaseCreditLimit(self::parseMoneyAttribute(self::getField($customerCreditManagement, $creditManagementElement, 'basecreditlimit')))
-                ->setBlocked(self::parseBooleanAttribute(self::getField($customerCreditManagement, $creditManagementElement, 'blocked')))
-                ->setComment(self::getField($customerCreditManagement, $creditManagementElement, 'comment'))
-                ->setFreeText1(self::parseBooleanAttribute(self::getField($customerCreditManagement, $creditManagementElement, 'freetext1')))
-                ->setFreeText2(self::getField($customerCreditManagement, $creditManagementElement, 'freetext2'))
-                ->setFreeText3(self::getField($customerCreditManagement, $creditManagementElement, 'freetext3'))
-                ->setReminderEmail(self::getField($customerCreditManagement, $creditManagementElement, 'reminderemail'))
+            $customerCreditManagement->setBaseCreditLimit(self::parseMoneyAttribute(self::getField($creditManagementElement, 'basecreditlimit', $customerCreditManagement)))
+                ->setBlocked(self::parseBooleanAttribute(self::getField($creditManagementElement, 'blocked', $customerCreditManagement)))
+                ->setComment(self::getField($creditManagementElement, 'comment', $customerCreditManagement))
+                ->setFreeText1(self::parseBooleanAttribute(self::getField($creditManagementElement, 'freetext1', $customerCreditManagement)))
+                ->setFreeText2(self::getField($creditManagementElement, 'freetext2', $customerCreditManagement))
+                ->setFreeText3(self::getField($creditManagementElement, 'freetext3', $customerCreditManagement))
+                ->setReminderEmail(self::getField($creditManagementElement, 'reminderemail', $customerCreditManagement))
                 ->setResponsibleUser(self::parseObjectAttribute('User', $customerCreditManagement, $creditManagementElement, 'responsibleuser', array('name' => 'setName', 'shortname' => 'setShortName')))
-                ->setSendReminder(self::parseEnumAttribute('SendReminder', self::getField($customerCreditManagement, $creditManagementElement, 'sendreminder')));
+                ->setSendReminder(self::parseEnumAttribute('SendReminder', self::getField($creditManagementElement, 'sendreminder', $customerCreditManagement)));
 
             // Set the customer credit management elements from the creditmanagement element attributes
             $customerCreditManagement->setBlockedLocked(self::parseBooleanAttribute(self::getAttribute($creditManagementElement, 'blocked', 'locked')))
@@ -173,8 +173,8 @@ class CustomerMapper extends BaseMapper
 
         if ($remittanceAdviceElement !== null) {
             // Set the customer elements from the remittanceadvice element
-            $customer->setRemittanceAdviceSendType(self::parseEnumAttribute('RemittanceAdviceSendType', self::getField($customer, $remittanceAdviceElement, 'sendtype')))
-                ->setRemittanceAdviceSendMail(self::getField($customer, $remittanceAdviceElement, 'sendmail'));
+            $customer->setRemittanceAdviceSendType(self::parseEnumAttribute('RemittanceAdviceSendType', self::getField($remittanceAdviceElement, 'sendtype', $customer)))
+                ->setRemittanceAdviceSendMail(self::getField($remittanceAdviceElement, 'sendmail', $customer));
         }
 
         // Get the addresses element
@@ -196,19 +196,19 @@ class CustomerMapper extends BaseMapper
                     ->setType(self::parseEnumAttribute('AddressType', $addressElement->getAttribute('type')));
 
                 // Set the address elements from the address element
-                $customerAddress->setCity(self::getField($customerAddress, $addressElement, 'city'))
+                $customerAddress->setCity(self::getField($addressElement, 'city', $customerAddress))
                     ->setCountry(self::parseObjectAttribute('Country', $customerAddress, $addressElement, 'country', array('name' => 'setName', 'shortname' => 'setShortName')))
-                    ->setEmail(self::getField($customerAddress, $addressElement, 'email'))
-                    ->setField1(self::getField($customerAddress, $addressElement, 'field1'))
-                    ->setField2(self::getField($customerAddress, $addressElement, 'field2'))
-                    ->setField3(self::getField($customerAddress, $addressElement, 'field3'))
-                    ->setField4(self::getField($customerAddress, $addressElement, 'field4'))
-                    ->setField5(self::getField($customerAddress, $addressElement, 'field5'))
-                    ->setField6(self::getField($customerAddress, $addressElement, 'field6'))
-                    ->setName(self::getField($customerAddress, $addressElement, 'name'))
-                    ->setPostcode(self::getField($customerAddress, $addressElement, 'postcode'))
-                    ->setTelephone(self::getField($customerAddress, $addressElement, 'telephone'))
-                    ->setTelefax(self::getField($customerAddress, $addressElement, 'telefax'));
+                    ->setEmail(self::getField($addressElement, 'email', $customerAddress))
+                    ->setField1(self::getField($addressElement, 'field1', $customerAddress))
+                    ->setField2(self::getField($addressElement, 'field2', $customerAddress))
+                    ->setField3(self::getField($addressElement, 'field3', $customerAddress))
+                    ->setField4(self::getField($addressElement, 'field4', $customerAddress))
+                    ->setField5(self::getField($addressElement, 'field5', $customerAddress))
+                    ->setField6(self::getField($addressElement, 'field6', $customerAddress))
+                    ->setName(self::getField($addressElement, 'name', $customerAddress))
+                    ->setPostcode(self::getField($addressElement, 'postcode', $customerAddress))
+                    ->setTelephone(self::getField($addressElement, 'telephone', $customerAddress))
+                    ->setTelefax(self::getField($addressElement, 'telefax', $customerAddress));
 
                 // Add the address to the customer
                 $customer->addAddress($customerAddress);
@@ -237,18 +237,18 @@ class CustomerMapper extends BaseMapper
                     ->setID($bankElement->getAttribute('id'));
 
                 // Set the bank elements from the bank element
-                $customerBank->setAccountNumber(self::getField($customerBank, $bankElement, 'accountnumber'))
-                    ->setAddressField2(self::getField($customerBank, $bankElement, 'field2'))
-                    ->setAddressField3(self::getField($customerBank, $bankElement, 'field3'))
-                    ->setAscription(self::getField($customerBank, $bankElement, 'ascription'))
-                    ->setBankName(self::getField($customerBank, $bankElement, 'bankname'))
-                    ->setBicCode(self::getField($customerBank, $bankElement, 'biccode'))
-                    ->setCity(self::getField($customerBank, $bankElement, 'city'))
+                $customerBank->setAccountNumber(self::getField($bankElement, 'accountnumber', $customerBank))
+                    ->setAddressField2(self::getField($bankElement, 'field2', $customerBank))
+                    ->setAddressField3(self::getField($bankElement, 'field3', $customerBank))
+                    ->setAscription(self::getField($bankElement, 'ascription', $customerBank))
+                    ->setBankName(self::getField($bankElement, 'bankname', $customerBank))
+                    ->setBicCode(self::getField($bankElement, 'biccode', $customerBank))
+                    ->setCity(self::getField($bankElement, 'city', $customerBank))
                     ->setCountry(self::parseObjectAttribute('Country', $customerBank, $bankElement, 'country', array('name' => 'setName', 'shortname' => 'setShortName')))
-                    ->setIban(self::getField($customerBank, $bankElement, 'iban'))
-                    ->setNatBicCode(self::getField($customerBank, $bankElement, 'natbiccode'))
-                    ->setPostcode(self::getField($customerBank, $bankElement, 'postcode'))
-                    ->setState(self::getField($customerBank, $bankElement, 'state'));
+                    ->setIban(self::getField($bankElement, 'iban', $customerBank))
+                    ->setNatBicCode(self::getField($bankElement, 'natbiccode', $customerBank))
+                    ->setPostcode(self::getField($bankElement, 'postcode', $customerBank))
+                    ->setState(self::getField($bankElement, 'state', $customerBank));
 
                 // Add the bank to the customer
                 $customer->addBank($customerBank);
@@ -276,9 +276,9 @@ class CustomerMapper extends BaseMapper
                     ->setStatus(self::parseEnumAttribute('Status', $postingruleElement->getAttribute('status')));
 
                 // Set the postingrule elements from the postingrule element
-                $customerPostingRule->setAmount(self::parseMoneyAttribute(self::getField($customerPostingRule, $postingruleElement, 'amount')))
+                $customerPostingRule->setAmount(self::parseMoneyAttribute(self::getField($postingruleElement, 'amount', $customerPostingRule)))
                     ->setCurrency(self::parseObjectAttribute('Currency', $customerPostingRule, $postingruleElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
-                    ->setDescription(self::getField($customerPostingRule, $postingruleElement, 'description'));
+                    ->setDescription(self::getField($postingruleElement, 'description', $customerPostingRule));
 
                 // Get the lines element
                 $linesDOMTag = $postingruleElement->getElementsByTagName('lines');
@@ -294,12 +294,12 @@ class CustomerMapper extends BaseMapper
                         $customerLine = new CustomerLine();
 
                         // Set the line elements from the line element
-                        $customerLine->setDescription(self::getField($customerLine, $lineElement, 'description'))
+                        $customerLine->setDescription(self::getField($lineElement, 'description', $customerLine))
                             ->setDimension1(self::parseObjectAttribute('GeneralLedger', $customerLine, $lineElement, 'dimension1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                             ->setDimension2(self::parseObjectAttribute('CostCenter', $customerLine, $lineElement, 'dimension2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                             ->setDimension3(self::parseObjectAttribute('UnknownDimension', $customerLine, $lineElement, 'dimension3', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                             ->setOffice(self::parseObjectAttribute('Office', $customerLine, $lineElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
-                            ->setRatio(self::getField($customerLine, $lineElement, 'ratio'))
+                            ->setRatio(self::getField($lineElement, 'ratio', $customerLine))
                             ->setVatCode(self::parseObjectAttribute('VatCode', $customerLine, $lineElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
 
                         // Set the line elements from the line element attributes
@@ -328,8 +328,8 @@ class CustomerMapper extends BaseMapper
 
         if ($paymentConditionsElement !== null) {
             // Set the customer elements from the paymentconditions element
-            $customer->setPaymentConditionDiscountDays(self::getField($customer, $paymentConditionsElement, 'discountdays'))
-                ->setPaymentConditionDiscountPercentage(self::getField($customer, $paymentConditionsElement, 'discountpercentage'));
+            $customer->setPaymentConditionDiscountDays(self::getField($paymentConditionsElement, 'discountdays', $customer))
+                ->setPaymentConditionDiscountPercentage(self::getField($paymentConditionsElement, 'discountpercentage', $customer));
         }
 
         // Return the complete object

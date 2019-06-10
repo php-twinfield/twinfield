@@ -33,9 +33,9 @@ class MatchSetMapper extends BaseMapper
 
         $matchSet = new MatchSet();
 
-        $matchSet->setOffice(Office::fromCode(self::getField(null, $MatchSetElement, "office")));
-        $matchSet->setMatchCode(new MatchCode(self::getField(null, $MatchSetElement, "matchcode")));
-        $matchSet->setMatchDate(\DateTimeImmutable::createFromFormat("Ymd", self::getField(null, $MatchSetElement, "matchdate")));
+        $matchSet->setOffice(Office::fromCode(self::getField($MatchSetElement, "office")));
+        $matchSet->setMatchCode(new MatchCode(self::getField($MatchSetElement, "matchcode")));
+        $matchSet->setMatchDate(\DateTimeImmutable::createFromFormat("Ymd", self::getField($MatchSetElement, "matchdate")));
 
         return $matchSet;
     }
@@ -57,15 +57,15 @@ class MatchSetMapper extends BaseMapper
     private static function getMatchReferenceFrom(\DOMElement $lineElement, Office $office): MatchReferenceInterface {
         return new MatchReference(
             $office,
-            self::getField(null, $lineElement, 'transcode'),
-            self::getField(null, $lineElement, 'transnumber'),
-            self::getField(null, $lineElement, 'transline')
+            self::getField($lineElement, 'transcode'),
+            self::getField($lineElement, 'transnumber'),
+            self::getField($lineElement, 'transline')
         );
     }
 
     private static function getMatchValueFrom(\DOMElement $lineElement): ?Money
     {
-        $matchValue = self::getField(null, $lineElement, 'matchvalue');
+        $matchValue = self::getField($lineElement, 'matchvalue');
 
         if ($matchValue === null) {
             return null;

@@ -39,14 +39,14 @@ class CostCenterMapper extends BaseMapper
             ->setStatus(self::parseEnumAttribute('Status', $costCenterElement->getAttribute('status')));
 
         // Set the cost center elements from the cost center element
-        $costCenter->setBehaviour(self::parseEnumAttribute('Behaviour', self::getField($costCenter, $costCenterElement, 'behaviour')))
-            ->setCode(self::getField($costCenter, $costCenterElement, 'code'))
-            ->setInUse(self::parseBooleanAttribute(self::getField($costCenter, $costCenterElement, 'name')))
-            ->setName(self::getField($costCenter, $costCenterElement, 'name'))
+        $costCenter->setBehaviour(self::parseEnumAttribute('Behaviour', self::getField($costCenterElement, 'behaviour', $costCenter)))
+            ->setCode(self::getField($costCenterElement, 'code', $costCenter))
+            ->setInUse(self::parseBooleanAttribute(self::getField($costCenterElement, 'name', $costCenter)))
+            ->setName(self::getField($costCenterElement, 'name', $costCenter))
             ->setOffice(self::parseObjectAttribute('Office', $costCenter, $costCenterElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setTouched(self::getField($costCenter, $costCenterElement, 'touched'))
+            ->setTouched(self::getField($costCenterElement, 'touched', $costCenter))
             ->setType(self::parseObjectAttribute('DimensionType', $costCenter, $costCenterElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setUID(self::getField($costCenter, $costCenterElement, 'uid'));
+            ->setUID(self::getField($costCenterElement, 'uid', $costCenter));
 
         // Return the complete object
         return $costCenter;

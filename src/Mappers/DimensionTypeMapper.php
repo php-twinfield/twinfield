@@ -41,11 +41,11 @@ class DimensionTypeMapper extends BaseMapper
             ->setStatus(self::parseEnumAttribute('Status', $dimensiontypeElement->getAttribute('status')));
 
         // Set the dimension type elements from the dimension type element
-        $dimensiontype->setCode(self::getField($dimensiontype, $dimensiontypeElement, 'code'))
-            ->setMask(self::getField($dimensiontype, $dimensiontypeElement, 'mask'))
-            ->setName(self::getField($dimensiontype, $dimensiontypeElement, 'name'))
+        $dimensiontype->setCode(self::getField($dimensiontypeElement, 'code', $dimensiontype))
+            ->setMask(self::getField($dimensiontypeElement, 'mask', $dimensiontype))
+            ->setName(self::getField($dimensiontypeElement, 'name', $dimensiontype))
             ->setOffice(self::parseObjectAttribute('Office', $dimensiontype, $dimensiontypeElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setShortName(self::getField($dimensiontype, $dimensiontypeElement, 'shortname'));
+            ->setShortName(self::getField($dimensiontypeElement, 'shortname', $dimensiontype));
 
         // Get the levels element
         $levelsElement = $responseDOM->getElementsByTagName('levels')->item(0);
@@ -55,8 +55,8 @@ class DimensionTypeMapper extends BaseMapper
             $dimensionTypeLevels = new DimensionTypeLevels();
 
             // Set the dimension type levels elements from the levels element
-            $dimensionTypeLevels->setFinancials(self::getField($dimensionTypeLevels, $levelsElement, 'financials'))
-                ->setTime(self::getField($dimensionTypeLevels, $levelsElement, 'time'));
+            $dimensionTypeLevels->setFinancials(self::getField($levelsElement, 'financials', $dimensionTypeLevels))
+                ->setTime(self::getField($levelsElement, 'time', $dimensionTypeLevels));
 
             // Set the custom class to the dimension type
             $dimensiontype->setLevels($dimensionTypeLevels);
@@ -70,12 +70,12 @@ class DimensionTypeMapper extends BaseMapper
             $dimensionTypeAddress = new DimensionTypeAddress();
 
             // Set the dimension type address elements from the address element
-            $dimensionTypeAddress->setLabel1(self::getField($dimensionTypeAddress, $addressElement, 'label1'))
-                ->setLabel2(self::getField($dimensionTypeAddress, $addressElement, 'label2'))
-                ->setLabel3(self::getField($dimensionTypeAddress, $addressElement, 'label3'))
-                ->setLabel4(self::getField($dimensionTypeAddress, $addressElement, 'label4'))
-                ->setLabel5(self::getField($dimensionTypeAddress, $addressElement, 'label5'))
-                ->setLabel6(self::getField($dimensionTypeAddress, $addressElement, 'label6'));
+            $dimensionTypeAddress->setLabel1(self::getField($addressElement, 'label1', $dimensionTypeAddress))
+                ->setLabel2(self::getField($addressElement, 'label2', $dimensionTypeAddress))
+                ->setLabel3(self::getField($addressElement, 'label3', $dimensionTypeAddress))
+                ->setLabel4(self::getField($addressElement, 'label4', $dimensionTypeAddress))
+                ->setLabel5(self::getField($addressElement, 'label5', $dimensionTypeAddress))
+                ->setLabel6(self::getField($addressElement, 'label6', $dimensionTypeAddress));
 
             // Set the custom class to the dimensiontype
             $dimensiontype->setAddress($dimensionTypeAddress);

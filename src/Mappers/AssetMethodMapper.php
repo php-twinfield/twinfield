@@ -43,17 +43,17 @@ class AssetMethodMapper extends BaseMapper
             ->setStatus(self::parseEnumAttribute('Status', $assetmethodElement->getAttribute('status')));
 
         // Set the asset method elements from the asset method element
-        $assetmethod->setCalcMethod(self::parseEnumAttribute('CalcMethod', self::getField($assetmethod, $assetmethodElement, 'calcmethod')))
-            ->setCode(self::getField($assetmethod, $assetmethodElement, 'code'))
-            ->setCreated(self::parseDateTimeAttribute(self::getField($assetmethod, $assetmethodElement, 'created')))
-            ->setDepreciateReconciliation(self::parseEnumAttribute('DepreciateReconciliation', self::getField($assetmethod, $assetmethodElement, 'depreciatereconciliation')))
-            ->setModified(self::parseDateTimeAttribute(self::getField($assetmethod, $assetmethodElement, 'modified')))
-            ->setName(self::getField($assetmethod, $assetmethodElement, 'name'))
-            ->setNrOfPeriods(self::getField($assetmethod, $assetmethodElement, 'nrofperiods'))
+        $assetmethod->setCalcMethod(self::parseEnumAttribute('CalcMethod', self::getField($assetmethodElement, 'calcmethod', $assetmethod)))
+            ->setCode(self::getField($assetmethodElement, 'code', $assetmethod))
+            ->setCreated(self::parseDateTimeAttribute(self::getField($assetmethodElement, 'created', $assetmethod)))
+            ->setDepreciateReconciliation(self::parseEnumAttribute('DepreciateReconciliation', self::getField($assetmethodElement, 'depreciatereconciliation', $assetmethod)))
+            ->setModified(self::parseDateTimeAttribute(self::getField($assetmethodElement, 'modified', $assetmethod)))
+            ->setName(self::getField($assetmethodElement, 'name', $assetmethod))
+            ->setNrOfPeriods(self::getField($assetmethodElement, 'nrofperiods', $assetmethod))
             ->setOffice(self::parseObjectAttribute('Office', $assetmethod, $assetmethodElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setPercentage(self::getField($assetmethod, $assetmethodElement, 'percentage'))
-            ->setShortName(self::getField($assetmethod, $assetmethodElement, 'shortname'))
-            ->setTouched(self::getField($assetmethod, $assetmethodElement, 'touched'))
+            ->setPercentage(self::getField($assetmethodElement, 'percentage', $assetmethod))
+            ->setShortName(self::getField($assetmethodElement, 'shortname', $assetmethod))
+            ->setTouched(self::getField($assetmethodElement, 'touched', $assetmethod))
             ->setUser(self::parseObjectAttribute('User', $assetmethod, $assetmethodElement, 'user', array('name' => 'setName', 'shortname' => 'setShortName')));
 
         // Get the balanceaccounts element

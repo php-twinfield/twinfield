@@ -41,15 +41,15 @@ class ActivityMapper extends BaseMapper
             ->setStatus(self::parseEnumAttribute('Status', $activityElement->getAttribute('status')));
 
         // Set the activity elements from the activity element
-        $activity->setBehaviour(self::parseEnumAttribute('Behaviour', self::getField($activity, $activityElement, 'behaviour')))
-            ->setCode(self::getField($activity, $activityElement, 'code'))
-            ->setInUse(self::parseBooleanAttribute(self::getField($activity, $activityElement, 'name')))
-            ->setName(self::getField($activity, $activityElement, 'name'))
+        $activity->setBehaviour(self::parseEnumAttribute('Behaviour', self::getField($activityElement, 'behaviour', $activity)))
+            ->setCode(self::getField($activityElement, 'code', $activity))
+            ->setInUse(self::parseBooleanAttribute(self::getField($activityElement, 'name', $activity)))
+            ->setName(self::getField($activityElement, 'name', $activity))
             ->setOffice(self::parseObjectAttribute('Office', $activity, $activityElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setShortName(self::getField($activity, $activityElement, 'shortname'))
-            ->setTouched(self::getField($activity, $activityElement, 'touched'))
+            ->setShortName(self::getField($activityElement, 'shortname', $activity))
+            ->setTouched(self::getField($activityElement, 'touched', $activity))
             ->setType(self::parseObjectAttribute('DimensionType', $activity, $activityElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setUID(self::getField($activity, $activityElement, 'uid'))
+            ->setUID(self::getField($activityElement, 'uid', $activity))
             ->setVatCode(self::parseObjectAttribute('VatCode', $activity, $activityElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
 
         // Get the projects element
@@ -61,12 +61,12 @@ class ActivityMapper extends BaseMapper
 
             // Set the projects elements from the projects element
             $activityProjects->setAuthoriser(self::parseObjectAttribute('User', $activityProjects, $projectsElement, 'authoriser'))
-                ->setBillable(self::parseBooleanAttribute(self::getField($activityProjects, $projectsElement, 'billable')))
+                ->setBillable(self::parseBooleanAttribute(self::getField($projectsElement, 'billable', $activityProjects)))
                 ->setCustomer(self::parseObjectAttribute('Customer', $activityProjects, $projectsElement, 'customer'))
-                ->setInvoiceDescription(self::getField($activityProjects, $projectsElement, 'invoicedescription'))
+                ->setInvoiceDescription(self::getField($projectsElement, 'invoicedescription', $activityProjects))
                 ->setRate(self::parseObjectAttribute('Rate', $activityProjects, $projectsElement, 'rate'))
-                ->setValidFrom(self::parseDateAttribute(self::getField($activityProjects, $projectsElement, 'validfrom')))
-                ->setValidTill(self::parseDateAttribute(self::getField($activityProjects, $projectsElement, 'validtill')));
+                ->setValidFrom(self::parseDateAttribute(self::getField($projectsElement, 'validfrom', $activityProjects)))
+                ->setValidTill(self::parseDateAttribute(self::getField($projectsElement, 'validtill', $activityProjects)));
 
             // Set the projects elements from the projects element attributes
             $activityProjects->setAuthoriserInherit(self::parseBooleanAttribute(self::getAttribute($projectsElement, 'authoriser', 'inherit')))
@@ -93,9 +93,9 @@ class ActivityMapper extends BaseMapper
                     $activityQuantity = new ActivityQuantity();
 
                     // Set the quantity elements from the quantity element
-                    $activityQuantity->setBillable(self::parseBooleanAttribute(self::getField($activityQuantity, $quantityElement, 'billable')))
-                        ->setLabel(self::getField($activityQuantity, $quantityElement, 'label'))
-                        ->setMandatory(self::parseBooleanAttribute(self::getField($activityQuantity, $quantityElement, 'mandatory')))
+                    $activityQuantity->setBillable(self::parseBooleanAttribute(self::getField($quantityElement, 'billable', $activityQuantity)))
+                        ->setLabel(self::getField($quantityElement, 'label', $activityQuantity))
+                        ->setMandatory(self::parseBooleanAttribute(self::getField($quantityElement, 'mandatory', $activityQuantity)))
                         ->setRate(self::parseObjectAttribute('Rate', $activityQuantity, $quantityElement, 'rate'));
 
                     // Set the quantity elements from the quantity element attributes

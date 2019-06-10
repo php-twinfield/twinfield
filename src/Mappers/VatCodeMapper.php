@@ -41,14 +41,14 @@ class VatCodeMapper extends BaseMapper
             ->setStatus(self::parseEnumAttribute('Status', $vatCodeElement->getAttribute('status')));
 
         // Set the vat code elements from the vat element
-        $vatCode->setCode(self::getField($vatCode, $vatCodeElement, 'code'))
-            ->setCreated(self::parseDateTimeAttribute(self::getField($vatCode, $vatCodeElement, 'created')))
-            ->setModified(self::parseDateTimeAttribute(self::getField($vatCode, $vatCodeElement, 'modified')))
-            ->setName(self::getField($vatCode, $vatCodeElement, 'name'))
-            ->setShortName(self::getField($vatCode, $vatCodeElement, 'shortname'))
-            ->setTouched(self::getField($vatCode, $vatCodeElement, 'touched'))
-            ->setType(self::parseEnumAttribute('VatType', self::getField($vatCode, $vatCodeElement, 'type')))
-            ->setUID(self::getField($vatCode, $vatCodeElement, 'uid'))
+        $vatCode->setCode(self::getField($vatCodeElement, 'code', $vatCode))
+            ->setCreated(self::parseDateTimeAttribute(self::getField($vatCodeElement, 'created', $vatCode)))
+            ->setModified(self::parseDateTimeAttribute(self::getField($vatCodeElement, 'modified', $vatCode)))
+            ->setName(self::getField($vatCodeElement, 'name', $vatCode))
+            ->setShortName(self::getField($vatCodeElement, 'shortname', $vatCode))
+            ->setTouched(self::getField($vatCodeElement, 'touched', $vatCode))
+            ->setType(self::parseEnumAttribute('VatType', self::getField($vatCodeElement, 'type', $vatCode)))
+            ->setUID(self::getField($vatCodeElement, 'uid', $vatCode))
             ->setUser(self::parseObjectAttribute('User', $vatCode, $vatCodeElement, 'user', array('name' => 'setName', 'shortname' => 'setShortName')));
 
         // Get the percentages element
@@ -65,11 +65,11 @@ class VatCodeMapper extends BaseMapper
                 $vatCodePercentage = new VatCodePercentage();
 
                  // Set the vat code percentage elements from the percentage element
-                $vatCodePercentage->setCreated(self::parseDateTimeAttribute(self::getField($vatCodePercentage, $percentageElement, 'created')))
-                    ->setDate(self::parseDateAttribute(self::getField($vatCodePercentage, $percentageElement, 'date')))
-                    ->setName(self::getField($vatCodePercentage, $percentageElement, 'name'))
-                    ->setPercentage(self::getField($vatCodePercentage, $percentageElement, 'percentage'))
-                    ->setShortName(self::getField($vatCodePercentage, $percentageElement, 'shortname'))
+                $vatCodePercentage->setCreated(self::parseDateTimeAttribute(self::getField($percentageElement, 'created', $vatCodePercentage)))
+                    ->setDate(self::parseDateAttribute(self::getField($percentageElement, 'date', $vatCodePercentage)))
+                    ->setName(self::getField($percentageElement, 'name', $vatCodePercentage))
+                    ->setPercentage(self::getField($percentageElement, 'percentage', $vatCodePercentage))
+                    ->setShortName(self::getField($percentageElement, 'shortname', $vatCodePercentage))
                     ->setUser(self::parseObjectAttribute('User', $vatCodePercentage, $percentageElement, 'user', array('name' => 'setName', 'shortname' => 'setShortName')));
 
                 // Get the accounts element
@@ -92,8 +92,8 @@ class VatCodeMapper extends BaseMapper
                         $vatCodeAccount->setDim1(self::parseObjectAttribute('GeneralLedger', $vatCodeAccount, $accountElement, 'dim1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                             ->setGroup(self::parseObjectAttribute('VatGroup', $vatCodeAccount, $accountElement, 'group', array('name' => 'setName', 'shortname' => 'setShortName')))
                             ->setGroupCountry(self::parseObjectAttribute('VatGroupCountry', $vatCodeAccount, $accountElement, 'groupcountry', array('name' => 'setName', 'shortname' => 'setShortName')))
-                            ->setLineType(self::parseEnumAttribute('LineType', self::getField($vatCodeAccount, $accountElement, 'linetype')))
-                            ->setPercentage(self::getField($vatCodeAccount, $accountElement, 'percentage'));
+                            ->setLineType(self::parseEnumAttribute('LineType', self::getField($accountElement, 'linetype', $vatCodeAccount)))
+                            ->setPercentage(self::getField($accountElement, 'percentage', $vatCodeAccount));
 
                         // Add the account to the percentage
                         $vatCodePercentage->addAccount($vatCodeAccount);

@@ -40,16 +40,16 @@ class RateMapper extends BaseMapper
             ->setStatus(self::parseEnumAttribute('Status', $rateElement->getAttribute('status')));
 
         // Set the rate elements from the rate element
-        $rate->setCode(self::getField($rate, $rateElement, 'code'))
-            ->setCreated(self::parseDateTimeAttribute(self::getField($rate, $rateElement, 'created')))
+        $rate->setCode(self::getField($rateElement, 'code', $rate))
+            ->setCreated(self::parseDateTimeAttribute(self::getField($rateElement, 'created', $rate)))
             ->setCurrency(self::parseObjectAttribute('Currency', $rate, $rateElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setModified(self::parseDateTimeAttribute(self::getField($rate, $rateElement, 'modified')))
-            ->setName(self::getField($rate, $rateElement, 'name'))
+            ->setModified(self::parseDateTimeAttribute(self::getField($rateElement, 'modified', $rate)))
+            ->setName(self::getField($rateElement, 'name', $rate))
             ->setOffice(self::parseObjectAttribute('Office', $rate, $rateElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setShortName(self::getField($rate, $rateElement, 'shortname'))
-            ->setTouched(self::getField($rate, $rateElement, 'touched'))
-            ->setType(self::parseEnumAttribute('RateType', self::getField($rate, $rateElement, 'type')))
-            ->setUnit(self::getField($rate, $rateElement, 'unit'))
+            ->setShortName(self::getField($rateElement, 'shortname', $rate))
+            ->setTouched(self::getField($rateElement, 'touched', $rate))
+            ->setType(self::parseEnumAttribute('RateType', self::getField($rateElement, 'type', $rate)))
+            ->setUnit(self::getField($rateElement, 'unit', $rate))
             ->setUser(self::parseObjectAttribute('User', $rate, $rateElement, 'user', array('name' => 'setName', 'shortname' => 'setShortName')));
 
         // Get the ratechanges element
@@ -69,10 +69,10 @@ class RateMapper extends BaseMapper
                     ->setStatus(self::parseEnumAttribute('Status', $rateElement->getAttribute('status')));
 
                 // Set the project rate rate change elements from the ratechange element
-                $rateRateChange->setBeginDate(self::parseDateAttribute(self::getField($rateRateChange, $ratechangeElement, 'begindate')))
-                    ->setEndDate(self::parseDateAttribute(self::getField($rateRateChange, $ratechangeElement, 'enddate')))
-                    ->setExternalRate(self::getField($rateRateChange, $ratechangeElement, 'externalrate'))
-                    ->setInternalRate(self::getField($rateRateChange, $ratechangeElement, 'internalrate'));
+                $rateRateChange->setBeginDate(self::parseDateAttribute(self::getField($ratechangeElement, 'begindate', $rateRateChange)))
+                    ->setEndDate(self::parseDateAttribute(self::getField($ratechangeElement, 'enddate', $rateRateChange)))
+                    ->setExternalRate(self::getField($ratechangeElement, 'externalrate', $rateRateChange))
+                    ->setInternalRate(self::getField($ratechangeElement, 'internalrate', $rateRateChange));
 
                 // Add the rate change to the project rate
                 $rate->addRateChange($rateRateChange);

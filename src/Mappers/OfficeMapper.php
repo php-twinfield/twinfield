@@ -39,12 +39,12 @@ class OfficeMapper extends BaseMapper
             ->setStatus(self::parseEnumAttribute('Status', $officeElement->getAttribute('status')));
 
         // Set the office elements from the office element
-        $office->setCode(self::getField($office, $officeElement, 'code'))
-            ->setCreated(self::parseDateTimeAttribute(self::getField($office, $officeElement, 'created')))
-            ->setModified(self::parseDateTimeAttribute(self::getField($office, $officeElement, 'modified')))
-            ->setName(self::getField($office, $officeElement, 'name'))
-            ->setShortName(self::getField($office, $officeElement, 'shortname'))
-            ->setTouched(self::getField($office, $officeElement, 'touched'))
+        $office->setCode(self::getField($officeElement, 'code', $office))
+            ->setCreated(self::parseDateTimeAttribute(self::getField($officeElement, 'created', $office)))
+            ->setModified(self::parseDateTimeAttribute(self::getField($officeElement, 'modified', $office)))
+            ->setName(self::getField($officeElement, 'name', $office))
+            ->setShortName(self::getField($officeElement, 'shortname', $office))
+            ->setTouched(self::getField($officeElement, 'touched', $office))
             ->setUser(self::parseObjectAttribute('User', $office, $officeElement, 'user', array('name' => 'setName', 'shortname' => 'setShortName')));
 
         // Return the complete object

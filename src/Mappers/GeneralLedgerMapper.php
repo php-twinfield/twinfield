@@ -41,20 +41,20 @@ class GeneralLedgerMapper extends BaseMapper
             ->setStatus(self::parseEnumAttribute('Status', $generalLedgerElement->getAttribute('status')));
 
         // Set the general ledger elements from the general ledger element
-        $generalLedger->setBeginPeriod(self::getField($generalLedger, $generalLedgerElement, 'beginperiod'))
-            ->setBeginYear(self::getField($generalLedger, $generalLedgerElement, 'beginyear'))
-            ->setBehaviour(self::parseEnumAttribute('Behaviour', self::getField($generalLedger, $generalLedgerElement, 'behaviour')))
-            ->setCode(self::getField($generalLedger, $generalLedgerElement, 'code'))
-            ->setEndPeriod(self::getField($generalLedger, $generalLedgerElement, 'endperiod'))
-            ->setEndYear(self::getField($generalLedger, $generalLedgerElement, 'endyear'))
+        $generalLedger->setBeginPeriod(self::getField($generalLedgerElement, 'beginperiod', $generalLedger))
+            ->setBeginYear(self::getField($generalLedgerElement, 'beginyear', $generalLedger))
+            ->setBehaviour(self::parseEnumAttribute('Behaviour', self::getField($generalLedgerElement, 'behaviour', $generalLedger)))
+            ->setCode(self::getField($generalLedgerElement, 'code', $generalLedger))
+            ->setEndPeriod(self::getField($generalLedgerElement, 'endperiod', $generalLedger))
+            ->setEndYear(self::getField($generalLedgerElement, 'endyear', $generalLedger))
             ->setGroup(self::parseObjectAttribute('DimensionGroup', $generalLedger, $generalLedgerElement, 'group', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setInUse(self::parseBooleanAttribute(self::getField($generalLedger, $generalLedgerElement, 'inuse')))
-            ->setName(self::getField($generalLedger, $generalLedgerElement, 'name'))
+            ->setInUse(self::parseBooleanAttribute(self::getField($generalLedgerElement, 'inuse', $generalLedger)))
+            ->setName(self::getField($generalLedgerElement, 'name', $generalLedger))
             ->setOffice(self::parseObjectAttribute('Office', $generalLedger, $generalLedgerElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setShortName(self::getField($generalLedger, $generalLedgerElement, 'shortname'))
-            ->setTouched(self::getField($generalLedger, $generalLedgerElement, 'touched'))
+            ->setShortName(self::getField($generalLedgerElement, 'shortname', $generalLedger))
+            ->setTouched(self::getField($generalLedgerElement, 'touched', $generalLedger))
             ->setType(self::parseObjectAttribute('DimensionType', $generalLedger, $generalLedgerElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setUID(self::getField($generalLedger, $generalLedgerElement, 'uid'));
+            ->setUID(self::getField($generalLedgerElement, 'uid', $generalLedger));
 
         // Get the financials element
         $financialsElement = $responseDOM->getElementsByTagName('financials')->item(0);
@@ -64,10 +64,10 @@ class GeneralLedgerMapper extends BaseMapper
             $generalLedgerFinancials = new GeneralLedgerFinancials();
 
             // Set the financials elements from the financials element
-            $generalLedgerFinancials->setAccountType(self::parseEnumAttribute('AccountType', self::getField($generalLedgerFinancials, $financialsElement, 'accounttype')))
-                ->setLevel(self::getField($generalLedgerFinancials, $financialsElement, 'level'))
-                ->setMatchType(self::parseEnumAttribute('MatchType', self::getField($generalLedgerFinancials, $financialsElement, 'matchtype')))
-                ->setSubAnalyse(self::parseEnumAttribute('SubAnalyse', self::getField($generalLedgerFinancials, $financialsElement, 'subanalyse')))
+            $generalLedgerFinancials->setAccountType(self::parseEnumAttribute('AccountType', self::getField($financialsElement, 'accounttype', $generalLedgerFinancials)))
+                ->setLevel(self::getField($financialsElement, 'level', $generalLedgerFinancials))
+                ->setMatchType(self::parseEnumAttribute('MatchType', self::getField($financialsElement, 'matchtype', $generalLedgerFinancials)))
+                ->setSubAnalyse(self::parseEnumAttribute('SubAnalyse', self::getField($financialsElement, 'subanalyse', $generalLedgerFinancials)))
                 ->setVatCode(self::parseObjectAttribute('VatCode', $generalLedgerFinancials, $financialsElement, 'vatcode'));
 
             // Set the financials elements from the financials element attributes

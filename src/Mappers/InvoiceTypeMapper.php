@@ -35,9 +35,9 @@ class InvoiceTypeMapper extends BaseMapper
         $invoiceTypeElement = $responseDOM->documentElement;
 
         // Set the invoice type elements from the invoice type element
-        $invoiceType->setCode(self::getField($invoiceType, $invoiceTypeElement, 'code'))
-            ->setName(self::getField($invoiceType, $invoiceTypeElement, 'name'))
-            ->setShortName(self::getField($invoiceType, $invoiceTypeElement, 'shortname'));
+        $invoiceType->setCode(self::getField($invoiceTypeElement, 'code', $invoiceType))
+            ->setName(self::getField($invoiceTypeElement, 'name', $invoiceType))
+            ->setShortName(self::getField($invoiceTypeElement, 'shortname', $invoiceType));
 
         // Return the complete object
         return $invoiceType;

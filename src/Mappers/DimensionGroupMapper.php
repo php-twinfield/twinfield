@@ -41,10 +41,10 @@ class DimensionGroupMapper extends BaseMapper
             ->setStatus(self::parseEnumAttribute('Status', $dimensiongroupElement->getAttribute('status')));
 
         // Set the dimension group elements from the dimension group element
-        $dimensiongroup->setCode(self::getField($dimensiongroup, $dimensiongroupElement, 'code'))
-            ->setName(self::getField($dimensiongroup, $dimensiongroupElement, 'name'))
+        $dimensiongroup->setCode(self::getField($dimensiongroupElement, 'code', $dimensiongroup))
+            ->setName(self::getField($dimensiongroupElement, 'name', $dimensiongroup))
             ->setOffice(self::parseObjectAttribute('Office', $dimensiongroup, $dimensiongroupElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setShortName(self::getField($dimensiongroup, $dimensiongroupElement, 'shortname'));
+            ->setShortName(self::getField($dimensiongroupElement, 'shortname', $dimensiongroup));
 
         // Get the dimensions element
         $dimensionsDOMTag = $responseDOM->getElementsByTagName('dimensions');

@@ -44,20 +44,20 @@ class SupplierMapper extends BaseMapper
             ->setStatus(self::parseEnumAttribute('Status', $supplierElement->getAttribute('status')));
 
         // Set the supplier elements from the supplier element
-        $supplier->setBeginPeriod(self::getField($supplier, $supplierElement, 'beginperiod'))
-            ->setBeginYear(self::getField($supplier, $supplierElement, 'beginyear'))
-            ->setBehaviour(self::parseEnumAttribute('Behaviour', self::getField($supplier, $supplierElement, 'behaviour')))
-            ->setCode(self::getField($supplier, $supplierElement, 'code'))
-            ->setEndPeriod(self::getField($supplier, $supplierElement, 'endperiod'))
-            ->setEndYear(self::getField($supplier, $supplierElement, 'endyear'))
+        $supplier->setBeginPeriod(self::getField($supplierElement, 'beginperiod', $supplier))
+            ->setBeginYear(self::getField($supplierElement, 'beginyear', $supplier))
+            ->setBehaviour(self::parseEnumAttribute('Behaviour', self::getField($supplierElement, 'behaviour', $supplier)))
+            ->setCode(self::getField($supplierElement, 'code', $supplier))
+            ->setEndPeriod(self::getField($supplierElement, 'endperiod', $supplier))
+            ->setEndYear(self::getField($supplierElement, 'endyear', $supplier))
             ->setGroup(self::parseObjectAttribute('DimensionGroup', $supplier, $supplierElement, 'group', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setInUse(self::parseBooleanAttribute(self::getField($supplier, $supplierElement, 'name')))
-            ->setName(self::getField($supplier, $supplierElement, 'name'))
+            ->setInUse(self::parseBooleanAttribute(self::getField($supplierElement, 'name', $supplier)))
+            ->setName(self::getField($supplierElement, 'name', $supplier))
             ->setOffice(self::parseObjectAttribute('Office', $supplier, $supplierElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setTouched(self::getField($supplier, $supplierElement, 'touched'))
+            ->setTouched(self::getField($supplierElement, 'touched', $supplier))
             ->setType(self::parseObjectAttribute('DimensionType', $supplier, $supplierElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setUID(self::getField($supplier, $supplierElement, 'uid'))
-            ->setWebsite(self::getField($supplier, $supplierElement, 'website'));
+            ->setUID(self::getField($supplierElement, 'uid', $supplier))
+            ->setWebsite(self::getField($supplierElement, 'website', $supplier));
 
         // Get the financials element
         $financialsElement = $responseDOM->getElementsByTagName('financials')->item(0);
@@ -67,16 +67,16 @@ class SupplierMapper extends BaseMapper
             $supplierFinancials = new SupplierFinancials();
 
             // Set the financials elements from the financials element
-            $supplierFinancials->setAccountType(self::parseEnumAttribute('AccountType', self::getField($supplierFinancials, $financialsElement, 'accounttype')))
-                ->setDueDays(self::getField($supplierFinancials, $financialsElement, 'duedays'))
-                ->setLevel(self::getField($supplierFinancials, $financialsElement, 'level'))
-                ->setMatchType(self::parseEnumAttribute('MatchType', self::getField($supplierFinancials, $financialsElement, 'matchtype')))
-                ->setMeansOfPayment(self::parseEnumAttribute('MeansOfPayment', self::getField($supplierFinancials, $financialsElement, 'meansofpayment')))
-                ->setPayAvailable(self::parseBooleanAttribute(self::getField($supplierFinancials, $financialsElement, 'payavailable')))
+            $supplierFinancials->setAccountType(self::parseEnumAttribute('AccountType', self::getField($financialsElement, 'accounttype', $supplierFinancials)))
+                ->setDueDays(self::getField($financialsElement, 'duedays', $supplierFinancials))
+                ->setLevel(self::getField($financialsElement, 'level', $supplierFinancials))
+                ->setMatchType(self::parseEnumAttribute('MatchType', self::getField($financialsElement, 'matchtype', $supplierFinancials)))
+                ->setMeansOfPayment(self::parseEnumAttribute('MeansOfPayment', self::getField($financialsElement, 'meansofpayment', $supplierFinancials)))
+                ->setPayAvailable(self::parseBooleanAttribute(self::getField($financialsElement, 'payavailable', $supplierFinancials)))
                 ->setPayCode(self::parseObjectAttribute('PayCode', $supplierFinancials, $financialsElement, 'paycode', array('name' => 'setName', 'shortname' => 'setShortName')))
-                ->setRelationsReference(self::getField($supplierFinancials, $financialsElement, 'relationsreference'))
-                ->setSubAnalyse(self::parseEnumAttribute('SubAnalyse', self::getField($supplierFinancials, $financialsElement, 'subanalyse')))
-                ->setSubstitutionLevel(self::getField($supplierFinancials, $financialsElement, 'substitutionlevel'))
+                ->setRelationsReference(self::getField($financialsElement, 'relationsreference', $supplierFinancials))
+                ->setSubAnalyse(self::parseEnumAttribute('SubAnalyse', self::getField($financialsElement, 'subanalyse', $supplierFinancials)))
+                ->setSubstitutionLevel(self::getField($financialsElement, 'substitutionlevel', $supplierFinancials))
                 ->setSubstituteWith(self::parseObjectAttribute('UnknownDimension', $supplierFinancials, $financialsElement, 'substitutewith', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                 ->setVatCode(self::parseObjectAttribute('VatCode', $supplierFinancials, $financialsElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
 
@@ -120,8 +120,8 @@ class SupplierMapper extends BaseMapper
 
         if ($remittanceAdviceElement !== null) {
             // Set the supplier elements from the remittanceadvice element
-            $supplier->setRemittanceAdviceSendType(self::parseEnumAttribute('RemittanceAdviceSendType', self::getField($supplier, $remittanceAdviceElement, 'sendtype')))
-                ->setRemittanceAdviceSendMail(self::getField($supplier, $remittanceAdviceElement, 'sendmail'));
+            $supplier->setRemittanceAdviceSendType(self::parseEnumAttribute('RemittanceAdviceSendType', self::getField($remittanceAdviceElement, 'sendtype', $supplier)))
+                ->setRemittanceAdviceSendMail(self::getField($remittanceAdviceElement, 'sendmail', $supplier));
         }
 
         // Get the addresses element
@@ -143,19 +143,19 @@ class SupplierMapper extends BaseMapper
                     ->setType(self::parseEnumAttribute('AddressType', $addressElement->getAttribute('type')));
 
                 // Set the address elements from the address element
-                $supplierAddress->setCity(self::getField($supplierAddress, $addressElement, 'city'))
+                $supplierAddress->setCity(self::getField($addressElement, 'city', $supplierAddress))
                     ->setCountry(self::parseObjectAttribute('Country', $supplierAddress, $addressElement, 'country', array('name' => 'setName', 'shortname' => 'setShortName')))
-                    ->setEmail(self::getField($supplierAddress, $addressElement, 'email'))
-                    ->setField1(self::getField($supplierAddress, $addressElement, 'field1'))
-                    ->setField2(self::getField($supplierAddress, $addressElement, 'field2'))
-                    ->setField3(self::getField($supplierAddress, $addressElement, 'field3'))
-                    ->setField4(self::getField($supplierAddress, $addressElement, 'field4'))
-                    ->setField5(self::getField($supplierAddress, $addressElement, 'field5'))
-                    ->setField6(self::getField($supplierAddress, $addressElement, 'field6'))
-                    ->setName(self::getField($supplierAddress, $addressElement, 'name'))
-                    ->setPostcode(self::getField($supplierAddress, $addressElement, 'postcode'))
-                    ->setTelephone(self::getField($supplierAddress, $addressElement, 'telephone'))
-                    ->setTelefax(self::getField($supplierAddress, $addressElement, 'telefax'));
+                    ->setEmail(self::getField($addressElement, 'email', $supplierAddress))
+                    ->setField1(self::getField($addressElement, 'field1', $supplierAddress))
+                    ->setField2(self::getField($addressElement, 'field2', $supplierAddress))
+                    ->setField3(self::getField($addressElement, 'field3', $supplierAddress))
+                    ->setField4(self::getField($addressElement, 'field4', $supplierAddress))
+                    ->setField5(self::getField($addressElement, 'field5', $supplierAddress))
+                    ->setField6(self::getField($addressElement, 'field6', $supplierAddress))
+                    ->setName(self::getField($addressElement, 'name', $supplierAddress))
+                    ->setPostcode(self::getField($addressElement, 'postcode', $supplierAddress))
+                    ->setTelephone(self::getField($addressElement, 'telephone', $supplierAddress))
+                    ->setTelefax(self::getField($addressElement, 'telefax', $supplierAddress));
 
                 // Add the address to the supplier
                 $supplier->addAddress($supplierAddress);
@@ -184,18 +184,18 @@ class SupplierMapper extends BaseMapper
                     ->setID($bankElement->getAttribute('id'));
 
                 // Set the bank elements from the bank element
-                $supplierBank->setAccountNumber(self::getField($supplierBank, $bankElement, 'accountnumber'))
-                    ->setAddressField2(self::getField($supplierBank, $bankElement, 'field2'))
-                    ->setAddressField3(self::getField($supplierBank, $bankElement, 'field3'))
-                    ->setAscription(self::getField($supplierBank, $bankElement, 'ascription'))
-                    ->setBankName(self::getField($supplierBank, $bankElement, 'bankname'))
-                    ->setBicCode(self::getField($supplierBank, $bankElement, 'biccode'))
-                    ->setCity(self::getField($supplierBank, $bankElement, 'city'))
+                $supplierBank->setAccountNumber(self::getField($bankElement, 'accountnumber', $supplierBank))
+                    ->setAddressField2(self::getField($bankElement, 'field2', $supplierBank))
+                    ->setAddressField3(self::getField($bankElement, 'field3', $supplierBank))
+                    ->setAscription(self::getField($bankElement, 'ascription', $supplierBank))
+                    ->setBankName(self::getField($bankElement, 'bankname', $supplierBank))
+                    ->setBicCode(self::getField($bankElement, 'biccode', $supplierBank))
+                    ->setCity(self::getField($bankElement, 'city', $supplierBank))
                     ->setCountry(self::parseObjectAttribute('Country', $supplierBank, $bankElement, 'country', array('name' => 'setName', 'shortname' => 'setShortName')))
-                    ->setIban(self::getField($supplierBank, $bankElement, 'iban'))
-                    ->setNatBicCode(self::getField($supplierBank, $bankElement, 'natbiccode'))
-                    ->setPostcode(self::getField($supplierBank, $bankElement, 'postcode'))
-                    ->setState(self::getField($supplierBank, $bankElement, 'state'));
+                    ->setIban(self::getField($bankElement, 'iban', $supplierBank))
+                    ->setNatBicCode(self::getField($bankElement, 'natbiccode', $supplierBank))
+                    ->setPostcode(self::getField($bankElement, 'postcode', $supplierBank))
+                    ->setState(self::getField($bankElement, 'state', $supplierBank));
 
                 // Add the bank to the supplier
                 $supplier->addBank($supplierBank);
@@ -223,9 +223,9 @@ class SupplierMapper extends BaseMapper
                     ->setStatus(self::parseEnumAttribute('Status', $postingruleElement->getAttribute('status')));
 
                 // Set the postingrule elements from the postingrule element
-                $supplierPostingRule->setAmount(self::parseMoneyAttribute(self::getField($supplierPostingRule, $postingruleElement, 'amount')))
+                $supplierPostingRule->setAmount(self::parseMoneyAttribute(self::getField($postingruleElement, 'amount', $supplierPostingRule)))
                     ->setCurrency(self::parseObjectAttribute('Currency', $supplierPostingRule, $postingruleElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
-                    ->setDescription(self::getField($supplierPostingRule, $postingruleElement, 'description'));
+                    ->setDescription(self::getField($postingruleElement, 'description', $supplierPostingRule));
 
                 // Get the lines element
                 $linesDOMTag = $postingruleElement->getElementsByTagName('lines');
@@ -241,12 +241,12 @@ class SupplierMapper extends BaseMapper
                         $supplierLine = new SupplierLine();
 
                         // Set the line elements from the line element
-                        $supplierLine->setDescription(self::getField($supplierLine, $lineElement, 'description'))
+                        $supplierLine->setDescription(self::getField($lineElement, 'description', $supplierLine))
                             ->setDimension1(self::parseObjectAttribute('GeneralLedger', $supplierLine, $lineElement, 'dimension1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                             ->setDimension2(self::parseObjectAttribute('CostCenter', $supplierLine, $lineElement, 'dimension2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                             ->setDimension3(self::parseObjectAttribute('UnknownDimension', $supplierLine, $lineElement, 'dimension3', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                             ->setOffice(self::parseObjectAttribute('Office', $supplierLine, $lineElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
-                            ->setRatio(self::getField($supplierLine, $lineElement, 'ratio'))
+                            ->setRatio(self::getField($lineElement, 'ratio', $supplierLine))
                             ->setVatCode(self::parseObjectAttribute('VatCode', $supplierLine, $lineElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
 
                         // Set the line elements from the line element attributes
@@ -275,8 +275,8 @@ class SupplierMapper extends BaseMapper
 
         if ($paymentConditionsElement !== null) {
             // Set the supplier elements from the paymentconditions element
-            $supplier->setPaymentConditionDiscountDays(self::getField($supplier, $paymentConditionsElement, 'discountdays'))
-                ->setPaymentConditionDiscountPercentage(self::getField($supplier, $paymentConditionsElement, 'discountpercentage'));
+            $supplier->setPaymentConditionDiscountDays(self::getField($paymentConditionsElement, 'discountdays', $supplier))
+                ->setPaymentConditionDiscountPercentage(self::getField($paymentConditionsElement, 'discountpercentage', $supplier));
         }
 
         // Get the blockedaccountpaymentconditions element
@@ -284,8 +284,8 @@ class SupplierMapper extends BaseMapper
 
         if ($blockedAccountPaymentConditionsElement !== null) {
             // Set the supplier elements from the blockedaccountpaymentconditions element
-            $supplier->setBlockedAccountPaymentConditionsIncludeVat(self::parseEnumAttribute('BlockedAccountPaymentConditionsIncludeVat', self::getField($supplier, $blockedAccountPaymentConditionsElement, 'includevat')))
-                ->setBlockedAccountPaymentConditionsPercentage(self::getField($supplier, $blockedAccountPaymentConditionsElement, 'percentage'));
+            $supplier->setBlockedAccountPaymentConditionsIncludeVat(self::parseEnumAttribute('BlockedAccountPaymentConditionsIncludeVat', self::getField($blockedAccountPaymentConditionsElement, 'includevat', $supplier)))
+                ->setBlockedAccountPaymentConditionsPercentage(self::getField($blockedAccountPaymentConditionsElement, 'percentage', $supplier));
         }
 
         // Return the complete object

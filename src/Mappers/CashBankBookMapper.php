@@ -35,9 +35,9 @@ class CashBankBookMapper extends BaseMapper
         $cashBankBookElement = $responseDOM->documentElement;
 
         // Set the cash or bank book elements from the cash or bank book element
-        $cashBankBook->setCode(self::getField($cashBankBook, $cashBankBookElement, 'code'))
-            ->setName(self::getField($cashBankBook, $cashBankBookElement, 'name'))
-            ->setShortName(self::getField($cashBankBook, $cashBankBookElement, 'shortname'));
+        $cashBankBook->setCode(self::getField($cashBankBookElement, 'code', $cashBankBook))
+            ->setName(self::getField($cashBankBookElement, 'name', $cashBankBook))
+            ->setShortName(self::getField($cashBankBookElement, 'shortname', $cashBankBook));
 
         // Return the complete object
         return $cashBankBook;

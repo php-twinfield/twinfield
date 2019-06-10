@@ -45,20 +45,20 @@ class ArticleMapper extends BaseMapper
         $article->setStatus(self::parseEnumAttribute('Status', $headerElement->getAttribute('status')));
 
         // Set the article elements from the header
-        $article->setAllowChangePerformanceType(self::parseBooleanAttribute(self::getField($article, $headerElement, 'allowchangeperformancetype')))
-            ->setAllowChangeUnitsPrice(self::parseBooleanAttribute(self::getField($article, $headerElement, 'allowchangeunitsprice')))
-            ->setAllowChangeVatCode(self::parseBooleanAttribute(self::getField($article, $headerElement, 'allowchangevatcode')))
-            ->setAllowDecimalQuantity(self::parseBooleanAttribute(self::getField($article, $headerElement, 'allowdecimalquantity')))
-            ->setAllowDiscountOrPremium(self::parseBooleanAttribute(self::getField($article, $headerElement, 'allowdiscountorpremium')))
-            ->setCode(self::getField($article, $headerElement, 'code'))
-            ->setName(self::getField($article, $headerElement, 'name'))
+        $article->setAllowChangePerformanceType(self::parseBooleanAttribute(self::getField($headerElement, 'allowchangeperformancetype', $article)))
+            ->setAllowChangeUnitsPrice(self::parseBooleanAttribute(self::getField($headerElement, 'allowchangeunitsprice', $article)))
+            ->setAllowChangeVatCode(self::parseBooleanAttribute(self::getField($headerElement, 'allowchangevatcode', $article)))
+            ->setAllowDecimalQuantity(self::parseBooleanAttribute(self::getField($headerElement, 'allowdecimalquantity', $article)))
+            ->setAllowDiscountOrPremium(self::parseBooleanAttribute(self::getField($headerElement, 'allowdiscountorpremium', $article)))
+            ->setCode(self::getField($headerElement, 'code', $article))
+            ->setName(self::getField($headerElement, 'name', $article))
             ->setOffice(self::parseObjectAttribute('Office', $article, $headerElement, 'office'))
-            ->setPercentage(self::parseBooleanAttribute(self::getField($article, $headerElement, 'percentage')))
-            ->setPerformanceType(self::parseEnumAttribute('PerformanceType', self::getField($article, $headerElement, 'performancetype')))
-            ->setShortName(self::getField($article, $headerElement, 'shortname'))
-            ->setType(self::parseEnumAttribute('ArticleType', self::getField($article, $headerElement, 'type')))
-            ->setUnitNameSingular(self::getField($article, $headerElement, 'unitnamesingular'))
-            ->setUnitNamePlural(self::getField($article, $headerElement, 'unitnameplural'))
+            ->setPercentage(self::parseBooleanAttribute(self::getField($headerElement, 'percentage', $article)))
+            ->setPerformanceType(self::parseEnumAttribute('PerformanceType', self::getField($headerElement, 'performancetype', $article)))
+            ->setShortName(self::getField($headerElement, 'shortname', $article))
+            ->setType(self::parseEnumAttribute('ArticleType', self::getField($headerElement, 'type', $article)))
+            ->setUnitNameSingular(self::getField($headerElement, 'unitnamesingular', $article))
+            ->setUnitNamePlural(self::getField($headerElement, 'unitnameplural', $article))
             ->setVatCode(self::parseObjectAttribute('VatCode', $article, $headerElement, 'vatcode'));
 
         // Get the lines element
@@ -93,13 +93,13 @@ class ArticleMapper extends BaseMapper
                 // Set the article line elements
                 $articleLine->setFreeText1(self::parseObjectAttribute('GeneralLedger', $articleLine, $lineElement, 'freetext1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                     ->setFreeText2(self::parseObjectAttribute('CostCenter', $articleLine, $lineElement, 'freetext2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
-                    ->setFreeText3(self::getField($articleLine, $lineElement, 'freetext3'))
-                    ->setUnits(self::getField($articleLine, $lineElement, 'units'))
-                    ->setName(self::getField($articleLine, $lineElement, 'name'))
-                    ->setShortName(self::getField($articleLine, $lineElement, 'shortname'))
-                    ->setSubCode(self::getField($articleLine, $lineElement, 'subcode'))
-                    ->setUnitsPriceExcl(self::parseMoneyAttribute(self::getField($articleLine, $lineElement, 'unitspriceexcl')))
-                    ->setUnitsPriceInc(self::parseMoneyAttribute(self::getField($articleLine, $lineElement, 'unitspriceinc')));
+                    ->setFreeText3(self::getField($lineElement, 'freetext3', $articleLine))
+                    ->setUnits(self::getField($lineElement, 'units', $articleLine))
+                    ->setName(self::getField($lineElement, 'name', $articleLine))
+                    ->setShortName(self::getField($lineElement, 'shortname', $articleLine))
+                    ->setSubCode(self::getField($lineElement, 'subcode', $articleLine))
+                    ->setUnitsPriceExcl(self::parseMoneyAttribute(self::getField($lineElement, 'unitspriceexcl', $articleLine)))
+                    ->setUnitsPriceInc(self::parseMoneyAttribute(self::getField($lineElement, 'unitspriceinc', $articleLine)));
 
                 // Add the line to the article
                 $article->addLine($articleLine);

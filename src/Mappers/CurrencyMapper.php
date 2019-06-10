@@ -40,10 +40,10 @@ class CurrencyMapper extends BaseMapper
             ->setStatus(self::parseEnumAttribute('Status', $currencyElement->getAttribute('status')));
 
         // Set the currency elements from the currency element
-        $currency->setCode(self::getField($currency, $currencyElement, 'code'))
-            ->setName(self::getField($currency, $currencyElement, 'name'))
+        $currency->setCode(self::getField($currencyElement, 'code', $currency))
+            ->setName(self::getField($currencyElement, 'name', $currency))
             ->setOffice(self::parseObjectAttribute('Office', $currency, $currencyElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setShortName(self::getField($currency, $currencyElement, 'shortname'));
+            ->setShortName(self::getField($currencyElement, 'shortname', $currency));
 
         // Get the rates element
         $ratesDOMTag = $responseDOM->getElementsByTagName('rates');
@@ -63,8 +63,8 @@ class CurrencyMapper extends BaseMapper
                 //$currencyRate->setStatus($rateElement->getAttribute('status'));
 
                 // Set the currency rate elements from the rate element
-                $currencyRate->setRate(self::getField($currencyRate, $rateElement, 'rate'))
-                    ->setStartDate(self::parseDateAttribute(self::getField($currencyRate, $rateElement, 'startdate')));
+                $currencyRate->setRate(self::getField($rateElement, 'rate', $currencyRate))
+                    ->setStartDate(self::parseDateAttribute(self::getField($rateElement, 'startdate', $currencyRate)));
 
                 // Add the rate to the currency
                 $currency->addRate($currencyRate);
