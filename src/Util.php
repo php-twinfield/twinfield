@@ -54,13 +54,24 @@ final class Util
     }
 
     /**
+     * Format a date time according to Twinfield specifications.
+     *
+     * @param \DateTimeInterface $datetime
+     * @return string
+     */
+    public static function formatDateTime(\DateTimeInterface $datetime): string
+    {
+        return $datetime->format("YmdHis");
+    }
+
+    /**
      * Parse a date time string from a Twinfield XML.
      *
      * @param string $dateString
      * @return \DateTimeImmutable
      * @throws Exception
      */
-    public static function parseDateTime(string $dateString)
+    public static function parseDateTime(string $dateString): \DateTimeImmutable
     {
         $date = \DateTimeImmutable::createFromFormat("YmdHis", $dateString);
 
@@ -81,20 +92,12 @@ final class Util
     }
 
     /**
-     * @param string $input
+     * @param string|null $value
      * @return bool
-     * @throws Exception
      */
-    public static function parseBoolean(string $input): bool
+    public static function parseBoolean(?string $value): bool
     {
-        switch ($input) {
-            case "true":
-                return true;
-            case "false":
-                return false;
-        }
-
-        throw new Exception("Unknown boolean value \"{$input}\".");
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 
     /**

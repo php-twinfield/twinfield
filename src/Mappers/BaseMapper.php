@@ -4,6 +4,7 @@ namespace PhpTwinfield\Mappers;
 
 use Money\Currency;
 use Money\Money;
+use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Message\Message;
 use PhpTwinfield\Office;
 use PhpTwinfield\Util;
@@ -64,7 +65,7 @@ abstract class BaseMapper
         return $element->textContent;
     }
 
-    protected static function checkForMessage($object, \DOMElement $element): void
+    protected static function checkForMessage(HasMessageInterface $object, \DOMElement $element): void
     {
         if ($element->hasAttribute('msg')) {
             $message = new Message();
@@ -108,11 +109,6 @@ abstract class BaseMapper
         }
 
         return $fieldElement->textContent;
-    }
-
-    protected static function parseBooleanAttribute(?string $value): ?bool
-    {
-        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 
     protected static function parseDateAttribute(?string $value): ?\DateTimeImmutable
