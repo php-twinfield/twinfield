@@ -92,20 +92,12 @@ final class Util
     }
 
     /**
-     * @param string $input
+     * @param string|null $input
      * @return bool
-     * @throws Exception
      */
-    public static function parseBoolean(string $input): bool
+    protected static function parseBoolean(?string $value): bool
     {
-        switch ($input) {
-            case "true":
-                return true;
-            case "false":
-                return false;
-        }
-
-        throw new Exception("Unknown boolean value \"{$input}\".");
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 
     /**

@@ -56,11 +56,6 @@ abstract class BaseMapper
         return $fieldElement->textContent;
     }
 
-    protected static function parseBooleanAttribute(?string $value): ?bool
-    {
-        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
-    }
-
     protected static function parseDateAttribute(?string $value): ?\DateTimeImmutable
     {
         if (false !== strtotime($value)) {
