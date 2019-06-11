@@ -66,7 +66,7 @@ class TransactionMapper extends BaseMapper
         $autoBalanceVat = $transactionElement->getAttribute('autobalancevat');
 
         if (!empty($autoBalanceVat)) {
-            $transaction->setAutoBalanceVat(self::parseBooleanAttribute($autoBalanceVat));
+            $transaction->setAutoBalanceVat(Util::parseBoolean($autoBalanceVat));
         }
 
         $destiny = $transactionElement->getAttribute('location');
@@ -82,7 +82,7 @@ class TransactionMapper extends BaseMapper
         $raiseWarning = $transactionElement->getAttribute('raisewarning');
 
         if (!empty($raiseWarning)) {
-            $transaction->setRaiseWarning(self::parseBooleanAttribute($raiseWarning));
+            $transaction->setRaiseWarning(Util::parseBoolean($raiseWarning));
         }
 
         $transaction->setCode(self::getField($transactionElement, 'code', $transaction))
@@ -106,7 +106,7 @@ class TransactionMapper extends BaseMapper
 
         if (Util::objectUses(InvoiceNumberField::class, $transaction)) {
             $transaction->setInvoiceNumber(self::getField($transactionElement, 'invoicenumber', $transaction));
-            $transaction->setInvoiceNumberRaiseWarning(self::parseBooleanAttribute(self::getAttribute($transactionElement, 'invoicenumber', 'raisewarning')));
+            $transaction->setInvoiceNumberRaiseWarning(Util::parseBoolean(self::getAttribute($transactionElement, 'invoicenumber', 'raisewarning')));
         }
 
         if (Util::objectUses(OriginReferenceField::class, $transaction)) {

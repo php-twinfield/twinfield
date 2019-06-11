@@ -9,7 +9,7 @@ use PhpTwinfield\Message\Message;
  *
  * @author Jop peters <jop@mastercoding.nl>
  */
-abstract class BaseObject
+abstract class BaseObject implements HasMessageInterface
 {
     private $result;
     private $messages;

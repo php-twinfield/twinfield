@@ -5,6 +5,7 @@ use PhpTwinfield\Project;
 use PhpTwinfield\ProjectProjects;
 use PhpTwinfield\ProjectQuantity;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Util;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
@@ -43,7 +44,7 @@ class ProjectMapper extends BaseMapper
         // Set the project elements from the project element
         $project->setBehaviour(self::parseEnumAttribute(\PhpTwinfield\Enums\Behaviour::class, self::getField($projectElement, 'behaviour', $project)))
             ->setCode(self::getField($projectElement, 'code', $project))
-            ->setInUse(self::parseBooleanAttribute(self::getField($projectElement, 'name', $project)))
+            ->setInUse(Util::parseBoolean(self::getField($projectElement, 'name', $project)))
             ->setName(self::getField($projectElement, 'name', $project))
             ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $project, $projectElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setShortName(self::getField($projectElement, 'shortname', $project))
@@ -61,7 +62,7 @@ class ProjectMapper extends BaseMapper
 
             // Set the projects elements from the projects element
             $projectProjects->setAuthoriser(self::parseObjectAttribute(\PhpTwinfield\User::class, $projectProjects, $projectsElement, 'authoriser'))
-                ->setBillable(self::parseBooleanAttribute(self::getField($projectsElement, 'billable', $projectProjects)))
+                ->setBillable(Util::parseBoolean(self::getField($projectsElement, 'billable', $projectProjects)))
                 ->setCustomer(self::parseObjectAttribute(\PhpTwinfield\Customer::class, $projectProjects, $projectsElement, 'customer'))
                 ->setInvoiceDescription(self::getField($projectsElement, 'invoicedescription', $projectProjects))
                 ->setRate(self::parseObjectAttribute(\PhpTwinfield\Rate::class, $projectProjects, $projectsElement, 'rate'))
@@ -69,15 +70,15 @@ class ProjectMapper extends BaseMapper
                 ->setValidTill(self::parseDateAttribute(self::getField($projectsElement, 'validtill', $projectProjects)));
 
             // Set the projects elements from the projects element attributes
-            $projectProjects->setAuthoriserInherit(self::parseBooleanAttribute(self::getAttribute($projectsElement, 'authoriser', 'inherit')))
-                ->setAuthoriserLocked(self::parseBooleanAttribute(self::getAttribute($projectsElement, 'authoriser', 'locked')))
-                ->setBillableForRatio(self::parseBooleanAttribute(self::getAttribute($projectsElement, 'billable', 'forratio')))
-                ->setBillableInherit(self::parseBooleanAttribute(self::getAttribute($projectsElement, 'billable', 'inherit')))
-                ->setBillableLocked(self::parseBooleanAttribute(self::getAttribute($projectsElement, 'billable', 'locked')))
-                ->setCustomerInherit(self::parseBooleanAttribute(self::getAttribute($projectsElement, 'customer', 'inherit')))
-                ->setCustomerLocked(self::parseBooleanAttribute(self::getAttribute($projectsElement, 'customer', 'locked')))
-                ->setRateInherit(self::parseBooleanAttribute(self::getAttribute($projectsElement, 'rate', 'inherit')))
-                ->setRateLocked(self::parseBooleanAttribute(self::getAttribute($projectsElement, 'rate', 'locked')));
+            $projectProjects->setAuthoriserInherit(Util::parseBoolean(self::getAttribute($projectsElement, 'authoriser', 'inherit')))
+                ->setAuthoriserLocked(Util::parseBoolean(self::getAttribute($projectsElement, 'authoriser', 'locked')))
+                ->setBillableForRatio(Util::parseBoolean(self::getAttribute($projectsElement, 'billable', 'forratio')))
+                ->setBillableInherit(Util::parseBoolean(self::getAttribute($projectsElement, 'billable', 'inherit')))
+                ->setBillableLocked(Util::parseBoolean(self::getAttribute($projectsElement, 'billable', 'locked')))
+                ->setCustomerInherit(Util::parseBoolean(self::getAttribute($projectsElement, 'customer', 'inherit')))
+                ->setCustomerLocked(Util::parseBoolean(self::getAttribute($projectsElement, 'customer', 'locked')))
+                ->setRateInherit(Util::parseBoolean(self::getAttribute($projectsElement, 'rate', 'inherit')))
+                ->setRateLocked(Util::parseBoolean(self::getAttribute($projectsElement, 'rate', 'locked')));
 
             // Get the quantities element
             $quantitiesDOMTag = $projectsElement->getElementsByTagName('quantities');
@@ -93,13 +94,13 @@ class ProjectMapper extends BaseMapper
                     $projectQuantity = new ProjectQuantity();
 
                     // Set the quantity elements from the quantity element
-                    $projectQuantity->setBillable(self::parseBooleanAttribute(self::getField($quantityElement, 'billable', $projectQuantity)))
+                    $projectQuantity->setBillable(Util::parseBoolean(self::getField($quantityElement, 'billable', $projectQuantity)))
                         ->setLabel(self::getField($quantityElement, 'label', $projectQuantity))
-                        ->setMandatory(self::parseBooleanAttribute(self::getField($quantityElement, 'mandatory', $projectQuantity)))
+                        ->setMandatory(Util::parseBoolean(self::getField($quantityElement, 'mandatory', $projectQuantity)))
                         ->setRate(self::parseObjectAttribute(\PhpTwinfield\Rate::class, $projectQuantity, $quantityElement, 'rate'));
 
                     // Set the quantity elements from the quantity element attributes
-                    $projectQuantity->setBillableLocked(self::parseBooleanAttribute(self::getAttribute($quantityElement, 'billable', 'locked')));
+                    $projectQuantity->setBillableLocked(Util::parseBoolean(self::getAttribute($quantityElement, 'billable', 'locked')));
 
                     // Add the quantity to the project
                     $projectProjects->addQuantity($projectQuantity);

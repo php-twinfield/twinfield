@@ -6,6 +6,7 @@ use PhpTwinfield\InvoiceLine;
 use PhpTwinfield\InvoiceTotals;
 use PhpTwinfield\InvoiceVatLine;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Util;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
@@ -90,7 +91,7 @@ class InvoiceMapper extends BaseMapper
                 $invoiceLine->setID($lineElement->getAttribute('id'));
 
                 // Set the invoice line elements from the line element
-                $invoiceLine->setAllowDiscountOrPremium(self::parseBooleanAttribute(self::getField($lineElement, 'allowdiscountorpremium', $invoiceLine)))
+                $invoiceLine->setAllowDiscountOrPremium(Util::parseBoolean(self::getField($lineElement, 'allowdiscountorpremium', $invoiceLine)))
                     ->setArticle(self::parseObjectAttribute(\PhpTwinfield\Article::class, $invoiceLine, $lineElement, 'article'))
                     ->setDescription(self::getField($lineElement, 'description', $invoiceLine))
                     ->setDim1(self::parseObjectAttribute(\PhpTwinfield\GeneralLedger::class, $invoiceLine, $lineElement, 'dim1'))

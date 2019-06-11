@@ -3,6 +3,7 @@ namespace PhpTwinfield\Mappers;
 
 use PhpTwinfield\CostCenter;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Util;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
@@ -41,7 +42,7 @@ class CostCenterMapper extends BaseMapper
         // Set the cost center elements from the cost center element
         $costCenter->setBehaviour(self::parseEnumAttribute(\PhpTwinfield\Enums\Behaviour::class, self::getField($costCenterElement, 'behaviour', $costCenter)))
             ->setCode(self::getField($costCenterElement, 'code', $costCenter))
-            ->setInUse(self::parseBooleanAttribute(self::getField($costCenterElement, 'name', $costCenter)))
+            ->setInUse(Util::parseBoolean(self::getField($costCenterElement, 'name', $costCenter)))
             ->setName(self::getField($costCenterElement, 'name', $costCenter))
             ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $costCenter, $costCenterElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setTouched(self::getField($costCenterElement, 'touched', $costCenter))

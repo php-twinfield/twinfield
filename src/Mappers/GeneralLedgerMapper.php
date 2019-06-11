@@ -5,6 +5,7 @@ use PhpTwinfield\GeneralLedger;
 use PhpTwinfield\GeneralLedgerChildValidation;
 use PhpTwinfield\GeneralLedgerFinancials;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Util;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
@@ -48,7 +49,7 @@ class GeneralLedgerMapper extends BaseMapper
             ->setEndPeriod(self::getField($generalLedgerElement, 'endperiod', $generalLedger))
             ->setEndYear(self::getField($generalLedgerElement, 'endyear', $generalLedger))
             ->setGroup(self::parseObjectAttribute(\PhpTwinfield\DimensionGroup::class, $generalLedger, $generalLedgerElement, 'group', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setInUse(self::parseBooleanAttribute(self::getField($generalLedgerElement, 'inuse', $generalLedger)))
+            ->setInUse(Util::parseBoolean(self::getField($generalLedgerElement, 'inuse', $generalLedger)))
             ->setName(self::getField($generalLedgerElement, 'name', $generalLedger))
             ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $generalLedger, $generalLedgerElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setShortName(self::getField($generalLedgerElement, 'shortname', $generalLedger))
@@ -71,7 +72,7 @@ class GeneralLedgerMapper extends BaseMapper
                 ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $generalLedgerFinancials, $financialsElement, 'vatcode'));
 
             // Set the financials elements from the financials element attributes
-            $generalLedgerFinancials->setVatCodeFixed(self::parseBooleanAttribute(self::getAttribute($financialsElement, 'vatcode', 'fixed')));
+            $generalLedgerFinancials->setVatCodeFixed(Util::parseBoolean(self::getAttribute($financialsElement, 'vatcode', 'fixed')));
 
             // Get the childvalidations element
             $childValidationsDOMTag = $financialsElement->getElementsByTagName('childvalidations');
