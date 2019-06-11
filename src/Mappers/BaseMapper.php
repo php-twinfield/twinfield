@@ -4,14 +4,14 @@ namespace PhpTwinfield\Mappers;
 
 use Money\Currency;
 use Money\Money;
-use PhpTwinfield\HasMessageInterface;
+use PhpTwinfield\BaseObject;
 use PhpTwinfield\Message\Message;
 use PhpTwinfield\Util;
 use Webmozart\Assert\Assert;
 
 abstract class BaseMapper
 {
-    protected static function checkForMessage(HasMessageInterface $object, \DOMElement $element): void
+    protected static function checkForMessage(BaseObject $object, \DOMElement $element): void
     {
         if ($element->hasAttribute('msg')) {
             $message = new Message();
