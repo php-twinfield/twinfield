@@ -6,6 +6,7 @@ use PhpTwinfield\AssetMethodBalanceAccounts;
 use PhpTwinfield\AssetMethodFreeText;
 use PhpTwinfield\AssetMethodProfitLossAccounts;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Util;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
@@ -38,7 +39,7 @@ class AssetMethodMapper extends BaseMapper
         $assetmethodElement = $responseDOM->documentElement;
 
          // Set the inuse, result and status attribute
-        $assetmethod->setInUse(self::parseBooleanAttribute($assetmethodElement->getAttribute('inuse')))
+        $assetmethod->setInUse(Util::parseBoolean($assetmethodElement->getAttribute('inuse')))
             ->setResult($assetmethodElement->getAttribute('result'))
             ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $assetmethodElement->getAttribute('status')));
 

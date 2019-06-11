@@ -2,7 +2,7 @@
 
 namespace PhpTwinfield;
 
-class BrowseDataCell
+class BrowseDataCell extends BaseObject
 {
     /** @var string */
     private $field;

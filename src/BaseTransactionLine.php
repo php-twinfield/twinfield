@@ -32,7 +32,7 @@ use PhpTwinfield\Fields\Transaction\TransactionLine\VatTurnoverField;
 use PhpTwinfield\Fields\VatCodeField;
 use PhpTwinfield\Fields\VatValueField;
 
-abstract class BaseTransactionLine implements TransactionLineInterface
+abstract class BaseTransactionLine extends BaseObject implements TransactionLineInterface
 {
     use BaseValueField;
     use BaseValueOpenField;

@@ -7,7 +7,7 @@ use PhpTwinfield\Fields\NameField;
 use PhpTwinfield\Fields\OfficeField;
 use PhpTwinfield\Fields\ShortNameField;
 
-class BrowseDefinition
+class BrowseDefinition extends BaseObject
 {
     use CodeField;
     use NameField;

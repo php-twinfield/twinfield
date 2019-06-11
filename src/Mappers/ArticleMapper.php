@@ -4,6 +4,7 @@ namespace PhpTwinfield\Mappers;
 use PhpTwinfield\Article;
 use PhpTwinfield\ArticleLine;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Util;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
@@ -45,15 +46,15 @@ class ArticleMapper extends BaseMapper
         $article->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $headerElement->getAttribute('status')));
 
         // Set the article elements from the header
-        $article->setAllowChangePerformanceType(self::parseBooleanAttribute(self::getField($headerElement, 'allowchangeperformancetype', $article)))
-            ->setAllowChangeUnitsPrice(self::parseBooleanAttribute(self::getField($headerElement, 'allowchangeunitsprice', $article)))
-            ->setAllowChangeVatCode(self::parseBooleanAttribute(self::getField($headerElement, 'allowchangevatcode', $article)))
-            ->setAllowDecimalQuantity(self::parseBooleanAttribute(self::getField($headerElement, 'allowdecimalquantity', $article)))
-            ->setAllowDiscountOrPremium(self::parseBooleanAttribute(self::getField($headerElement, 'allowdiscountorpremium', $article)))
+        $article->setAllowChangePerformanceType(Util::parseBoolean(self::getField($headerElement, 'allowchangeperformancetype', $article)))
+            ->setAllowChangeUnitsPrice(Util::parseBoolean(self::getField($headerElement, 'allowchangeunitsprice', $article)))
+            ->setAllowChangeVatCode(Util::parseBoolean(self::getField($headerElement, 'allowchangevatcode', $article)))
+            ->setAllowDecimalQuantity(Util::parseBoolean(self::getField($headerElement, 'allowdecimalquantity', $article)))
+            ->setAllowDiscountOrPremium(Util::parseBoolean(self::getField($headerElement, 'allowdiscountorpremium', $article)))
             ->setCode(self::getField($headerElement, 'code', $article))
             ->setName(self::getField($headerElement, 'name', $article))
             ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $article, $headerElement, 'office'))
-            ->setPercentage(self::parseBooleanAttribute(self::getField($headerElement, 'percentage', $article)))
+            ->setPercentage(Util::parseBoolean(self::getField($headerElement, 'percentage', $article)))
             ->setPerformanceType(self::parseEnumAttribute(\PhpTwinfield\Enums\PerformanceType::class, self::getField($headerElement, 'performancetype', $article)))
             ->setShortName(self::getField($headerElement, 'shortname', $article))
             ->setType(self::parseEnumAttribute(\PhpTwinfield\Enums\ArticleType::class, self::getField($headerElement, 'type', $article)))

@@ -9,6 +9,7 @@ use PhpTwinfield\SupplierChildValidation;
 use PhpTwinfield\SupplierFinancials;
 use PhpTwinfield\SupplierLine;
 use PhpTwinfield\SupplierPostingRule;
+use PhpTwinfield\Util;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
@@ -51,7 +52,7 @@ class SupplierMapper extends BaseMapper
             ->setEndPeriod(self::getField($supplierElement, 'endperiod', $supplier))
             ->setEndYear(self::getField($supplierElement, 'endyear', $supplier))
             ->setGroup(self::parseObjectAttribute(\PhpTwinfield\DimensionGroup::class, $supplier, $supplierElement, 'group', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setInUse(self::parseBooleanAttribute(self::getField($supplierElement, 'name', $supplier)))
+            ->setInUse(Util::parseBoolean(self::getField($supplierElement, 'name', $supplier)))
             ->setName(self::getField($supplierElement, 'name', $supplier))
             ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $supplier, $supplierElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setTouched(self::getField($supplierElement, 'touched', $supplier))
@@ -72,7 +73,7 @@ class SupplierMapper extends BaseMapper
                 ->setLevel(self::getField($financialsElement, 'level', $supplierFinancials))
                 ->setMatchType(self::parseEnumAttribute(\PhpTwinfield\Enums\MatchType::class, self::getField($financialsElement, 'matchtype', $supplierFinancials)))
                 ->setMeansOfPayment(self::parseEnumAttribute(\PhpTwinfield\Enums\MeansOfPayment::class, self::getField($financialsElement, 'meansofpayment', $supplierFinancials)))
-                ->setPayAvailable(self::parseBooleanAttribute(self::getField($financialsElement, 'payavailable', $supplierFinancials)))
+                ->setPayAvailable(Util::parseBoolean(self::getField($financialsElement, 'payavailable', $supplierFinancials)))
                 ->setPayCode(self::parseObjectAttribute(\PhpTwinfield\PayCode::class, $supplierFinancials, $financialsElement, 'paycode', array('name' => 'setName', 'shortname' => 'setShortName')))
                 ->setRelationsReference(self::getField($financialsElement, 'relationsreference', $supplierFinancials))
                 ->setSubAnalyse(self::parseEnumAttribute(\PhpTwinfield\Enums\SubAnalyse::class, self::getField($financialsElement, 'subanalyse', $supplierFinancials)))
@@ -83,7 +84,7 @@ class SupplierMapper extends BaseMapper
             // Set the financials elements from the financials element attributes
             $supplierFinancials->setPayCodeID(self::getAttribute($financialsElement, 'paycode', 'id'))
                 ->setSubstituteWithID(self::getAttribute($financialsElement, 'substitutewith', 'id'))
-                ->setVatCodeFixed(self::parseBooleanAttribute(self::getAttribute($financialsElement, 'vatcode', 'fixed')));
+                ->setVatCodeFixed(Util::parseBoolean(self::getAttribute($financialsElement, 'vatcode', 'fixed')));
 
             // Get the childvalidations element
             $childValidationsDOMTag = $financialsElement->getElementsByTagName('childvalidations');
@@ -138,7 +139,7 @@ class SupplierMapper extends BaseMapper
                 $supplierAddress = new SupplierAddress();
 
                 // Set the default, id and type attribute
-                $supplierAddress->setDefault(self::parseBooleanAttribute($addressElement->getAttribute('default')))
+                $supplierAddress->setDefault(Util::parseBoolean($addressElement->getAttribute('default')))
                     ->setID($addressElement->getAttribute('id'))
                     ->setType(self::parseEnumAttribute(\PhpTwinfield\Enums\AddressType::class, $addressElement->getAttribute('type')));
 
@@ -179,8 +180,8 @@ class SupplierMapper extends BaseMapper
                 $supplierBank = new SupplierBank();
 
                 // Set the default and id attribute
-                $supplierBank->setBlocked(self::parseBooleanAttribute($bankElement->getAttribute('blocked')))
-                    ->setDefault(self::parseBooleanAttribute($bankElement->getAttribute('default')))
+                $supplierBank->setBlocked(Util::parseBoolean($bankElement->getAttribute('blocked')))
+                    ->setDefault(Util::parseBoolean($bankElement->getAttribute('default')))
                     ->setID($bankElement->getAttribute('id'));
 
                 // Set the bank elements from the bank element

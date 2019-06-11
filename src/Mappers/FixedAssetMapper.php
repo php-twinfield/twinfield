@@ -6,6 +6,7 @@ use PhpTwinfield\FixedAssetFinancials;
 use PhpTwinfield\FixedAssetFixedAssets;
 use PhpTwinfield\FixedAssetTransactionLine;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Util;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
@@ -44,7 +45,7 @@ class FixedAssetMapper extends BaseMapper
         $fixedAsset->setBehaviour(self::parseEnumAttribute(\PhpTwinfield\Enums\Behaviour::class, self::getField($fixedAssetElement, 'behaviour', $fixedAsset)))
             ->setCode(self::getField($fixedAssetElement, 'code', $fixedAsset))
             ->setGroup(self::parseObjectAttribute(\PhpTwinfield\DimensionGroup::class, $fixedAsset, $fixedAssetElement, 'group', array('name' => 'setName', 'shortname' => 'setShortName')))
-            ->setInUse(self::parseBooleanAttribute(self::getField($fixedAssetElement, 'name', $fixedAsset)))
+            ->setInUse(Util::parseBoolean(self::getField($fixedAssetElement, 'name', $fixedAsset)))
             ->setName(self::getField($fixedAssetElement, 'name', $fixedAsset))
             ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $fixedAsset, $fixedAssetElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setTouched(self::getField($fixedAssetElement, 'touched', $fixedAsset))
@@ -69,7 +70,7 @@ class FixedAssetMapper extends BaseMapper
 
             // Set the financials elements from the financials element attributes
             $fixedAssetFinancials->setSubstituteWithID(self::getAttribute($financialsElement, 'substitutewith', 'id'));
-            $fixedAssetFinancials->setVatCodeFixed(self::parseBooleanAttribute(self::getAttribute($financialsElement, 'vatcode', 'fixed')));
+            $fixedAssetFinancials->setVatCodeFixed(Util::parseBoolean(self::getAttribute($financialsElement, 'vatcode', 'fixed')));
 
             // Set the custom class to the fixedAsset
             $fixedAsset->setFinancials($fixedAssetFinancials);
@@ -100,22 +101,22 @@ class FixedAssetMapper extends BaseMapper
                 ->setStopValue(self::parseMoneyAttribute(self::getField($fixedAssetsElement, 'stopvalue', $fixedAssetFixedAssets)));
 
             // Set the fixed assets elements from the fixed assets element attributes
-            $fixedAssetFixedAssets->setBeginPeriodLocked(self::parseBooleanAttribute(self::getAttribute($fixedAssetsElement, 'beginperiod', 'locked')))
-                ->setMethodLocked(self::parseBooleanAttribute(self::getAttribute($fixedAssetsElement, 'method', 'locked')))
-                ->setStatusLocked(self::parseBooleanAttribute(self::getAttribute($fixedAssetsElement, 'status', 'locked')))
-                ->setFreeText1Locked(self::parseBooleanAttribute(self::getAttribute($fixedAssetsElement, 'freetext1', 'locked')))
-                ->setFreeText2Locked(self::parseBooleanAttribute(self::getAttribute($fixedAssetsElement, 'freetext2', 'locked')))
-                ->setFreeText3Locked(self::parseBooleanAttribute(self::getAttribute($fixedAssetsElement, 'freetext3', 'locked')))
-                ->setFreeText4Locked(self::parseBooleanAttribute(self::getAttribute($fixedAssetsElement, 'freetext4', 'locked')))
-                ->setFreeText5Locked(self::parseBooleanAttribute(self::getAttribute($fixedAssetsElement, 'freetext5', 'locked')))
-                ->setLastDepreciationLocked(self::parseBooleanAttribute(self::getAttribute($fixedAssetsElement, 'lastdepreciation', 'locked')))
-                ->setNrOfPeriodsInherited(self::parseBooleanAttribute(self::getAttribute($fixedAssetsElement, 'nrofperiods', 'inherited')))
-                ->setNrOfPeriodsLocked(self::parseBooleanAttribute(self::getAttribute($fixedAssetsElement, 'nrofperiods', 'locked')))
-                ->setPercentageLocked(self::parseBooleanAttribute(self::getAttribute($fixedAssetsElement, 'percentage', 'locked')))
-                ->setPurchaseDateLocked(self::parseBooleanAttribute(self::getAttribute($fixedAssetsElement, 'purchasedate', 'locked')))
-                ->setResidualValueLocked(self::parseBooleanAttribute(self::getAttribute($fixedAssetsElement, 'residualvalue', 'locked')))
-                ->setSellDateLocked(self::parseBooleanAttribute(self::getAttribute($fixedAssetsElement, 'selldate', 'locked')))
-                ->setStopValueLocked(self::parseBooleanAttribute(self::getAttribute($fixedAssetsElement, 'stopvalue', 'locked')));
+            $fixedAssetFixedAssets->setBeginPeriodLocked(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'beginperiod', 'locked')))
+                ->setMethodLocked(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'method', 'locked')))
+                ->setStatusLocked(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'status', 'locked')))
+                ->setFreeText1Locked(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'freetext1', 'locked')))
+                ->setFreeText2Locked(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'freetext2', 'locked')))
+                ->setFreeText3Locked(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'freetext3', 'locked')))
+                ->setFreeText4Locked(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'freetext4', 'locked')))
+                ->setFreeText5Locked(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'freetext5', 'locked')))
+                ->setLastDepreciationLocked(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'lastdepreciation', 'locked')))
+                ->setNrOfPeriodsInherited(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'nrofperiods', 'inherited')))
+                ->setNrOfPeriodsLocked(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'nrofperiods', 'locked')))
+                ->setPercentageLocked(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'percentage', 'locked')))
+                ->setPurchaseDateLocked(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'purchasedate', 'locked')))
+                ->setResidualValueLocked(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'residualvalue', 'locked')))
+                ->setSellDateLocked(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'selldate', 'locked')))
+                ->setStopValueLocked(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'stopvalue', 'locked')));
 
             // Get the translines element
             $transactionLinesDOMTag = $fixedAssetsElement->getElementsByTagName('translines');
@@ -144,17 +145,17 @@ class FixedAssetMapper extends BaseMapper
                         ->setPeriod(self::getField($transactionLineElement, 'period', $fixedAssetTransactionLine));
 
                     // Set the fixed assets transaction line elements from the fixed assets transline attributes
-                    $fixedAssetTransactionLine->setAmountLocked(self::parseBooleanAttribute(self::getAttribute($transactionLineElement, 'amount', 'locked')))
-                        ->setCodeLocked(self::parseBooleanAttribute(self::getAttribute($transactionLineElement, 'code', 'locked')))
-                        ->setDim1Locked(self::parseBooleanAttribute(self::getAttribute($transactionLineElement, 'dim1', 'locked')))
-                        ->setDim2Locked(self::parseBooleanAttribute(self::getAttribute($transactionLineElement, 'dim2', 'locked')))
-                        ->setDim3Locked(self::parseBooleanAttribute(self::getAttribute($transactionLineElement, 'dim3', 'locked')))
-                        ->setDim4Locked(self::parseBooleanAttribute(self::getAttribute($transactionLineElement, 'dim4', 'locked')))
-                        ->setDim5Locked(self::parseBooleanAttribute(self::getAttribute($transactionLineElement, 'dim5', 'locked')))
-                        ->setDim6Locked(self::parseBooleanAttribute(self::getAttribute($transactionLineElement, 'dim6', 'locked')))
-                        ->setLineLocked(self::parseBooleanAttribute(self::getAttribute($transactionLineElement, 'line', 'locked')))
-                        ->setNumberLocked(self::parseBooleanAttribute(self::getAttribute($transactionLineElement, 'number', 'locked')))
-                        ->setPeriodLocked(self::parseBooleanAttribute(self::getAttribute($transactionLineElement, 'period', 'locked')));
+                    $fixedAssetTransactionLine->setAmountLocked(Util::parseBoolean(self::getAttribute($transactionLineElement, 'amount', 'locked')))
+                        ->setCodeLocked(Util::parseBoolean(self::getAttribute($transactionLineElement, 'code', 'locked')))
+                        ->setDim1Locked(Util::parseBoolean(self::getAttribute($transactionLineElement, 'dim1', 'locked')))
+                        ->setDim2Locked(Util::parseBoolean(self::getAttribute($transactionLineElement, 'dim2', 'locked')))
+                        ->setDim3Locked(Util::parseBoolean(self::getAttribute($transactionLineElement, 'dim3', 'locked')))
+                        ->setDim4Locked(Util::parseBoolean(self::getAttribute($transactionLineElement, 'dim4', 'locked')))
+                        ->setDim5Locked(Util::parseBoolean(self::getAttribute($transactionLineElement, 'dim5', 'locked')))
+                        ->setDim6Locked(Util::parseBoolean(self::getAttribute($transactionLineElement, 'dim6', 'locked')))
+                        ->setLineLocked(Util::parseBoolean(self::getAttribute($transactionLineElement, 'line', 'locked')))
+                        ->setNumberLocked(Util::parseBoolean(self::getAttribute($transactionLineElement, 'number', 'locked')))
+                        ->setPeriodLocked(Util::parseBoolean(self::getAttribute($transactionLineElement, 'period', 'locked')));
 
                     // Add the transactionLine to the fixedAsset
                     $fixedAssetFixedAssets->addTransactionLine($fixedAssetTransactionLine);
