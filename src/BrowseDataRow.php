@@ -5,7 +5,7 @@ namespace PhpTwinfield;
 use PhpTwinfield\Fields\CodeField;
 use PhpTwinfield\Fields\OfficeField;
 
-class BrowseDataRow
+class BrowseDataRow extends BaseObject
 {
     use CodeField;
     use OfficeField;

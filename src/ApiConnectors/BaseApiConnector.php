@@ -206,13 +206,16 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     /**
      * Map the response of a listAll to an array of the requested class
      *
+     * Is used by child ApiConnectors to map a $data object received by the FinderService to one or more new entities of $objectClass
+     * using the methods and attributes in $methodToAttributeMap. Returns an array of $objectClass objects
+     *
      * @param string $objectClass
      * @param $data
-     * @param array $objectListAllTags
+     * @param array $methodToAttributeMap
      * @return array
      * @throws Exception
      */
-    public function mapListAll(string $objectClass, $data, array $objectListAllTags): array {
+    public function mapListAll(string $objectClass, $data, array $methodToAttributeMap): array {
         if ($data->TotalRows == 0) {
             return [];
         }
@@ -228,7 +231,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
                 $elementArray = $responseArrayElement;
             }
 
-            foreach ($objectListAllTags as $key => $method) {
+            foreach ($methodToAttributeMap as $key => $method) {
                 $object->$method($elementArray[$key]);
             }
 

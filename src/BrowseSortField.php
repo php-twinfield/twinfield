@@ -5,7 +5,7 @@ namespace PhpTwinfield;
 use PhpTwinfield\Enums\Order;
 use PhpTwinfield\Fields\CodeField;
 
-class BrowseSortField
+class BrowseSortField extends BaseObject
 {
     use CodeField;
 

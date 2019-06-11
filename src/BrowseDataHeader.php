@@ -4,7 +4,7 @@ namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\CodeField;
 
-class BrowseDataHeader
+class BrowseDataHeader extends BaseObject
 {
     use CodeField;
 
