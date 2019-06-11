@@ -31,12 +31,11 @@ abstract class BaseObject implements HasMessageInterface
         return $this->messages;
     }
 
-    public function addMessage(Message $message)
+    public function addMessage(Message $message): void
     {
         $this->messages[] = $message;
-
-        return $this;
     }
+    
     public function setMessages($messages)
     {
         $this->messages = $messages;
