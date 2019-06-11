@@ -16,5 +16,5 @@ interface HasMessageInterface
     /**
      * Adds an error message to an object
      */
-    public function addMessage(Message $message): void
+    public function addMessage(Message $message): void;
 }

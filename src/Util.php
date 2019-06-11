@@ -95,7 +95,7 @@ final class Util
      * @param string|null $input
      * @return bool
      */
-    protected static function parseBoolean(?string $value): bool
+    public static function parseBoolean(?string $value): bool
     {
         return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
