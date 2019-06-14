@@ -57,7 +57,7 @@ class BrowseDataRow
      * @param string $code
      * @return BrowseDataRow
      */
-    public function setCode(string $code): BrowseDataRow
+    public function setCode(?string $code): BrowseDataRow
     {
         $this->code = $code;
         return $this;
@@ -75,7 +75,7 @@ class BrowseDataRow
      * @param int $number
      * @return BrowseDataRow
      */
-    public function setNumber(int $number): BrowseDataRow
+    public function setNumber(?int $number): BrowseDataRow
     {
         $this->number = $number;
         return $this;
@@ -93,7 +93,7 @@ class BrowseDataRow
      * @param int $line
      * @return BrowseDataRow
      */
-    public function setLine(int $line): BrowseDataRow
+    public function setLine(?int $line): BrowseDataRow
     {
         $this->line = $line;
         return $this;
