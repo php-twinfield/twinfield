@@ -60,8 +60,12 @@ final class Util
      * @return \DateTimeImmutable
      * @throws Exception
      */
-    public static function parseDateTime(string $dateString)
+    public static function parseDateTime(string $dateString): ?string
     {
+        if($dateString === '') {
+          return null;
+        }
+      
         $date = \DateTimeImmutable::createFromFormat("YmdHis", $dateString);
 
         if (false === $date) {
