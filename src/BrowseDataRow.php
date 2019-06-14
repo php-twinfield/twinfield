@@ -54,7 +54,7 @@ class BrowseDataRow
     }
 
     /**
-     * @param string $code
+     * @param string|null $code
      * @return BrowseDataRow
      */
     public function setCode(?string $code): BrowseDataRow
@@ -72,7 +72,7 @@ class BrowseDataRow
     }
 
     /**
-     * @param int $number
+     * @param int|null $number
      * @return BrowseDataRow
      */
     public function setNumber(?int $number): BrowseDataRow
@@ -90,7 +90,7 @@ class BrowseDataRow
     }
 
     /**
-     * @param int $line
+     * @param int|null $line
      * @return BrowseDataRow
      */
     public function setLine(?int $line): BrowseDataRow
