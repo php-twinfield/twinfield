@@ -72,11 +72,17 @@ class OfficeApiConnector extends BaseApiConnector
 
         $offices = [];
         foreach ($response->data->Items->ArrayOfString as $officeArray) {
-            $office = new Office();
+          $office = new Office();
+          if(is_array($officeArray)) {
+            $office->setCode($officeArray[0]);
+            $office->setCountryCode($officeArray[2]);
+            $office->setName($officeArray[1]);
+          } else {
             $office->setCode($officeArray->string[0]);
             $office->setCountryCode($officeArray->string[2]);
             $office->setName($officeArray->string[1]);
-            $offices[] = $office;
+          }
+          $offices[] = $office;
         }
 
         return $offices;
