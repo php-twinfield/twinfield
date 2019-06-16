@@ -142,13 +142,13 @@ abstract class BaseMapper
         }
     }
 
-    protected static function parseMoneyAttribute(?float $value): ?Money
+    protected static function parseMoneyAttribute(?float $value, ?string $currency): ?Money
     {
-        if ($value === null) {
+        if ($value === null || $currency === null) {
             return null;
         }
 
-        return Util::parseMoney($value, new Currency('EUR'));
+        return Util::parseMoney($value, new Currency($currency));
     }
 
     /** @var SomeClassWithMethodsetCode $object2 */
