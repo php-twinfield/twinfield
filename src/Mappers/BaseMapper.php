@@ -62,7 +62,7 @@ abstract class BaseMapper
         if (false !== strtotime($value)) {
             return Util::parseDate($value);
         }
-        
+
         return null;
     }
 
@@ -71,7 +71,7 @@ abstract class BaseMapper
         if (false !== strtotime($value)) {
             return Util::parseDateTime($value);
         }
-        
+
         return null;
     }
 
@@ -88,13 +88,13 @@ abstract class BaseMapper
         }
     }
 
-    protected static function parseMoneyAttribute(?float $value): ?Money
+    protected static function parseMoneyAttribute(?float $value, ?string $currency): ?Money
     {
-        if ($value === null) {
+        if ($value === null || $currency === null) {
             return null;
         }
 
-        return Util::parseMoney($value, new Currency('EUR'));
+        return Util::parseMoney($value, new Currency($currency));
     }
 
     /** @var SomeClassWithMethodsetCode $object2 */
