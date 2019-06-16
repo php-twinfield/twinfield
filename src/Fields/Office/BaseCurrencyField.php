@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpTwinfield\Fields;
+namespace PhpTwinfield\Fields\Office;
 
 use PhpTwinfield\Currency;
 
