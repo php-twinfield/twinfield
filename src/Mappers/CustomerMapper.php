@@ -11,6 +11,7 @@ use PhpTwinfield\CustomerFinancials;
 use PhpTwinfield\CustomerLine;
 use PhpTwinfield\CustomerPostingRule;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Util;
 
 /**
@@ -28,10 +29,11 @@ class CustomerMapper extends BaseMapper
      *
      * @access public
      * @param \PhpTwinfield\Response\Response $response
+     * @param \PhpTwinfield\Secure\AuthenticatedConnection $connection
      * @return Customer
      * @throws \PhpTwinfield\Exception
      */
-    public static function map(Response $response)
+    public static function map(Response $response, AuthenticatedConnection $connection)
     {
         // Generate new Customer object
         $customer = new Customer();
@@ -62,6 +64,8 @@ class CustomerMapper extends BaseMapper
             ->setType(self::parseObjectAttribute(\PhpTwinfield\DimensionType::class, $customer, $customerElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setUID(self::getField($customerElement, 'uid', $customer))
             ->setWebsite(self::getField($customerElement, 'website', $customer));
+            
+        $currencies = self::getOfficeCurrencies($connection, $customer->getOffice());
 
         // Set the customer elements from the customer element attributes
         $customer->setDiscountArticleID(self::getAttribute($customerElement, 'discountarticle', 'id'));
@@ -151,7 +155,7 @@ class CustomerMapper extends BaseMapper
             $customerCreditManagement = new CustomerCreditManagement();
 
             // Set the customer credit management elements from the creditmanagement element
-            $customerCreditManagement->setBaseCreditLimit(self::parseMoneyAttribute(self::getField($creditManagementElement, 'basecreditlimit', $customerCreditManagement)))
+            $customerCreditManagement->setBaseCreditLimit(self::parseMoneyAttribute(self::getField($creditManagementElement, 'basecreditlimit', $customerCreditManagement), $currencies['base']))
                 ->setBlocked(Util::parseBoolean(self::getField($creditManagementElement, 'blocked', $customerCreditManagement)))
                 ->setComment(self::getField($creditManagementElement, 'comment', $customerCreditManagement))
                 ->setFreeText1(Util::parseBoolean(self::getField($creditManagementElement, 'freetext1', $customerCreditManagement)))
@@ -277,9 +281,10 @@ class CustomerMapper extends BaseMapper
                     ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $postingruleElement->getAttribute('status')));
 
                 // Set the postingrule elements from the postingrule element
-                $customerPostingRule->setAmount(self::parseMoneyAttribute(self::getField($postingruleElement, 'amount', $customerPostingRule)))
-                    ->setCurrency(self::parseObjectAttribute(\PhpTwinfield\Currency::class, $customerPostingRule, $postingruleElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
+                $customerPostingRule->setCurrency(self::parseObjectAttribute(\PhpTwinfield\Currency::class, $customerPostingRule, $postingruleElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
                     ->setDescription(self::getField($postingruleElement, 'description', $customerPostingRule));
+                    
+                $customerPostingRule->setAmount(self::parseMoneyAttribute(self::getField($postingruleElement, 'amount', $customerPostingRule), $customerPostingRule->getCurrencyToString()));
 
                 // Get the lines element
                 $linesDOMTag = $postingruleElement->getElementsByTagName('lines');

@@ -4,9 +4,12 @@ namespace PhpTwinfield\Mappers;
 
 use Money\Currency;
 use Money\Money;
+use PhpTwinfield\ApiConnectors\OfficeApiConnector;
 use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Message\Message;
+use PhpTwinfield\Office;
 use PhpTwinfield\Util;
+use PhpTwinfield\Secure\AuthenticatedConnection;
 use Webmozart\Assert\Assert;
 
 abstract class BaseMapper
@@ -55,6 +58,21 @@ abstract class BaseMapper
         }
 
         return $fieldElement->textContent;
+    }
+    
+    protected static function getOfficeCurrencies(AuthenticatedConnection $connection, Office $office): array
+    {
+        $currencies = ["base" => '', "reporting" => ''];
+        
+        $officeApiConnector = new OfficeApiConnector($connection);
+        $office = $officeApiConnector->get($office->getCode());
+        
+        if ($office->getResult() == 1) {
+            $currencies['base'] = $office->getBaseCurrencyToString();
+            $currencies['reporting'] = $office->getReportingCurrencyToString();
+        }
+        
+        return $currencies;
     }
 
     protected static function parseDateAttribute(?string $value): ?\DateTimeImmutable

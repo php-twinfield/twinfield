@@ -36,7 +36,7 @@ class InvoicesDocument extends BaseDocument
      * @param AuthenticatedConnection $connection
      * @return void | [Adds to this instance]
      */
-    public function addInvoice(Invoice $invoice, $connection)
+    public function addInvoice(Invoice $invoice, AuthenticatedConnection $connection)
     {
         $invoiceElement = $this->createElement('salesinvoice');
         $this->rootElement->appendChild($invoiceElement);

@@ -67,8 +67,8 @@ class InvoiceMapper extends BaseMapper
             $invoiceTotals = new InvoiceTotals();
 
             // Set the invoice totals elements from the totals element
-            $invoiceTotals->setValueExcl(self::parseMoneyAttribute(self::getField($totalsElement, 'valueexcl', $invoiceTotals)))
-                ->setValueInc(self::parseMoneyAttribute(self::getField($totalsElement, 'valueinc', $invoiceTotals)));
+            $invoiceTotals->setValueExcl(self::parseMoneyAttribute(self::getField($totalsElement, 'valueexcl', $invoiceTotals), $invoice->getCurrencyToString()))
+                ->setValueInc(self::parseMoneyAttribute(self::getField($totalsElement, 'valueinc', $invoiceTotals), $invoice->getCurrencyToString()));
 
             // Set the custom class to the invoice
             $invoice->setTotals($invoiceTotals);
@@ -103,12 +103,12 @@ class InvoiceMapper extends BaseMapper
                     ->setQuantity(self::getField($lineElement, 'quantity', $invoiceLine))
                     ->setSubArticleFromString(self::getField($lineElement, 'subarticle', $invoiceLine))
                     ->setUnits(self::getField($lineElement, 'units', $invoiceLine))
-                    ->setUnitsPriceExcl(self::parseMoneyAttribute(self::getField($lineElement, 'unitspriceexcl', $invoiceLine)))
-                    ->setUnitsPriceInc(self::parseMoneyAttribute(self::getField($lineElement, 'unitspriceinc', $invoiceLine)))
-                    ->setValueExcl(self::parseMoneyAttribute(self::getField($lineElement, 'valueexcl', $invoiceLine)))
-                    ->setValueInc(self::parseMoneyAttribute(self::getField($lineElement, 'valueinc', $invoiceLine)))
+                    ->setUnitsPriceExcl(self::parseMoneyAttribute(self::getField($lineElement, 'unitspriceexcl', $invoiceLine), $invoice->getCurrencyToString()))
+                    ->setUnitsPriceInc(self::parseMoneyAttribute(self::getField($lineElement, 'unitspriceinc', $invoiceLine), $invoice->getCurrencyToString()))
+                    ->setValueExcl(self::parseMoneyAttribute(self::getField($lineElement, 'valueexcl', $invoiceLine), $invoice->getCurrencyToString()))
+                    ->setValueInc(self::parseMoneyAttribute(self::getField($lineElement, 'valueinc', $invoiceLine), $invoice->getCurrencyToString()))
                     ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $invoiceLine, $lineElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
-                    ->setVatValue(self::parseMoneyAttribute(self::getField($lineElement, 'vatvalue', $invoiceLine)));
+                    ->setVatValue(self::parseMoneyAttribute(self::getField($lineElement, 'vatvalue', $invoiceLine), $invoice->getCurrencyToString()));
 
                 // Set the custom class to the invoice
                 $invoice->addLine($invoiceLine);
@@ -132,7 +132,7 @@ class InvoiceMapper extends BaseMapper
                 $invoiceVatLine->setPerformanceDate(self::parseDateAttribute(self::getField($vatlineElement, 'performancedate', $invoiceVatLine)))
                     ->setPerformanceType(self::parseEnumAttribute(\PhpTwinfield\Enums\PerformanceType::class, self::getField($vatlineElement, 'performancetype', $invoiceVatLine)))
                     ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $invoiceVatLine, $vatlineElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
-                    ->setVatValue(self::parseMoneyAttribute(self::getField($vatlineElement, 'vatvalue', $invoiceVatLine)));
+                    ->setVatValue(self::parseMoneyAttribute(self::getField($vatlineElement, 'vatvalue', $invoiceVatLine), $invoice->getCurrencyToString()));
 
                 // Set the custom class to the invoice
                 $invoice->addVatLine($invoiceVatLine);

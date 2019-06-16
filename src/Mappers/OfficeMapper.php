@@ -39,10 +39,12 @@ class OfficeMapper extends BaseMapper
             ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $officeElement->getAttribute('status')));
 
         // Set the office elements from the office element
-        $office->setCode(self::getField($officeElement, 'code', $office))
+        $office->setBaseCurrency(self::parseObjectAttribute(\PhpTwinfield\Currency::class, $office, $officeElement, 'basecurrency', array('name' => 'setName', 'shortname' => 'setShortName')))
+            ->setCode(self::getField($officeElement, 'code', $office))
             ->setCreated(self::parseDateTimeAttribute(self::getField($officeElement, 'created', $office)))
             ->setModified(self::parseDateTimeAttribute(self::getField($officeElement, 'modified', $office)))
             ->setName(self::getField($officeElement, 'name', $office))
+            ->setReportingCurrency(self::parseObjectAttribute(\PhpTwinfield\Currency::class, $office, $officeElement, 'reportingcurrency', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setShortName(self::getField($officeElement, 'shortname', $office))
             ->setTouched(self::getField($officeElement, 'touched', $office))
             ->setUser(self::parseObjectAttribute(\PhpTwinfield\User::class, $office, $officeElement, 'user', array('name' => 'setName', 'shortname' => 'setShortName')));

@@ -6,6 +6,7 @@ use PhpTwinfield\FixedAssetFinancials;
 use PhpTwinfield\FixedAssetFixedAssets;
 use PhpTwinfield\FixedAssetTransactionLine;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Util;
 
 /**
@@ -23,11 +24,12 @@ class FixedAssetMapper extends BaseMapper
      * @access public
      *
      * @param \PhpTwinfield\Response\Response $response
+     * @param \PhpTwinfield\Secure\AuthenticatedConnection $connection
      *
      * @return FixedAsset
      * @throws \PhpTwinfield\Exception
      */
-    public static function map(Response $response)
+    public static function map(Response $response, AuthenticatedConnection $connection)
     {
         // Generate new FixedAsset object
         $fixedAsset = new FixedAsset();
@@ -51,6 +53,8 @@ class FixedAssetMapper extends BaseMapper
             ->setTouched(self::getField($fixedAssetElement, 'touched', $fixedAsset))
             ->setType(self::parseObjectAttribute(\PhpTwinfield\DimensionType::class, $fixedAsset, $fixedAssetElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setUID(self::getField($fixedAssetElement, 'uid', $fixedAsset));
+            
+        $currencies = self::getOfficeCurrencies($connection, $fixedAsset->getOffice());
 
         // Get the financials element
         $financialsElement = $responseDOM->getElementsByTagName('financials')->item(0);
@@ -95,10 +99,10 @@ class FixedAssetMapper extends BaseMapper
                 ->setNrOfPeriods(self::getField($fixedAssetsElement, 'nrofperiods', $fixedAssetFixedAssets))
                 ->setPercentage(self::getField($fixedAssetsElement, 'percentage', $fixedAssetFixedAssets))
                 ->setPurchaseDate(self::parseDateAttribute(self::getField($fixedAssetsElement, 'purchasedate', $fixedAssetFixedAssets)))
-                ->setResidualValue(self::parseMoneyAttribute(self::getField($fixedAssetsElement, 'residualvalue', $fixedAssetFixedAssets)))
+                ->setResidualValue(self::parseMoneyAttribute(self::getField($fixedAssetsElement, 'residualvalue', $fixedAssetFixedAssets), $currencies['base']))
                 ->setSellDate(self::parseDateAttribute(self::getField($fixedAssetsElement, 'selldate', $fixedAssetFixedAssets)))
                 ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\FixedAssetsStatus::class, self::getField($fixedAssetsElement, 'status', $fixedAssetFixedAssets)))
-                ->setStopValue(self::parseMoneyAttribute(self::getField($fixedAssetsElement, 'stopvalue', $fixedAssetFixedAssets)));
+                ->setStopValue(self::parseMoneyAttribute(self::getField($fixedAssetsElement, 'stopvalue', $fixedAssetFixedAssets), $currencies['base']));
 
             // Set the fixed assets elements from the fixed assets element attributes
             $fixedAssetFixedAssets->setBeginPeriodLocked(Util::parseBoolean(self::getAttribute($fixedAssetsElement, 'beginperiod', 'locked')))
@@ -132,7 +136,7 @@ class FixedAssetMapper extends BaseMapper
                     $fixedAssetTransactionLine = new FixedAssetTransactionLine();
 
                     // Set the fixed assets transaction line elements from the fixed assets transline element
-                    $fixedAssetTransactionLine->setAmount(self::parseMoneyAttribute(self::getField($transactionLineElement, 'amount', $fixedAssetTransactionLine)))
+                    $fixedAssetTransactionLine->setAmount(self::parseMoneyAttribute(self::getField($transactionLineElement, 'amount', $fixedAssetTransactionLine), $currencies['base']))
                         ->setCode(self::getField($transactionLineElement, 'code', $fixedAssetTransactionLine))
                         ->setDim1(self::parseObjectAttribute(\PhpTwinfield\GeneralLedger::class, $fixedAssetTransactionLine, $transactionLineElement, 'dim1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setType')))
                         ->setDim2(self::parseObjectAttribute('UnknownDimension', $fixedAssetTransactionLine, $transactionLineElement, 'dim2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setType')))

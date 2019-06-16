@@ -44,7 +44,7 @@ class TransactionApiConnector extends BaseApiConnector
         // Send the Request document and set the response to this instance
         $response = $this->sendXmlDocument($request_transaction);
 
-        return TransactionMapper::map($transactionClassName, $response);
+        return TransactionMapper::map($transactionClassName, $response, $this->getConnection());
     }
 
     /**
@@ -86,7 +86,7 @@ class TransactionApiConnector extends BaseApiConnector
         }
 
         return $this->getProcessXmlService()->mapAll($responses, "transaction", function (Response $subresponse) use ($classname): BaseTransaction {
-            return TransactionMapper::map($classname, $subresponse);
+            return TransactionMapper::map($classname, $subresponse, $this->getConnection());
         });
     }
 }

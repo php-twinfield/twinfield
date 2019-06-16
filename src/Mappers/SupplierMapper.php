@@ -224,9 +224,10 @@ class SupplierMapper extends BaseMapper
                     ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $postingruleElement->getAttribute('status')));
 
                 // Set the postingrule elements from the postingrule element
-                $supplierPostingRule->setAmount(self::parseMoneyAttribute(self::getField($postingruleElement, 'amount', $supplierPostingRule)))
-                    ->setCurrency(self::parseObjectAttribute(\PhpTwinfield\Currency::class, $supplierPostingRule, $postingruleElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
+                $supplierPostingRule->setCurrency(self::parseObjectAttribute(\PhpTwinfield\Currency::class, $supplierPostingRule, $postingruleElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
                     ->setDescription(self::getField($postingruleElement, 'description', $supplierPostingRule));
+
+                $supplierPostingRule->setAmount(self::parseMoneyAttribute(self::getField($postingruleElement, 'amount', $supplierPostingRule), $supplierPostingRule->getCurrencyToString()));
 
                 // Get the lines element
                 $linesDOMTag = $postingruleElement->getElementsByTagName('lines');
