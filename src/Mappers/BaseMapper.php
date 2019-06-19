@@ -65,11 +65,11 @@ abstract class BaseMapper
         $currencies = ["base" => '', "reporting" => ''];
         
         $officeApiConnector = new OfficeApiConnector($connection);
-        $office = $officeApiConnector->get($office->getCode());
+        $fullOffice = $officeApiConnector->get($office->getCode());
         
-        if ($office->getResult() == 1) {
-            $currencies['base'] = $office->getBaseCurrencyToString();
-            $currencies['reporting'] = $office->getReportingCurrencyToString();
+        if ($fullOffice->getResult() == 1) {
+            $currencies['base'] = $fullOffice->getBaseCurrencyToString();
+            $currencies['reporting'] = $fullOffice->getReportingCurrencyToString();
         }
         
         return $currencies;

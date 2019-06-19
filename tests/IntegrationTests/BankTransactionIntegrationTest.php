@@ -4,15 +4,16 @@ namespace PhpTwinfield\IntegrationTests;
 
 use DateTimeImmutable;
 use Money\Money;
+use PhpTwinfield\ApiConnectors\OfficeApiConnector;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\BankTransaction;
 use PhpTwinfield\BankTransactionLine;
+use PhpTwinfield\Currency;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Enums\MatchStatus;
-use PhpTwinfield\Mappers\BaseMapper;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
@@ -37,9 +38,17 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->transactionApiConnector = new TransactionApiConnector($this->connection);
         
-        $mockBaseMapper = \Mockery::mock(BaseMapper::class)->makePartial()->shouldAllowMockingProtectedMethods();
-        $mockBaseMapper->shouldReceive('getOfficeCurrencies')->andReturnUsing(function() {
-            return ["base" => 'EUR', "reporting" => 'USD'];
+        $baseCurrency = new Currency;
+        $baseCurrency->setCode('EUR');
+        $reportingCurrency = new Currency;
+        $reportingCurrency->setCode('USD');
+        
+        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class);
+        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
+            $office = new Office;
+            $office->setBaseCurrency($baseCurrency);
+            $office->setReportingCurrency($reportingCurrency);
+            return $office;
         });
     }
 

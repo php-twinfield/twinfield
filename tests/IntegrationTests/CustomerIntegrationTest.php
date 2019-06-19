@@ -9,7 +9,6 @@ use PhpTwinfield\CustomerBank;
 use PhpTwinfield\CustomerCollectMandate;
 use PhpTwinfield\CustomerFinancials;
 use PhpTwinfield\DomDocuments\CustomersDocument;
-use PhpTwinfield\Mappers\BaseMapper;
 use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
@@ -38,11 +37,6 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         parent::setUp();
 
         $this->customerApiConnector = new CustomerApiConnector($this->connection);
-        
-        $mockBaseMapper = \Mockery::mock(BaseMapper::class)->makePartial()->shouldAllowMockingProtectedMethods();
-        $mockBaseMapper->shouldReceive('getOfficeCurrencies')->andReturnUsing(function() {
-            return ["base" => 'EUR', "reporting" => 'USD'];
-        });
     }
 
     public function testGetCustomerWorks()
