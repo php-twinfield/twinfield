@@ -37,17 +37,9 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->transactionApiConnector = new TransactionApiConnector($this->connection);
         
-        $baseCurrency = new Currency;
-        $baseCurrency->setCode('EUR');
-        $reportingCurrency = new Currency;
-        $reportingCurrency->setCode('USD');
-        
-        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class);
-        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
-            $office = new Office;
-            $office->setBaseCurrency($baseCurrency);
-            $office->setReportingCurrency($reportingCurrency);
-            return $office;
+        $mockBaseMapper = \Mockery::mock('overload:'.BaseMapper::class);
+        $mockBaseMapper->shouldReceive('getOfficeCurrencies')->andReturnUsing(function() {
+            return ["base" => 'EUR', "reporting" => 'USD'];
         });
     }
 
