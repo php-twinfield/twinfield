@@ -104,7 +104,7 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($totalLine->getBaseValueOpen());
         $this->assertNull($totalLine->getVatCode());
         $this->assertNull($totalLine->getVatValue());
-        $this->assertEquals(Money::EUR(0), $totalLine->getVatTotal());
+        $this->assertNull($totalLine->getVatTotal());
         $this->assertEquals(Money::EUR(0), $totalLine->getVatBaseTotal());
         $this->assertNull($totalLine->getPerformanceType());
         $this->assertNull($totalLine->getPerformanceCountry());
@@ -128,7 +128,7 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(43555), $detailLine->getBaseValueOpen());
         $this->assertEquals(Money::USD(65333), $detailLine->getRepValue());
         $this->assertNull($detailLine->getVatCodeToString());
-        $this->assertEquals(Money::EUR(0), $detailLine->getVatValue());
+        $this->assertNull($detailLine->getVatValue());
         $this->assertNull($detailLine->getVatTotal());
         $this->assertNull($detailLine->getVatBaseTotal());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\PerformanceType');
