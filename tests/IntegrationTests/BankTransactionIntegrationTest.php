@@ -40,7 +40,7 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
         $mockBaseMapper = \Mockery::mock('overload:'.BaseMapper::class)->shouldIgnoreMissing();
         $mockBaseMapper->shouldReceive('getOfficeCurrencies')->andReturnUsing(function() {
             return ["base" => 'EUR', "reporting" => 'USD'];
-        });
+        })->once();
     }
 
     public function testGetBankTransactionWorks()
