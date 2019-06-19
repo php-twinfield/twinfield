@@ -15,8 +15,6 @@ class OfficeIntegrationTest extends BaseIntegrationTest
     protected function setUp()
     {
         parent::setUp();
-        
-        unset($mockOfficeApiConnector);
 
         $this->officeApiConnector = new OfficeApiConnector($this->connection);
     }

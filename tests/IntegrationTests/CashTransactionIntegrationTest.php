@@ -38,7 +38,7 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->transactionApiConnector = new TransactionApiConnector($this->connection);
         
-        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class);
+        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
         $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
             $baseCurrency = new Currency;
             $baseCurrency->setCode('EUR');
