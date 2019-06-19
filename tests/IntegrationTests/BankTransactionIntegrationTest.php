@@ -208,8 +208,4 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
         </transactions>'
         );
     }
-    
-    public function tearDown() {
-        \Mockery::close();
-    }
 }

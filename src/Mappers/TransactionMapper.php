@@ -153,7 +153,7 @@ class TransactionMapper extends BaseMapper
                     ->setValue(self::parseMoneyAttribute(self::getField($lineElement, 'value', $transactionLine), $transaction->getCurrencyToString()))
                     ->setDebitCredit(self::parseEnumAttribute(\PhpTwinfield\Enums\DebitCredit::class, self::getField($lineElement, 'debitcredit', $transactionLine)))
                     ->setDescription(self::getField($lineElement, 'description', $transactionLine))
-                    ->setDestOfficeFromString(self::parseObjectAttribute(\PhpTwinfield\Office::class, $transactionLine, $lineElement, 'destoffice'))
+                    ->setDestOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $transactionLine, $lineElement, 'destoffice'))
                     ->setDim1(self::parseObjectAttribute(\PhpTwinfield\Dummy::class, $transactionLine, $lineElement, 'dim1'))
                     ->setId($lineElement->getAttribute('id'))
                     ->setLineType(self::parseEnumAttribute(\PhpTwinfield\Enums\LineType::class, $lineType))

@@ -4,9 +4,11 @@ namespace PhpTwinfield\IntegrationTests;
 
 use DateTimeImmutable;
 use Money\Money;
+use PhpTwinfield\ApiConnectors\OfficeApiConnector;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\CashTransaction;
 use PhpTwinfield\CashTransactionLine;
+use PhpTwinfield\Currency;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
@@ -35,6 +37,20 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         parent::setUp();
 
         $this->transactionApiConnector = new TransactionApiConnector($this->connection);
+        
+        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class);
+        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
+            $baseCurrency = new Currency;
+            $baseCurrency->setCode('EUR');
+            $reportingCurrency = new Currency;
+            $reportingCurrency->setCode('USD');
+            
+            $office = new Office;
+            $office->setResult(1);
+            $office->setBaseCurrency($baseCurrency);
+            $office->setReportingCurrency($reportingCurrency);
+            return $office;
+        });
     }
 
     public function testGetCashTransactionWorks()
