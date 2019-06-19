@@ -96,7 +96,7 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(43555), $totalLine->getValue());
         $this->assertEquals(Money::EUR(43555), $totalLine->getBaseValue());
         $this->assertSame(1.0, $totalLine->getRate());
-        $this->assertEquals(Money::EUR(65333), $totalLine->getRepValue());
+        $this->assertEquals(Money::USD(65333), $totalLine->getRepValue());
         $this->assertSame(1.500000000, $totalLine->getRepRate());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
         $this->assertSame($ReflectObject->getConstant('NOTMATCHABLE'), (string)$totalLine->getMatchStatus());
@@ -119,14 +119,14 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(43555), $detailLine->getValue());
         $this->assertEquals(Money::EUR(43555), $totalLine->getBaseValue());
         $this->assertSame(1.0, $totalLine->getRate());
-        $this->assertEquals(Money::EUR(65333), $totalLine->getRepValue());
+        $this->assertEquals(Money::USD(65333), $totalLine->getRepValue());
         $this->assertSame(1.500000000, $totalLine->getRepRate());
         $this->assertSame('Invoice paid', $detailLine->getDescription());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
         $this->assertSame($ReflectObject->getConstant('AVAILABLE'), (string)$detailLine->getMatchStatus());
         $this->assertSame(2, $detailLine->getMatchLevel());
         $this->assertEquals(Money::EUR(43555), $detailLine->getBaseValueOpen());
-        $this->assertEquals(Money::EUR(65333), $detailLine->getRepValue());
+        $this->assertEquals(Money::USD(65333), $detailLine->getRepValue());
         $this->assertNull($detailLine->getVatCodeToString());
         $this->assertEquals(Money::EUR(0), $detailLine->getVatValue());
         $this->assertNull($detailLine->getVatTotal());

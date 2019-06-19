@@ -96,7 +96,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(12100), $totalLine->getValue());
         $this->assertEquals(Money::EUR(12100), $totalLine->getBaseValue());
         $this->assertSame(1.0, $totalLine->getRate());
-        $this->assertEquals(Money::EUR(15653), $totalLine->getRepValue());
+        $this->assertEquals(Money::USD(15653), $totalLine->getRepValue());
         $this->assertSame(1.293600000, $totalLine->getRepRate());
         $this->assertNull($totalLine->getDescription());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
@@ -121,7 +121,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(10000), $detailLine->getValue());
         $this->assertEquals(Money::EUR(10000), $detailLine->getBaseValue());
         $this->assertSame(1.0, $detailLine->getRate());
-        $this->assertEquals(Money::EUR(12936), $detailLine->getRepValue());
+        $this->assertEquals(Money::USD(12936), $detailLine->getRepValue());
         $this->assertSame(1.293600000, $detailLine->getRepRate());
         $this->assertSame('Outfit', $detailLine->getDescription());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
@@ -147,7 +147,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(2100), $vatLine->getValue());
         $this->assertEquals(Money::EUR(2100), $vatLine->getBaseValue());
         $this->assertSame(1.0, $vatLine->getRate());
-        $this->assertEquals(Money::EUR(2717), $vatLine->getRepValue());
+        $this->assertEquals(Money::USD(2717), $vatLine->getRepValue());
         $this->assertSame(1.293600000, $vatLine->getRepRate());
         $this->assertNull($vatLine->getDescription());
         $this->assertNull($vatLine->getMatchStatus());

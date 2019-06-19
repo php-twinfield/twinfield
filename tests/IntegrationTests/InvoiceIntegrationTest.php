@@ -248,8 +248,4 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
             </salesinvoices>'
         );
     }
-    
-    public function tearDown() {
-        \Mockery::close();
-    }
 }

@@ -94,7 +94,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(43555), $detailLine1->getValue());
         $this->assertEquals(Money::EUR(43555), $detailLine1->getBaseValue());
         $this->assertSame(1.0, $detailLine1->getRate());
-        $this->assertEquals(Money::EUR(65333), $detailLine1->getRepValue());
+        $this->assertEquals(Money::USD(65333), $detailLine1->getRepValue());
         $this->assertSame(1.500000000, $detailLine1->getRepRate());
         $this->assertNull($detailLine1->getDescription());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
@@ -117,7 +117,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(43555), $detailLine2->getValue());
         $this->assertEquals(Money::EUR(43555), $detailLine2->getBaseValue());
         $this->assertSame(1.0, $detailLine2->getRate());
-        $this->assertEquals(Money::EUR(65333), $detailLine2->getRepValue());
+        $this->assertEquals(Money::USD(65333), $detailLine2->getRepValue());
         $this->assertSame(1.500000000, $detailLine2->getRepRate());
         $this->assertSame('Invoice paid', $detailLine2->getDescription());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');

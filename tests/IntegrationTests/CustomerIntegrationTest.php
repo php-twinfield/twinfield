@@ -4,6 +4,7 @@ namespace PhpTwinfield\IntegrationTests;
 
 use PhpTwinfield\ApiConnectors\CustomerApiConnector;
 use PhpTwinfield\ApiConnectors\OfficeApiConnector;
+use PhpTwinfield\Currency;
 use PhpTwinfield\Customer;
 use PhpTwinfield\CustomerAddress;
 use PhpTwinfield\CustomerBank;
