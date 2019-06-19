@@ -39,7 +39,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
 
         $this->customerApiConnector = new CustomerApiConnector($this->connection);
         
-        $mockBaseMapper = \Mockery::mock(BaseMapper::class)->makePartial();
+        $mockBaseMapper = \Mockery::mock(BaseMapper::class)->makePartial()->shouldAllowMockingProtectedMethods();
         $mockBaseMapper->shouldReceive('getOfficeCurrencies')->andReturnUsing(function() {
             return ["base" => 'EUR', "reporting" => 'USD'];
         });
