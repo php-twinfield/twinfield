@@ -115,46 +115,43 @@ abstract class BaseMapper
         return Util::parseMoney($value, new Currency($currency));
     }
 
-    /** @var SomeClassWithMethodsetCode $object2 */
-    protected static function parseObjectAttribute(string $objectClass, $object, \DOMElement $element, string $fieldTagName, array $attributes = [])
+    protected static function parseUnknownEntity(bool $unknown, $object, \DOMElement $element, string $fieldTagName): string
     {
-        if ($objectClass == "DimensionGroupDimension" || $objectClass == "UnknownDimension") {
-            if ($objectClass == "DimensionGroupDimension") {
-                $type = self::getField($element, "type", $object);
-            } elseif ($objectClass == "UnknownDimension") {
-                $type = self::getAttribute($element, $fieldTagName, "dimensiontype");
-            }
-
-            switch ($type) {
-                case "ACT":
-                    $objectClass = \PhpTwinfield\Activity::class;
-                    break;
-                case "AST":
-                    $objectClass = \PhpTwinfield\FixedAsset::class;
-                    break;
-                case "BAS":
-                    $objectClass = \PhpTwinfield\GeneralLedger::class;
-                    break;
-                case "CRD":
-                    $objectClass = \PhpTwinfield\Supplier::class;
-                    break;
-                case "DEB":
-                    $objectClass = \PhpTwinfield\Customer::class;
-                    break;
-                case "KPL":
-                    $objectClass = \PhpTwinfield\CostCenter::class;
-                    break;
-                case "PNL":
-                    $objectClass = \PhpTwinfield\GeneralLedger::class;
-                    break;
-                case "PRJ":
-                    $objectClass = \PhpTwinfield\Project::class;
-                    break;
-                default:
-                    throw new \InvalidArgumentException("parseObjectAttribute function does not accept \"{$objectClass}\" as valid input for the \$object argument");
-            }
+        if ($unknown) {
+            $type = self::getAttribute($element, $fieldTagName, "dimensiontype");
+        } else {
+            $type = self::getField($element, "type", $object);
         }
 
+        switch ($type) {
+            case "ACT":
+                return \PhpTwinfield\Activity::class;
+            case "AST":
+                return \PhpTwinfield\FixedAsset::class;
+            case "BAS":
+                return \PhpTwinfield\GeneralLedger::class;
+            case "CRD":
+                return \PhpTwinfield\Supplier::class;
+            case "DEB":
+                return \PhpTwinfield\Customer::class;
+            case "KPL":
+                return \PhpTwinfield\CostCenter::class;
+            case "PNL":
+                return \PhpTwinfield\GeneralLedger::class;
+            case "PRJ":
+                return \PhpTwinfield\Project::class;
+            default:
+                throw new \InvalidArgumentException("parseUnknownEntity function was unable to determine class name from \"{$type}\"");
+        }
+    }
+
+    /** @var SomeClassWithMethodsetCode $object2 */
+    protected static function parseObjectAttribute(string $objectClass, $object, \DOMElement $element, string $fieldTagName, array $attributes = [], ?bool $unknown = null)
+    {
+        if ($unknown !== null) {
+            $objectClass = self::parseUnknownEntity($unknown, $object, $element, $fieldTagName);
+        }
+        
         $object2 = new $objectClass();
         $object2->setCode(self::getField($element, $fieldTagName, $object));
 

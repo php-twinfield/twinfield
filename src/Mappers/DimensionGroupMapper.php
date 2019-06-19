@@ -61,7 +61,7 @@ class DimensionGroupMapper extends BaseMapper
 
                 // Set the dimension group dimension elements from the dimension element
                 $dimensionGroupDimension->setType(self::parseObjectAttribute(\PhpTwinfield\DimensionType::class, $dimensionGroupDimension, $dimensionElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')));
-                $dimensionGroupDimension->setCode(self::parseObjectAttribute('DimensionGroupDimension', $dimensionGroupDimension, $dimensionElement, 'code', array('name' => 'setName', 'shortname' => 'setShortName')));
+                $dimensionGroupDimension->setCode(self::parseObjectAttribute('DimensionGroupDimension', $dimensionGroupDimension, $dimensionElement, 'code', array('name' => 'setName', 'shortname' => 'setShortName'), false));
 
                 // Add the dimension to the dimension group
                 $dimensiongroup->addDimension($dimensionGroupDimension);
