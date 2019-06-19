@@ -7,6 +7,7 @@ use Money\Money;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\BankTransaction;
 use PhpTwinfield\BankTransactionLine;
+use PhpTwinfield\Currency;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
@@ -35,6 +36,19 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
         parent::setUp();
 
         $this->transactionApiConnector = new TransactionApiConnector($this->connection);
+        
+        $baseCurrency = new Currency;
+        $baseCurrency->setCode('EUR');
+        $reportingCurrency = new Currency;
+        $reportingCurrency->setCode('USD');
+        
+        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class);
+        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
+            $office = new Office;
+            $office->setBaseCurrency($baseCurrency);
+            $office->setReportingCurrency($reportingCurrency);
+            return $office;
+        });
     }
 
     public function testGetBankTransactionWorks()
