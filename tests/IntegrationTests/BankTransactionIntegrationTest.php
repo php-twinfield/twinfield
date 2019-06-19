@@ -46,6 +46,7 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
             $reportingCurrency->setCode('USD');
             
             $office = new Office;
+            $office->setResult(1);
             $office->setBaseCurrency($baseCurrency);
             $office->setReportingCurrency($reportingCurrency);
             return $office;
@@ -206,5 +207,9 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
             </transaction>
         </transactions>'
         );
+    }
+    
+    public function tearDown() {
+        \Mockery::close();
     }
 }
