@@ -5,6 +5,7 @@ namespace PhpTwinfield\Mappers;
 use PhpTwinfield\BankTransaction;
 use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\CashTransaction;
+use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Exception;
 use PhpTwinfield\Fields\DueDateField;
 use PhpTwinfield\Fields\FreeText1Field;

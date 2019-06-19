@@ -7,7 +7,7 @@ use Money\Money;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\BankTransaction;
 use PhpTwinfield\BankTransactionLine;
-use PhpTwinfield\Currency;
+use PhpTwinfield\BaseMapper;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
