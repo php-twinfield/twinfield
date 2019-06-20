@@ -3,12 +3,19 @@
 namespace PhpTwinfield\UnitTests;
 
 use PhpTwinfield\ApiConnectors\CustomerApiConnector;
+use PhpTwinfield\ApiConnectors\OfficeApiConnector;
+use PhpTwinfield\Currency;
 use PhpTwinfield\Customer;
+use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
+ */
 class CustomerApiConnectorTest extends TestCase
 {
     /**
@@ -38,6 +45,20 @@ class CustomerApiConnectorTest extends TestCase
             ->willReturn($this->processXmlService);
 
         $this->apiConnector = new CustomerApiConnector($connection);
+        
+        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
+        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
+            $baseCurrency = new Currency;
+            $baseCurrency->setCode('EUR');
+            $reportingCurrency = new Currency;
+            $reportingCurrency->setCode('USD');
+            
+            $office = new Office;
+            $office->setResult(1);
+            $office->setBaseCurrency($baseCurrency);
+            $office->setReportingCurrency($reportingCurrency);
+            return $office;
+        });
     }
 
     private function createCustomer(): Customer
