@@ -8,6 +8,7 @@ use PhpTwinfield\ApiConnectors\OfficeApiConnector;
 use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Message\Message;
 use PhpTwinfield\Office;
+use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Util;
 use Webmozart\Assert\Assert;
 
@@ -169,29 +170,29 @@ abstract class BaseMapper
 
     protected static function parseUnknownEntity($object, \DOMElement $element, string $fieldTagName): string
     {
-        if (is_a($object, \PhpTwinfield\DimensionGroupDimension::class)) {
-            $type = self::getField($element, "type", $object);
-        } else {
+        //if (is_a($object, \PhpTwinfield\DimensionGroupDimension::class)) {
+        //    $type = self::getField($element, "type", $object);
+        //} else {
             $type = self::getAttribute($element, $fieldTagName, "dimensiontype");
-        }
+        //}
 
         switch ($type) {
             case "ACT":
-                return \PhpTwinfield\Activity::class;
+                //return \PhpTwinfield\Activity::class;
             case "AST":
-                return \PhpTwinfield\FixedAsset::class;
+                //return \PhpTwinfield\FixedAsset::class;
             case "BAS":
-                return \PhpTwinfield\GeneralLedger::class;
+                //return \PhpTwinfield\GeneralLedger::class;
             case "CRD":
                 return \PhpTwinfield\Supplier::class;
             case "DEB":
                 return \PhpTwinfield\Customer::class;
             case "KPL":
-                return \PhpTwinfield\CostCenter::class;
+                //return \PhpTwinfield\CostCenter::class;
             case "PNL":
-                return \PhpTwinfield\GeneralLedger::class;
+                //return \PhpTwinfield\GeneralLedger::class;
             case "PRJ":
-                return \PhpTwinfield\Project::class;
+                //return \PhpTwinfield\Project::class;
             default:
                 throw new \InvalidArgumentException("parseUnknownEntity function was unable to determine class name from \"{$type}\"");
         }
