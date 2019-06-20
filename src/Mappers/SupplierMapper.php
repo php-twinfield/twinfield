@@ -78,7 +78,7 @@ class SupplierMapper extends BaseMapper
                 ->setRelationsReference(self::getField($financialsElement, 'relationsreference', $supplierFinancials))
                 ->setSubAnalyse(self::parseEnumAttribute(\PhpTwinfield\Enums\SubAnalyse::class, self::getField($financialsElement, 'subanalyse', $supplierFinancials)))
                 ->setSubstitutionLevel(self::getField($financialsElement, 'substitutionlevel', $supplierFinancials))
-                ->setSubstituteWith(self::parseObjectAttribute('UnknownDimension', $supplierFinancials, $financialsElement, 'substitutewith', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                ->setSubstituteWith(self::parseObjectAttribute(null, $supplierFinancials, $financialsElement, 'substitutewith', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                 ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $supplierFinancials, $financialsElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
 
             // Set the financials elements from the financials element attributes
@@ -224,9 +224,10 @@ class SupplierMapper extends BaseMapper
                     ->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $postingruleElement->getAttribute('status')));
 
                 // Set the postingrule elements from the postingrule element
-                $supplierPostingRule->setAmount(self::parseMoneyAttribute(self::getField($postingruleElement, 'amount', $supplierPostingRule)))
-                    ->setCurrency(self::parseObjectAttribute(\PhpTwinfield\Currency::class, $supplierPostingRule, $postingruleElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
+                $supplierPostingRule->setCurrency(self::parseObjectAttribute(\PhpTwinfield\Currency::class, $supplierPostingRule, $postingruleElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
                     ->setDescription(self::getField($postingruleElement, 'description', $supplierPostingRule));
+
+                $supplierPostingRule->setAmount(self::parseMoneyAttribute(self::getField($postingruleElement, 'amount', $supplierPostingRule), $supplierPostingRule->getCurrencyToString()));
 
                 // Get the lines element
                 $linesDOMTag = $postingruleElement->getElementsByTagName('lines');
@@ -245,7 +246,7 @@ class SupplierMapper extends BaseMapper
                         $supplierLine->setDescription(self::getField($lineElement, 'description', $supplierLine))
                             ->setDimension1(self::parseObjectAttribute(\PhpTwinfield\GeneralLedger::class, $supplierLine, $lineElement, 'dimension1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                             ->setDimension2(self::parseObjectAttribute(\PhpTwinfield\CostCenter::class, $supplierLine, $lineElement, 'dimension2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
-                            ->setDimension3(self::parseObjectAttribute('UnknownDimension', $supplierLine, $lineElement, 'dimension3', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                            ->setDimension3(self::parseObjectAttribute(null, $supplierLine, $lineElement, 'dimension3', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                             ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $supplierLine, $lineElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
                             ->setRatio(self::getField($lineElement, 'ratio', $supplierLine))
                             ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $supplierLine, $lineElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));

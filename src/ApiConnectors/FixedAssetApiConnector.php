@@ -45,7 +45,7 @@ class FixedAssetApiConnector extends BaseApiConnector
         // Send the Request document and set the response to this instance.
         $response = $this->sendXmlDocument($request_fixedAsset);
 
-        return FixedAssetMapper::map($response);
+        return FixedAssetMapper::map($response, $this->getConnection());
     }
 
     /**
@@ -85,7 +85,7 @@ class FixedAssetApiConnector extends BaseApiConnector
         }
 
         return $this->getProcessXmlService()->mapAll($responses, "dimension", function(Response $response): FixedAsset {
-            return FixedAssetMapper::map($response);
+            return FixedAssetMapper::map($response, $this->getConnection());
         });
     }
 

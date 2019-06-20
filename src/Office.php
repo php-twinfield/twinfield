@@ -6,7 +6,9 @@ use PhpTwinfield\Fields\CodeField;
 use PhpTwinfield\Fields\CreatedField;
 use PhpTwinfield\Fields\ModifiedField;
 use PhpTwinfield\Fields\NameField;
+use PhpTwinfield\Fields\Office\BaseCurrencyField;
 use PhpTwinfield\Fields\Office\CountryCodeField;
+use PhpTwinfield\Fields\Office\ReportingCurrencyField;
 use PhpTwinfield\Fields\Office\VatFirstQuarterStartsInField;
 use PhpTwinfield\Fields\Office\VatPeriodField;
 use PhpTwinfield\Fields\ShortNameField;
@@ -16,11 +18,13 @@ use PhpTwinfield\Fields\UserField;
 
 class Office extends BaseObject
 {
+    use BaseCurrencyField;
     use CodeField;
     use CountryCodeField;
     use CreatedField;
     use ModifiedField;
     use NameField;
+    use ReportingCurrencyField;
     use ShortNameField;
     use StatusField;
     use TouchedField;

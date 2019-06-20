@@ -32,6 +32,7 @@ use PhpTwinfield\JournalTransaction;
 use PhpTwinfield\Message\Message;
 use PhpTwinfield\PurchaseTransaction;
 use PhpTwinfield\SalesTransaction;
+use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Util;
 
@@ -40,18 +41,19 @@ class TransactionMapper extends BaseMapper
     /**
      * @param string   $transactionClassName
      * @param Response $response
+     * @param AuthenticatedConnection $connection
      *
      * @return iterable|BaseTransaction[]
      * @throws Exception
      */
-    public static function mapAll(string $transactionClassName, Response $response): iterable
+    public static function mapAll(string $transactionClassName, Response $response, AuthenticatedConnection $connection): iterable
     {
         foreach ($response->getResponseDocument()->getElementsByTagName('transaction') as $transactionElement) {
-            yield self::map($transactionClassName, $transactionElement);
+            yield self::map($transactionClassName, $transactionElement, $connection);
         }
     }
 
-    public static function map(string $transactionClassName, Response $response): BaseTransaction
+    public static function map(string $transactionClassName, Response $response, AuthenticatedConnection $connection): BaseTransaction
     {
         if (!is_a($transactionClassName, BaseTransaction::class, true)) {
             throw Exception::invalidTransactionClassName($transactionClassName);
@@ -86,15 +88,17 @@ class TransactionMapper extends BaseMapper
         }
 
         $transaction->setCode(self::getField($transactionElement, 'code', $transaction))
-            ->setCurrencyFromString(self::getField($transactionElement, 'currency', $transaction))
-            ->setDateFromString(self::getField($transactionElement, 'date', $transaction))
+            ->setCurrency(self::parseObjectAttribute(\PhpTwinfield\Currency::class, $transaction, $transactionElement, 'currency'))
+            ->setDate(self::parseDateAttribute(self::getField($transactionElement, 'date', $transaction)))
             ->setFreetext1(self::getField($transactionElement, 'freetext1', $transaction))
             ->setFreetext2(self::getField($transactionElement, 'freetext2', $transaction))
             ->setFreetext3(self::getField($transactionElement, 'freetext3', $transaction))
-            ->setOfficeFromString(self::getField($transactionElement, 'office', $transaction))
+            ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $transaction, $transactionElement, 'office'))
             ->setOrigin(self::getField($transactionElement, 'origin', $transaction))
             ->setNumber(self::getField($transactionElement, 'number', $transaction))
             ->setPeriod(self::getField($transactionElement, 'period', $transaction));
+            
+        $currencies = self::getOfficeCurrencies($connection, $transaction->getOffice());
 
         if (Util::objectUses(CloseAndStartValueFields::class, $transaction)) {
             $transaction->setStartValueFromFloat(self::getField($transactionElement, 'startvalue', $transaction));
@@ -144,19 +148,19 @@ class TransactionMapper extends BaseMapper
                 $lineType        = $lineElement->getAttribute('type');
 
                 $transactionLine
-                    ->setBaseValueFromFloat(self::getField($lineElement, 'basevalue', $transactionLine))
+                    ->setBaseValue(self::parseMoneyAttribute(self::getField($lineElement, 'basevalue', $transactionLine), $currencies['base']))
                     ->setComment(self::getField($lineElement, 'comment', $transactionLine))
-                    ->setValueFromFloat(self::getField($lineElement, 'value', $transactionLine))
+                    ->setValue(self::parseMoneyAttribute(self::getField($lineElement, 'value', $transactionLine), $transaction->getCurrencyToString()))
                     ->setDebitCredit(self::parseEnumAttribute(\PhpTwinfield\Enums\DebitCredit::class, self::getField($lineElement, 'debitcredit', $transactionLine)))
                     ->setDescription(self::getField($lineElement, 'description', $transactionLine))
-                    ->setDestOfficeFromString(self::getField($lineElement, 'destoffice', $transactionLine))
-                    ->setDim1FromString(self::getField($lineElement, 'dim1', $transactionLine))
+                    ->setDestOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $transactionLine, $lineElement, 'destoffice'))
+                    ->setDim1(self::parseObjectAttribute(\PhpTwinfield\Dummy::class, $transactionLine, $lineElement, 'dim1'))
                     ->setId($lineElement->getAttribute('id'))
-                    ->setLineType(new LineType($lineType))
+                    ->setLineType(self::parseEnumAttribute(\PhpTwinfield\Enums\LineType::class, $lineType))
                     ->setMatchStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\MatchStatus::class, self::getField($lineElement, 'matchstatus', $transactionLine)))
                     ->setRate(self::getField($lineElement, 'rate', $transactionLine))
                     ->setRepRate(self::getField($lineElement, 'reprate', $transactionLine))
-                    ->setRepValueFromFloat(self::getField($lineElement, 'repvalue', $transactionLine));
+                    ->setRepValue(self::parseMoneyAttribute(self::getField($lineElement, 'repvalue', $transactionLine), $currencies['reporting']));
 
                 $freeChar = self::getField($lineElement, 'freechar', $transactionLine);
 
@@ -169,102 +173,102 @@ class TransactionMapper extends BaseMapper
                         $baseValueOpen = self::getField($lineElement, 'basevalueopen', $transactionLine) ?: self::getField($lineElement, 'openbasevalue', $transactionLine);
 
                         if ($baseValueOpen) {
-                            $transactionLine->setBaseValueOpenFromFloat($baseValueOpen);
+                            $transactionLine->setBaseValueOpen(self::parseMoneyAttribute($baseValueOpen, $currencies['base']));
                         }
 
-                        $transactionLine->setDim2FromString(self::getField($lineElement, 'dim2', $transactionLine));
-                        $transactionLine->setDim3FromString(self::getField($lineElement, 'dim3', $transactionLine));
+                        $transactionLine->setDim2(self::parseObjectAttribute(\PhpTwinfield\Dummy::class, $transactionLine, $lineElement, 'dim2'));
+                        $transactionLine->setDim3(self::parseObjectAttribute(\PhpTwinfield\Dummy::class, $transactionLine, $lineElement, 'dim3'));
                         $transactionLine->setMatchLevel(self::getField($lineElement, 'matchlevel', $transactionLine));
                         $transactionLine->setRelation(self::getField($lineElement, 'relation', $transactionLine));
-                        $transactionLine->setRepValueOpenFromFloat(self::getField($lineElement, 'repvalueopen', $transactionLine));
+                        $transactionLine->setRepValueOpen(self::parseMoneyAttribute(self::getField($lineElement, 'repvalueopen', $transactionLine), $currencies['reporting']));
                     }
                 }
 
                 if ($transaction instanceof PurchaseTransaction || $transaction instanceof SalesTransaction) {
                     if ($lineType == LineType::DETAIL()) {
-                        $transactionLine->setDim2FromString(self::getField($lineElement, 'dim2', $transactionLine));
-                        $transactionLine->setDim3FromString(self::getField($lineElement, 'dim3', $transactionLine));
+                        $transactionLine->setDim2(self::parseObjectAttribute(\PhpTwinfield\Dummy::class, $transactionLine, $lineElement, 'dim2'));
+                        $transactionLine->setDim3(self::parseObjectAttribute(\PhpTwinfield\Dummy::class, $transactionLine, $lineElement, 'dim3'));
                     } elseif ($transaction instanceof PurchaseTransaction && $lineType == LineType::VAT()) {
-                        $transactionLine->setDim3FromString(self::getField($lineElement, 'dim3', $transactionLine));
+                        $transactionLine->setDim3(self::parseObjectAttribute(\PhpTwinfield\Dummy::class, $transactionLine, $lineElement, 'dim3'));
                     } elseif ($lineType == LineType::TOTAL()) {
-                        $transactionLine->setDim2FromString(self::getField($lineElement, 'dim2', $transactionLine));
+                        $transactionLine->setDim2(self::parseObjectAttribute(\PhpTwinfield\Dummy::class, $transactionLine, $lineElement, 'dim2'));
 
                         $baseValueOpen = self::getField($lineElement, 'basevalueopen', $transactionLine) ?: self::getField($lineElement, 'openbasevalue', $transactionLine);
 
                         if ($baseValueOpen) {
-                            $transactionLine->setBaseValueOpenFromFloat($baseValueOpen);
+                            $transactionLine->setBaseValueOpen(self::parseMoneyAttribute($baseValueOpen, $currencies['base']));
                         }
 
                         $transactionLine->setMatchLevel(self::getField($lineElement, 'matchlevel', $transactionLine));
                         $transactionLine->setRelation(self::getField($lineElement, 'relation', $transactionLine));
-                        $transactionLine->setRepValueOpenFromFloat(self::getField($lineElement, 'repvalueopen', $transactionLine));
+                        $transactionLine->setRepValueOpen(self::parseMoneyAttribute(self::getField($lineElement, 'repvalueopen', $transactionLine), $currencies['reporting']));
                     }
                 }
 
                 if ($lineType == LineType::DETAIL()) {
                     if (Util::objectUses(CurrencyDateField::class, $transactionLine)) {
-                        $transactionLine->setCurrencyDateFromString(self::getField($lineElement, 'currencydate', $transactionLine));
+                        $transactionLine->setCurrencyDate(self::parseDateAttribute(self::getField($lineElement, 'currencydate', $transactionLine)));
                     }
 
                     if (Util::objectUses(InvoiceNumberField::class, $transactionLine)) {
                         $transactionLine->setInvoiceNumber(self::getField($lineElement, 'invoicenumber', $transactionLine));
                     }
 
-                    $transactionLine->setVatBaseValueFromFloat(self::getField($lineElement, 'vatbasevalue', $transactionLine));
-                    $transactionLine->setVatRepValueFromFloat(self::getField($lineElement, 'vatrepvalue', $transactionLine));
-                    $transactionLine->setVatValueFromFloat(self::getField($lineElement, 'vatvalue', $transactionLine));
+                    $transactionLine->setVatBaseValue(self::parseMoneyAttribute(self::getField($lineElement, 'vatbasevalue', $transactionLine), $currencies['base']));
+                    $transactionLine->setVatRepValue(self::parseMoneyAttribute(self::getField($lineElement, 'vatrepvalue', $transactionLine), $currencies['reporting']));
+                    $transactionLine->setVatValue(self::parseMoneyAttribute(self::getField($lineElement, 'vatvalue', $transactionLine), $transaction->getCurrencyToString()));
                 } elseif ($lineType == LineType::VAT()) {
                     if (Util::objectUses(BaselineField::class, $transactionLine)) {
                         $transactionLine->setBaseline(self::getField($lineElement, 'baseline', $transactionLine));
                     }
 
-                    $transactionLine->setVatBaseTurnoverFromFloat(self::getField($lineElement, 'vatbaseturnover', $transactionLine));
-                    $transactionLine->setVatRepTurnoverFromFloat(self::getField($lineElement, 'vatrepturnover', $transactionLine));
-                    $transactionLine->setVatTurnoverFromFloat(self::getField($lineElement, 'vatturnover', $transactionLine));
+                    $transactionLine->setVatBaseTurnover(self::parseMoneyAttribute(self::getField($lineElement, 'vatbaseturnover', $transactionLine), $currencies['base']));
+                    $transactionLine->setVatRepTurnover(self::parseMoneyAttribute(self::getField($lineElement, 'vatrepturnover', $transactionLine), $currencies['reporting']));
+                    $transactionLine->setVatTurnover(self::parseMoneyAttribute(self::getField($lineElement, 'vatturnover', $transactionLine), $transaction->getCurrencyToString()));
                 } elseif ($lineType == LineType::TOTAL()) {
                     if (Util::objectUses(MatchDateField::class, $transactionLine)) {
-                        $transactionLine->setMatchDateFromString(self::getField($lineElement, 'matchdate', $transactionLine));
+                        $transactionLine->setMatchDate(self::parseDateAttribute(self::getField($lineElement, 'matchdate', $transactionLine)));
                     }
 
                     if (Util::objectUses(ValueOpenField::class, $transactionLine)) {
                         $valueOpen = self::getField($lineElement, 'valueopen', $transactionLine) ?: self::getField($lineElement, 'openvalue', $transactionLine);
 
                         if ($valueOpen) {
-                            $transactionLine->setValueOpenFromFloat($valueOpen);
+                            $transactionLine->setValueOpen(self::parseMoneyAttribute($valueOpen, $transaction->getCurrencyToString()));
                         }
                     }
 
                     if (Util::objectUses(VatBaseTotalField::class, $transactionLine)) {
-                        $transactionLine->setVatBaseTotalFromFloat(self::getField($lineElement, 'vatbasetotal', $transactionLine));
+                        $transactionLine->setVatBaseTotal(self::parseMoneyAttribute(self::getField($lineElement, 'vatbasetotal', $transactionLine), $currencies['base']));
                     }
 
                     if (Util::objectUses(VatRepTotalField::class, $transactionLine)) {
-                        $transactionLine->setVatRepTotalFromFloat(self::getField($lineElement, 'vatreptotal', $transactionLine));
+                        $transactionLine->setVatRepTotal(self::parseMoneyAttribute(self::getField($lineElement, 'vatreptotal', $transactionLine), $currencies['reporting']));
                     }
 
                     if (Util::objectUses(VatTotalField::class, $transactionLine)) {
-                        $transactionLine->setVatTotalFromFloat(self::getField($lineElement, 'vattotal', $transactionLine));
+                        $transactionLine->setVatTotal(self::parseMoneyAttribute(self::getField($lineElement, 'vattotal', $transactionLine), $transaction->getCurrencyToString()));
                     }
                 }
 
                 if ($lineType != LineType::TOTAL()) {
                     if (Util::objectUses(PerformanceCountryField::class, $transactionLine)) {
-                        $transactionLine->setPerformanceCountryFromString(self::getField($lineElement, 'performancecountry', $transactionLine));
+                        $transactionLine->setPerformanceCountry(self::parseObjectAttribute(\PhpTwinfield\Country::class, $transactionLine, $lineElement, 'performancecountry'));
                     }
 
                     if (Util::objectUses(PerformanceDateField::class, $transactionLine)) {
-                        $transactionLine->setPerformanceDateFromString(self::getField($lineElement, 'performancedate', $transactionLine));
+                        $transactionLine->setPerformanceDate(self::parseDateAttribute(self::getField($lineElement, 'performancedate', $transactionLine)));
                     }
 
                     if (Util::objectUses(PerformanceTypeField::class, $transactionLine)) {
-                        $transactionLine->setPerformanceTypeFromString(self::getField($lineElement, 'performancetype', $transactionLine));
+                        $transactionLine->setPerformanceType(self::parseEnumAttribute(\PhpTwinfield\Enums\PerformanceType::class, self::getField($lineElement, 'performancetype', $transactionLine)));
                     }
 
                     if (Util::objectUses(PerformanceVatNumberField::class, $transactionLine)) {
                         $transactionLine->setPerformanceVatNumber(self::getField($lineElement, 'performancevatnumber', $transactionLine));
                     }
 
-                    $transactionLine->setVatCodeFromString(self::getField($lineElement, 'vatcode', $transactionLine));
+                    $transactionLine->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $transactionLine, $lineElement, 'vatcode'));
                 }
 
                 $transaction->addLine($transactionLine);

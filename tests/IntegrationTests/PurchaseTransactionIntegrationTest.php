@@ -3,7 +3,9 @@
 namespace PhpTwinfield\IntegrationTests;
 
 use Money\Money;
+use PhpTwinfield\ApiConnectors\OfficeApiConnector;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
+use PhpTwinfield\Currency;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
@@ -16,6 +18,8 @@ use PhpTwinfield\PurchaseTransactionLine;
 use PhpTwinfield\Response\Response;
 
 /**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  * @covers PurchaseTransaction
  * @covers PurchaseTransactionLine
  * @covers TransactionsDocument
@@ -33,6 +37,20 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
     {
         parent::setUp();
         $this->transactionApiConnector = new TransactionApiConnector($this->connection);
+        
+        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
+        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
+            $baseCurrency = new Currency;
+            $baseCurrency->setCode('EUR');
+            $reportingCurrency = new Currency;
+            $reportingCurrency->setCode('USD');
+            
+            $office = new Office;
+            $office->setResult(1);
+            $office->setBaseCurrency($baseCurrency);
+            $office->setReportingCurrency($reportingCurrency);
+            return $office;
+        });
     }
 
     public function testGetPurchaseTransactionWorks()
@@ -79,7 +97,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(12100), $totalLine->getValue());
         $this->assertEquals(Money::EUR(12100), $totalLine->getBaseValue());
         $this->assertSame(1.0, $totalLine->getRate());
-        $this->assertEquals(Money::EUR(15653), $totalLine->getRepValue());
+        $this->assertEquals(Money::USD(15653), $totalLine->getRepValue());
         $this->assertSame(1.293600000, $totalLine->getRepRate());
         $this->assertNull($totalLine->getDescription());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
@@ -100,7 +118,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(10000), $detailLine->getValue());
         $this->assertEquals(Money::EUR(10000), $detailLine->getBaseValue());
         $this->assertSame(1.0, $detailLine->getRate());
-        $this->assertEquals(Money::EUR(12936), $detailLine->getRepValue());
+        $this->assertEquals(Money::USD(12936), $detailLine->getRepValue());
         $this->assertSame(1.293600000, $detailLine->getRepRate());
         $this->assertSame('Outfit', $detailLine->getDescription());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
@@ -121,7 +139,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(2100), $vatLine->getValue());
         $this->assertEquals(Money::EUR(2100), $vatLine->getBaseValue());
         $this->assertSame(1.0, $vatLine->getRate());
-        $this->assertEquals(Money::EUR(2717), $vatLine->getRepValue());
+        $this->assertEquals(Money::USD(2717), $vatLine->getRepValue());
         $this->assertSame(1.293600000, $vatLine->getRepRate());
         $this->assertNull($vatLine->getDescription());
         $this->assertNull($vatLine->getMatchStatus());

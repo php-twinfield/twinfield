@@ -2,8 +2,10 @@
 
 namespace PhpTwinfield\UnitTests;
 
+use PhpTwinfield\ApiConnectors\OfficeApiConnector;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\BaseTransaction;
+use PhpTwinfield\Currency;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
@@ -12,6 +14,10 @@ use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
+ */
 class TransactionApiConnectorTest extends TestCase
 {
     /**
@@ -41,6 +47,20 @@ class TransactionApiConnectorTest extends TestCase
             ->willReturn($this->processXmlService);
 
         $this->apiConnector = new TransactionApiConnector($connection);
+        
+        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
+        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
+            $baseCurrency = new Currency;
+            $baseCurrency->setCode('EUR');
+            $reportingCurrency = new Currency;
+            $reportingCurrency->setCode('USD');
+            
+            $office = new Office;
+            $office->setResult(1);
+            $office->setBaseCurrency($baseCurrency);
+            $office->setReportingCurrency($reportingCurrency);
+            return $office;
+        });
     }
 
     private function createTransaction(string $transactionClassName): BaseTransaction

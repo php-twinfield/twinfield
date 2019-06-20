@@ -3,7 +3,9 @@
 namespace PhpTwinfield\IntegrationTests;
 
 use Money\Money;
+use PhpTwinfield\ApiConnectors\OfficeApiConnector;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
+use PhpTwinfield\Currency;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\Destiny;
@@ -16,6 +18,8 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 
 /**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  * @covers JournalTransaction
  * @covers JournalTransactionLine
  * @covers TransactionsDocument
@@ -34,6 +38,20 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         parent::setUp();
 
         $this->transactionApiConnector = new TransactionApiConnector($this->connection);
+        
+        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
+        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
+            $baseCurrency = new Currency;
+            $baseCurrency->setCode('EUR');
+            $reportingCurrency = new Currency;
+            $reportingCurrency->setCode('USD');
+            
+            $office = new Office;
+            $office->setResult(1);
+            $office->setBaseCurrency($baseCurrency);
+            $office->setReportingCurrency($reportingCurrency);
+            return $office;
+        });
     }
 
     public function testGetJournalTransactionWorks()
@@ -78,7 +96,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(43555), $detailLine1->getValue());
         $this->assertEquals(Money::EUR(43555), $detailLine1->getBaseValue());
         $this->assertSame(1.0, $detailLine1->getRate());
-        $this->assertEquals(Money::EUR(65333), $detailLine1->getRepValue());
+        $this->assertEquals(Money::USD(65333), $detailLine1->getRepValue());
         $this->assertSame(1.500000000, $detailLine1->getRepRate());
         $this->assertNull($detailLine1->getDescription());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
@@ -86,7 +104,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine1->getMatchLevel());
         $this->assertNull($detailLine1->getBaseValueOpen());
         $this->assertNull($detailLine1->getVatCodeToString());
-        $this->assertEquals(Money::EUR(0), $detailLine1->getVatValue());
+        $this->assertNull($detailLine1->getVatValue());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\PerformanceType');
         $this->assertSame($ReflectObject->getConstant('EMPTY'), (string)$detailLine1->getPerformanceType());
         $this->assertNull($detailLine1->getPerformanceCountryToString());
@@ -101,7 +119,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(43555), $detailLine2->getValue());
         $this->assertEquals(Money::EUR(43555), $detailLine2->getBaseValue());
         $this->assertSame(1.0, $detailLine2->getRate());
-        $this->assertEquals(Money::EUR(65333), $detailLine2->getRepValue());
+        $this->assertEquals(Money::USD(65333), $detailLine2->getRepValue());
         $this->assertSame(1.500000000, $detailLine2->getRepRate());
         $this->assertSame('Invoice paid', $detailLine2->getDescription());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
@@ -109,7 +127,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame(2, $detailLine2->getMatchLevel());
         $this->assertEquals(Money::EUR(43555), $detailLine2->getBaseValueOpen());
         $this->assertNull($detailLine2->getVatCodeToString());
-        $this->assertEquals(Money::EUR(0), $detailLine2->getVatValue());
+        $this->assertNull($detailLine2->getVatValue());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\PerformanceType');
         $this->assertSame($ReflectObject->getConstant('EMPTY'), (string)$detailLine2->getPerformanceType());
         $this->assertNull($detailLine2->getPerformanceCountryToString());

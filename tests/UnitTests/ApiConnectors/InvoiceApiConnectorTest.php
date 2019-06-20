@@ -2,13 +2,20 @@
 
 namespace PhpTwinfield\UnitTests;
 
+use PhpTwinfield\ApiConnectors\ArticleApiConnector;
 use PhpTwinfield\ApiConnectors\InvoiceApiConnector;
+use PhpTwinfield\ApiConnectors\InvoiceTypeApiConnector;
+use PhpTwinfield\Article;
 use PhpTwinfield\Invoice;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
+ */
 class InvoiceApiConnectorTest extends TestCase
 {
     /**
@@ -38,6 +45,18 @@ class InvoiceApiConnectorTest extends TestCase
             ->willReturn($this->processXmlService);
 
         $this->apiConnector = new InvoiceApiConnector($connection);
+        
+        $mockInvoiceTypeApiConnector = \Mockery::mock('overload:'.InvoiceTypeApiConnector::class)->makePartial();
+        $mockInvoiceTypeApiConnector->shouldReceive('getInvoiceTypeVatType')->andReturnUsing(function() {
+            return 'exclusive';
+        });
+ 
+        $mockArticleApiConnector = \Mockery::mock('overload:'.ArticleApiConnector::class)->makePartial();
+        $mockArticleApiConnector->shouldReceive('get')->andReturnUsing(function() {
+            $article = new Article;
+            $article->setAllowChangeVatCode(true);
+            return $article;
+        });
     }
 
     private function createInvoice(): Invoice

@@ -4,6 +4,7 @@ namespace PhpTwinfield\Mappers;
 use PhpTwinfield\Article;
 use PhpTwinfield\ArticleLine;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Util;
 
 /**
@@ -21,11 +22,12 @@ class ArticleMapper extends BaseMapper
      * @access public
      *
      * @param \PhpTwinfield\Response\Response $response
+     * @param \PhpTwinfield\Secure\AuthenticatedConnection $connection
      *
      * @return Article
      * @throws \PhpTwinfield\Exception
      */
-    public static function map(Response $response)
+    public static function map(Response $response, AuthenticatedConnection $connection)
     {
         // Generate new Article object
         $article = new Article();
@@ -61,6 +63,8 @@ class ArticleMapper extends BaseMapper
             ->setUnitNameSingular(self::getField($headerElement, 'unitnamesingular', $article))
             ->setUnitNamePlural(self::getField($headerElement, 'unitnameplural', $article))
             ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $article, $headerElement, 'vatcode'));
+            
+        $currencies = self::getOfficeCurrencies($connection, $article->getOffice());
 
         // Get the lines element
         $linesDOMTag = $responseDOM->getElementsByTagName('lines');
@@ -99,8 +103,8 @@ class ArticleMapper extends BaseMapper
                     ->setName(self::getField($lineElement, 'name', $articleLine))
                     ->setShortName(self::getField($lineElement, 'shortname', $articleLine))
                     ->setSubCode(self::getField($lineElement, 'subcode', $articleLine))
-                    ->setUnitsPriceExcl(self::parseMoneyAttribute(self::getField($lineElement, 'unitspriceexcl', $articleLine)))
-                    ->setUnitsPriceInc(self::parseMoneyAttribute(self::getField($lineElement, 'unitspriceinc', $articleLine)));
+                    ->setUnitsPriceExcl(self::parseMoneyAttribute(self::getField($lineElement, 'unitspriceexcl', $articleLine), $currencies['base']))
+                    ->setUnitsPriceInc(self::parseMoneyAttribute(self::getField($lineElement, 'unitspriceinc', $articleLine), $currencies['base']));
 
                 // Add the line to the article
                 $article->addLine($articleLine);

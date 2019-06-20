@@ -17,6 +17,8 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 
 /**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  * @covers Invoice
  * @covers InvoiceLine
  * @covers InvoiceTotals
@@ -38,12 +40,12 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $this->invoiceApiConnector = new InvoiceApiConnector($this->connection);
         
-        $mockInvoiceTypeApiConnector = \Mockery::mock('overload:'.InvoiceTypeApiConnector::class);
+        $mockInvoiceTypeApiConnector = \Mockery::mock('overload:'.InvoiceTypeApiConnector::class)->makePartial();
         $mockInvoiceTypeApiConnector->shouldReceive('getInvoiceTypeVatType')->andReturnUsing(function() {
             return 'exclusive';
         });
  
-        $mockArticleApiConnector = \Mockery::mock('overload:'.ArticleApiConnector::class);
+        $mockArticleApiConnector = \Mockery::mock('overload:'.ArticleApiConnector::class)->makePartial();
         $mockArticleApiConnector->shouldReceive('get')->andReturnUsing(function() {
             $article = new Article;
             $article->setAllowChangeVatCode(true);

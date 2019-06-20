@@ -4,9 +4,12 @@ namespace PhpTwinfield\Mappers;
 
 use Money\Currency;
 use Money\Money;
+use PhpTwinfield\ApiConnectors\OfficeApiConnector;
 use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Message\Message;
+use PhpTwinfield\Office;
 use PhpTwinfield\Util;
+use PhpTwinfield\Secure\AuthenticatedConnection;
 use Webmozart\Assert\Assert;
 
 abstract class BaseMapper
@@ -56,13 +59,28 @@ abstract class BaseMapper
 
         return $fieldElement->textContent;
     }
+    
+    protected static function getOfficeCurrencies(AuthenticatedConnection $connection, Office $office): array
+    {
+        $currencies = ["base" => '', "reporting" => ''];
+        
+        $officeApiConnector = new OfficeApiConnector($connection);
+        $fullOffice = $officeApiConnector->get($office->getCode());
+        
+        if ($fullOffice->getResult() == 1) {
+            $currencies['base'] = $fullOffice->getBaseCurrencyToString();
+            $currencies['reporting'] = $fullOffice->getReportingCurrencyToString();
+        }
+        
+        return $currencies;
+    }
 
     protected static function parseDateAttribute(?string $value): ?\DateTimeImmutable
     {
         if (false !== strtotime($value)) {
             return Util::parseDate($value);
         }
-        
+
         return null;
     }
 
@@ -71,7 +89,7 @@ abstract class BaseMapper
         if (false !== strtotime($value)) {
             return Util::parseDateTime($value);
         }
-        
+
         return null;
     }
 
@@ -88,55 +106,52 @@ abstract class BaseMapper
         }
     }
 
-    protected static function parseMoneyAttribute(?float $value): ?Money
+    protected static function parseMoneyAttribute(?float $value, ?string $currency): ?Money
     {
-        if ($value === null) {
+        if ($value === null || $currency === null) {
             return null;
         }
 
-        return Util::parseMoney($value, new Currency('EUR'));
+        return Util::parseMoney($value, new Currency($currency));
+    }
+
+    protected static function parseUnknownEntity($object, \DOMElement $element, string $fieldTagName): string
+    {
+        if (is_a($object, \PhpTwinfield\DimensionGroupDimension::class)) {
+            $type = self::getField($element, "type", $object);
+        } else {
+            $type = self::getAttribute($element, $fieldTagName, "dimensiontype");
+        }
+
+        switch ($type) {
+            case "ACT":
+                return \PhpTwinfield\Activity::class;
+            case "AST":
+                return \PhpTwinfield\FixedAsset::class;
+            case "BAS":
+                return \PhpTwinfield\GeneralLedger::class;
+            case "CRD":
+                return \PhpTwinfield\Supplier::class;
+            case "DEB":
+                return \PhpTwinfield\Customer::class;
+            case "KPL":
+                return \PhpTwinfield\CostCenter::class;
+            case "PNL":
+                return \PhpTwinfield\GeneralLedger::class;
+            case "PRJ":
+                return \PhpTwinfield\Project::class;
+            default:
+                throw new \InvalidArgumentException("parseUnknownEntity function was unable to determine class name from \"{$type}\"");
+        }
     }
 
     /** @var SomeClassWithMethodsetCode $object2 */
-    protected static function parseObjectAttribute(string $objectClass, $object, \DOMElement $element, string $fieldTagName, array $attributes = [])
+    protected static function parseObjectAttribute(?string $objectClass, $object, \DOMElement $element, string $fieldTagName, array $attributes = [])
     {
-        if ($objectClass == "DimensionGroupDimension" || $objectClass == "UnknownDimension") {
-            if ($objectClass == "DimensionGroupDimension") {
-                $type = self::getField($element, "type", $object);
-            } elseif ($objectClass == "UnknownDimension") {
-                $type = self::getAttribute($element, $fieldTagName, "dimensiontype");
-            }
-
-            switch ($type) {
-                case "ACT":
-                    $objectClass = \PhpTwinfield\Activity::class;
-                    break;
-                case "AST":
-                    $objectClass = \PhpTwinfield\FixedAsset::class;
-                    break;
-                case "BAS":
-                    $objectClass = \PhpTwinfield\GeneralLedger::class;
-                    break;
-                case "CRD":
-                    $objectClass = \PhpTwinfield\Supplier::class;
-                    break;
-                case "DEB":
-                    $objectClass = \PhpTwinfield\Customer::class;
-                    break;
-                case "KPL":
-                    $objectClass = \PhpTwinfield\CostCenter::class;
-                    break;
-                case "PNL":
-                    $objectClass = \PhpTwinfield\GeneralLedger::class;
-                    break;
-                case "PRJ":
-                    $objectClass = \PhpTwinfield\Project::class;
-                    break;
-                default:
-                    throw new \InvalidArgumentException("parseObjectAttribute function does not accept \"{$objectClass}\" as valid input for the \$object argument");
-            }
+        if ($objectClass === null) {
+            $objectClass = self::parseUnknownEntity($object, $element, $fieldTagName);
         }
-
+        
         $object2 = new $objectClass();
         $object2->setCode(self::getField($element, $fieldTagName, $object));
 
