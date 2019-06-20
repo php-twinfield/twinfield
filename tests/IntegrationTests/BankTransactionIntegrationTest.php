@@ -19,6 +19,8 @@ use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 
 /**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  * @covers BankTransaction
  * @covers BankTransactionLine
  * @covers TransactionsDocument

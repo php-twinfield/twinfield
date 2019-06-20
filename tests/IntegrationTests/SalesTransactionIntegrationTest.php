@@ -18,6 +18,8 @@ use PhpTwinfield\SalesTransaction;
 use PhpTwinfield\SalesTransactionLine;
 
 /**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  * @covers SalesTransaction
  * @covers SalesTransactionLine
  * @covers TransactionsDocument

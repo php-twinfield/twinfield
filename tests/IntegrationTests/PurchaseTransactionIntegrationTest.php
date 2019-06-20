@@ -18,6 +18,8 @@ use PhpTwinfield\PurchaseTransactionLine;
 use PhpTwinfield\Response\Response;
 
 /**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  * @covers PurchaseTransaction
  * @covers PurchaseTransactionLine
  * @covers TransactionsDocument

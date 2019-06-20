@@ -90,7 +90,7 @@ class CustomerMapper extends BaseMapper
                 ->setPayCode(self::parseObjectAttribute(\PhpTwinfield\PayCode::class, $customerFinancials, $financialsElement, 'paycode', array('name' => 'setName', 'shortname' => 'setShortName')))
                 ->setSubAnalyse(self::parseEnumAttribute(\PhpTwinfield\Enums\SubAnalyse::class, self::getField($financialsElement, 'subanalyse', $customerFinancials)))
                 ->setSubstitutionLevel(self::getField($financialsElement, 'substitutionlevel', $customerFinancials))
-                ->setSubstituteWith(self::parseObjectAttribute('UnknownDimension', $customerFinancials, $financialsElement, 'substitutewith', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString'), true))
+                ->setSubstituteWith(self::parseObjectAttribute(null, $customerFinancials, $financialsElement, 'substitutewith', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                 ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $customerFinancials, $financialsElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
 
             // Set the financials elements from the financials element attributes
@@ -303,7 +303,7 @@ class CustomerMapper extends BaseMapper
                         $customerLine->setDescription(self::getField($lineElement, 'description', $customerLine))
                             ->setDimension1(self::parseObjectAttribute(\PhpTwinfield\GeneralLedger::class, $customerLine, $lineElement, 'dimension1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                             ->setDimension2(self::parseObjectAttribute(\PhpTwinfield\CostCenter::class, $customerLine, $lineElement, 'dimension2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
-                            ->setDimension3(self::parseObjectAttribute('UnknownDimension', $customerLine, $lineElement, 'dimension3', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString'), true))
+                            ->setDimension3(self::parseObjectAttribute(null, $customerLine, $lineElement, 'dimension3', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                             ->setOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $customerLine, $lineElement, 'office', array('name' => 'setName', 'shortname' => 'setShortName')))
                             ->setRatio(self::getField($lineElement, 'ratio', $customerLine))
                             ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $customerLine, $lineElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));

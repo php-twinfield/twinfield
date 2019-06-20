@@ -115,12 +115,12 @@ abstract class BaseMapper
         return Util::parseMoney($value, new Currency($currency));
     }
 
-    protected static function parseUnknownEntity(bool $unknown, $object, \DOMElement $element, string $fieldTagName): string
+    protected static function parseUnknownEntity($object, \DOMElement $element, string $fieldTagName): string
     {
-        if ($unknown) {
-            $type = self::getAttribute($element, $fieldTagName, "dimensiontype");
-        } else {
+        if (is_a($object, \PhpTwinfield\DimensionGroupDimension::class)) {
             $type = self::getField($element, "type", $object);
+        } else {
+            $type = self::getAttribute($element, $fieldTagName, "dimensiontype");
         }
 
         switch ($type) {
@@ -146,10 +146,10 @@ abstract class BaseMapper
     }
 
     /** @var SomeClassWithMethodsetCode $object2 */
-    protected static function parseObjectAttribute(string $objectClass, $object, \DOMElement $element, string $fieldTagName, array $attributes = [], ?bool $unknown = null)
+    protected static function parseObjectAttribute(?string $objectClass, $object, \DOMElement $element, string $fieldTagName, array $attributes = [])
     {
-        if ($unknown !== null) {
-            $objectClass = self::parseUnknownEntity($unknown, $object, $element, $fieldTagName);
+        if ($objectClass === null) {
+            $objectClass = self::parseUnknownEntity($object, $element, $fieldTagName);
         }
         
         $object2 = new $objectClass();
