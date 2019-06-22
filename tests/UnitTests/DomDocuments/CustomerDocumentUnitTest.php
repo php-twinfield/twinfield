@@ -49,7 +49,7 @@ class CustomerDocumentUnitTest extends TestCase
 
         $customer->setCreditManagement(
             (new CustomerCreditManagement())
-                ->setResponsibleUser(\PhpTwinfield\User:fromCode('responsible-user'))
+                ->setResponsibleUser(\PhpTwinfield\User::fromCode('responsible-user'))
                 ->setBaseCreditLimit(Util::parseMoney(50, $currency))
                 ->setSendReminder(\PhpTwinfield\Enums\SendReminder::TRUE())
                 ->setReminderEmail('reminderemail@mail.com')
