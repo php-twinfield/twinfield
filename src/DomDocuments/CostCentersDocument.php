@@ -3,6 +3,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\CostCenter;
+use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML CostCenter. Is a child class

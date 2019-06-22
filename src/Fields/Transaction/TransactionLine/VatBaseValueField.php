@@ -3,7 +3,7 @@
 namespace PhpTwinfield\Fields\Transaction\TransactionLine;
 
 use Money\Money;
-s
+
 trait VatBaseValueField
 {
     /**

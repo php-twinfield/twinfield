@@ -176,8 +176,8 @@ class TransactionMapper extends BaseMapper
                             $transactionLine->setBaseValueOpen(self::parseMoneyAttribute($baseValueOpen, $currencies['base']));
                         }
 
-                        $transactionLine->setDim2(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim2', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
-                        $transactionLine->setDim3(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim3', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
+                        $transactionLine->setDim2(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim2', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
+                        $transactionLine->setDim3(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim3', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
                         $transactionLine->setMatchLevel(self::getField($lineElement, 'matchlevel', $transactionLine));
                         $transactionLine->setRelation(self::getField($lineElement, 'relation', $transactionLine));
                         $transactionLine->setRepValueOpen(self::parseMoneyAttribute(self::getField($lineElement, 'repvalueopen', $transactionLine), $currencies['reporting']));
