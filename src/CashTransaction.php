@@ -19,6 +19,11 @@ class CashTransaction extends BaseTransaction
 
     use StatementNumberField;
 
+    public function __construct()
+    {
+        $this->startValue = new \Money\Money(0, new \Money\Currency('EUR'));
+    }
+
     /*
      * @return string
      */

@@ -56,6 +56,14 @@ class ElectronicBankStatement
      */
     private $transactions = [];
 
+    public function __construct()
+    {
+        $currency = new \PhpTwinfield\Currency;
+        $currency->setCode('EUR');
+        $this->currency   = $currency;
+        $this->startValue = new \Money\Money(0, new \Money\Currency($currency->getCode()));
+    }
+
     public function getAccount(): ?string
     {
         return $this->account;

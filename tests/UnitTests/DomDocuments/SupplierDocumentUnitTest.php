@@ -129,7 +129,7 @@ class SupplierDocumentUnitTest extends TestCase
             </address>
         </addresses>
         <banks>
-            <bank blocked="false" default="true">
+            <bank default="true">
                 <address>
                     <field2>address 2</field2>
                     <field3>address 3</field3>
@@ -175,7 +175,7 @@ class SupplierDocumentUnitTest extends TestCase
 	    <financials>
             <duedays>30</duedays>
             <meansofpayment/>
-            <payavailable>false</payavailable>
+            <payavailable/>
             <paycode/>
             <relationsreference/>
             <substitutewith/>

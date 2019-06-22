@@ -207,7 +207,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoice->setCustomer($customer);
         $invoice->setPeriod('2012/08');
         $invoice->setCurrency(Currency::fromCode('EUR'));
-        $invoice->setStatus(\PhpTwinfield\Enums\Status::CONCEPT());
+        $invoice->setStatus(\PhpTwinfield\Enums\InvoiceStatus::CONCEPT());
         $invoice->setPaymentMethod(\PhpTwinfield\Enums\PaymentMethod::CASH());
         $invoice->setHeaderText('HEADER');
         $invoice->setFooterText('FOOTER');
