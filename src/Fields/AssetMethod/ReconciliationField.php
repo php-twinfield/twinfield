@@ -22,15 +22,6 @@ trait ReconciliationField
         return $this->reconciliation;
     }
 
-    public function getReconciliationToString(): ?string
-    {
-        if ($this->getReconciliation() != null) {
-            return $this->reconciliation->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait ReconciliationField
     {
         $this->reconciliation = $reconciliation;
         return $this;
-    }
-
-    /**
-     * @param string|null $reconciliationString
-     * @return $this
-     * @throws Exception
-     */
-    public function setReconciliationFromString(?string $reconciliationString)
-    {
-        $reconciliation = new GeneralLedger();
-        $reconciliation->setCode($reconciliationString);
-        return $this->setReconciliation($reconciliation);
     }
 }

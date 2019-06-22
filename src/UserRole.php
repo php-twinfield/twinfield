@@ -12,7 +12,7 @@ use PhpTwinfield\Fields\ShortNameField;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class UserRole
+class UserRole extends BaseObject implements HasCodeInterface
 {
     use CodeField;
     use LevelField;

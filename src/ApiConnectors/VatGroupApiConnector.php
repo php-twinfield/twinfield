@@ -48,6 +48,6 @@ class VatGroupApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\VatGroup::class, $response->data, $vatGroupListAllTags);
+        return $this->mapListAll(VatGroup::class, $response->data, $vatGroupListAllTags);
     }
 }

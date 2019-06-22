@@ -3,7 +3,6 @@
 namespace PhpTwinfield\Fields\Dimensions\Level34\FixedAsset;
 
 use Money\Money;
-use PhpTwinfield\Util;
 
 trait ResidualValueField
 {
@@ -24,18 +23,6 @@ trait ResidualValueField
     }
 
     /**
-     * @return float|null
-     */
-    public function getResidualValueToFloat(): ?float
-    {
-        if ($this->getResidualValue() != null) {
-            return Util::formatMoney($this->getResidualValue());
-        } else {
-            return 0;
-        }
-    }
-
-    /**
      * @param Money|null $residualValue
      * @return $this
      */
@@ -44,19 +31,5 @@ trait ResidualValueField
         $this->residualValue = $residualValue;
 
         return $this;
-    }
-
-    /**
-     * @param float|null $residualValueFloat
-     * @return $this
-     * @throws Exception
-     */
-    public function setResidualValueFromFloat(?float $residualValueFloat)
-    {
-        if ((float)$residualValueFloat) {
-            return $this->setResidualValue(Money::EUR(100 * $residualValueFloat));
-        } else {
-            return $this->setResidualValue(Money::EUR(0));
-        }
     }
 }

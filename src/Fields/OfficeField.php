@@ -21,15 +21,6 @@ trait OfficeField
         return $this->office;
     }
 
-    public function getOfficeToString(): ?string
-    {
-        if ($this->getOffice() != null) {
-            return $this->office->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -37,17 +28,5 @@ trait OfficeField
     {
         $this->office = $office;
         return $this;
-    }
-
-    /**
-     * @param string|null $officeString
-     * @return $this
-     * @throws Exception
-     */
-    public function setOfficeFromString(?string $officeString)
-    {
-        $office = new Office();
-        $office->setCode($officeString);
-        return $this->setOffice($office);
     }
 }

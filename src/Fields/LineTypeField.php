@@ -28,14 +28,4 @@ trait LineTypeField
         $this->lineType = $lineType;
         return $this;
     }
-
-    /**
-     * @param string|null $lineTypeString
-     * @return $this
-     * @throws Exception
-     */
-    public function setLineTypeFromString(?string $lineTypeString)
-    {
-        return $this->setLineType(new LineType((string)$lineTypeString));
-    }
 }

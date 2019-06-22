@@ -48,6 +48,6 @@ class CashBankBookApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\CashBankBook::class, $response->data, $cashBankBookListAllTags);
+        return $this->mapListAll(CashBankBook::class, $response->data, $cashBankBookListAllTags);
     }
 }

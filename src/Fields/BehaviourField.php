@@ -28,14 +28,4 @@ trait BehaviourField
         $this->behaviour = $behaviour;
         return $this;
     }
-
-    /**
-     * @param string|null $behaviourString
-     * @return $this
-     * @throws Exception
-     */
-    public function setBehaviourFromString(?string $behaviourString)
-    {
-        return $this->setBehaviour(new Behaviour((string)$behaviourString));
-    }
 }

@@ -20,11 +20,6 @@ trait FileManagerQuotaLockedField
         return $this->fileManagerQuotaLocked;
     }
 
-    public function getFileManagerQuotaLockedToString(): ?string
-    {
-        return ($this->getFileManagerQuotaLocked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $fileManagerQuotaLocked
      * @return $this
@@ -33,15 +28,5 @@ trait FileManagerQuotaLockedField
     {
         $this->fileManagerQuotaLocked = $fileManagerQuotaLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $fileManagerQuotaLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setFileManagerQuotaLockedFromString(?string $fileManagerQuotaLockedString)
-    {
-        return $this->setFileManagerQuotaLocked(filter_var($fileManagerQuotaLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

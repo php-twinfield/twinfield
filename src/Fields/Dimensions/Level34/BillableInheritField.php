@@ -34,14 +34,4 @@ trait BillableInheritField
         $this->billableInherit = $billableInherit;
         return $this;
     }
-
-    /**
-     * @param string|null $billableInheritString
-     * @return $this
-     * @throws Exception
-     */
-    public function setBillableInheritFromString(?string $billableInheritString)
-    {
-        return $this->setBillableInherit(filter_var($billableInheritString, FILTER_VALIDATE_BOOLEAN));
-    }
 }

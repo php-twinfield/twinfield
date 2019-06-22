@@ -20,11 +20,6 @@ trait LastDepreciationLockedField
         return $this->lastDepreciationLocked;
     }
 
-    public function getLastDepreciationLockedToString(): ?string
-    {
-        return ($this->getLastDepreciationLocked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $lastDepreciationLocked
      * @return $this
@@ -33,15 +28,5 @@ trait LastDepreciationLockedField
     {
         $this->lastDepreciationLocked = $lastDepreciationLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $lastDepreciationLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setLastDepreciationLockedFromString(?string $lastDepreciationLockedString)
-    {
-        return $this->setLastDepreciationLocked(filter_var($lastDepreciationLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

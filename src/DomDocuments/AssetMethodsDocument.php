@@ -3,6 +3,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\AssetMethod;
+use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML AssetMethod. Is a child class
@@ -47,7 +48,7 @@ class AssetMethodsDocument extends BaseDocument
         $assetMethodElement->appendChild($this->createNodeWithTextContent('depreciatereconciliation', $assetMethod->getDepreciateReconciliation()));
         $assetMethodElement->appendChild($this->createNodeWithTextContent('name', $assetMethod->getName()));
         $assetMethodElement->appendChild($this->createNodeWithTextContent('nrofperiods', $assetMethod->getNrOfPeriods()));
-        $assetMethodElement->appendChild($this->createNodeWithTextContent('office', $assetMethod->getOfficeToString()));
+        $assetMethodElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($assetMethod->getOffice())));
         $assetMethodElement->appendChild($this->createNodeWithTextContent('percentage', $assetMethod->getPercentage()));
         $assetMethodElement->appendChild($this->createNodeWithTextContent('shortname', $assetMethod->getShortName()));
 
@@ -56,22 +57,22 @@ class AssetMethodsDocument extends BaseDocument
         $balanceAccountsElement = $this->createElement('balanceaccounts');
         $assetMethodElement->appendChild($balanceAccountsElement);
 
-        $balanceAccountsElement->appendChild($this->createNodeWithTextContent('assetstoactivate', $balanceAccounts->getAssetsToActivateToString()));
-        $balanceAccountsElement->appendChild($this->createNodeWithTextContent('depreciation', $balanceAccounts->getDepreciationToString()));
-        $balanceAccountsElement->appendChild($this->createNodeWithTextContent('depreciationgroup', $balanceAccounts->getDepreciationGroupToString()));
-        $balanceAccountsElement->appendChild($this->createNodeWithTextContent('purchasevalue', $balanceAccounts->getPurchaseValueToString()));
-        $balanceAccountsElement->appendChild($this->createNodeWithTextContent('purchasevaluegroup', $balanceAccounts->getPurchaseValueGroupToString()));
-        $balanceAccountsElement->appendChild($this->createNodeWithTextContent('reconciliation', $balanceAccounts->getReconciliationToString()));
-        $balanceAccountsElement->appendChild($this->createNodeWithTextContent('tobeinvoiced', $balanceAccounts->getToBeInvoicedToString()));
+        $balanceAccountsElement->appendChild($this->createNodeWithTextContent('assetstoactivate', Util::objectToStr($balanceAccounts->getAssetsToActivate())));
+        $balanceAccountsElement->appendChild($this->createNodeWithTextContent('depreciation', Util::objectToStr($balanceAccounts->getDepreciation())));
+        $balanceAccountsElement->appendChild($this->createNodeWithTextContent('depreciationgroup', Util::objectToStr($balanceAccounts->getDepreciationGroup())));
+        $balanceAccountsElement->appendChild($this->createNodeWithTextContent('purchasevalue', Util::objectToStr($balanceAccounts->getPurchaseValue())));
+        $balanceAccountsElement->appendChild($this->createNodeWithTextContent('purchasevaluegroup', Util::objectToStr($balanceAccounts->getPurchaseValueGroup())));
+        $balanceAccountsElement->appendChild($this->createNodeWithTextContent('reconciliation', Util::objectToStr($balanceAccounts->getReconciliation())));
+        $balanceAccountsElement->appendChild($this->createNodeWithTextContent('tobeinvoiced', Util::objectToStr($balanceAccounts->getToBeInvoiced())));
 
         $profitLossAccounts = $assetMethod->getProfitLossAccounts();
 
         $profitLossAccountsElement = $this->createElement('profitlossaccounts');
         $assetMethodElement->appendChild($profitLossAccountsElement);
 
-        $profitLossAccountsElement->appendChild($this->createNodeWithTextContent('depreciation', $profitLossAccounts->getDepreciationToString()));
-        $profitLossAccountsElement->appendChild($this->createNodeWithTextContent('reconciliation', $profitLossAccounts->getReconciliationToString()));
-        $profitLossAccountsElement->appendChild($this->createNodeWithTextContent('sales', $profitLossAccounts->getSalesToString()));
+        $profitLossAccountsElement->appendChild($this->createNodeWithTextContent('depreciation', Util::objectToStr($profitLossAccounts->getDepreciation())));
+        $profitLossAccountsElement->appendChild($this->createNodeWithTextContent('reconciliation', Util::objectToStr($profitLossAccounts->getReconciliation())));
+        $profitLossAccountsElement->appendChild($this->createNodeWithTextContent('sales', Util::objectToStr($profitLossAccounts->getSales())));
 
         $freeTexts = $assetMethod->getFreeTexts();
 

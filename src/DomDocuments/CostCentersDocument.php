@@ -47,7 +47,7 @@ class CostCentersDocument extends BaseDocument
         }
 
         $costCenterElement->appendChild($this->createNodeWithTextContent('name', $costCenter->getName()));
-        $costCenterElement->appendChild($this->createNodeWithTextContent('office', $costCenter->getOfficeToString()));
-        $costCenterElement->appendChild($this->createNodeWithTextContent('type', $costCenter->getTypeToString()));
+        $costCenterElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($costCenter->getOffice())));
+        $costCenterElement->appendChild($this->createNodeWithTextContent('type', Util::objectToStr($costCenter->getType())));
     }
 }

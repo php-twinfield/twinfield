@@ -28,14 +28,4 @@ trait SubAnalyseField
         $this->subAnalyse = $subAnalyse;
         return $this;
     }
-
-    /**
-     * @param string|null $subAnalyseString
-     * @return $this
-     * @throws Exception
-     */
-    public function setSubAnalyseFromString(?string $subAnalyseString)
-    {
-        return $this->setSubAnalyse(new SubAnalyse((string)$subAnalyseString));
-    }
 }

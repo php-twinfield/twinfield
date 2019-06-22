@@ -7,6 +7,7 @@ use PhpTwinfield\ApiConnectors\InvoiceTypeApiConnector;
 use PhpTwinfield\Article;
 use PhpTwinfield\Invoice;
 use PhpTwinfield\Secure\AuthenticatedConnection;
+use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML Invoice. Is a child class
@@ -57,28 +58,28 @@ class InvoicesDocument extends BaseDocument
             $headerElement->setAttribute('raisewarning', $raiseWarning);
         }
 
-        $headerElement->appendChild($this->createNodeWithTextContent('bank', $invoice->getBankToString()));
-        $headerElement->appendChild($this->createNodeWithTextContent('currency', $invoice->getCurrencyToString()));
-        $headerElement->appendChild($this->createNodeWithTextContent('customer', $invoice->getCustomerToString()));
+        $headerElement->appendChild($this->createNodeWithTextContent('bank', Util::objectToStr($invoice->getBank())));
+        $headerElement->appendChild($this->createNodeWithTextContent('currency', Util::objectToStr($invoice->getCurrency())));
+        $headerElement->appendChild($this->createNodeWithTextContent('customer', Util::objectToStr($invoice->getCustomer())));
         $headerElement->appendChild($this->createNodeWithTextContent('deliveraddressnumber', $invoice->getDeliverAddressNumber()));
-        $headerElement->appendChild($this->createNodeWithTextContent('duedate', $invoice->getDueDateToString()));
+        $headerElement->appendChild($this->createNodeWithTextContent('duedate', Util::formatDate($invoice->getDueDate())));
         $headerElement->appendChild($this->createNodeWithTextContent('footertext', $invoice->getFooterText()));
         $headerElement->appendChild($this->createNodeWithTextContent('headertext', $invoice->getHeaderText()));
         $headerElement->appendChild($this->createNodeWithTextContent('invoiceaddressnumber', $invoice->getInvoiceAddressNumber()));
-        $headerElement->appendChild($this->createNodeWithTextContent('invoicedate', $invoice->getInvoiceDateToString()));
+        $headerElement->appendChild($this->createNodeWithTextContent('invoicedate', Util::formatDate($invoice->getInvoiceDate())));
         
         if (!empty($invoice->getInvoiceNumber())) {
             $headerElement->appendChild($this->createNodeWithTextContent('invoicenumber', $invoice->getInvoiceNumber()));
         }
         
-        $headerElement->appendChild($this->createNodeWithTextContent('invoicetype', $invoice->getInvoiceTypeToString()));
-        $headerElement->appendChild($this->createNodeWithTextContent('office', $invoice->getOfficeToString()));
+        $headerElement->appendChild($this->createNodeWithTextContent('invoicetype', Util::objectToStr($invoice->getInvoiceType())));
+        $headerElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($invoice->getOffice())));
         $headerElement->appendChild($this->createNodeWithTextContent('paymentmethod', $invoice->getPaymentMethod()));
         $headerElement->appendChild($this->createNodeWithTextContent('period', $invoice->getPeriod()));
         $headerElement->appendChild($this->createNodeWithTextContent('status', $invoice->getStatus()));
 
         $invoiceTypeApiConnector = new InvoiceTypeApiConnector($connection);
-        $invoiceVatType = $invoiceTypeApiConnector->getInvoiceTypeVatType($invoice->getInvoiceTypeToString());
+        $invoiceVatType = $invoiceTypeApiConnector->getInvoiceTypeVatType(Util::objectToStr($invoice->getInvoiceType()));
 
         $articleApiConnector = new ArticleApiConnector($connection);
 
@@ -101,34 +102,34 @@ class InvoicesDocument extends BaseDocument
                     $lineElement->setAttribute('id', $id);
                 }
 
-                $lineElement->appendChild($this->createNodeWithTextContent('allowdiscountorpremium', $line->getAllowDiscountOrPremiumToString()));
-                $lineElement->appendChild($this->createNodeWithTextContent('article', $line->getArticleToString()));
+                $lineElement->appendChild($this->createNodeWithTextContent('allowdiscountorpremium', Util::formatBoolean($line->getAllowDiscountOrPremium())));
+                $lineElement->appendChild($this->createNodeWithTextContent('article', Util::objectToStr($line->getArticle())));
                 $lineElement->appendChild($this->createNodeWithTextContent('description', $line->getDescription()));
-                $lineElement->appendChild($this->createNodeWithTextContent('dim1', $line->getDim1ToString()));
+                $lineElement->appendChild($this->createNodeWithTextContent('dim1', Util::objectToStr($line->getDim1())));
                 $lineElement->appendChild($this->createNodeWithTextContent('freetext1', $line->getFreeText1()));
                 $lineElement->appendChild($this->createNodeWithTextContent('freetext2', $line->getFreeText2()));
                 $lineElement->appendChild($this->createNodeWithTextContent('freetext3', $line->getFreeText3()));
-                $lineElement->appendChild($this->createNodeWithTextContent('performancedate', $line->getPerformanceDateToString()));
+                $lineElement->appendChild($this->createNodeWithTextContent('performancedate', Util::formatDate($line->getPerformanceDate())));
                 $lineElement->appendChild($this->createNodeWithTextContent('performancetype', $line->getPerformanceType()));
                 $lineElement->appendChild($this->createNodeWithTextContent('quantity', $line->getQuantity()));
                 $lineElement->appendChild($this->createNodeWithTextContent('subarticle', $line->getSubArticleToString()));
                 $lineElement->appendChild($this->createNodeWithTextContent('units', $line->getUnits()));
 
                 if ($invoiceVatType == 'inclusive') {
-                    $lineElement->appendChild($this->createNodeWithTextContent('unitspriceinc', $line->getUnitsPriceIncToFloat()));
+                    $lineElement->appendChild($this->createNodeWithTextContent('unitspriceinc', Util::formatMoney($line->getUnitsPriceInc())));
                 } else {
-                    $lineElement->appendChild($this->createNodeWithTextContent('unitspriceexcl', $line->getUnitsPriceExclToFloat()));
+                    $lineElement->appendChild($this->createNodeWithTextContent('unitspriceexcl', Util::formatMoney($line->getUnitsPriceExcl())));
                 }
 
-                if ($line->getArticleToString() != '0') {
-                    $article = $articleApiConnector->get($line->getArticleToString(), $invoice->getOffice());
+                if (Util::objectToStr($line->getArticle()) != '0') {
+                    $article = $articleApiConnector->get(Util::objectToStr($line->getArticle()), $invoice->getOffice());
                 } else {
                     $article = new Article;
                     $article->setAllowChangeVatCode(true);
                 }
 
                 if ($article->getAllowChangeVatCode() == true) {
-                    $lineElement->appendChild($this->createNodeWithTextContent('vatcode', $line->getVatCodeToString()));
+                    $lineElement->appendChild($this->createNodeWithTextContent('vatcode', Util::objectToStr($line->getVatCode())));
                 }
             }
         }

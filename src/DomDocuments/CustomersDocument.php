@@ -2,6 +2,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Customer;
+use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML Customer. Is a child class
@@ -52,9 +53,9 @@ class CustomersDocument extends BaseDocument
         $customerElement->appendChild($this->createNodeWithTextContent('endperiod', $customer->getEndPeriod()));
         $customerElement->appendChild($this->createNodeWithTextContent('endyear', $customer->getEndYear()));
         $customerElement->appendChild($this->createNodeWithTextContent('name', $customer->getName()));
-        $customerElement->appendChild($this->createNodeWithTextContent('office', $customer->getOfficeToString()));
+        $customerElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($customer->getOffice())));
         $customerElement->appendChild($this->createNodeWithTextContent('shortname', $customer->getShortName()));
-        $customerElement->appendChild($this->createNodeWithTextContent('type', $customer->getTypeToString()));
+        $customerElement->appendChild($this->createNodeWithTextContent('type', Util::objectToStr($customer->getType())));
         $customerElement->appendChild($this->createNodeWithTextContent('website', $customer->getWebsite()));
 
         $financials = $customer->getFinancials();
@@ -64,13 +65,13 @@ class CustomersDocument extends BaseDocument
 
         $financialsElement->appendChild($this->createNodeWithTextContent('collectionschema', $financials->getCollectionSchema()));
         $financialsElement->appendChild($this->createNodeWithTextContent('duedays', $financials->getDueDays()));
-        $financialsElement->appendChild($this->createNodeWithTextContent('ebilling', $financials->getEBillingToString()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('ebilling', Util::formatBoolean($financials->getEBilling())));
         $financialsElement->appendChild($this->createNodeWithTextContent('ebillmail', $financials->getEBillMail()));
         $financialsElement->appendChild($this->createNodeWithTextContent('meansofpayment', $financials->getMeansOfPayment()));
-        $financialsElement->appendChild($this->createNodeWithTextContent('payavailable', $financials->getPayAvailableToString()));
-        $financialsElement->appendChild($this->createNodeWithTextContent('paycode', $financials->getPayCodeToString()));
-        $financialsElement->appendChild($this->createNodeWithTextContent('substitutewith', $financials->getSubstituteWithToString()));
-        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', $financials->getVatCodeToString()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('payavailable', Util::formatBoolean($financials->getPayAvailable())));
+        $financialsElement->appendChild($this->createNodeWithTextContent('paycode', Util::objectToStr($financials->getPayCode())));
+        $financialsElement->appendChild($this->createNodeWithTextContent('substitutewith', Util::objectToStr($financials->getSubstituteWith())));
+        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', Util::objectToStr($financials->getVatCode())));
 
         $collectMandate = $financials->getCollectMandate();
 
@@ -79,9 +80,9 @@ class CustomersDocument extends BaseDocument
             $collectMandateElement = $this->createElement('collectmandate');
             $financialsElement->appendChild($collectMandateElement);
 
-            $collectMandateElement->appendChild($this->createNodeWithTextContent('firstrundate', $collectMandate->getFirstRunDateToString()));
+            $collectMandateElement->appendChild($this->createNodeWithTextContent('firstrundate', Util::formatDate($collectMandate->getFirstRunDate())));
             $collectMandateElement->appendChild($this->createNodeWithTextContent('id', $collectMandate->getID()));
-            $collectMandateElement->appendChild($this->createNodeWithTextContent('signaturedate', $collectMandate->getSignatureDateToString()));
+            $collectMandateElement->appendChild($this->createNodeWithTextContent('signaturedate', Util::formatDate($collectMandate->getSignatureDate())));
         }
 
         $childValidations = $financials->getChildValidations();
@@ -104,21 +105,21 @@ class CustomersDocument extends BaseDocument
         $creditManagementElement = $this->createElement('creditmanagement');
         $customerElement->appendChild($creditManagementElement);
 
-        $creditManagementElement->appendChild($this->createNodeWithTextContent('basecreditlimit', $creditManagement->getBaseCreditLimitToFloat()));
-        $creditManagementElement->appendChild($this->createNodeWithTextContent('blocked', $creditManagement->getBlockedToString()));
+        $creditManagementElement->appendChild($this->createNodeWithTextContent('basecreditlimit', Util::formatMoney($creditManagement->getBaseCreditLimit())));
+        $creditManagementElement->appendChild($this->createNodeWithTextContent('blocked', Util::formatBoolean($creditManagement->getBlocked())));
         $creditManagementElement->appendChild($this->createNodeWithTextContent('comment', $creditManagement->getComment()));
-        $creditManagementElement->appendChild($this->createNodeWithTextContent('freetext1', $creditManagement->getFreeText1ToString()));
+        $creditManagementElement->appendChild($this->createNodeWithTextContent('freetext1', Util::formatBoolean($creditManagement->getFreeText1())));
         $creditManagementElement->appendChild($this->createNodeWithTextContent('freetext2', $creditManagement->getFreeText2()));
         $creditManagementElement->appendChild($this->createNodeWithTextContent('freetext3', $creditManagement->getFreeText3()));
         $creditManagementElement->appendChild($this->createNodeWithTextContent('reminderemail', $creditManagement->getReminderEmail()));
-        $creditManagementElement->appendChild($this->createNodeWithTextContent('responsibleuser', $creditManagement->getResponsibleUserToString()));
+        $creditManagementElement->appendChild($this->createNodeWithTextContent('responsibleuser', Util::objectToStr($creditManagement->getResponsibleUser())));
         $creditManagementElement->appendChild($this->createNodeWithTextContent('sendreminder', $creditManagement->getSendReminder()));
 
         // Make invoicing element
         $invoicingElement = $this->createElement('invoicing');
         $customerElement->appendChild($invoicingElement);
 
-        $invoicingElement->appendChild($this->createNodeWithTextContent('discountarticle', $customer->getDiscountArticleToString()));
+        $invoicingElement->appendChild($this->createNodeWithTextContent('discountarticle', Util::objectToStr($customer->getDiscountArticle())));
 
         $addresses = $customer->getAddresses();
 
@@ -133,7 +134,7 @@ class CustomersDocument extends BaseDocument
                 $addressElement = $this->createElement('address');
                 $addressesElement->appendChild($addressElement);
 
-                $default = $address->getDefaultToString();
+                $default = Util::formatBoolean($address->getDefault());
 
                 if (!empty($default)) {
                     $addressElement->setAttribute('default', $default);
@@ -152,7 +153,7 @@ class CustomersDocument extends BaseDocument
                 }
 
                 $addressElement->appendChild($this->createNodeWithTextContent('city', $address->getCity()));
-                $addressElement->appendChild($this->createNodeWithTextContent('country', $address->getCountryToString()));
+                $addressElement->appendChild($this->createNodeWithTextContent('country', Util::objectToStr($address->getCountry())));
                 $addressElement->appendChild($this->createNodeWithTextContent('email', $address->getEmail()));
                 $addressElement->appendChild($this->createNodeWithTextContent('field1', $address->getField1()));
                 $addressElement->appendChild($this->createNodeWithTextContent('field2', $address->getField2()));
@@ -180,7 +181,7 @@ class CustomersDocument extends BaseDocument
                 $bankElement = $this->createElement('bank');
                 $banksElement->appendChild($bankElement);
 
-                $default = $bank->getDefaultToString();
+                $default = Util::formatBoolean($bank->getDefault());
 
                 if (!empty($default)) {
                     $bankElement->setAttribute('default', $default);
@@ -202,7 +203,7 @@ class CustomersDocument extends BaseDocument
                 $bankElement->appendChild($this->createNodeWithTextContent('bankname', $bank->getBankName()));
                 $bankElement->appendChild($this->createNodeWithTextContent('biccode', $bank->getBicCode()));
                 $bankElement->appendChild($this->createNodeWithTextContent('city', $bank->getCity()));
-                $bankElement->appendChild($this->createNodeWithTextContent('country', $bank->getCountryToString()));
+                $bankElement->appendChild($this->createNodeWithTextContent('country', Util::objectToStr($bank->getCountry())));
                 $bankElement->appendChild($this->createNodeWithTextContent('iban', $bank->getIban()));
                 $bankElement->appendChild($this->createNodeWithTextContent('natbiccode', $bank->getNatBicCode()));
                 $bankElement->appendChild($this->createNodeWithTextContent('postcode', $bank->getPostcode()));
@@ -216,7 +217,7 @@ class CustomersDocument extends BaseDocument
         $remittanceAdviceElement->appendChild($this->createNodeWithTextContent('sendmail', $customer->getRemittanceAdviceSendMail()));
         $remittanceAdviceElement->appendChild($this->createNodeWithTextContent('sendtype', $customer->getRemittanceAdviceSendType()));
 
-        $group = $customer->getGroupToString();
+        $group = Util::objectToStr($customer->getGroup());
 
         if (!empty($group)) {
             $groupsElement = $this->createElement('groups');
@@ -249,8 +250,8 @@ class CustomersDocument extends BaseDocument
                     $postingRuleElement->setAttribute('status', $status);
                 }
 
-                $postingRuleElement->appendChild($this->createNodeWithTextContent('amount', $postingRule->getAmountToFloat()));
-                $postingRuleElement->appendChild($this->createNodeWithTextContent('currency', $postingRule->getCurrencyToString()));
+                $postingRuleElement->appendChild($this->createNodeWithTextContent('amount', Util::formatMoney($postingRule->getAmount())));
+                $postingRuleElement->appendChild($this->createNodeWithTextContent('currency', Util::objectToStr($postingRule->getCurrency())));
                 $postingRuleElement->appendChild($this->createNodeWithTextContent('description', $postingRule->getDescription()));
 
                 $postingRuleLines = $postingRule->getLines();
@@ -266,13 +267,13 @@ class CustomersDocument extends BaseDocument
                         $postingRuleLineElement = $this->createElement('line');
                         $postingRuleLinesElement->appendChild($postingRuleLineElement);
 
-                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension1', $postingRuleLine->getDimension1ToString()));
-                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension2', $postingRuleLine->getDimension2ToString()));
-                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension3', $postingRuleLine->getDimension3ToString()));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension1', Util::objectToStr($postingRuleLine->getDimension1())));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension2', Util::objectToStr($postingRuleLine->getDimension2())));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension3', Util::objectToStr($postingRuleLine->getDimension3())));
                         $postingRuleLineElement->appendChild($this->createNodeWithTextContent('description', $postingRuleLine->getDescription()));
-                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('office', $postingRuleLine->getOfficeToString()));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($postingRuleLine->getOffice())));
                         $postingRuleLineElement->appendChild($this->createNodeWithTextContent('ratio', $postingRuleLine->getRatio()));
-                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('vatcode', $postingRuleLine->getVatCodeToString()));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('vatcode', Util::objectToStr($postingRuleLine->getVatCode())));
                     }
                 }
             }

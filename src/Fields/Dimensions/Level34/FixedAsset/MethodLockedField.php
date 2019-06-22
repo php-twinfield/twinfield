@@ -20,11 +20,6 @@ trait MethodLockedField
         return $this->methodLocked;
     }
 
-    public function getMethodLockedToString(): ?string
-    {
-        return ($this->getMethodLocked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $methodLocked
      * @return $this
@@ -33,15 +28,5 @@ trait MethodLockedField
     {
         $this->methodLocked = $methodLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $methodLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setMethodLockedFromString(?string $methodLockedString)
-    {
-        return $this->setMethodLocked(filter_var($methodLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

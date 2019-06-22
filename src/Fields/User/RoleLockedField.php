@@ -19,12 +19,7 @@ trait RoleLockedField
     {
         return $this->roleLocked;
     }
-
-    public function getRoleLockedToString(): ?string
-    {
-        return ($this->getRoleLocked()) ? 'true' : 'false';
-    }
-
+    
     /**
      * @param bool $roleLocked
      * @return $this
@@ -33,15 +28,5 @@ trait RoleLockedField
     {
         $this->roleLocked = $roleLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $roleLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setRoleLockedFromString(?string $roleLockedString)
-    {
-        return $this->setRoleLocked(filter_var($roleLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

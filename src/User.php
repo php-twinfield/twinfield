@@ -28,7 +28,7 @@ use PhpTwinfield\Fields\User\RoleLockedField;
 use PhpTwinfield\Fields\User\TypeField;
 use PhpTwinfield\Fields\User\TypeLockedField;
 
-class User extends BaseObject
+class User extends BaseObject implements HasCodeInterface
 {
     use AcceptExtraCostField;
     use CodeField;

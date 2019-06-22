@@ -28,14 +28,4 @@ trait CalcMethodField
         $this->calcMethod = $calcMethod;
         return $this;
     }
-
-    /**
-     * @param string|null $calcMethodString
-     * @return $this
-     * @throws Exception
-     */
-    public function setCalcMethodFromString(?string $calcMethodString)
-    {
-        return $this->setCalcMethod(new CalcMethod((string)$calcMethodString));
-    }
 }

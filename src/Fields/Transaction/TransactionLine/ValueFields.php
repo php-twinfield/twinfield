@@ -5,7 +5,6 @@ namespace PhpTwinfield\Fields\Transaction\TransactionLine;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
-use PhpTwinfield\Util;
 use Webmozart\Assert\Assert;
 
 trait ValueFields
@@ -84,18 +83,6 @@ trait ValueFields
         return $this->value->absolute();
     }
 
-    /**
-     * @return float|null
-     */
-    public function getValueToFloat(): ?float
-    {
-        if ($this->getValue() != null) {
-            return Util::formatMoney($this->getValue());
-        } else {
-            return 0;
-        }
-    }
-
     public function getSignedValue(): Money
     {
         return $this->value;
@@ -124,19 +111,5 @@ trait ValueFields
          */
         $this->value = $value;
         return $this;
-    }
-
-    /**
-     * @param float|null $valueFloat
-     * @return $this
-     * @throws Exception
-     */
-    public function setValueFromFloat(?float $valueFloat)
-    {
-        if ((float)$valueFloat) {
-            return $this->setValue(Money::EUR(100 * $valueFloat));
-        } else {
-            return $this->setValue(Money::EUR(0));
-        }
     }
 }

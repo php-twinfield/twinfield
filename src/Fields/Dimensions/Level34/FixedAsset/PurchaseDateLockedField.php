@@ -20,11 +20,6 @@ trait PurchaseDateLockedField
         return $this->purchaseDateLocked;
     }
 
-    public function getPurchaseDateLockedToString(): ?string
-    {
-        return ($this->getPurchaseDateLocked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $purchaseDateLocked
      * @return $this
@@ -33,15 +28,5 @@ trait PurchaseDateLockedField
     {
         $this->purchaseDateLocked = $purchaseDateLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $purchaseDateLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setPurchaseDateLockedFromString(?string $purchaseDateLockedString)
-    {
-        return $this->setPurchaseDateLocked(filter_var($purchaseDateLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

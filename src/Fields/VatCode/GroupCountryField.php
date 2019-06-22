@@ -22,15 +22,6 @@ trait GroupCountryField
         return $this->groupCountry;
     }
 
-    public function getGroupCountryToString(): ?string
-    {
-        if ($this->getGroupCountry() != null) {
-            return $this->groupCountry->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait GroupCountryField
     {
         $this->groupCountry = $groupCountry;
         return $this;
-    }
-
-    /**
-     * @param string|null $groupCountryString
-     * @return $this
-     * @throws Exception
-     */
-    public function setGroupCountryFromString(?string $groupCountryString)
-    {
-        $groupCountry = new VatGroupCountry();
-        $groupCountry->setCode($groupCountryString);
-        return $this->setGroupCountry($groupCountry);
     }
 }

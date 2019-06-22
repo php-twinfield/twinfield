@@ -21,16 +21,7 @@ trait ReportingCurrencyField
     {
         return $this->reportingCurrency;
     }
-
-    public function getReportingCurrencyToString(): ?string
-    {
-        if ($this->getReportingCurrency() != null) {
-            return $this->reportingCurrency->getCode();
-        } else {
-            return null;
-        }
-    }
-
+    
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait ReportingCurrencyField
     {
         $this->reportingCurrency = $reportingCurrency;
         return $this;
-    }
-
-    /**
-     * @param string|null $reportingCurrencyString
-     * @return $this
-     * @throws Exception
-     */
-    public function setReportingCurrencyFromString(?string $reportingCurrencyString)
-    {
-        $reportingCurrency = new Currency();
-        $reportingCurrency->setCode($reportingCurrencyString);
-        return $this->setReportingCurrency($reportingCurrency);
     }
 }

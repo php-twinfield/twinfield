@@ -22,15 +22,6 @@ trait Dimension2Field
         return $this->dimension2;
     }
 
-    public function getDimension2ToString(): ?string
-    {
-        if ($this->getDimension2() != null) {
-            return $this->dimension2->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait Dimension2Field
     {
         $this->dimension2 = $dimension2;
         return $this;
-    }
-
-    /**
-     * @param string|null $dimension2String
-     * @return $this
-     * @throws Exception
-     */
-    public function setDimension2FromString(?string $dimension2String)
-    {
-        $dimension2 = new CostCenter();
-        $dimension2->setCode($dimension2String);
-        return $this->setDimension2($dimension2);
     }
 }

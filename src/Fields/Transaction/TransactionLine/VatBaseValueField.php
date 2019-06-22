@@ -3,8 +3,7 @@
 namespace PhpTwinfield\Fields\Transaction\TransactionLine;
 
 use Money\Money;
-use PhpTwinfield\Util;
-
+s
 trait VatBaseValueField
 {
     /**
@@ -24,18 +23,6 @@ trait VatBaseValueField
     }
 
     /**
-     * @return float|null
-     */
-    public function getVatBaseValueToFloat(): ?float
-    {
-        if ($this->getVatBaseValue() != null) {
-            return Util::formatMoney($this->getVatBaseValue());
-        } else {
-            return 0;
-        }
-    }
-
-    /**
      * @param Money|null $vatBaseValue
      * @return $this
      */
@@ -44,19 +31,5 @@ trait VatBaseValueField
         $this->vatBaseValue = $vatBaseValue;
 
         return $this;
-    }
-
-    /**
-     * @param float|null $vatBaseValueFloat
-     * @return $this
-     * @throws Exception
-     */
-    public function setVatBaseValueFromFloat(?float $vatBaseValueFloat)
-    {
-        if ((float)$vatBaseValueFloat) {
-            return $this->setVatBaseValue(Money::EUR(100 * $vatBaseValueFloat));
-        } else {
-            return $this->setVatBaseValue(Money::EUR(0));
-        }
     }
 }

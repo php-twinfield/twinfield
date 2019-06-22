@@ -28,14 +28,4 @@ trait PerformanceTypeField
         $this->performanceType = $performanceType;
         return $this;
     }
-
-    /**
-     * @param string|null $performanceTypeString
-     * @return $this
-     * @throws Exception
-     */
-    public function setPerformanceTypeFromString(?string $performanceTypeString)
-    {
-        return $this->setPerformanceType(new PerformanceType((string)$performanceTypeString));
-    }
 }

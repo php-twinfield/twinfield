@@ -20,7 +20,7 @@ use PhpTwinfield\Fields\UserField;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class Rate extends BaseObject
+class Rate extends BaseObject implements HasCodeInterface
 {
     use CodeField;
     use CreatedField;

@@ -21,16 +21,7 @@ trait CountryCodeField
     {
         return $this->countryCode;
     }
-
-    public function getCountryCodeToString(): ?string
-    {
-        if ($this->getCountryCode() != null) {
-            return $this->countryCode->getCode();
-        } else {
-            return null;
-        }
-    }
-
+    
     /**
      * @return $this
      */

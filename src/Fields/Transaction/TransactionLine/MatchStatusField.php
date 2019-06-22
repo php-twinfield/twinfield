@@ -27,14 +27,4 @@ trait MatchStatusField
         $this->matchStatus = $matchStatus;
         return $this;
     }
-
-    /**
-     * @param string|null $matchStatusString
-     * @return $this
-     * @throws Exception
-     */
-    public function setMatchStatusFromString(?string $matchStatusString)
-    {
-        return $this->setMatchStatus(new MatchStatus((string)$matchStatusString));
-    }
 }

@@ -34,14 +34,4 @@ trait AuthoriserInheritField
         $this->authoriserInherit = $authoriserInherit;
         return $this;
     }
-
-    /**
-     * @param string|null $authoriserInheritString
-     * @return $this
-     * @throws Exception
-     */
-    public function setAuthoriserInheritFromString(?string $authoriserInheritString)
-    {
-        return $this->setAuthoriserInherit(filter_var($authoriserInheritString, FILTER_VALIDATE_BOOLEAN));
-    }
 }

@@ -28,14 +28,4 @@ trait SendReminderField
         $this->sendReminder = $sendReminder;
         return $this;
     }
-
-    /**
-     * @param string|null $sendReminderString
-     * @return $this
-     * @throws Exception
-     */
-    public function setSendReminderFromString(?string $sendReminderString)
-    {
-        return $this->setSendReminder(new SendReminder((string)$sendReminderString));
-    }
 }

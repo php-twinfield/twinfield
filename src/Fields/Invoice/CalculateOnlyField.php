@@ -20,11 +20,6 @@ trait CalculateOnlyField
         return $this->calculateOnly;
     }
 
-    public function getCalculateOnlyToString(): ?string
-    {
-        return ($this->getCalculateOnly()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $calculateOnly
      * @return $this
@@ -33,15 +28,5 @@ trait CalculateOnlyField
     {
         $this->calculateOnly = $calculateOnly;
         return $this;
-    }
-
-    /**
-     * @param string|null $calculateOnlyString
-     * @return $this
-     * @throws Exception
-     */
-    public function setCalculateOnlyFromString(?string $calculateOnlyString)
-    {
-        return $this->setCalculateOnly(filter_var($calculateOnlyString, FILTER_VALIDATE_BOOLEAN));
     }
 }

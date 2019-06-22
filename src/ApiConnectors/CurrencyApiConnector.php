@@ -148,7 +148,7 @@ class CurrencyApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\Currency::class, $response->data, $currencyArrayListAllTags);
+        return $this->mapListAll(Currency::class, $response->data, $currencyArrayListAllTags);
     }
 
     /**
@@ -165,7 +165,7 @@ class CurrencyApiConnector extends BaseApiConnector
         $currency = self::get($code, $office);
 
         if ($currency->getResult() == 1) {
-            $currency->setStatusFromString("deleted");
+            $currency->setStatus(\PhpTwinfield\Enums\Status::DELETED());
 
             try {
                 $currencyDeleted = self::send($currency);

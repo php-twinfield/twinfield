@@ -8,8 +8,8 @@ use PhpTwinfield\ApiConnectors\OfficeApiConnector;
 use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Message\Message;
 use PhpTwinfield\Office;
-use PhpTwinfield\Util;
 use PhpTwinfield\Secure\AuthenticatedConnection;
+use PhpTwinfield\Util;
 use Webmozart\Assert\Assert;
 
 abstract class BaseMapper
@@ -68,8 +68,8 @@ abstract class BaseMapper
         $fullOffice = $officeApiConnector->get($office->getCode());
         
         if ($fullOffice->getResult() == 1) {
-            $currencies['base'] = $fullOffice->getBaseCurrencyToString();
-            $currencies['reporting'] = $fullOffice->getReportingCurrencyToString();
+            $currencies['base'] = Util::objectToStr($fullOffice->getBaseCurrency());
+            $currencies['reporting'] = Util::objectToStr($fullOffice->getReportingCurrency());
         }
         
         return $currencies;

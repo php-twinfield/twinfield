@@ -19,12 +19,7 @@ trait DemoLockedField
     {
         return $this->demoLocked;
     }
-
-    public function getDemoLockedToString(): ?string
-    {
-        return ($this->getDemoLocked()) ? 'true' : 'false';
-    }
-
+    
     /**
      * @param bool $demoLocked
      * @return $this
@@ -33,15 +28,5 @@ trait DemoLockedField
     {
         $this->demoLocked = $demoLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $demoLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setDemoLockedFromString(?string $demoLockedString)
-    {
-        return $this->setDemoLocked(filter_var($demoLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

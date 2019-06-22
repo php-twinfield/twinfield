@@ -34,14 +34,4 @@ trait BillableForRatioField
         $this->billableForRatio = $billableForRatio;
         return $this;
     }
-
-    /**
-     * @param string|null $billableForRatioString
-     * @return $this
-     * @throws Exception
-     */
-    public function setBillableForRatioFromString(?string $billableForRatioString)
-    {
-        return $this->setBillableForRatio(filter_var($billableForRatioString, FILTER_VALIDATE_BOOLEAN));
-    }
 }

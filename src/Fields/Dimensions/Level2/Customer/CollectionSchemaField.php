@@ -28,14 +28,4 @@ trait CollectionSchemaField
         $this->collectionSchema = $collectionSchema;
         return $this;
     }
-
-    /**
-     * @param string|null $collectionSchemaString
-     * @return $this
-     * @throws Exception
-     */
-    public function setCollectionSchemaFromString(?string $collectionSchemaString)
-    {
-        return $this->setCollectionSchema(new CollectionSchema((string)$collectionSchemaString));
-    }
 }

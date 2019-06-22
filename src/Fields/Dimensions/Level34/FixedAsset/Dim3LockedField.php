@@ -20,11 +20,6 @@ trait Dim3LockedField
         return $this->dim3Locked;
     }
 
-    public function getDim3LockedToString(): ?string
-    {
-        return ($this->getDim3Locked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $dim3Locked
      * @return $this
@@ -33,15 +28,5 @@ trait Dim3LockedField
     {
         $this->dim3Locked = $dim3Locked;
         return $this;
-    }
-
-    /**
-     * @param string|null $dim3LockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setDim3LockedFromString(?string $dim3LockedString)
-    {
-        return $this->setDim3Locked(filter_var($dim3LockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

@@ -26,8 +26,8 @@ class GeneralLedgerFinancials extends BaseObject
 
     public function __construct()
     {
-        $this->setMatchTypeFromString('notmatchable');
-        $this->setSubAnalyseFromString('maybe');
+        $this->setMatchType(\PhpTwinfield\Enums\MatchType::NOTMATCHABLE());
+        $this->setSubAnalyse(\PhpTwinfield\Enums\SubAnalyse::MAYBE());
     }
 
     public function getChildValidations()

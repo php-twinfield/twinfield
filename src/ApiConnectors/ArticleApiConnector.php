@@ -120,7 +120,7 @@ class ArticleApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\Article::class, $response->data, $articleArrayListAllTags);
+        return $this->mapListAll(Article::class, $response->data, $articleArrayListAllTags);
     }
 
     /**
@@ -137,7 +137,7 @@ class ArticleApiConnector extends BaseApiConnector
         $article = self::get($code, $office);
 
         if ($article->getResult() == 1) {
-            $article->setStatusFromString("deleted");
+            $article->setStatus(\PhpTwinfield\Enums\Status::DELETED());
 
             try {
                 $articleDeleted = self::send($article);

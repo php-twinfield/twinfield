@@ -34,14 +34,4 @@ trait BillableLockedField
         $this->billableLocked = $billableLocked;
         return $this;
     }
-
-    /**
-     * @param string|null $billableLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setBillableLockedFromString(?string $billableLockedString)
-    {
-        return $this->setBillableLocked(filter_var($billableLockedString, FILTER_VALIDATE_BOOLEAN));
-    }
 }

@@ -22,15 +22,6 @@ trait GroupField
         return $this->group;
     }
 
-    public function getGroupToString(): ?string
-    {
-        if ($this->getGroup() != null) {
-            return $this->group->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait GroupField
     {
         $this->group = $group;
         return $this;
-    }
-
-    /**
-     * @param string|null $groupString
-     * @return $this
-     * @throws Exception
-     */
-    public function setGroupFromString(?string $groupString)
-    {
-        $group = new VatGroup();
-        $group->setCode($groupString);
-        return $this->setGroup($group);
     }
 }

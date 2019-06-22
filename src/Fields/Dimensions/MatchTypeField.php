@@ -28,14 +28,4 @@ trait MatchTypeField
         $this->matchType = $matchType;
         return $this;
     }
-
-    /**
-     * @param string|null $matchTypeString
-     * @return $this
-     * @throws Exception
-     */
-    public function setMatchTypeFromString(?string $matchTypeString)
-    {
-        return $this->setMatchType(new MatchType((string)$matchTypeString));
-    }
 }

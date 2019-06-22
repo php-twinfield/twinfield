@@ -34,14 +34,4 @@ trait RateInheritField
         $this->rateInherit = $rateInherit;
         return $this;
     }
-
-    /**
-     * @param string|null $rateInheritString
-     * @return $this
-     * @throws Exception
-     */
-    public function setRateInheritFromString(?string $rateInheritString)
-    {
-        return $this->setRateInherit(filter_var($rateInheritString, FILTER_VALIDATE_BOOLEAN));
-    }
 }

@@ -3,7 +3,6 @@
 namespace PhpTwinfield\Fields\Invoice;
 
 use Money\Money;
-use PhpTwinfield\Util;
 
 trait InvoiceAmountField
 {
@@ -24,18 +23,6 @@ trait InvoiceAmountField
     }
 
     /**
-     * @return float|null
-     */
-    public function getInvoiceAmountToFloat(): ?float
-    {
-        if ($this->getInvoiceAmount() != null) {
-            return Util::formatMoney($this->getInvoiceAmount());
-        } else {
-            return 0;
-        }
-    }
-
-    /**
      * @param Money|null $invoiceAmount
      * @return $this
      */
@@ -44,19 +31,5 @@ trait InvoiceAmountField
         $this->invoiceAmount = $invoiceAmount;
 
         return $this;
-    }
-
-    /**
-     * @param float|null $invoiceAmountFloat
-     * @return $this
-     * @throws Exception
-     */
-    public function setInvoiceAmountFromFloat(?float $invoiceAmountFloat)
-    {
-        if ((float)$invoiceAmountFloat) {
-            return $this->setInvoiceAmount(Money::EUR(100 * $invoiceAmountFloat));
-        } else {
-            return $this->setInvoiceAmount(Money::EUR(0));
-        }
     }
 }

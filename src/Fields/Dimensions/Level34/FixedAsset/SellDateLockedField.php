@@ -20,11 +20,6 @@ trait SellDateLockedField
         return $this->sellDateLocked;
     }
 
-    public function getSellDateLockedToString(): ?string
-    {
-        return ($this->getSellDateLocked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $sellDateLocked
      * @return $this
@@ -33,15 +28,5 @@ trait SellDateLockedField
     {
         $this->sellDateLocked = $sellDateLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $sellDateLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setSellDateLockedFromString(?string $sellDateLockedString)
-    {
-        return $this->setSellDateLocked(filter_var($sellDateLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

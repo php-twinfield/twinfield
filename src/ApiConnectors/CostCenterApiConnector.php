@@ -122,7 +122,7 @@ class CostCenterApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\CostCenter::class, $response->data, $costCenterArrayListAllTags);
+        return $this->mapListAll(CostCenter::class, $response->data, $costCenterArrayListAllTags);
     }
 
     /**
@@ -139,7 +139,7 @@ class CostCenterApiConnector extends BaseApiConnector
         $costCenter = self::get($code, $office);
 
         if ($costCenter->getResult() == 1) {
-            $costCenter->setStatusFromString("deleted");
+            $costCenter->setStatus(\PhpTwinfield\Enums\Status::DELETED());
 
             try {
                 $costCenterDeleted = self::send($costCenter);

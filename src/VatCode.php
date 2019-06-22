@@ -19,7 +19,7 @@ use PhpTwinfield\Fields\VatCode\TypeField;
  *
  * @author Emile Bons <emile@emilebons.nl>, extended by Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class VatCode extends BaseObject
+class VatCode extends BaseObject implements HasCodeInterface
 {
     use CodeField;
     use CreatedField;

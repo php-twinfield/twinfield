@@ -3,6 +3,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\GeneralLedger;
+use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML GeneralLedger. Is a child class
@@ -52,9 +53,9 @@ class GeneralLedgersDocument extends BaseDocument
         $generalLedgerElement->appendChild($this->createNodeWithTextContent('endperiod', $generalLedger->getEndPeriod()));
         $generalLedgerElement->appendChild($this->createNodeWithTextContent('endyear', $generalLedger->getEndYear()));
         $generalLedgerElement->appendChild($this->createNodeWithTextContent('name', $generalLedger->getName()));
-        $generalLedgerElement->appendChild($this->createNodeWithTextContent('office', $generalLedger->getOfficeToString()));
+        $generalLedgerElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($generalLedger->getOffice())));
         $generalLedgerElement->appendChild($this->createNodeWithTextContent('shortname', $generalLedger->getShortName()));
-        $generalLedgerElement->appendChild($this->createNodeWithTextContent('type', $generalLedger->getTypeToString()));
+        $generalLedgerElement->appendChild($this->createNodeWithTextContent('type', Util::objectToStr($generalLedger->getType())));
 
         $financials = $generalLedger->getFinancials();
 
@@ -64,7 +65,7 @@ class GeneralLedgersDocument extends BaseDocument
         $financialsElement->appendChild($this->createNodeWithTextContent('accounttype', $financials->getAccountType()));
         $financialsElement->appendChild($this->createNodeWithTextContent('matchtype', $financials->getMatchType()));
         $financialsElement->appendChild($this->createNodeWithTextContent('subanalyse', $financials->getSubAnalyse()));
-        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', $financials->getVatCodeToString()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', Util::objectToStr($financials->getVatCode())));
 
         $childValidations = $financials->getChildValidations();
 
@@ -80,7 +81,7 @@ class GeneralLedgersDocument extends BaseDocument
             }
         }
 
-        $group = $generalLedger->getGroupToString();
+        $group = Util::objectToStr($generalLedger->getGroup());
 
         if (!empty($group)) {
             $groupsElement = $this->createElement('groups');

@@ -48,7 +48,7 @@ class InvoiceTypeApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\InvoiceType::class, $response->data, $invoiceTypeListAllTags);
+        return $this->mapListAll(InvoiceType::class, $response->data, $invoiceTypeListAllTags);
     }
 
     /**

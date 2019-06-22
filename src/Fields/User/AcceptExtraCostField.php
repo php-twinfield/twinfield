@@ -20,11 +20,6 @@ trait AcceptExtraCostField
         return $this->acceptExtraCost;
     }
 
-    public function getAcceptExtraCostToString(): ?string
-    {
-        return ($this->getAcceptExtraCost()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $acceptExtraCost
      * @return $this
@@ -33,15 +28,5 @@ trait AcceptExtraCostField
     {
         $this->acceptExtraCost = $acceptExtraCost;
         return $this;
-    }
-
-    /**
-     * @param string|null $acceptExtraCostString
-     * @return $this
-     * @throws Exception
-     */
-    public function setAcceptExtraCostFromString(?string $acceptExtraCostString)
-    {
-        return $this->setAcceptExtraCost(filter_var($acceptExtraCostString, FILTER_VALIDATE_BOOLEAN));
     }
 }

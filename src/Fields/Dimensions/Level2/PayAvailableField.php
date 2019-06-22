@@ -20,11 +20,6 @@ trait PayAvailableField
         return $this->payAvailable;
     }
 
-    public function getPayAvailableToString(): ?string
-    {
-        return ($this->getPayAvailable()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $payAvailable
      * @return $this
@@ -33,15 +28,5 @@ trait PayAvailableField
     {
         $this->payAvailable = $payAvailable;
         return $this;
-    }
-
-    /**
-     * @param string|null $payAvailableString
-     * @return $this
-     * @throws Exception
-     */
-    public function setPayAvailableFromString(?string $payAvailableString)
-    {
-        return $this->setPayAvailable(filter_var($payAvailableString, FILTER_VALIDATE_BOOLEAN));
     }
 }

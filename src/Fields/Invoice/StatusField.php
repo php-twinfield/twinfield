@@ -28,14 +28,4 @@ trait StatusField
         $this->status = $status;
         return $this;
     }
-
-    /**
-     * @param string|null $statusString
-     * @return $this
-     * @throws Exception
-     */
-    public function setStatusFromString(?string $statusString)
-    {
-        return $this->setStatus(new InvoiceStatus((string)$statusString));
-    }
 }

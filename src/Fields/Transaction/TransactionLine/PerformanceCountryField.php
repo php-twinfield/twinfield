@@ -22,15 +22,6 @@ trait PerformanceCountryField
         return $this->performanceCountry;
     }
 
-    public function getPerformanceCountryToString(): ?string
-    {
-        if ($this->getPerformanceCountry() != null) {
-            return $this->performanceCountry->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait PerformanceCountryField
     {
         $this->performanceCountry = $performanceCountry;
         return $this;
-    }
-
-    /**
-     * @param string|null $performanceCountryString
-     * @return $this
-     * @throws Exception
-     */
-    public function setPerformanceCountryFromString(?string $performanceCountryString)
-    {
-        $performanceCountry = new Country();
-        $performanceCountry->setCode($performanceCountryString);
-        return $this->setPerformanceCountry($performanceCountry);
     }
 }

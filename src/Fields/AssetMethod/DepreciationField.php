@@ -21,16 +21,7 @@ trait DepreciationField
     {
         return $this->depreciation;
     }
-
-    public function getDepreciationToString(): ?string
-    {
-        if ($this->getDepreciation() != null) {
-            return $this->depreciation->getCode();
-        } else {
-            return null;
-        }
-    }
-
+    
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait DepreciationField
     {
         $this->depreciation = $depreciation;
         return $this;
-    }
-
-    /**
-     * @param string|null $depreciationString
-     * @return $this
-     * @throws Exception
-     */
-    public function setDepreciationFromString(?string $depreciationString)
-    {
-        $depreciation = new GeneralLedger();
-        $depreciation->setCode($depreciationString);
-        return $this->setDepreciation($depreciation);
     }
 }

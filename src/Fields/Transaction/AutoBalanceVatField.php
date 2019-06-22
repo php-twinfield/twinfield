@@ -20,11 +20,6 @@ trait AutoBalanceVatField
         return $this->autoBalanceVat;
     }
 
-    public function getAutoBalanceVatToString(): ?string
-    {
-        return ($this->getAutoBalanceVat()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $autoBalanceVat
      * @return $this
@@ -33,15 +28,5 @@ trait AutoBalanceVatField
     {
         $this->autoBalanceVat = $autoBalanceVat;
         return $this;
-    }
-
-    /**
-     * @param string|null $autoBalanceVatString
-     * @return $this
-     * @throws Exception
-     */
-    public function setAutoBalanceVatFromString(?string $autoBalanceVatString)
-    {
-        return $this->setAutoBalanceVat(filter_var($autoBalanceVatString, FILTER_VALIDATE_BOOLEAN));
     }
 }

@@ -101,11 +101,11 @@ class TransactionMapper extends BaseMapper
         $currencies = self::getOfficeCurrencies($connection, $transaction->getOffice());
 
         if (Util::objectUses(CloseAndStartValueFields::class, $transaction)) {
-            $transaction->setStartValueFromFloat(self::getField($transactionElement, 'startvalue', $transaction));
+            $transaction->setStartValue(self::parseMoneyAttribute(self::getField($transactionElement, 'startvalue', $transaction), Util::objectToStr($transaction->getCurrency())));
         }
 
         if (Util::objectUses(DueDateField::class, $transaction)) {
-            $transaction->setDueDateFromString(self::getField($transactionElement, 'duedate', $transaction));
+            $transaction->setDueDate(self::parseDateAttribute(self::getField($transactionElement, 'duedate', $transaction)));
         }
 
         if (Util::objectUses(InvoiceNumberField::class, $transaction)) {
@@ -150,11 +150,11 @@ class TransactionMapper extends BaseMapper
                 $transactionLine
                     ->setBaseValue(self::parseMoneyAttribute(self::getField($lineElement, 'basevalue', $transactionLine), $currencies['base']))
                     ->setComment(self::getField($lineElement, 'comment', $transactionLine))
-                    ->setValue(self::parseMoneyAttribute(self::getField($lineElement, 'value', $transactionLine), $transaction->getCurrencyToString()))
+                    ->setValue(self::parseMoneyAttribute(self::getField($lineElement, 'value', $transactionLine), Util::objectToStr($transaction->getCurrency())))
                     ->setDebitCredit(self::parseEnumAttribute(\PhpTwinfield\Enums\DebitCredit::class, self::getField($lineElement, 'debitcredit', $transactionLine)))
                     ->setDescription(self::getField($lineElement, 'description', $transactionLine))
                     ->setDestOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $transactionLine, $lineElement, 'destoffice'))
-                    ->setDim1(self::parseObjectAttribute(\PhpTwinfield\Dummy::class, $transactionLine, $lineElement, 'dim1'))
+                    ->setDim1(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim1', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
                     ->setId($lineElement->getAttribute('id'))
                     ->setLineType(self::parseEnumAttribute(\PhpTwinfield\Enums\LineType::class, $lineType))
                     ->setMatchStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\MatchStatus::class, self::getField($lineElement, 'matchstatus', $transactionLine)))
@@ -176,8 +176,8 @@ class TransactionMapper extends BaseMapper
                             $transactionLine->setBaseValueOpen(self::parseMoneyAttribute($baseValueOpen, $currencies['base']));
                         }
 
-                        $transactionLine->setDim2(self::parseObjectAttribute(\PhpTwinfield\Dummy::class, $transactionLine, $lineElement, 'dim2'));
-                        $transactionLine->setDim3(self::parseObjectAttribute(\PhpTwinfield\Dummy::class, $transactionLine, $lineElement, 'dim3'));
+                        $transactionLine->setDim2(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim2', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
+                        $transactionLine->setDim3(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim3', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
                         $transactionLine->setMatchLevel(self::getField($lineElement, 'matchlevel', $transactionLine));
                         $transactionLine->setRelation(self::getField($lineElement, 'relation', $transactionLine));
                         $transactionLine->setRepValueOpen(self::parseMoneyAttribute(self::getField($lineElement, 'repvalueopen', $transactionLine), $currencies['reporting']));
@@ -186,12 +186,12 @@ class TransactionMapper extends BaseMapper
 
                 if ($transaction instanceof PurchaseTransaction || $transaction instanceof SalesTransaction) {
                     if ($lineType == LineType::DETAIL()) {
-                        $transactionLine->setDim2(self::parseObjectAttribute(\PhpTwinfield\Dummy::class, $transactionLine, $lineElement, 'dim2'));
-                        $transactionLine->setDim3(self::parseObjectAttribute(\PhpTwinfield\Dummy::class, $transactionLine, $lineElement, 'dim3'));
+                        $transactionLine->setDim2(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim2', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
+                        $transactionLine->setDim3(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim3', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
                     } elseif ($transaction instanceof PurchaseTransaction && $lineType == LineType::VAT()) {
-                        $transactionLine->setDim3(self::parseObjectAttribute(\PhpTwinfield\Dummy::class, $transactionLine, $lineElement, 'dim3'));
+                        $transactionLine->setDim3(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim3', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
                     } elseif ($lineType == LineType::TOTAL()) {
-                        $transactionLine->setDim2(self::parseObjectAttribute(\PhpTwinfield\Dummy::class, $transactionLine, $lineElement, 'dim2'));
+                        $transactionLine->setDim2(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim2', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
 
                         $baseValueOpen = self::getField($lineElement, 'basevalueopen', $transactionLine) ?: self::getField($lineElement, 'openbasevalue', $transactionLine);
 
@@ -216,7 +216,7 @@ class TransactionMapper extends BaseMapper
 
                     $transactionLine->setVatBaseValue(self::parseMoneyAttribute(self::getField($lineElement, 'vatbasevalue', $transactionLine), $currencies['base']));
                     $transactionLine->setVatRepValue(self::parseMoneyAttribute(self::getField($lineElement, 'vatrepvalue', $transactionLine), $currencies['reporting']));
-                    $transactionLine->setVatValue(self::parseMoneyAttribute(self::getField($lineElement, 'vatvalue', $transactionLine), $transaction->getCurrencyToString()));
+                    $transactionLine->setVatValue(self::parseMoneyAttribute(self::getField($lineElement, 'vatvalue', $transactionLine), Util::objectToStr($transaction->getCurrency())));
                 } elseif ($lineType == LineType::VAT()) {
                     if (Util::objectUses(BaselineField::class, $transactionLine)) {
                         $transactionLine->setBaseline(self::getField($lineElement, 'baseline', $transactionLine));
@@ -224,7 +224,7 @@ class TransactionMapper extends BaseMapper
 
                     $transactionLine->setVatBaseTurnover(self::parseMoneyAttribute(self::getField($lineElement, 'vatbaseturnover', $transactionLine), $currencies['base']));
                     $transactionLine->setVatRepTurnover(self::parseMoneyAttribute(self::getField($lineElement, 'vatrepturnover', $transactionLine), $currencies['reporting']));
-                    $transactionLine->setVatTurnover(self::parseMoneyAttribute(self::getField($lineElement, 'vatturnover', $transactionLine), $transaction->getCurrencyToString()));
+                    $transactionLine->setVatTurnover(self::parseMoneyAttribute(self::getField($lineElement, 'vatturnover', $transactionLine), Util::objectToStr($transaction->getCurrency())));
                 } elseif ($lineType == LineType::TOTAL()) {
                     if (Util::objectUses(MatchDateField::class, $transactionLine)) {
                         $transactionLine->setMatchDate(self::parseDateAttribute(self::getField($lineElement, 'matchdate', $transactionLine)));
@@ -234,7 +234,7 @@ class TransactionMapper extends BaseMapper
                         $valueOpen = self::getField($lineElement, 'valueopen', $transactionLine) ?: self::getField($lineElement, 'openvalue', $transactionLine);
 
                         if ($valueOpen) {
-                            $transactionLine->setValueOpen(self::parseMoneyAttribute($valueOpen, $transaction->getCurrencyToString()));
+                            $transactionLine->setValueOpen(self::parseMoneyAttribute($valueOpen, Util::objectToStr($transaction->getCurrency())));
                         }
                     }
 
@@ -247,7 +247,7 @@ class TransactionMapper extends BaseMapper
                     }
 
                     if (Util::objectUses(VatTotalField::class, $transactionLine)) {
-                        $transactionLine->setVatTotal(self::parseMoneyAttribute(self::getField($lineElement, 'vattotal', $transactionLine), $transaction->getCurrencyToString()));
+                        $transactionLine->setVatTotal(self::parseMoneyAttribute(self::getField($lineElement, 'vattotal', $transactionLine), Util::objectToStr($transaction->getCurrency())));
                     }
                 }
 

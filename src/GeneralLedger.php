@@ -23,7 +23,7 @@ use PhpTwinfield\Fields\UIDField;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class GeneralLedger extends BaseObject
+class GeneralLedger extends BaseObject implements HasCodeInterface
 {
     use BeginPeriodField;
     use BeginYearField;

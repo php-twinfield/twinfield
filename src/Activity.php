@@ -19,7 +19,7 @@ use PhpTwinfield\Fields\VatCodeField;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class Activity extends BaseObject
+class Activity extends BaseObject implements HasCodeInterface
 {
     use BehaviourField;
     use CodeField;
@@ -37,7 +37,10 @@ class Activity extends BaseObject
 
     public function __construct()
     {
-        $this->setTypeFromString('ACT');
+        $dimensionType = new \PhpTwinfield\DimensionType;
+        $dimensionType->setCode('ACT');
+        $this->setType($dimensionType);
+        
         $this->setProjects(new ActivityProjects);
     }
 

@@ -39,16 +39,4 @@ trait RateField
         $this->rate = $rate;
         return $this;
     }
-
-    /**
-     * @param string|null $rateString
-     * @return $this
-     * @throws Exception
-     */
-    public function setRateFromString(?string $rateString)
-    {
-        $rate = new Rate();
-        $rate->setCode($rateString);
-        return $this->setRate($rate);
-    }
 }

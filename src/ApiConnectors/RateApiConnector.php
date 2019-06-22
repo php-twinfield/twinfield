@@ -121,7 +121,7 @@ class RateApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\Rate::class, $response->data, $rateListAllTags);
+        return $this->mapListAll(Rate::class, $response->data, $rateListAllTags);
     }
 
     /**
@@ -138,7 +138,7 @@ class RateApiConnector extends BaseApiConnector
         $rate = self::get($code, $office);
 
         if ($rate->getResult() == 1) {
-            $rate->setStatusFromString("deleted");
+            $rate->setStatus(\PhpTwinfield\Enums\Status::DELETED());
 
             try {
                 $rateDeleted = self::send($rate);

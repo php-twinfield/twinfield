@@ -20,11 +20,6 @@ trait BeginPeriodLockedField
         return $this->beginPeriodLocked;
     }
 
-    public function getBeginPeriodLockedToString(): ?string
-    {
-        return ($this->getBeginPeriodLocked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $beginPeriodLocked
      * @return $this
@@ -33,15 +28,5 @@ trait BeginPeriodLockedField
     {
         $this->beginPeriodLocked = $beginPeriodLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $beginPeriodLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setBeginPeriodLockedFromString(?string $beginPeriodLockedString)
-    {
-        return $this->setBeginPeriodLocked(filter_var($beginPeriodLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

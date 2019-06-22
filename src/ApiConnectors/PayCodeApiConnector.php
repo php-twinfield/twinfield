@@ -48,6 +48,6 @@ class PayCodeApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\PayCode::class, $response->data, $payCodeListAllTags);
+        return $this->mapListAll(PayCode::class, $response->data, $payCodeListAllTags);
     }
 }

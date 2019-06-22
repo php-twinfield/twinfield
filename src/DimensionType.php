@@ -13,7 +13,7 @@ use PhpTwinfield\Fields\StatusField;
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionTypes
  * @todo Add documentation and typehints to all properties.
  */
-class DimensionType extends BaseObject
+class DimensionType extends BaseObject implements HasCodeInterface
 {
     use CodeField;
     use MaskField;

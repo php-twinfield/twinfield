@@ -22,15 +22,6 @@ trait ResponsibleUserField
         return $this->responsibleUser;
     }
 
-    public function getResponsibleUserToString(): ?string
-    {
-        if ($this->getResponsibleUser() != null) {
-            return $this->responsibleUser->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,18 +29,6 @@ trait ResponsibleUserField
     {
         $this->responsibleUser = $responsibleUser;
         return $this;
-    }
-
-    /**
-     * @param string|null $responsibleUserString
-     * @return $this
-     * @throws Exception
-     */
-    public function setResponsibleUserFromString(?string $responsibleUserString)
-    {
-        $responsibleUser = new User();
-        $responsibleUser->setCode($responsibleUserString);
-        return $this->setResponsibleUser($responsibleUser);
     }
 }
 

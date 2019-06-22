@@ -27,14 +27,4 @@ trait CultureField
         $this->culture = $culture;
         return $this;
     }
-
-    /**
-     * @param string|null $cultureString
-     * @return $this
-     * @throws Exception
-     */
-    public function setCultureFromString(?string $cultureString)
-    {
-        return $this->setCulture(new Culture((string)$cultureString));
-    }
 }

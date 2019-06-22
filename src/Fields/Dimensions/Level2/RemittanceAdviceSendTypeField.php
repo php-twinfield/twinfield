@@ -28,14 +28,4 @@ trait RemittanceAdviceSendTypeField
         $this->remittanceAdviceSendType = $remittanceAdviceSendType;
         return $this;
     }
-
-    /**
-     * @param string|null $remittanceAdviceSendTypeString
-     * @return $this
-     * @throws Exception
-     */
-    public function setRemittanceAdviceSendTypeFromString(?string $remittanceAdviceSendTypeString)
-    {
-        return $this->setRemittanceAdviceSendType(new RemittanceAdviceSendType((string)$remittanceAdviceSendTypeString));
-    }
 }

@@ -21,7 +21,7 @@ use PhpTwinfield\Fields\UserField;
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/AssetMethods
  * @todo Add documentation and typehints to all properties.
  */
-class AssetMethod extends BaseObject
+class AssetMethod extends BaseObject implements HasCodeInterface
 {
     use CalcMethodField;
     use CodeField;

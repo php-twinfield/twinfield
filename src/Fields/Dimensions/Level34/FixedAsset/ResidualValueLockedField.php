@@ -20,11 +20,6 @@ trait ResidualValueLockedField
         return $this->residualValueLocked;
     }
 
-    public function getResidualValueLockedToString(): ?string
-    {
-        return ($this->getResidualValueLocked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $residualValueLocked
      * @return $this
@@ -33,15 +28,5 @@ trait ResidualValueLockedField
     {
         $this->residualValueLocked = $residualValueLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $residualValueLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setResidualValueLockedFromString(?string $residualValueLockedString)
-    {
-        return $this->setResidualValueLocked(filter_var($residualValueLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

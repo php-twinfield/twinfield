@@ -28,14 +28,4 @@ trait AccountTypeField
         $this->accountType = $accountType;
         return $this;
     }
-
-    /**
-     * @param string|null $accountTypeString
-     * @return $this
-     * @throws Exception
-     */
-    public function setAccountTypeFromString(?string $accountTypeString)
-    {
-        return $this->setAccountType(new AccountType((string)$accountTypeString));
-    }
 }

@@ -20,11 +20,6 @@ trait DefaultField
         return $this->default;
     }
 
-    public function getDefaultToString(): ?string
-    {
-        return ($this->getDefault()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $default
      * @return $this
@@ -33,15 +28,5 @@ trait DefaultField
     {
         $this->default = $default;
         return $this;
-    }
-
-    /**
-     * @param string|null $defaultString
-     * @return $this
-     * @throws Exception
-     */
-    public function setDefaultFromString(?string $defaultString)
-    {
-        return $this->setDefault(filter_var($defaultString, FILTER_VALIDATE_BOOLEAN));
     }
 }

@@ -227,7 +227,7 @@ class SupplierMapper extends BaseMapper
                 $supplierPostingRule->setCurrency(self::parseObjectAttribute(\PhpTwinfield\Currency::class, $supplierPostingRule, $postingruleElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
                     ->setDescription(self::getField($postingruleElement, 'description', $supplierPostingRule));
 
-                $supplierPostingRule->setAmount(self::parseMoneyAttribute(self::getField($postingruleElement, 'amount', $supplierPostingRule), $supplierPostingRule->getCurrencyToString()));
+                $supplierPostingRule->setAmount(self::parseMoneyAttribute(self::getField($postingruleElement, 'amount', $supplierPostingRule), Util::objectToStr($supplierPostingRule->getCurrency())));
 
                 // Get the lines element
                 $linesDOMTag = $postingruleElement->getElementsByTagName('lines');

@@ -3,6 +3,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Currency;
+use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML Currency. Is a child class
@@ -44,7 +45,7 @@ class CurrenciesDocument extends BaseDocument
 
         $currencyElement->appendChild($this->createNodeWithTextContent('code', $currency->getCode()));
         $currencyElement->appendChild($this->createNodeWithTextContent('name', $currency->getName()));
-        $currencyElement->appendChild($this->createNodeWithTextContent('office', $currency->getOfficeToString()));
+        $currencyElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($currency->getOffice())));
         $currencyElement->appendChild($this->createNodeWithTextContent('shortname', $currency->getShortName()));
 
         $rates = $currency->getRates();
@@ -67,7 +68,7 @@ class CurrenciesDocument extends BaseDocument
                 }
 
                 $rateElement->appendChild($this->createNodeWithTextContent('rate', $rate->getRate()));
-                $rateElement->appendChild($this->createNodeWithTextContent('startdate', $rate->getStartDateToString()));
+                $rateElement->appendChild($this->createNodeWithTextContent('startdate', Util::formatDate($rate->getStartDate())));
             }
         }
     }

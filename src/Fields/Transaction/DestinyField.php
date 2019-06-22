@@ -28,14 +28,4 @@ trait DestinyField
         $this->destiny = $destiny;
         return $this;
     }
-
-    /**
-     * @param string|null $destinyString
-     * @return $this
-     * @throws Exception
-     */
-    public function setDestinyFromString(?string $destinyString)
-    {
-        return $this->setDestiny(new Destiny((string)$destinyString));
-    }
 }

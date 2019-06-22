@@ -20,11 +20,6 @@ trait InUseField
         return $this->inUse;
     }
 
-    public function getInUseToString(): ?string
-    {
-        return ($this->getInUse()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $inUse
      * @return $this
@@ -33,15 +28,5 @@ trait InUseField
     {
         $this->inUse = $inUse;
         return $this;
-    }
-
-    /**
-     * @param string|null $inUseString
-     * @return $this
-     * @throws Exception
-     */
-    public function setInUseFromString(?string $inUseString)
-    {
-        return $this->setInUse(filter_var($inUseString, FILTER_VALIDATE_BOOLEAN));
     }
 }

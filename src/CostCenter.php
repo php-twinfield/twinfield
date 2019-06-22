@@ -18,7 +18,7 @@ use PhpTwinfield\Fields\UIDField;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class CostCenter extends BaseObject
+class CostCenter extends BaseObject implements HasCodeInterface
 {
     use BehaviourField;
     use CodeField;
@@ -33,6 +33,8 @@ class CostCenter extends BaseObject
 
     public function __construct()
     {
-        $this->setTypeFromString('KPL');
+        $dimensionType = new \PhpTwinfield\DimensionType;
+        $dimensionType->setCode('KPL');
+        $this->setType($dimensionType);
     }
 }

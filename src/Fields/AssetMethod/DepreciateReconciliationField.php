@@ -28,14 +28,4 @@ trait DepreciateReconciliationField
         $this->depreciateReconciliation = $depreciateReconciliation;
         return $this;
     }
-
-    /**
-     * @param string|null $depreciateReconciliationString
-     * @return $this
-     * @throws Exception
-     */
-    public function setDepreciateReconciliationFromString(?string $depreciateReconciliationString)
-    {
-        return $this->setDepreciateReconciliation(new DepreciateReconciliation((string)$depreciateReconciliationString));
-    }
 }

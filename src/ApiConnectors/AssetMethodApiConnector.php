@@ -121,7 +121,7 @@ class AssetMethodApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\AssetMethod::class, $response->data, $assetMethodArrayListAllTags);
+        return $this->mapListAll(AssetMethod::class, $response->data, $assetMethodArrayListAllTags);
     }
 
     /**
@@ -138,7 +138,7 @@ class AssetMethodApiConnector extends BaseApiConnector
         $assetMethod = self::get($code, $office);
 
         if ($assetMethod->getResult() == 1) {
-            $assetMethod->setStatusFromString("deleted");
+            $assetMethod->setStatus(\PhpTwinfield\Enums\Status::DELETED());
 
             try {
                 $assetMethodDeleted = self::send($assetMethod);

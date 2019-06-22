@@ -22,15 +22,6 @@ trait CountryField
         return $this->country;
     }
 
-    public function getCountryToString(): ?string
-    {
-        if ($this->getCountry() != null) {
-            return $this->country->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait CountryField
     {
         $this->country = $country;
         return $this;
-    }
-
-    /**
-     * @param string|null $countryString
-     * @return $this
-     * @throws Exception
-     */
-    public function setCountryFromString(?string $countryString)
-    {
-        $country = new Country();
-        $country->setCode($countryString);
-        return $this->setCountry($country);
     }
 }

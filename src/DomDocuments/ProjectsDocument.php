@@ -3,6 +3,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Project;
+use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML Project. Is a child class
@@ -47,14 +48,14 @@ class ProjectsDocument extends BaseDocument
         }
         
         $projectElement->appendChild($this->createNodeWithTextContent('name', $project->getName()));
-        $projectElement->appendChild($this->createNodeWithTextContent('office', $project->getOfficeToString()));
+        $projectElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($project->getOffice())));
         $projectElement->appendChild($this->createNodeWithTextContent('shortname', $project->getShortName()));
-        $projectElement->appendChild($this->createNodeWithTextContent('type', $project->getTypeToString()));
+        $projectElement->appendChild($this->createNodeWithTextContent('type', Util::objectToStr($project->getType())));
 
         $financialsElement = $this->createElement('financials');
         $projectElement->appendChild($financialsElement);
 
-        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', $project->getVatCodeToString()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', Util::objectToStr($project->getVatCode())));
 
         $projects = $project->getProjects();
 
@@ -86,8 +87,8 @@ class ProjectsDocument extends BaseDocument
         }
 
         $projectsElement->appendChild($this->createNodeWithTextContent('invoicedescription', $projects->getInvoiceDescription()));
-        $projectsElement->appendChild($this->createNodeWithTextContent('validfrom', $projects->getValidFromToString()));
-        $projectsElement->appendChild($this->createNodeWithTextContent('validtill', $projects->getValidTillToString()));
+        $projectsElement->appendChild($this->createNodeWithTextContent('validfrom', Util::formatDate($projects->getValidFrom())));
+        $projectsElement->appendChild($this->createNodeWithTextContent('validtill', Util::formatDate($projects->getValidTill())));
 
         $quantities = $projects->getQuantities();
 
@@ -103,9 +104,9 @@ class ProjectsDocument extends BaseDocument
                 $quantitiesElement->appendChild($quantityElement);
 
                 $quantityElement->appendChild($this->createNodeWithTextContent('label', $quantity->getLabel()));
-                $quantityElement->appendChild($this->createNodeWithTextContent('rate', $quantity->getRateToString()));
-                $quantityElement->appendChild($this->createNodeWithTextContent('billable', $quantity->getBillableToString(), $quantity, array('locked' => 'getBillableLockedToString')));
-                $quantityElement->appendChild($this->createNodeWithTextContent('mandatory', $quantity->getMandatoryToString()));
+                $quantityElement->appendChild($this->createNodeWithTextContent('rate', Util::objectToStr($quantity->getRate())));
+                $quantityElement->appendChild($this->createNodeWithTextContent('billable', Util::formatBoolean($quantity->getBillable()), $quantity, array('locked' => 'getBillableLockedToString')));
+                $quantityElement->appendChild($this->createNodeWithTextContent('mandatory', Util::formatBoolean($quantity->getMandatory())));
             }
         }
     }

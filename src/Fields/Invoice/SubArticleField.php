@@ -39,16 +39,4 @@ trait SubArticleField
         $this->subArticle = $subArticle;
         return $this;
     }
-
-    /**
-     * @param string|null $subArticleString
-     * @return $this
-     * @throws Exception
-     */
-    public function setSubArticleFromString(?string $subArticleString)
-    {
-        $subArticle = new ArticleLine();
-        $subArticle->setSubCode($subArticleString);
-        return $this->setSubArticle($subArticle);
-    }
 }

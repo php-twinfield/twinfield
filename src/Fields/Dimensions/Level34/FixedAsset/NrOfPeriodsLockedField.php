@@ -20,11 +20,6 @@ trait NrOfPeriodsLockedField
         return $this->nrOfPeriodsLocked;
     }
 
-    public function getNrOfPeriodsLockedToString(): ?string
-    {
-        return ($this->getNrOfPeriodsLocked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $nrOfPeriodsLocked
      * @return $this
@@ -33,15 +28,5 @@ trait NrOfPeriodsLockedField
     {
         $this->nrOfPeriodsLocked = $nrOfPeriodsLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $nrOfPeriodsLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setNrOfPeriodsLockedFromString(?string $nrOfPeriodsLockedString)
-    {
-        return $this->setNrOfPeriodsLocked(filter_var($nrOfPeriodsLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

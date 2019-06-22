@@ -34,14 +34,4 @@ trait CustomerLockedField
         $this->customerLocked = $customerLocked;
         return $this;
     }
-
-    /**
-     * @param string|null $customerLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setCustomerLockedFromString(?string $customerLockedString)
-    {
-        return $this->setCustomerLocked(filter_var($customerLockedString, FILTER_VALIDATE_BOOLEAN));
-    }
 }

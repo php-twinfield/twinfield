@@ -20,11 +20,6 @@ trait LineLockedField
         return $this->lineLocked;
     }
 
-    public function getLineLockedToString(): ?string
-    {
-        return ($this->getLineLocked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $lineLocked
      * @return $this
@@ -33,15 +28,5 @@ trait LineLockedField
     {
         $this->lineLocked = $lineLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $lineLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setLineLockedFromString(?string $lineLockedString)
-    {
-        return $this->setLineLocked(filter_var($lineLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

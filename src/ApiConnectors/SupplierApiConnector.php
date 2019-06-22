@@ -122,7 +122,7 @@ class SupplierApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\Supplier::class, $response->data, $supplierListAllTags);
+        return $this->mapListAll(Supplier::class, $response->data, $supplierListAllTags);
     }
 
     /**
@@ -139,7 +139,7 @@ class SupplierApiConnector extends BaseApiConnector
         $supplier = self::get($code, $office);
 
         if ($supplier->getResult() == 1) {
-            $supplier->setStatusFromString("deleted");
+            $supplier->setStatus(\PhpTwinfield\Enums\Status::DELETED());
 
             try {
                 $supplierDeleted = self::send($supplier);

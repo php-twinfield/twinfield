@@ -19,7 +19,7 @@ use PhpTwinfield\Fields\UIDField;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class FixedAsset extends BaseObject
+class FixedAsset extends BaseObject implements HasCodeInterface
 {
     use BehaviourField;
     use CodeField;
@@ -38,7 +38,10 @@ class FixedAsset extends BaseObject
 
     public function __construct()
     {
-        $this->setTypeFromString('AST');
+        $dimensionType = new \PhpTwinfield\DimensionType;
+        $dimensionType->setCode('AST');
+        $this->setType($dimensionType);
+        
         $this->setFinancials(new FixedAssetFinancials);
         $this->setFixedAssets(new FixedAssetFixedAssets);
     }

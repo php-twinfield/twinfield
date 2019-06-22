@@ -34,14 +34,4 @@ trait BillableField
         $this->billable = $billable;
         return $this;
     }
-
-    /**
-     * @param string|null $billableString
-     * @return $this
-     * @throws Exception
-     */
-    public function setBillableFromString(?string $billableString)
-    {
-        return $this->setBillable(filter_var($billableString, FILTER_VALIDATE_BOOLEAN));
-    }
 }

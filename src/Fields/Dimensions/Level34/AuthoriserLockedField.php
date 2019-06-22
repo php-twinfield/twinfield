@@ -34,14 +34,4 @@ trait AuthoriserLockedField
         $this->authoriserLocked = $authoriserLocked;
         return $this;
     }
-
-    /**
-     * @param string|null $authoriserLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setAuthoriserLockedFromString(?string $authoriserLockedString)
-    {
-        return $this->setAuthoriserLocked(filter_var($authoriserLockedString, FILTER_VALIDATE_BOOLEAN));
-    }
 }

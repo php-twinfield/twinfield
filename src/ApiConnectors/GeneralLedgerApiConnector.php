@@ -123,7 +123,7 @@ class GeneralLedgerApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\GeneralLedger::class, $response->data, $generalLedgerListAllTags);
+        return $this->mapListAll(GeneralLedger::class, $response->data, $generalLedgerListAllTags);
     }
 
     /**
@@ -141,7 +141,7 @@ class GeneralLedgerApiConnector extends BaseApiConnector
         $generalLedger = self::get($code, $dimType, $office);
 
         if ($generalLedger->getResult() == 1) {
-            $generalLedger->setStatusFromString("deleted");
+            $generalLedger->setStatus(\PhpTwinfield\Enums\Status::DELETED());
 
             try {
                 $generalLedgerDeleted = self::send($generalLedger);

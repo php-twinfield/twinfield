@@ -101,6 +101,19 @@ final class Util
     }
 
     /**
+     * @param HasCodeInterface|null $object
+     * @return string|null
+     */
+    public static function objectToStr(?HasCodeInterface $object): ?string
+    {
+        if ($object === null) {
+            return null;
+        }
+        
+        return $object->getCode();
+    }
+
+    /**
      * Get all the traits an object uses, includes traits from all parent classes.
      *
      * @param string $trait

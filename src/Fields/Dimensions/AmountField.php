@@ -3,7 +3,6 @@
 namespace PhpTwinfield\Fields\Dimensions;
 
 use Money\Money;
-use PhpTwinfield\Util;
 
 trait AmountField
 {
@@ -24,18 +23,6 @@ trait AmountField
     }
 
     /**
-     * @return float|null
-     */
-    public function getAmountToFloat(): ?float
-    {
-        if ($this->getAmount() != null) {
-            return Util::formatMoney($this->getAmount());
-        } else {
-            return 0;
-        }
-    }
-
-    /**
      * @param Money|null $amount
      * @return $this
      */
@@ -44,19 +31,5 @@ trait AmountField
         $this->amount = $amount;
 
         return $this;
-    }
-
-    /**
-     * @param float|null $amountFloat
-     * @return $this
-     * @throws Exception
-     */
-    public function setAmountFromFloat(?float $amountFloat)
-    {
-        if ((float)$amountFloat) {
-            return $this->setAmount(Money::EUR(100 * $amountFloat));
-        } else {
-            return $this->setAmount(Money::EUR(0));
-        }
     }
 }

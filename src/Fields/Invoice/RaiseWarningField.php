@@ -20,11 +20,6 @@ trait RaiseWarningField
         return $this->raiseWarning;
     }
 
-    public function getRaiseWarningToString(): ?string
-    {
-        return ($this->getRaiseWarning()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $raiseWarning
      * @return $this
@@ -33,15 +28,5 @@ trait RaiseWarningField
     {
         $this->raiseWarning = $raiseWarning;
         return $this;
-    }
-
-    /**
-     * @param string|null $raiseWarningString
-     * @return $this
-     * @throws Exception
-     */
-    public function setRaiseWarningFromString(?string $raiseWarningString)
-    {
-        return $this->setRaiseWarning(filter_var($raiseWarningString, FILTER_VALIDATE_BOOLEAN));
     }
 }

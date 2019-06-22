@@ -22,15 +22,6 @@ trait DepreciationGroupField
         return $this->depreciationGroup;
     }
 
-    public function getDepreciationGroupToString(): ?string
-    {
-        if ($this->getDepreciationGroup() != null) {
-            return $this->depreciationGroup->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait DepreciationGroupField
     {
         $this->depreciationGroup = $depreciationGroup;
         return $this;
-    }
-
-    /**
-     * @param string|null $depreciationGroupString
-     * @return $this
-     * @throws Exception
-     */
-    public function setDepreciationGroupFromString(?string $depreciationGroupString)
-    {
-        $depreciationGroup = new DimensionGroup();
-        $depreciationGroup->setCode($depreciationGroupString);
-        return $this->setDepreciationGroup($depreciationGroup);
     }
 }
