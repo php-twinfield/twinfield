@@ -186,12 +186,12 @@ class TransactionMapper extends BaseMapper
 
                 if ($transaction instanceof PurchaseTransaction || $transaction instanceof SalesTransaction) {
                     if ($lineType == LineType::DETAIL()) {
-                        $transactionLine->setDim2(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim2', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
-                        $transactionLine->setDim3(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim3', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
+                        $transactionLine->setDim2(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim2', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
+                        $transactionLine->setDim3(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim3', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
                     } elseif ($transaction instanceof PurchaseTransaction && $lineType == LineType::VAT()) {
-                        $transactionLine->setDim3(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim3', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
+                        $transactionLine->setDim3(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim3', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
                     } elseif ($lineType == LineType::TOTAL()) {
-                        $transactionLine->setDim2(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim2', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
+                        $transactionLine->setDim2(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim2', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
 
                         $baseValueOpen = self::getField($lineElement, 'basevalueopen', $transactionLine) ?: self::getField($lineElement, 'openbasevalue', $transactionLine);
 

@@ -16,6 +16,7 @@ use PhpTwinfield\Office;
 use PhpTwinfield\PurchaseTransaction;
 use PhpTwinfield\PurchaseTransactionLine;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Util;
 
 /**
  * @runTestsInSeparateProcesses
@@ -74,7 +75,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame('INK', $purchaseTransaction->getCode());
         $this->assertSame(201300021, $purchaseTransaction->getNumber());
         $this->assertSame('2013/05', $purchaseTransaction->getPeriod());
-        $this->assertEquals('EUR', $purchaseTransaction->getCurrencyToString());
+        $this->assertEquals('EUR', Util::objectToStr($purchaseTransaction->getCurrency()));
         $this->assertEquals(new \DateTimeImmutable('2013-05-02'), $purchaseTransaction->getDate());
         $this->assertSame('import', $purchaseTransaction->getOrigin());
         $this->assertNull($purchaseTransaction->getFreetext1());
@@ -91,8 +92,8 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertEquals(LineType::TOTAL(), $totalLine->getLineType());
         $this->assertSame(1, $totalLine->getId());
-        $this->assertSame('1600', $totalLine->getDim1ToString());
-        $this->assertSame('2000', $totalLine->getDim2ToString());
+        $this->assertSame('1600', Util::objectToStr($totalLine->getDim1()));
+        $this->assertSame('2000', Util::objectToStr($totalLine->getDim2()));
         $this->assertEquals(DebitCredit::CREDIT(), $totalLine->getDebitCredit());
         $this->assertEquals(Money::EUR(12100), $totalLine->getValue());
         $this->assertEquals(Money::EUR(12100), $totalLine->getBaseValue());
@@ -112,8 +113,8 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertEquals(LineType::DETAIL(), $detailLine->getLineType());
         $this->assertSame(2, $detailLine->getId());
-        $this->assertSame('8020', $detailLine->getDim1ToString());
-        $this->assertNull($detailLine->getDim2ToString());
+        $this->assertSame('8020', Util::objectToStr($detailLine->getDim1()));
+        $this->assertNull(Util::objectToStr($detailLine->getDim2()));
         $this->assertEquals(DebitCredit::DEBIT(), $detailLine->getDebitCredit());
         $this->assertEquals(Money::EUR(10000), $detailLine->getValue());
         $this->assertEquals(Money::EUR(10000), $detailLine->getBaseValue());
@@ -125,7 +126,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame($ReflectObject->getConstant('NOTMATCHABLE'), (string)$detailLine->getMatchStatus());
         $this->assertNull($detailLine->getMatchLevel());
         $this->assertNull($detailLine->getBaseValueOpen());
-        $this->assertSame('IH', $detailLine->getVatCodeToString());
+        $this->assertSame('IH', Util::objectToStr($detailLine->getVatCode()));
         $this->assertEquals(Money::EUR(2100), $detailLine->getVatValue());
         $this->assertNull($detailLine->getVatTotal());
         $this->assertNull($detailLine->getVatBaseTotal());
@@ -133,7 +134,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertEquals(LineType::VAT(), $vatLine->getLineType());
         $this->assertSame(3, $vatLine->getId());
-        $this->assertSame('1510', $vatLine->getDim1ToString());
+        $this->assertSame('1510', Util::objectToStr($vatLine->getDim1()));
         $this->assertNull($vatLine->getDim2());
         $this->assertEquals(DebitCredit::DEBIT(), $vatLine->getDebitCredit());
         $this->assertEquals(Money::EUR(2100), $vatLine->getValue());
@@ -145,7 +146,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($vatLine->getMatchStatus());
         $this->assertNull($vatLine->getMatchLevel());
         $this->assertNull($vatLine->getBaseValueOpen());
-        $this->assertSame('IH', $vatLine->getVatCodeToString());
+        $this->assertSame('IH', Util::objectToStr($vatLine->getVatCode()));
         $this->assertNull($vatLine->getVatValue());
         $this->assertNull($vatLine->getVatTotal());
         $this->assertNull($vatLine->getVatBaseTotal());

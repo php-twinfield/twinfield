@@ -14,6 +14,7 @@ use PhpTwinfield\DomDocuments\CustomersDocument;
 use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Util;
 
 /**
  * @runTestsInSeparateProcesses
@@ -70,8 +71,8 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $customer = $this->customerApiConnector->get('CODE', Office::fromCode('001'));
 
         $this->assertInstanceOf(Customer::class, $customer);
-        $this->assertSame('001', $customer->getOfficeToString());
-        $this->assertSame('DEB', $customer->getTypeToString());
+        $this->assertSame('001', Util::objectToStr($customer->getOffice()));
+        $this->assertSame('DEB', Util::objectToStr($customer->getType()));
         $this->assertSame('Customer 0', $customer->getName());
         $this->assertSame('http://www.example.com', $customer->getWebsite());
 
@@ -79,9 +80,9 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $financials = $customer->getFinancials();
         $this->assertSame(30, $financials->getDueDays());
         $this->assertSame(true, $financials->getPayAvailable());
-        $this->assertSame('SEPANLDD', $financials->getPayCodeToString());
+        $this->assertSame('SEPANLDD', Util::objectToStr($financials->getPayCode()));
         $this->assertSame(false, $financials->getEBilling());
-        $this->assertSame('VN', $financials->getVatCodeToString());
+        $this->assertSame('VN', Util::objectToStr($financials->getVatCode()));
 
         // Collect Mandate
         $collectMandate = $financials->getCollectMandate();
@@ -102,7 +103,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->assertSame($ReflectObject->getConstant('INVOICE'), (string)$address->getType());
         $this->assertSame(true, $address->getDefault());
         $this->assertSame('Customer 0', $address->getName());
-        $this->assertSame('NL', $address->getCountryToString());
+        $this->assertSame('NL', Util::objectToStr($address->getCountry()));
         $this->assertSame('Place', $address->getCity());
         $this->assertSame('1000', $address->getPostcode());
         $this->assertSame('010-123452000', $address->getTelephone());
@@ -130,7 +131,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->assertSame('ABN Amro', $bank->getBankName());
         $this->assertSame('ABNANL2A', $bank->getBicCode());
         $this->assertSame('Place', $bank->getCity());
-        $this->assertSame('NL', $bank->getCountryToString());
+        $this->assertSame('NL', Util::objectToStr($bank->getCountry()));
         $this->assertSame('NL02ABNA0123456789', $bank->getIban());
         $this->assertNull($bank->getNatBicCode());
         $this->assertNull($bank->getPostcode());
@@ -152,7 +153,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         // Creditmanagement
         $creditmanagement = $customer->getCreditManagement();
 
-        $this->assertNull($creditmanagement->getResponsibleUserToString());
+        $this->assertNull(Util::objectToStr($creditmanagement->getResponsibleUser()));
         $this->assertSame(0.00, $creditmanagement->getBaseCreditLimitToFloat());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\SendReminder');
         $this->assertSame($ReflectObject->getConstant('TRUE'), (string)$creditmanagement->getSendReminder());

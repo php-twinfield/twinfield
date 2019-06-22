@@ -9,6 +9,7 @@ use PhpTwinfield\CashTransactionLine;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Enums\MatchStatus;
 use PhpTwinfield\SalesTransaction;
+use PhpTwinfield\Util;
 
 class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
 {
@@ -53,7 +54,7 @@ class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
         $this->line->setLineType(LineType::DETAIL());
 
         $this->assertEquals($this->line, $this->line->setDim2FromString('test'), 'Fluid interface is expected');
-        $this->assertSame('test', $this->line->getDim2ToString());
+        $this->assertSame('test', Util::objectToStr($this->line->getDim2()));
     }
 
     public function testCanNotSetDim2IfLineTypeIsNotDetail()
@@ -69,7 +70,7 @@ class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
         $this->line->setLineType(LineType::DETAIL());
 
         $this->assertEquals($this->line, $this->line->setDim3FromString('test'), 'Fluid interface is expected');
-        $this->assertSame('test', $this->line->getDim3ToString());
+        $this->assertSame('test', Util::objectToStr($this->line->getDim3()));
     }
 
     public function testCanNotSetDim3IfLineTypeIsNotDetail()

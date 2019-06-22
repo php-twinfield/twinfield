@@ -7,6 +7,7 @@ use PhpTwinfield\CashTransaction;
 use PhpTwinfield\CashTransactionLine;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\SalesTransactionLine;
+use PhpTwinfield\Util;
 
 class CashTransactionUnitTest extends \PHPUnit\Framework\TestCase
 {
@@ -25,7 +26,7 @@ class CashTransactionUnitTest extends \PHPUnit\Framework\TestCase
         $this->cashTransaction->setCurrencyFromString('EUR');
         $this->cashTransaction->setStartValue(Money::EUR(100));
 
-        $this->assertEquals('EUR', $this->cashTransaction->getCurrencyToString());
+        $this->assertEquals('EUR', Util::objectToStr($this->cashTransaction->getCurrency()));
         $this->assertEquals(Money::EUR(100), $this->cashTransaction->getStartValue());
         $this->assertEquals(Money::EUR(100), $this->cashTransaction->getCloseValue());
     }
@@ -33,7 +34,7 @@ class CashTransactionUnitTest extends \PHPUnit\Framework\TestCase
     public function testSetCurrencyWithoutStartValue()
     {
         $this->cashTransaction->setCurrencyFromString('EUR');
-        $this->assertEquals('EUR', $this->cashTransaction->getCurrencyToString());
+        $this->assertEquals('EUR', Util::objectToStr($this->cashTransaction->getCurrency()));
     }
 
     public function testSetCurrencyWithZeroStartValue()
@@ -41,7 +42,7 @@ class CashTransactionUnitTest extends \PHPUnit\Framework\TestCase
         $this->cashTransaction->setStartvalue(Money::EUR(0));
         $this->cashTransaction->setCurrencyFromString('EUR');
 
-        $this->assertEquals('EUR', $this->cashTransaction->getCurrencyToString());
+        $this->assertEquals('EUR', Util::objectToStr($this->cashTransaction->getCurrency()));
     }
 
     public function testSetCurrencyWithStartValue()

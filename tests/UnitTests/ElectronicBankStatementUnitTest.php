@@ -4,6 +4,7 @@ namespace PhpTwinfield\UnitTests;
 
 use Money\Money;
 use PhpTwinfield\ElectronicBankStatement;
+use PhpTwinfield\Util;
 use PHPUnit\Framework\TestCase;
 
 class ElectronicBankStatementUnitTest extends TestCase
@@ -16,7 +17,7 @@ class ElectronicBankStatementUnitTest extends TestCase
         $ebs = new ElectronicBankStatement();
         $ebs->setCurrencyFromString("HUF");
 
-        $this->assertEquals("HUF", $ebs->getCurrencyToString());
+        $this->assertEquals("HUF", Util::objectToStr($ebs->getCurrency()));
     }
 
     /**
