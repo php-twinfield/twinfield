@@ -119,6 +119,8 @@ abstract class BaseMapper
     {
         if (is_a($object, \PhpTwinfield\DimensionGroupDimension::class)) {
             $type = self::getField($element, "type", $object);
+        } elseif (is_a($object, \PhpTwinfield\TransactionLineInterface::class)) {
+            $type = self::getAttribute($element, $fieldTagName, "type");
         } else {
             $type = self::getAttribute($element, $fieldTagName, "dimensiontype");
         }
