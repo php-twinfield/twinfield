@@ -36,8 +36,8 @@ class SupplierDocumentUnitTest extends TestCase
         $financials = new SupplierFinancials();
         $financials->setDueDays(1);
         $financials->setPayAvailable(true);
-        $financials->setPayCode(\PhpTwinfield\PayCode:fromCode('pay-code'));
-        $financials->setVatCode(\PhpTwinfield\VatCode:fromCode('vat-code'));
+        $financials->setPayCode(\PhpTwinfield\PayCode::fromCode('pay-code'));
+        $financials->setVatCode(\PhpTwinfield\VatCode::fromCode('vat-code'));
         $supplier->setFinancials($financials);
 
         $supplier->addAddress(

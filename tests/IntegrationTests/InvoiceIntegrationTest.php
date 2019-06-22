@@ -221,10 +221,10 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoiceLine->setAllowDiscountOrPremium(true);
         $invoiceLine->setDescription('CoalesceFunctioningOnImpatienceTShirt');
         $currency = \PhpTwinfield\Currency::fromCode('EUR');
-        $invoiceLine->setValueExcl(Util:parseMoney(15.00, $currency));
-        $invoiceLine->setVatValue(Util:parseMoney(0.00, $currency));
-        $invoiceLine->setValueInc(Util:parseMoney(15.00, $currency));
-        $invoiceLine->setUnitsPriceExcl(Util:parseMoney(15.00, $currency));
+        $invoiceLine->setValueExcl(Util::parseMoney(15.00, $currency));
+        $invoiceLine->setVatValue(Util::parseMoney(0.00, $currency));
+        $invoiceLine->setValueInc(Util::parseMoney(15.00, $currency));
+        $invoiceLine->setUnitsPriceExcl(Util::parseMoney(15.00, $currency));
         $invoiceLine->setDim1(\PhpTwinfield\GeneralLedger::fromCode('8020'));
         $invoiceLine->setVatCode(\PhpTwinfield\VatCode::fromCode('VN'));
         $invoice->addLine($invoiceLine);

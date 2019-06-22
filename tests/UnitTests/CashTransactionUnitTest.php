@@ -5,6 +5,7 @@ use InvalidArgumentException;
 use Money\Money;
 use PhpTwinfield\CashTransaction;
 use PhpTwinfield\CashTransactionLine;
+use PhpTwinfield\Currency;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\SalesTransactionLine;
 use PhpTwinfield\Util;

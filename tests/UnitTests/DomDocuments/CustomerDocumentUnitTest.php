@@ -38,8 +38,8 @@ class CustomerDocumentUnitTest extends TestCase
         $financials = new CustomerFinancials();
         $financials->setDueDays(1);
         $financials->setPayAvailable(true);
-        $financials->setPayCode(\PhpTwinfield\PayCode:fromCode('pay-code'));
-        $financials->setVatCode(\PhpTwinfield\VatCode:fromCode('vat-code'));
+        $financials->setPayCode(\PhpTwinfield\PayCode::fromCode('pay-code'));
+        $financials->setVatCode(\PhpTwinfield\VatCode::fromCode('vat-code'));
         $financials->setEBilling(true);
         $financials->setEBillMail('ebillingmail@mail.com');
         $customer->setFinancials($financials);

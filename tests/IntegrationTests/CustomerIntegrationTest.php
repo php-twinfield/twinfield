@@ -209,7 +209,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
 
         $address = new CustomerAddress();
         $address->setID(1);
-        $address->setType(AddressType::INVOICE());
+        $address->setType(\PhpTwinfield\Enums\AddressType::INVOICE());
         $address->setDefault(true);
         $address->setName('Customer 0');
         $address->setCountry(\PhpTwinfield\Country::fromCode('NL'));
