@@ -43,14 +43,11 @@ class CustomerDocumentUnitTest extends TestCase
         $financials->setEBilling(true);
         $financials->setEBillMail('ebillingmail@mail.com');
         $customer->setFinancials($financials);
-        
-        $currency = new \PhpTwinfield\Currency;
-        $currency->setCode("EUR");
 
         $customer->setCreditManagement(
             (new CustomerCreditManagement())
                 ->setResponsibleUser(\PhpTwinfield\User::fromCode('responsible-user'))
-                ->setBaseCreditLimit(Util::parseMoney(50, $currency))
+                ->setBaseCreditLimit(Util::parseMoney(50, new \Money\Currency("EUR")))
                 ->setSendReminder(\PhpTwinfield\Enums\SendReminder::TRUE())
                 ->setReminderEmail('reminderemail@mail.com')
                 ->setBlocked(false)
