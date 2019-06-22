@@ -52,6 +52,13 @@ class Article extends BaseObject implements HasCodeInterface
         $this->setAllowDiscountorPremium(true);
         $this->setType(\PhpTwinfield\Enums\ArticleType::NORMAL());
     }
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
+    }
 
     public function getLines()
     {

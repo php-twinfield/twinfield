@@ -67,13 +67,17 @@ class Customer extends BaseObject implements HasCodeInterface
         $this->setBeginYear(0);
         $this->setEndPeriod(0);
         $this->setEndYear(0);
-        
-        $dimensionType = new \PhpTwinfield\DimensionType;
-        $dimensionType->setCode('DEB');
-        $this->setType($dimensionType);        
+        $this->setType(\PhpTwinfield\DimensionType::fromCode('DEB'));
 
         $this->setCreditManagement(new CustomerCreditManagement);
         $this->setFinancials(new CustomerFinancials);
+    }
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
     }
 
     public function getCreditManagement(): CustomerCreditManagement

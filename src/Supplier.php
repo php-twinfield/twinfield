@@ -66,12 +66,16 @@ class Supplier extends BaseObject implements HasCodeInterface
         $this->setBeginYear(0);
         $this->setEndPeriod(0);
         $this->setEndYear(0);
-        
-        $dimensionType = new \PhpTwinfield\DimensionType;
-        $dimensionType->setCode('CRD');
-        $this->setType($dimensionType);
+        $this->setType(\PhpTwinfield\DimensionType::fromCode('CRD'));
 
         $this->setFinancials(new SupplierFinancials);
+    }
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
     }
 
     public function getFinancials(): SupplierFinancials

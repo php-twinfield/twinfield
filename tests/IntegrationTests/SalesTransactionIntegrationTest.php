@@ -42,15 +42,10 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         
         $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
         $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
-            $baseCurrency = new Currency;
-            $baseCurrency->setCode('EUR');
-            $reportingCurrency = new Currency;
-            $reportingCurrency->setCode('USD');
-            
             $office = new Office;
             $office->setResult(1);
-            $office->setBaseCurrency($baseCurrency);
-            $office->setReportingCurrency($reportingCurrency);
+            $office->setBaseCurrency(Currency::fromCode('EUR'));
+            $office->setReportingCurrency(Currency::fromCode('USD'));
             return $office;
         });
     }
@@ -175,7 +170,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
             ->setDestiny(Destiny::TEMPORARY())
             ->setRaiseWarning(false)
             ->setCode('SLS')
-            ->setCurrencyFromString('EUR')
+            ->setCurrency(Currency::fromCode('EUR'))
             ->setDate(new \DateTimeImmutable('2013-05-02'))
             ->setPeriod('2013/05')
             ->setInvoiceNumber('20130-6000')
@@ -187,8 +182,8 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $totalLine
             ->setLineType(LineType::TOTAL())
             ->setId('1')
-            ->setDim1FromString('1300')
-            ->setDim2FromString('1000')
+            ->setDim1(\PhpTwinfield\GeneralLedger::fromCode('1300'))
+            ->setDim2(\PhpTwinfield\CostCenter::fromCode('1000'))
             ->setValue(Money::EUR(12100))
             ->setDescription('');
 
@@ -196,10 +191,10 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $detailLine
             ->setLineType(LineType::DETAIL())
             ->setId('2')
-            ->setDim1FromString('8020')
+            ->setDim1(\PhpTwinfield\GeneralLedger::fromCode('8020'))
             ->setValue(Money::EUR(10000))
             ->setDescription('Outfit')
-            ->setVatCodeFromString('VH');
+            ->setVatCode(\PhpTwinfield\VatCode::fromCode('VH'));
 
         $salesTransaction
             ->addLine($totalLine)

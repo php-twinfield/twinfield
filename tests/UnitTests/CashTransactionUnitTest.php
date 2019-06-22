@@ -23,7 +23,7 @@ class CashTransactionUnitTest extends \PHPUnit\Framework\TestCase
 
     public function testSetStartValue()
     {
-        $this->cashTransaction->setCurrencyFromString('EUR');
+        $this->cashTransaction->setCurrency(Currency::fromCode('EUR'));
         $this->cashTransaction->setStartValue(Money::EUR(100));
 
         $this->assertEquals('EUR', Util::objectToStr($this->cashTransaction->getCurrency()));
@@ -33,14 +33,14 @@ class CashTransactionUnitTest extends \PHPUnit\Framework\TestCase
 
     public function testSetCurrencyWithoutStartValue()
     {
-        $this->cashTransaction->setCurrencyFromString('EUR');
+        $this->cashTransaction->setCurrency(Currency::fromCode('EUR'));
         $this->assertEquals('EUR', Util::objectToStr($this->cashTransaction->getCurrency()));
     }
 
     public function testSetCurrencyWithZeroStartValue()
     {
         $this->cashTransaction->setStartvalue(Money::EUR(0));
-        $this->cashTransaction->setCurrencyFromString('EUR');
+        $this->cashTransaction->setCurrency(Currency::fromCode('EUR'));
 
         $this->assertEquals('EUR', Util::objectToStr($this->cashTransaction->getCurrency()));
     }
@@ -50,7 +50,7 @@ class CashTransactionUnitTest extends \PHPUnit\Framework\TestCase
         $this->expectException(InvalidArgumentException::class);
 
         $this->cashTransaction->setStartValue(Money::EUR(100));
-        $this->cashTransaction->setCurrencyFromString('EUR');
+        $this->cashTransaction->setCurrency(Currency::fromCode('EUR'));
     }
 
     public function testAddLineWithWrongTransactionLine()

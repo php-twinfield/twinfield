@@ -37,11 +37,16 @@ class Activity extends BaseObject implements HasCodeInterface
 
     public function __construct()
     {
-        $dimensionType = new \PhpTwinfield\DimensionType;
-        $dimensionType->setCode('ACT');
-        $this->setType($dimensionType);
+       $this->setType(\PhpTwinfield\DimensionType::fromCode('ACT'));
         
         $this->setProjects(new ActivityProjects);
+    }
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
     }
 
     public function getProjects(): ActivityProjects

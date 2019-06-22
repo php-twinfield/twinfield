@@ -42,15 +42,10 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         
         $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
         $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
-            $baseCurrency = new Currency;
-            $baseCurrency->setCode('EUR');
-            $reportingCurrency = new Currency;
-            $reportingCurrency->setCode('USD');
-            
             $office = new Office;
             $office->setResult(1);
-            $office->setBaseCurrency($baseCurrency);
-            $office->setReportingCurrency($reportingCurrency);
+            $office->setBaseCurrency(Currency::fromCode('EUR'));
+            $office->setReportingCurrency(Currency::fromCode('USD'));
             return $office;
         });
     }
@@ -142,7 +137,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $journalTransaction
             ->setDestiny(Destiny::TEMPORARY())
             ->setCode('MEMO')
-            ->setCurrencyFromString('EUR')
+            ->setCurrency(Currency::fromCode('EUR'))
             ->setDate(new \DateTimeImmutable('2013-11-04'))
             ->setOffice(Office::fromCode('001'));
 
@@ -150,15 +145,15 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $detailLine1
             ->setLineType(LineType::DETAIL())
             ->setId('1')
-            ->setDim1FromString('4008')
+            ->setDim1(\PhpTwinfield\GeneralLedger::fromCode('4008'))
             ->setValue(Money::EUR(-43555));
 
         $detailLine2 = new JournalTransactionLine();
         $detailLine2
             ->setLineType(LineType::DETAIL())
             ->setId('2')
-            ->setDim1FromString('1300')
-            ->setDim2FromString('1000')
+            ->setDim1(\PhpTwinfield\GeneralLedger::fromCode('1300'))
+            ->setDim2(\PhpTwinfield\CostCenter::fromCode('1000'))
             ->setValue(Money::EUR(43555))
             ->setDescription('Invoice paid');
 

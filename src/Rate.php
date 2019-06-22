@@ -36,6 +36,13 @@ class Rate extends BaseObject implements HasCodeInterface
     use UserField;
 
     private $rateChanges = [];
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
+    }
 
     public function getRateChanges()
     {

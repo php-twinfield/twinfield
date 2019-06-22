@@ -21,6 +21,13 @@ class Currency extends BaseObject implements HasCodeInterface
     use StatusField;
 
     private $rates = [];
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
+    }
 
     public function getRates()
     {

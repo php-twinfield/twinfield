@@ -101,7 +101,7 @@ class InvoiceMapper extends BaseMapper
                     ->setPerformanceDate(self::parseDateAttribute(self::getField($lineElement, 'performancedate', $invoiceLine)))
                     ->setPerformanceType(self::parseEnumAttribute(\PhpTwinfield\Enums\PerformanceType::class, self::getField($lineElement, 'performancetype', $invoiceLine)))
                     ->setQuantity(self::getField($lineElement, 'quantity', $invoiceLine))
-                    ->setSubArticle(self::parseObjectAttribute(\PhpTwinfield\ArticleLine::class, $invoiceLine, $lineElement, 'subarticle'))
+                    ->setSubArticleFromString(self::getField($lineElement, 'subarticle', $invoiceLine))
                     ->setUnits(self::getField($lineElement, 'units', $invoiceLine))
                     ->setUnitsPriceExcl(self::parseMoneyAttribute(self::getField($lineElement, 'unitspriceexcl', $invoiceLine), Util::objectToStr($invoice->getCurrency())))
                     ->setUnitsPriceInc(self::parseMoneyAttribute(self::getField($lineElement, 'unitspriceinc', $invoiceLine), Util::objectToStr($invoice->getCurrency())))

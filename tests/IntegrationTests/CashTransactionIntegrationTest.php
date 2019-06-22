@@ -40,14 +40,14 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         parent::setUp();
 
         $this->transactionApiConnector = new TransactionApiConnector($this->connection);
-        
+
         $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
         $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
             $baseCurrency = new Currency;
             $baseCurrency->setCode('EUR');
             $reportingCurrency = new Currency;
             $reportingCurrency->setCode('USD');
-            
+
             $office = new Office;
             $office->setResult(1);
             $office->setBaseCurrency($baseCurrency);
@@ -149,7 +149,7 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
             ->setDestiny(Destiny::TEMPORARY())
             ->setRaiseWarning(false)
             ->setCode('CASH')
-            ->setCurrencyFromString('EUR')
+            ->setCurrency(Currency::fromCode('EUR'))
             ->setDate(new DateTimeImmutable('2013-11-04'))
             ->setStatementNumber(4)
             ->setStartValue(Money::EUR(97401));
@@ -158,15 +158,15 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         $totalLine
             ->setLineType(LineType::TOTAL())
             ->setId('1')
-            ->setDim1FromString('1002')
+            ->setDim1(\PhpTwinfield\GeneralLedger::fromCode('1002'))
             ->setValue(Money::EUR(43555));
 
         $detailLine = new CashTransactionLine();
         $detailLine
             ->setLineType(LineType::DETAIL())
             ->setId('2')
-            ->setDim1FromString('1300')
-            ->setDim2FromString('1000')
+            ->setDim1(\PhpTwinfield\GeneralLedger::fromCode('1300'))
+            ->setDim2(\PhpTwinfield\CostCenter::fromCode('1000'))
             ->setValue(Money::EUR(43555))
             ->setDescription('Invoice paid');
 

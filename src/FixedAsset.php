@@ -38,12 +38,16 @@ class FixedAsset extends BaseObject implements HasCodeInterface
 
     public function __construct()
     {
-        $dimensionType = new \PhpTwinfield\DimensionType;
-        $dimensionType->setCode('AST');
-        $this->setType($dimensionType);
-        
+        $this->setType(\PhpTwinfield\DimensionType::fromCode('AST'));
         $this->setFinancials(new FixedAssetFinancials);
         $this->setFixedAssets(new FixedAssetFixedAssets);
+    }
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
     }
 
     public function getFinancials(): FixedAssetFinancials

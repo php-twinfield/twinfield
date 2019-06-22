@@ -9,6 +9,7 @@ use PhpTwinfield\CustomerCreditManagement;
 use PhpTwinfield\CustomerFinancials;
 use PhpTwinfield\DomDocuments\CustomersDocument;
 use PhpTwinfield\Office;
+use PhpTwinfield\Util;
 use PHPUnit\Framework\TestCase;
 
 class CustomerDocumentUnitTest extends TestCase
@@ -32,25 +33,28 @@ class CustomerDocumentUnitTest extends TestCase
         $customer->setName('Chuck Norris');
         $customer->setWebsite('http://example.org');
         $customer->setOffice(Office::fromCode("DEV-10000"));
-        $customer->setStatusFromString('active');
+        $customer->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());
 
         $financials = new CustomerFinancials();
         $financials->setDueDays(1);
         $financials->setPayAvailable(true);
-        $financials->setPayCodeFromString('pay-code');
-        $financials->setVatCodeFromString('vat-code');
+        $financials->setPayCode(\PhpTwinfield\PayCode:fromCode('pay-code'));
+        $financials->setVatCode(\PhpTwinfield\VatCode:fromCode('vat-code'));
         $financials->setEBilling(true);
         $financials->setEBillMail('ebillingmail@mail.com');
         $customer->setFinancials($financials);
+        
+        $currency = new \PhpTwinfield\Currency;
+        $currency->setCode("EUR");
 
         $customer->setCreditManagement(
             (new CustomerCreditManagement())
-                ->setResponsibleUserFromString('responsible-user')
-                ->setBaseCreditLimitFromFloat(50)
-                ->setSendReminderFromString('true')
+                ->setResponsibleUser(\PhpTwinfield\User:fromCode('responsible-user'))
+                ->setBaseCreditLimit(Util:parseMoney(50, $currency))
+                ->setSendReminder(\PhpTwinfield\Enums\SendReminder::TRUE())
                 ->setReminderEmail('reminderemail@mail.com')
                 ->setBlocked(false)
-                ->setFreeText1FromString('true')
+                ->setFreeText1(true)
                 ->setFreeText2('free2')
                 ->setComment('comment    comment')
         );
@@ -58,9 +62,9 @@ class CustomerDocumentUnitTest extends TestCase
         $customer->addAddress(
             (new CustomerAddress())
                 ->setDefault(true)
-                ->setTypeFromString('invoice')
+                ->setType(\PhpTwinfield\Enums\AddressType::INVOICE())
                 ->setName('My Address')
-                ->setCountryFromString('nl')
+                ->setCountry(\PhpTwinfield\Country:fromCode('nl'))
                 ->setCity('city')
                 ->setPostcode('postal code')
                 ->setTelephone('phone number')
@@ -84,7 +88,7 @@ class CustomerDocumentUnitTest extends TestCase
                 ->setBankName('bank name')
                 ->setBicCode('bic code')
                 ->setCity('city')
-                ->setCountryFromString('nl')
+                ->setCountry(\PhpTwinfield\Country:fromCode('nl'))
                 ->setIban('iban')
                 ->setNatBicCode('nat-bic')
                 ->setPostcode('postcode')
@@ -98,7 +102,7 @@ class CustomerDocumentUnitTest extends TestCase
         $customer->setName('Nuck Chorris');
         $customer->setWebsite('http://example.org');
         $customer->setOffice(Office::fromCode("DEV-00001"));
-        $customer->setStatusFromString('deleted');
+        $customer->setStatus(\PhpTwinfield\Enums\Status::DELETED());
 
         $this->document->addCustomer($customer);
 

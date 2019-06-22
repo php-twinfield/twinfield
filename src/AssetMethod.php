@@ -48,6 +48,13 @@ class AssetMethod extends BaseObject implements HasCodeInterface
         $this->setBalanceAccounts(new AssetMethodBalanceAccounts);
         $this->setProfitLossAccounts(new AssetMethodProfitLossAccounts);
     }
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
+    }
 
     public function getBalanceAccounts(): AssetMethodBalanceAccounts
     {

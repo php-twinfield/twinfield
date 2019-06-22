@@ -53,7 +53,7 @@ class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
     {
         $this->line->setLineType(LineType::DETAIL());
 
-        $this->assertEquals($this->line, $this->line->setDim2FromString('test'), 'Fluid interface is expected');
+        $this->assertEquals($this->line, $this->line->setDim2(\PhpTwinfield\CostCenter::fromCode('test')), 'Fluid interface is expected');
         $this->assertSame('test', Util::objectToStr($this->line->getDim2()));
     }
 
@@ -69,7 +69,7 @@ class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
     {
         $this->line->setLineType(LineType::DETAIL());
 
-        $this->assertEquals($this->line, $this->line->setDim3FromString('test'), 'Fluid interface is expected');
+        $this->assertEquals($this->line, $this->line->setDim3(\PhpTwinfield\Project::fromCode('test')), 'Fluid interface is expected');
         $this->assertSame('test', Util::objectToStr($this->line->getDim3()));
     }
 

@@ -17,8 +17,6 @@ This means (among others) that all booleans are now type cast as bool, all monet
 Another big change is that retrieved fields that are instances of another entity in Twinfield and this library are now retrieved and set in the same way as was already done with Office or Customer codes.
 So for example a VAT code retrieved from or set to a PhpTwinfield\Article will now become an instance of PhpTwinfield\VatCode with its $code set to "VH" instead of begin just a string with the value "VH".
 
-Most of these changed methods have gained ToString/FromString or ToFloat/FromFloat methods that will ease the transition.
-
 See the tables per class below for breaking changes and suggestions for fixes/replacement methods.
 
 ## Bank Transactions

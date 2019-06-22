@@ -18,4 +18,11 @@ class UserRole extends BaseObject implements HasCodeInterface
     use LevelField;
     use NameField;
     use ShortNameField;
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
+    }
 }

@@ -154,7 +154,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $creditmanagement = $customer->getCreditManagement();
 
         $this->assertNull(Util::objectToStr($creditmanagement->getResponsibleUser()));
-        $this->assertSame(0.00, $creditmanagement->getBaseCreditLimitToFloat());
+        $this->assertSame(0.00, Util::formatMoney($creditmanagement->getBaseCreditLimit()));
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\SendReminder');
         $this->assertSame($ReflectObject->getConstant('TRUE'), (string)$creditmanagement->getSendReminder());
         $this->assertNull($creditmanagement->getReminderEmail());
@@ -197,22 +197,22 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $financials = new CustomerFinancials();
         $financials->setDueDays(30);
         $financials->setPayAvailable(true);
-        $financials->setPayCodeFromString('SEPANLDD');
+        $financials->setPayCode(\PhpTwinfield\PayCode::fromCode('SEPANLDD'));
 
         $collectMandate = new CustomerCollectMandate();
         $collectMandate->setID(1);
-        $collectMandate->setSignatureDateFromString('20180604');
-        $collectMandate->setFirstRunDateFromString('20180608');
+        $collectMandate->setSignatureDate(Util::parseDate('20180604'));
+        $collectMandate->setFirstRunDate(Util::parseDate('20180608'));
         $financials->setCollectMandate($collectMandate);
 
         $customer->setFinancials($financials);
 
         $address = new CustomerAddress();
         $address->setID(1);
-        $address->setTypeFromString('invoice');
+        $address->setType(AddressType::INVOICE());
         $address->setDefault(true);
         $address->setName('Customer 0');
-        $address->setCountryFromString('NL');
+        $address->setCountry(\PhpTwinfield\Country::fromCode('NL'));
         $address->setCity('Place');
         $address->setPostcode('1000');
         $address->setTelephone('010-123452000');
@@ -232,7 +232,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $bank->setBankName('ABN Amro');
         $bank->setBicCode('ABNANL2A');
         $bank->setCity('Place');
-        $bank->setCountryFromString('NL');
+        $bank->setCountry(\PhpTwinfield\Country::fromCode('NL'));
         $bank->setIban('NL02ABNA0123456789');
         $bank->setNatBicCode('');
         $bank->setPostcode('');
