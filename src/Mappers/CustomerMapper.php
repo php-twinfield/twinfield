@@ -65,9 +65,9 @@ class CustomerMapper extends BaseMapper
             ->setUID(self::getField($customerElement, 'uid', $customer))
             ->setWebsite(self::getField($customerElement, 'website', $customer));
 
-        if ($customer->getOffice() !== null)
+        if ($customer->getOffice() !== null) {
             $currencies = self::getOfficeCurrencies($connection, $customer->getOffice());
-        )
+        }
 
         // Set the customer elements from the customer element attributes
         $customer->setDiscountArticleID(self::getAttribute($customerElement, 'discountarticle', 'id'));
