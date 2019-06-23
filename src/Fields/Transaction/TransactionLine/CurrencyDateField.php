@@ -2,16 +2,11 @@
 
 namespace PhpTwinfield\Fields\Transaction\TransactionLine;
 
-use PhpTwinfield\Exception;
-use PhpTwinfield\Util;
-
 /**
  * Currency date field
  * Used by: BankTransactionLine, CashTransactionLine, JournalTransactionLine
  *
  * @package PhpTwinfield\Traits
- * @see Util::formatDate()
- * @see Util::parseDate()
  */
 trait CurrencyDateField
 {
@@ -29,18 +24,6 @@ trait CurrencyDateField
     }
 
     /**
-     * @return string|null
-     */
-    public function getCurrencyDateToString(): ?string
-    {
-        if ($this->getCurrencyDate() != null) {
-            return Util::formatDate($this->getCurrencyDate());
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * @param \DateTimeInterface|null $currencyDate
      * @return $this
      */
@@ -48,19 +31,5 @@ trait CurrencyDateField
     {
         $this->currencyDate = $currencyDate;
         return $this;
-    }
-
-    /**
-     * @param string|null $currencyDateString
-     * @return $this
-     * @throws Exception
-     */
-    public function setCurrencyDateFromString(?string $currencyDateString)
-    {
-        if ((bool)strtotime($currencyDateString)) {
-            return $this->setCurrencyDate(Util::parseDate($currencyDateString));
-        } else {
-            return $this->setCurrencyDate(null);
-        }
     }
 }

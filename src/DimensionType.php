@@ -13,7 +13,7 @@ use PhpTwinfield\Fields\StatusField;
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionTypes
  * @todo Add documentation and typehints to all properties.
  */
-class DimensionType extends BaseObject
+class DimensionType extends BaseObject implements HasCodeInterface
 {
     use CodeField;
     use MaskField;
@@ -29,6 +29,13 @@ class DimensionType extends BaseObject
     {
         $this->setAddress(new DimensionTypeAddress);
         $this->setLevels(new DimensionTypeLevels);
+    }
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
     }
 
     public function getAddress(): DimensionTypeAddress

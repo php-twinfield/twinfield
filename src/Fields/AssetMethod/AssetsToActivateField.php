@@ -22,15 +22,6 @@ trait AssetsToActivateField
         return $this->assetsToActivate;
     }
 
-    public function getAssetsToActivateToString(): ?string
-    {
-        if ($this->getAssetsToActivate() != null) {
-            return $this->assetsToActivate->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait AssetsToActivateField
     {
         $this->assetsToActivate = $assetsToActivate;
         return $this;
-    }
-
-    /**
-     * @param string|null $assetsToActivateString
-     * @return $this
-     * @throws Exception
-     */
-    public function setAssetsToActivateFromString(?string $assetsToActivateString)
-    {
-        $assetsToActivate = new GeneralLedger();
-        $assetsToActivate->setCode($assetsToActivateString);
-        return $this->setAssetsToActivate($assetsToActivate);
     }
 }

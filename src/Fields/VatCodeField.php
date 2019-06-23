@@ -21,16 +21,7 @@ trait VatCodeField
     {
         return $this->vatCode;
     }
-
-    public function getVatCodeToString(): ?string
-    {
-        if ($this->getVatCode() != null) {
-            return $this->vatCode->getCode();
-        } else {
-            return null;
-        }
-    }
-
+    
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait VatCodeField
     {
         $this->vatCode = $vatCode;
         return $this;
-    }
-
-    /**
-     * @param string|null $vatCodeString
-     * @return $this
-     * @throws Exception
-     */
-    public function setVatCodeFromString(?string $vatCodeString)
-    {
-        $vatCode = new VatCode();
-        $vatCode->setCode($vatCodeString);
-        return $this->setVatCode($vatCode);
     }
 }

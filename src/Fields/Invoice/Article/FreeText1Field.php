@@ -22,15 +22,6 @@ trait FreeText1Field
         return $this->freeText1;
     }
 
-    public function getFreeText1ToString(): ?string
-    {
-        if ($this->getFreeText1() != null) {
-            return $this->freeText1->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait FreeText1Field
     {
         $this->freeText1 = $freeText1;
         return $this;
-    }
-
-    /**
-     * @param string|null $freeText1String
-     * @return $this
-     * @throws Exception
-     */
-    public function setFreeText1FromString(?string $freeText1String)
-    {
-        $freeText1 = new GeneralLedger();
-        $freeText1->setCode($freeText1String);
-        return $this->setFreeText1($freeText1);
     }
 }

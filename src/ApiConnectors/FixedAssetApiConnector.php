@@ -121,7 +121,7 @@ class FixedAssetApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\FixedAsset::class, $response->data, $fixedAssetListAllTags);
+        return $this->mapListAll(FixedAsset::class, $response->data, $fixedAssetListAllTags);
     }
 
     /**
@@ -138,7 +138,7 @@ class FixedAssetApiConnector extends BaseApiConnector
         $fixedAsset = self::get($code, $office);
 
         if ($fixedAsset->getResult() == 1) {
-            $fixedAsset->setStatusFromString("deleted");
+            $fixedAsset->setStatus(\PhpTwinfield\Enums\Status::DELETED());
 
             try {
                 $fixedAssetDeleted = self::send($fixedAsset);

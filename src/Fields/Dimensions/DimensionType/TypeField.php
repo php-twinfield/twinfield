@@ -22,15 +22,6 @@ trait TypeField
         return $this->type;
     }
 
-    public function getTypeToString(): ?string
-    {
-        if ($this->getType() != null) {
-            return $this->type->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */

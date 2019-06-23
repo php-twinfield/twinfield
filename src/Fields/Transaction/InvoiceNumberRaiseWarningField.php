@@ -34,14 +34,4 @@ trait InvoiceNumberRaiseWarningField
         $this->invoiceNumberRaiseWarning = $invoiceNumberRaiseWarning;
         return $this;
     }
-
-    /**
-     * @param string|null $invoiceNumberRaiseWarningString
-     * @return $this
-     * @throws Exception
-     */
-    public function setInvoiceNumberRaiseWarningFromString(?string $invoiceNumberRaiseWarningString)
-    {
-        return $this->setInvoiceNumberRaiseWarning(filter_var($invoiceNumberRaiseWarningString, FILTER_VALIDATE_BOOLEAN));
-    }
 }

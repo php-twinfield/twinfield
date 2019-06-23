@@ -28,14 +28,4 @@ trait RegimeField
         $this->regime = $regime;
         return $this;
     }
-
-    /**
-     * @param string|null $regimeString
-     * @return $this
-     * @throws Exception
-     */
-    public function setRegimeFromString(?string $regimeString)
-    {
-        return $this->setRegime(new Regime((string)$regimeString));
-    }
 }

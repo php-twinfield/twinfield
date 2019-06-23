@@ -54,7 +54,9 @@ class FixedAssetMapper extends BaseMapper
             ->setType(self::parseObjectAttribute(\PhpTwinfield\DimensionType::class, $fixedAsset, $fixedAssetElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setUID(self::getField($fixedAssetElement, 'uid', $fixedAsset));
             
-        $currencies = self::getOfficeCurrencies($connection, $fixedAsset->getOffice());
+        if ($fixedAsset->getOffice() !== null) {
+            $currencies = self::getOfficeCurrencies($connection, $fixedAsset->getOffice());
+        }
 
         // Get the financials element
         $financialsElement = $responseDOM->getElementsByTagName('financials')->item(0);

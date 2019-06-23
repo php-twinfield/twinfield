@@ -20,11 +20,6 @@ trait TransactionLinesLockedField
         return $this->transactionLinesLocked;
     }
 
-    public function getTransactionLinesLockedToString(): ?string
-    {
-        return ($this->getTransactionLinesLocked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $transactionLinesLocked
      * @return $this
@@ -33,15 +28,5 @@ trait TransactionLinesLockedField
     {
         $this->transactionLinesLocked = $transactionLinesLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $transactionLinesLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setTransactionLinesLockedFromString(?string $transactionLinesLockedString)
-    {
-        return $this->setTransactionLinesLocked(filter_var($transactionLinesLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

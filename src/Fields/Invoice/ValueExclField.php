@@ -3,7 +3,6 @@
 namespace PhpTwinfield\Fields\Invoice;
 
 use Money\Money;
-use PhpTwinfield\Util;
 
 trait ValueExclField
 {
@@ -24,18 +23,6 @@ trait ValueExclField
     }
 
     /**
-     * @return float|null
-     */
-    public function getValueExclToFloat(): ?float
-    {
-        if ($this->getValueExcl() != null) {
-            return Util::formatMoney($this->getValueExcl());
-        } else {
-            return 0;
-        }
-    }
-
-    /**
      * @param Money|null $valueExcl
      * @return $this
      */
@@ -44,19 +31,5 @@ trait ValueExclField
         $this->valueExcl = $valueExcl;
 
         return $this;
-    }
-
-    /**
-     * @param float|null $valueExclFloat
-     * @return $this
-     * @throws Exception
-     */
-    public function setValueExclFromFloat(?float $valueExclFloat)
-    {
-        if ((float)$valueExclFloat) {
-            return $this->setValueExcl(Money::EUR(100 * $valueExclFloat));
-        } else {
-            return $this->setValueExcl(Money::EUR(0));
-        }
     }
 }

@@ -11,6 +11,9 @@ namespace PhpTwinfield;
 // Use the ResponseException class to handle errors when listing, getting and sending objects to/from Twinfield
 use PhpTwinfield\Response\ResponseException;
 
+// Use the Util class for helper functions
+use PhpTwinfield\Util;
+
 require_once('vendor/autoload.php');
 
 // Retrieve an OAuth 2 connection
@@ -88,14 +91,14 @@ if ($executeListAllWithoutFilter) {
 
 /* Rate
  * \PhpTwinfield\Rate
- * Available getters: getCode, getCreated, getCreatedToString, getCurrency, getCurrencyToString, getMessages, getModified, getModifiedToString, getName, getOffice, getOfficeToString, getResult, getShortName, getStatus, getTouched, getType, getUnit, getUser, getUserToString, hasMessages, getRateChanges
- * Available setters: setCode, setCurrency, setCurrencyFromString, setName, setOffice, setOfficeFromString, setShortName, setStatus, setStatusFromString, setType, setTypeFromString, setUnit, addRateChange, removeRateChange
+ * Available getters: getCode, getCreated, getCurrency, getMessages, getModified, getName, getOffice, getResult, getShortName, getStatus, getTouched, getType, getUnit, getUser, hasMessages, getRateChanges
+ * Available setters: setCode, setCurrency, setName, setOffice, setShortName, setStatus, setType, setUnit, addRateChange, removeRateChange
  */
 
 /* RateRateChange
  * \PhpTwinfield\RateRateChange
- * Available getters: getBeginDate, getBeginDateToString, getEndDate, getEndDateToString, getExternalRate, getID, getInternalRate, getMessages, getResult, getStatus, hasMessages
- * Available setters: setBeginDate, setBeginDateFromString, setEndDate, setEndDateFromString, setExternalRate, setID, setInternalRate, setStatus, setStatusFromString
+ * Available getters: getBeginDate, getEndDate, getExternalRate, getID, getInternalRate, getMessages, getResult, getStatus, hasMessages
+ * Available setters: setBeginDate, setEndDate, setExternalRate, setID, setInternalRate, setStatus
  */
 
 if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
@@ -121,19 +124,19 @@ if ($executeRead) {
     echo "Rate<br />";
     echo "Code: {$rate->getCode()}<br />";                                                                              	// string|null                  Rate code.
     echo "Created (\\DateTimeInterface): <pre>" . print_r($rate->getCreated(), true) . "</pre><br />";              	    // DateTimeInterface|null       The date/time the rate was created. Read-only attribute.
-    echo "Created (string): {$rate->getCreatedToString()}<br />";                                                   	    // string|null
+    echo "Created (string): " . Util::formatDateTime($rate->getCreated()) . "<br />";                                       // string|null
     echo "Currency (\\PhpTwinfield\\Currency): <pre>" . print_r($rate->getCurrency(), true) . "</pre><br />";           	// Currency|null                Currency code.
-    echo "Currency (string): {$rate->getCurrencyToString()}<br />";                                                     	// string|null
+    echo "Currency (string): " . Util::objectToStr($rate->getCurrency()) . "<br />";                                        // string|null
 
     if ($rate->hasMessages()) {                                                                                         	// bool                         Object contains (error) messages true/false.
         echo "Messages: " . print_r($rate->getMessages(), true) . "<br />";                                             	// Array|null                   (Error) messages.
     }
 
     echo "Modified (\\DateTimeInterface): <pre>" . print_r($rate->getModified(), true) . "</pre><br />";            	    // DateTimeInterface|null       The date/time the rate was modified. Read-only attribute.
-    echo "Modified (string): {$rate->getModifiedToString()}<br />";                                                 	    // string|null
+    echo "Modified (string): " . Util::formatDateTime($rate->getModified()) . "<br />";                                     // string|null
     echo "Name: {$rate->getName()}<br />";                                                                              	// string|null                  Rate description.
     echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($rate->getOffice(), true) . "</pre><br />";                 	// Office|null                  Office code.
-    echo "Office (string): {$rate->getOfficeToString()}<br />";                                                         	// string|null
+    echo "Office (string): " . Util::objectToStr($rate->getOffice()) . "<br />";                                            // string|null
     echo "Result: {$rate->getResult()}<br />";                                                                          	// int|null                     Result (0 = error, 1 or empty = success).
     echo "ShortName: {$rate->getShortName()}<br />";                                                                    	// string|null                  Short rate description.
     echo "Status: {$rate->getStatus()}<br />";                                                                          	// Status|null                  Status of the rate.
@@ -142,7 +145,7 @@ if ($executeRead) {
     echo "Unit: {$rate->getUnit()}<br />";                                                                              	// int|null                     How will be charged e.g. if charged per hour Time, set it to 60. If charged per 8 hours, set it to 8 * 60 = 460.
                                                                                                                         	//                              Quantities refers to items such as kilometers. If charged per kilometer set it to 1.
     echo "User (\\PhpTwinfield\\User): <pre>" . print_r($rate->getUser(), true) . "</pre><br />";                       	// User|null                    The code of the user who created or modified the Rate. Read-only attribute.
-    echo "User (string): {$rate->getUserToString()}<br />";                                                             	// string|null
+    echo "User (string): " . Util::objectToStr($rate->getUser()) . "<br />";                                                // string|null
 
     $rateRateChanges = $rate->getRateChanges();                                                                         	// Array|null                   Array of RateRateChange objects.
 
@@ -150,9 +153,9 @@ if ($executeRead) {
         echo "RateRateChange {$key}<br />";
 
         echo "BeginDate (\\DateTimeInterface): <pre>" . print_r($rateRateChange->getBeginDate(), true) . "</pre><br />";    // DateTimeInterface|null       Begin date of the rate.
-        echo "BeginDate (string): {$rateRateChange->getBeginDateToString()}<br />";                                         // string|null
+        echo "BeginDate (string): " . Util::formatDate($rateRateChange->getBeginDate()) . "<br />";                         // string|null
         echo "EndDate (\\DateTimeInterface): <pre>" . print_r($rateRateChange->getEndDate(), true) . "</pre><br />";        // DateTimeInterface|null       End date of the rate.
-        echo "EndDate (string): {$rateRateChange->getEndDateToString()}<br />";                                             // string|null
+        echo "EndDate (string): " . Util::formatDate($rateRateChange->getEndDate()) . "<br />";                             // string|null
         echo "ExternalRate: {$rateRateChange->getExternalRate()}<br />";                                                    // int|null                     The external rate e.g. the selling price per unit.
         echo "ID: {$rateRateChange->getID()}<br />";                                                                        // int|null                     Line ID.
         echo "InternalRate: {$rateRateChange->getInternalRate()}<br />";                                                    // int|null                     The internal rate e.g. the cost price per unit.
@@ -199,12 +202,11 @@ if ($executeNew) {
     $currency = new \PhpTwinfield\Currency;
     $currency->setCode('EUR');
     $rate->setCurrency($currency);                                                                                          // Currency|null                Currency code.
-    $rate->setCurrencyFromString('EUR');                                                                                    // string|null
+    $rate->setCurrency(\PhpTwinfield\Currency::fromCode('EUR'));                                                            // string|null
     $rate->setName("Example Rate");                                                                                         // string|null                  Rate description.
     $rate->setOffice($office);                                                                                              // Office|null                  Office code.
-    $rate->setOfficeFromString($officeCode);                                                                                // string|null
+    $rate->setOffice(\PhpTwinfield\Office::fromCode($officeCode));                                                          // string|null
     $rate->setType(\PhpTwinfield\Enums\RateType::TIME());                                                  	                // RateType|null                The rate type.
-    $rate->setTypeFromString('time');                                                                     	                // string|null
     $rate->setUnit(60);                                                                                                     // int|null                     How will be charged e.g. if charged per hour Time, set it to 60. If charged per 8 hours, set it to 8 * 60 = 460.
                                                                                                                             //                              Quantities refers to items such as kilometers. If charged per kilometer set it to 1.
     // Optional values for creating a new Rate
@@ -212,23 +214,20 @@ if ($executeNew) {
     $rate->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                 // Status|null                  For creating and updating status may be left empty.
     //$rate->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                              //                              For deleting deleted should be used. In case a rate that is in use, its status has been changed into hide.
                                                                                                                             //                              Hidden rates can be activated by using active.
-    $rate->setStatusFromString('active');                                                                                   // string|null
-    //$rate->setStatusFromString('deleted');                                                                                // string|null
 
     // The minimum amount of RateRateChanges linked to a Rate object is 0
     $rateRateChange = new \PhpTwinfield\RateRateChange;
     $beginDate = \DateTime::createFromFormat('d-m-Y', '01-01-2019');
     $rateRateChange->setBeginDate($beginDate);                                                                              // DateTimeInterface|null       Begin date of the rate.
-    $rateRateChange->setBeginDateFromString('20190101');                                                                    // string|null
+    $rateRateChange->setBeginDate(Util::parseDate('20190101'));                                                             // string|null
     $endDate = \DateTime::createFromFormat('d-m-Y', '31-12-2019');
     $rateRateChange->setEndDate($endDate);                                                                                  // DateTimeInterface|null       Begin date of the rate.
-    $rateRateChange->setEndDateFromString('20191231');                                                                      // string|null
+    $rateRateChange->setEndDate(Util::parseDate('20191231'));                                                               // string|null
     $rateRateChange->setExternalRate(60);                                                                                   // float|null                   The internal rate e.g. the cost price per unit.
     $rateRateChange->setID(2);                                                                                              // int|null                     Line ID.
     $rateRateChange->setInternalRate(120);                                                                                  // float|null                   The internal rate e.g. the cost price per unit.
     //$rateRateChange->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                    // Status|null                  Status of the rate line. For creating and updating status may be left empty. NOTE: Do not use $rateRateChange->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());
-                                                                                                                            //                              For deleting deleted should be used.
-    //$rateRateChange->setStatusFromString('deleted');                                                                      // string|null                  NOTE: Do not use $rateRateChange->setStatusFromString('active');
+                                                                                                                            //                              For deleting deleted should be used. NOTE: Do not use $rateRateChange->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());
 
     $rate->addRateChange($rateRateChange);                                                                                  // RateRateChange               Add a RateRateChange object to the Rate object
     //$rate->removeRateChange(0);                                                                                           // int                          Remove a rate change based on the index of the rate change

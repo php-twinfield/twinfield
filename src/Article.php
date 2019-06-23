@@ -23,7 +23,7 @@ use PhpTwinfield\Fields\VatCodeField;
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles
  * @todo Add documentation and typehints to all properties.
  */
-class Article extends BaseObject
+class Article extends BaseObject implements HasCodeInterface
 {
     use AllowChangePerformanceTypeField;
     use AllowChangeUnitsPriceField;
@@ -50,7 +50,14 @@ class Article extends BaseObject
         $this->setAllowChangeVatCode(false);
         $this->setAllowDecimalQuantity(false);
         $this->setAllowDiscountorPremium(true);
-        $this->setTypeFromString('normal');
+        $this->setType(\PhpTwinfield\Enums\ArticleType::NORMAL());
+    }
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
     }
 
     public function getLines()

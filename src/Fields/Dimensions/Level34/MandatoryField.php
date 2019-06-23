@@ -20,11 +20,6 @@ trait MandatoryField
         return $this->mandatory;
     }
 
-    public function getMandatoryToString(): ?string
-    {
-        return ($this->getMandatory()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $mandatory
      * @return $this
@@ -33,15 +28,5 @@ trait MandatoryField
     {
         $this->mandatory = $mandatory;
         return $this;
-    }
-
-    /**
-     * @param string|null $mandatoryString
-     * @return $this
-     * @throws Exception
-     */
-    public function setMandatoryFromString(?string $mandatoryString)
-    {
-        return $this->setMandatory(filter_var($mandatoryString, FILTER_VALIDATE_BOOLEAN));
     }
 }

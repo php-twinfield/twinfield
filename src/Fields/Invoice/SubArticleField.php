@@ -39,7 +39,7 @@ trait SubArticleField
         $this->subArticle = $subArticle;
         return $this;
     }
-
+    
     /**
      * @param string|null $subArticleString
      * @return $this

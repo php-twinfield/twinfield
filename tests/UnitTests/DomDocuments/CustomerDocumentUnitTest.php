@@ -9,6 +9,7 @@ use PhpTwinfield\CustomerCreditManagement;
 use PhpTwinfield\CustomerFinancials;
 use PhpTwinfield\DomDocuments\CustomersDocument;
 use PhpTwinfield\Office;
+use PhpTwinfield\Util;
 use PHPUnit\Framework\TestCase;
 
 class CustomerDocumentUnitTest extends TestCase
@@ -32,25 +33,25 @@ class CustomerDocumentUnitTest extends TestCase
         $customer->setName('Chuck Norris');
         $customer->setWebsite('http://example.org');
         $customer->setOffice(Office::fromCode("DEV-10000"));
-        $customer->setStatusFromString('active');
+        $customer->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());
 
         $financials = new CustomerFinancials();
         $financials->setDueDays(1);
         $financials->setPayAvailable(true);
-        $financials->setPayCodeFromString('pay-code');
-        $financials->setVatCodeFromString('vat-code');
+        $financials->setPayCode(\PhpTwinfield\PayCode::fromCode('pay-code'));
+        $financials->setVatCode(\PhpTwinfield\VatCode::fromCode('vat-code'));
         $financials->setEBilling(true);
         $financials->setEBillMail('ebillingmail@mail.com');
         $customer->setFinancials($financials);
 
         $customer->setCreditManagement(
             (new CustomerCreditManagement())
-                ->setResponsibleUserFromString('responsible-user')
-                ->setBaseCreditLimitFromFloat(50)
-                ->setSendReminderFromString('true')
+                ->setResponsibleUser(\PhpTwinfield\User::fromCode('responsible-user'))
+                ->setBaseCreditLimit(Util::parseMoney(50, new \Money\Currency("EUR")))
+                ->setSendReminder(\PhpTwinfield\Enums\SendReminder::TRUE())
                 ->setReminderEmail('reminderemail@mail.com')
                 ->setBlocked(false)
-                ->setFreeText1FromString('true')
+                ->setFreeText1(true)
                 ->setFreeText2('free2')
                 ->setComment('comment    comment')
         );
@@ -58,9 +59,9 @@ class CustomerDocumentUnitTest extends TestCase
         $customer->addAddress(
             (new CustomerAddress())
                 ->setDefault(true)
-                ->setTypeFromString('invoice')
+                ->setType(\PhpTwinfield\Enums\AddressType::INVOICE())
                 ->setName('My Address')
-                ->setCountryFromString('nl')
+                ->setCountry(\PhpTwinfield\Country::fromCode('nl'))
                 ->setCity('city')
                 ->setPostcode('postal code')
                 ->setTelephone('phone number')
@@ -84,7 +85,7 @@ class CustomerDocumentUnitTest extends TestCase
                 ->setBankName('bank name')
                 ->setBicCode('bic code')
                 ->setCity('city')
-                ->setCountryFromString('nl')
+                ->setCountry(\PhpTwinfield\Country::fromCode('nl'))
                 ->setIban('iban')
                 ->setNatBicCode('nat-bic')
                 ->setPostcode('postcode')
@@ -98,7 +99,7 @@ class CustomerDocumentUnitTest extends TestCase
         $customer->setName('Nuck Chorris');
         $customer->setWebsite('http://example.org');
         $customer->setOffice(Office::fromCode("DEV-00001"));
-        $customer->setStatusFromString('deleted');
+        $customer->setStatus(\PhpTwinfield\Enums\Status::DELETED());
 
         $this->document->addCustomer($customer);
 
@@ -122,26 +123,26 @@ class CustomerDocumentUnitTest extends TestCase
 	        <duedays>1</duedays>
 	        <ebilling>true</ebilling>
 	        <ebillmail>ebillingmail@mail.com</ebillmail>
-		<meansofpayment/>
+            <meansofpayment/>
 	        <payavailable>true</payavailable>
 	        <paycode>pay-code</paycode>
 	        <substitutewith/>
 	        <vatcode>vat-code</vatcode>
-            </financials>
+        </financials>
         <creditmanagement>
-            <basecreditlimit>50</basecreditlimit>
-	    <blocked>false</blocked>
-	    <comment>comment    comment</comment>
-	    <freetext1>true</freetext1>
+            <basecreditlimit>50.00</basecreditlimit>
+            <blocked>false</blocked>
+            <comment>comment    comment</comment>
+            <freetext1>true</freetext1>
             <freetext2>free2</freetext2>
-	    <freetext3/>
-	    <reminderemail>reminderemail@mail.com</reminderemail>
-	    <responsibleuser>responsible-user</responsibleuser>
+            <freetext3/>
+            <reminderemail>reminderemail@mail.com</reminderemail>
+            <responsibleuser>responsible-user</responsibleuser>
             <sendreminder>true</sendreminder>
         </creditmanagement>
-	<invoicing>
-	    <discountarticle/>
-	</invoicing>
+        <invoicing>
+            <discountarticle/>
+        </invoicing>
         <addresses>
             <address default="true" type="invoice">
                 <city>city</city>
@@ -154,14 +155,14 @@ class CustomerDocumentUnitTest extends TestCase
                 <field5>field 5</field5>
                 <field6>field 6</field6>
                 <name>My Address</name>
-		<postcode>postal code</postcode>
-		<telefax>fax number</telefax>
+                <postcode>postal code</postcode>
+                <telefax>fax number</telefax>
                 <telephone>phone number</telephone>
             </address>
         </addresses>
         <banks>
             <bank default="true">
-	        <address>
+                <address>
                     <field2>address 2</field2>
                     <field3>address 3</field3>
                 </address>
@@ -177,13 +178,13 @@ class CustomerDocumentUnitTest extends TestCase
                 <state>state</state>
             </bank>
         </banks>
-	<remittanceadvice>
-	    <sendmail/>
+        <remittanceadvice>
+            <sendmail/>
             <sendtype/>
-	</remittanceadvice>
-	<paymentconditions>
-	    <paymentcondition>
-	        <discountdays/>
+        </remittanceadvice>
+        <paymentconditions>
+            <paymentcondition>
+                <discountdays/>
                 <discountpercentage/>
             </paymentcondition>
         </paymentconditions>
@@ -200,39 +201,39 @@ class CustomerDocumentUnitTest extends TestCase
 	    <type>DEB</type>
 	    <website>http://example.org</website>
 	    <financials>
-		<collectionschema>core</collectionschema>
-		<duedays>30</duedays>
-		<ebilling>false</ebilling>
-		<ebillmail/>
-		<meansofpayment/>
-		<payavailable>false</payavailable>
-		<paycode/>
-		<substitutewith/>
-		<vatcode/>
+            <collectionschema>core</collectionschema>
+            <duedays>30</duedays>
+            <ebilling/>
+            <ebillmail/>
+            <meansofpayment/>
+            <payavailable/>
+            <paycode/>
+            <substitutewith/>
+            <vatcode/>
 	    </financials>
 	    <creditmanagement>
-		<basecreditlimit>0</basecreditlimit>
-		<blocked>false</blocked>
-		<comment/>
-		<freetext1>false</freetext1>
-		<freetext2/>
-		<freetext3/>
-		<reminderemail/>
-		<responsibleuser/>
-		<sendreminder>true</sendreminder>
+            <basecreditlimit/>
+            <blocked/>
+            <comment/>
+            <freetext1/>
+            <freetext2/>
+            <freetext3/>
+            <reminderemail/>
+            <responsibleuser/>
+            <sendreminder>true</sendreminder>
 	    </creditmanagement>
 	    <invoicing>
-		<discountarticle/>
+            <discountarticle/>
 	    </invoicing>
 	    <remittanceadvice>
-		<sendmail/>
-		<sendtype/>
+            <sendmail/>
+            <sendtype/>
 	    </remittanceadvice>
 	    <paymentconditions>
-		<paymentcondition>
-		    <discountdays/>
-		    <discountpercentage/>
-		</paymentcondition>
+            <paymentcondition>
+                <discountdays/>
+                <discountpercentage/>
+            </paymentcondition>
 	    </paymentconditions>
     </dimension>
 </dimensions>

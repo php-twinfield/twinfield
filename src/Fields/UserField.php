@@ -22,15 +22,6 @@ trait UserField
         return $this->user;
     }
 
-    public function getUserToString(): ?string
-    {
-        if ($this->getUser() != null) {
-            return $this->user->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,18 +29,6 @@ trait UserField
     {
         $this->user = $user;
         return $this;
-    }
-
-    /**
-     * @param string|null $userString
-     * @return $this
-     * @throws Exception
-     */
-    public function setUserFromString(?string $userString)
-    {
-        $user = new User();
-        $user->setCode($userString);
-        return $this->setUser($user);
     }
 }
 

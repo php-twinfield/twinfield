@@ -19,12 +19,7 @@ trait BlockedField
     {
         return $this->blocked;
     }
-
-    public function getBlockedToString(): ?string
-    {
-        return ($this->getBlocked()) ? 'true' : 'false';
-    }
-
+    
     /**
      * @param bool $blocked
      * @return $this
@@ -33,15 +28,5 @@ trait BlockedField
     {
         $this->blocked = $blocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $blockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setBlockedFromString(?string $blockedString)
-    {
-        return $this->setBlocked(filter_var($blockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

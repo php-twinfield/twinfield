@@ -3,6 +3,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\ElectronicBankStatement;
+use PhpTwinfield\Util;
 
 class ElectronicBankStatementDocument extends BaseDocument
 {
@@ -28,14 +29,14 @@ class ElectronicBankStatementDocument extends BaseDocument
             $statement->appendChild($this->createNodeWithTextContent("code", $electronicBankStatement->getCode()));
         }
 
-        $statement->appendChild($this->createNodeWithTextContent("date", $electronicBankStatement->getDateToString()));
-        $statement->appendChild($this->createNodeWithTextContent("currency", $electronicBankStatement->getCurrencyToString()));
-        $statement->appendChild($this->createNodeWithTextContent("startvalue", $electronicBankStatement->getStartValueToFloat()));
-        $statement->appendChild($this->createNodeWithTextContent("closevalue", $electronicBankStatement->getCloseValueToFloat()));
+        $statement->appendChild($this->createNodeWithTextContent("date", Util::formatDate($electronicBankStatement->getDate())));
+        $statement->appendChild($this->createNodeWithTextContent("currency", Util::objectToStr($electronicBankStatement->getCurrency())));
+        $statement->appendChild($this->createNodeWithTextContent("startvalue", Util::formatMoney($electronicBankStatement->getStartValue())));
+        $statement->appendChild($this->createNodeWithTextContent("closevalue", Util::formatMoney($electronicBankStatement->getCloseValue())));
         $statement->appendChild($this->createNodeWithTextContent("statementnumber", $electronicBankStatement->getStatementnumber()));
 
         if ($electronicBankStatement->getOffice()) {
-            $statement->appendChild($this->createNodeWithTextContent("office", $electronicBankStatement->getOfficeToString()));
+            $statement->appendChild($this->createNodeWithTextContent("office", Util::objectToStr($electronicBankStatement->getOffice())));
         }
 
         $transactions = $this->createElement("transactions");
@@ -57,7 +58,7 @@ class ElectronicBankStatementDocument extends BaseDocument
             }
 
             $node->appendChild($this->createNodeWithTextContent('debitcredit', $transaction->getDebitCredit()));
-            $node->appendChild($this->createNodeWithTextContent('value', $transaction->getValueToFloat()));
+            $node->appendChild($this->createNodeWithTextContent('value', Util::formatMoney($transaction->getValue())));
             $node->appendChild($this->createNodeWithTextContent("description", $transaction->getDescription()));
 
             $transactions->appendChild($node);

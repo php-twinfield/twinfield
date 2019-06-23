@@ -22,15 +22,6 @@ trait FreeText2Field
         return $this->freeText2;
     }
 
-    public function getFreeText2ToString(): ?string
-    {
-        if ($this->getFreeText2() != null) {
-            return $this->freeText2->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait FreeText2Field
     {
         $this->freeText2 = $freeText2;
         return $this;
-    }
-
-    /**
-     * @param string|null $freeText2String
-     * @return $this
-     * @throws Exception
-     */
-    public function setFreeText2FromString(?string $freeText2String)
-    {
-        $freeText2 = new CostCenter();
-        $freeText2->setCode($freeText2String);
-        return $this->setFreeText2($freeText2);
     }
 }

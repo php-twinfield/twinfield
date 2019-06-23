@@ -31,21 +31,21 @@ class SupplierDocumentUnitTest extends TestCase
         $supplier->setName('Chuck Norris');
         $supplier->setWebsite('http://example.org');
         $supplier->setOffice(Office::fromCode("DEV-10000"));
-        $supplier->setStatusFromString('active');
+        $supplier->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());
 
         $financials = new SupplierFinancials();
         $financials->setDueDays(1);
         $financials->setPayAvailable(true);
-        $financials->setPayCodeFromString('pay-code');
-        $financials->setVatCodeFromString('vat-code');
+        $financials->setPayCode(\PhpTwinfield\PayCode::fromCode('pay-code'));
+        $financials->setVatCode(\PhpTwinfield\VatCode::fromCode('vat-code'));
         $supplier->setFinancials($financials);
 
         $supplier->addAddress(
             (new SupplierAddress())
                 ->setDefault(true)
-                ->setTypeFromString('invoice')
+                ->setType(\PhpTwinfield\Enums\AddressType::INVOICE())
                 ->setName('My Address')
-                ->setCountryFromString('nl')
+                ->setCountry(\PhpTwinfield\Country::fromCode('nl'))
                 ->setCity('city')
                 ->setPostcode('postal code')
                 ->setTelephone('phone number')
@@ -69,7 +69,7 @@ class SupplierDocumentUnitTest extends TestCase
                 ->setBankName('bank name')
                 ->setBicCode('bic code')
                 ->setCity('city')
-                ->setCountryFromString('nl')
+                ->setCountry(\PhpTwinfield\Country::fromCode('nl'))
                 ->setIban('iban')
                 ->setNatBicCode('nat-bic')
                 ->setPostcode('postcode')
@@ -83,7 +83,7 @@ class SupplierDocumentUnitTest extends TestCase
         $supplier->setName('Nuck Chorris');
         $supplier->setWebsite('http://example.org');
         $supplier->setOffice(Office::fromCode("DEV-00001"));
-        $supplier->setStatusFromString('deleted');
+        $supplier->setStatus(\PhpTwinfield\Enums\Status::DELETED());
 
         $this->document->addSupplier($supplier);
 
@@ -129,7 +129,7 @@ class SupplierDocumentUnitTest extends TestCase
             </address>
         </addresses>
         <banks>
-            <bank blocked="false" default="true">
+            <bank default="true">
                 <address>
                     <field2>address 2</field2>
                     <field3>address 3</field3>
@@ -175,7 +175,7 @@ class SupplierDocumentUnitTest extends TestCase
 	    <financials>
             <duedays>30</duedays>
             <meansofpayment/>
-            <payavailable>false</payavailable>
+            <payavailable/>
             <paycode/>
             <relationsreference/>
             <substitutewith/>

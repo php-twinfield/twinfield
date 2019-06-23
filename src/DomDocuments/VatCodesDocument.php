@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\DomDocuments;
 
+use PhpTwinfield\Util;
 use PhpTwinfield\VatCode;
 
 /**
@@ -59,7 +60,7 @@ class VatCodesDocument extends BaseDocument
                 $percentageElement = $this->createElement('percentage');
                 $percentagesElement->appendChild($percentageElement);
 
-                $percentageElement->appendChild($this->createNodeWithTextContent('date', $percentage->getDateToString()));
+                $percentageElement->appendChild($this->createNodeWithTextContent('date', Util::formatDate($percentage->getDate())));
                 $percentageElement->appendChild($this->createNodeWithTextContent('name', $percentage->getName()));
                 $percentageElement->appendChild($this->createNodeWithTextContent('percentage', $percentage->getPercentage()));
                 $percentageElement->appendChild($this->createNodeWithTextContent('shortname', $percentage->getShortName()));
@@ -83,9 +84,9 @@ class VatCodesDocument extends BaseDocument
                             $accountElement->setAttribute('id', $id);
                         }
 
-                        $accountElement->appendChild($this->createNodeWithTextContent('dim1', $account->getDim1ToString()));
-                        $accountElement->appendChild($this->createNodeWithTextContent('group', $account->getGroupToString()));
-                        $accountElement->appendChild($this->createNodeWithTextContent('groupcountry', $account->getGroupCountryToString()));
+                        $accountElement->appendChild($this->createNodeWithTextContent('dim1', Util::objectToStr($account->getDim1())));
+                        $accountElement->appendChild($this->createNodeWithTextContent('group', Util::objectToStr($account->getGroup())));
+                        $accountElement->appendChild($this->createNodeWithTextContent('groupcountry', Util::objectToStr($account->getGroupCountry())));
                         $accountElement->appendChild($this->createNodeWithTextContent('linetype', $account->getLineType()));
                         $accountElement->appendChild($this->createNodeWithTextContent('percentage', $account->getPercentage()));
                     }

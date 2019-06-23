@@ -23,7 +23,7 @@ use PhpTwinfield\Fields\UIDField;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class GeneralLedger extends BaseObject
+class GeneralLedger extends BaseObject implements HasCodeInterface
 {
     use BeginPeriodField;
     use BeginYearField;
@@ -51,6 +51,13 @@ class GeneralLedger extends BaseObject
         $this->setEndYear(0);
 
         $this->setFinancials(new GeneralLedgerFinancials);
+    }
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
     }
 
     public function getFinancials(): GeneralLedgerFinancials

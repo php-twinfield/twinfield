@@ -19,7 +19,7 @@ use PhpTwinfield\Fields\VatCode\TypeField;
  *
  * @author Emile Bons <emile@emilebons.nl>, extended by Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class VatCode extends BaseObject
+class VatCode extends BaseObject implements HasCodeInterface
 {
     use CodeField;
     use CreatedField;
@@ -34,6 +34,13 @@ class VatCode extends BaseObject
     use UserField;
 
     private $percentages = [];
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
+    }
 
     public function getPercentages()
     {

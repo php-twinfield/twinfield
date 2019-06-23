@@ -28,14 +28,4 @@ trait MeansOfPaymentField
         $this->meansOfPayment = $meansOfPayment;
         return $this;
     }
-
-    /**
-     * @param string|null $meansOfPaymentString
-     * @return $this
-     * @throws Exception
-     */
-    public function setMeansOfPaymentFromString(?string $meansOfPaymentString)
-    {
-        return $this->setMeansOfPayment(new MeansOfPayment((string)$meansOfPaymentString));
-    }
 }

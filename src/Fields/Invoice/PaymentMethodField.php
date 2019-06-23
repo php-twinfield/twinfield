@@ -28,14 +28,4 @@ trait PaymentMethodField
         $this->paymentMethod = $paymentMethod;
         return $this;
     }
-
-    /**
-     * @param string|null $paymentMethodString
-     * @return $this
-     * @throws Exception
-     */
-    public function setPaymentMethodFromString(?string $paymentMethodString)
-    {
-        return $this->setPaymentMethod(new PaymentMethod((string)$paymentMethodString));
-    }
 }

@@ -11,6 +11,9 @@ namespace PhpTwinfield;
 // Use the ResponseException class to handle errors when listing, getting and sending objects to/from Twinfield
 use PhpTwinfield\Response\ResponseException;
 
+// Use the Util class for helper functions
+use PhpTwinfield\Util;
+
 require_once('vendor/autoload.php');
 
 // Retrieve an OAuth 2 connection
@@ -96,8 +99,8 @@ if ($executeListAllWithoutFilter) {
 
 /* CostCenter
  * \PhpTwinfield\CostCenter
- * Available getters: getBehaviour, getCode, getInUse, getInUseToString, getMessages, getName, getOffice, getOfficeToString, getResult, getShortName, getStatus, getTouched, getType, getTypeToString, getUID, hasMessages
- * Available setters: setBehaviour, setBehaviourFromString, setCode, setName, setOffice, setOfficeFromString, setShortName, setStatus, setStatusFromString, setType, setTypeFromString
+ * Available getters: getBehaviour, getCode, getInUse, getMessages, getName, getOffice, getResult, getShortName, getStatus, getTouched, getType, getUID, hasMessages
+ * Available setters: setBehaviour, setCode, setName, setOffice, setShortName, setStatus, setType
  */
 
 if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
@@ -124,7 +127,7 @@ if ($executeRead) {
     echo "Behaviour: {$costCenter->getBehaviour()}<br />";                                                          // Behaviour|null       Determines the behaviour of dimensions. Read-only attribute.
     echo "Code: {$costCenter->getCode()}<br />";                                                                    // string|null          Dimension code, must be compliant with the mask of the KPL Dimension type.
     echo "InUse (bool): {$costCenter->getInUse()}<br />";                                                           // bool|null            Indicates whether the cost center is used in a financial transaction or not. Read-only attribute.
-    echo "InUse (string): {$costCenter->getInUseToString()}<br />";                                                 // string|null
+    echo "InUse (string): " . Util::formatBoolean($costCenter->getInUse()) . "<br />";                              // string|null
 
     if ($costCenter->hasMessages()) {                                                                               // bool                 Object contains (error) messages true/false.
         echo "Messages: " . print_r($costCenter->getMessages(), true) . "<br />";                                   // Array|null           (Error) messages.
@@ -132,13 +135,13 @@ if ($executeRead) {
 
     echo "Name: {$costCenter->getName()}<br />";                                                                    // string|null          Name of the dimension.
     echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($costCenter->getOffice(), true) . "</pre><br />";       // Office|null          Office.
-    echo "Office (string): {$costCenter->getOfficeToString()}<br />";                                               // string|null
+    echo "Office (string): " . Util::objectToStr($costCenter->getOffice()) . "<br />";                              // string|null
     echo "Result: {$costCenter->getResult()}<br />";                                                                // int|null             Result (0 = error, 1 or empty = success).
     echo "ShortName: {$costCenter->getShortName()}<br />";                                                          // string|null          Not in use.
     echo "Status: {$costCenter->getStatus()}<br />";                                                                // Status|null          Status of the cost center.
     echo "Touched: {$costCenter->getTouched()}<br />";                                                              // int|null             Count of the number of times the dimension settings are changed. Read-only attribute.
     echo "Type (\\PhpTwinfield\\DimensionType): <pre>" . print_r($costCenter->getType(), true) . "</pre><br />";    // DimensionType|null   Dimension type. See Dimension type. Dimension type of cost centers is KPL.
-    echo "Type (string): {$costCenter->getTypeToString()}<br />";                                                   // string|null
+    echo "Type (string): " . Util::objectToStr($costCenter->getType()) . "<br />";                                  // string|null
     echo "UID: {$costCenter->getUID()}<br />";                                                                      // string|null          Unique identification of the dimension. Read-only attribute.
 }
 
@@ -176,15 +179,12 @@ if ($executeNew) {
     $costCenter->setCode(null);                                                                                     // string|null          Set to null to let Twinfield assign a Dimension code based on the Dimension type mask
     //$costCenter->setCode('00020');                                                                                // string|null          Dimension code, must be compliant with the mask of the KPL Dimension type.
     $costCenter->setOffice($office);                                                                                // Office|null          Office.
-    $costCenter->setOfficeFromString($officeCode);                                                                  // string|null
+    $costCenter->setOffice(\PhpTwinfield\Office::fromCode($officeCode));                                            // string|null
 
     // Optional values for creating a new CostCenter
     $costCenter->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                   // Status|null          For creating and updating status may be left empty.
     //$costCenter->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                // Status|null          For deleting deleted should be used. In case a dimension that is used in a transaction is deleted,
                                                                                                                     //                      its status has been changed into hide. Hidden dimensions can be activated by using active.
-    $costCenter->setStatusFromString('active');                                                                     // string|null
-    //$costCenter->setStatusFromString('deleted');                                                                  // string|null
-
     try {
         $costCenterNew = $costCenterApiConnector->send($costCenter);
     } catch (ResponseException $e) {

@@ -35,15 +35,6 @@ trait CloseAndStartValueFields
         return $this->currency;
     }
 
-    public function getCurrencyToString(): ?string
-    {
-        if ($this->getCurrency() != null) {
-            return $this->currency->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * Set the currency. Can only be done when the start value is still 0.
      *
@@ -59,36 +50,11 @@ trait CloseAndStartValueFields
     }
 
     /**
-     * @param string|null $currencyString
-     * @return $this
-     * @throws Exception
-     */
-    public function setCurrencyFromString(?string $currencyString)
-    {
-        $currency = new Currency();
-        $currency->setCode($currencyString);
-
-        return $this->setCurrency($currency);
-    }
-
-    /**
      * @return Money|null
      */
     public function getStartValue(): ?Money
     {
         return $this->startValue;
-    }
-
-    /**
-     * @return float|null
-     */
-    public function getStartValueToFloat(): ?float
-    {
-        if ($this->getStartValue() != null) {
-            return Util::formatMoney($this->getStartValue());
-        } else {
-            return 0;
-        }
     }
 
     /**
@@ -105,34 +71,8 @@ trait CloseAndStartValueFields
         $this->closeValue = $startValue;
     }
 
-    /**
-     * @param float|null $startValueFloat
-     * @return $this
-     * @throws Exception
-     */
-    public function setStartValueFromFloat(?float $startValueFloat)
-    {
-        if ((float)$startValueFloat) {
-            $this->setStartValue(new Money(100 * $startValueFloat, new \Money\Currency($this->getCurrencyToString())));
-        } else {
-            $this->setStartValue(new Money(0, new \Money\Currency($this->getCurrencyToString())));
-        }
-    }
-
     public function getCloseValue(): Money
     {
-        return $this->closeValue ?? new Money(0, new \Money\Currency($this->getCurrencyToString()));
-    }
-
-    /**
-     * @return float|null
-     */
-    public function getCloseValueToFloat(): ?float
-    {
-        if ($this->getCloseValue() != null) {
-            return Util::formatMoney($this->getCloseValue());
-        } else {
-            return 0;
-        }
+        return $this->closeValue ?? new Money(0, new \Money\Currency($this->getCurrency()->getCode()));
     }
 }

@@ -20,11 +20,6 @@ trait StatusLockedField
         return $this->statusLocked;
     }
 
-    public function getStatusLockedToString(): ?string
-    {
-        return ($this->getStatusLocked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $statusLocked
      * @return $this
@@ -33,15 +28,5 @@ trait StatusLockedField
     {
         $this->statusLocked = $statusLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $statusLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setStatusLockedFromString(?string $statusLockedString)
-    {
-        return $this->setStatusLocked(filter_var($statusLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

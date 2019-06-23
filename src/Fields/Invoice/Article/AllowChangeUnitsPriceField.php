@@ -19,12 +19,7 @@ trait AllowChangeUnitsPriceField
     {
         return $this->allowChangeUnitsPrice;
     }
-
-    public function getAllowChangeUnitsPriceToString(): ?string
-    {
-        return ($this->getAllowChangeUnitsPrice()) ? 'true' : 'false';
-    }
-
+    
     /**
      * @param bool $allowChangeUnitsPrice
      * @return $this
@@ -33,15 +28,5 @@ trait AllowChangeUnitsPriceField
     {
         $this->allowChangeUnitsPrice = $allowChangeUnitsPrice;
         return $this;
-    }
-
-    /**
-     * @param string|null $allowChangeUnitsPriceString
-     * @return $this
-     * @throws Exception
-     */
-    public function setAllowChangeUnitsPriceFromString(?string $allowChangeUnitsPriceString)
-    {
-        return $this->setAllowChangeUnitsPrice(filter_var($allowChangeUnitsPriceString, FILTER_VALIDATE_BOOLEAN));
     }
 }

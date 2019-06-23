@@ -3,6 +3,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\FixedAsset;
+use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML FixedAsset. Is a child class
@@ -47,8 +48,8 @@ class FixedAssetsDocument extends BaseDocument
         }
 
         $fixedAssetElement->appendChild($this->createNodeWithTextContent('name', $fixedAsset->getName()));
-        $fixedAssetElement->appendChild($this->createNodeWithTextContent('office', $fixedAsset->getOfficeToString()));
-        $fixedAssetElement->appendChild($this->createNodeWithTextContent('type', $fixedAsset->getTypeToString()));
+        $fixedAssetElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($fixedAsset->getOffice())));
+        $fixedAssetElement->appendChild($this->createNodeWithTextContent('type', Util::objectToStr($fixedAsset->getType())));
 
         $financials = $fixedAsset->getFinancials();
 
@@ -56,8 +57,8 @@ class FixedAssetsDocument extends BaseDocument
         $fixedAssetElement->appendChild($financialsElement);
 
         $financialsElement->appendChild($this->createNodeWithTextContent('substitutionlevel', $financials->getSubstitutionLevel()));
-        $financialsElement->appendChild($this->createNodeWithTextContent('substitutewith', $financials->getSubstituteWithToString()));
-        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', $financials->getVatCodeToString()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('substitutewith', Util::objectToStr($financials->getSubstituteWith())));
+        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', Util::objectToStr($financials->getVatCode())));
 
         $fixedAssets = $fixedAsset->getFixedAssets();
 
@@ -71,13 +72,13 @@ class FixedAssetsDocument extends BaseDocument
         $fixedAssetsElement->appendChild($this->createNodeWithTextContent('freetext4', $fixedAssets->getFreeText4()));
         $fixedAssetsElement->appendChild($this->createNodeWithTextContent('freetext5', $fixedAssets->getFreeText5()));
         $fixedAssetsElement->appendChild($this->createNodeWithTextContent('lastdepreciation', $fixedAssets->getLastDepreciation()));
-        $fixedAssetsElement->appendChild($this->createNodeWithTextContent('method', $fixedAssets->getMethodToString()));
+        $fixedAssetsElement->appendChild($this->createNodeWithTextContent('method', Util::objectToStr($fixedAssets->getMethod())));
         $fixedAssetsElement->appendChild($this->createNodeWithTextContent('nrofperiods', $fixedAssets->getNrOfPeriods()));
         $fixedAssetsElement->appendChild($this->createNodeWithTextContent('percentage', $fixedAssets->getPercentage()));
-        $fixedAssetsElement->appendChild($this->createNodeWithTextContent('purchasedate', $fixedAssets->getPurchaseDateToString()));
-        $fixedAssetsElement->appendChild($this->createNodeWithTextContent('residualvalue', $fixedAssets->getResidualValueToFloat()));
-        $fixedAssetsElement->appendChild($this->createNodeWithTextContent('selldate', $fixedAssets->getSellDateToString()));
-        $fixedAssetsElement->appendChild($this->createNodeWithTextContent('stopvalue', $fixedAssets->getStopValueToFloat()));
+        $fixedAssetsElement->appendChild($this->createNodeWithTextContent('purchasedate', Util::formatDate($fixedAssets->getPurchaseDate())));
+        $fixedAssetsElement->appendChild($this->createNodeWithTextContent('residualvalue', Util::formatMoney($fixedAssets->getResidualValue())));
+        $fixedAssetsElement->appendChild($this->createNodeWithTextContent('selldate', Util::formatDate($fixedAssets->getSellDate())));
+        $fixedAssetsElement->appendChild($this->createNodeWithTextContent('stopvalue', Util::formatMoney($fixedAssets->getStopValue())));
 
         $transactionLines = $fixedAssets->getTransactionLines();
 
@@ -92,21 +93,21 @@ class FixedAssetsDocument extends BaseDocument
                 $transactionLineElement = $this->createElement('transline');
                 $transactionLinesElement->appendChild($transactionLineElement);
 
-                $transactionLineElement->appendChild($this->createNodeWithTextContent('amount', $transactionLine->getAmountToFloat()));
-                $transactionLineElement->appendChild($this->createNodeWithTextContent('code', $transactionLine->getCodeToString()));
-                $transactionLineElement->appendChild($this->createNodeWithTextContent('dim1', $transactionLine->getDim1ToString()));
-                $transactionLineElement->appendChild($this->createNodeWithTextContent('dim2', $transactionLine->getDim2ToString()));
-                $transactionLineElement->appendChild($this->createNodeWithTextContent('dim3', $transactionLine->getDim3ToString()));
-                $transactionLineElement->appendChild($this->createNodeWithTextContent('dim4', $transactionLine->getDim4ToString()));
-                $transactionLineElement->appendChild($this->createNodeWithTextContent('dim5', $transactionLine->getDim5ToString()));
-                $transactionLineElement->appendChild($this->createNodeWithTextContent('dim6', $transactionLine->getDim6ToString()));
+                $transactionLineElement->appendChild($this->createNodeWithTextContent('amount', Util::formatMoney($transactionLine->getAmount())));
+                $transactionLineElement->appendChild($this->createNodeWithTextContent('code', Util::objectToStr($transactionLine->getCode())));
+                $transactionLineElement->appendChild($this->createNodeWithTextContent('dim1', Util::objectToStr($transactionLine->getDim1())));
+                $transactionLineElement->appendChild($this->createNodeWithTextContent('dim2', Util::objectToStr($transactionLine->getDim2())));
+                $transactionLineElement->appendChild($this->createNodeWithTextContent('dim3', Util::objectToStr($transactionLine->getDim3())));
+                $transactionLineElement->appendChild($this->createNodeWithTextContent('dim4', Util::objectToStr($transactionLine->getDim4())));
+                $transactionLineElement->appendChild($this->createNodeWithTextContent('dim5', Util::objectToStr($transactionLine->getDim5())));
+                $transactionLineElement->appendChild($this->createNodeWithTextContent('dim6', Util::objectToStr($transactionLine->getDim6())));
                 $transactionLineElement->appendChild($this->createNodeWithTextContent('line', $transactionLine->getLine()));
                 $transactionLineElement->appendChild($this->createNodeWithTextContent('number', $transactionLine->getNumber()));
                 $transactionLineElement->appendChild($this->createNodeWithTextContent('period', $transactionLine->getPeriod()));
             }
         }
 
-        $group = $fixedAsset->getGroupToString();
+        $group = Util::objectToStr($fixedAsset->getGroup());
 
         if (!empty($group)) {
             $groupsElement = $this->createElement('groups');

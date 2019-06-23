@@ -22,15 +22,6 @@ trait DiscountArticleField
         return $this->discountArticle;
     }
 
-    public function getDiscountArticleToString(): ?string
-    {
-        if ($this->getDiscountArticle() != null) {
-            return $this->discountArticle->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait DiscountArticleField
     {
         $this->discountArticle = $discountArticle;
         return $this;
-    }
-
-    /**
-     * @param string|null $discountArticleString
-     * @return $this
-     * @throws Exception
-     */
-    public function setDiscountArticleFromString(?string $discountArticleString)
-    {
-        $discountArticle = new Article();
-        $discountArticle->setCode($discountArticleString);
-        return $this->setDiscountArticle($discountArticle);
     }
 }

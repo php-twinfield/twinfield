@@ -50,11 +50,11 @@ class CustomerFinancials extends BaseObject
 
     public function __construct()
     {
-        $this->setAccountTypeFromString('inherit');
-        $this->setCollectionSchemaFromString('core');
+        $this->setAccountType(\PhpTwinfield\Enums\AccountType::INHERIT());
+        $this->setCollectionSchema(\PhpTwinfield\Enums\CollectionSchema::CORE());
         $this->setDueDays(30);
-        $this->setMatchTypeFromString('customersupplier');
-        $this->setSubAnalyseFromString('false');
+        $this->setMatchType(\PhpTwinfield\Enums\MatchType::CUSTOMERSUPPLIER());
+        $this->setSubAnalyse(\PhpTwinfield\Enums\SubAnalyse::FALSE());
         $this->setSubstitutionLevel(1);
 
         $this->setCollectMandate(new CustomerCollectMandate);

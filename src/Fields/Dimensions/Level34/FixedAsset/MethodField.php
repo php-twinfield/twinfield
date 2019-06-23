@@ -22,15 +22,6 @@ trait MethodField
         return $this->method;
     }
 
-    public function getMethodToString(): ?string
-    {
-        if ($this->getMethod() != null) {
-            return $this->method->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait MethodField
     {
         $this->method = $method;
         return $this;
-    }
-
-    /**
-     * @param string|null $methodString
-     * @return $this
-     * @throws Exception
-     */
-    public function setMethodFromString(?string $methodString)
-    {
-        $method = new AssetMethod();
-        $method->setCode($methodString);
-        return $this->setMethod($method);
     }
 }

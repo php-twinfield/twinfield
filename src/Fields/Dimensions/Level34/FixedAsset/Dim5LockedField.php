@@ -19,12 +19,7 @@ trait Dim5LockedField
     {
         return $this->dim5Locked;
     }
-
-    public function getDim5LockedToString(): ?string
-    {
-        return ($this->getDim5Locked()) ? 'true' : 'false';
-    }
-
+    
     /**
      * @param bool $dim5Locked
      * @return $this
@@ -33,15 +28,5 @@ trait Dim5LockedField
     {
         $this->dim5Locked = $dim5Locked;
         return $this;
-    }
-
-    /**
-     * @param string|null $dim5LockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setDim5LockedFromString(?string $dim5LockedString)
-    {
-        return $this->setDim5Locked(filter_var($dim5LockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

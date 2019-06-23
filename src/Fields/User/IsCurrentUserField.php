@@ -20,11 +20,6 @@ trait IsCurrentUserField
         return $this->isCurrentUser;
     }
 
-    public function getIsCurrentUserToString(): ?string
-    {
-        return ($this->getIsCurrentUser()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $isCurrentUser
      * @return $this
@@ -33,15 +28,5 @@ trait IsCurrentUserField
     {
         $this->isCurrentUser = $isCurrentUser;
         return $this;
-    }
-
-    /**
-     * @param string|null $isCurrentUserString
-     * @return $this
-     * @throws Exception
-     */
-    public function setIsCurrentUserFromString(?string $isCurrentUserString)
-    {
-        return $this->setIsCurrentUser(filter_var($isCurrentUserString, FILTER_VALIDATE_BOOLEAN));
     }
 }

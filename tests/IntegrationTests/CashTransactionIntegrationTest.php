@@ -4,7 +4,6 @@ namespace PhpTwinfield\IntegrationTests;
 
 use DateTimeImmutable;
 use Money\Money;
-use PhpTwinfield\ApiConnectors\OfficeApiConnector;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\CashTransaction;
 use PhpTwinfield\CashTransactionLine;
@@ -17,10 +16,9 @@ use PhpTwinfield\Enums\MatchStatus;
 use PhpTwinfield\Mappers\TransactionMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Util;
 
 /**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
  * @covers SalesTransaction
  * @covers SalesTransactionLine
  * @covers TransactionsDocument
@@ -39,20 +37,6 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         parent::setUp();
 
         $this->transactionApiConnector = new TransactionApiConnector($this->connection);
-        
-        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
-        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
-            $baseCurrency = new Currency;
-            $baseCurrency->setCode('EUR');
-            $reportingCurrency = new Currency;
-            $reportingCurrency->setCode('USD');
-            
-            $office = new Office;
-            $office->setResult(1);
-            $office->setBaseCurrency($baseCurrency);
-            $office->setReportingCurrency($reportingCurrency);
-            return $office;
-        });
     }
 
     public function testGetCashTransactionWorks()
@@ -76,7 +60,7 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame('CASH', $cashTransaction->getCode());
         $this->assertSame(201300008, $cashTransaction->getNumber());
         $this->assertSame('2013/11', $cashTransaction->getPeriod());
-        $this->assertEquals('EUR', $cashTransaction->getCurrencyToString());
+        $this->assertEquals('EUR', Util::objectToStr($cashTransaction->getCurrency()));
         $this->assertEquals(new DateTimeImmutable('2013-11-04'), $cashTransaction->getDate());
         $this->assertSame('import', $cashTransaction->getOrigin());
         $this->assertNull($cashTransaction->getFreetext1());
@@ -93,7 +77,7 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertEquals(LineType::TOTAL(), $totalLine->getLineType());
         $this->assertSame(1, $totalLine->getId());
-        $this->assertSame('1002', $totalLine->getDim1ToString());
+        $this->assertSame('1002', Util::objectToStr($totalLine->getDim1()));
         $this->assertEquals(DebitCredit::DEBIT(), $totalLine->getDebitCredit());
         $this->assertEquals(Money::EUR(43555), $totalLine->getValue());
         $this->assertEquals(Money::EUR(43555), $totalLine->getBaseValue());
@@ -115,8 +99,8 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
 
         $this->assertEquals(LineType::DETAIL(), $detailLine->getLineType());
         $this->assertSame(2, $detailLine->getId());
-        $this->assertSame('1300', $detailLine->getDim1ToString());
-        $this->assertSame('1000', $detailLine->getDim2ToString());
+        $this->assertSame('1300', Util::objectToStr($detailLine->getDim1()));
+        $this->assertSame('1000', Util::objectToStr($detailLine->getDim2()));
         $this->assertEquals(DebitCredit::CREDIT(), $detailLine->getDebitCredit());
         $this->assertEquals(Money::EUR(43555), $detailLine->getValue());
         $this->assertEquals(Money::EUR(43555), $totalLine->getBaseValue());
@@ -129,13 +113,13 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame(2, $detailLine->getMatchLevel());
         $this->assertEquals(Money::EUR(43555), $detailLine->getBaseValueOpen());
         $this->assertEquals(Money::USD(65333), $detailLine->getRepValue());
-        $this->assertNull($detailLine->getVatCodeToString());
+        $this->assertNull(Util::objectToStr($detailLine->getVatCode()));
         $this->assertNull($detailLine->getVatValue());
         $this->assertNull($detailLine->getVatTotal());
         $this->assertNull($detailLine->getVatBaseTotal());
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\PerformanceType');
         $this->assertSame($ReflectObject->getConstant('EMPTY'), (string)$detailLine->getPerformanceType());
-        $this->assertNull($detailLine->getPerformanceCountryToString());
+        $this->assertNull(Util::objectToStr($detailLine->getPerformanceCountry()));
         $this->assertNull($detailLine->getPerformanceVatNumber());
         $this->assertNull($detailLine->getPerformanceDate());
     }
@@ -148,7 +132,7 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
             ->setDestiny(Destiny::TEMPORARY())
             ->setRaiseWarning(false)
             ->setCode('CASH')
-            ->setCurrencyFromString('EUR')
+            ->setCurrency(Currency::fromCode('EUR'))
             ->setDate(new DateTimeImmutable('2013-11-04'))
             ->setStatementNumber(4)
             ->setStartValue(Money::EUR(97401));
@@ -157,15 +141,15 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         $totalLine
             ->setLineType(LineType::TOTAL())
             ->setId('1')
-            ->setDim1FromString('1002')
+            ->setDim1(\PhpTwinfield\GeneralLedger::fromCode('1002'))
             ->setValue(Money::EUR(43555));
 
         $detailLine = new CashTransactionLine();
         $detailLine
             ->setLineType(LineType::DETAIL())
             ->setId('2')
-            ->setDim1FromString('1300')
-            ->setDim2FromString('1000')
+            ->setDim1(\PhpTwinfield\GeneralLedger::fromCode('1300'))
+            ->setDim2(\PhpTwinfield\CostCenter::fromCode('1000'))
             ->setValue(Money::EUR(43555))
             ->setDescription('Invoice paid');
 

@@ -20,11 +20,6 @@ trait VatCodeFixedField
         return $this->vatCodeFixed;
     }
 
-    public function getVatCodeFixedToString(): ?string
-    {
-        return ($this->getVatCodeFixed()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $vatCodeFixed
      * @return $this
@@ -33,15 +28,5 @@ trait VatCodeFixedField
     {
         $this->vatCodeFixed = $vatCodeFixed;
         return $this;
-    }
-
-    /**
-     * @param string|null $vatCodeFixedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setVatCodeFixedFromString(?string $vatCodeFixedString)
-    {
-        return $this->setVatCodeFixed(filter_var($vatCodeFixedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

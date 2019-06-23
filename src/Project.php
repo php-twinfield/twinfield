@@ -19,7 +19,7 @@ use PhpTwinfield\Fields\VatCodeField;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class Project extends BaseObject
+class Project extends BaseObject implements HasCodeInterface
 {
     use BehaviourField;
     use CodeField;
@@ -37,8 +37,15 @@ class Project extends BaseObject
 
     public function __construct()
     {
-        $this->setTypeFromString('PRJ');
+        $this->setType(\PhpTwinfield\DimensionType::fromCode('PRJ'));
         $this->setProjects(new ProjectProjects);
+    }
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
     }
 
     public function getProjects(): ProjectProjects

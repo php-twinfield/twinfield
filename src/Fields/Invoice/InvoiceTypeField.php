@@ -22,15 +22,6 @@ trait InvoiceTypeField
         return $this->invoiceType;
     }
 
-    public function getInvoiceTypeToString(): ?string
-    {
-        if ($this->getInvoiceType() != null) {
-            return $this->invoiceType->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait InvoiceTypeField
     {
         $this->invoiceType = $invoiceType;
         return $this;
-    }
-
-    /**
-     * @param string|null $invoiceTypeString
-     * @return $this
-     * @throws Exception
-     */
-    public function setInvoiceTypeFromString(?string $invoiceTypeString)
-    {
-        $invoiceType = new InvoiceType();
-        $invoiceType->setCode($invoiceTypeString);
-        return $this->setInvoiceType($invoiceType);
     }
 }

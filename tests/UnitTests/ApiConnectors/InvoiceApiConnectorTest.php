@@ -10,6 +10,7 @@ use PhpTwinfield\Invoice;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
+use PhpTwinfield\Util;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -81,6 +82,6 @@ class InvoiceApiConnectorTest extends TestCase
 
         $this->assertInstanceOf(Invoice::class, $mapped);
         $this->assertEquals("10", $mapped->getInvoiceNumber());
-        $this->assertEquals("20190410", $mapped->getInvoiceDateToString());
+        $this->assertEquals("20190410", Util::formatDate($mapped->getInvoiceDate()));
     }
 }

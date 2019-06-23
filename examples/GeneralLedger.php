@@ -104,20 +104,20 @@ if ($executeListAllWithoutFilter) {
 
 /* GeneralLedger
  * \PhpTwinfield\GeneralLedger
- * Available getters: getBeginPeriod, getBeginYear, getBehaviour, getCode, getEndPeriod, getEndYear, getGroup, getGroupToString, getInUse, getInUseToString, getMessages, getName, getOffice, getOfficeToString, getResult, getShortName, getStatus, getTouched, getType, getTypeToString, getWebsite, hasMessages, getFinancials
- * Available setters: setBeginPeriod, setBeginYear, setBehaviour, setBehaviourFromString, setCode, setEndPeriod, setEndYear, setGroup, setGroupFromString, setName, setOffice, setOfficeFromString, setShortName, setStatus, setStatusFromString, setType, setTypeFromString, setFinancials
+ * Available getters: getBeginPeriod, getBeginYear, getBehaviour, getCode, getEndPeriod, getEndYear, getGroup, getInUse, getMessages, getName, getOffice, getResult, getShortName, getStatus, getTouched, getType, getWebsite, hasMessages, getFinancials
+ * Available setters: setBeginPeriod, setBeginYear, setBehaviour, setCode, setEndPeriod, setEndYear, setGroup, setName, setOffice, setShortName, setStatus, setType, setFinancials
  */
 
 /* GeneralLedgerFinancials
  * \PhpTwinfield\GeneralLedgerFinancials
- * Available getters: getAccountType, getLevel, getMatchType, getMessages, getResult, getSubAnalyse, getVatCode, getVatCodeFixed, getVatCodeFixedToString, getVatCodeToString, getChildValidations, hasMessages
- * Available setters: setAccountType, setAccountTypeFromString, setLevel, setMatchType, setMatchTypeFromString, setSubAnalyse, setSubAnalyseFromString, setVatCode, setVatCodeFixed, setVatCodeFixedFromString, setVatCodeFromString, addChildValidation, removeChildValidation
+ * Available getters: getAccountType, getLevel, getMatchType, getMessages, getResult, getSubAnalyse, getVatCode, getVatCodeFixed, getChildValidations, hasMessages
+ * Available setters: setAccountType, setLevel, setMatchType, setSubAnalyse, setVatCode, setVatCodeFixed, addChildValidation, removeChildValidation
  */
 
 /* GeneralLedgerChildValidation
  * \PhpTwinfield\GeneralLedgerChildValidation
  * Available getters: getElementValue, getLevel, getMessages, getResult, getType, hasMessages
- * Available setters: setElementValue, setLevel, setType, setTypeFromString
+ * Available setters: setElementValue, setLevel, setType
  */
 
 if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
@@ -131,7 +131,7 @@ if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
 // Read a GeneralLedger based off the passed in code and optionally the office.
 if ($executeRead) {
     try {
-        $generalLedger = $generalLedgerApiConnector->get("1000", $office);
+        $generalLedger = $generalLedgerApiConnector->get("1000", "BAS", $office);
     } catch (ResponseException $e) {
         $generalLedger = $e->getReturnedObject();
     }
@@ -148,9 +148,9 @@ if ($executeRead) {
     echo "EndPeriod: {$generalLedger->getEndPeriod()}<br />";                                                                               			    // int|null                         Determines together with endyear the period till which the dimension may be used.
     echo "EndYear: {$generalLedger->getEndYear()}<br />";                                                                               			        // int|null                         Determines together with endperiod the period till which the dimension may be used.
     echo "Group (\\PhpTwinfield\\DimensionGroup): <pre>" . print_r($generalLedger->getGroup(), true) . "</pre><br />";                      			    // DimensionGroup|null              Sets the dimension group. See Dimension group.
-    echo "Group (string): {$generalLedger->getGroupToString()}<br />";                                                              					    // string|null
+    echo "Group (string): " . Util::objectToStr($generalLedger->getGroup()) . "<br />";                                                              		// string|null
     echo "InUse (bool): {$generalLedger->getInUse()}<br />";                                                                                   			    // bool|null                        Indicates if the balance or profit and loss account is used in a financial transaction or linked to a VAT code or linked to an article or not in use at all. Read-only attribute.
-    echo "InUse (string): {$generalLedger->getInUseToString()}<br />";                                                                                      // string|null
+    echo "InUse (string): " . Util::formatBoolean($generalLedger->getInUse()) . "<br />";                                                                   // string|null
 
     if ($generalLedger->hasMessages()) {                                                                                              					    // bool                             Object contains (error) messages true/false.
         echo "Messages: " . print_r($generalLedger->getMessages(), true) . "<br />";                                                  					    // Array|null                       (Error) messages.
@@ -158,13 +158,13 @@ if ($executeRead) {
 
     echo "Name: {$generalLedger->getName()}<br />";                                                                                   					    // string|null                      Name of the dimension.
     echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($generalLedger->getOffice(), true) . "</pre><br />";                      					    // Office|null                      Office code.
-    echo "Office (string): {$generalLedger->getOfficeToString()}<br />";                                                              					    // string|null
+    echo "Office (string): " . Util::objectToStr($generalLedger->getOffice()) . "<br />";                                                              		// string|null
     echo "Result: {$generalLedger->getResult()}<br />";                                                                               					    // int|null                         Result (0 = error, 1 or empty = success).
     echo "ShortName: {$generalLedger->getShortName()}<br />";                                                                         					    // string|null                      Short name of the dimension.
     echo "Status: {$generalLedger->getStatus()}<br />";                                                                               					    // Status|null                      Status of the generalLedger.
     echo "Touched: {$generalLedger->getTouched()}<br />";                                                                                                   // int|null                         Count of the number of times the dimension settings are changed. Read-only attribute.
     echo "Type (\\PhpTwinfield\\DimensionType): <pre>" . print_r($generalLedger->getType(), true) . "</pre><br />";                                         // DimensionType|null               Dimension type. See Dimension type. Dimension type of balance accounts is BAS and type of profit and loss is PNL.
-    echo "Type (string): {$generalLedger->getTypeToString()}<br />";                                                                                        // string|null
+    echo "Type (string): " . Util::objectToStr($generalLedger->getType()) . "<br />";                                                                       // string|null
     echo "UID: {$generalLedger->getUID()}<br />";                                                                                                           // string|null                      Unique identification of the dimension. Read-only attribute.
 
     echo "GeneralLedgerFinancials<br />";
@@ -181,9 +181,9 @@ if ($executeRead) {
     echo "Result: {$generalLedgerFinancials->getResult()}<br />";                                                                                           // int|null                         Result (0 = error, 1 or empty = success).
     echo "SubAnalyse: {$generalLedgerFinancials->getSubAnalyse()}<br />";                                                                                   // SubAnalyse|null                  Is subanalyses needed.
     echo "VatCode (\\PhpTwinfield\\VatCode): <pre>" . print_r($generalLedgerFinancials->getVatCode(), true) . "</pre><br />";                               // VatCode|null                     Default VAT code.
-    echo "VatCode (string): {$generalLedgerFinancials->getVatCodeToString()}<br />";                                                                        // string|null
+    echo "VatCode (string): " . Util::objectToStr($generalLedgerFinancials->getVatCode()) . "<br />";                                                       // string|null
     echo "VatCode Fixed (bool): {$generalLedgerFinancials->getVatCodeFixed()}<br />";                                                                       // bool|null
-    echo "VatCode Fixed (string): {$generalLedgerFinancials->getVatCodeFixedToString()}<br />";                                                             // string|null
+    echo "VatCode Fixed (string): " . Util::formatBoolean($generalLedgerFinancials->getVatCodeFixed()) . "<br />";                                          // string|null
 
     $generalLedgerChildValidations = $generalLedgerFinancials->getChildValidations();                                                                       // array|null                       Array of GeneralLedgerChildValidations objects. Validation rule when subanalyses is needed.
 
@@ -205,7 +205,7 @@ if ($executeRead) {
 // Copy an existing GeneralLedger to a new entity
 if ($executeCopy) {
     try {
-        $generalLedger = $generalLedgerApiConnector->get("1000", $office);
+        $generalLedger = $generalLedgerApiConnector->get("1000", "BAS", $office);
     } catch (ResponseException $e) {
         $generalLedger = $e->getReturnedObject();
     }
@@ -235,8 +235,14 @@ if ($executeNew) {
     $generalLedger->setCode(null);                                                                                                                          // string|null                      Set to null to let Twinfield assign a Dimension code based on the Dimension type mask
     //$generalLedger->setCode('1100');                                                                                                                      // string|null                      Dimension code, must be compliant with the mask of the BAS or PNL Dimension type.
     $generalLedger->setName("Example GeneralLedger");                                                                                                       // string|null                      Name of the dimension.
+    $dimensionType = new \PhpTwinfield\DimensionType;
+    $dimensionType->setCode('BAS');
+    //$dimensionType->setCode('PNL');
+    $generalLedger->setType($dimensionType);                                                                                                                // DimensionType|null
+    $generalLedger->setType(\PhpTwinfield\DimensionType::fromCode('BAS'));                                                                                  // string|null                 
+    //$generalLedger->setType(\PhpTwinfield\DimensionType::fromCode('PNL'));                                                                                  // string|null                 
     $generalLedger->setOffice($office);                                                                                                                     // Office|null                      Office code.
-    $generalLedger->setOfficeFromString($officeCode);                                                                                                       // string|null
+    $generalLedger->setOffice(\PhpTwinfield\Office::fromCode($officeCode));                                                                                 // string|null
 
     // Optional values for creating a new GeneralLedger
     $generalLedger->setBeginPeriod(0);                                                                                                                      // int|null                         Determines together with beginyear the period from which the dimension may be used.
@@ -246,19 +252,19 @@ if ($executeNew) {
     $generalLedger->setShortName("ExmplCust");                                                                                                              // string|null                      Short name of the dimension.
     //$generalLedger->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                                      // Status|null                      For creating and updating status may be left empty. For deleting deleted should be used.
     //$generalLedger->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                                                     // Status|null                      In case a dimension that is used in a transaction is deleted, its status has been changed into hide. Hidden dimensions can be activated by using active.
-    //$generalLedger->setStatusFromString('active');                                                                                                        // string|null
-    //$generalLedger->setStatusFromString('deleted');                                                                                                       // string|null
 
     $dimensionGroup = new \PhpTwinfield\DimensionGroup;
     $dimensionGroup->setCode('DIMGROUP');
     //$generalLedger->setGroup($dimensionGroup);                                                                                                            // DimensionGroup|null              Sets the dimension group. See Dimension group.
-    //$generalLedger->setGroupFromString("DIMGROUP");                                                                                                       // string|null
+    //$generalLedger->setGroup(\PhpTwinfield\DimensionGroup::fromCode("DIMGROUP"));                                                                         // string|null
 
     $generalLedgerFinancials = new \PhpTwinfield\GeneralLedgerFinancials;
+    $generalLedgerFinancials->setAccountType(\PhpTwinfield\Enums\AccountType::BALANCE());                                                                   // AccountType|null
+    //$generalLedgerFinancials->setAccountType(\PhpTwinfield\Enums\AccountType::PROFITANDLOSS());                                                           // AccountType|null
     $vatCode = new \PhpTwinfield\VatCode;
     $vatCode->setCode('VH');
     $generalLedgerFinancials->setVatCode($vatCode);                                                                                                         // VatCode|null                     Default VAT code.
-    $generalLedgerFinancials->setVatCodeFromString('VH');                                                                                                   // string|null
+    $generalLedgerFinancials->setVatCode(\PhpTwinfield\VatCode::fromCode('VH'));                                                                            // string|null
 
     $generalLedger->setFinancials($generalLedgerFinancials);                                                                                                // GeneralLedgerFinancials          Set the GeneralLedgerFinancials object tot the GeneralLedger object
 
@@ -279,7 +285,7 @@ if ($executeNew) {
 // Delete a GeneralLedger based off the passed in code and optionally the office.
 if ($executeDelete) {
     try {
-        $generalLedgerDeleted = $generalLedgerApiConnector->delete("1003", $office);
+        $generalLedgerDeleted = $generalLedgerApiConnector->delete("0000", "BAS", $office);
     } catch (ResponseException $e) {
         $generalLedgerDeleted = $e->getReturnedObject();
     }

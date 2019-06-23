@@ -3,7 +3,6 @@
 namespace PhpTwinfield\IntegrationTests;
 
 use PhpTwinfield\ApiConnectors\CustomerApiConnector;
-use PhpTwinfield\ApiConnectors\OfficeApiConnector;
 use PhpTwinfield\Currency;
 use PhpTwinfield\Customer;
 use PhpTwinfield\CustomerAddress;
@@ -14,10 +13,9 @@ use PhpTwinfield\DomDocuments\CustomersDocument;
 use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Util;
 
 /**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
  * @covers Customer
  * @covers CustomerAddress
  * @covers CustomerBank
@@ -41,20 +39,6 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         parent::setUp();
 
         $this->customerApiConnector = new CustomerApiConnector($this->connection);
-        
-        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
-        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
-            $baseCurrency = new Currency;
-            $baseCurrency->setCode('EUR');
-            $reportingCurrency = new Currency;
-            $reportingCurrency->setCode('USD');
-            
-            $office = new Office;
-            $office->setResult(1);
-            $office->setBaseCurrency($baseCurrency);
-            $office->setReportingCurrency($reportingCurrency);
-            return $office;
-        });
     }
 
     public function testGetCustomerWorks()
@@ -70,8 +54,8 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $customer = $this->customerApiConnector->get('CODE', Office::fromCode('001'));
 
         $this->assertInstanceOf(Customer::class, $customer);
-        $this->assertSame('001', $customer->getOfficeToString());
-        $this->assertSame('DEB', $customer->getTypeToString());
+        $this->assertSame('001', Util::objectToStr($customer->getOffice()));
+        $this->assertSame('DEB', Util::objectToStr($customer->getType()));
         $this->assertSame('Customer 0', $customer->getName());
         $this->assertSame('http://www.example.com', $customer->getWebsite());
 
@@ -79,9 +63,9 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $financials = $customer->getFinancials();
         $this->assertSame(30, $financials->getDueDays());
         $this->assertSame(true, $financials->getPayAvailable());
-        $this->assertSame('SEPANLDD', $financials->getPayCodeToString());
+        $this->assertSame('SEPANLDD', Util::objectToStr($financials->getPayCode()));
         $this->assertSame(false, $financials->getEBilling());
-        $this->assertSame('VN', $financials->getVatCodeToString());
+        $this->assertSame('VN', Util::objectToStr($financials->getVatCode()));
 
         // Collect Mandate
         $collectMandate = $financials->getCollectMandate();
@@ -102,7 +86,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->assertSame($ReflectObject->getConstant('INVOICE'), (string)$address->getType());
         $this->assertSame(true, $address->getDefault());
         $this->assertSame('Customer 0', $address->getName());
-        $this->assertSame('NL', $address->getCountryToString());
+        $this->assertSame('NL', Util::objectToStr($address->getCountry()));
         $this->assertSame('Place', $address->getCity());
         $this->assertSame('1000', $address->getPostcode());
         $this->assertSame('010-123452000', $address->getTelephone());
@@ -130,7 +114,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->assertSame('ABN Amro', $bank->getBankName());
         $this->assertSame('ABNANL2A', $bank->getBicCode());
         $this->assertSame('Place', $bank->getCity());
-        $this->assertSame('NL', $bank->getCountryToString());
+        $this->assertSame('NL', Util::objectToStr($bank->getCountry()));
         $this->assertSame('NL02ABNA0123456789', $bank->getIban());
         $this->assertNull($bank->getNatBicCode());
         $this->assertNull($bank->getPostcode());
@@ -152,13 +136,13 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         // Creditmanagement
         $creditmanagement = $customer->getCreditManagement();
 
-        $this->assertNull($creditmanagement->getResponsibleUserToString());
-        $this->assertSame(0.00, $creditmanagement->getBaseCreditLimitToFloat());
+        $this->assertNull(Util::objectToStr($creditmanagement->getResponsibleUser()));
+        $this->assertSame('0.00', Util::formatMoney($creditmanagement->getBaseCreditLimit()));
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\SendReminder');
         $this->assertSame($ReflectObject->getConstant('TRUE'), (string)$creditmanagement->getSendReminder());
         $this->assertNull($creditmanagement->getReminderEmail());
         $this->assertSame(false, $creditmanagement->getBlocked());
-        $this->assertSame(false, $creditmanagement->getFreeText1());
+        $this->assertNull($creditmanagement->getFreeText1());
         $this->assertNull($creditmanagement->getFreeText2());
         $this->assertNull($creditmanagement->getFreeText3());
         $this->assertNull($creditmanagement->getComment());
@@ -196,22 +180,22 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $financials = new CustomerFinancials();
         $financials->setDueDays(30);
         $financials->setPayAvailable(true);
-        $financials->setPayCodeFromString('SEPANLDD');
+        $financials->setPayCode(\PhpTwinfield\PayCode::fromCode('SEPANLDD'));
 
         $collectMandate = new CustomerCollectMandate();
         $collectMandate->setID(1);
-        $collectMandate->setSignatureDateFromString('20180604');
-        $collectMandate->setFirstRunDateFromString('20180608');
+        $collectMandate->setSignatureDate(Util::parseDate('20180604'));
+        $collectMandate->setFirstRunDate(Util::parseDate('20180608'));
         $financials->setCollectMandate($collectMandate);
 
         $customer->setFinancials($financials);
 
         $address = new CustomerAddress();
         $address->setID(1);
-        $address->setTypeFromString('invoice');
+        $address->setType(\PhpTwinfield\Enums\AddressType::INVOICE());
         $address->setDefault(true);
         $address->setName('Customer 0');
-        $address->setCountryFromString('NL');
+        $address->setCountry(\PhpTwinfield\Country::fromCode('NL'));
         $address->setCity('Place');
         $address->setPostcode('1000');
         $address->setTelephone('010-123452000');
@@ -231,7 +215,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $bank->setBankName('ABN Amro');
         $bank->setBicCode('ABNANL2A');
         $bank->setCity('Place');
-        $bank->setCountryFromString('NL');
+        $bank->setCountry(\PhpTwinfield\Country::fromCode('NL'));
         $bank->setIban('NL02ABNA0123456789');
         $bank->setNatBicCode('');
         $bank->setPostcode('');

@@ -22,15 +22,6 @@ trait PurchaseValueField
         return $this->purchaseValue;
     }
 
-    public function getPurchaseValueToString(): ?string
-    {
-        if ($this->getPurchaseValue() != null) {
-            return $this->purchaseValue->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait PurchaseValueField
     {
         $this->purchaseValue = $purchaseValue;
         return $this;
-    }
-
-    /**
-     * @param string|null $purchaseValueString
-     * @return $this
-     * @throws Exception
-     */
-    public function setPurchaseValueFromString(?string $purchaseValueString)
-    {
-        $purchaseValue = new GeneralLedger();
-        $purchaseValue->setCode($purchaseValueString);
-        return $this->setPurchaseValue($purchaseValue);
     }
 }

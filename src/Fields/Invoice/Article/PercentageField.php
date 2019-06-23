@@ -20,11 +20,6 @@ trait PercentageField
         return $this->percentage;
     }
 
-    public function getPercentageToString(): ?string
-    {
-        return ($this->getPercentage()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $percentage
      * @return $this
@@ -33,15 +28,5 @@ trait PercentageField
     {
         $this->percentage = $percentage;
         return $this;
-    }
-
-    /**
-     * @param string|null $percentageString
-     * @return $this
-     * @throws Exception
-     */
-    public function setPercentageFromString(?string $percentageString)
-    {
-        return $this->setPercentage(filter_var($percentageString, FILTER_VALIDATE_BOOLEAN));
     }
 }

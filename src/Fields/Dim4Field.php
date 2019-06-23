@@ -2,8 +2,6 @@
 
 namespace PhpTwinfield\Fields;
 
-use PhpTwinfield\Dummy;
-
 /**
  * The dimension
  * Used by: ElectronicBankStatementTransaction, FixedAssetTransactionLine
@@ -21,16 +19,7 @@ trait Dim4Field
     {
         return $this->dim4;
     }
-
-    public function getDim4ToString(): ?string
-    {
-        if ($this->getDim4() != null) {
-            return $this->dim4->getCode();
-        } else {
-            return null;
-        }
-    }
-
+    
     /**
      * @return $this
      */
@@ -38,17 +27,5 @@ trait Dim4Field
     {
         $this->dim4 = $dim4;
         return $this;
-    }
-    
-    /**
-     * @param string|null $dim4String
-     * @return $this
-     * @throws Exception
-     */
-    public function setDim4FromString(?string $dim4String)
-    {
-        $dim4 = new Dummy();
-        $dim4->setCode($dim4String);
-        return $this->setDim4($dim4);
     }
 }

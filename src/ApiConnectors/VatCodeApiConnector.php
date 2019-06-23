@@ -121,7 +121,7 @@ class VatCodeApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\VatCode::class, $response->data, $vatCodeListAllTags);
+        return $this->mapListAll(VatCode::class, $response->data, $vatCodeListAllTags);
     }
 
     /**
@@ -138,7 +138,7 @@ class VatCodeApiConnector extends BaseApiConnector
         $vatCode = self::get($code, $office);
 
         if ($vatCode->getResult() == 1) {
-            $vatCode->setStatusFromString("deleted");
+            $vatCode->setStatus(\PhpTwinfield\Enums\Status::DELETED());
 
             try {
                 $vatCodeDeleted = self::send($vatCode);

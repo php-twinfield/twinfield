@@ -77,6 +77,6 @@ class UserApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\User::class, $response->data, $userListAllTags);
+        return $this->mapListAll(User::class, $response->data, $userListAllTags);
     }
 }

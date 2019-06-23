@@ -2,8 +2,6 @@
 
 namespace PhpTwinfield\Fields\Dimensions;
 
-use PhpTwinfield\Dummy;
-
 /**
  * The dimension
  * Used by: CustomerFinancials, FixedAssetFinancials, SupplierFinancials
@@ -22,15 +20,6 @@ trait SubstituteWithField
         return $this->substituteWith;
     }
 
-    public function getSubstituteWithToString(): ?string
-    {
-        if ($this->getSubstituteWith() != null) {
-            return $this->substituteWith->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +27,5 @@ trait SubstituteWithField
     {
         $this->substituteWith = $substituteWith;
         return $this;
-    }
-
-    /**
-     * @param string|null $substituteWithString
-     * @return $this
-     * @throws Exception
-     */
-    public function setSubstituteWithFromString(?string $substituteWithString)
-    {
-        $substituteWith = new Dummy();
-        $substituteWith->setCode($substituteWithString);
-        return $this->setSubstituteWith($substituteWith);
     }
 }

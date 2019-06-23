@@ -2,16 +2,11 @@
 
 namespace PhpTwinfield\Fields\Transaction;
 
-use PhpTwinfield\Exception;
-use PhpTwinfield\Util;
-
 /**
  * ModificationDate field
  * Used by: BaseTransaction
  *
  * @package PhpTwinfield\Traits
- * @see Util::formatDateTime()
- * @see Util::parseDateTime()
  */
 trait ModificationDateField
 {
@@ -29,18 +24,6 @@ trait ModificationDateField
     }
 
     /**
-     * @return string|null
-     */
-    public function getModificationDateToString(): ?string
-    {
-        if ($this->getModificationDate() != null) {
-            return Util::formatDateTime($this->getModificationDate());
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * @param \DateTimeInterface|null $modificationDate
      * @return $this
      */
@@ -48,19 +31,5 @@ trait ModificationDateField
     {
         $this->modificationDate = $modificationDate;
         return $this;
-    }
-
-    /**
-     * @param string|null $modificationDateString
-     * @return $this
-     * @throws Exception
-     */
-    public function setModificationDateFromString(?string $modificationDateString)
-    {
-        if ((bool)strtotime($modificationDateString)) {
-            return $this->setModificationDate(Util::parseDateTime($modificationDateString));
-        } else {
-            return $this->setModificationDate(null);
-        }
     }
 }

@@ -3,7 +3,6 @@
 namespace PhpTwinfield\Fields\Invoice;
 
 use Money\Money;
-use PhpTwinfield\Util;
 
 trait ValueIncField
 {
@@ -24,18 +23,6 @@ trait ValueIncField
     }
 
     /**
-     * @return float|null
-     */
-    public function getValueIncToFloat(): ?float
-    {
-        if ($this->getValueInc() != null) {
-            return Util::formatMoney($this->getValueInc());
-        } else {
-            return 0;
-        }
-    }
-
-    /**
      * @param Money|null $valueInc
      * @return $this
      */
@@ -44,19 +31,5 @@ trait ValueIncField
         $this->valueInc = $valueInc;
 
         return $this;
-    }
-
-    /**
-     * @param float|null $valueIncFloat
-     * @return $this
-     * @throws Exception
-     */
-    public function setValueIncFromFloat(?float $valueIncFloat)
-    {
-        if ((float)$valueIncFloat) {
-            return $this->setValueInc(Money::EUR(100 * $valueIncFloat));
-        } else {
-            return $this->setValueInc(Money::EUR(0));
-        }
     }
 }

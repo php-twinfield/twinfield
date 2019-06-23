@@ -48,6 +48,6 @@ class CountryApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\Country::class, $response->data, $countryListAllTags);
+        return $this->mapListAll(Country::class, $response->data, $countryListAllTags);
     }
 }

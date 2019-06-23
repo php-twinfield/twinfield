@@ -34,14 +34,4 @@ trait CustomerInheritField
         $this->customerInherit = $customerInherit;
         return $this;
     }
-
-    /**
-     * @param string|null $customerInheritString
-     * @return $this
-     * @throws Exception
-     */
-    public function setCustomerInheritFromString(?string $customerInheritString)
-    {
-        return $this->setCustomerInherit(filter_var($customerInheritString, FILTER_VALIDATE_BOOLEAN));
-    }
 }

@@ -3,6 +3,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Article;
+use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML Article. Is a child class
@@ -46,21 +47,21 @@ class ArticlesDocument extends BaseDocument
             $headerElement->setAttribute('status', $status);
         }
 
-        $headerElement->appendChild($this->createNodeWithTextContent('allowchangeperformancetype', $article->getAllowChangePerformanceTypeToString()));
-        $headerElement->appendChild($this->createNodeWithTextContent('allowchangeunitsprice', $article->getAllowChangeUnitsPriceToString()));
-        $headerElement->appendChild($this->createNodeWithTextContent('allowchangevatcode', $article->getAllowChangeVatCodeToString()));
-        $headerElement->appendChild($this->createNodeWithTextContent('allowdecimalquantity', $article->getAllowDecimalQuantityToString()));
-        $headerElement->appendChild($this->createNodeWithTextContent('allowdiscountorpremium', $article->getAllowDiscountOrPremiumToString()));
+        $headerElement->appendChild($this->createNodeWithTextContent('allowchangeperformancetype', Util::formatBoolean($article->getAllowChangePerformanceType())));
+        $headerElement->appendChild($this->createNodeWithTextContent('allowchangeunitsprice', Util::formatBoolean($article->getAllowChangeUnitsPrice())));
+        $headerElement->appendChild($this->createNodeWithTextContent('allowchangevatcode', Util::formatBoolean($article->getAllowChangeVatCode())));
+        $headerElement->appendChild($this->createNodeWithTextContent('allowdecimalquantity', Util::formatBoolean($article->getAllowDecimalQuantity())));
+        $headerElement->appendChild($this->createNodeWithTextContent('allowdiscountorpremium', Util::formatBoolean($article->getAllowDiscountOrPremium())));
         $headerElement->appendChild($this->createNodeWithTextContent('code', $article->getCode()));
-        $headerElement->appendChild($this->createNodeWithTextContent('office', $article->getOfficeToString()));
+        $headerElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($article->getOffice())));
         $headerElement->appendChild($this->createNodeWithTextContent('name', $article->getName()));
-        $headerElement->appendChild($this->createNodeWithTextContent('percentage', $article->getPercentageToString()));
+        $headerElement->appendChild($this->createNodeWithTextContent('percentage', Util::formatBoolean($article->getPercentage())));
         $headerElement->appendChild($this->createNodeWithTextContent('performancetype', $article->getPerformanceType()));
         $headerElement->appendChild($this->createNodeWithTextContent('shortname', $article->getShortName()));
         $headerElement->appendChild($this->createNodeWithTextContent('type', $article->getType()));
         $headerElement->appendChild($this->createNodeWithTextContent('unitnameplural', $article->getUnitNamePlural()));
         $headerElement->appendChild($this->createNodeWithTextContent('unitnamesingular', $article->getUnitNameSingular()));
-        $headerElement->appendChild($this->createNodeWithTextContent('vatcode', $article->getVatCodeToString()));
+        $headerElement->appendChild($this->createNodeWithTextContent('vatcode', Util::objectToStr($article->getVatCode())));
 
         //Clear VAT code in case of a discount/premium article with percentage set to true to prevent errors
         if ($article->getType() != "normal" && $article->getPercentage() == true) {
@@ -92,15 +93,15 @@ class ArticlesDocument extends BaseDocument
                     $lineElement->setAttribute('status', $status);
                 }
 
-                $lineElement->appendChild($this->createNodeWithTextContent('freetext1', $line->getFreeText1ToString()));
-                $lineElement->appendChild($this->createNodeWithTextContent('freetext2', $line->getFreeText2ToString()));
+                $lineElement->appendChild($this->createNodeWithTextContent('freetext1', Util::objectToStr($line->getFreeText1())));
+                $lineElement->appendChild($this->createNodeWithTextContent('freetext2', Util::objectToStr($line->getFreeText2())));
                 $lineElement->appendChild($this->createNodeWithTextContent('freetext3', $line->getFreeText3()));
                 $lineElement->appendChild($this->createNodeWithTextContent('name', $line->getName()));
                 $lineElement->appendChild($this->createNodeWithTextContent('shortname', $line->getShortName()));
                 $lineElement->appendChild($this->createNodeWithTextContent('subcode', $line->getSubCode()));
                 $lineElement->appendChild($this->createNodeWithTextContent('units', $line->getUnits()));
-                $lineElement->appendChild($this->createNodeWithTextContent('unitspriceexcl', $line->getUnitsPriceExclToFloat()));
-                $lineElement->appendChild($this->createNodeWithTextContent('unitspriceinc', $line->getUnitsPriceIncToFloat()));
+                $lineElement->appendChild($this->createNodeWithTextContent('unitspriceexcl', Util::formatMoney($line->getUnitsPriceExcl())));
+                $lineElement->appendChild($this->createNodeWithTextContent('unitspriceinc', Util::formatMoney($line->getUnitsPriceInc())));
             }
         }
     }

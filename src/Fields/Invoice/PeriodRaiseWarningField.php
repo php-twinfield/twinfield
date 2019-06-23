@@ -19,12 +19,7 @@ trait PeriodRaiseWarningField
     {
         return $this->periodRaiseWarning;
     }
-
-    public function getPeriodRaiseWarningToString(): ?string
-    {
-        return ($this->getPeriodRaiseWarning()) ? 'true' : 'false';
-    }
-
+    
     /**
      * @param bool $periodRaiseWarning
      * @return $this
@@ -33,15 +28,5 @@ trait PeriodRaiseWarningField
     {
         $this->periodRaiseWarning = $periodRaiseWarning;
         return $this;
-    }
-
-    /**
-     * @param string|null $periodRaiseWarningString
-     * @return $this
-     * @throws Exception
-     */
-    public function setPeriodRaiseWarningFromString(?string $periodRaiseWarningString)
-    {
-        return $this->setPeriodRaiseWarning(filter_var($periodRaiseWarningString, FILTER_VALIDATE_BOOLEAN));
     }
 }

@@ -44,10 +44,10 @@ class SupplierFinancials extends BaseObject
 
     public function __construct()
     {
-        $this->setAccountTypeFromString('inherit');
+        $this->setAccountType(\PhpTwinfield\Enums\AccountType::INHERIT());
         $this->setDueDays(30);
-        $this->setMatchTypeFromString('customersupplier');
-        $this->setSubAnalyseFromString('false');
+        $this->setMatchType(\PhpTwinfield\Enums\MatchType::CUSTOMERSUPPLIER());
+        $this->setSubAnalyse(\PhpTwinfield\Enums\SubAnalyse::FALSE());
         $this->setSubstitutionLevel(1);
     }
 

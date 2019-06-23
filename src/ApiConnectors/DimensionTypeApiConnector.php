@@ -120,6 +120,6 @@ class DimensionTypeApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\DimensionType::class, $response->data, $dimensionTypeListAllTags);
+        return $this->mapListAll(DimensionType::class, $response->data, $dimensionTypeListAllTags);
     }
 }

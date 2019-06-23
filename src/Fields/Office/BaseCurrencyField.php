@@ -22,15 +22,6 @@ trait BaseCurrencyField
         return $this->baseCurrency;
     }
 
-    public function getBaseCurrencyToString(): ?string
-    {
-        if ($this->getBaseCurrency() != null) {
-            return $this->baseCurrency->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait BaseCurrencyField
     {
         $this->baseCurrency = $baseCurrency;
         return $this;
-    }
-
-    /**
-     * @param string|null $baseCurrencyString
-     * @return $this
-     * @throws Exception
-     */
-    public function setBaseCurrencyFromString(?string $baseCurrencyString)
-    {
-        $baseCurrency = new Currency();
-        $baseCurrency->setCode($baseCurrencyString);
-        return $this->setBaseCurrency($baseCurrency);
     }
 }

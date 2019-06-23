@@ -20,15 +20,6 @@ trait CodeField
         return $this->code;
     }
 
-    public function getCodeToString(): ?string
-    {
-        if ($this->getCode() != null) {
-            return $this->code->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */

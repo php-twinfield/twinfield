@@ -20,11 +20,6 @@ trait NumberLockedField
         return $this->numberLocked;
     }
 
-    public function getNumberLockedToString(): ?string
-    {
-        return ($this->getNumberLocked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $numberLocked
      * @return $this
@@ -33,15 +28,5 @@ trait NumberLockedField
     {
         $this->numberLocked = $numberLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $numberLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setNumberLockedFromString(?string $numberLockedString)
-    {
-        return $this->setNumberLocked(filter_var($numberLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

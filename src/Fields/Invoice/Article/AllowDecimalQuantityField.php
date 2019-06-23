@@ -19,12 +19,7 @@ trait AllowDecimalQuantityField
     {
         return $this->allowDecimalQuantity;
     }
-
-    public function getAllowDecimalQuantityToString(): ?string
-    {
-        return ($this->getAllowDecimalQuantity()) ? 'true' : 'false';
-    }
-
+    
     /**
      * @param bool $allowDecimalQuantity
      * @return $this
@@ -33,15 +28,5 @@ trait AllowDecimalQuantityField
     {
         $this->allowDecimalQuantity = $allowDecimalQuantity;
         return $this;
-    }
-
-    /**
-     * @param string|null $allowDecimalQuantityString
-     * @return $this
-     * @throws Exception
-     */
-    public function setAllowDecimalQuantityFromString(?string $allowDecimalQuantityString)
-    {
-        return $this->setAllowDecimalQuantity(filter_var($allowDecimalQuantityString, FILTER_VALIDATE_BOOLEAN));
     }
 }

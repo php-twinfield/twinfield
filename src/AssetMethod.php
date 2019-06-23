@@ -21,7 +21,7 @@ use PhpTwinfield\Fields\UserField;
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/AssetMethods
  * @todo Add documentation and typehints to all properties.
  */
-class AssetMethod extends BaseObject
+class AssetMethod extends BaseObject implements HasCodeInterface
 {
     use CalcMethodField;
     use CodeField;
@@ -47,6 +47,13 @@ class AssetMethod extends BaseObject
     {
         $this->setBalanceAccounts(new AssetMethodBalanceAccounts);
         $this->setProfitLossAccounts(new AssetMethodProfitLossAccounts);
+    }
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
     }
 
     public function getBalanceAccounts(): AssetMethodBalanceAccounts

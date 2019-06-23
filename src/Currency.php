@@ -12,7 +12,7 @@ use PhpTwinfield\Fields\StatusField;
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Currencies
  * @todo Add documentation and typehints to all properties.
  */
-class Currency extends BaseObject
+class Currency extends BaseObject implements HasCodeInterface
 {
     use CodeField;
     use NameField;
@@ -21,6 +21,13 @@ class Currency extends BaseObject
     use StatusField;
 
     private $rates = [];
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
+    }
 
     public function getRates()
     {

@@ -20,11 +20,6 @@ trait PeriodLockedField
         return $this->periodLocked;
     }
 
-    public function getPeriodLockedToString(): ?string
-    {
-        return ($this->getPeriodLocked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $periodLocked
      * @return $this
@@ -33,15 +28,5 @@ trait PeriodLockedField
     {
         $this->periodLocked = $periodLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $periodLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setPeriodLockedFromString(?string $periodLockedString)
-    {
-        return $this->setPeriodLocked(filter_var($periodLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

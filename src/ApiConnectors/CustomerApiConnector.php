@@ -122,7 +122,7 @@ class CustomerApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\Customer::class, $response->data, $customerListAllTags);
+        return $this->mapListAll(Customer::class, $response->data, $customerListAllTags);
     }
 
     /**
@@ -139,7 +139,7 @@ class CustomerApiConnector extends BaseApiConnector
         $customer = self::get($code, $office);
 
         if ($customer->getResult() == 1) {
-            $customer->setStatusFromString("deleted");
+            $customer->setStatus(\PhpTwinfield\Enums\Status::DELETED());
 
             try {
                 $customerDeleted = self::send($customer);

@@ -22,15 +22,6 @@ trait BankField
         return $this->bank;
     }
 
-    public function getBankToString(): ?string
-    {
-        if ($this->getBank() != null) {
-            return $this->bank->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait BankField
     {
         $this->bank = $bank;
         return $this;
-    }
-
-    /**
-     * @param string|null $bankString
-     * @return $this
-     * @throws Exception
-     */
-    public function setBankFromString(?string $bankString)
-    {
-        $bank = new CashBankBook();
-        $bank->setCode($bankString);
-        return $this->setBank($bank);
     }
 }

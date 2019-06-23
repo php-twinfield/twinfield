@@ -3,6 +3,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Activity;
+use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML Activity. Is a child class
@@ -47,14 +48,14 @@ class ActivitiesDocument extends BaseDocument
         }
 
         $activityElement->appendChild($this->createNodeWithTextContent('name', $activity->getName()));
-        $activityElement->appendChild($this->createNodeWithTextContent('office', $activity->getOfficeToString()));
+        $activityElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($activity->getOffice())));
         $activityElement->appendChild($this->createNodeWithTextContent('shortname', $activity->getShortName()));
-        $activityElement->appendChild($this->createNodeWithTextContent('type', $activity->getTypeToString()));
+        $activityElement->appendChild($this->createNodeWithTextContent('type', Util::objectToStr($activity->getType())));
 
         $financialsElement = $this->createElement('financials');
         $activityElement->appendChild($financialsElement);
 
-        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', $activity->getVatCodeToString()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', Util::objectToStr($activity->getVatCode())));
 
         $projects = $activity->getProjects();
 
@@ -86,8 +87,8 @@ class ActivitiesDocument extends BaseDocument
         }
 
         $projectsElement->appendChild($this->createNodeWithTextContent('invoicedescription', $projects->getInvoiceDescription()));
-        $projectsElement->appendChild($this->createNodeWithTextContent('validfrom', $projects->getValidFromToString()));
-        $projectsElement->appendChild($this->createNodeWithTextContent('validtill', $projects->getValidTillToString()));
+        $projectsElement->appendChild($this->createNodeWithTextContent('validfrom', Util::formatDate($projects->getValidFrom())));
+        $projectsElement->appendChild($this->createNodeWithTextContent('validtill', Util::formatDate($projects->getValidTill())));
 
         $quantities = $projects->getQuantities();
 
@@ -103,9 +104,9 @@ class ActivitiesDocument extends BaseDocument
                 $quantitiesElement->appendChild($quantityElement);
 
                 $quantityElement->appendChild($this->createNodeWithTextContent('label', $quantity->getLabel()));
-                $quantityElement->appendChild($this->createNodeWithTextContent('rate', $quantity->getRateToString()));
-                $quantityElement->appendChild($this->createNodeWithTextContent('billable', $quantity->getBillableToString(), $quantity, array('locked' => 'getBillableLockedToString')));
-                $quantityElement->appendChild($this->createNodeWithTextContent('mandatory', $quantity->getMandatoryToString()));
+                $quantityElement->appendChild($this->createNodeWithTextContent('rate', Util::objectToStr($quantity->getRate())));
+                $quantityElement->appendChild($this->createNodeWithTextContent('billable', Util::formatBoolean($quantity->getBillable()), $quantity, array('locked' => 'getBillableLockedToString')));
+                $quantityElement->appendChild($this->createNodeWithTextContent('mandatory', Util::formatBoolean($quantity->getMandatory())));
             }
         }
     }

@@ -20,11 +20,6 @@ trait PercentageLockedField
         return $this->percentageLocked;
     }
 
-    public function getPercentageLockedToString(): ?string
-    {
-        return ($this->getPercentageLocked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $percentageLocked
      * @return $this
@@ -33,15 +28,5 @@ trait PercentageLockedField
     {
         $this->percentageLocked = $percentageLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $percentageLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setPercentageLockedFromString(?string $percentageLockedString)
-    {
-        return $this->setPercentageLocked(filter_var($percentageLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

@@ -34,14 +34,4 @@ trait DateRaiseWarningField
         $this->dateRaiseWarning = $dateRaiseWarning;
         return $this;
     }
-
-    /**
-     * @param string|null $dateRaiseWarningString
-     * @return $this
-     * @throws Exception
-     */
-    public function setDateRaiseWarningFromString(?string $dateRaiseWarningString)
-    {
-        return $this->setDateRaiseWarning(filter_var($dateRaiseWarningString, FILTER_VALIDATE_BOOLEAN));
-    }
 }

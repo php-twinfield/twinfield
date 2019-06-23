@@ -2,8 +2,6 @@
 
 namespace PhpTwinfield\Fields\Dimensions\Level34\FixedAsset;
 
-use PhpTwinfield\Dummy;
-
 /**
  * The dimension
  * Used by: FixedAssetTransactionLine
@@ -22,15 +20,6 @@ trait Dim6Field
         return $this->dim6;
     }
 
-    public function getDim6ToString(): ?string
-    {
-        if ($this->getDim6() != null) {
-            return $this->dim6->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +27,5 @@ trait Dim6Field
     {
         $this->dim6 = $dim6;
         return $this;
-    }
-    
-    /**
-     * @param string|null $dim6String
-     * @return $this
-     * @throws Exception
-     */
-    public function setDim6FromString(?string $dim6String)
-    {
-        $dim6 = new Dummy();
-        $dim6->setCode($dim6String);
-        return $this->setDim6($dim6);
     }
 }

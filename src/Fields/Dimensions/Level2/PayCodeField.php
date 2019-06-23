@@ -22,15 +22,6 @@ trait PayCodeField
         return $this->payCode;
     }
 
-    public function getPayCodeToString(): ?string
-    {
-        if ($this->getPayCode() != null) {
-            return $this->payCode->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait PayCodeField
     {
         $this->payCode = $payCode;
         return $this;
-    }
-
-    /**
-     * @param string|null $payCodeString
-     * @return $this
-     * @throws Exception
-     */
-    public function setPayCodeFromString(?string $payCodeString)
-    {
-        $payCode = new PayCode();
-        $payCode->setCode($payCodeString);
-        return $this->setPayCode($payCode);
     }
 }

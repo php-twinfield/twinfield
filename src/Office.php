@@ -16,7 +16,7 @@ use PhpTwinfield\Fields\StatusField;
 use PhpTwinfield\Fields\TouchedField;
 use PhpTwinfield\Fields\UserField;
 
-class Office extends BaseObject
+class Office extends BaseObject implements HasCodeInterface
 {
     use BaseCurrencyField;
     use CodeField;

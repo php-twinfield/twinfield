@@ -3,7 +3,6 @@
 namespace PhpTwinfield\Fields\Transaction\TransactionLine;
 
 use Money\Money;
-use PhpTwinfield\Util;
 
 trait VatRepTotalField
 {
@@ -24,18 +23,6 @@ trait VatRepTotalField
     }
 
     /**
-     * @return float|null
-     */
-    public function getVatRepTotalToFloat(): ?float
-    {
-        if ($this->getVatRepTotal() != null) {
-            return Util::formatMoney($this->getVatRepTotal());
-        } else {
-            return 0;
-        }
-    }
-
-    /**
      * @param Money|null $vatRepTotal
      * @return $this
      */
@@ -44,19 +31,5 @@ trait VatRepTotalField
         $this->vatRepTotal = $vatRepTotal;
 
         return $this;
-    }
-
-    /**
-     * @param float|null $vatRepTotalFloat
-     * @return $this
-     * @throws Exception
-     */
-    public function setVatRepTotalFromFloat(?float $vatRepTotalFloat)
-    {
-        if ((float)$vatRepTotalFloat) {
-            return $this->setVatRepTotal(Money::EUR(100 * $vatRepTotalFloat));
-        } else {
-            return $this->setVatRepTotal(Money::EUR(0));
-        }
     }
 }

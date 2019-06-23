@@ -20,11 +20,6 @@ trait StopValueLockedField
         return $this->stopValueLocked;
     }
 
-    public function getStopValueLockedToString(): ?string
-    {
-        return ($this->getStopValueLocked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $stopValueLocked
      * @return $this
@@ -33,15 +28,5 @@ trait StopValueLockedField
     {
         $this->stopValueLocked = $stopValueLocked;
         return $this;
-    }
-
-    /**
-     * @param string|null $stopValueLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setStopValueLockedFromString(?string $stopValueLockedString)
-    {
-        return $this->setStopValueLocked(filter_var($stopValueLockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

@@ -121,7 +121,7 @@ class DimensionGroupApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\DimensionGroup::class, $response->data, $dimensionGroupListAllTags);
+        return $this->mapListAll(DimensionGroup::class, $response->data, $dimensionGroupListAllTags);
     }
 
     /**
@@ -138,7 +138,7 @@ class DimensionGroupApiConnector extends BaseApiConnector
         $dimensionGroup = self::get($code, $office);
 
         if ($dimensionGroup->getResult() == 1) {
-            $dimensionGroup->setStatusFromString("deleted");
+            $dimensionGroup->setStatus(\PhpTwinfield\Enums\Status::DELETED());
 
             try {
                 $dimensionGroupDeleted = self::send($dimensionGroup);

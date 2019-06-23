@@ -122,7 +122,7 @@ class ProjectApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\Project::class, $response->data, $projectListAllTags);
+        return $this->mapListAll(Project::class, $response->data, $projectListAllTags);
     }
 
     /**
@@ -139,7 +139,7 @@ class ProjectApiConnector extends BaseApiConnector
         $project = self::get($code, $office);
 
         if ($project->getResult() == 1) {
-            $project->setStatusFromString("deleted");
+            $project->setStatus(\PhpTwinfield\Enums\Status::DELETED());
 
             try {
                 $projectDeleted = self::send($project);

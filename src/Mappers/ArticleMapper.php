@@ -64,7 +64,9 @@ class ArticleMapper extends BaseMapper
             ->setUnitNamePlural(self::getField($headerElement, 'unitnameplural', $article))
             ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $article, $headerElement, 'vatcode'));
             
-        $currencies = self::getOfficeCurrencies($connection, $article->getOffice());
+        if ($article->getOffice() !== null) {
+            $currencies = self::getOfficeCurrencies($connection, $article->getOffice());
+        }
 
         // Get the lines element
         $linesDOMTag = $responseDOM->getElementsByTagName('lines');
@@ -93,7 +95,7 @@ class ArticleMapper extends BaseMapper
 
                 // Set the inuse and status attributes
                 $articleLine->setInUse($lineElement->getAttribute('inuse'));
-                $articleLine->setStatusFromString($lineElement->getAttribute('status'));
+                $articleLine->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $lineElement->getAttribute('status')));
 
                 // Set the article line elements
                 $articleLine->setFreeText1(self::parseObjectAttribute(\PhpTwinfield\GeneralLedger::class, $articleLine, $lineElement, 'freetext1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))

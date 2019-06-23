@@ -3,6 +3,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\DimensionType;
+use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML DimensionType. Is a child class
@@ -39,7 +40,7 @@ class DimensionTypesDocument extends BaseDocument
         $dimensionTypeElement->appendChild($this->createNodeWithTextContent('code', $dimensionType->getCode()));
         $dimensionTypeElement->appendChild($this->createNodeWithTextContent('mask', $dimensionType->getMask()));
         $dimensionTypeElement->appendChild($this->createNodeWithTextContent('name', $dimensionType->getName()));
-        $dimensionTypeElement->appendChild($this->createNodeWithTextContent('office', $dimensionType->getOfficeToString()));
+        $dimensionTypeElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($dimensionType->getOffice())));
         $dimensionTypeElement->appendChild($this->createNodeWithTextContent('shortname', $dimensionType->getShortName()));
 
         $address = $dimensionType->getAddress();

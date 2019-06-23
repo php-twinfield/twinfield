@@ -5,8 +5,10 @@ use InvalidArgumentException;
 use Money\Money;
 use PhpTwinfield\CashTransaction;
 use PhpTwinfield\CashTransactionLine;
+use PhpTwinfield\Currency;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\SalesTransactionLine;
+use PhpTwinfield\Util;
 
 class CashTransactionUnitTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,26 +24,26 @@ class CashTransactionUnitTest extends \PHPUnit\Framework\TestCase
 
     public function testSetStartValue()
     {
-        $this->cashTransaction->setCurrencyFromString('EUR');
+        $this->cashTransaction->setCurrency(Currency::fromCode('EUR'));
         $this->cashTransaction->setStartValue(Money::EUR(100));
 
-        $this->assertEquals('EUR', $this->cashTransaction->getCurrencyToString());
+        $this->assertEquals('EUR', Util::objectToStr($this->cashTransaction->getCurrency()));
         $this->assertEquals(Money::EUR(100), $this->cashTransaction->getStartValue());
         $this->assertEquals(Money::EUR(100), $this->cashTransaction->getCloseValue());
     }
 
     public function testSetCurrencyWithoutStartValue()
     {
-        $this->cashTransaction->setCurrencyFromString('EUR');
-        $this->assertEquals('EUR', $this->cashTransaction->getCurrencyToString());
+        $this->cashTransaction->setCurrency(Currency::fromCode('EUR'));
+        $this->assertEquals('EUR', Util::objectToStr($this->cashTransaction->getCurrency()));
     }
 
     public function testSetCurrencyWithZeroStartValue()
     {
         $this->cashTransaction->setStartvalue(Money::EUR(0));
-        $this->cashTransaction->setCurrencyFromString('EUR');
+        $this->cashTransaction->setCurrency(Currency::fromCode('EUR'));
 
-        $this->assertEquals('EUR', $this->cashTransaction->getCurrencyToString());
+        $this->assertEquals('EUR', Util::objectToStr($this->cashTransaction->getCurrency()));
     }
 
     public function testSetCurrencyWithStartValue()
@@ -49,7 +51,7 @@ class CashTransactionUnitTest extends \PHPUnit\Framework\TestCase
         $this->expectException(InvalidArgumentException::class);
 
         $this->cashTransaction->setStartValue(Money::EUR(100));
-        $this->cashTransaction->setCurrencyFromString('EUR');
+        $this->cashTransaction->setCurrency(Currency::fromCode('EUR'));
     }
 
     public function testAddLineWithWrongTransactionLine()

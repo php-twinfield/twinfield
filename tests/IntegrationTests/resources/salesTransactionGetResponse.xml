@@ -15,8 +15,8 @@
     </header>
     <lines>
         <line type="total" id="1">
-            <dim1 name="Debiteuren" shortname="Debiteuren" type="BAS" inuse="true" vatcode="" vatobligatory="false">1300</dim1>
-            <dim2 name="Customer 0" shortname="" type="DEB" inuse="true" vatcode="VH" vatobligatory="false">1000</dim2>
+            <dim1 name="Debiteuren" shortname="Debiteuren" dimensiontype="BAS">1300</dim1>
+            <dim2 name="Customer 0" shortname="" dimensiontype="DEB">1000</dim2>
             <value>121.00</value>
             <debitcredit>debit</debitcredit>
             <description />
@@ -34,7 +34,7 @@
             <matchstatus>available</matchstatus>
         </line>
         <line type="detail" id="2">
-            <dim1 name="Omzet (21%)" shortname="Omzet (21%)" type="PNL" inuse="true" vatcode="" vatobligatory="false">8020</dim1>
+            <dim1 name="Omzet (21%)" shortname="Omzet (21%)" dimensiontype="PNL">8020</dim1>
             <value>100.00</value>
             <debitcredit>credit</debitcredit>
             <description>Outfit</description>
@@ -49,7 +49,7 @@
             <matchstatus>notmatchable</matchstatus>
         </line>
         <line id="3" type="vat">
-            <dim1 name="Te betalen OB 21%" shortname="Te betalen OB 21%" type="BAS" inuse="true" vatcode="" vatobligatory="false">1530</dim1>
+            <dim1 name="Te betalen OB 21%" shortname="Te betalen OB 21%" dimensiontype="BAS">1530</dim1>
             <value>21.00</value>
             <vatcode>VH</vatcode>
             <debitcredit>credit</debitcredit>

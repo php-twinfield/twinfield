@@ -2,8 +2,6 @@
 
 namespace PhpTwinfield\Fields\Dimensions\Level2;
 
-use PhpTwinfield\Dummy;
-
 /**
  * The dimension
  * Used by: CustomerLine, SupplierLine
@@ -22,15 +20,6 @@ trait Dimension3Field
         return $this->dimension3;
     }
 
-    public function getDimension3ToString(): ?string
-    {
-        if ($this->getDimension3() != null) {
-            return $this->dimension3->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +27,5 @@ trait Dimension3Field
     {
         $this->dimension3 = $dimension3;
         return $this;
-    }
-
-    /**
-     * @param string|null $dimension3String
-     * @return $this
-     * @throws Exception
-     */
-    public function setDimension3FromString(?string $dimension3String)
-    {
-        $dimension3 = new Dummy();
-        $dimension3->setCode($dimension3String);
-        return $this->setDimension3($dimension3);
     }
 }

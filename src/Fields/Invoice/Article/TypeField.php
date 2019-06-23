@@ -28,14 +28,4 @@ trait TypeField
         $this->type = $type;
         return $this;
     }
-
-    /**
-     * @param string|null $typeString
-     * @return $this
-     * @throws Exception
-     */
-    public function setTypeFromString(?string $typeString)
-    {
-        return $this->setType(new ArticleType((string)$typeString));
-    }
 }

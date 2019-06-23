@@ -20,11 +20,6 @@ trait EBillingField
         return $this->eBilling;
     }
 
-    public function getEBillingToString(): ?string
-    {
-        return ($this->getEBilling()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $eBilling
      * @return $this
@@ -33,15 +28,5 @@ trait EBillingField
     {
         $this->eBilling = $eBilling;
         return $this;
-    }
-
-    /**
-     * @param string|null $eBillingString
-     * @return $this
-     * @throws Exception
-     */
-    public function setEBillingFromString(?string $eBillingString)
-    {
-        return $this->setEBilling(filter_var($eBillingString, FILTER_VALIDATE_BOOLEAN));
     }
 }

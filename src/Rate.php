@@ -20,7 +20,7 @@ use PhpTwinfield\Fields\UserField;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class Rate extends BaseObject
+class Rate extends BaseObject implements HasCodeInterface
 {
     use CodeField;
     use CreatedField;
@@ -36,6 +36,13 @@ class Rate extends BaseObject
     use UserField;
 
     private $rateChanges = [];
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
+    }
 
     public function getRateChanges()
     {

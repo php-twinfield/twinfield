@@ -29,7 +29,7 @@ use PhpTwinfield\Fields\UIDField;
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers
  * @todo Add documentation and typehints to all properties.
  */
-class Supplier extends BaseObject
+class Supplier extends BaseObject implements HasCodeInterface
 {
     use BeginPeriodField;
     use BeginYearField;
@@ -66,9 +66,16 @@ class Supplier extends BaseObject
         $this->setBeginYear(0);
         $this->setEndPeriod(0);
         $this->setEndYear(0);
-        $this->setTypeFromString('CRD');
+        $this->setType(\PhpTwinfield\DimensionType::fromCode('CRD'));
 
         $this->setFinancials(new SupplierFinancials);
+    }
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
     }
 
     public function getFinancials(): SupplierFinancials

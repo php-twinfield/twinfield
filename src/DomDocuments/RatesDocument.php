@@ -3,6 +3,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Rate;
+use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML Rate. Is a child class
@@ -43,9 +44,9 @@ class RatesDocument extends BaseDocument
         }
 
         $rateElement->appendChild($this->createNodeWithTextContent('code', $rate->getCode()));
-        $rateElement->appendChild($this->createNodeWithTextContent('currency', $rate->getCurrencyToString()));
+        $rateElement->appendChild($this->createNodeWithTextContent('currency', Util::objectToStr($rate->getCurrency())));
         $rateElement->appendChild($this->createNodeWithTextContent('name', $rate->getName()));
-        $rateElement->appendChild($this->createNodeWithTextContent('office', $rate->getOfficeToString()));
+        $rateElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($rate->getOffice())));
         $rateElement->appendChild($this->createNodeWithTextContent('shortname', $rate->getShortName()));
         $rateElement->appendChild($this->createNodeWithTextContent('type', $rate->getType()));
         $rateElement->appendChild($this->createNodeWithTextContent('unit', $rate->getUnit()));
@@ -75,8 +76,8 @@ class RatesDocument extends BaseDocument
                     $rateChangeElement->setAttribute('status', $status);
                 }
 
-                $rateChangeElement->appendChild($this->createNodeWithTextContent('begindate', $rateChange->getBeginDateToString()));
-                $rateChangeElement->appendChild($this->createNodeWithTextContent('enddate', $rateChange->getEndDateToString()));
+                $rateChangeElement->appendChild($this->createNodeWithTextContent('begindate', Util::formatDate($rateChange->getBeginDate())));
+                $rateChangeElement->appendChild($this->createNodeWithTextContent('enddate', Util::formatDate($rateChange->getEndDate())));
                 $rateChangeElement->appendChild($this->createNodeWithTextContent('externalrate', $rateChange->getExternalRate()));
                 $rateChangeElement->appendChild($this->createNodeWithTextContent('internalrate', $rateChange->getInternalRate()));
             }

@@ -34,14 +34,4 @@ trait RateLockedField
         $this->rateLocked = $rateLocked;
         return $this;
     }
-
-    /**
-     * @param string|null $rateLockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setRateLockedFromString(?string $rateLockedString)
-    {
-        return $this->setRateLocked(filter_var($rateLockedString, FILTER_VALIDATE_BOOLEAN));
-    }
 }

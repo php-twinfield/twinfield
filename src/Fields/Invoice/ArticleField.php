@@ -22,15 +22,6 @@ trait ArticleField
         return $this->article;
     }
 
-    public function getArticleToString(): ?string
-    {
-        if ($this->getArticle() != null) {
-            return $this->article->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait ArticleField
     {
         $this->article = $article;
         return $this;
-    }
-
-    /**
-     * @param string|null $articleString
-     * @return $this
-     * @throws Exception
-     */
-    public function setArticleFromString(?string $articleString)
-    {
-        $article = new Article();
-        $article->setCode($articleString);
-        return $this->setArticle($article);
     }
 }

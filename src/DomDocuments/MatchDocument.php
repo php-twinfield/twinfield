@@ -12,11 +12,11 @@ class MatchDocument extends BaseDocument
     {
         $set = $this->createElement("set");
 
-        $set->appendChild($this->createNodeWithTextContent('office', $matchSet->getOfficeToString()));
+        $set->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($matchSet->getOffice())));
 
         $set->appendChild($this->createNodeWithTextContent("matchcode", $matchSet->getMatchCode()->getValue()));
 
-        $set->appendChild($this->createNodeWithTextContent("matchdate", $matchSet->getMatchDateToString()));
+        $set->appendChild($this->createNodeWithTextContent("matchdate", Util::formatDate($matchSet->getMatchDate())));
 
         $lines = $this->createElement("lines");
 

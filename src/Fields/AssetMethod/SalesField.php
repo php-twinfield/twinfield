@@ -21,16 +21,7 @@ trait SalesField
     {
         return $this->sales;
     }
-
-    public function getSalesToString(): ?string
-    {
-        if ($this->getSales() != null) {
-            return $this->sales->getCode();
-        } else {
-            return null;
-        }
-    }
-
+    
     /**
      * @return $this
      */
@@ -38,17 +29,5 @@ trait SalesField
     {
         $this->sales = $sales;
         return $this;
-    }
-
-    /**
-     * @param string|null $salesString
-     * @return $this
-     * @throws Exception
-     */
-    public function setSalesFromString(?string $salesString)
-    {
-        $sales = new GeneralLedger();
-        $sales->setCode($salesString);
-        return $this->setSales($sales);
     }
 }

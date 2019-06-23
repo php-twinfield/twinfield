@@ -12,7 +12,7 @@ use PhpTwinfield\Fields\StatusField;
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/DimensionGroups
  * @todo Add documentation and typehints to all properties.
  */
-class DimensionGroup extends BaseObject
+class DimensionGroup extends BaseObject implements HasCodeInterface
 {
     use CodeField;
     use NameField;
@@ -21,6 +21,13 @@ class DimensionGroup extends BaseObject
     use StatusField;
 
     private $dimensions = [];
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
+    }
 
     public function getDimensions()
     {

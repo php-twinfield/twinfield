@@ -122,7 +122,7 @@ class ActivityApiConnector extends BaseApiConnector
             1       => 'setName',
         );
 
-        return $this->mapListAll(\PhpTwinfield\Activity::class, $response->data, $activityArrayListAllTags);
+        return $this->mapListAll(Activity::class, $response->data, $activityArrayListAllTags);
     }
 
     /**
@@ -139,7 +139,7 @@ class ActivityApiConnector extends BaseApiConnector
         $activity = self::get($code, $office);
 
         if ($activity->getResult() == 1) {
-            $activity->setStatusFromString("deleted");
+            $activity->setStatus(\PhpTwinfield\Enums\Status::DELETED());
 
             try {
                 $activityDeleted = self::send($activity);

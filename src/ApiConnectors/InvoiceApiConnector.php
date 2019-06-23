@@ -124,6 +124,6 @@ class InvoiceApiConnector extends BaseApiConnector
             4       => 'setDebitCreditFromString',
         );
 
-        return $this->mapListAll(\PhpTwinfield\Invoice::class, $response->data, $invoiceListAllTags);
+        return $this->mapListAll(Invoice::class, $response->data, $invoiceListAllTags);
     }
 }

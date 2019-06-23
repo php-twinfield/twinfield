@@ -20,11 +20,6 @@ trait FreeText1LockedField
         return $this->freeText1Locked;
     }
 
-    public function getFreeText1LockedToString(): ?string
-    {
-        return ($this->getFreeText1Locked()) ? 'true' : 'false';
-    }
-
     /**
      * @param bool $freeText1Locked
      * @return $this
@@ -33,15 +28,5 @@ trait FreeText1LockedField
     {
         $this->freeText1Locked = $freeText1Locked;
         return $this;
-    }
-
-    /**
-     * @param string|null $freeText1LockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setFreeText1LockedFromString(?string $freeText1LockedString)
-    {
-        return $this->setFreeText1Locked(filter_var($freeText1LockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

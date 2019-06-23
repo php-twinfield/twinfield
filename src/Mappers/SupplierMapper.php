@@ -78,7 +78,7 @@ class SupplierMapper extends BaseMapper
                 ->setRelationsReference(self::getField($financialsElement, 'relationsreference', $supplierFinancials))
                 ->setSubAnalyse(self::parseEnumAttribute(\PhpTwinfield\Enums\SubAnalyse::class, self::getField($financialsElement, 'subanalyse', $supplierFinancials)))
                 ->setSubstitutionLevel(self::getField($financialsElement, 'substitutionlevel', $supplierFinancials))
-                ->setSubstituteWith(self::parseObjectAttribute(null, $supplierFinancials, $financialsElement, 'substitutewith', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
+                ->setSubstituteWith(self::parseObjectAttribute(\PhpTwinfield\GeneralLedger::class, $supplierFinancials, $financialsElement, 'substitutewith', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                 ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $supplierFinancials, $financialsElement, 'vatcode', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
 
             // Set the financials elements from the financials element attributes
@@ -227,7 +227,7 @@ class SupplierMapper extends BaseMapper
                 $supplierPostingRule->setCurrency(self::parseObjectAttribute(\PhpTwinfield\Currency::class, $supplierPostingRule, $postingruleElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
                     ->setDescription(self::getField($postingruleElement, 'description', $supplierPostingRule));
 
-                $supplierPostingRule->setAmount(self::parseMoneyAttribute(self::getField($postingruleElement, 'amount', $supplierPostingRule), $supplierPostingRule->getCurrencyToString()));
+                $supplierPostingRule->setAmount(self::parseMoneyAttribute(self::getField($postingruleElement, 'amount', $supplierPostingRule), Util::objectToStr($supplierPostingRule->getCurrency())));
 
                 // Get the lines element
                 $linesDOMTag = $postingruleElement->getElementsByTagName('lines');

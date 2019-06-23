@@ -11,6 +11,9 @@ namespace PhpTwinfield;
 // Use the ResponseException class to handle errors when listing, getting and sending objects to/from Twinfield
 use PhpTwinfield\Response\ResponseException;
 
+// Use the Util class for helper functions
+use PhpTwinfield\Util;
+
 require_once('vendor/autoload.php');
 
 // Retrieve an OAuth 2 connection
@@ -108,52 +111,50 @@ if ($executeListAllWithoutFilter) {
 
 /* Supplier
  * \PhpTwinfield\Supplier
- * Available getters: getBeginPeriod, getBeginYear, getBehaviour, getBlockedAccountPaymentConditionsIncludeVat, getBlockedAccountPaymentConditionsPercentage, getCode, getEndPeriod, getEndYear, getGroup, getGroupToString, getInUse, getInUseToString, getMessages, getName, getOffice, getOfficeToString,
- * getPaymentConditionDiscountDays, getPaymentConditionDiscountPercentage, getRemittanceAdviceSendMail, getRemittanceAdviceSendType, getResult, getShortName, getStatus, getTouched, getType, getTypeToString, getUID, getWebsite, hasMessages, getAddresses, getBanks, getFinancials, getPostingRules
+ * Available getters: getBeginPeriod, getBeginYear, getBehaviour, getBlockedAccountPaymentConditionsIncludeVat, getBlockedAccountPaymentConditionsPercentage, getCode, getEndPeriod, getEndYear, getGroup, getInUse, getMessages, getName, getOffice,
+ * getPaymentConditionDiscountDays, getPaymentConditionDiscountPercentage, getRemittanceAdviceSendMail, getRemittanceAdviceSendType, getResult, getShortName, getStatus, getTouched, getType, getUID, getWebsite, hasMessages, getAddresses, getBanks, getFinancials, getPostingRules
  *
- * Available setters: setBeginPeriod, setBeginYear, setBehaviour, setBehaviourFromString, setBlockedAccountPaymentConditionsIncludeVat, setBlockedAccountPaymentConditionsIncludeVatFromString, setBlockedAccountPaymentConditionsPercentage, setCode, setEndPeriod, setEndYear, setGroup, setGroupFromString, setName, setOffice, setOfficeFromString,
- * setPaymentConditionDiscountDays, setPaymentConditionDiscountPercentage, setRemittanceAdviceSendMail, setRemittanceAdviceSendType, setRemittanceAdviceSendTypeFromString, setShortName, setStatus, setStatusFromString, setType, setTypeFromString, setWebsite, setFinancials, addAddress, removeAddress, addBank, removeBank, addPostingRule, removePostingRule
+ * Available setters: setBeginPeriod, setBeginYear, setBehaviour, setBlockedAccountPaymentConditionsIncludeVat, setBlockedAccountPaymentConditionsPercentage, setCode, setEndPeriod, setEndYear, setGroup, setName, setOffice,
+ * setPaymentConditionDiscountDays, setPaymentConditionDiscountPercentage, setRemittanceAdviceSendMail, setRemittanceAdviceSendType, setShortName, setStatus, setType, setWebsite, setFinancials, addAddress, removeAddress, addBank, removeBank, addPostingRule, removePostingRule
  *
  */
 
 /* SupplierFinancials
  * \PhpTwinfield\SupplierFinancials
- * Available getters: getAccountType, getDueDays, getLevel, getMatchType, getMeansOfPayment, getMessages, getPayAvailable, getPayAvailableToString, getPayCode, getPayCodeID, getPayCodeToString, getRelationsReference,
- * getResult, getSubAnalyse, getSubstituteWith, getSubstituteWithID, getSubstituteWithToString, getSubstitutionLevel, getVatCode, getVatCodeFixed, getVatCodeFixedToString, getVatCodeToString, getChildValidations, hasMessages
+ * Available getters: getAccountType, getDueDays, getLevel, getMatchType, getMeansOfPayment, getMessages, getPayAvailable, getPayCode, getPayCodeID, getRelationsReference, getResult, getSubAnalyse, getSubstituteWith, getSubstituteWithID, getSubstitutionLevel, getVatCode, getVatCodeFixed, getChildValidations, hasMessages
  *
- * Available setters: setAccountType, setAccountTypeFromString, setDueDays, setLevel, setMatchType, setMatchTypeFromString, setMeansOfPayment, setMeansOfPaymentFromString, setPayAvailable, setPayAvailableFromString,
- * setPayCode, setPayCodeFromString, setPayCodeID, setRelationsReference, setSubAnalyse, setSubAnalyseFromString, setSubstituteWith, setSubstituteWithFromString, setSubstituteWithID, setSubstitutionLevel, setVatCode, setVatCodeFixed, setVatCodeFixedFromString, setVatCodeFromString, addChildValidation, removeChildValidation
+ * Available setters: setAccountType, setDueDays, setLevel, setMatchType, setMeansOfPayment, setPayAvailable, setPayCode, setPayCodeID, setRelationsReference, setSubAnalyse, setSubstituteWith, setSubstituteWithID, setSubstitutionLevel, setVatCode, setVatCodeFixed, addChildValidation, removeChildValidation
  *
  */
 
 /* SupplierChildValidation
  * \PhpTwinfield\SupplierChildValidation
  * Available getters: getElementValue, getLevel, getMessages, getResult, getType, hasMessages
- * Available setters: setElementValue, setLevel, setType, setTypeFromString
+ * Available setters: setElementValue, setLevel, setType
  */
 
 /* SupplierAddress
  * \PhpTwinfield\SupplierAddress
- * Available getters: getCity, getCountry, getCountryToString, getDefault, getDefaultToString, getEmail, getField1, getField2, getField3, getField4, getField5, getField6, getID, getMessages, getName, getPostcode, getResult, getTelefax, getTelephone, getType, hasMessages
- * Available setters: setCity, setCountry, setCountryFromString, setDefault, setDefaultFromString, setEmail, setField1, setField2, setField3, setField4, setField5, setField6, setID, setName, setPostcode, setTelefax, setTelephone, setType, setTypeFromString
+ * Available getters: getCity, getCountry, getDefault, getEmail, getField1, getField2, getField3, getField4, getField5, getField6, getID, getMessages, getName, getPostcode, getResult, getTelefax, getTelephone, getType, hasMessages
+ * Available setters: setCity, setCountry, setDefault, setEmail, setField1, setField2, setField3, setField4, setField5, setField6, setID, setName, setPostcode, setTelefax, setTelephone, setType
  */
 
 /* SupplierBank
  * \PhpTwinfield\SupplierBank
- * Available getters: getAccountNumber, getAddressField2, getAddressField3, getAscription, getBankName, getBicCode, getBlocked, getBlockedToString, getCity, getCountry, getCountryToString, getDefault, getDefaultToString, getID, getIban, getMessages, getNatBicCode, getPostcode, getResult, getState, hasMessages
- * Available setters: setAccountNumber, setAddressField2, setAddressField3, setAscription, setBankName, setBicCode, setBlocked, setBlockedFromString, setCity, setCountry, setCountryFromString, setDefault, setDefaultFromString, setID, setIban, setNatBicCode, setPostcode, setState
+ * Available getters: getAccountNumber, getAddressField2, getAddressField3, getAscription, getBankName, getBicCode, getBlocked, getCity, getCountry, getDefault, getID, getIban, getMessages, getNatBicCode, getPostcode, getResult, getState, hasMessages
+ * Available setters: setAccountNumber, setAddressField2, setAddressField3, setAscription, setBankName, setBicCode, setBlocked, setCity, setCountry, setDefault, setID, setIban, setNatBicCode, setPostcode, setState
  */
 
 /* SupplierPostingRule
  * \PhpTwinfield\SupplierPostingRule
- * Available getters: getAmount, getAmountToFloat, getCurrency, getCurrencyToString, getDescription, getID, getMessages, getResult, getStatus, getLines, hasMessages
- * Available setters: setAmount, setAmountFromFloat, setCurrency, setCurrencyFromString, setDescription, setID, setStatus, setStatusFromString, addLine, removeLine
+ * Available getters: getAmount, getCurrency, getDescription, getID, getMessages, getResult, getStatus, getLines, hasMessages
+ * Available setters: setAmount, setCurrency, setDescription, setID, setStatus, addLine, removeLine
  */
 
 /* SupplierLine
  * \PhpTwinfield\SupplierLine
- * Available getters: getDescription, getDimension1, getDimension1ID, getDimension1ToString, getDimension2, getDimension2ID, getDimension2ToString, getDimension3, getDimension3ID, getDimension3ToString, getMessages, getOffice, getOfficeToString, getRatio, getResult, getVatCode, getVatCodeToString, hasMessages
- * Available setters: setDescription, setDimension1, setDimension1FromString, setDimension1ID, setDimension2, setDimension2FromString, setDimension2ID, setDimension3, setDimension3FromString, setDimension3ID, setOffice, setOfficeFromString, setRatio, setVatCode, setVatCodeFromString
+ * Available getters: getDescription, getDimension1, getDimension1ID, getDimension2, getDimension2ID, getDimension3, getDimension3ID, getMessages, getOffice, getRatio, getResult, getVatCode, hasMessages
+ * Available setters: setDescription, setDimension1, setDimension1ID, setDimension2, setDimension2ID, setDimension3, setDimension3ID, setOffice, setRatio, setVatCode
  */
 
 if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
@@ -184,9 +185,9 @@ if ($executeRead) {
     echo "EndPeriod: {$supplier->getEndPeriod()}<br />";                                                                               			    // int|null                         Determines together with endyear the period till which the dimension may be used.
     echo "EndYear: {$supplier->getEndYear()}<br />";                                                                               			        // int|null                         Determines together with endperiod the period till which the dimension may be used.
     echo "Group (\\PhpTwinfield\\DimensionGroup): <pre>" . print_r($supplier->getGroup(), true) . "</pre><br />";                      			    // DimensionGroup|null              Sets the dimension group. See Dimension group.
-    echo "Group (string): {$supplier->getGroupToString()}<br />";                                                              					    // string|null
+    echo "Group (string): " . Util::objectToStr($supplier->getGroup()) . "<br />";                                                              	// string|null
     echo "InUse (bool): {$supplier->getInUse()}<br />";                                                                                   			// bool|null                        Indicates whether the balancesheet is used in a financial transaction or not. Read-only attribute.
-    echo "InUse (string): {$supplier->getInUseToString()}<br />";                                                                                   // string|null
+    echo "InUse (string): " . Util::formatBoolean($supplier->getInUse()) . "<br />";                                                                // string|null
 
     if ($supplier->hasMessages()) {                                                                                              					// bool                             Object contains (error) messages true/false.
         echo "Messages: " . print_r($supplier->getMessages(), true) . "<br />";                                                  					// Array|null                       (Error) messages.
@@ -194,7 +195,7 @@ if ($executeRead) {
 
     echo "Name: {$supplier->getName()}<br />";                                                                                   					// string|null                      Name of the dimension.
     echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($supplier->getOffice(), true) . "</pre><br />";                      					// Office|null                      Office code.
-    echo "Office (string): {$supplier->getOfficeToString()}<br />";                                                              					// string|null
+    echo "Office (string): " . Util::objectToStr($supplier->getOffice()) . "<br />";                                                              	// string|null
     echo "PaymentCondition:<br />";                                                                                                                 //                                  Sets the payment condition of a dimension.
     echo "PaymentCondition DiscountDays: {$supplier->getPaymentConditionDiscountDays()}<br />";                                                     // int|null                         Number of discount days.
     echo "PaymentCondition DiscountPercentage: {$supplier->getPaymentConditionDiscountPercentage()}<br />";                                         // float|null                       Discount percentage.
@@ -206,7 +207,7 @@ if ($executeRead) {
     echo "Status: {$supplier->getStatus()}<br />";                                                                               					// Status|null                      Status of the supplier.
     echo "Touched: {$supplier->getTouched()}<br />";                                                                                                // int|null                         Count of the number of times the dimension settings are changed. Read-only attribute.
     echo "Type (\\PhpTwinfield\\DimensionType): <pre>" . print_r($supplier->getType(), true) . "</pre><br />";                                      // DimensionType|null               Dimension type. See Dimension type. Dimension type of suppliers is DEB.
-    echo "Type (string): {$supplier->getTypeToString()}<br />";                                                                                     // string|null
+    echo "Type (string): " . Util::objectToStr($supplier->getType()) . "<br />";                                                                    // string|null
     echo "UID: {$supplier->getUID()}<br />";                                                                                                        // string|null                      Unique identification of the dimension. Read-only attribute.
     echo "Website: {$supplier->getWebsite()}<br />";                                                                                                // string|null                      Website of the dimension.
 
@@ -217,9 +218,9 @@ if ($executeRead) {
 
         echo "City: {$supplierAddress->getCity()}<br />";                                                                                           // string|null                      City.
         echo "Country (\\PhpTwinfield\\Country): <pre>" . print_r($supplierAddress->getCountry(), true) . "</pre><br />";                      		// Country|null                     Country code. The ISO country codes are used.
-        echo "Country (string): {$supplierAddress->getCountryToString()}<br />";                                                              		// string|null
+        echo "Country (string): " . Util::objectToStr($supplierAddress->getCountry()) . "<br />";                                                   // string|null
         echo "Default (bool): {$supplierAddress->getDefault()}<br />";                                                                              // bool|null                        Is this the default address, only one default address is possible.
-        echo "Default (string): {$supplierAddress->getDefaultToString()}<br />";                                                                    // string|null
+        echo "Default (string): " . Util::formatBoolean($supplierAddress->getDefault()) . "<br />";                                                 // string|null
         echo "Email: {$supplierAddress->getEmail()}<br />";                                                                                         // string|null
         echo "Field1: {$supplierAddress->getField1()}<br />";                                                                                       // string|null                      User defined fields, the labels are configured in the Dimension type.
         echo "Field2: {$supplierAddress->getField2()}<br />";                                                                                       // string|null                      User defined fields, the labels are configured in the Dimension type.
@@ -254,12 +255,12 @@ if ($executeRead) {
         echo "BicCode: {$supplierBank->getBicCode()}<br />";                                                                                        // string|null                      BIC code.
 
         echo "Blocked (bool): {$supplierBank->getBlocked()}<br />";                                                                                 // bool|null
-        echo "Blocked (string): {$supplierBank->getBlockedToString()}<br />";                                                                       // string|null
+        echo "Blocked (string): " . Util::formatBoolean($supplierBank->getBlocked()) . "<br />";                                                    // string|null
         echo "City: {$supplierBank->getCity()}<br />";                                                                                              // string|null                      City.
         echo "Country (\\PhpTwinfield\\Country): <pre>" . print_r($supplierBank->getCountry(), true) . "</pre><br />";                      		// Country|null                     Bank country code. The ISO country codes are used.
-        echo "Country (string): {$supplierBank->getCountryToString()}<br />";                                                              		    // string|null
+        echo "Country (string): " . Util::objectToStr($supplierBank->getCountry()) . "<br />";                                                      // string|null
         echo "Default (bool): {$supplierBank->getDefault()}<br />";                                                                                 // bool|null                        Is this the default bank account, only one default bank account is possible.
-        echo "Default (string): {$supplierBank->getDefaultToString()}<br />";                                                                       // string|null
+        echo "Default (string): " . Util::formatBoolean($supplierBank->getDefault()) . "<br />";                                                    // string|null
         echo "ID: {$supplierBank->getID()}<br />";                                                                                                  // int|null                         Sequence number of the bank account line. When adding a new bank, do not supply the @id. When changing a bank account, supply the corresponding @id.
         echo "IBAN: {$supplierBank->getIban()}<br />";                                                                                              // string|null                      IBAN account number.
 
@@ -287,21 +288,21 @@ if ($executeRead) {
     }
 
     echo "PayAvailable (bool): {$supplierFinancials->getPayAvailable()}<br />";                                                                     // bool|null                        Determines if direct debit is possible.
-    echo "PayAvailable (string): {$supplierFinancials->getPayAvailableToString()}<br />";                                                           // string|null
+    echo "PayAvailable (string): " . Util::formatBoolean($supplierFinancials->getPayAvailable()) . "<br />";                                        // string|null
     echo "PayCode (\\PhpTwinfield\\PayCode): <pre>" . print_r($supplierFinancials->getPayCode(), true) . "</pre><br />";                            // PayCode|null                     The code of the payment type in case direct debit is possible.
-    echo "PayCode (string): {$supplierFinancials->getPayCodeToString()}<br />";                                                                     // string|null
+    echo "PayCode (string): " . Util::objectToStr($supplierFinancials->getPayCode()) . "<br />";                                                    // string|null
     echo "PayCodeID: {$supplierFinancials->getPayCodeID()}<br />";                                                                                  // string|null
     echo "RelationsReference: {$supplierFinancials->getRelationsReference()}<br />";                                                                // string|null                      External supplier number.
     echo "Result: {$supplierFinancials->getResult()}<br />";                                                                                        // int|null                         Result (0 = error, 1 or empty = success).
     echo "SubAnalyse: {$supplierFinancials->getSubAnalyse()}<br />";                                                                                // SubAnalyse|null                  Fixed value false.
-    echo "SubstituteWith (\\PhpTwinfield\\Dummy): <pre>" . print_r($supplierFinancials->getSubstituteWith(), true) . "</pre><br />";                // Dummy|null                       Default supplier balancesheet account.
-    echo "SubstituteWith (string): {$supplierFinancials->getSubstituteWithToString()}<br />";                                                       // string|null
+    echo "SubstituteWith (\\PhpTwinfield\\GeneralLedger): <pre>" . print_r($supplierFinancials->getSubstituteWith(), true) . "</pre><br />";        // GeneralLedger|null               Default supplier balancesheet account.
+    echo "SubstituteWith (string): " . Util::objectToStr($supplierFinancials->getSubstituteWith()) . "<br />";                                      // string|null
     echo "SubstituteWithID: {$supplierFinancials->getSubstituteWithID()}<br />";                                                                    // string|null
     echo "SubstitutionLevel: {$supplierFinancials->getSubstitutionLevel()}<br />";                                                                  // int|null                         Level of the balancesheet account. Fixed value 1.
     echo "VatCode (\\PhpTwinfield\\VatCode): <pre>" . print_r($supplierFinancials->getVatCode(), true) . "</pre><br />";                            // VatCode|null                     Default VAT code.
-    echo "VatCode (string): {$supplierFinancials->getVatCodeToString()}<br />";                                                                     // string|null
+    echo "VatCode (string): " . Util::objectToStr($supplierFinancials->getVatCode()) . "<br />";                                                    // string|null
     echo "VatCode Fixed (bool): {$supplierFinancials->getVatCodeFixed()}<br />";                                                                    // bool|null
-    echo "VatCode Fixed (string): {$supplierFinancials->getVatCodeFixedToString()}<br />";                                                          // string|null
+    echo "VatCode Fixed (string): " . Util::formatBoolean($supplierFinancials->getVatCodeFixed()) . "<br />";                                       // string|null
 
     $supplierChildValidations = $supplierFinancials->getChildValidations();                                                                         // array|null                       Array of SupplierChildValidations objects.
 
@@ -325,9 +326,9 @@ if ($executeRead) {
         echo "SupplierPostingRule {$key}<br />";
 
         echo "Amount (\\Money\\Money): <pre>" . print_r($supplierPostingRule->getAmount(), true) . "</pre><br />";                                  // Money|null                       Amount.
-        echo "Amount (float): {$supplierPostingRule->getAmountToFloat()}<br />";                                                                    // float|null
+        echo "Amount (string): " . Util::formatMoney($supplierPostingRule->getAmount()) . "<br />";                                                 // string|null
         echo "Currency (\\PhpTwinfield\\Currency): <pre>" . print_r($supplierPostingRule->getCurrency(), true) . "</pre><br />";                    // Currency|null                    Currency.
-        echo "Currency (string): {$supplierPostingRule->getCurrencyToString()}<br />";                                                              // string|null
+        echo "Currency (string): " . Util::objectToStr($supplierPostingRule->getCurrency()) . "<br />";                                             // string|null
         echo "Description: {$supplierPostingRule->getDescription()}<br />";                                                                         // string|null                      Description.
         echo "ID: {$supplierPostingRule->getID()}<br />";                                                                                           // int|null                         Sequence number of the posting rule. Fixed value 1.
 
@@ -345,13 +346,13 @@ if ($executeRead) {
 
             echo "Description: {$supplierLine->getDescription()}<br />";                                                                            // string|null                      Description.
             echo "Dimension1 (\\PhpTwinfield\\GeneralLedger): <pre>" . print_r($supplierLine->getDimension1(), true) . "</pre><br />";              // GeneralLedger|null               General ledger.
-            echo "Dimension1 (string): {$supplierLine->getDimension1ToString()}<br />";                                                             // string|null
+            echo "Dimension1 (string): " . Util::objectToStr($supplierLine->getDimension1()) . "<br />";                                            // string|null
             echo "Dimension1ID: {$supplierLine->getDimension1ID()}<br />";                                                                          // string|null
             echo "Dimension2 (\\PhpTwinfield\\CostCenter): <pre>" . print_r($supplierLine->getDimension2(), true) . "</pre><br />";                 // CostCenter|null                  Cost center.
-            echo "Dimension2 (string): {$supplierLine->getDimension2ToString()}<br />";                                                             // string|null
+            echo "Dimension2 (string): " . Util::objectToStr($supplierLine->getDimension2()) . "<br />";                                            // string|null
             echo "Dimension2ID: {$supplierLine->getDimension2ID()}<br />";                                                                          // string|null
-            echo "Dimension3 (\\PhpTwinfield\\Dummy): <pre>" . print_r($supplierLine->getDimension3(), true) . "</pre><br />";                      // Dummy|null                       Project or asset.
-            echo "Dimension3 (string): {$supplierLine->getDimension3ToString()}<br />";                                                             // string|null
+            echo "Dimension3: <pre>" . print_r($supplierLine->getDimension3(), true) . "</pre><br />";                                              // Project|Activity|null            Project or asset.
+            echo "Dimension3 (string): " . Util::objectToStr($supplierLine->getDimension3()) . "<br />";                                            // string|null
             echo "Dimension3ID: {$supplierLine->getDimension3ID()}<br />";                                                                          // string|null
 
             if ($supplierLine->hasMessages()) {                                                                                					    // bool                             Object contains (error) messages true/false.
@@ -359,11 +360,11 @@ if ($executeRead) {
             }
 
             echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($supplierLine->getOffice(), true) . "</pre><br />";                      		// Office|null                      Destination company.
-            echo "Office (string): {$supplierLine->getOfficeToString()}<br />";                                                              		// string|null
+            echo "Office (string): " . Util::objectToStr($supplierLine->getOffice()) . "<br />";                                                    // string|null
             echo "Ratio: {$supplierLine->getRatio()}<br />";                                                                                        // float|null                       The ratio of the posting rule line.
             echo "Result: {$supplierLine->getResult()}<br />";                                                                                      // int|null                         Result (0 = error, 1 or empty = success).
             echo "VatCode (\\PhpTwinfield\\VatCode): <pre>" . print_r($supplierLine->getVatCode(), true) . "</pre><br />";                          // VatCode|null                     VAT code.
-            echo "VatCode (string): {$supplierLine->getVatCodeToString()}<br />";                                                                   // string|null
+            echo "VatCode (string): " . Util::objectToStr($supplierLine->getVatCode()) . "<br />";                                                  // string|null
         }
     }
 }
@@ -409,7 +410,7 @@ if ($executeNew) {
     //$supplier->setCode('2100');                                                                                                                   // string|null                      Dimension code, must be compliant with the mask of the DEB Dimension type.
     $supplier->setName("Example Supplier");                                                                                                         // string|null                      Name of the dimension.
     $supplier->setOffice($office);                                                                                                                  // Office|null                      Office code.
-    $supplier->setOfficeFromString($officeCode);                                                                                                    // string|null
+    $supplier->setOffice(\PhpTwinfield\Office::fromCode($officeCode));                                                                              // string|null
 
     // Optional values for creating a new Supplier
     $supplier->setBeginPeriod(0);                                                                                                                   // int|null                         Determines together with beginyear the period from which the dimension may be used.
@@ -419,40 +420,35 @@ if ($executeNew) {
     $supplier->setShortName("ExmplCust");                                                                                                           // string|null                      Short name of the dimension.
     //$supplier->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                                   // Status|null                      For creating and updating status may be left empty. For deleting deleted should be used.
     //$supplier->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                                                  // Status|null                      In case a dimension that is used in a transaction is deleted, its status has been changed into hide. Hidden dimensions can be activated by using active.
-    //$supplier->setStatusFromString('active');                                                                                                     // string|null
-    //$supplier->setStatusFromString('deleted');                                                                                                    // string|null
     $supplier->setWebsite("www.example.com");                                                                                                       // string|null                      Website of the dimension.
 
     $dimensionGroup = new \PhpTwinfield\DimensionGroup;
     $dimensionGroup->setCode('DIMGROUP');
     //$supplier->setGroup($dimensionGroup);                                                                                                         // DimensionGroup|null              Sets the dimension group. See Dimension group.
-    //$supplier->setGroupFromString("DIMGROUP");                                                                                                    // string|null
+    //$supplier->setGroup(\PhpTwinfield\DimensionGroup::fromCode("DIMGROUP"));                                                                      // string|null
 
     $supplier->setPaymentConditionDiscountDays(3);                                                                                                  // int|null                         Number of discount days.
     $supplier->setPaymentConditionDiscountPercentage(25);                                                                                           // int|null                         Discount percentage.
 
     $supplier->setRemittanceAdviceSendMail("test@example.com");                                                                                     // string|null                      Mandatory if sendtype = ByEmail, remittance advice will be sent using this e-mail address.
     $supplier->setRemittanceAdviceSendType(\PhpTwinfield\Enums\RemittanceAdviceSendType::BYEMAIL());                                                // RemittanceAdviceSendMail|null    To file manager, By e-mail
-    $supplier->setRemittanceAdviceSendTypeFromString('ByEmail');                                                                                    // string|null
 
     $supplierFinancials = new \PhpTwinfield\SupplierFinancials;
     $supplierFinancials->setDueDays(14);                                                                                                            // int|null                         The number of due days.
     $supplierFinancials->setMeansOfPayment(\PhpTwinfield\Enums\MeansOfPayment::PAYMENTFILE());                                                      // MeansOfPayment|null              The option none is only allowed in case payavailable is set to false. The option paymentfile is only allowed in case payavailable is set to true.
-    $supplierFinancials->setMeansOfPaymentFromString('paymentfile');                                                                                // string|null
     $supplierFinancials->setPayAvailable(true);                                                                                                     // bool|null                        Determines if direct debit is possible.
-    $supplierFinancials->setPayAvailableFromString('true');                                                                                         // string|null
     $payCode = new \PhpTwinfield\PayCode;
     $payCode->setCode('SEPANLCT');
     $supplierFinancials->setPayCode($payCode);                                                                                                      // PayCode|null                     The code of the payment type in case direct debit is possible.
-    $supplierFinancials->setPayCodeFromString('SEPANLCT');                                                                                          // string|null
+    $supplierFinancials->setPayCode(\PhpTwinfield\PayCode::fromCode('SEPANLCT'));                                                                   // string|null
     $substituteWith = new \PhpTwinfield\GeneralLedger;
     $substituteWith->getCode('1535');
     $supplierFinancials->setSubstituteWith($substituteWith);                                                                                        // GeneralLedger|null               Default supplier balancesheet account.
-    $supplierFinancials->setSubstituteWithFromString('1535');                                                                                       // string|null
+    $supplierFinancials->setSubstituteWith(\PhpTwinfield\GeneralLedger::fromCode('1535'));                                                          // string|null
     $vatCode = new \PhpTwinfield\VatCode;
     $vatCode->setCode('IH');
     $supplierFinancials->setVatCode($vatCode);                                                                                                      // VatCode|null                     Default VAT code.
-    $supplierFinancials->setVatCodeFromString('IH');                                                                                                // string|null
+    $supplierFinancials->setVatCode(\PhpTwinfield\VatCode::fromCode('IH'));                                                                         // string|null
 
     $supplier->setFinancials($supplierFinancials);                                                                                                  // SupplierFinancials               Set the SupplierFinancials object tot the Supplier object
 
@@ -461,9 +457,8 @@ if ($executeNew) {
     $country = new \PhpTwinfield\Country;
     $country->setCode('NL');
     $supplierAddress->setCountry($country);                                                                                                         // Country|null                     Country code. The ISO country codes are used.
-    $supplierAddress->setCountryFromString('NL');                                                                                                   // string|null
+    $supplierAddress->setCountry(\PhpTwinfield\Country::fromCode('NL'));                                                                            // string|null
     $supplierAddress->setDefault(true);                                                                                                             // bool|null                       	Is this the default address, only one default address is possible.
-    $supplierAddress->setDefaultFromString('true');                                                                                                 // string|null
     $supplierAddress->setEmail('test@example.com');                                                                                                 // string|null
     $supplierAddress->setField1('');                                                                                                                // string|null                      User defined fields, the labels are configured in the Dimension type.
     $supplierAddress->setField2('');                                                                                                                // string|null                      User defined fields, the labels are configured in the Dimension type.
@@ -477,7 +472,6 @@ if ($executeNew) {
     $supplierAddress->setTelefax('012-3456789');                                                                                                    // string|null                      Fax number.
     $supplierAddress->setTelephone('987-654321');                                                                                                   // string|null                      Telephone number.
     $supplierAddress->setType(\PhpTwinfield\Enums\AddressType::INVOICE());                                                                          // AddressType|null                 The type of the address.
-    $supplierAddress->setTypeFromString('invoice');                                                                                                 // string|null
 
     $supplier->addAddress($supplierAddress);                                                                                                        // SupplierAddress                  Add a SupplierAddress object to the Supplier object
     //$supplier->removeAddress(0);                                                                                                                  // int                              Remove an address based on the index of the address within the array
@@ -490,14 +484,12 @@ if ($executeNew) {
     $supplierBank->setBankName('Example Bank');                                                                                                     // string|null                      Bank name.
     $supplierBank->setBicCode('ABNANL2A');                                                                                                          // string|null                      BIC code.
     $supplierBank->setBlocked(false);                                                                                                               // bool|null
-    $supplierBank->setBlockedFromString('false');                                                                                                   // string|null
     $supplierBank->setCity('Amsterdam');                                                                                                            // string|null                      City.
     $country = new \PhpTwinfield\Country;
     $country->setCode('NL');
     $supplierBank->setCountry($country);                                                                                                            // Country|null                     Bank country code. The ISO country codes are used.
-    $supplierBank->setCountryFromString('NL');                                                                                                      // string|null
+    $supplierBank->setCountry(\PhpTwinfield\Country::fromCode('NL'));                                                                               // string|null
     $supplierBank->setDefault(true);                                                                                                                // bool|null                        Is this the default bank account, only one default bank account is possible.
-    $supplierBank->setDefaultFromString('true');                                                                                                    // string|null
     $supplierBank->setID(null);                                                                                                                     // int|null                         Sequence number of the bank account line. When adding a new bank, do not supply the @id. When changing a bank account, supply the corresponding @id.
     $supplierBank->setIban(null);                                                                                                                   // string|null                      IBAN account number.
     $supplierBank->setNatBicCode('NL');                                                                                                             // string|null                      National bank code.
@@ -508,41 +500,38 @@ if ($executeNew) {
     //$supplier->removeBank(0);                                                                                                                     // int                              Remove a bank based on the index of the bank within the array
 
     $supplierPostingRule = new \PhpTwinfield\SupplierPostingRule;
-    $supplierPostingRule->setAmount(\Money\Money::EUR(10000));                                                                                      // Money|null                       Amount.
-    $supplierPostingRule->setAmountFromFloat(100);                                                                                                  // float|null
+    $supplierPostingRule->setAmount(\Money\Money::EUR(10000));                                                                                      // Money|null                       Amount. (Equals 100.00 EUR)
     $currency = new \PhpTwinfield\Currency;
     $currency->setCode('EUR');
     $supplierPostingRule->setCurrency($currency);                                                                                                   // Currency|null                    Currency.
-    $supplierPostingRule->setCurrencyFromString('EUR');                                                                                             // string|null
+    $supplierPostingRule->setCurrency(\PhpTwinfield\Currency::fromCode('EUR'));                                                                     // string|null
     $supplierPostingRule->setDescription('Example PostingRule');                                                                                    // string|null                      Description.
     $supplierPostingRule->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                          // Status|null                      For creating and updating active should be used. For deleting deleted should be used.
     //$supplierPostingRule->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                                       // Status|null
-    $supplierPostingRule->setStatusFromString('active');                                                                                            // string|null
-    //$supplierPostingRule->setStatusFromString('deleted');                                                                                         // string|null
 
     $supplierLine = new \PhpTwinfield\SupplierLine;
     $supplierLine->setDescription('Example Line');                                                                                                  // string|null                      Description.
     $dimension1 = new \PhpTwinfield\GeneralLedger;
     $dimension1->setCode('1535');
     $supplierLine->setDimension1($dimension1);                                                                                                      // GeneralLedger|null               General ledger.
-    $supplierLine->setDimension1FromString('1535');                                                                                                 // string|null
+    $supplierLine->setDimension1(\PhpTwinfield\GeneralLedger::fromCode('1535'));                                                                    // string|null
     $costCenter = new \PhpTwinfield\CostCenter;
     $costCenter->setCode('00000');
     $supplierLine->setDimension2($costCenter);                                                                                                      // CostCenter|null                  Cost center.
-    $supplierLine->setDimension2FromString ('00000');                                                                                               // string|null
+    $supplierLine->setDimension2(\PhpTwinfield\CostCenter::fromCode('00000'));                                                                      // string|null
     $activity = new \PhpTwinfield\Activity;
     $activity->setCode('P0000');
-    $supplierLine->setDimension3($activity);                                                                                                        // Dummy|null                       Project or asset.
-    $supplierLine->setDimension3FromString('P0000');                                                                                                // string|null
+    $supplierLine->setDimension3($activity);                                                                                                        // Project|Activity|null            Project or asset.
+    $supplierLine->setDimension3(\PhpTwinfield\Activity::fromCode('P0000'));                                                                        // string|null
     $destOffice = new \PhpTwinfield\Office;
     $destOffice->setCode('NLA0000001');
     //$supplierLine->setOffice($destOffice);                                                                                                        // Office|null                      Destination company.
-    //$supplierLine->setOfficeFromString('NLA0000001');                                                                                             // string|null
+    //$supplierLine->setOffice(\PhpTwinfield\Office::fromCode('NLA0000001'));                                                                       // string|null
     $supplierLine->setRatio(1);                                                                                                                     // float|null                       The ratio of the posting rule line.
     $vatCode = new \PhpTwinfield\VatCode;
     $vatCode->setCode('IH');
     $supplierLine->setVatCode($vatCode);                                                                                                            // VatCode|null                     Default VAT code.
-    $supplierLine->setVatCodeFromString('IH');                                                                                                      // string|null
+    $supplierLine->setVatCode(\PhpTwinfield\VatCode::fromCode('IH'));                                                                               // string|null
 
     $supplierPostingRule->addLine($supplierLine);                                                                                                   // SupplierLine                     Add a SupplierLine object to the SupplierPostingRule object
     //$supplierPostingRule->removeLine(0);                                                                                                          // int                              Remove a line based on the index of the line within the array

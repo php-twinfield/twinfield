@@ -19,12 +19,7 @@ trait Dim1LockedField
     {
         return $this->dim1Locked;
     }
-
-    public function getDim1LockedToString(): ?string
-    {
-        return ($this->getDim1Locked()) ? 'true' : 'false';
-    }
-
+    
     /**
      * @param bool $dim1Locked
      * @return $this
@@ -33,15 +28,5 @@ trait Dim1LockedField
     {
         $this->dim1Locked = $dim1Locked;
         return $this;
-    }
-
-    /**
-     * @param string|null $dim1LockedString
-     * @return $this
-     * @throws Exception
-     */
-    public function setDim1LockedFromString(?string $dim1LockedString)
-    {
-        return $this->setDim1Locked(filter_var($dim1LockedString, FILTER_VALIDATE_BOOLEAN));
     }
 }

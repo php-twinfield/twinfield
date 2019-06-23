@@ -29,7 +29,7 @@ use PhpTwinfield\Fields\UIDField;
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers
  * @todo Add documentation and typehints to all properties.
  */
-class Customer extends BaseObject
+class Customer extends BaseObject implements HasCodeInterface
 {
     use BeginPeriodField;
     use BeginYearField;
@@ -67,10 +67,17 @@ class Customer extends BaseObject
         $this->setBeginYear(0);
         $this->setEndPeriod(0);
         $this->setEndYear(0);
-        $this->setTypeFromString('DEB');
+        $this->setType(\PhpTwinfield\DimensionType::fromCode('DEB'));
 
         $this->setCreditManagement(new CustomerCreditManagement);
         $this->setFinancials(new CustomerFinancials);
+    }
+    
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
     }
 
     public function getCreditManagement(): CustomerCreditManagement

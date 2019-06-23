@@ -11,7 +11,7 @@
     </header>
     <lines>
         <line type="detail" id="1">
-            <dim1 name="Payment difference" shortname="Payment difference" type="BAS" inuse="true" vatcode="" vatobligatory="false">4008</dim1>
+            <dim1 name="Payment difference" shortname="Payment difference" dimensiontype="BAS">4008</dim1>
             <debitcredit>debit</debitcredit>
             <value>435.55</value>
             <rate>1</rate>
@@ -22,8 +22,8 @@
             <matchstatus>notmatchable</matchstatus>
         </line>
         <line type="detail" id="2">
-            <dim1 name="Debiteuren" shortname="Debiteuren" type="BAS" inuse="true" vatcode="" vatobligatory="false">1300</dim1>
-            <dim2 name="Customer 0" shortname="" type="DEB" inuse="true" vatcode="" vatobligatory="false">1000</dim2>
+            <dim1 name="Debiteuren" shortname="Debiteuren" dimensiontype="BAS">1300</dim1>
+            <dim2 name="Customer 0" shortname="" dimensiontype="DEB">1000</dim2>
             <debitcredit>credit</debitcredit>
             <value>435.55</value>
             <invoicenumber>11001770</invoicenumber>

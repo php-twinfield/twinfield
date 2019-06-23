@@ -2,8 +2,6 @@
 
 namespace PhpTwinfield\Fields;
 
-use PhpTwinfield\Dummy;
-
 /**
  * The dimension
  * Used by: BaseTransactionLine, FixedAssetTransactionLine
@@ -22,15 +20,6 @@ trait Dim3Field
         return $this->dim3;
     }
 
-    public function getDim3ToString(): ?string
-    {
-        if ($this->getDim3() != null) {
-            return $this->dim3->getCode();
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @return $this
      */
@@ -38,17 +27,5 @@ trait Dim3Field
     {
         $this->dim3 = $dim3;
         return $this;
-    }
-    
-    /**
-     * @param string|null $dim3String
-     * @return $this
-     * @throws Exception
-     */
-    public function setDim3FromString(?string $dim3String)
-    {
-        $dim3 = new Dummy();
-        $dim3->setCode($dim3String);
-        return $this->setDim3($dim3);
     }
 }

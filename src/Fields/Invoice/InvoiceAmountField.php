@@ -22,19 +22,7 @@ trait InvoiceAmountField
     {
         return $this->invoiceAmount;
     }
-
-    /**
-     * @return float|null
-     */
-    public function getInvoiceAmountToFloat(): ?float
-    {
-        if ($this->getInvoiceAmount() != null) {
-            return Util::formatMoney($this->getInvoiceAmount());
-        } else {
-            return 0;
-        }
-    }
-
+    
     /**
      * @param Money|null $invoiceAmount
      * @return $this

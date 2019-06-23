@@ -11,6 +11,9 @@ namespace PhpTwinfield;
 // Use the ResponseException class to handle errors when listing, getting and sending objects to/from Twinfield
 use PhpTwinfield\Response\ResponseException;
 
+// Use the Util class for helper functions
+use PhpTwinfield\Util;
+
 require_once('vendor/autoload.php');
 
 // Retrieve an OAuth 2 connection
@@ -24,7 +27,7 @@ require_once('Connection.php');
 // Run all or only some of the following examples
 $executeListAllWithFilter           = false;
 $executeListAllWithoutFilter        = true;
-$executeRead                        = false;
+$executeRead                        = true;
 $executeCopy                        = false;
 $executeNew                         = false;
 $executeDelete                      = false;
@@ -92,14 +95,14 @@ if ($executeListAllWithoutFilter) {
 
 /* DimensionGroup
  * \PhpTwinfield\DimensionGroup
- * Available getters: getCode, getMessages, getName, getOffice, getOfficeToString, getResult, getShortName, getStatus, hasMessages, getDimensions
- * Available setters: setCode, setName, setOffice, setOfficeFromString, setShortName, setStatus, setStatusFromString, addDimension,removeDimension
+ * Available getters: getCode, getMessages, getName, getOffice, getResult, getShortName, getStatus, hasMessages, getDimensions
+ * Available setters: setCode, setName, setOffice, setShortName, setStatus, addDimension,removeDimension
  */
 
 /* DimensionGroupDimension
  * \PhpTwinfield\DimensionGroupDimension
- * Available getters: getCode, getCodeToString, getMessages, getResult, getType, getTypeToString, hasMessages
- * Available setters: setCode, setCodeFromString, setType, setTypeFromString
+ * Available getters: getCode, getMessages, getResult, getType, hasMessages
+ * Available setters: setCode, setType
  */
 
 if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
@@ -131,7 +134,7 @@ if ($executeRead) {
 
     echo "Name: {$dimensionGroup->getName()}<br />";                                                                                   					// string|null                  Name of the dimension group.
     echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($dimensionGroup->getOffice(), true) . "</pre><br />";                      					// Office|null                  Office code.
-    echo "Office (string): {$dimensionGroup->getOfficeToString()}<br />";                                                              					// string|null
+    echo "Office (string): " . Util::objectToStr($dimensionGroup->getOffice()) . "<br />";                                                              // string|null
     echo "Result: {$dimensionGroup->getResult()}<br />";                                                                               					// int|null                     Result (0 = error, 1 or empty = success).
     echo "ShortName: {$dimensionGroup->getShortName()}<br />";                                                                         					// string|null                  Short name of the dimension group.
     echo "Status: {$dimensionGroup->getStatus()}<br />";                                                                               					// Status|null                  Status of the dimension group.
@@ -146,10 +149,10 @@ if ($executeRead) {
         }
 
         echo "Code: <pre>" . print_r($dimensionGroupDimension->getCode(), true) . "</pre><br />";                                                       // object|null                  Code of the dimension.
-        echo "Code (string): {$dimensionGroupDimension->getCodeToString()}<br />";                                                                      // string|null
+        echo "Code (string): " . Util::objectToStr($dimensionGroupDimension->getCode()) . "<br />";                                                     // string|null
         echo "Result: {$dimensionGroupDimension->getResult()}<br />";                                                                                   // int|null                     Result (0 = error, 1 or empty = success).
         echo "Type (\\PhpTwinfield\\DimensionType): <pre>" . print_r($dimensionGroupDimension->getType(), true) . "</pre><br />";                       // DimensionType|null           Dimension type.
-        echo "Type (string): {$dimensionGroupDimension->getTypeToString()}<br />";                                                                      // string|null
+        echo "Type (string): " . Util::objectToStr($dimensionGroupDimension->getType()) . "<br />";                                                     // string|null
     }
 }
 
@@ -185,11 +188,9 @@ if ($executeNew) {
     $dimensionGroup->setCode('DIMGRP2');                                                                                                                // string|null                    Dimension group code.
     $dimensionGroup->setName("Dimension Group 2");                                                                                                      // string|null                    Name of the dimension group.
     $dimensionGroup->setOffice($office);                                                                                                                // Office|null                    Office code.
-    $dimensionGroup->setOfficeFromString($officeCode);                                                                                                  // string|null
+    $dimensionGroup->setOffice(\PhpTwinfield\Office::fromCode($officeCode));                                                                            // string|null
     $dimensionGroup->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                                   // Status|null                    For creating and updating active should be used. For deleting deleted should be used.
     //$dimensionGroup->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                                                // Status|null
-    $dimensionGroup->setStatusFromString('active');                                                                                                     // string|null
-    //$dimensionGroup->setStatusFromString('deleted');                                                                                                  // string|null
 
     // Optional values for creating a new DimensionGroup
     $dimensionGroup->setShortName("DIM GRP 2");                                                                                                         // string|null                    Short name of the dimension group.
@@ -199,11 +200,11 @@ if ($executeNew) {
     $code = new \PhpTwinfield\GeneralLedger;
     $code->setCode('1010');
     $dimensionGroupDimension->setCode($code);                                                                                                           // object|null                    Code of the dimension.
-    $dimensionGroupDimension->setCodeFromString('1010');                                                                                                // string|null
+    $dimensionGroupDimension->setCode(\PhpTwinfield\GeneralLedger::fromCode('1010'));                                                                   // string|null
     $type = new \PhpTwinfield\DimensionType;
     $type->setCode('BAS');
     $dimensionGroupDimension->setType($type);                                                                                                           // DimensionType|null             Dimension type.
-    $dimensionGroupDimension->setTypeFromString('BAS');                                                                                                 // string|null
+    $dimensionGroupDimension->setType(\PhpTwinfield\DimensionType::fromCode('BAS'));                                                                    // string|null
 
     $dimensionGroup->addDimension($dimensionGroupDimension);                                                                                            // DimensionGroupDimension        Add a DimensionGroupDimension object to the DimensionGroup object
     //$dimensionGroup->removeDimension(0);                                                                                                              // int                            Remove a dimension based on the index of the dimension within the array
@@ -225,7 +226,7 @@ if ($executeNew) {
 // Delete a DimensionGroup based off the passed in code and optionally the office.
 if ($executeDelete) {
     try {
-        $dimensionGroupDeleted = $dimensionGroupApiConnector->delete("TSTDIMGRP2", $office);
+        $dimensionGroupDeleted = $dimensionGroupApiConnector->delete("DIMGRP2", $office);
     } catch (ResponseException $e) {
         $dimensionGroupDeleted = $e->getReturnedObject();
     }

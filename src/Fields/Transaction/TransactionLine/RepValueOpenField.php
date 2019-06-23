@@ -3,7 +3,6 @@
 namespace PhpTwinfield\Fields\Transaction\TransactionLine;
 
 use Money\Money;
-use PhpTwinfield\Util;
 
 trait RepValueOpenField
 {
@@ -24,18 +23,6 @@ trait RepValueOpenField
     }
 
     /**
-     * @return float|null
-     */
-    public function getRepValueOpenToFloat(): ?float
-    {
-        if ($this->getRepValueOpen() != null) {
-            return Util::formatMoney($this->getRepValueOpen());
-        } else {
-            return 0;
-        }
-    }
-
-    /**
      * @param Money|null $repValueOpen
      * @return $this
      */
@@ -44,19 +31,5 @@ trait RepValueOpenField
         $this->repValueOpen = $repValueOpen;
 
         return $this;
-    }
-
-    /**
-     * @param float|null $repValueOpenFloat
-     * @return $this
-     * @throws Exception
-     */
-    public function setRepValueOpenFromFloat(?float $repValueOpenFloat)
-    {
-        if ((float)$repValueOpenFloat) {
-            return $this->setRepValueOpen(Money::EUR(100 * $repValueOpenFloat));
-        } else {
-            return $this->setRepValueOpen(Money::EUR(0));
-        }
     }
 }

@@ -3,7 +3,6 @@
 namespace PhpTwinfield\Fields\Transaction\TransactionLine;
 
 use Money\Money;
-use PhpTwinfield\Util;
 
 trait BaseValueField
 {
@@ -24,18 +23,6 @@ trait BaseValueField
     }
 
     /**
-     * @return float|null
-     */
-    public function getBaseValueToFloat(): ?float
-    {
-        if ($this->getBaseValue() != null) {
-            return Util::formatMoney($this->getBaseValue());
-        } else {
-            return 0;
-        }
-    }
-
-    /**
      * @param Money|null $baseValue
      * @return $this
      */
@@ -44,19 +31,5 @@ trait BaseValueField
         $this->baseValue = $baseValue;
 
         return $this;
-    }
-
-    /**
-     * @param float|null $baseValueFloat
-     * @return $this
-     * @throws Exception
-     */
-    public function setBaseValueFromFloat(?float $baseValueFloat)
-    {
-        if ((float)$baseValueFloat) {
-            return $this->setBaseValue(Money::EUR(100 * $baseValueFloat));
-        } else {
-            return $this->setBaseValue(Money::EUR(0));
-        }
     }
 }

@@ -23,7 +23,7 @@ use PhpTwinfield\Fields\Transaction\RaiseWarningField;
 use PhpTwinfield\Fields\UserField;
 use PhpTwinfield\MatchReferenceInterface;
 
-abstract class BaseTransaction extends BaseObject
+abstract class BaseTransaction extends BaseObject implements HasCodeInterface
 {
     use AutoBalanceVatField;
     use CodeField;

@@ -2,16 +2,11 @@
 
 namespace PhpTwinfield\Fields\Transaction\TransactionLine;
 
-use PhpTwinfield\Exception;
-use PhpTwinfield\Util;
-
 /**
  * Match date field
  * Used by: MatchSet, PurchaseTransactionLine
  *
  * @package PhpTwinfield\Traits
- * @see Util::formatDate()
- * @see Util::parseDate()
  */
 trait MatchDateField
 {
@@ -29,18 +24,6 @@ trait MatchDateField
     }
 
     /**
-     * @return string|null
-     */
-    public function getMatchDateToString(): ?string
-    {
-        if ($this->getMatchDate() != null) {
-            return Util::formatDate($this->getMatchDate());
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * @param \DateTimeInterface|null $matchDate
      * @return $this
      */
@@ -48,19 +31,5 @@ trait MatchDateField
     {
         $this->matchDate = $matchDate;
         return $this;
-    }
-
-    /**
-     * @param string|null $matchDateString
-     * @return $this
-     * @throws Exception
-     */
-    public function setMatchDateFromString(?string $matchDateString)
-    {
-        if ((bool)strtotime($matchDateString)) {
-            return $this->setMatchDate(Util::parseDate($matchDateString));
-        } else {
-            return $this->setMatchDate(null);
-        }
     }
 }

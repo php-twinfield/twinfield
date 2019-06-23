@@ -28,14 +28,4 @@ trait BlockedAccountPaymentConditionsIncludeVatField
         $this->blockedAccountPaymentConditionsIncludeVat = $blockedAccountPaymentConditionsIncludeVat;
         return $this;
     }
-
-    /**
-     * @param string|null $blockedAccountPaymentConditionsIncludeVatString
-     * @return $this
-     * @throws Exception
-     */
-    public function setBlockedAccountPaymentConditionsIncludeVatFromString(?string $blockedAccountPaymentConditionsIncludeVatString)
-    {
-        return $this->setBlockedAccountPaymentConditionsIncludeVat(new BlockedAccountPaymentConditionsIncludeVat((string)$blockedAccountPaymentConditionsIncludeVatString));
-    }
 }
