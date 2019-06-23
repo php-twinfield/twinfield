@@ -154,7 +154,7 @@ class TransactionMapper extends BaseMapper
                     ->setDebitCredit(self::parseEnumAttribute(\PhpTwinfield\Enums\DebitCredit::class, self::getField($lineElement, 'debitcredit', $transactionLine)))
                     ->setDescription(self::getField($lineElement, 'description', $transactionLine))
                     ->setDestOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $transactionLine, $lineElement, 'destoffice'))
-                    ->setDim1(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim1', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')))
+                    ->setDim1(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                     ->setId($lineElement->getAttribute('id'))
                     ->setLineType(self::parseEnumAttribute(\PhpTwinfield\Enums\LineType::class, $lineType))
                     ->setMatchStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\MatchStatus::class, self::getField($lineElement, 'matchstatus', $transactionLine)))
@@ -176,8 +176,8 @@ class TransactionMapper extends BaseMapper
                             $transactionLine->setBaseValueOpen(self::parseMoneyAttribute($baseValueOpen, $currencies['base']));
                         }
 
-                        $transactionLine->setDim2(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim2', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
-                        $transactionLine->setDim3(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim3', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
+                        $transactionLine->setDim2(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')));
+                        $transactionLine->setDim3(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim3', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')));
                         $transactionLine->setMatchLevel(self::getField($lineElement, 'matchlevel', $transactionLine));
                         $transactionLine->setRelation(self::getField($lineElement, 'relation', $transactionLine));
                         $transactionLine->setRepValueOpen(self::parseMoneyAttribute(self::getField($lineElement, 'repvalueopen', $transactionLine), $currencies['reporting']));
@@ -186,12 +186,12 @@ class TransactionMapper extends BaseMapper
 
                 if ($transaction instanceof PurchaseTransaction || $transaction instanceof SalesTransaction) {
                     if ($lineType == LineType::DETAIL()) {
-                        $transactionLine->setDim2(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim2', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
-                        $transactionLine->setDim3(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim3', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
+                        $transactionLine->setDim2(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')));
+                        $transactionLine->setDim3(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim3', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')));
                     } elseif ($transaction instanceof PurchaseTransaction && $lineType == LineType::VAT()) {
-                        $transactionLine->setDim3(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim3', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
+                        $transactionLine->setDim3(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim3', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')));
                     } elseif ($lineType == LineType::TOTAL()) {
-                        $transactionLine->setDim2(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim2', array('name' => 'setName', 'shortname' => 'setShortName', 'type' => 'setTypeFromString')));
+                        $transactionLine->setDim2(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim2', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')));
 
                         $baseValueOpen = self::getField($lineElement, 'basevalueopen', $transactionLine) ?: self::getField($lineElement, 'openbasevalue', $transactionLine);
 

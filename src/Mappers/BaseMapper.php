@@ -119,12 +119,8 @@ abstract class BaseMapper
     {
         if (is_a($object, \PhpTwinfield\DimensionGroupDimension::class)) {
             $type = self::getField($element, "type", $object);
-        } elseif (is_a($object, \PhpTwinfield\TransactionLineInterface::class)) {
-            $type = self::getAttribute($element, $fieldTagName, "type");
-            $type = "BAS";
         } else {
             $type = self::getAttribute($element, $fieldTagName, "dimensiontype");
-            $type = "PNL";
         }
 
         switch ($type) {
@@ -152,12 +148,18 @@ abstract class BaseMapper
     /** @var SomeClassWithMethodsetCode $object2 */
     protected static function parseObjectAttribute(?string $objectClass, $object, \DOMElement $element, string $fieldTagName, array $attributes = [])
     {
+        $value = self::getField($element, $fieldTagName, $object);
+        
+        if ($value === null) {
+            return null;
+        }
+        
         if ($objectClass === null) {
             $objectClass = self::parseUnknownEntity($object, $element, $fieldTagName);
         }
         
         $object2 = new $objectClass();
-        $object2->setCode(self::getField($element, $fieldTagName, $object));
+        $object2->setCode($value);
 
         foreach ($attributes as $attributeName => $method) {
             $object2->$method(self::getAttribute($element, $fieldTagName, $attributeName));
