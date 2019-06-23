@@ -3,7 +3,6 @@
 namespace PhpTwinfield\IntegrationTests;
 
 use Money\Money;
-use PhpTwinfield\ApiConnectors\OfficeApiConnector;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\Currency;
 use PhpTwinfield\DomDocuments\TransactionsDocument;
@@ -19,8 +18,6 @@ use PhpTwinfield\Response\Response;
 use PhpTwinfield\Util;
 
 /**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
  * @covers JournalTransaction
  * @covers JournalTransactionLine
  * @covers TransactionsDocument
@@ -39,15 +36,6 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         parent::setUp();
 
         $this->transactionApiConnector = new TransactionApiConnector($this->connection);
-        
-        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
-        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
-            $office = new Office;
-            $office->setResult(1);
-            $office->setBaseCurrency(Currency::fromCode('EUR'));
-            $office->setReportingCurrency(Currency::fromCode('USD'));
-            return $office;
-        });
     }
 
     public function testGetJournalTransactionWorks()

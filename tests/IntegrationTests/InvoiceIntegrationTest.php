@@ -19,8 +19,6 @@ use PhpTwinfield\Response\Response;
 use PhpTwinfield\Util;
 
 /**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
  * @covers Invoice
  * @covers InvoiceLine
  * @covers InvoiceTotals

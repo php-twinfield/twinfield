@@ -4,7 +4,6 @@ namespace PhpTwinfield\IntegrationTests;
 
 use DateTimeImmutable;
 use Money\Money;
-use PhpTwinfield\ApiConnectors\OfficeApiConnector;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\BankTransaction;
 use PhpTwinfield\BankTransactionLine;
@@ -20,8 +19,6 @@ use PhpTwinfield\Response\Response;
 use PhpTwinfield\Util;
 
 /**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
  * @covers BankTransaction
  * @covers BankTransactionLine
  * @covers TransactionsDocument
@@ -40,20 +37,6 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
         parent::setUp();
 
         $this->transactionApiConnector = new TransactionApiConnector($this->connection);
-        
-        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
-        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
-            $baseCurrency = new Currency;
-            $baseCurrency->setCode('EUR');
-            $reportingCurrency = new Currency;
-            $reportingCurrency->setCode('USD');
-            
-            $office = new Office;
-            $office->setResult(1);
-            $office->setBaseCurrency($baseCurrency);
-            $office->setReportingCurrency($reportingCurrency);
-            return $office;
-        });
     }
 
     public function testGetBankTransactionWorks()

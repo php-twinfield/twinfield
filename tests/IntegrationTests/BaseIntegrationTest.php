@@ -10,9 +10,6 @@ use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @backupGlobals disabled 
- */
 abstract class BaseIntegrationTest extends TestCase
 {
     /**
@@ -59,6 +56,15 @@ abstract class BaseIntegrationTest extends TestCase
 
                 throw new \InvalidArgumentException("Unknown service {$service->getValue()}");
             });
+            
+        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
+        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
+            $office = new Office;
+            $office->setResult(1);
+            $office->setBaseCurrency(Currency::fromCode('EUR'));
+            $office->setReportingCurrency(Currency::fromCode('USD'));
+            return $office;
+        });
     }
 
     protected function getSuccessfulResponse(): Response

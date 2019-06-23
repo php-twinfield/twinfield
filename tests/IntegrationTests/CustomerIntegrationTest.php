@@ -3,7 +3,6 @@
 namespace PhpTwinfield\IntegrationTests;
 
 use PhpTwinfield\ApiConnectors\CustomerApiConnector;
-use PhpTwinfield\ApiConnectors\OfficeApiConnector;
 use PhpTwinfield\Currency;
 use PhpTwinfield\Customer;
 use PhpTwinfield\CustomerAddress;
@@ -17,8 +16,6 @@ use PhpTwinfield\Response\Response;
 use PhpTwinfield\Util;
 
 /**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
  * @covers Customer
  * @covers CustomerAddress
  * @covers CustomerBank
@@ -42,20 +39,6 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         parent::setUp();
 
         $this->customerApiConnector = new CustomerApiConnector($this->connection);
-        
-        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
-        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
-            $baseCurrency = new Currency;
-            $baseCurrency->setCode('EUR');
-            $reportingCurrency = new Currency;
-            $reportingCurrency->setCode('USD');
-            
-            $office = new Office;
-            $office->setResult(1);
-            $office->setBaseCurrency($baseCurrency);
-            $office->setReportingCurrency($reportingCurrency);
-            return $office;
-        });
     }
 
     public function testGetCustomerWorks()
