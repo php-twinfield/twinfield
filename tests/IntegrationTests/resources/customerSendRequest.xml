@@ -12,7 +12,7 @@
         <financials>
             <collectionschema>core</collectionschema>
             <duedays>30</duedays>
-            <ebilling>false</ebilling>
+            <ebilling/>
             <ebillmail/>
             <meansofpayment/>
             <payavailable>true</payavailable>
@@ -26,10 +26,10 @@
             </collectmandate>
         </financials>
         <creditmanagement>
-            <basecreditlimit>0</basecreditlimit>
-            <blocked>false</blocked>
+            <basecreditlimit/>
+            <blocked/>
             <comment/>
-            <freetext1>false</freetext1>
+            <freetext1/>
             <freetext2/>
             <freetext3/>
             <reminderemail/>
