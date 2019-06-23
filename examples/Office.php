@@ -142,14 +142,14 @@ if ($executeRead) {
     //echo "CountryCode (\\PhpTwinfield\\Country): <pre>" . print_r($office->getCountryCode(), true) . "</pre><br />";                  // Country|null
     //echo "CountryCode (string): " . Util::objectToStr($office->getCountryCode()) . "<br />";                                          // string|null
     echo "Created (\\DateTimeInterface): <pre>" . print_r($office->getCreated(), true) . "</pre><br />";              	                // DateTimeInterface|null       The date/time the office was created.
-    echo "Created (string): " . Util::parseDateTime($office->getCreatedToString()) . "<br />";                                          // string|null
+    echo "Created (string): " . Util::formatDateTime($office->getCreated()) . "<br />";                                                 // string|null
 
     if ($office->hasMessages()) {                                                                                         	            // bool                         Object contains (error) messages true/false.
         echo "Messages: " . print_r($office->getMessages(), true) . "<br />";                                             	            // Array|null                   (Error) messages.
     }
 
     echo "Modified (\\DateTimeInterface): <pre>" . print_r($office->getModified(), true) . "</pre><br />";            	                // DateTimeInterface|null       The date/time the office was modified.
-    echo "Modified (string): " . Util::parseDateTime($office->getModified()) . "<br />";                                                // string|null
+    echo "Modified (string): " . Util::formatDateTime($office->getModified()) . "<br />";                                               // string|null
     echo "Name: {$office->getName()}<br />";                                                                              	            // string|null
     echo "ReportingCurrency (\\PhpTwinfield\\Currency): <pre>" . print_r($office->getReportingCurrency(), true) . "</pre><br />";       // Currency|null                The reporting currency
     echo "ReportingCurrency (string): " . Util::objectToStr($office->getReportingCurrency()) . "<br />";                                // string|null

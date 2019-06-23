@@ -129,15 +129,15 @@ if ($executeRead) {
 
     echo "Article<br />";
     echo "AllowChangePerformanceType (bool): {$article->getAllowChangePerformanceType()}<br />";                                                    // bool|null                    Is it allowed to change the performance type.
-    echo "AllowChangePerformanceType (string): " . Util::formatBoolean($article->getAllowChangePerformanceTypeToString()) . "<br />";               // string|null
+    echo "AllowChangePerformanceType (string): " . Util::formatBoolean($article->getAllowChangePerformanceType()) . "<br />";                       // string|null
     echo "AllowChangeUnitsPrice (bool): {$article->getAllowChangeUnitsPrice()}<br />";                                                              // bool|null                    Is it allowed to change the units price.
-    echo "AllowChangeUnitsPrice (string): " . Util::formatBoolean($article->getAllowChangeUnitsPriceToString()) . "<br />";                         // string|null
+    echo "AllowChangeUnitsPrice (string): " . Util::formatBoolean($article->getAllowChangeUnitsPrice()) . "<br />";                                 // string|null
     echo "AllowChangeVatCode (bool): {$article->getAllowChangeVatCode()}<br />";                                                                    // bool|null                    Is it allowed to change the VAT.
-    echo "AllowChangeVatCode (string): " . Util::formatBoolean($article->getAllowChangeVatCodeToString()) . "<br />";                               // string|null
+    echo "AllowChangeVatCode (string): " . Util::formatBoolean($article->getAllowChangeVatCode()) . "<br />";                                       // string|null
     echo "AllowDecimalQuantity (bool): {$article->getAllowDecimalQuantity()}<br />";                                                                // bool|null                    Are decimals allowed.
-    echo "AllowDecimalQuantity (string): " . Util::formatBoolean($article->getAllowDecimalQuantityToString()) . "<br />";                           // string|null
+    echo "AllowDecimalQuantity (string): " . Util::formatBoolean($article->getAllowDecimalQuantity()) . "<br />";                                   // string|null
     echo "AllowDiscountOrPremium (bool): {$article->getAllowDiscountOrPremium()}<br />";                                                            // bool|null                    Is discount or premium allowed.
-    echo "AllowDiscountOrPremium (string): " . Util::formatBoolean($article->getAllowDiscountOrPremiumToString()) . "<br />";                       // string|null
+    echo "AllowDiscountOrPremium (string): " . Util::formatBoolean($article->getAllowDiscountOrPremium()) . "<br />";                               // string|null
     echo "Code: {$article->getCode()}<br />";                                                                                   					// string|null                  Article code.
 
     if ($article->hasMessages()) {                                                                                              					// bool                         Object contains (error) messages true/false.
@@ -146,9 +146,9 @@ if ($executeRead) {
 
     echo "Name: {$article->getName()}<br />";                                                                                   					// string|null                  Article description.
     echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($article->getOffice(), true) . "</pre><br />";                      					// Office|null                  Office code.
-    echo "Office (string): {$article->getOfficeToString()}<br />";                                                              					// string|null
+    echo "Office (string): " . Util::objectToStr($article->getOffice()) . "<br />";                                                              	// string|null
     echo "Percentage (bool): {$article->getPercentage()}<br />";                                                                                    // bool|null                    Only available when article type is discount or premium.
-    echo "Percentage (string): " . Util::formatBoolean($article->getPercentageToString()) . "<br />";                                               // string|null
+    echo "Percentage (string): " . Util::formatBoolean($article->getPercentage()) . "<br />";                                                       // string|null
     echo "PerformanceType: {$article->getPerformanceType()}<br />";                                                                               	// PerformanceType|null         The performance type.
     echo "Result: {$article->getResult()}<br />";                                                                               					// int|null                     Result (0 = error, 1 or empty = success).
     echo "ShortName: {$article->getShortName()}<br />";                                                                         					// string|null                  Short article description.
@@ -157,7 +157,7 @@ if ($executeRead) {
     echo "UnitNamePlural: {$article->getUnitNamePlural()}<br />";                                                                         			// string|null                  Unit name for multiple items.
     echo "UnitNameSingular: {$article->getUnitNameSingular()}<br />";                                                                         		// string|null                  Unit name for a single item.
     echo "VatCode (\\PhpTwinfield\\VatCode): <pre>" . print_r($article->getVatCode(), true) . "</pre><br />";                                       // VatCode|null                 Default VAT code.
-    echo "VatCode (string): " . Util::objectToStr($article->getVatCodeToString()) . "<br />";                                                       // string|null
+    echo "VatCode (string): " . Util::objectToStr($article->getVatCode()) . "<br />";                                                               // string|null
 
     $articleLines = $article->getLines();                                                                                                           // array|null                   Array of ArticleLine objects.
 
@@ -222,7 +222,7 @@ if ($executeNew) {
     $article->setCode('9061');                                                                                                                      // string|null                  Article code.
     $article->setName("Example Article");                                                                                                           // string|null                  Article description.
     $article->setOffice($office);                                                                                                                   // Office|null                  Office code.
-    $article->setOfficeFromString(\PhpTwinfield\Office::fromCode($officeCode));                                                                     // string|null
+    $article->setOffice(\PhpTwinfield\Office::fromCode($officeCode));                                                                               // string|null
     $article->setUnitNamePlural("Example Art Units");                                                                                               // string|null                  Unit name for multiple items
     $article->setUnitNameSingular("Example Art Unit");                                                                                              // string|null                  Unit name for a single item
 
@@ -232,7 +232,7 @@ if ($executeNew) {
     $article->setAllowChangeVatCode(true);                                                                                                          // bool|null                    Is it allowed to change the VAT.
     $article->setAllowDecimalQuantity(true);                                                                                                        // bool|null                    Are decimals allowed.
     $article->setAllowDiscountOrPremium(true);                                                                                                      // bool|null                    Is discount or premium allowed.
-    //$article->setPercentage(true);                                                                                                                // bool|null                    Only available when article type is discount or premium
+    $article->setPercentage(false);                                                                                                                 // bool|null                    Only available when article type is discount or premium
     $article->setPerformanceType(\PhpTwinfield\Enums\PerformanceType::SERVICES());                                                                  // PerformanceType|null         The performance type.
     $article->setShortName("ExmplArt");                                                                                                             // string|null                  Short article description.
     //$article->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                                    // Status|null                  For creating and updating status may be left empty. For deleting deleted should be used.

@@ -179,7 +179,7 @@ if ($executeNew) {
     $costCenter->setCode(null);                                                                                     // string|null          Set to null to let Twinfield assign a Dimension code based on the Dimension type mask
     //$costCenter->setCode('00020');                                                                                // string|null          Dimension code, must be compliant with the mask of the KPL Dimension type.
     $costCenter->setOffice($office);                                                                                // Office|null          Office.
-    $costCenter->setOfficeFromString($officeCode);                                                                  // string|null
+    $costCenter->setOffice(\PhpTwinfield\Office::fromCode($officeCode));                                            // string|null
 
     // Optional values for creating a new CostCenter
     $costCenter->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                   // Status|null          For creating and updating status may be left empty.

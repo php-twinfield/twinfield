@@ -27,7 +27,7 @@ require_once('Connection.php');
 // Run all or only some of the following examples
 $executeListAllWithFilter           = false;
 $executeListAllWithoutFilter        = true;
-$executeRead                        = false;
+$executeRead                        = true;
 $executeCopy                        = false;
 $executeNew                         = false;
 $executeDelete                      = false;
@@ -188,7 +188,7 @@ if ($executeNew) {
     $dimensionGroup->setCode('DIMGRP2');                                                                                                                // string|null                    Dimension group code.
     $dimensionGroup->setName("Dimension Group 2");                                                                                                      // string|null                    Name of the dimension group.
     $dimensionGroup->setOffice($office);                                                                                                                // Office|null                    Office code.
-    $dimensionGroup->setOfficeFromString(\PhpTwinfield\Office::fromCode($officeCode));                                                                  // string|null
+    $dimensionGroup->setOffice(\PhpTwinfield\Office::fromCode($officeCode));                                                                            // string|null
     $dimensionGroup->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                                   // Status|null                    For creating and updating active should be used. For deleting deleted should be used.
     //$dimensionGroup->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                                                // Status|null
 
@@ -226,7 +226,7 @@ if ($executeNew) {
 // Delete a DimensionGroup based off the passed in code and optionally the office.
 if ($executeDelete) {
     try {
-        $dimensionGroupDeleted = $dimensionGroupApiConnector->delete("TSTDIMGRP2", $office);
+        $dimensionGroupDeleted = $dimensionGroupApiConnector->delete("DIMGRP2", $office);
     } catch (ResponseException $e) {
         $dimensionGroupDeleted = $e->getReturnedObject();
     }
