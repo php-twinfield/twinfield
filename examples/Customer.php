@@ -11,6 +11,9 @@ namespace PhpTwinfield;
 // Use the ResponseException class to handle errors when listing, getting and sending objects to/from Twinfield
 use PhpTwinfield\Response\ResponseException;
 
+// Use the Util class for helper functions
+use PhpTwinfield\Util;
+
 require_once('vendor/autoload.php');
 
 // Retrieve an OAuth 2 connection
@@ -108,64 +111,64 @@ if ($executeListAllWithoutFilter) {
 
 /* Customer
  * \PhpTwinfield\Customer
- * Available getters: getBeginPeriod, getBeginYear, getBehaviour, getCode, getDiscountArticle, getDiscountArticleID, getDiscountArticleToString, getEndPeriod, getEndYear, getGroup, getGroupToString, getInUse, getInUseToString, getMessages, getName, getOffice, getOfficeToString,
- * getPaymentConditionDiscountDays, getPaymentConditionDiscountPercentage, getRemittanceAdviceSendMail, getRemittanceAdviceSendType, getResult, getShortName, getStatus, getTouched, getType, getTypeToString, getUID, getWebsite, hasMessages, getAddresses, getBanks, getCreditManagement, getFinancials, getPostingRules
+ * Available getters: getBeginPeriod, getBeginYear, getBehaviour, getCode, getDiscountArticle, getDiscountArticleID, getEndPeriod, getEndYear, getGroup, getInUse, getMessages, getName, getOffice,
+ * getPaymentConditionDiscountDays, getPaymentConditionDiscountPercentage, getRemittanceAdviceSendMail, getRemittanceAdviceSendType, getResult, getShortName, getStatus, getTouched, getType, getUID, getWebsite, hasMessages, getAddresses, getBanks, getCreditManagement, getFinancials, getPostingRules
  *
- * Available setters: setBeginPeriod, setBeginYear, setBehaviour, setBehaviourFromString, setCode, setDiscountArticle, setDiscountArticleFromString, setDiscountArticleID, setEndPeriod, setEndYear, setGroup, setGroupFromString, setName, setOffice, setOfficeFromString, setPaymentConditionDiscountDays,
- * setPaymentConditionDiscountPercentage, setRemittanceAdviceSendMail, setRemittanceAdviceSendType, setRemittanceAdviceSendTypeFromString, setShortName, setStatus, setStatusFromString, setType, setTypeFromString, setWebsite, setCreditManagement, setFinancials, addAddress, addBank, addPostingRule, removeAddress, removeBank, removePostingRule
+ * Available setters: setBeginPeriod, setBeginYear, setBehaviour, setCode, setDiscountArticle, setDiscountArticleID, setEndPeriod, setEndYear, setGroup, setName, setOffice, setPaymentConditionDiscountDays,
+ * setPaymentConditionDiscountPercentage, setRemittanceAdviceSendMail, setRemittanceAdviceSendType, setShortName, setStatus, setType, setWebsite, setCreditManagement, setFinancials, addAddress, addBank, addPostingRule, removeAddress, removeBank, removePostingRule
  *
  */
 
 /* CustomerFinancials
  * \PhpTwinfield\CustomerFinancials
- * Available getters: getAccountType, getCollectionSchema, getDueDays, getEBillMail, getEBilling, getEBillingToString, getLevel, getMatchType, getMeansOfPayment, getMessages, getPayAvailable, getPayAvailableToString, getPayCode, getPayCodeID, getPayCodeToString,
- * getResult, getSubAnalyse, getSubstituteWith, getSubstituteWithID, getSubstituteWithToString, getSubstitutionLevel, getVatCode, getVatCodeFixed, getVatCodeFixedToString, getVatCodeToString, getChildValidations, getCollectMandate, hasMessages
+ * Available getters: getAccountType, getCollectionSchema, getDueDays, getEBillMail, getEBilling, getLevel, getMatchType, getMeansOfPayment, getMessages, getPayAvailable, getPayCode, getPayCodeID,
+ * getResult, getSubAnalyse, getSubstituteWith, getSubstituteWithID, getSubstitutionLevel, getVatCode, getVatCodeFixed, getChildValidations, getCollectMandate, hasMessages
  *
- * Available setters: setAccountType, setAccountTypeFromString, setCollectionSchema, setCollectionSchemaFromString, setDueDays, setEBillMail, setEBilling, setEBillingFromString, setLevel, setMatchType, setMatchTypeFromString, setMeansOfPayment, setMeansOfPaymentFromString,
- * setPayAvailable, setPayAvailableFromString, setPayCode, setPayCodeFromString, setPayCodeID, setSubAnalyse, setSubAnalyseFromString, setSubstituteWith, setSubstituteWithFromString, setSubstituteWithID, setSubstitutionLevel, setVatCode, setVatCodeFixed, setVatCodeFixedFromString, setVatCodeFromString, setCollectMandate, addChildValidation, removeChildValidation
+ * Available setters: setAccountType, setCollectionSchema, setDueDays, setEBillMail, setEBilling, setLevel, setMatchType, setMeansOfPayment,
+ * setPayAvailable, setPayCode, setPayCodeID, setSubAnalyse, setSubstituteWith, setSubstituteWithID, setSubstitutionLevel, setVatCode, setVatCodeFixed, setCollectMandate, addChildValidation, removeChildValidation
  *
  */
 
 /* CustomerCollectMandate
  * \PhpTwinfield\CustomerCollectMandate
- * Available getters: getFirstRunDate, getFirstRunDateToString, getID, getMessages, getResult, getSignatureDate, getSignatureDateToString, hasMessages
- * Available setters: setFirstRunDate, setFirstRunDateFromString, setID, setSignatureDate, setSignatureDateFromString
+ * Available getters: getFirstRunDate, getID, getMessages, getResult, getSignatureDate, hasMessages
+ * Available setters: setFirstRunDate, setID, setSignatureDate
  */
 
 /* CustomerChildValidation
  * \PhpTwinfield\CustomerChildValidation
  * Available getters: getElementValue, getLevel, getMessages, getResult, getType, hasMessages
- * Available setters: setElementValue, setLevel, setType, setTypeFromString
+ * Available setters: setElementValue, setLevel, setType
  */
 
 /* CustomerCreditManagement
  * \PhpTwinfield\CustomerCreditManagement
- * Available getters: getBaseCreditLimit, getBaseCreditLimitToFloat, getBlocked, getBlockedLocked, getBlockedLockedToString, getBlockedModified, getBlockedModifiedToString, getBlockedToString, getComment, getFreeText1, getFreeText1ToString, getFreetext2, getFreetext3, getMessages, getReminderEmail, getResponsibleUser, getResponsibleUserToString, getResult, getSendReminder, hasMessages
- * Available setters: setBaseCreditLimit, setBaseCreditLimitFromFloat, setBlocked, setBlockedFromString, setBlockedLocked, setBlockedLockedFromString, setBlockedModified, setBlockedModifiedFromString, setComment, setFreeText1, setFreeText1FromString, setFreetext2, setFreetext3, setReminderEmail, setResponsibleUser, setResponsibleUserFromString, setSendReminder, setSendReminderFromString
+ * Available getters: getBaseCreditLimit, getBlocked, getBlockedLocked, getBlockedModified, getComment, getFreeText1, getFreetext2, getFreetext3, getMessages, getReminderEmail, getResponsibleUser, getResult, getSendReminder, hasMessages
+ * Available setters: setBaseCreditLimit, setBlocked, setBlockedLocked, setBlockedModified, setComment, setFreeText1, setFreetext2, setFreetext3, setReminderEmail, setResponsibleUser, setSendReminder
  */
 
 /* CustomerAddress
  * \PhpTwinfield\CustomerAddress
- * Available getters: getCity, getCountry, getCountryToString, getDefault, getDefaultToString, getEmail, getField1, getField2, getField3, getField4, getField5, getField6, getID, getMessages, getName, getPostcode, getResult, getTelefax, getTelephone, getType, hasMessages
- * Available setters: setCity, setCountry, setCountryFromString, setDefault, setDefaultFromString, setEmail, setField1, setField2, setField3, setField4, setField5, setField6, setID, setName, setPostcode, setTelefax, setTelephone, setType, setTypeFromString
+ * Available getters: getCity, getCountry, getDefault, getEmail, getField1, getField2, getField3, getField4, getField5, getField6, getID, getMessages, getName, getPostcode, getResult, getTelefax, getTelephone, getType, hasMessages
+ * Available setters: setCity, setCountry, setDefault, setEmail, setField1, setField2, setField3, setField4, setField5, setField6, setID, setName, setPostcode, setTelefax, setTelephone, setType
  */
 
 /* CustomerBank
  * \PhpTwinfield\CustomerBank
- * Available getters: getAccountNumber, getAddressField2, getAddressField3, getAscription, getBankName, getBicCode, getBlocked, getBlockedToString, getCity, getCountry, getCountryToString, getDefault, getDefaultToString, getID, getIban, getMessages, getNatBicCode, getPostcode, getResult, getState, hasMessages
- * Available setters: setAccountNumber, setAddressField2, setAddressField3, setAscription, setBankName, setBicCode, setBlocked, setBlockedFromString, setCity, setCountry, setCountryFromString, setDefault, setDefaultFromString, setID, setIban, setNatBicCode, setPostcode, setState
+ * Available getters: getAccountNumber, getAddressField2, getAddressField3, getAscription, getBankName, getBicCode, getBlocked, getCity, getCountry, getDefault, getID, getIban, getMessages, getNatBicCode, getPostcode, getResult, getState, hasMessages
+ * Available setters: setAccountNumber, setAddressField2, setAddressField3, setAscription, setBankName, setBicCode, setBlocked, setCity, setCountry, setDefault, setID, setIban, setNatBicCode, setPostcode, setState
  */
 
 /* CustomerPostingRule
  * \PhpTwinfield\CustomerPostingRule
- * Available getters: getAmount, getAmountToFloat, getCurrency, getCurrencyToString, getDescription, getID, getMessages, getResult, getStatus, getLines, hasMessages
- * Available setters: setAmount, setAmountFromFloat, setCurrency, setCurrencyFromString, setDescription, setID, setStatus, setStatusFromString, addLine, removeLine
+ * Available getters: getAmount, getCurrency, getDescription, getID, getMessages, getResult, getStatus, getLines, hasMessages
+ * Available setters: setAmount, setCurrency, setDescription, setID, setStatus, addLine, removeLine
  */
 
 /* CustomerLine
  * \PhpTwinfield\CustomerLine
- * Available getters: getDescription, getDimension1, getDimension1ID, getDimension1ToString, getDimension2, getDimension2ID, getDimension2ToString, getDimension3, getDimension3ID, getDimension3ToString, getMessages, getOffice, getOfficeToString, getRatio, getResult, getVatCode, getVatCodeToString, hasMessages
- * Available setters: setDescription, setDimension1, setDimension1FromString, setDimension1ID, setDimension2, setDimension2FromString, setDimension2ID, setDimension3, setDimension3FromString, setDimension3ID, setOffice, setOfficeFromString, setRatio, setVatCode, setVatCodeFromString
+ * Available getters: getDescription, getDimension1, getDimension1ID, getDimension2, getDimension2ID, getDimension3, getDimension3ID, getMessages, getOffice, getRatio, getResult, getVatCode, hasMessages
+ * Available setters: setDescription, setDimension1, setDimension1ID, setDimension2, setDimension2ID, setDimension3, setDimension3ID, setOffice, setRatio, setVatCode
  */
 
 if ($executeListAllWithFilter || $executeListAllWithoutFilter) {

@@ -11,6 +11,9 @@ namespace PhpTwinfield;
 // Use the ResponseException class to handle errors when listing, getting and sending objects to/from Twinfield
 use PhpTwinfield\Response\ResponseException;
 
+// Use the Util class for helper functions
+use PhpTwinfield\Util;
+
 require_once('vendor/autoload.php');
 
 // Retrieve an OAuth 2 connection
@@ -99,26 +102,24 @@ if ($executeListAllWithoutFilter) {
 
 /* Project
  * \PhpTwinfield\Project
- * Available getters: getBehaviour, getCode, getInUse, getInUseToString, getMessages, getName, getOffice, getOfficeToString, getResult, getShortName, getStatus, getTouched, getType, getTypeToString, getUID, getVatCode, getVatCodeToString, hasMessages, getProjects
- * Available setters: setBehaviour, setBehaviourFromString, setCode, setName, setOffice, setOfficeFromString, setShortName, setStatus, setStatusFromString, setType, setTypeFromString, setVatCode, setVatCodeFromString, setProjects
+ * Available getters: getBehaviour, getCode, getInUse, getMessages, getName, getOffice, getResult, getShortName, getStatus, getTouched, getType, getUID, getVatCode, hasMessages, getProjects
+ * Available setters: setBehaviour, setCode, setName, setOffice, setShortName, setStatus, setType, setVatCode, setProjects
  */
 
 /* ProjectProjects
  * \PhpTwinfield\ProjectProjects
- * Available getters: getAuthoriser, getAuthoriserInherit, getAuthoriserInheritToString, getAuthoriserLocked, getAuthoriserLockedToString, getAuthoriserToString, getBillable, getBillableForRatio, getBillableForRatioToString, getBillableInherit, getBillableInheritToString,
- * getBillableLocked, getBillableLockedToString, getBillableToString, getCustomer, getCustomerInherit, getCustomerInheritToString, getCustomerLocked, getCustomerLockedToString, getCustomerToString, getInvoiceDescription, getMessages, getRate, getRateInherit, getRateInheritToString,
- * getRateLocked, getRateLockedToString, getRateToString, getResult, getValidFrom, getValidFromToString, getValidTill, getValidTillToString, hasMessages, getQuantities
+ * Available getters: getAuthoriser, getAuthoriserInherit, getAuthoriserLocked, getBillable, getBillableForRatio, getBillableInherit, getBillableLocked, getCustomer, getCustomerInherit, getCustomerLocked, getInvoiceDescription, getMessages, getRate, getRateInherit,
+ * getRateLocked, getResult, getValidFrom, getValidTill, hasMessages, getQuantities
  *
- * Available setters: setAuthoriser, setAuthoriserFromString, setAuthoriserInherit, setAuthoriserInheritFromString, setAuthoriserLocked, setAuthoriserLockedFromString, setBillable, setBillableForRatio, setBillableForRatioFromString, setBillableFromString, setBillableInherit, setBillableInheritFromString,
- * setBillableLocked, setBillableLockedFromString, setCustomer, setCustomerFromString, setCustomerInherit, setCustomerInheritFromString, setCustomerLocked, setCustomerLockedFromString, setInvoiceDescription, setRate, setRateFromString, setRateInherit, setRateInheritFromString,
- * setRateLocked, setRateLockedFromString, setValidFrom, setValidFromFromString, setValidTill, setValidTillFromString, addQuantity, removeQuantity
+ * Available setters: setAuthoriser, setAuthoriserInherit, setAuthoriserLocked, setBillable, setBillableForRatio, setBillableInherit, setBillableLocked, setCustomer, setCustomerInherit, setCustomerLocked, setInvoiceDescription, setRate, setRateInherit,
+ * setRateLocked, setValidFrom, setValidTill, addQuantity, removeQuantity
  *
  */
 
 /* ProjectQuantity
  * \PhpTwinfield\ProjectQuantity
- * Available getters: getBillable, getBillableLocked, getBillableLockedToString, getBillableToString, getLabel, getMandatory, getMandatoryToString, getMessages, getRate, getRateToString, getResult, hasMessages
- * Available setters: setBillable, setBillableFromString, setBillableLocked, setBillableLockedFromString, setLabel, setMandatory, setMandatoryFromString, setRate, setRateFromString
+ * Available getters: getBillable, getBillableLocked, getLabel, getMandatory, getMessages, getRate, getResult, hasMessages
+ * Available setters: setBillable, setBillableLocked, setLabel, setMandatory, setRate
  */
 
 if ($executeListAllWithFilter || $executeListAllWithoutFilter) {

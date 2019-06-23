@@ -11,6 +11,9 @@ namespace PhpTwinfield;
 // Use the ResponseException class to handle errors when listing, getting and sending objects to/from Twinfield
 use PhpTwinfield\Response\ResponseException;
 
+// Use the Util class for helper functions
+use PhpTwinfield\Util;
+
 require_once('vendor/autoload.php');
 
 // Retrieve an OAuth 2 connection
@@ -90,8 +93,8 @@ if ($executeListAllWithoutFilter) {
 
 /* DimensionType
  * \PhpTwinfield\DimensionType
- * Available getters: getCode, getMask, getMessages, getName, getOffice, getOfficeToString, getResult, getShortName, getStatus, hasMessages, getAddress, getLevels
- * Available setters: setCode, setMask, setName, setOffice, setOfficeFromString, setShortName, setStatus, setStatusFromString, setAddress, setLevels
+ * Available getters: getCode, getMask, getMessages, getName, getOffice, getResult, getShortName, getStatus, hasMessages, getAddress, getLevels
+ * Available setters: setCode, setMask, setName, setOffice, setShortName, setStatus, setAddress, setLevels
  */
 
 /* DimensionTypeLevels
@@ -136,7 +139,7 @@ if ($executeRead) {
 
     echo "Name: {$dimensionType->getName()}<br />";                                                                                   					// string|null                  Dimension type name.
     echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($dimensionType->getOffice(), true) . "</pre><br />";                      					// Office|null                  Office code.
-    echo "Office (string): {$dimensionType->getOfficeToString()}<br />";                                                              					// string|null
+    echo "Office (string): " . Util::objectToStr($dimensionType->getOffice()) . "<br />";                                                               // string|null
     echo "Result: {$dimensionType->getResult()}<br />";                                                                               					// int|null                     Result (0 = error, 1 or empty = success).
     echo "ShortName: {$dimensionType->getShortName()}<br />";                                                                         					// string|null                  Dimension type short name.
     echo "Status: {$dimensionType->getStatus()}<br />";                                                                               					// Status|null                  Status of the dimension type.

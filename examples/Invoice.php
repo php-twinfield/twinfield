@@ -11,6 +11,9 @@ namespace PhpTwinfield;
 // Use the ResponseException class to handle errors when listing, getting and sending objects to/from Twinfield
 use PhpTwinfield\Response\ResponseException;
 
+// Use the Util class for helper functions
+use PhpTwinfield\Util;
+
 require_once('vendor/autoload.php');
 
 // Retrieve an OAuth 2 connection
@@ -94,34 +97,30 @@ if ($executeListAllWithoutFilter) {
 
 /* Invoice
  * \PhpTwinfield\Invoice
- * Available getters: getBank, getBankToString, getCalculateOnly, getCalculateOnlyToString, getCurrency, getCurrencyToString, getCustomer, getCustomerName, getCustomerToString, getDebitCredit, getDeliverAddressNumber, getDueDate, getDueDateToString, getFinancialCode, getFinancialNumber,
- * getFooterText, getHeaderText, getInvoiceAddressNumber, getInvoiceAmount, getInvoiceAmountToFloat, getInvoiceDate, getInvoiceDateToString, getInvoiceNumber, getInvoiceType, getInvoiceTypeToString, getMessages, getOffice, getOfficeToString, getPaymentMethod,
- * getPerformanceDate, getPerformanceDateToString, getPeriod, getPeriodRaiseWarning, getPeriodRaiseWarningToString, getRaiseWarning, getRaiseWarningToString, getResult, getStatus, hasMessages, getLines, getMatchReference, getTotals, getVatLines
+ * Available getters: getBank, getCalculateOnly, getCurrency, getCustomer, getCustomerName, getDebitCredit, getDeliverAddressNumber, getDueDate, getFinancialCode, getFinancialNumber, getFooterText, getHeaderText, getInvoiceAddressNumber, getInvoiceAmount, getInvoiceDate, getInvoiceNumber, getInvoiceType, getMessages, getOffice, getPaymentMethod,
+ * getPerformanceDate, getPeriod, getPeriodRaiseWarning, getRaiseWarning, getResult, getStatus, hasMessages, getLines, getMatchReference, getTotals, getVatLines
  *
- * Available setters: setBank, setBankFromString, setCalculateOnly, setCalculateOnlyFromString, setCurrency, setCurrencyFromString, setCustomer, setCustomerFromString, setCustomerName, setDebitCredit, setDebitCreditFromString, setDeliverAddressNumber, setDueDate, setDueDateFromString,
- * setFinancialCode, setFinancialNumber, setFooterText, setHeaderText, setInvoiceAddressNumber, setInvoiceAmount, setInvoiceAmountFromFloat, setInvoiceDate, setInvoiceDateFromString, setInvoiceNumber, setInvoiceType, setInvoiceTypeFromString, setOffice,
- * setOfficeFromString, setPaymentMethod, setPaymentMethodFromString, setPerformanceDate, setPerformanceDateFromString, setPeriod, setPeriodRaiseWarning, setPeriodRaiseWarningFromString, setRaiseWarning, setRaiseWarningFromString, setStatus, setStatusFromString, setTotals, addLine, addVatLine, removeLine, removeVatLine
+ * Available setters: setBank, setCalculateOnly, setCurrency, setCustomer, setCustomerName, setDebitCredit, setDeliverAddressNumber, setDueDate, setFinancialCode, setFinancialNumber, setFooterText, setHeaderText, setInvoiceAddressNumber, setInvoiceAmount, setInvoiceDate, setInvoiceNumber, setInvoiceType, setOffice,
+ * setOfficeFromString, setPaymentMethod, setPerformanceDate, setPeriod, setPeriodRaiseWarning, setRaiseWarning, setStatus, setTotals, addLine, addVatLine, removeLine, removeVatLine
  *
  */
 
 /* InvoiceTotals
  * \PhpTwinfield\InvoiceTotals
- * Available getters: getMessages, getResult, getValueExcl, getValueExclToFloat, getValueInc, getValueIncToFloat, hasMessages
- * Available setters: setValueExcl, setValueExclFromFloat, setValueInc, setValueIncFromFloat
+ * Available getters: getMessages, getResult, getValueExcl, getValueInc, hasMessages
+ * Available setters: setValueExcl, setValueInc
  */
 
 /* InvoiceLine
  * \PhpTwinfield\InvoiceLine
- * Available getters: getAllowDiscountOrPremium, getAllowDiscountOrPremiumToString, getArticle, getArticleToString, getDescription, getDim1, getDim1ToString, getFreetext1, getFreetext2, getFreetext3, getID, getMessages, getPerformanceDate, getPerformanceDateToString, getPerformanceType,
- * getQuantity, getResult, getSubArticle, getSubArticleToString, getUnits, getUnitsPriceExcl, getUnitsPriceExclToFloat, getUnitsPriceInc, getUnitsPriceIncToFloat, getValueExcl, getValueExclToFloat, getValueInc, getValueIncToFloat, getVatCode, getVatCodeToString, getVatValue, getVatValueToFloat, hasMessages
- * Available setters: setAllowDiscountOrPremium, setAllowDiscountOrPremiumFromString, setArticle, setArticleFromString, setDescription, setDim1, setDim1FromString, setFreetext1, setFreetext2, setFreetext3, setID, setPerformanceDate, setPerformanceDateFromString, setPerformanceType, setPerformanceTypeFromString,
- * setQuantity, setSubArticle, setSubArticleFromString, setUnits, setUnitsPriceExcl, setUnitsPriceExclFromFloat, setUnitsPriceInc, setUnitsPriceIncFromFloat, setValueExcl, setValueExclFromFloat, setValueInc, setValueIncFromFloat, setVatCode, setVatCodeFromString, setVatValue, setVatValueFromFloat
+ * Available getters: getAllowDiscountOrPremium, getArticle, getDescription, getDim1, getFreetext1, getFreetext2, getFreetext3, getID, getMessages, getPerformanceDate, getPerformanceType, getQuantity, getResult, getSubArticle, getUnits, getUnitsPriceExcl, getUnitsPriceInc, getValueExcl, getValueInc, getVatCode, getVatValue, hasMessages
+ * Available setters: setAllowDiscountOrPremium, setArticle, setDescription, setDim1, setFreetext1, setFreetext2, setFreetext3, setID, setPerformanceDate, setPerformanceType, setQuantity, setSubArticle, setUnits, setUnitsPriceExcl, setUnitsPriceInc, setValueExcl, setValueInc, setVatCode, setVatValue
  */
 
 /* InvoiceVatLine
  * \PhpTwinfield\InvoiceVatLine
- * Available getters: getMessages, getPerformanceDate, getPerformanceDateToString, getPerformanceType, getResult, getVatCode, getVatCodeToString, getVatValue, getVatValueToFloat, hasMessages
- * Available setters: setPerformanceDate, setPerformanceDateFromString, setPerformanceType, setPerformanceTypeFromString, setVatCode, setVatCodeFromString, setVatValue, setVatValueFromFloat
+ * Available getters: getMessages, getPerformanceDate, getPerformanceType, getResult, getVatCode, getVatValue, hasMessages
+ * Available setters: setPerformanceDate, setPerformanceType, setVatCode, setVatValue
  */
 
 if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
@@ -298,87 +297,76 @@ if ($executeNew) {
     $customer = new \PhpTwinfield\Customer;
     $customer->setCode('1000');
     $invoice->setCustomer($customer);                                                                                                               // Customer|null                Customer code.
-    $invoice->setCustomerFromString("1000");                                                                                                        // string|null
+    $invoice->setCustomer(\PhpTwinfield\Customer::fromCode("1000"));                                                                                // string|null
     $invoiceType = new \PhpTwinfield\InvoiceType;
     $invoiceType->setCode('FACTUUR');
     $invoice->setInvoiceType($invoiceType);                                                                                                         // InvoiceType|null             Invoice type code.
-    $invoice->setInvoiceTypeFromString("FACTUUR");                                                                                                  // string|null
+    $invoice->setInvoiceType(\PhpTwinfield\InvoiceType::fromCode("FACTUUR"));                                                                       // string|null
     $invoice->setOffice($office);                                                                                                                   // Office|null                  Office code.
-    $invoice->setOfficeFromString($officeCode);                                                                                                     // string|null
+    $invoice->setOffice(\PhpTwinfield\Office::fromCode($officeCode));                                                                               // string|null
 
     // Optional values for creating a new Invoice
     $invoice->setCalculateOnly(false);                                                                                                              // bool|null                    Attribute to indicate that invoice should not be saved but only checked and calculated. @calculateonly must be true for that.
-    $invoice->setCalculateOnlyFromString('false');                                                                                                  // string|null
     $invoice->setRaiseWarning(true);                                                                                                                // bool|null                    Should warnings be given true or not false? Default true.
-    $invoice->setRaiseWarningFromString('true');                                                                                                    // string|null
     $bank = new \PhpTwinfield\CashBankBook;
     $bank->setCode('BNK');
     $invoice->setBank($bank);                                                                                                                       // CashBankBook|null            Customer code.
-    $invoice->setBankFromString("BNK");
+    $invoice->setBankFromString(\PhpTwinfield\CashBankBook::fromCode("BNK"));                                                                       // string|null
     $currency = new \PhpTwinfield\Currency;
     $currency->setCode('EUR');
     $invoice->setCurrency($currency);                                                                                                               // Currency|null                Currency code.
-    $invoice->setCurrencyFromString("EUR");
+    $invoice->setCurrency(\PhpTwinfield\Currency::fromCode("EUR"));                                                                                 // string|null
     $invoice->setDeliverAddressNumber(1);                                                                                                           // int|null                     If you want the default address, omit the tag or leave it empty.
     $dueDate = \DateTime::createFromFormat('d-m-Y', '01-07-2019');
     $invoice->setDueDate($dueDate);                                                                                                                 // DateTimeInterface|null       Due date.
-    $invoice->setDueDateFromString("20190701");                                                                                                     // string|null
+    $invoice->setDueDate(Util::parseDate("20190701"));                                                                                              // string|null
     $invoice->setFooterText("Example Footer");                                                                                                      // string|null                  Footer text on the invoice.
     $invoice->setHeaderText("Example Header");                                                                                                      // string|null                  Header text on the invoice.
     $invoice->setInvoiceAddressNumber(1);                                                                                                           // int|null                     If you want the default address, omit the tag or leave it empty.
     $invoiceDate = \DateTime::createFromFormat('d-m-Y', '01-07-2019');
     $invoice->setInvoiceDate($invoiceDate);                                                                                                         // DateTimeInterface|null       Optional; when the invoicedate is not supplied Twinfield uses the system date as the invoice date.
-    $invoice->setInvoiceDateFromString("20190701");                                                                                                 // string|null
+    $invoice->setInvoiceDate(Util::parseDate("20190701"));                                                                                          // string|null
     $invoice->setPaymentMethod(\PhpTwinfield\Enums\PaymentMethod::BANK());                                                                          // PaymentMethod|null           The payment method.
-    $invoice->setPaymentMethodFromString("bank");                                                                                                   // string|null
     $performanceDate = \DateTime::createFromFormat('d-m-Y', '01-07-2019');
     $invoice->setPerformanceDate($performanceDate);                                                                                                 // DateTimeInterface|null       Performance date, when set-up on the invoice header.
-    $invoice->setPerformanceDateFromString("20190701");                                                                                             // string|null
+    $invoice->setPerformanceDate(Util::parseDate("20190701"));                                                                                      // string|null
     $invoice->setPeriod("2019/07");                                                                                                                 // string|null                  Period in YYYY/PP format.
-    $invoice->setPeriodRaiseWarning(false);                                                                                                         // bool|null                    Optionally, it is possible to suppress warnings about 'date out of range for the given period' by adding the raisewarning attribute and set its value to false.
-
-    $invoice->setPeriodRaiseWarningFromString('false');                                                                                             // string|null                  This overwrites the value of the raisewarning attribute as set on the root element.
-    //$invoice->setStatus(\PhpTwinfield\Enums\InvoiceStatus::CONCEPT());                                                                            // InvoiceStatus|null           default can only be returned when retrieving a sales invoice.
-    //$invoice->setStatus(\PhpTwinfield\Enums\InvoiceStatus::FINAL());                                                                              // InvoiceStatus|null           You cannot use this status when creating or updating an invoice.
-    //$invoice->setStatusFromString('concept');                                                                                                     // string|null                  concept saves the invoice as provisional. After saving as final, no changes can be made anymore.
-    //$invoice->setStatusFromString('final');                                                                                                       // string|null                  When posting an invoice final, a financial transaction is generated and posted automatically.
+    $invoice->setPeriodRaiseWarning(false);                                                                                                         // bool|null                    Optionally, it is possible to suppress warnings about 'date out of range for the given period' by adding the raisewarning attribute and set its value to false. This overwrites the value of the raisewarning attribute as set on the root element.
+    //$invoice->setStatus(\PhpTwinfield\Enums\InvoiceStatus::CONCEPT());                                                                            // InvoiceStatus|null           default can only be returned when retrieving a sales invoice. You cannot use this status when creating or updating an invoice.
+    //$invoice->setStatus(\PhpTwinfield\Enums\InvoiceStatus::FINAL());                                                                              // InvoiceStatus|null           concept saves the invoice as provisional. After saving as final, no changes can be made anymore. When posting an invoice final, a financial transaction is generated and posted automatically.
 
     // The minimum amount of InvoiceLines linked to an Invoice object is 1
     $invoiceLine = new \PhpTwinfield\InvoiceLine;
 
     $invoiceLine->setAllowDiscountOrPremium(true);                                                                                                  // bool|null                    Calculate discount on this line.
-    $invoiceLine->setAllowDiscountOrPremiumFromString('true');                                                                                      // string|null
     $article = new \PhpTwinfield\Article;
     $article->setCode('9060');
     $invoiceLine->setArticle($article);                      		                                                                                // Article|null                 Article code.
-    $invoiceLine->setArticleFromString('9060');                                                       	                                            // string|null
+    $invoiceLine->setArticle(\PhpTwinfield\Article::fromCode('9060'));                      	                                                    // string|null
     //$invoiceLine->setDescription('Example Description');                                                       	                                // string|null                  Invoice line description, only on the lines with article ‘0’ or ‘-‘.
     $dim1 = new \PhpTwinfield\GeneralLedger;
     $dim1->setCode('9060');
     $invoiceLine->setDim1($dim1);                      		                                                                                        // GeneralLedger|null           Balance account.
-    $invoiceLine->setDim1FromString('9060');                                                       	                                                // string|null
+    $invoiceLine->setDim1(\PhpTwinfield\GeneralLedger::fromCode('9060'));               	                                                        // string|null
     //$invoiceLine->setFreeText1('Example Free Text 1');                                                       	                                    // string|null                  Free text field 1 as entered on the invoice type.
     //$invoiceLine->setFreeText2('Example Free Text 2');                                                       	                                    // string|null                  Free text field 2 as entered on the invoice type.
     //$invoiceLine->setFreetext3("Example Free Text 3");                                                                                            // string|null                  Free text field 3 as entered on the invoice type.
     $invoiceLine->setID(1);                                                                                                                         // int|null                     Line ID.
     //$invoiceLine->setPerformanceType(\PhpTwinfield\Enums\PerformanceType::SERVICES());                                                            // PerformanceType|null         The performance type in case of an ICT sales invoice.
-    //$invoiceLine->setPerformanceTypeFromString("services");                                                                                       // string|null
     //$invoiceLine->setPerformanceDate($performanceDate);                                                                                           // DateTimeInterface|null       Performance date, when set-up on invoice lines.
-    //$invoiceLine->setPerformanceDateFromString("20190701");                                                                                       // string|null
+    //$invoiceLine->setPerformanceDate(Util::parseDate("20190701"));                                                                                // string|null
     $invoiceLine->setQuantity(1);                                                                                                                   // int|null                     The quantity on the sales invoice line.
     $subArticle = new \PhpTwinfield\ArticleLine;
     $subArticle->setSubCode('9060');
     $invoiceLine->setSubArticle($subArticle);                      		                                                                            // ArticleLine|null             Sub-article code.
-    $invoiceLine->setSubArticleFromString('9060');                                                       	                                        // string|null
+    $invoiceLine->setSubArticle(\PhpTwinfield\ArticleLine::fromCode('9060'));                   	                                                // string|null
     $invoiceLine->setUnits(1);                                                                                                                      // int|null                     The number of units per quantity.
-    $invoiceLine->setUnitsPriceExcl(\Money\Money::EUR(1000));                                                                                       // Money|null                   Only valid for invoice types with VAT exclusive units prices. Only add this tag to an XML request if the setting Prices can be changed on an item is set to true.
-    $invoiceLine->setUnitsPriceExclFromFloat(10);                                                                                                   // float|null                   Otherwise, the price will be determined by the system.
-    //$invoiceLine->setUnitsPriceInc(\Money\Money::EUR(1210));                                                                                      // Money|null                   Only valid for invoice types with VAT inclusive units prices. Only add this tag to an XML request if the setting Prices can be changed on an item is set to true.
-    //$invoiceLine->setUnitsPriceIncFromFloat(12.10);                                                                                               // float|null                   Otherwise, the price will be determined by the system.
+    $invoiceLine->setUnitsPriceExcl(\Money\Money::EUR(1000));                                                                                       // Money|null                   Only valid for invoice types with VAT exclusive units prices. Only add this tag to an XML request if the setting Prices can be changed on an item is set to true. Otherwise, the price will be determined by the system. (Equals 10.00 EUR)
+    //$invoiceLine->setUnitsPriceInc(\Money\Money::EUR(1210));                                                                                      // Money|null                   Only valid for invoice types with VAT inclusive units prices. Only add this tag to an XML request if the setting Prices can be changed on an item is set to true. Otherwise, the price will be determined by the system. (Equals 12.10 EUR)
     $vatCode = new \PhpTwinfield\VatCode;
     $vatCode->setCode('VH');
     //$invoiceLine->getVatCode($vatCode);                                                                                                           // VatCode|null                 VAT code.
-    //$invoiceLine->setVatCodeFromString('VH');                                                                                                     // string|null
+    //$invoiceLine->setVatCode(\PhpTwinfield\VatCode::fromCode('VH'));                                                                              // string|null
 
     $invoice->addLine($invoiceLine);                                                                                                                // InvoiceLine                  Add an InvoiceLine object to the Invoice object
     //$invoice->removeLine(0);                                                                                                                      // int                          Remove an invoice line based on the index of the invoice line

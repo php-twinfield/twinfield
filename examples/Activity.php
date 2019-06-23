@@ -11,6 +11,9 @@ namespace PhpTwinfield;
 // Use the ResponseException class to handle errors when listing, getting and sending objects to/from Twinfield
 use PhpTwinfield\Response\ResponseException;
 
+// Use the Util class for helper functions
+use PhpTwinfield\Util;
+
 require_once('vendor/autoload.php');
 
 // Retrieve an OAuth 2 connection
@@ -99,26 +102,24 @@ if ($executeListAllWithoutFilter) {
 
 /* Activity
  * \PhpTwinfield\Activity
- * Available getters: getBehaviour, getCode, getInUse, getInUseToString, getMessages, getName, getOffice, getOfficeToString, getResult, getShortName, getStatus, getTouched, getType, getTypeToString, getUID, getVatCode, getVatCodeToString, hasMessages, getProjects
- * Available setters: setBehaviour, setBehaviourFromString, setCode, setName, setOffice, setOfficeFromString, setShortName, setStatus, setStatusFromString, setType, setTypeFromString, setVatCode, setVatCodeFromString, setProjects
+ * Available getters: getBehaviour, getCode, getInUse, getMessages, getName, getOffice, getResult, getShortName, getStatus, getTouched, getType, getUID, getVatCode, hasMessages, getProjects
+ * Available setters: setBehaviour, setCode, setName, setOffice, setShortName, setStatus, setType, setVatCode, setProjects
  */
 
 /* ActivityProjects
  * \PhpTwinfield\ActivityProjects
- * Available getters: getAuthoriser, getAuthoriserInherit, getAuthoriserInheritToString, getAuthoriserLocked, getAuthoriserLockedToString, getAuthoriserToString, getBillable, getBillableForRatio, getBillableForRatioToString, getBillableInherit, getBillableInheritToString,
- * getBillableLocked, getBillableLockedToString, getBillableToString, getCustomer, getCustomerInherit, getCustomerInheritToString, getCustomerLocked, getCustomerLockedToString, getCustomerToString, getInvoiceDescription, getMessages, getRate, getRateInherit, getRateInheritToString,
- * getRateLocked, getRateLockedToString, getRateToString, getResult, getValidFrom, getValidFromToString, getValidTill, getValidTillToString, hasMessages, getQuantities
+ * Available getters: getAuthoriser, getAuthoriserInherit, getAuthoriserLocked, getBillable, getBillableForRatio, getBillableInherit, getBillableLocked, getCustomer, getCustomerInherit, getCustomerLocked, getInvoiceDescription, getMessages, getRate, getRateInherit,
+ * getRateLocked, getResult, getValidFrom, getValidTill, hasMessages, getQuantities
  *
- * Available setters: setAuthoriser, setAuthoriserFromString, setAuthoriserInherit, setAuthoriserInheritFromString, setAuthoriserLocked, setAuthoriserLockedFromString, setBillable, setBillableForRatio, setBillableForRatioFromString, setBillableFromString, setBillableInherit, setBillableInheritFromString,
- * setBillableLocked, setBillableLockedFromString, setCustomer, setCustomerFromString, setCustomerInherit, setCustomerInheritFromString, setCustomerLocked, setCustomerLockedFromString, setInvoiceDescription, setRate, setRateFromString, setRateInherit, setRateInheritFromString,
- * setRateLocked, setRateLockedFromString, setValidFrom, setValidFromFromString, setValidTill, setValidTillFromString, addQuantity, removeQuantity
+ * Available setters: setAuthoriser, setAuthoriserInherit, setAuthoriserLocked, setBillable, setBillableForRatio, setBillableInherit, setBillableLocked, setCustomer, setCustomerInherit, setCustomerLocked, setInvoiceDescription, setRate, setRateInherit,
+ * setRateLocked, setValidFrom, setValidTill, addQuantity, removeQuantity
  *
  */
 
 /* ActivityQuantity
  * \PhpTwinfield\ActivityQuantity
- * Available getters: getBillable, getBillableLocked, getBillableLockedToString, getBillableToString, getLabel, getMandatory, getMandatoryToString, getMessages, getRate, getRateToString, getResult, hasMessages
- * Available setters: setBillable, setBillableFromString, setBillableLocked, setBillableLockedFromString, setLabel, setMandatory, setMandatoryFromString, setRate, setRateFromString
+ * Available getters: getBillable, getBillableLocked, getLabel, getMandatory, getMessages, getRate, getResult, hasMessages
+ * Available setters: setBillable, setBillableLocked, setLabel, setMandatory, setRate
  */
 
 if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
@@ -281,34 +282,24 @@ if ($executeNew) {
     $activityProjects->setAuthoriser($authoriser);                      		                                                                    // User|null                    A specific authoriser for an activity.
     $activityProjects->setAuthoriserFromString('TWINAPPS');                                                                                         // string|null                  If "change" = allow then locked = false and inherit = false
     $activityProjects->setAuthoriserInherit(false);                                                                                                 // bool|null
-    $activityProjects->setAuthoriserInheritFromString('false');                                                                                     // string|null                  If "change" = disallow then locked = true and inherit = false
     $activityProjects->setAuthoriserLocked(false);                                                                                                  // bool|null
-    $activityProjects->setAuthoriserLockedFromString('false');                                                                                      // string|null                  If "change" = inherit then locked = true and inherit = true
     $activityProjects->setBillable(false);                                                                                                          // bool|null                    Choose to make an activity billable (true) or not (false) and whether or not it should be included when calculating the "productivity" ratio (@forratio).
-    $activityProjects->setBillableFromString('false');                                                                                              // string|null                  You could also decide that these settings should be inherited from project or user level (@inherit).
     $activityProjects->setBillableForRatio(false);                                                                                                  // bool|null                    You can also set whether a change of these settings is allowed or disallowed when a user is entering their timesheet (@locked).
-    $activityProjects->setBillableForRatioFromString('false');                                                                                      // string|null                  If "change" = allow then locked = false and inherit = false.
     $activityProjects->setBillableInherit(false);                                                                                                   // bool|null
-    $activityProjects->setBillableInheritFromString('false');                                                                                       // string|null                  If "change" = disallow then locked = true and inherit = false.
     $activityProjects->setBillableLocked(false);                                                                                                    // bool|null
-    $activityProjects->setBillableLockedFromString('false');                                                                                        // string|null                  If "change" = inherit then locked = true and inherit = true
     $customer = new \PhpTwinfield\Customer;
     $customer->setCode('1000');
     //$activityProjects->setCustomer($customer);                                                                                                    // Customer|null                An activity always needs to be linked to a customer.
     //$activityProjects->setCustomerFromString('1000');                                                                                             // string|null                  Choose to have the customer ‘inherited’ (from a project) or you can specify the customer here.
     $activityProjects->setCustomerInherit(true);                                                                                                    // bool|null
-    $activityProjects->setCustomerInheritFromString('true');                                                                                        // string|null                  If "change" = allow then locked = false and inherit = false
     $activityProjects->setCustomerLocked(true);                                                                                                     // bool|null                    If "change" = disallow then locked = true and inherit = false
-    $activityProjects->setCustomerLockedFromString('true');                                                                                         // string|null                  If "change" = inherit then locked = true and inherit = true
     $activityProjects->setInvoiceDescription('Example Invoice Description');                                                                        // string|null                  This field can be used to enter a longer activity description which will be available on the invoice template.
     $rate = new \PhpTwinfield\Rate;
     $rate->setCode('DIRECT');
     $activityProjects->setRate($rate);                      		                                                                                // Rate|null                    Choose to define a specific rate code here or you could also decide that these settings should be inherited from project or user level (@inherit).
     $activityProjects->setRateFromString('DIRECT');                                                                                                 // string|null                  You can also set whether a change of the rate code is allowed or disallowed when a user is entering their timesheet (@locked).
     $activityProjects->setRateInherit(false);                                                                                                       // bool|null
-    $activityProjects->setRateInheritFromString('false');                                                                                           // string|null                  If "change" = allow then locked = false and inherit = false
     $activityProjects->setRateLocked(true);                                                                                                         // bool|null                    If "change" = disallow then locked = true and inherit = false
-    $activityProjects->setRateLockedFromString('true');                                                                                             // string|null                  If "change" = inherit then locked = true and inherit = true
     $validFrom = \DateTime::createFromFormat('d-m-Y', '01-01-2019');
     $activityProjects->setValidFrom($validFrom);                                                                                                    // DateTimeInterface|null       An activity can be set to only be valid for certain dates. Users will then only be able to book hours to the activity during these dates.
     $activityProjects->setValidFromFromString('20190101');                                                                                          // string|null
@@ -319,12 +310,9 @@ if ($executeNew) {
     // The minimum amount of ActivityQuantities linked to a ActivityProjects object is 0, the maximum amount is 4
     $activityQuantity = new \PhpTwinfield\ActivityQuantity;
     $activityQuantity->setBillable(false);                                                                                                          // bool|null                    Is the quantity line billable or not.
-    $activityQuantity->setBillableFromString('false');                                                                                              // string|null                  If "billable" = true and "change is not allowed" then locked = true
     $activityQuantity->setBillableLocked(false);                                                                                                    // bool|null
-    $activityQuantity->setBillableLockedFromString('false');                                                                                        // string|null                  If "billable" = true and "change is allowed" then locked = false
     $activityQuantity->setLabel('Example Quantity');                                                       	                                        // string|null
     $activityQuantity->setMandatory(false);                                                                                                         // bool|null                    Is the quantity line mandatory or not.
-    $activityQuantity->setMandatoryFromString('false');                                                                                             // string|null
     $rate = new \PhpTwinfield\Rate;
     $rate->setCode('KILOMETERS');
     $activityQuantity->setRate($rate);                      		                                                                                // Rate|null                    The rate.

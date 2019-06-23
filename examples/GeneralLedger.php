@@ -104,20 +104,20 @@ if ($executeListAllWithoutFilter) {
 
 /* GeneralLedger
  * \PhpTwinfield\GeneralLedger
- * Available getters: getBeginPeriod, getBeginYear, getBehaviour, getCode, getEndPeriod, getEndYear, getGroup, getGroupToString, getInUse, getInUseToString, getMessages, getName, getOffice, getOfficeToString, getResult, getShortName, getStatus, getTouched, getType, getTypeToString, getWebsite, hasMessages, getFinancials
- * Available setters: setBeginPeriod, setBeginYear, setBehaviour, setBehaviourFromString, setCode, setEndPeriod, setEndYear, setGroup, setGroupFromString, setName, setOffice, setOfficeFromString, setShortName, setStatus, setStatusFromString, setType, setTypeFromString, setFinancials
+ * Available getters: getBeginPeriod, getBeginYear, getBehaviour, getCode, getEndPeriod, getEndYear, getGroup, getInUse, getMessages, getName, getOffice, getResult, getShortName, getStatus, getTouched, getType, getWebsite, hasMessages, getFinancials
+ * Available setters: setBeginPeriod, setBeginYear, setBehaviour, setCode, setEndPeriod, setEndYear, setGroup, setName, setOffice, setShortName, setStatus, setType, setFinancials
  */
 
 /* GeneralLedgerFinancials
  * \PhpTwinfield\GeneralLedgerFinancials
- * Available getters: getAccountType, getLevel, getMatchType, getMessages, getResult, getSubAnalyse, getVatCode, getVatCodeFixed, getVatCodeFixedToString, getVatCodeToString, getChildValidations, hasMessages
- * Available setters: setAccountType, setAccountTypeFromString, setLevel, setMatchType, setMatchTypeFromString, setSubAnalyse, setSubAnalyseFromString, setVatCode, setVatCodeFixed, setVatCodeFixedFromString, setVatCodeFromString, addChildValidation, removeChildValidation
+ * Available getters: getAccountType, getLevel, getMatchType, getMessages, getResult, getSubAnalyse, getVatCode, getVatCodeFixed, getChildValidations, hasMessages
+ * Available setters: setAccountType, setLevel, setMatchType, setSubAnalyse, setVatCode, setVatCodeFixed, addChildValidation, removeChildValidation
  */
 
 /* GeneralLedgerChildValidation
  * \PhpTwinfield\GeneralLedgerChildValidation
  * Available getters: getElementValue, getLevel, getMessages, getResult, getType, hasMessages
- * Available setters: setElementValue, setLevel, setType, setTypeFromString
+ * Available setters: setElementValue, setLevel, setType
  */
 
 if ($executeListAllWithFilter || $executeListAllWithoutFilter) {

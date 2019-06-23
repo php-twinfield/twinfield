@@ -11,6 +11,9 @@ namespace PhpTwinfield;
 // Use the ResponseException class to handle errors when listing, getting and sending objects to/from Twinfield
 use PhpTwinfield\Response\ResponseException;
 
+// Use the Util class for helper functions
+use PhpTwinfield\Util;
+
 require_once('vendor/autoload.php');
 
 // Retrieve an OAuth 2 connection
@@ -103,8 +106,8 @@ if ($executeListAllWithoutFilter) {
 
 /* Office
  * \PhpTwinfield\Office
- * Available getters: __toString, getCode, getCountryCode, getCountryCodeToString, getCreated, getCreatedToString, getMessages, getModified, getModifiedToString, getName, getResult, getShortName, getStatus, getTouched, getUser, getUserToString, getVatFirstQuarterStartsIn, getVatPeriod, hasMessages
- * Available setters: fromCode, setCode, setCountryCode, setCountryCodeFromString, setName, setShortName, setStatus, setStatusFromString, setVatFirstQuarterStartsIn,setVatPeriod
+ * Available getters: __toString, getCode, getCountryCode, getCreated, getMessages, getModified, getName, getResult, getShortName, getStatus, getTouched, getUser, getVatFirstQuarterStartsIn, getVatPeriod, hasMessages
+ * Available setters: fromCode, setCode, setCountryCode, setName, setShortName, setStatus, setVatFirstQuarterStartsIn,setVatPeriod
  */
 
 if ($executeListAllWithoutOfficeCode || $executeListAllWithFilter || $executeListAllWithoutFilter) {
@@ -113,7 +116,7 @@ if ($executeListAllWithoutOfficeCode || $executeListAllWithFilter || $executeLis
         echo "Code: {$office->getCode()}<br />";
         echo "Name: {$office->getName()}<br /><br />";
         echo "CountryCode (\\PhpTwinfield\\Country): <pre>" . print_r($office->getCountryCode(), true) . "</pre><br />";
-        echo "CountryCode (string): {$office->getCountryCodeToString()}<br />";
+        echo "CountryCode (string): " . Util::objectToStr($office->getCountryCode()) . "<br />";
         echo "VatFirstQuarterStartsIn: {$office->getVatFirstQuarterStartsIn()}<br />";
         echo "VatPeriod: {$office->getVatPeriod()}<br />";
     }
@@ -135,23 +138,23 @@ if ($executeRead) {
     echo "Code: {$office}<br />";                                                                                        	// string|null
     echo "Code: {$office->getCode()}<br />";                                                                              	// string|null
     //echo "CountryCode (\\PhpTwinfield\\Country): <pre>" . print_r($office->getCountryCode(), true) . "</pre><br />";      // Country|null
-    //echo "CountryCode (string): {$office->getCountryCodeToString()}<br />";                                               // string|null
+    //echo "CountryCode (string): " . Util::objectToStr($office->getCountryCode()) . "<br />";                              // string|null
     echo "Created (\\DateTimeInterface): <pre>" . print_r($office->getCreated(), true) . "</pre><br />";              	    // DateTimeInterface|null       The date/time the office was created.
-    echo "Created (string): {$office->getCreatedToString()}<br />";                                                   	    // string|null
+    echo "Created (string): " . Util::parseDateTime($office->getCreatedToString()) . "<br />";                              // string|null
 
     if ($office->hasMessages()) {                                                                                         	// bool                         Object contains (error) messages true/false.
         echo "Messages: " . print_r($office->getMessages(), true) . "<br />";                                             	// Array|null                   (Error) messages.
     }
 
     echo "Modified (\\DateTimeInterface): <pre>" . print_r($office->getModified(), true) . "</pre><br />";            	    // DateTimeInterface|null       The date/time the office was modified.
-    echo "Modified (string): {$office->getModifiedToString()}<br />";                                                 	    // string|null
+    echo "Modified (string): " . Util::parseDateTime($office->getModified()) . "<br />";                                    // string|null
     echo "Name: {$office->getName()}<br />";                                                                              	// string|null
     echo "Result: {$office->getResult()}<br />";                                                                          	// int|null                     Result (0 = error, 1 or empty = success).
     echo "ShortName: {$office->getShortName()}<br />";                                                                    	// string|null
     echo "Status: {$office->getStatus()}<br />";                                                                          	// Status|null
     echo "Touched: {$office->getTouched()}<br />";                                                                        	// int|null                     The number of times the office is modified.
     echo "User (\\PhpTwinfield\\User): <pre>" . print_r($office->getUser(), true) . "</pre><br />";                       	// User|null                    The code of the user who created or modified the Office.
-    echo "User (string): {$office->getUserToString()}<br />";                                                             	// string|null
+    echo "User (string): " . Util::objectToStr($office->getUser()) . "<br />";                                              // string|null
     //echo "VatFirstQuarterStartsIn: {$office->getVatFirstQuarterStartsIn()}<br />";                                        // string|null
     //echo "VatPeriod: {$office->getVatPeriod()}<br />";                                                                    // string|null
 }

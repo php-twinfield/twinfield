@@ -11,6 +11,9 @@ namespace PhpTwinfield;
 // Use the ResponseException class to handle errors when listing, getting and sending objects to/from Twinfield
 use PhpTwinfield\Response\ResponseException;
 
+// Use the Util class for helper functions
+use PhpTwinfield\Util;
+
 require_once('vendor/autoload.php');
 
 // Retrieve an OAuth 2 connection
@@ -89,20 +92,20 @@ if ($executeListAllWithoutFilter) {
 
 /* VatCode
  * \PhpTwinfield\VatCode
- * Available getters: getCode, getCreated, getCreatedToString, getMessages, getModified, getModifiedToString, getName, getOffice, getOfficeToString, getResult, getShortName, getStatus, getTouched, getType, getUID, getUser, getUserToString, hasMessages, getPercentages
- * Available setters: setCode, setName, setOffice, setOfficeFromString, setShortName, setStatus, setStatusFromString, setType, setTypeFromString, addPercentage, removePercentage
+ * Available getters: getCode, getCreated, getMessages, getModified, getName, getOffice, getResult, getShortName, getStatus, getTouched, getType, getUID, getUser, hasMessages, getPercentages
+ * Available setters: setCode, setName, setOffice, setShortName, setStatus, setType, addPercentage, removePercentage
  */
 
 /* VatCodePercentage
  * \PhpTwinfield\VatCodePercentage
- * Available getters: getCreated, getCreatedToString, getDate, getDateToString, getMessages, getName, getPercentage, getResult, getShortName, getUser, getUserToString, hasMessages, getAccounts
- * Available setters: setDate, setDateFromString, setName, setPercentage, setShortName, addAccount, removeAccount
+ * Available getters: getCreated, getDate, getMessages, getName, getPercentage, getResult, getShortName, getUser, hasMessages, getAccounts
+ * Available setters: setDate, setName, setPercentage, setShortName, addAccount, removeAccount
  */
 
 /* VatCodeAccount
  * \PhpTwinfield\VatCodeAccount
- * Available getters: getDim1, getDim1ToString, getGroup, getGroupCountry, getGroupCountryToString, getGroupToString, getID, getLineType, getMessages, getPercentage, getResult, hasMessages
- * Available setters: setDim1, setDim1FromString, setGroup, setGroupCountry, setGroupCountryFromString, setGroupFromString, setID, setLineType, setLineTypeFromString, setPercentage
+ * Available getters: getDim1, getGroup, getGroupCountry, getID, getLineType, getMessages, getPercentage, getResult, hasMessages
+ * Available setters: setDim1, setGroup, setGroupCountry, setID, setLineType, setPercentage
  */
 
 if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
@@ -128,17 +131,17 @@ if ($executeRead) {
     echo "VatCode<br />";
     echo "Code: {$vatCode->getCode()}<br />";                                                                                   					// string|null                  VAT code.
     echo "Created (\\DateTimeInterface): <pre>" . print_r($vatCode->getCreated(), true) . "</pre><br />";                       					// \DateTimeInterface|null      The date/time the VAT code was created. Read-only attribute.
-    echo "Created (string): {$vatCode->getCreatedToString()}<br />";                                                            					// string|null
+    echo "Created (string): " . Util::formatDate($vatCode->getCreated()) . "<br />";                                                            	// string|null
 
     if ($vatCode->hasMessages()) {                                                                                              					// bool                         Object contains (error) messages true/false.
         echo "Messages: " . print_r($vatCode->getMessages(), true) . "<br />";                                                  					// Array|null                   (Error) messages.
     }
 
     echo "Modified (\\DateTimeInterface): <pre>" . print_r($vatCode->getModified(), true) . "</pre><br />";                     					// \DateTimeInterface|null      	The most recent date/time the VAT code was modified. Read-only attribute.
-    echo "Modified (string): {$vatCode->getModifiedToString()}<br />";                                                          					// string|null
+    echo "Modified (string): " . Util::formatDate($vatCode->getModified()) . "<br />";                                                          	// string|null
     echo "Name: {$vatCode->getName()}<br />";                                                                                   					// string|null                  Name of the VAT.
     echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($vatCode->getOffice(), true) . "</pre><br />";                      					// Office|null                  Office code.
-    echo "Office (string): {$vatCode->getOfficeToString()}<br />";                                                              					// string|null
+    echo "Office (string): " . Util::objectToStr($vatCode->getOffice()) . "<br />";                                                                 // string|null
     echo "Result: {$vatCode->getResult()}<br />";                                                                               					// int|null                     Result (0 = error, 1 or empty = success).
     echo "ShortName: {$vatCode->getShortName()}<br />";                                                                         					// string|null                  Short name of the VAT.
     echo "Status: {$vatCode->getStatus()}<br />";                                                                               					// Status|null                  Status of the VAT.
@@ -146,7 +149,7 @@ if ($executeRead) {
     echo "Type: {$vatCode->getType()}<br />";                                                                                   					// VatType|null                 The VAT type.
     echo "UID: {$vatCode->getUID()}<br />";                                                                                     					// string|null                  Unique identification of the VAT code. Read-only attribute.
     echo "User (\\PhpTwinfield\\User): <pre>" . print_r($vatCode->getUser(), true) . "</pre><br />";                            					// User|null                    The code of the user who created or modified the VAT code. Read-only attribute.
-    echo "User (string): {$vatCode->getUserToString()}<br />";                                                                  					// string|null
+    echo "User (string): " . Util::objectToStr($vatCode->getUser()) . "<br />";                                                                  	// string|null
 
     $vatCodePercentages = $vatCode->getPercentages();                                                                           					// Array|null                   Array of VatCodePercentage objects.
 
@@ -158,15 +161,15 @@ if ($executeRead) {
         }
 
         echo "Created (\\DateTimeInterface): <pre>" . print_r($vatCodePercentage->getCreated(), true) . "</pre><br />";         					// \DateTimeInterface|null      The date/time the VAT line was created. Read-only attribute.
-        echo "Created (string): {$vatCodePercentage->getCreatedToString()}<br />";                                              					// string|null
+        echo "Created (string): " . Util::formatDate($vatCodePercentage->getCreated()) . "<br />";                                              	// string|null
         echo "Date (\\DateTimeInterface): <pre>" . print_r($vatCodePercentage->getDate(), true) . "</pre><br />";               					// \DateTimeInterface|null      Effective date.
-        echo "Date (string): {$vatCodePercentage->getDateToString()}<br />";                                                    					// string|null
+        echo "Date (string): " . Util::formatDate($vatCodePercentage->getDate()) . "<br />";                                                    	// string|null
         echo "Name: {$vatCodePercentage->getName()}<br />";                                                                     					// string|null                  Name of the VAT line.
         echo "Percentage: {$vatCodePercentage->getPercentage()}<br />";                                                         					// float|null                   Percentage of the VAT line.
         echo "Result: {$vatCodePercentage->getResult()}<br />";                                                                 					// int|null                     Result (0 = error, 1 or empty = success).
         echo "ShortName: {$vatCodePercentage->getShortName()}<br />";                                                           					// string|null                  Short name of the VAT line.
         echo "User (\\PhpTwinfield\\User): <pre>" . print_r($vatCodePercentage->getUser(), true) . "</pre><br />";              					// User|null                    The code of the user who created or modified the VAT line. Read-only attribute.
-        echo "User (string): {$vatCodePercentage->getUserToString()}<br />";                                                    					// string|null
+        echo "User (string): " . Util::objectToStr($vatCodePercentage->getUser()) . "<br />";                                                    	// string|null
 
         $vatCodeAccounts = $vatCodePercentage->getAccounts();                                                                   					// Array|null                   Array of VatCodeAccount objects.
 
@@ -178,11 +181,11 @@ if ($executeRead) {
             }
 
             echo "Dim1 (\\PhpTwinfield\\GeneralLedger): <pre>" . print_r($vatCodeAccount->getDim1(), true) . "</pre><br />";                        // GeneralLedger|null            General ledger account on which the VAT amount will be posted.
-            echo "Dim1 (string): {$vatCodeAccount->getDim1ToString()}<br />";                                                                       // string|null
+            echo "Dim1 (string): " . Util::objectToStr($vatCodeAccount->getDim1()) . "<br />";                                                      // string|null
             echo "Group (\\PhpTwinfield\\VatGroup): <pre>" . print_r($vatCodeAccount->getGroup(), true) . "</pre><br />";                           // VatGroup|null                 The VAT group.
-            echo "Group (string): {$vatCodeAccount->getGroupToString()}<br />";                                                                     // string|null
+            echo "Group (string): " . Util::objectToStr($vatCodeAccount->getGroup()) . "<br />";                                                    // string|null
             echo "GroupCountry (\\PhpTwinfield\\VatGroupCountry): <pre>" . print_r($vatCodeAccount->getGroupCountry(), true) . "</pre><br />";      // VatGroupCountry|null          Country code of the VAT group.
-            echo "GroupCountry (string): {$vatCodeAccount->getGroupCountryToString()}<br />";                                                       // string|null
+            echo "GroupCountry (string): " . Util::objectToStr($vatCodeAccount->getGroupCountry()) . "<br />";                                      // string|null
             echo "ID: {$vatCodeAccount->getID()}<br />";                                                                 				        	// int|null                      Line ID.
             echo "LineType: {$vatCodeAccount->getLineType()}<br />";                                                                                // LineType|null                 Is it a vat line or not detail. Use detail in case a part of the calculated vat value should be posted on a different general ledger account.
             echo "Percentage: {$vatCodeAccount->getPercentage()}<br />";                                                                            // float|null                    The VAT percentage.
@@ -224,13 +227,10 @@ if ($executeNew) {
     $vatCode->setCode('VH2');                                                                                                                       // string|null                  VAT code.
     $vatCode->setName("BTW 21%");                                                                                                                   // string|null                  Name of the VAT.
     $vatCode->setOffice($office);                                                                                                                   // Office|null                  Office code.
-    $vatCode->setOfficeFromString($officeCode);                                                                                                     // string|null
+    $vatCode->setOffice(\PhpTwinfield\Office::fromCode($officeCode));                                                                               // string|null
     $vatCode->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                                      // Status|null                  For creating and updating active should be used. For deleting deleted should be used.
     //$vatCode->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                                                   // Status|null
-    $vatCode->setStatusFromString('active');                                                                                                        // string|null
-    //$vatCode->setStatusFromString('deleted');                                                                                                     // string|null
     $vatCode->setType(\PhpTwinfield\Enums\VatType::SALES());                                                                                        // VatType|null
-    $vatCode->setTypeFromString('sales');                                                                                                           // string|null
 
     // Optional values for creating a new VatCode
     $vatCode->setShortName("VH 21%");                                                                                                               // string|null                  Short name of the VAT.
@@ -239,7 +239,7 @@ if ($executeNew) {
     $vatCodePercentage = new \PhpTwinfield\VatCodePercentage;
     $date = \DateTime::createFromFormat('d-m-Y', '01-01-2019');
     $vatCodePercentage->setDate($date);                                                                                                             // DateTimeInterface|null       Effective date.
-    $vatCodePercentage->setDateFromString('20190101');                                                                                              // string|null
+    $vatCodePercentage->setDate(Util::parseDate('20190101'));                                                                                       // string|null
     $vatCodePercentage->setName("BTW 21%");                                                                                                         // string|null                  Name of the VAT line.
     $vatCodePercentage->setPercentage(21);                                                                                                          // float|null                   Percentage of the VAT line.
     $vatCodePercentage->setShortName("VH 21%");                                                                                                     // string|null                  Short name of the VAT line.
@@ -249,19 +249,18 @@ if ($executeNew) {
     $generalLedger = new \PhpTwinfield\GeneralLedger;
     $generalLedger->setCode('1530');
     $vatCodeAccount->setDim1($generalLedger);                                                                                                       // GeneralLedger|null           General ledger account on which the VAT amount will be posted.
-    $vatCodeAccount->setDim1FromString('1530');                                                                                                     // string|null
+    $vatCodeAccount->setDim1(\PhpTwinfield\GeneralLedger::fromCode('1530'));                                                                        // string|null
     $vatGroup = new \PhpTwinfield\VatGroup;
     $vatGroup->setCode('NL1A');
     $vatCodeAccount->setGroup($vatGroup);                                                                                                           // VatGroup|null                The VAT group.
-    $vatCodeAccount->setGroupFromString('NL1A');                                                                                                    // string|null
+    $vatCodeAccount->setGroup(\PhpTwinfield\VatGroup::fromCode('NL1A'));                                                                            // string|null
     $vatGroupCountry = new \PhpTwinfield\VatGroupCountry;
     $vatGroupCountry->setCode('NL');
     $vatCodeAccount->setGroupCountry($vatGroupCountry);                                                                                             // VatGroupCountry|null         Country code of the VAT group.
-    $vatCodeAccount->setGroupCountryFromString('NL');                                                                                               // string|null
+    $vatCodeAccount->setGroupCountry(\PhpTwinfield\VatGroupCountry::fromCode('NL'));                                                                // string|null
 
     $vatCodeAccount->setID(1);                                                                                                                      // int|null                     Line ID.
     $vatCodeAccount->setLineType(\PhpTwinfield\Enums\LineType::VAT());                                                                              // LineType|null                Is it a vat line or not detail. Use detail in case a part of the calculated vat value should be posted on a different general ledger account.
-    $vatCodeAccount->setLineTypeFromString('vat');                                                                                                  // string|null
 
     $vatCodeAccount->setPercentage(100);                                                                                                            // float|null                   Percentage of the VAT line.
 
