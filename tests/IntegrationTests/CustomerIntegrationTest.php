@@ -223,9 +223,6 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $address->setField3('Streetname part 1 - 2');
         $customer->addAddress($address);
 
-        $this->assertNull(null);
-
-        /*
         $bank = new CustomerBank();
         $bank->setDefault(true);
         $bank->setAscription('Customer 1');
@@ -241,7 +238,10 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $bank->setPostcode('');
         $bank->setState('');
         $customer->addBank($bank);
+        
+        $this->assertNull(null);
 
+        /*
         $this->processXmlService
             ->expects($this->once())
             ->method("sendDocument")

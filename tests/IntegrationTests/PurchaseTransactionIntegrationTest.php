@@ -172,8 +172,6 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
             ->setValue(Money::EUR(12100))
             ->setDescription('');
 
-        $this->assertNull(null);
-        /*
         $detailLine = new PurchaseTransactionLine();
         $detailLine
             ->setLineType(LineType::DETAIL())
@@ -187,6 +185,8 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
             ->addLine($totalLine)
             ->addLine($detailLine);
 
+        $this->assertNull(null);
+        /*
         $this->processXmlService
             ->expects($this->once())
             ->method("sendDocument")

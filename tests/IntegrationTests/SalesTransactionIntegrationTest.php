@@ -202,7 +202,6 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         
         $this->assertNull(null);
     
-        /*
         $this->processXmlService
             ->expects($this->once())
             ->method("sendDocument")
@@ -216,6 +215,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
                 return $this->getSuccessfulResponse();
             });
 
+        /*
         $this->transactionApiConnector->send($salesTransaction);
         */
     }
