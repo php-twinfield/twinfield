@@ -112,12 +112,12 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoiceVatLine = current($invoiceVatLines);
 
         $this->assertSame('VN', Util::objectToStr($invoiceLine->getVatCode()));
-        $this->assertSame(0.00, Util::formatMoney($invoiceLine->getVatValue()));
+        $this->assertSame('0.00', Util::formatMoney($invoiceLine->getVatValue()));
         $this->assertNull($invoiceLine->getPerformanceType());
         $this->assertNull($invoiceLine->getPerformanceDate());
 
-        $this->assertSame(15.00, Util::formatMoney($invoice->getTotals()->getValueInc()));
-        $this->assertSame(15.00, Util::formatMoney($invoice->getTotals()->getValueExcl()));
+        $this->assertSame('15.00', Util::formatMoney($invoice->getTotals()->getValueInc()));
+        $this->assertSame('15.00', Util::formatMoney($invoice->getTotals()->getValueExcl()));
 
         $this->assertNull($invoice->getFinancialNumber());
         $this->assertNull($invoice->getFinancialCode());
@@ -167,10 +167,10 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame(1, $invoiceLine->getUnits());
         $this->assertSame(true, $invoiceLine->getAllowDiscountOrPremium());
         $this->assertSame('CoalesceFunctioningOnImpatienceTShirt', $invoiceLine->getDescription());
-        $this->assertSame(15.00, Util::formatMoney($invoiceLine->getValueExcl()));
-        $this->assertSame(0.00, Util::formatMoney($invoiceLine->getVatValue()));
-        $this->assertSame(15.00, Util::formatMoney($invoiceLine->getValueInc()));
-        $this->assertSame(15.00, Util::formatMoney($invoiceLine->getUnitsPriceExcl()));
+        $this->assertSame('15.00', Util::formatMoney($invoiceLine->getValueExcl()));
+        $this->assertSame('0.00', Util::formatMoney($invoiceLine->getVatValue()));
+        $this->assertSame('15.00', Util::formatMoney($invoiceLine->getValueInc()));
+        $this->assertSame('15.00', Util::formatMoney($invoiceLine->getUnitsPriceExcl()));
         $this->assertSame('8020', Util::objectToStr($invoiceLine->getDim1()));
 
         $invoiceVatLines = $invoice->getVatLines();
@@ -220,10 +220,10 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoiceLine->setUnits(1);
         $invoiceLine->setAllowDiscountOrPremium(true);
         $invoiceLine->setDescription('CoalesceFunctioningOnImpatienceTShirt');
-        $invoiceLine->setValueExcl(Util::parseMoney(15.00, new Money\Currency('EUR')));
-        $invoiceLine->setVatValue(Util::parseMoney(0.00, new Money\Currency('EUR')));
-        $invoiceLine->setValueInc(Util::parseMoney(15.00, new Money\Currency('EUR')));
-        $invoiceLine->setUnitsPriceExcl(Util::parseMoney(15.00, new Money\Currency('EUR')));
+        $invoiceLine->setValueExcl(Util::parseMoney(15.00, new \Money\Currency('EUR')));
+        $invoiceLine->setVatValue(Util::parseMoney(0.00, new \Money\Currency('EUR')));
+        $invoiceLine->setValueInc(Util::parseMoney(15.00, new \Money\Currency('EUR')));
+        $invoiceLine->setUnitsPriceExcl(Util::parseMoney(15.00, new \Money\Currency('EUR')));
         $invoiceLine->setDim1(\PhpTwinfield\GeneralLedger::fromCode('8020'));
         $invoiceLine->setVatCode(\PhpTwinfield\VatCode::fromCode('VN'));
         $invoice->addLine($invoiceLine);

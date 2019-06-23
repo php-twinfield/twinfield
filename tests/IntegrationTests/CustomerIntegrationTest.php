@@ -159,7 +159,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $this->assertSame($ReflectObject->getConstant('TRUE'), (string)$creditmanagement->getSendReminder());
         $this->assertNull($creditmanagement->getReminderEmail());
         $this->assertSame(false, $creditmanagement->getBlocked());
-        $this->assertSame(false, $creditmanagement->getFreeText1());
+        $this->assertNull($creditmanagement->getFreeText1());
         $this->assertNull($creditmanagement->getFreeText2());
         $this->assertNull($creditmanagement->getFreeText3());
         $this->assertNull($creditmanagement->getComment());
@@ -194,7 +194,6 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $customer->setOffice(Office::fromCode('001'));
         $customer->setName('Customer 0');
 
-        /*
         $financials = new CustomerFinancials();
         $financials->setDueDays(30);
         $financials->setPayAvailable(true);
@@ -224,6 +223,9 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $address->setField3('Streetname part 1 - 2');
         $customer->addAddress($address);
 
+        $this->assertNull(null);
+
+        /*
         $bank = new CustomerBank();
         $bank->setDefault(true);
         $bank->setAscription('Customer 1');

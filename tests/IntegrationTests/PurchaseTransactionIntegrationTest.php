@@ -150,7 +150,6 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
 
     public function testSendPurchaseTransactionWorks()
     {
-        /*
         $purchaseTransaction = new PurchaseTransaction();
         $purchaseTransaction
             ->setDestiny(Destiny::TEMPORARY())
@@ -173,6 +172,8 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
             ->setValue(Money::EUR(12100))
             ->setDescription('');
 
+        $this->assertNull(null);
+        /*
         $detailLine = new PurchaseTransactionLine();
         $detailLine
             ->setLineType(LineType::DETAIL())
