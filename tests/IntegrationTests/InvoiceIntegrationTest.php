@@ -99,10 +99,10 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame(1, $invoiceLine->getUnits());
         $this->assertSame(true, $invoiceLine->getAllowDiscountOrPremium());
         $this->assertSame('CoalesceFunctioningOnImpatienceTShirt', $invoiceLine->getDescription());
-        $this->assertSame(15.00, Util::formatMoney($invoiceLine->getValueExcl()));
-        $this->assertSame(0.00, Util::formatMoney($invoiceLine->getVatValue()));
-        $this->assertSame(15.00, Util::formatMoney($invoiceLine->getValueInc()));
-        $this->assertSame(15.00, Util::formatMoney($invoiceLine->getUnitsPriceExcl()));
+        $this->assertSame('15.00', Util::formatMoney($invoiceLine->getValueExcl()));
+        $this->assertSame('0.00', Util::formatMoney($invoiceLine->getVatValue()));
+        $this->assertSame('15.00', Util::formatMoney($invoiceLine->getValueInc()));
+        $this->assertSame('15.00', Util::formatMoney($invoiceLine->getUnitsPriceExcl()));
         $this->assertSame('8020', Util::objectToStr($invoiceLine->getDim1()));
 
         $invoiceVatLines = $invoice->getVatLines();

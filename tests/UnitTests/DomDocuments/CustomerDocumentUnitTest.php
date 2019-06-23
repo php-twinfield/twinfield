@@ -123,26 +123,26 @@ class CustomerDocumentUnitTest extends TestCase
 	        <duedays>1</duedays>
 	        <ebilling>true</ebilling>
 	        <ebillmail>ebillingmail@mail.com</ebillmail>
-		<meansofpayment/>
+            <meansofpayment/>
 	        <payavailable>true</payavailable>
 	        <paycode>pay-code</paycode>
 	        <substitutewith/>
 	        <vatcode>vat-code</vatcode>
-            </financials>
+        </financials>
         <creditmanagement>
-            <basecreditlimit>50</basecreditlimit>
-	    <blocked>false</blocked>
-	    <comment>comment    comment</comment>
-	    <freetext1>true</freetext1>
+            <basecreditlimit>50.00</basecreditlimit>
+            <blocked>false</blocked>
+            <comment>comment    comment</comment>
+            <freetext1>true</freetext1>
             <freetext2>free2</freetext2>
-	    <freetext3/>
-	    <reminderemail>reminderemail@mail.com</reminderemail>
-	    <responsibleuser>responsible-user</responsibleuser>
+            <freetext3/>
+            <reminderemail>reminderemail@mail.com</reminderemail>
+            <responsibleuser>responsible-user</responsibleuser>
             <sendreminder>true</sendreminder>
         </creditmanagement>
-	<invoicing>
-	    <discountarticle/>
-	</invoicing>
+        <invoicing>
+            <discountarticle/>
+        </invoicing>
         <addresses>
             <address default="true" type="invoice">
                 <city>city</city>
@@ -155,14 +155,14 @@ class CustomerDocumentUnitTest extends TestCase
                 <field5>field 5</field5>
                 <field6>field 6</field6>
                 <name>My Address</name>
-		<postcode>postal code</postcode>
-		<telefax>fax number</telefax>
+                <postcode>postal code</postcode>
+                <telefax>fax number</telefax>
                 <telephone>phone number</telephone>
             </address>
         </addresses>
         <banks>
             <bank default="true">
-	        <address>
+                <address>
                     <field2>address 2</field2>
                     <field3>address 3</field3>
                 </address>
@@ -178,13 +178,13 @@ class CustomerDocumentUnitTest extends TestCase
                 <state>state</state>
             </bank>
         </banks>
-	<remittanceadvice>
-	    <sendmail/>
+        <remittanceadvice>
+            <sendmail/>
             <sendtype/>
-	</remittanceadvice>
-	<paymentconditions>
-	    <paymentcondition>
-	        <discountdays/>
+        </remittanceadvice>
+        <paymentconditions>
+            <paymentcondition>
+                <discountdays/>
                 <discountpercentage/>
             </paymentcondition>
         </paymentconditions>
@@ -201,39 +201,39 @@ class CustomerDocumentUnitTest extends TestCase
 	    <type>DEB</type>
 	    <website>http://example.org</website>
 	    <financials>
-		<collectionschema>core</collectionschema>
-		<duedays>30</duedays>
-		<ebilling>false</ebilling>
-		<ebillmail/>
-		<meansofpayment/>
-		<payavailable>false</payavailable>
-		<paycode/>
-		<substitutewith/>
-		<vatcode/>
+            <collectionschema>core</collectionschema>
+            <duedays>30</duedays>
+            <ebilling/>
+            <ebillmail/>
+            <meansofpayment/>
+            <payavailable/>
+            <paycode/>
+            <substitutewith/>
+            <vatcode/>
 	    </financials>
 	    <creditmanagement>
-		<basecreditlimit>0</basecreditlimit>
-		<blocked>false</blocked>
-		<comment/>
-		<freetext1>false</freetext1>
-		<freetext2/>
-		<freetext3/>
-		<reminderemail/>
-		<responsibleuser/>
-		<sendreminder>true</sendreminder>
+            <basecreditlimit/>
+            <blocked/>
+            <comment/>
+            <freetext1/>
+            <freetext2/>
+            <freetext3/>
+            <reminderemail/>
+            <responsibleuser/>
+            <sendreminder>true</sendreminder>
 	    </creditmanagement>
 	    <invoicing>
-		<discountarticle/>
+            <discountarticle/>
 	    </invoicing>
 	    <remittanceadvice>
-		<sendmail/>
-		<sendtype/>
+            <sendmail/>
+            <sendtype/>
 	    </remittanceadvice>
 	    <paymentconditions>
-		<paymentcondition>
-		    <discountdays/>
-		    <discountpercentage/>
-		</paymentcondition>
+            <paymentcondition>
+                <discountdays/>
+                <discountpercentage/>
+            </paymentcondition>
 	    </paymentconditions>
     </dimension>
 </dimensions>

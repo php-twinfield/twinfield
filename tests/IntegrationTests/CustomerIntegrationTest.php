@@ -154,7 +154,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $creditmanagement = $customer->getCreditManagement();
 
         $this->assertNull(Util::objectToStr($creditmanagement->getResponsibleUser()));
-        $this->assertSame(0.00, Util::formatMoney($creditmanagement->getBaseCreditLimit()));
+        $this->assertSame('0.00', Util::formatMoney($creditmanagement->getBaseCreditLimit()));
         $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\SendReminder');
         $this->assertSame($ReflectObject->getConstant('TRUE'), (string)$creditmanagement->getSendReminder());
         $this->assertNull($creditmanagement->getReminderEmail());

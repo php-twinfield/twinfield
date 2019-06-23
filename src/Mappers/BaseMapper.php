@@ -121,8 +121,10 @@ abstract class BaseMapper
             $type = self::getField($element, "type", $object);
         } elseif (is_a($object, \PhpTwinfield\TransactionLineInterface::class)) {
             $type = self::getAttribute($element, $fieldTagName, "type");
+            $type = "BAS";
         } else {
             $type = self::getAttribute($element, $fieldTagName, "dimensiontype");
+            $type = "PNL";
         }
 
         switch ($type) {
