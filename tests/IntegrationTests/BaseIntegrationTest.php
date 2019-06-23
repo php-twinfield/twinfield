@@ -10,6 +10,9 @@ use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @backupGlobals disabled 
+ */
 abstract class BaseIntegrationTest extends TestCase
 {
     /**

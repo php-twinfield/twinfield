@@ -21,7 +21,7 @@ use PhpTwinfield\Util;
 
 /**
  * @runTestsInSeparateProcesses
- * @preserveGlobalState enabled
+ * @preserveGlobalState disabled
  * @covers BankTransaction
  * @covers BankTransactionLine
  * @covers TransactionsDocument

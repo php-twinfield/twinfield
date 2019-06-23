@@ -20,7 +20,7 @@ use PhpTwinfield\Util;
 
 /**
  * @runTestsInSeparateProcesses
- * @preserveGlobalState enabled
+ * @preserveGlobalState disabled
  * @covers SalesTransaction
  * @covers SalesTransactionLine
  * @covers TransactionsDocument
