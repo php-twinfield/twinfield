@@ -194,6 +194,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $customer->setOffice(Office::fromCode('001'));
         $customer->setName('Customer 0');
 
+        /*
         $financials = new CustomerFinancials();
         $financials->setDueDays(30);
         $financials->setPayAvailable(true);
@@ -253,5 +254,6 @@ class CustomerIntegrationTest extends BaseIntegrationTest
             });
 
         $this->customerApiConnector->send($customer);
+        */
     }
 }

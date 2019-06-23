@@ -139,7 +139,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Office::fromCode("11024"), $invoice->getOffice());
         $this->assertSame('FACTUUR', Util::objectToStr($invoice->getInvoiceType()));
         $this->assertSame('5', $invoice->getInvoiceNumber());
-        $this->assertSame('20120831', Util::parseDate($invoice->getInvoiceDate()));
+        $this->assertSame('20120831', Util::formatDate($invoice->getInvoiceDate()));
         $this->assertSame('BNK', Util::objectToStr($invoice->getBank()));
         $this->assertSame(1, $invoice->getInvoiceAddressNumber());
         $this->assertSame(1, $invoice->getDeliverAddressNumber());
@@ -220,11 +220,10 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoiceLine->setUnits(1);
         $invoiceLine->setAllowDiscountOrPremium(true);
         $invoiceLine->setDescription('CoalesceFunctioningOnImpatienceTShirt');
-        $currency = \PhpTwinfield\Currency::fromCode('EUR');
-        $invoiceLine->setValueExcl(Util::parseMoney(15.00, $currency));
-        $invoiceLine->setVatValue(Util::parseMoney(0.00, $currency));
-        $invoiceLine->setValueInc(Util::parseMoney(15.00, $currency));
-        $invoiceLine->setUnitsPriceExcl(Util::parseMoney(15.00, $currency));
+        $invoiceLine->setValueExcl(Util::parseMoney(15.00, new Money\Currency('EUR')));
+        $invoiceLine->setVatValue(Util::parseMoney(0.00, new Money\Currency('EUR')));
+        $invoiceLine->setValueInc(Util::parseMoney(15.00, new Money\Currency('EUR')));
+        $invoiceLine->setUnitsPriceExcl(Util::parseMoney(15.00, new Money\Currency('EUR')));
         $invoiceLine->setDim1(\PhpTwinfield\GeneralLedger::fromCode('8020'));
         $invoiceLine->setVatCode(\PhpTwinfield\VatCode::fromCode('VN'));
         $invoice->addLine($invoiceLine);
