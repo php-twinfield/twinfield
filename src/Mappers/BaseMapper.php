@@ -121,8 +121,8 @@ abstract class BaseMapper
         $fullOffice = $officeApiConnector->get($office->getCode());
         
         if ($fullOffice->getResult() == 1) {
-            $currencies['base'] = $fullOffice->getBaseCurrencyToString();
-            $currencies['reporting'] = $fullOffice->getReportingCurrencyToString();
+            $currencies['base'] = Util::objectToStr($fullOffice->getBaseCurrency());
+            $currencies['reporting'] = Util::objectToStr($fullOffice->getReportingCurrency());
         }
         
         return $currencies;
@@ -201,12 +201,18 @@ abstract class BaseMapper
     /** @var SomeClassWithMethodsetCode $object2 */
     protected static function parseObjectAttribute(?string $objectClass, $object, \DOMElement $element, string $fieldTagName, array $attributes = [])
     {
+        $value = self::getField($element, $fieldTagName, $object);
+        
+        if ($value === null) {
+            return null;
+        }
+        
         if ($objectClass === null) {
             $objectClass = self::parseUnknownEntity($object, $element, $fieldTagName);
         }
         
         $object2 = new $objectClass();
-        $object2->setCode(self::getField($element, $fieldTagName, $object));
+        $object2->setCode($value);
 
         foreach ($attributes as $attributeName => $method) {
             $object2->$method(self::getAttribute($element, $fieldTagName, $attributeName));
