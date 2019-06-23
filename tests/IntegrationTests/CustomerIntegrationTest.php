@@ -238,10 +238,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $bank->setPostcode('');
         $bank->setState('');
         $customer->addBank($bank);
-        
-        $this->assertNull(null);
 
-        /*
         $this->processXmlService
             ->expects($this->once())
             ->method("sendDocument")
@@ -256,6 +253,5 @@ class CustomerIntegrationTest extends BaseIntegrationTest
             });
 
         $this->customerApiConnector->send($customer);
-        */
     }
 }

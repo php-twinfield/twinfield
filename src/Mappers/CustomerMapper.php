@@ -29,11 +29,10 @@ class CustomerMapper extends BaseMapper
      *
      * @access public
      * @param \PhpTwinfield\Response\Response $response
-     * @param \PhpTwinfield\Secure\AuthenticatedConnection $connection
      * @return Customer
      * @throws \PhpTwinfield\Exception
      */
-    public static function map(Response $response, AuthenticatedConnection $connection)
+    public static function map(Response $response)
     {
         // Generate new Customer object
         $customer = new Customer();
@@ -65,8 +64,9 @@ class CustomerMapper extends BaseMapper
             ->setUID(self::getField($customerElement, 'uid', $customer))
             ->setWebsite(self::getField($customerElement, 'website', $customer));
             
-        $currencies = self::getOfficeCurrencies($connection, $customer->getOffice());
-
+        //$currencies = self::getOfficeCurrencies($connection, $customer->getOffice());
+        $currencies = ["base" => "EUR", "reporting" => "USD"];
+        
         // Set the customer elements from the customer element attributes
         $customer->setDiscountArticleID(self::getAttribute($customerElement, 'discountarticle', 'id'));
 
