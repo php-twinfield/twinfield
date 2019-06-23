@@ -48,9 +48,9 @@ class TransactionApiConnectorTest extends TestCase
             ->willReturn($this->processXmlService);
 
         $this->apiConnector = new TransactionApiConnector($connection);
-        
+
         $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
-        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {           
+        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
             $office = new Office;
             $office->setResult(1);
             $office->setBaseCurrency(Currency::fromCode('EUR'));
@@ -90,9 +90,9 @@ class TransactionApiConnectorTest extends TestCase
 		</header>
 		<lines>
 			<line type="total" id="1">
-				<dim1 name="Debiteuren" shortname="" type="BAS" inuse="true" vatcode="" vatobligatory="false">130000
+				<dim1 name="Debiteuren" shortname="" dimensiontype="BAS">130000
 				</dim1>
-				<dim2 name="Test 2" shortname="" type="DEB" inuse="true" vatcode="" vatobligatory="false">Dxxxx</dim2>
+				<dim2 name="Test 2" shortname="" dimensiontype="DEB">Dxxxx</dim2>
 				<debitcredit>debit</debitcredit>
 				<value>100.00</value>
 				<description/>
@@ -110,9 +110,7 @@ class TransactionApiConnectorTest extends TestCase
 				<matchstatus>available</matchstatus>
 			</line>
 			<line type="detail" id="2">
-				<dim1 name="Tussenrekening transitorisch boeken" shortname="" type="BAS" inuse="true" vatcode=""
-					  vatobligatory="false">191000
-				</dim1>
+				<dim1 name="Tussenrekening transitorisch boeken" shortname="" dimensiontype="BAS">191000</dim1>
 				<debitcredit>credit</debitcredit>
 				<value>100.00</value>
 				<description>Outfit</description>

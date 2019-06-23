@@ -64,7 +64,9 @@ class ArticleMapper extends BaseMapper
             ->setUnitNamePlural(self::getField($headerElement, 'unitnameplural', $article))
             ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $article, $headerElement, 'vatcode'));
             
-        $currencies = self::getOfficeCurrencies($connection, $article->getOffice());
+        if ($article->getOffice() !== null)
+            $currencies = self::getOfficeCurrencies($connection, $article->getOffice());
+        )
 
         // Get the lines element
         $linesDOMTag = $responseDOM->getElementsByTagName('lines');

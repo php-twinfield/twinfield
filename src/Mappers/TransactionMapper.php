@@ -98,7 +98,9 @@ class TransactionMapper extends BaseMapper
             ->setNumber(self::getField($transactionElement, 'number', $transaction))
             ->setPeriod(self::getField($transactionElement, 'period', $transaction));
             
-        $currencies = self::getOfficeCurrencies($connection, $transaction->getOffice());
+        if ($transaction->getOffice() !== null)
+            $currencies = self::getOfficeCurrencies($connection, $transaction->getOffice());
+        )
 
         if (Util::objectUses(CloseAndStartValueFields::class, $transaction)) {
             $transaction->setStartValue(self::parseMoneyAttribute(self::getField($transactionElement, 'startvalue', $transaction), Util::objectToStr($transaction->getCurrency())));

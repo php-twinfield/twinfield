@@ -64,8 +64,10 @@ class CustomerMapper extends BaseMapper
             ->setType(self::parseObjectAttribute(\PhpTwinfield\DimensionType::class, $customer, $customerElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setUID(self::getField($customerElement, 'uid', $customer))
             ->setWebsite(self::getField($customerElement, 'website', $customer));
-            
-        $currencies = self::getOfficeCurrencies($connection, $customer->getOffice());
+
+        if ($customer->getOffice() !== null)
+            $currencies = self::getOfficeCurrencies($connection, $customer->getOffice());
+        )
 
         // Set the customer elements from the customer element attributes
         $customer->setDiscountArticleID(self::getAttribute($customerElement, 'discountarticle', 'id'));
@@ -283,7 +285,7 @@ class CustomerMapper extends BaseMapper
                 // Set the postingrule elements from the postingrule element
                 $customerPostingRule->setCurrency(self::parseObjectAttribute(\PhpTwinfield\Currency::class, $customerPostingRule, $postingruleElement, 'currency', array('name' => 'setName', 'shortname' => 'setShortName')))
                     ->setDescription(self::getField($postingruleElement, 'description', $customerPostingRule));
-                    
+
                 $customerPostingRule->setAmount(self::parseMoneyAttribute(self::getField($postingruleElement, 'amount', $customerPostingRule), Util::objectToStr($customerPostingRule->getCurrency())));
 
                 // Get the lines element
