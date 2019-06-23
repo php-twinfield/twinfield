@@ -5,6 +5,10 @@ namespace PhpTwinfield\IntegrationTests;
 use PhpTwinfield\ApiConnectors\OfficeApiConnector;
 use PhpTwinfield\Response\Response;
 
+/**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
+ */
 class OfficeIntegrationTest extends BaseIntegrationTest
 {
     /**
@@ -15,6 +19,8 @@ class OfficeIntegrationTest extends BaseIntegrationTest
     protected function setUp()
     {
         parent::setUp();
+
+        unset($mockOfficeApiConnector);
 
         $this->officeApiConnector = new OfficeApiConnector($this->connection);
     }

@@ -40,17 +40,24 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $this->invoiceApiConnector = new InvoiceApiConnector($this->connection);
         
-        $mockInvoiceTypeApiConnector = \Mockery::mock('overload:'.InvoiceTypeApiConnector::class)->makePartial();
+        $mockInvoiceTypeApiConnector = \Mockery::mock(InvoiceTypeApiConnector::class)->makePartial();
         $mockInvoiceTypeApiConnector->shouldReceive('getInvoiceTypeVatType')->andReturnUsing(function() {
             return 'exclusive';
         });
  
-        $mockArticleApiConnector = \Mockery::mock('overload:'.ArticleApiConnector::class)->makePartial();
+        $mockArticleApiConnector = \Mockery::mock(ArticleApiConnector::class)->makePartial();
         $mockArticleApiConnector->shouldReceive('get')->andReturnUsing(function() {
             $article = new Article;
             $article->setAllowChangeVatCode(true);
             return $article;
         });
+    }
+    
+    protected function tearDown()
+    {
+        parent::setUp();
+        
+        unset($mockInvoiceTypeApiConnector, $mockArticleApiConnector);
     }
 
     public function testGetConceptInvoiceWorks()
