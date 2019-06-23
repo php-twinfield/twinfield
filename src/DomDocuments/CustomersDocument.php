@@ -43,7 +43,6 @@ class CustomersDocument extends BaseDocument
             $customerElement->setAttribute('status', $status);
         }
 
-        /*
         $customerElement->appendChild($this->createNodeWithTextContent('beginperiod', $customer->getBeginPeriod()));
         $customerElement->appendChild($this->createNodeWithTextContent('beginyear', $customer->getBeginYear()));
 
@@ -288,6 +287,5 @@ class CustomersDocument extends BaseDocument
 
         $paymentconditionElement->appendChild($this->createNodeWithTextContent('discountdays', $customer->getPaymentConditionDiscountDays()));
         $paymentconditionElement->appendChild($this->createNodeWithTextContent('discountpercentage', $customer->getPaymentConditionDiscountPercentage()));
-        */
     }
 }

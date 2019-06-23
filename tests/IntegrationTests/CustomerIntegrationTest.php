@@ -18,7 +18,7 @@ use PhpTwinfield\Util;
 
 /**
  * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
+ * @preserveGlobalState enabled
  * @covers Customer
  * @covers CustomerAddress
  * @covers CustomerBank

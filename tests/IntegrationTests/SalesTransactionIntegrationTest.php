@@ -20,7 +20,7 @@ use PhpTwinfield\Util;
 
 /**
  * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
+ * @preserveGlobalState enabled
  * @covers SalesTransaction
  * @covers SalesTransactionLine
  * @covers TransactionsDocument
@@ -199,9 +199,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $salesTransaction
             ->addLine($totalLine)
             ->addLine($detailLine);
-        
-        $this->assertNull(null);
-    
+
         $this->processXmlService
             ->expects($this->once())
             ->method("sendDocument")

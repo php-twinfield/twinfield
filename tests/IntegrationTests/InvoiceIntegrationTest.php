@@ -20,7 +20,7 @@ use PhpTwinfield\Util;
 
 /**
  * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
+ * @preserveGlobalState enabled
  * @covers Invoice
  * @covers InvoiceLine
  * @covers InvoiceTotals
@@ -227,10 +227,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $invoiceLine->setDim1(\PhpTwinfield\GeneralLedger::fromCode('8020'));
         $invoiceLine->setVatCode(\PhpTwinfield\VatCode::fromCode('VN'));
         $invoice->addLine($invoiceLine);
-        
-        $this->assertNull(null);
-        
-        /*
+
         $this->processXmlService
             ->expects($this->once())
             ->method("sendDocument")
@@ -245,7 +242,6 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
             });
 
         $this->invoiceApiConnector->send($invoice);
-        */
     }
 
     protected function getSuccessfulResponse(): Response

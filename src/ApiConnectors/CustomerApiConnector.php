@@ -46,7 +46,7 @@ class CustomerApiConnector extends BaseApiConnector
         // Send the Request document and set the response to this instance.
         $response = $this->sendXmlDocument($request_customer);
 
-        return CustomerMapper::map($response);
+        return CustomerMapper::map($response, $this->getConnection());
     }
 
     /**
@@ -86,7 +86,7 @@ class CustomerApiConnector extends BaseApiConnector
         }
 
         return $this->getProcessXmlService()->mapAll($responses, "dimension", function(Response $response): Customer {
-           return CustomerMapper::map($response);
+           return CustomerMapper::map($response, $this->getConnection());
         });
     }
 

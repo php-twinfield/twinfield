@@ -20,7 +20,7 @@ use PhpTwinfield\Util;
 
 /**
  * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
+ * @preserveGlobalState enabled
  * @covers PurchaseTransaction
  * @covers PurchaseTransactionLine
  * @covers TransactionsDocument
@@ -185,8 +185,6 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
             ->addLine($totalLine)
             ->addLine($detailLine);
 
-        $this->assertNull(null);
-        /*
         $this->processXmlService
             ->expects($this->once())
             ->method("sendDocument")
@@ -201,7 +199,6 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
             });
 
         $this->transactionApiConnector->send($purchaseTransaction);
-        */
     }
 
     protected function getSuccessfulResponse(): Response
