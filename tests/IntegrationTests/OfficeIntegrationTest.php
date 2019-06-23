@@ -21,6 +21,7 @@ class OfficeIntegrationTest extends BaseIntegrationTest
         parent::setUp();
 
         unset($mockOfficeApiConnector);
+        \Mockery::close();
 
         $this->officeApiConnector = new OfficeApiConnector($this->connection);
     }
