@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield\IntegrationTests;
 
+use PhpTwinfield\ApiConnectors\OfficeApiConnector;
+use PhpTwinfield\Currency;
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
