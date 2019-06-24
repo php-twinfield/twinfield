@@ -93,7 +93,7 @@ if ($executeListAllWithoutFilter) {
 /* VatCode
  * \PhpTwinfield\VatCode
  * Available getters: getCode, getCreated, getMessages, getModified, getName, getOffice, getResult, getShortName, getStatus, getTouched, getType, getUID, getUser, hasMessages, getPercentages
- * Available setters: setCode, setName, setOffice, setShortName, setStatus, setType, addPercentage, removePercentage
+ * Available setters: fromCode, setCode, setName, setOffice, setShortName, setStatus, setType, addPercentage, removePercentage
  */
 
 /* VatCodePercentage

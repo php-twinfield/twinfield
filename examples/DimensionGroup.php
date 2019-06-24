@@ -96,7 +96,7 @@ if ($executeListAllWithoutFilter) {
 /* DimensionGroup
  * \PhpTwinfield\DimensionGroup
  * Available getters: getCode, getMessages, getName, getOffice, getResult, getShortName, getStatus, hasMessages, getDimensions
- * Available setters: setCode, setName, setOffice, setShortName, setStatus, addDimension,removeDimension
+ * Available setters: fromCode, setCode, setName, setOffice, setShortName, setStatus, addDimension,removeDimension
  */
 
 /* DimensionGroupDimension

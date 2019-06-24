@@ -103,13 +103,14 @@ if ($executeListAllWithoutFilter) {
 /* Activity
  * \PhpTwinfield\Activity
  * Available getters: getBehaviour, getCode, getInUse, getMessages, getName, getOffice, getResult, getShortName, getStatus, getTouched, getType, getUID, getVatCode, hasMessages, getProjects
- * Available setters: setBehaviour, setCode, setName, setOffice, setShortName, setStatus, setType, setVatCode, setProjects
+ * Available setters: fromCode, setBehaviour, setCode, setName, setOffice, setShortName, setStatus, setType, setVatCode, setProjects
  */
 
 /* ActivityProjects
  * \PhpTwinfield\ActivityProjects
- * Available getters: getAuthoriser, getAuthoriserInherit, getAuthoriserLocked, getBillable, getBillableForRatio, getBillableInherit, getBillableLocked, getCustomer, getCustomerInherit, getCustomerLocked, getInvoiceDescription, getMessages, getRate, getRateInherit,
- * getRateLocked, getResult, getValidFrom, getValidTill, hasMessages, getQuantities
+ * Available getters: getAuthoriser, getAuthoriserToString, getAuthoriserInherit, getAuthoriserInheritToString, getAuthoriserLocked, getAuthoriserLockedToString, getBillable, getBillableToString, getBillableForRatio, getBillableForRatioToString,
+ * getBillableInherit, getBillableInheritToString, getBillableLocked, getBillableLockedToString, getCustomer, getCustomerToString, getCustomerInherit, getCustomerInheritToString, getCustomerLocked, getCustomerLockedToString, getInvoiceDescription, getMessages,
+ * getRate, getRateToString, getRateInherit, getRateInheritToString, getRateLocked, getRateLockedToString, getResult, getValidFrom, getValidTill, hasMessages, getQuantities
  *
  * Available setters: setAuthoriser, setAuthoriserInherit, setAuthoriserLocked, setBillable, setBillableForRatio, setBillableInherit, setBillableLocked, setCustomer, setCustomerInherit, setCustomerLocked, setInvoiceDescription, setRate, setRateInherit,
  * setRateLocked, setValidFrom, setValidTill, addQuantity, removeQuantity
@@ -118,7 +119,7 @@ if ($executeListAllWithoutFilter) {
 
 /* ActivityQuantity
  * \PhpTwinfield\ActivityQuantity
- * Available getters: getBillable, getBillableLocked, getLabel, getMandatory, getMessages, getRate, getResult, hasMessages
+ * Available getters: getBillable, getBillableToString, getBillableLocked, getBillableLockedToString, getLabel, getMandatory, getMessages, getRate, getRateToString, getResult, hasMessages
  * Available setters: setBillable, setBillableLocked, setLabel, setMandatory, setRate
  */
 

@@ -92,7 +92,7 @@ if ($executeListAllWithoutFilter) {
 /* Rate
  * \PhpTwinfield\Rate
  * Available getters: getCode, getCreated, getCurrency, getMessages, getModified, getName, getOffice, getResult, getShortName, getStatus, getTouched, getType, getUnit, getUser, hasMessages, getRateChanges
- * Available setters: setCode, setCurrency, setName, setOffice, setShortName, setStatus, setType, setUnit, addRateChange, removeRateChange
+ * Available setters: fromCode, setCode, setCurrency, setName, setOffice, setShortName, setStatus, setType, setUnit, addRateChange, removeRateChange
  */
 
 /* RateRateChange

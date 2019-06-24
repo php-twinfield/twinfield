@@ -97,10 +97,10 @@ if ($executeListAllWithoutFilter) {
 
 /* Invoice
  * \PhpTwinfield\Invoice
- * Available getters: getBank, getCalculateOnly, getCurrency, getCustomer, getCustomerName, getDebitCredit, getDeliverAddressNumber, getDueDate, getFinancialCode, getFinancialNumber, getFooterText, getHeaderText, getInvoiceAddressNumber, getInvoiceAmount, getInvoiceDate, getInvoiceNumber, getInvoiceType, getMessages, getOffice, getPaymentMethod,
+ * Available getters: getBank, getCalculateOnly, getCurrency, getCustomer, getCustomerToString, getCustomerName, getDebitCredit, getDeliverAddressNumber, getDueDate, getFinancialCode, getFinancialNumber, getFooterText, getHeaderText, getInvoiceAddressNumber, getInvoiceAmount, getInvoiceAmountToFloat, getInvoiceDate, getInvoiceNumber, getInvoiceType, getMessages, getOffice, getPaymentMethod,
  * getPerformanceDate, getPeriod, getPeriodRaiseWarning, getRaiseWarning, getResult, getStatus, hasMessages, getLines, getMatchReference, getTotals, getVatLines
  *
- * Available setters: setBank, setCalculateOnly, setCurrency, setCustomer, setCustomerName, setDebitCredit, setDeliverAddressNumber, setDueDate, setFinancialCode, setFinancialNumber, setFooterText, setHeaderText, setInvoiceAddressNumber, setInvoiceAmount, setInvoiceDate, setInvoiceNumber, setInvoiceType, setOffice,
+ * Available setters: fromCode, setBank, setCalculateOnly, setCurrency, setCustomer, setCustomerName, setDebitCredit, setDeliverAddressNumber, setDueDate, setFinancialCode, setFinancialNumber, setFooterText, setHeaderText, setInvoiceAddressNumber, setInvoiceAmount, setInvoiceDate, setInvoiceNumber, setInvoiceType, setOffice,
  * setPaymentMethod, setPerformanceDate, setPeriod, setPeriodRaiseWarning, setRaiseWarning, setStatus, setTotals, addLine, addVatLine, removeLine, removeVatLine
  *
  */
@@ -113,7 +113,7 @@ if ($executeListAllWithoutFilter) {
 
 /* InvoiceLine
  * \PhpTwinfield\InvoiceLine
- * Available getters: getAllowDiscountOrPremium, getArticle, getDescription, getDim1, getFreetext1, getFreetext2, getFreetext3, getID, getMessages, getPerformanceDate, getPerformanceType, getQuantity, getResult, getSubArticle, getUnits, getUnitsPriceExcl, getUnitsPriceInc, getValueExcl, getValueInc, getVatCode, getVatValue, hasMessages
+ * Available getters: getAllowDiscountOrPremium, getArticle, getDescription, getDim1, getFreetext1, getFreetext2, getFreetext3, getID, getMessages, getPerformanceDate, getPerformanceType, getQuantity, getResult, getSubArticle, getSubArticleToString, getUnits, getUnitsPriceExcl, getUnitsPriceInc, getValueExcl, getValueInc, getVatCode, getVatValue, hasMessages
  * Available setters: setAllowDiscountOrPremium, setArticle, setDescription, setDim1, setFreetext1, setFreetext2, setFreetext3, setID, setPerformanceDate, setPerformanceType, setQuantity, setSubArticle, setUnits, setUnitsPriceExcl, setUnitsPriceInc, setValueExcl, setValueInc, setVatCode, setVatValue
  */
 

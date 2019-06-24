@@ -100,7 +100,7 @@ if ($executeListAllWithoutFilter) {
 /* CostCenter
  * \PhpTwinfield\CostCenter
  * Available getters: getBehaviour, getCode, getInUse, getMessages, getName, getOffice, getResult, getShortName, getStatus, getTouched, getType, getUID, hasMessages
- * Available setters: setBehaviour, setCode, setName, setOffice, setShortName, setStatus, setType
+ * Available setters: fromCode, setBehaviour, setCode, setName, setOffice, setShortName, setStatus, setType
  */
 
 if ($executeListAllWithFilter || $executeListAllWithoutFilter) {

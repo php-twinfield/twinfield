@@ -94,7 +94,7 @@ if ($executeListAllWithoutFilter) {
 /* DimensionType
  * \PhpTwinfield\DimensionType
  * Available getters: getCode, getMask, getMessages, getName, getOffice, getResult, getShortName, getStatus, hasMessages, getAddress, getLevels
- * Available setters: setCode, setMask, setName, setOffice, setShortName, setStatus, setAddress, setLevels
+ * Available setters: fromCode, setCode, setMask, setName, setOffice, setShortName, setStatus, setAddress, setLevels
  */
 
 /* DimensionTypeLevels

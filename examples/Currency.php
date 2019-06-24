@@ -86,7 +86,7 @@ if ($executeListAllWithoutFilter) {
 /* Currency
  * \PhpTwinfield\Currency
  * Available getters: getCode, getMessages, getName, getOffice, getResult, getShortName, getStatus, hasMessages, getRates
- * Available setters: setCode, setName, setOffice, setShortName, setStatus, addRate, removeRate
+ * Available setters: fromCode, setCode, setName, setOffice, setShortName, setStatus, addRate, removeRate
  */
 
 /* CurrencyRate

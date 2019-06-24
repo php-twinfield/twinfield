@@ -96,7 +96,7 @@ if ($executeListAllWithoutFilter) {
  * Available getters: getAllowChangePerformanceType, getAllowChangeUnitsPrice, getAllowChangeVatCode, getAllowDecimalQuantity, getAllowDiscountOrPremium,
  * getAllowDiscountOrPremiumToString, getCode, getMessages, getName, getOffice, getPercentage, getPerformanceType, getResult, getShortName, getStatus, getType, getUnitNamePlural, getUnitNameSingular, getVatCode, hasMessages, getLines
  *
- * Available setters: setAllowChangePerformanceType, setAllowChangeUnitsPrice, setAllowChangeVatCode, setAllowDecimalQuantity, setAllowDiscountOrPremium,
+ * Available setters: fromCode, setAllowChangePerformanceType, setAllowChangeUnitsPrice, setAllowChangeVatCode, setAllowDecimalQuantity, setAllowDiscountOrPremium,
  * setCode, setName, setOffice, setPercentage, setPerformanceType, setShortName, setStatus, setType, setUnitNamePlural, setUnitNameSingular, setVatCode, addLine, removeLine
  *
  */

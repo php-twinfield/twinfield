@@ -114,7 +114,7 @@ if ($executeListAllWithoutFilter) {
  * Available getters: getBeginPeriod, getBeginYear, getBehaviour, getBlockedAccountPaymentConditionsIncludeVat, getBlockedAccountPaymentConditionsPercentage, getCode, getEndPeriod, getEndYear, getGroup, getInUse, getMessages, getName, getOffice,
  * getPaymentConditionDiscountDays, getPaymentConditionDiscountPercentage, getRemittanceAdviceSendMail, getRemittanceAdviceSendType, getResult, getShortName, getStatus, getTouched, getType, getUID, getWebsite, hasMessages, getAddresses, getBanks, getFinancials, getPostingRules
  *
- * Available setters: setBeginPeriod, setBeginYear, setBehaviour, setBlockedAccountPaymentConditionsIncludeVat, setBlockedAccountPaymentConditionsPercentage, setCode, setEndPeriod, setEndYear, setGroup, setName, setOffice,
+ * Available setters: fromCode, setBeginPeriod, setBeginYear, setBehaviour, setBlockedAccountPaymentConditionsIncludeVat, setBlockedAccountPaymentConditionsPercentage, setCode, setEndPeriod, setEndYear, setGroup, setName, setOffice,
  * setPaymentConditionDiscountDays, setPaymentConditionDiscountPercentage, setRemittanceAdviceSendMail, setRemittanceAdviceSendType, setShortName, setStatus, setType, setWebsite, setFinancials, addAddress, removeAddress, addBank, removeBank, addPostingRule, removePostingRule
  *
  */

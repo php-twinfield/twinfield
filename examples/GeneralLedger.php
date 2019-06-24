@@ -105,7 +105,7 @@ if ($executeListAllWithoutFilter) {
 /* GeneralLedger
  * \PhpTwinfield\GeneralLedger
  * Available getters: getBeginPeriod, getBeginYear, getBehaviour, getCode, getEndPeriod, getEndYear, getGroup, getInUse, getMessages, getName, getOffice, getResult, getShortName, getStatus, getTouched, getType, getWebsite, hasMessages, getFinancials
- * Available setters: setBeginPeriod, setBeginYear, setBehaviour, setCode, setEndPeriod, setEndYear, setGroup, setName, setOffice, setShortName, setStatus, setType, setFinancials
+ * Available setters: fromCode, setBeginPeriod, setBeginYear, setBehaviour, setCode, setEndPeriod, setEndYear, setGroup, setName, setOffice, setShortName, setStatus, setType, setFinancials
  */
 
 /* GeneralLedgerFinancials
