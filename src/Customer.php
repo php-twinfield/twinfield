@@ -122,6 +122,24 @@ class Customer extends BaseObject implements HasCodeInterface
             return false;
         }
     }
+    
+    public function removeAddressByID($id)
+    {
+        $found = false;
+                
+        foreach ($this->addresses as $index => $address) {
+            if ($id == $address->getID()) {
+                unset($this->addresses[$index]);
+                $found = true;
+            }
+        }
+        
+        if ($found) {
+            return true;
+        }
+        
+        return false;
+    }
 
     public function getBanks()
     {
@@ -143,6 +161,24 @@ class Customer extends BaseObject implements HasCodeInterface
             return false;
         }
     }
+    
+    public function removeBankByID($id)
+    {
+        $found = false;
+                
+        foreach ($this->banks as $index => $bank) {
+            if ($id == $bank->getID()) {
+                unset($this->banks[$index]);
+                $found = true;
+            }
+        }
+        
+        if ($found) {
+            return true;
+        }
+        
+        return false;
+    }
 
     public function getPostingRules()
     {
@@ -163,5 +199,23 @@ class Customer extends BaseObject implements HasCodeInterface
         } else {
             return false;
         }
+    }
+    
+    public function removePostingRuleByID($id)
+    {
+        $found = false;
+                
+        foreach ($this->postingRules as $index => $postingRule) {
+            if ($id == $postingRule->getID()) {
+                unset($this->postingRules[$index]);
+                $found = true;
+            }
+        }
+        
+        if ($found) {
+            return true;
+        }
+        
+        return false;
     }
 }
