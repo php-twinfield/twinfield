@@ -21,7 +21,7 @@ class BankTransaction extends BaseTransaction
 
     public function __construct()
     {
-        $this->startValue = new \Money\Money(0, new \Money\Currency('ZZZ'));
+        $this->startValue = new \Money\Money(0, new \Money\Currency('XXX'));
     }
 
     /*
