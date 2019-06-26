@@ -42,9 +42,9 @@ trait InvoiceAmountField
     public function setInvoiceAmountFromFloat(?float $invoiceAmountFloat)
     {
         if ((float)$invoiceAmountFloat) {
-            return $this->setInvoiceAmount(Money::ZZZ(100 * $invoiceAmountFloat));
+            return $this->setInvoiceAmount(new \Money\Money(100 * $invoiceAmountFloat, new \Money\Currency('ZZZ')));
         } else {
-            return $this->setInvoiceAmount(Money::ZZZ(0));
+            return $this->setInvoiceAmount(new \Money\Money(0, new \Money\Currency('ZZZ')));
         }
     }
 }
