@@ -71,7 +71,6 @@ class MatchSetMapper extends BaseMapper
             return null;
         }
 
-        // TODO: Perhaps not hard code this to EUR, but the element doesn't seem to contain a currency
-        return Util::parseMoney($matchValue, new Currency('EUR'));
+        return Util::parseMoney($matchValue, new Currency('XXX'));
     }
 }
