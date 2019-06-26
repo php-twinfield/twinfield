@@ -3,6 +3,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Enums\PerformanceType;
+use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Office;
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
@@ -157,11 +158,11 @@ abstract class BaseDocument extends \DOMDocument
      *
      * @param string $tag
      * @param string|null $textContent
-     * @param $object
+     * @param HasMessageInterface|null $object
      * @param array $methodToAttributeMap
      * @return \DOMElement
      */
-    final protected function createNodeWithTextContent(string $tag, ?string $textContent, $object = null, array $methodToAttributeMap = []): \DOMElement
+    final protected function createNodeWithTextContent(string $tag, ?string $textContent, ?HasMessageInterface $object = null, array $methodToAttributeMap = []): \DOMElement
     {
         $element = $this->createElement($tag);
 

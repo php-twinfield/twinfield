@@ -5,6 +5,7 @@ namespace PhpTwinfield\Mappers;
 use Money\Currency;
 use Money\Money;
 use PhpTwinfield\ApiConnectors\OfficeApiConnector;
+use PhpTwinfield\HasCodeInterface;
 use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Message\Message;
 use PhpTwinfield\Office;
@@ -168,7 +169,7 @@ abstract class BaseMapper
         return Util::parseMoney($value, new Currency($currency));
     }
 
-    protected static function parseUnknownEntity($object, \DOMElement $element, string $fieldTagName): string
+    protected static function parseUnknownEntity(HasMessageInterface $object, \DOMElement $element, string $fieldTagName): string
     {
         //if (is_a($object, \PhpTwinfield\DimensionGroupDimension::class)) {
         //    $type = self::getField($element, "type", $object);
@@ -177,29 +178,38 @@ abstract class BaseMapper
         //}
 
         switch ($type) {
-            case "ACT":
+            //case "ACT":
                 //return \PhpTwinfield\Activity::class;
-            case "AST":
+            //case "AST":
                 //return \PhpTwinfield\FixedAsset::class;
-            case "BAS":
+            //case "BAS":
                 //return \PhpTwinfield\GeneralLedger::class;
             case "CRD":
                 return \PhpTwinfield\Supplier::class;
             case "DEB":
                 return \PhpTwinfield\Customer::class;
-            case "KPL":
+            //case "KPL":
                 //return \PhpTwinfield\CostCenter::class;
-            case "PNL":
+            //case "PNL":
                 //return \PhpTwinfield\GeneralLedger::class;
-            case "PRJ":
+            //case "PRJ":
                 //return \PhpTwinfield\Project::class;
             default:
                 throw new \InvalidArgumentException("parseUnknownEntity function was unable to determine class name from \"{$type}\"");
         }
     }
 
-    /** @var SomeClassWithMethodsetCode $object2 */
-    protected static function parseObjectAttribute(?string $objectClass, $object, \DOMElement $element, string $fieldTagName, array $attributes = [])
+    /**
+     * Parse a code referring to a Twinfield Entity / PHP Twinfield object
+     *
+     * @param string|null $objectClass
+     * @param HasMessageInterface $object
+     * @param \DOMElement $element
+     * @param string $fieldTagName
+     * @param array $attributes
+     * @return HasCodeInterface
+     */
+    protected static function parseObjectAttribute(?string $objectClass, HasMessageInterface $object, \DOMElement $element, string $fieldTagName, array $attributes = [])
     {
         $value = self::getField($element, $fieldTagName, $object);
         
