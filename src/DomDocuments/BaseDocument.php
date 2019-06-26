@@ -35,11 +35,11 @@ abstract class BaseDocument extends \DOMDocument
      *
      * @param string $tag
      * @param string|null $textContent
-     * @param $object
+     * @param HasMessageInterface|null $object
      * @param array $methodToAttributeMap
      * @return \DOMElement
      */
-    final protected function createNodeWithTextContent(string $tag, ?string $textContent, $object = null, array $methodToAttributeMap = []): \DOMElement
+    final protected function createNodeWithTextContent(string $tag, ?string $textContent, ?HasMessageInterface $object = null, array $methodToAttributeMap = []): \DOMElement
     {
         $element = $this->createElement($tag);
 

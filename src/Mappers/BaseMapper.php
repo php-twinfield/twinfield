@@ -115,7 +115,7 @@ abstract class BaseMapper
         return Util::parseMoney($value, new Currency($currency));
     }
 
-    protected static function parseUnknownEntity($object, \DOMElement $element, string $fieldTagName): string
+    protected static function parseUnknownEntity(HasMessageInterface $object, \DOMElement $element, string $fieldTagName): string
     {
         if (is_a($object, \PhpTwinfield\DimensionGroupDimension::class)) {
             $type = self::getField($element, "type", $object);
@@ -145,8 +145,17 @@ abstract class BaseMapper
         }
     }
 
-    /** @var SomeClassWithMethodsetCode $object2 */
-    protected static function parseObjectAttribute(?string $objectClass, $object, \DOMElement $element, string $fieldTagName, array $attributes = [])
+    /**
+     * Parse a code referring to a Twinfield Entity / PHP Twinfield object
+     *
+     * @param string|null $objectClass
+     * @param HasMessageInterface $object
+     * @param \DOMElement $element
+     * @param string $fieldTagName
+     * @param array $attributes
+     * @return HasCodeInterface
+     */
+    protected static function parseObjectAttribute(?string $objectClass, HasMessageInterface $object, \DOMElement $element, string $fieldTagName, array $attributes = [])
     {
         $value = self::getField($element, $fieldTagName, $object);
         
