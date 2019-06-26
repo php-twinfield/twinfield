@@ -21,7 +21,7 @@ class CashTransaction extends BaseTransaction
 
     public function __construct()
     {
-        $this->startValue = new \Money\Money(0, new \Money\Currency('XXX'));
+        $this->startValue = new \Money\Money(0, new \Money\Currency('ZZZ'));
     }
 
     /*

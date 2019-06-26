@@ -90,13 +90,13 @@ class MatchesApiConnectorTest extends TestCase
         $this->assertEquals("VRK", $line->getTransCode());
         $this->assertSame(201700103, $line->getTransNumber());
         $this->assertSame(1, $line->getTransLine());
-        $this->assertEquals(Money::EUR(526), $line->getMatchValue());
+        $this->assertEquals(Money::ZZZ(526), $line->getMatchValue());
 
         $line = $lines[1];
         $this->assertEquals("DUM2", $line->getTransCode());
         $this->assertSame(201700029, $line->getTransNumber());
         $this->assertSame(79, $line->getTransLine());
-        $this->assertEquals(Money::EUR(-526), $line->getMatchValue());
+        $this->assertEquals(Money::ZZZ(-526), $line->getMatchValue());
 
         /** @var MatchSet $matchSet */
         try {
@@ -116,12 +116,12 @@ class MatchesApiConnectorTest extends TestCase
         $this->assertEquals("VRK", $line->getTransCode());
         $this->assertSame(201700100, $line->getTransNumber());
         $this->assertSame(1, $line->getTransLine());
-        $this->assertEquals(Money::EUR(140), $line->getMatchValue());
+        $this->assertEquals(Money::ZZZ(140), $line->getMatchValue());
 
         $line = $lines[1];
         $this->assertEquals("DUM2", $line->getTransCode());
         $this->assertSame(201700029, $line->getTransNumber());
         $this->assertSame(64, $line->getTransLine());
-        $this->assertEquals(Money::EUR(-140), $line->getMatchValue());
+        $this->assertEquals(Money::ZZZ(-140), $line->getMatchValue());
     }
 }
