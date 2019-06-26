@@ -5,6 +5,7 @@ namespace PhpTwinfield\Mappers;
 use Money\Currency;
 use Money\Money;
 use PhpTwinfield\ApiConnectors\OfficeApiConnector;
+use PhpTwinfield\HasCodeInterface;
 use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Message\Message;
 use PhpTwinfield\Office;

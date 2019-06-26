@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield\DomDocuments;
 
+use PhpTwinfield\HasMessageInterface;
+
 /**
  * You should add a public function add<Type>($instance): void method which will add an instance to the rootElement, so
  * that you can send multiple elements in one go.
