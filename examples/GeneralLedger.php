@@ -128,7 +128,7 @@ if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
     }
 }
 
-// Read a GeneralLedger based off the passed in code and optionally the office.
+// Read a GeneralLedger based off the passed in code, dimension type and optionally the office.
 if ($executeRead) {
     try {
         $generalLedger = $generalLedgerApiConnector->get("1000", "BAS", $office);
@@ -282,7 +282,7 @@ if ($executeNew) {
     echo "Code of new GeneralLedger: {$generalLedgerNew->getCode()}<br />";
 }
 
-// Delete a GeneralLedger based off the passed in code and optionally the office.
+// Delete a GeneralLedger based off the passed in code, dimension type and optionally the office.
 if ($executeDelete) {
     try {
         $generalLedgerDeleted = $generalLedgerApiConnector->delete("0000", "BAS", $office);
