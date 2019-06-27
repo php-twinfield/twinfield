@@ -113,8 +113,8 @@ if ($executeListAllWithoutFilter) {
 
 /* InvoiceLine
  * \PhpTwinfield\InvoiceLine
- * Available getters: getAllowDiscountOrPremium, getArticle, getDescription, getDim1, getFreetext1, getFreetext2, getFreetext3, getID, getMessages, getPerformanceDate, getPerformanceType, getQuantity, getResult, getSubArticle, getSubArticleToString, getUnits, getUnitsPriceExcl, getUnitsPriceInc, getValueExcl, getValueInc, getVatCode, getVatValue, hasMessages
- * Available setters: setAllowDiscountOrPremium, setArticle, setDescription, setDim1, setFreetext1, setFreetext2, setFreetext3, setID, setPerformanceDate, setPerformanceType, setQuantity, setSubArticle, setUnits, setUnitsPriceExcl, setUnitsPriceInc, setValueExcl, setValueInc, setVatCode, setVatValue
+ * Available getters: getAllowDiscountOrPremium, getArticle, getDescription, getDim1, getFreeText1, getFreeText2, getFreeText3, getID, getMessages, getPerformanceDate, getPerformanceType, getQuantity, getResult, getSubArticle, getSubArticleToString, getUnits, getUnitsPriceExcl, getUnitsPriceInc, getValueExcl, getValueInc, getVatCode, getVatValue, hasMessages
+ * Available setters: setAllowDiscountOrPremium, setArticle, setDescription, setDim1, setFreeText1, setFreeText2, setFreeText3, setID, setPerformanceDate, setPerformanceType, setQuantity, setSubArticle, setUnits, setUnitsPriceExcl, setUnitsPriceInc, setValueExcl, setValueInc, setVatCode, setVatValue
  */
 
 /* InvoiceVatLine
@@ -213,9 +213,9 @@ if ($executeRead) {
         echo "Description: {$invoiceLine->getDescription()}<br />";                                                                                 // string|null                  Invoice line description, only on the lines with article ‘0’ or ‘-‘.
         echo "Dim1 (\\PhpTwinfield\\GeneralLedger): <pre>" . print_r($invoiceLine->getDim1(), true) . "</pre><br />";                               // GeneralLedger|null           Balance account.
         echo "Dim1 (string): " . Util::objectToStr($invoiceLine->getDim1()) . "<br />";                                                             // string|null
-        echo "FreeText1: {$invoiceLine->getFreetext1()}<br />";                                                                                     // string|null                  Free text field 1 as entered on the invoice type.
-        echo "FreeText2: {$invoiceLine->getFreetext2()}<br />";                                                                                     // string|null                  Free text field 2 as entered on the invoice type.
-        echo "FreeText3: {$invoiceLine->getFreetext3()}<br />";                                                                                     // string|null                  Free text field 3 as entered on the invoice type.
+        echo "FreeText1: {$invoiceLine->getFreeText1()}<br />";                                                                                     // string|null                  Free text field 1 as entered on the invoice type.
+        echo "FreeText2: {$invoiceLine->getFreeText2()}<br />";                                                                                     // string|null                  Free text field 2 as entered on the invoice type.
+        echo "FreeText3: {$invoiceLine->getFreeText3()}<br />";                                                                                     // string|null                  Free text field 3 as entered on the invoice type.
         echo "ID: {$invoiceLine->getID()}<br />";                                                                                                   // int|null                     Line ID
 
         if ($invoiceLine->hasMessages()) {                                                                                					        // bool                         Object contains (error) messages true/false.
@@ -289,6 +289,7 @@ if ($executeCopy) {
 
     echo "Result of copy process: {$invoiceCopy->getResult()}<br />";
     echo "Number of copied Invoice: {$invoiceCopy->getInvoiceNumber()}<br />";
+    echo "Status of copied Invoice: {$invoiceCopy->getStatus()}<br />";
 }
 
 // Create a new Invoice from scratch, alternatively read an existing Invoice as shown above and than modify the values in the same way as shown below
@@ -352,7 +353,7 @@ if ($executeNew) {
     $invoiceLine->setDim1(\PhpTwinfield\GeneralLedger::fromCode('9060'));               	                                                        // string|null
     //$invoiceLine->setFreeText1('Example Free Text 1');                                                       	                                    // string|null                  Free text field 1 as entered on the invoice type.
     //$invoiceLine->setFreeText2('Example Free Text 2');                                                       	                                    // string|null                  Free text field 2 as entered on the invoice type.
-    //$invoiceLine->setFreetext3("Example Free Text 3");                                                                                            // string|null                  Free text field 3 as entered on the invoice type.
+    //$invoiceLine->setFreeText3("Example Free Text 3");                                                                                            // string|null                  Free text field 3 as entered on the invoice type.
     $invoiceLine->setID(1);                                                                                                                         // int|null                     Line ID.
     //$invoiceLine->setPerformanceType(\PhpTwinfield\Enums\PerformanceType::SERVICES());                                                            // PerformanceType|null         The performance type in case of an ICT sales invoice.
     //$invoiceLine->setPerformanceDate($performanceDate);                                                                                           // DateTimeInterface|null       Performance date, when set-up on invoice lines.
@@ -385,4 +386,5 @@ if ($executeNew) {
 
     echo "Result of creation process: {$invoiceNew->getResult()}<br />";
     echo "Number of new Invoice: {$invoiceNew->getInvoiceNumber()}<br />";
+    echo "Status of new Invoice: {$invoiceNew->getStatus()}<br />";
 }

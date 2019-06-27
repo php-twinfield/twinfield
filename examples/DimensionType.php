@@ -202,4 +202,5 @@ if ($executeModify) {
 
     echo "Result of modify process: {$dimensionTypeModify->getResult()}<br />";
     echo "Code of modified DimensionType: {$dimensionTypeModify->getCode()}<br />";
+    echo "Status of modified DimensionType: {$dimensionTypeModify->getStatus()}<br />";
 }

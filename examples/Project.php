@@ -252,6 +252,7 @@ if ($executeCopy) {
 
     echo "Result of copy process: {$projectCopy->getResult()}<br />";
     echo "Code of copied Project: {$projectCopy->getCode()}<br />";
+    echo "Status of copied Project: {$projectCopy->getStatus()}<br />";
 }
 
 // Create a new Project from scratch, alternatively read an existing Project as shown above and than modify the values in the same way as shown below
@@ -334,6 +335,7 @@ if ($executeNew) {
 
     echo "Result of creation process: {$projectNew->getResult()}<br />";
     echo "Code of new Project: {$projectNew->getCode()}<br />";
+    echo "Status of new Project: {$projectNew->getStatus()}<br />";
 }
 
 // Delete a Project based off the passed in code and optionally the office.
@@ -349,4 +351,6 @@ if ($executeDelete) {
     echo "</pre>";
 
     echo "Result of deletion process: {$projectDeleted->getResult()}<br />";
+    echo "Code of deleted Project: {$projectDeleted->getCode()}<br />";
+    echo "Status of deleted Project: {$projectDeleted->getStatus()}<br />";
 }

@@ -62,9 +62,9 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals('EUR', Util::objectToStr($journalTransaction->getCurrency()));
         $this->assertEquals(new \DateTimeImmutable('2013-11-04'), $journalTransaction->getDate());
         $this->assertSame('import', $journalTransaction->getOrigin());
-        $this->assertNull($journalTransaction->getFreetext1());
-        $this->assertNull($journalTransaction->getFreetext2());
-        $this->assertNull($journalTransaction->getFreetext3());
+        $this->assertNull($journalTransaction->getFreeText1());
+        $this->assertNull($journalTransaction->getFreeText2());
+        $this->assertNull($journalTransaction->getFreeText3());
         $this->assertNull($journalTransaction->getRegime());
 
         /** @var JournalTransactionLine[] $journalTransactionLines */

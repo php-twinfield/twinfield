@@ -168,6 +168,7 @@ if ($executeCopy) {
 
     echo "Result of copy process: {$currencyCopy->getResult()}<br />";
     echo "Code of copied Currency: {$currencyCopy->getCode()}<br />";
+    echo "Status of copied Currency: {$currencyCopy->getStatus()}<br />";
 }
 
 // Create a new Currency from scratch, alternatively read an existing Currency as shown above and than modify the values in the same way as shown below
@@ -211,6 +212,7 @@ if ($executeNew) {
 
     echo "Result of creation process: {$currencyNew->getResult()}<br />";
     echo "Code of new Currency: {$currencyNew->getCode()}<br />";
+    echo "Status of new Currency: {$currencyNew->getStatus()}<br />";
 }
 
 // Delete a Currency based off the passed in code and optionally the office.
@@ -226,4 +228,6 @@ if ($executeDelete) {
     echo "</pre>";
 
     echo "Result of deletion process: {$currencyDeleted->getResult()}<br />";
+    echo "Code of deleted Currency: {$currencyDeleted->getCode()}<br />";
+    echo "Status of deleted Currency: {$currencyDeleted->getStatus()}<br />";
 }

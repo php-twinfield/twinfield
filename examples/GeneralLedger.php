@@ -225,6 +225,7 @@ if ($executeCopy) {
 
     echo "Result of copy process: {$generalLedgerCopy->getResult()}<br />";
     echo "Code of copied GeneralLedger: {$generalLedgerCopy->getCode()}<br />";
+    echo "Status of copied GeneralLedger: {$generalLedgerCopy->getStatus()}<br />";
 }
 
 // Create a new GeneralLedger from scratch, alternatively read an existing GeneralLedger as shown above and than modify the values in the same way as shown below
@@ -280,6 +281,7 @@ if ($executeNew) {
 
     echo "Result of creation process: {$generalLedgerNew->getResult()}<br />";
     echo "Code of new GeneralLedger: {$generalLedgerNew->getCode()}<br />";
+    echo "Status of new GeneralLedger: {$generalLedgerNew->getStatus()}<br />";
 }
 
 // Delete a GeneralLedger based off the passed in code, dimension type and optionally the office.
@@ -295,4 +297,6 @@ if ($executeDelete) {
     echo "</pre>";
 
     echo "Result of deletion process: {$generalLedgerDeleted->getResult()}<br />";
+    echo "Code of deleted GeneralLedger: {$generalLedgerDeleted->getCode()}<br />";
+    echo "Status of deleted GeneralLedger: {$generalLedgerDeleted->getStatus()}<br />";
 }

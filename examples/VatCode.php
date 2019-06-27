@@ -216,6 +216,7 @@ if ($executeCopy) {
 
     echo "Result of copy process: {$vatCodeCopy->getResult()}<br />";
     echo "Code of copied VatCode: {$vatCodeCopy->getCode()}<br />";
+    echo "Status of copied VatCode: {$vatCodeCopy->getStatus()}<br />";
 }
 
 // Create a new VatCode from scratch, alternatively read an existing VatCode as shown above and than modify the values in the same way as shown below
@@ -282,6 +283,7 @@ if ($executeNew) {
 
     echo "Result of creation process: {$vatCodeNew->getResult()}<br />";
     echo "Code of new VatCode: {$vatCodeNew->getCode()}<br />";
+    echo "Status of new VatCode: {$vatCodeNew->getStatus()}<br />";
 }
 
 // Delete a VatCode based off the passed in code and optionally the office.
@@ -297,4 +299,6 @@ if ($executeDelete) {
     echo "</pre>";
 
     echo "Result of deletion process: {$vatCodeDeleted->getResult()}<br />";
+    echo "Code of deleted VatCode: {$vatCodeDeleted->getCode()}<br />";
+    echo "Status of deleted VatCode: {$vatCodeDeleted->getStatus()}<br />";
 }

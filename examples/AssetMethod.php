@@ -232,6 +232,7 @@ if ($executeCopy) {
 
     echo "Result of copy process: {$assetMethodCopy->getResult()}<br />";
     echo "Code of copied AssetMethod: {$assetMethodCopy->getCode()}<br />";
+    echo "Status of copied AssetMethod: {$assetMethodCopy->getStatus()}<br />";
 }
 
 // Create a new AssetMethod from scratch, alternatively read an existing AssetMethod as shown above and than modify the values in the same way as shown below
@@ -331,6 +332,7 @@ if ($executeNew) {
 
     echo "Result of creation process: {$assetMethodNew->getResult()}<br />";
     echo "Code of new AssetMethod: {$assetMethodNew->getCode()}<br />";
+    echo "Status of new AssetMethod: {$assetMethodNew->getStatus()}<br />";
 }
 
 // Delete an AssetMethod based off the passed in code and optionally the office.
@@ -346,4 +348,6 @@ if ($executeDelete) {
     echo "</pre>";
 
     echo "Result of deletion process: {$assetMethodDeleted->getResult()}<br />";
+    echo "Code of deleted AssetMethod: {$assetMethodDeleted->getCode()}<br />";
+    echo "Status of deleted AssetMethod: {$assetMethodDeleted->getStatus()}<br />";
 }

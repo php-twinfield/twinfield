@@ -252,6 +252,7 @@ if ($executeCopy) {
 
     echo "Result of copy process: {$activityCopy->getResult()}<br />";
     echo "Code of copied Activity: {$activityCopy->getCode()}<br />";
+    echo "Status of copied Activity: {$activityCopy->getStatus()}<br />";
 }
 
 // Create a new Activity from scratch, alternatively read an existing Activity as shown above and than modify the values in the same way as shown below
@@ -334,6 +335,7 @@ if ($executeNew) {
 
     echo "Result of creation process: {$activityNew->getResult()}<br />";
     echo "Code of new Activity: {$activityNew->getCode()}<br />";
+    echo "Status of new Activity: {$activityNew->getStatus()}<br />";
 }
 
 // Delete an Activity based off the passed in code and optionally the office.
@@ -349,4 +351,6 @@ if ($executeDelete) {
     echo "</pre>";
 
     echo "Result of deletion process: {$activityDeleted->getResult()}<br />";
+    echo "Code of deleted Activity: {$activityDeleted->getCode()}<br />";
+    echo "Status of deleted Activity: {$activityDeleted->getStatus()}<br />";
 }

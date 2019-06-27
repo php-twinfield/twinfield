@@ -15,7 +15,7 @@ trait FreeText2Field
     /**
      * @return null|string
      */
-    public function getFreetext2(): ?string
+    public function getFreeText2(): ?string
     {
         return $this->freeText2;
     }
@@ -24,7 +24,7 @@ trait FreeText2Field
      * @param null|string $freeText2
      * @return $this
      */
-    public function setFreetext2(?string $freeText2): self
+    public function setFreeText2(?string $freeText2): self
     {
         $this->freeText2 = $freeText2;
         return $this;

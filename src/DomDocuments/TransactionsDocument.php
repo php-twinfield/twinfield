@@ -112,16 +112,16 @@ class TransactionsDocument extends BaseDocument
             $headerElement->appendChild($this->createNodeWithTextContent('paymentreference', $transaction->getPaymentReference()));
         }
 
-        if ($transaction->getFreetext1() !== null) {
-            $headerElement->appendChild($this->createNodeWithTextContent("freetext1", $transaction->getFreetext1()));
+        if ($transaction->getFreeText1() !== null) {
+            $headerElement->appendChild($this->createNodeWithTextContent("freetext1", $transaction->getFreeText1()));
         }
 
-        if ($transaction->getFreetext2() !== null) {
-            $headerElement->appendChild($this->createNodeWithTextContent("freetext2", $transaction->getFreetext2()));
+        if ($transaction->getFreeText2() !== null) {
+            $headerElement->appendChild($this->createNodeWithTextContent("freetext2", $transaction->getFreeText2()));
         }
 
-        if ($transaction->getFreetext3() !== null) {
-            $headerElement->appendChild($this->createNodeWithTextContent("freetext3", $transaction->getFreetext3()));
+        if ($transaction->getFreeText3() !== null) {
+            $headerElement->appendChild($this->createNodeWithTextContent("freetext3", $transaction->getFreeText3()));
         }
 
         $linesElement = $this->createElement('lines');
