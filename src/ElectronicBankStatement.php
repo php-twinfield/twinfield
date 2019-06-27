@@ -59,7 +59,7 @@ class ElectronicBankStatement
     public function __construct()
     {
         $currency = new \PhpTwinfield\Currency;
-        $currency->setCode('EUR');
+        $currency->setCode('XXX');
         $this->currency   = $currency;
         $this->startValue = new \Money\Money(0, new \Money\Currency($currency->getCode()));
     }

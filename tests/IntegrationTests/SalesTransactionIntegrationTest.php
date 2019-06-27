@@ -61,9 +61,9 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals('EUR', Util::objectToStr($salesTransaction->getCurrency()));
         $this->assertEquals(new \DateTimeImmutable('2013-05-02'), $salesTransaction->getDate());
         $this->assertSame('import', $salesTransaction->getOrigin());
-        $this->assertNull($salesTransaction->getFreetext1());
-        $this->assertNull($salesTransaction->getFreetext2());
-        $this->assertNull($salesTransaction->getFreetext3());
+        $this->assertNull($salesTransaction->getFreeText1());
+        $this->assertNull($salesTransaction->getFreeText2());
+        $this->assertNull($salesTransaction->getFreeText3());
         $this->assertEquals(new \DateTimeImmutable('2013-05-06'), $salesTransaction->getDueDate());
         $this->assertSame('20130-6000', $salesTransaction->getInvoiceNumber());
         $this->assertSame('+++100/0160/01495+++', $salesTransaction->getPaymentReference());

@@ -73,7 +73,7 @@ if ($executeListAllWithoutFilter) {
 /* VatGroup
  * \PhpTwinfield\VatGroup
  * Available getters: getCode, getName, getShortName
- * Available setters: setCode, setName, setShortName
+ * Available setters: fromCode, setCode, setName, setShortName
  */
 
 if ($executeListAllWithFilter || $executeListAllWithoutFilter) {

@@ -103,13 +103,14 @@ if ($executeListAllWithoutFilter) {
 /* Activity
  * \PhpTwinfield\Activity
  * Available getters: getBehaviour, getCode, getInUse, getMessages, getName, getOffice, getResult, getShortName, getStatus, getTouched, getType, getUID, getVatCode, hasMessages, getProjects
- * Available setters: setBehaviour, setCode, setName, setOffice, setShortName, setStatus, setType, setVatCode, setProjects
+ * Available setters: fromCode, setBehaviour, setCode, setName, setOffice, setShortName, setStatus, setType, setVatCode, setProjects
  */
 
 /* ActivityProjects
  * \PhpTwinfield\ActivityProjects
- * Available getters: getAuthoriser, getAuthoriserInherit, getAuthoriserLocked, getBillable, getBillableForRatio, getBillableInherit, getBillableLocked, getCustomer, getCustomerInherit, getCustomerLocked, getInvoiceDescription, getMessages, getRate, getRateInherit,
- * getRateLocked, getResult, getValidFrom, getValidTill, hasMessages, getQuantities
+ * Available getters: getAuthoriser, getAuthoriserToString, getAuthoriserInherit, getAuthoriserInheritToString, getAuthoriserLocked, getAuthoriserLockedToString, getBillable, getBillableToString, getBillableForRatio, getBillableForRatioToString,
+ * getBillableInherit, getBillableInheritToString, getBillableLocked, getBillableLockedToString, getCustomer, getCustomerToString, getCustomerInherit, getCustomerInheritToString, getCustomerLocked, getCustomerLockedToString, getInvoiceDescription, getMessages,
+ * getRate, getRateToString, getRateInherit, getRateInheritToString, getRateLocked, getRateLockedToString, getResult, getValidFrom, getValidTill, hasMessages, getQuantities
  *
  * Available setters: setAuthoriser, setAuthoriserInherit, setAuthoriserLocked, setBillable, setBillableForRatio, setBillableInherit, setBillableLocked, setCustomer, setCustomerInherit, setCustomerLocked, setInvoiceDescription, setRate, setRateInherit,
  * setRateLocked, setValidFrom, setValidTill, addQuantity, removeQuantity
@@ -118,7 +119,7 @@ if ($executeListAllWithoutFilter) {
 
 /* ActivityQuantity
  * \PhpTwinfield\ActivityQuantity
- * Available getters: getBillable, getBillableLocked, getLabel, getMandatory, getMessages, getRate, getResult, hasMessages
+ * Available getters: getBillable, getBillableToString, getBillableLocked, getBillableLockedToString, getLabel, getMandatory, getMessages, getRate, getRateToString, getResult, hasMessages
  * Available setters: setBillable, setBillableLocked, setLabel, setMandatory, setRate
  */
 
@@ -251,6 +252,7 @@ if ($executeCopy) {
 
     echo "Result of copy process: {$activityCopy->getResult()}<br />";
     echo "Code of copied Activity: {$activityCopy->getCode()}<br />";
+    echo "Status of copied Activity: {$activityCopy->getStatus()}<br />";
 }
 
 // Create a new Activity from scratch, alternatively read an existing Activity as shown above and than modify the values in the same way as shown below
@@ -333,6 +335,7 @@ if ($executeNew) {
 
     echo "Result of creation process: {$activityNew->getResult()}<br />";
     echo "Code of new Activity: {$activityNew->getCode()}<br />";
+    echo "Status of new Activity: {$activityNew->getStatus()}<br />";
 }
 
 // Delete an Activity based off the passed in code and optionally the office.
@@ -348,4 +351,6 @@ if ($executeDelete) {
     echo "</pre>";
 
     echo "Result of deletion process: {$activityDeleted->getResult()}<br />";
+    echo "Code of deleted Activity: {$activityDeleted->getCode()}<br />";
+    echo "Status of deleted Activity: {$activityDeleted->getStatus()}<br />";
 }

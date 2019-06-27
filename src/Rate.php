@@ -64,4 +64,22 @@ class Rate extends BaseObject implements HasCodeInterface
             return false;
         }
     }
+    
+    public function removeRateChangeByID($id)
+    {
+        $found = false;
+        
+        foreach ($this->rateChanges as $index => $rateChange) {
+            if ($id == $rateChange->getID()) {
+                unset($this->rateChanges[$index]);
+                $found = true;
+            }
+        }
+        
+        if ($found) {
+            return true;
+        }
+        
+        return false;
+    }
 }

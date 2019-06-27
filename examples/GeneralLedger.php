@@ -105,7 +105,7 @@ if ($executeListAllWithoutFilter) {
 /* GeneralLedger
  * \PhpTwinfield\GeneralLedger
  * Available getters: getBeginPeriod, getBeginYear, getBehaviour, getCode, getEndPeriod, getEndYear, getGroup, getInUse, getMessages, getName, getOffice, getResult, getShortName, getStatus, getTouched, getType, getWebsite, hasMessages, getFinancials
- * Available setters: setBeginPeriod, setBeginYear, setBehaviour, setCode, setEndPeriod, setEndYear, setGroup, setName, setOffice, setShortName, setStatus, setType, setFinancials
+ * Available setters: fromCode, setBeginPeriod, setBeginYear, setBehaviour, setCode, setEndPeriod, setEndYear, setGroup, setName, setOffice, setShortName, setStatus, setType, setFinancials
  */
 
 /* GeneralLedgerFinancials
@@ -128,7 +128,7 @@ if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
     }
 }
 
-// Read a GeneralLedger based off the passed in code and optionally the office.
+// Read a GeneralLedger based off the passed in code, dimension type and optionally the office.
 if ($executeRead) {
     try {
         $generalLedger = $generalLedgerApiConnector->get("1000", "BAS", $office);
@@ -225,6 +225,7 @@ if ($executeCopy) {
 
     echo "Result of copy process: {$generalLedgerCopy->getResult()}<br />";
     echo "Code of copied GeneralLedger: {$generalLedgerCopy->getCode()}<br />";
+    echo "Status of copied GeneralLedger: {$generalLedgerCopy->getStatus()}<br />";
 }
 
 // Create a new GeneralLedger from scratch, alternatively read an existing GeneralLedger as shown above and than modify the values in the same way as shown below
@@ -280,9 +281,10 @@ if ($executeNew) {
 
     echo "Result of creation process: {$generalLedgerNew->getResult()}<br />";
     echo "Code of new GeneralLedger: {$generalLedgerNew->getCode()}<br />";
+    echo "Status of new GeneralLedger: {$generalLedgerNew->getStatus()}<br />";
 }
 
-// Delete a GeneralLedger based off the passed in code and optionally the office.
+// Delete a GeneralLedger based off the passed in code, dimension type and optionally the office.
 if ($executeDelete) {
     try {
         $generalLedgerDeleted = $generalLedgerApiConnector->delete("0000", "BAS", $office);
@@ -295,4 +297,6 @@ if ($executeDelete) {
     echo "</pre>";
 
     echo "Result of deletion process: {$generalLedgerDeleted->getResult()}<br />";
+    echo "Code of deleted GeneralLedger: {$generalLedgerDeleted->getCode()}<br />";
+    echo "Status of deleted GeneralLedger: {$generalLedgerDeleted->getStatus()}<br />";
 }

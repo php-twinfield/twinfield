@@ -44,8 +44,8 @@ class UserMapper extends BaseMapper
         $user->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $userElement->getAttribute('status')));
 
         // Set the user elements from the user element
-        $user->setAcceptExtraCostField(Util::parseBoolean(self::getField($userElement, 'acceptextracost', $user)))
-            ->setCulture(self::getField($userElement, 'culture', $user))
+        $user->setAcceptExtraCost(Util::parseBoolean(self::getField($userElement, 'acceptextracost', $user)))
+            ->setCulture(self::parseEnumAttribute(\PhpTwinfield\Enums\Culture::class, self::getField($userElement, 'culture', $user)))
             ->setCode(self::getField($userElement, 'code', $user))
             ->setCreated(self::parseDateTimeAttribute(self::getField($userElement, 'created', $user)))
             ->setDemo(Util::parseBoolean(self::getField($userElement, 'demo', $user)))

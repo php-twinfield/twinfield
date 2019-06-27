@@ -92,7 +92,7 @@ if ($executeListAllWithoutFilter) {
 /* Rate
  * \PhpTwinfield\Rate
  * Available getters: getCode, getCreated, getCurrency, getMessages, getModified, getName, getOffice, getResult, getShortName, getStatus, getTouched, getType, getUnit, getUser, hasMessages, getRateChanges
- * Available setters: setCode, setCurrency, setName, setOffice, setShortName, setStatus, setType, setUnit, addRateChange, removeRateChange
+ * Available setters: fromCode, setCode, setCurrency, setName, setOffice, setShortName, setStatus, setType, setUnit, addRateChange, removeRateChange
  */
 
 /* RateRateChange
@@ -191,6 +191,7 @@ if ($executeCopy) {
 
     echo "Result of copy process: {$rateCopy->getResult()}<br />";
     echo "Code of copied Rate: {$rateCopy->getCode()}<br />";
+    echo "Status of copied Rate: {$rateCopy->getStatus()}<br />";
 }
 
 // Create a new Rate from scratch, alternatively read an existing Rate as shown above and than modify the values in the same way as shown below
@@ -244,7 +245,7 @@ if ($executeNew) {
 
     echo "Result of creation process: {$rateNew->getResult()}<br />";
     echo "Code of new Rate: {$rateNew->getCode()}<br />";
-    /* */
+    echo "Status of new Rate: {$rateNew->getStatus()}<br />";
 }
 
 // Delete a Rate based off the passed in code and optionally the office.
@@ -260,4 +261,6 @@ if ($executeDelete) {
     echo "</pre>";
 
     echo "Result of deletion process: {$rateDeleted->getResult()}<br />";
+    echo "Code of deleted Rate: {$rateDeleted->getCode()}<br />";
+    echo "Status of deleted Rate: {$rateDeleted->getStatus()}<br />";
 }

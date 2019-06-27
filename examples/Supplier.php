@@ -114,7 +114,7 @@ if ($executeListAllWithoutFilter) {
  * Available getters: getBeginPeriod, getBeginYear, getBehaviour, getBlockedAccountPaymentConditionsIncludeVat, getBlockedAccountPaymentConditionsPercentage, getCode, getEndPeriod, getEndYear, getGroup, getInUse, getMessages, getName, getOffice,
  * getPaymentConditionDiscountDays, getPaymentConditionDiscountPercentage, getRemittanceAdviceSendMail, getRemittanceAdviceSendType, getResult, getShortName, getStatus, getTouched, getType, getUID, getWebsite, hasMessages, getAddresses, getBanks, getFinancials, getPostingRules
  *
- * Available setters: setBeginPeriod, setBeginYear, setBehaviour, setBlockedAccountPaymentConditionsIncludeVat, setBlockedAccountPaymentConditionsPercentage, setCode, setEndPeriod, setEndYear, setGroup, setName, setOffice,
+ * Available setters: fromCode, setBeginPeriod, setBeginYear, setBehaviour, setBlockedAccountPaymentConditionsIncludeVat, setBlockedAccountPaymentConditionsPercentage, setCode, setEndPeriod, setEndYear, setGroup, setName, setOffice,
  * setPaymentConditionDiscountDays, setPaymentConditionDiscountPercentage, setRemittanceAdviceSendMail, setRemittanceAdviceSendType, setShortName, setStatus, setType, setWebsite, setFinancials, addAddress, removeAddress, addBank, removeBank, addPostingRule, removePostingRule
  *
  */
@@ -181,12 +181,12 @@ if ($executeRead) {
     echo "BeginPeriod: {$supplier->getBeginPeriod()}<br />";                                                                               			// int|null                         Determines together with beginyear the period from which the dimension may be used.
     echo "BeginYear: {$supplier->getBeginYear()}<br />";                                                                               			    // int|null                         Determines together with beginperiod the period from which the dimension may be used.
     echo "Behaviour: {$supplier->getBehaviour()}<br />";                                                                                   		    // Behaviour|null                   Determines the behaviour of dimensions. Read-only attribute.
-    echo "Code: {$supplier->getCode()}<br />";                                                                                   					// string|null                      Dimension code, must be compliant with the mask of the DEB Dimension type.
+    echo "Code: {$supplier->getCode()}<br />";                                                                                   					// string|null                      Dimension code, must be compliant with the mask of the CRD Dimension type.
     echo "EndPeriod: {$supplier->getEndPeriod()}<br />";                                                                               			    // int|null                         Determines together with endyear the period till which the dimension may be used.
     echo "EndYear: {$supplier->getEndYear()}<br />";                                                                               			        // int|null                         Determines together with endperiod the period till which the dimension may be used.
     echo "Group (\\PhpTwinfield\\DimensionGroup): <pre>" . print_r($supplier->getGroup(), true) . "</pre><br />";                      			    // DimensionGroup|null              Sets the dimension group. See Dimension group.
     echo "Group (string): " . Util::objectToStr($supplier->getGroup()) . "<br />";                                                              	// string|null
-    echo "InUse (bool): {$supplier->getInUse()}<br />";                                                                                   			// bool|null                        Indicates whether the balancesheet is used in a financial transaction or not. Read-only attribute.
+    echo "InUse (bool): {$supplier->getInUse()}<br />";                                                                                   			// bool|null                        Indicates whether the dimension is used in a financial transaction or not. Read-only attribute.
     echo "InUse (string): " . Util::formatBoolean($supplier->getInUse()) . "<br />";                                                                // string|null
 
     if ($supplier->hasMessages()) {                                                                                              					// bool                             Object contains (error) messages true/false.
@@ -206,7 +206,7 @@ if ($executeRead) {
     echo "ShortName: {$supplier->getShortName()}<br />";                                                                         					// string|null                      Short name of the dimension.
     echo "Status: {$supplier->getStatus()}<br />";                                                                               					// Status|null                      Status of the supplier.
     echo "Touched: {$supplier->getTouched()}<br />";                                                                                                // int|null                         Count of the number of times the dimension settings are changed. Read-only attribute.
-    echo "Type (\\PhpTwinfield\\DimensionType): <pre>" . print_r($supplier->getType(), true) . "</pre><br />";                                      // DimensionType|null               Dimension type. See Dimension type. Dimension type of suppliers is DEB.
+    echo "Type (\\PhpTwinfield\\DimensionType): <pre>" . print_r($supplier->getType(), true) . "</pre><br />";                                      // DimensionType|null               Dimension type. See Dimension type. Dimension type of suppliers is CRD.
     echo "Type (string): " . Util::objectToStr($supplier->getType()) . "<br />";                                                                    // string|null
     echo "UID: {$supplier->getUID()}<br />";                                                                                                        // string|null                      Unique identification of the dimension. Read-only attribute.
     echo "Website: {$supplier->getWebsite()}<br />";                                                                                                // string|null                      Website of the dimension.
@@ -378,7 +378,7 @@ if ($executeCopy) {
     }
 
     $supplier->setCode(null);                                                                                                                       // string|null                      Set to null to let Twinfield assign a Dimension code based on the Dimension type mask
-    //$supplier->setCode('2100');                                                                                                                   // string|null                      Dimension code, must be compliant with the mask of the DEB Dimension type.
+    //$supplier->setCode('2100');                                                                                                                   // string|null                      Dimension code, must be compliant with the mask of the CRD Dimension type.
 
     //Twinfield does not accept BankID's on new entities
     $supplierBanks = $supplier->getBanks();
@@ -399,6 +399,7 @@ if ($executeCopy) {
 
     echo "Result of copy process: {$supplierCopy->getResult()}<br />";
     echo "Code of copied Supplier: {$supplierCopy->getCode()}<br />";
+    echo "Status of copied Supplier: {$supplierCopy->getStatus()}<br />";
 }
 
 // Create a new Supplier from scratch, alternatively read an existing Supplier as shown above and than modify the values in the same way as shown below
@@ -407,7 +408,7 @@ if ($executeNew) {
 
     // Required values for creating a new Supplier
     $supplier->setCode(null);                                                                                                                       // string|null                      Set to null to let Twinfield assign a Dimension code based on the Dimension type mask
-    //$supplier->setCode('2100');                                                                                                                   // string|null                      Dimension code, must be compliant with the mask of the DEB Dimension type.
+    //$supplier->setCode('2100');                                                                                                                   // string|null                      Dimension code, must be compliant with the mask of the CRD Dimension type.
     $supplier->setName("Example Supplier");                                                                                                         // string|null                      Name of the dimension.
     $supplier->setOffice($office);                                                                                                                  // Office|null                      Office code.
     $supplier->setOffice(\PhpTwinfield\Office::fromCode($officeCode));                                                                              // string|null
@@ -551,6 +552,7 @@ if ($executeNew) {
 
     echo "Result of creation process: {$supplierNew->getResult()}<br />";
     echo "Code of new Supplier: {$supplierNew->getCode()}<br />";
+    echo "Status of new Supplier: {$supplierNew->getStatus()}<br />";
 }
 
 // Delete a Supplier based off the passed in code and optionally the office.
@@ -566,4 +568,6 @@ if ($executeDelete) {
     echo "</pre>";
 
     echo "Result of deletion process: {$supplierDeleted->getResult()}<br />";
+    echo "Code of deleted Supplier: {$supplierDeleted->getCode()}<br />";
+    echo "Status of deleted Supplier: {$supplierDeleted->getStatus()}<br />";
 }

@@ -6,7 +6,7 @@ use PhpTwinfield\Rate;
 
 /**
  * The rate
- * Used by: ActivityProjects, ActivityQuantity, ProjectProjects, ProjectQuantity, RateRateChange
+ * Used by: ActivityProjects, ActivityQuantity, ProjectProjects, ProjectQuantity
  *
  * @package PhpTwinfield\Traits
  */

@@ -44,4 +44,22 @@ class VatCodePercentage extends BaseObject
             return false;
         }
     }
+    
+    public function removeAccountByID($id)
+    {
+        $found = false;
+        
+        foreach ($this->accounts as $index => $account) {
+            if ($id == $account->getID()) {
+                unset($this->accounts[$index]);
+                $found = true;
+            }
+        }
+        
+        if ($found) {
+            return true;
+        }
+        
+        return false;
+    }
 }

@@ -112,6 +112,24 @@ class Invoice extends BaseObject
             return false;
         }
     }
+    
+    public function removeLineByID($id)
+    {
+        $found = false;
+        
+        foreach ($this->lines as $index => $line) {
+            if ($id == $line->getID()) {
+                unset($this->lines[$index]);
+                $found = true;
+            }
+        }
+        
+        if ($found) {
+            return true;
+        }
+        
+        return false;
+    }
 
     /**
      * @return InvoiceVatLine[]

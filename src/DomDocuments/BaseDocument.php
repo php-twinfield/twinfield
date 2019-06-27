@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield\DomDocuments;
 
+use PhpTwinfield\HasMessageInterface;
+
 /**
  * You should add a public function add<Type>($instance): void method which will add an instance to the rootElement, so
  * that you can send multiple elements in one go.
@@ -35,11 +37,11 @@ abstract class BaseDocument extends \DOMDocument
      *
      * @param string $tag
      * @param string|null $textContent
-     * @param $object
+     * @param HasMessageInterface|null $object
      * @param array $methodToAttributeMap
      * @return \DOMElement
      */
-    final protected function createNodeWithTextContent(string $tag, ?string $textContent, $object = null, array $methodToAttributeMap = []): \DOMElement
+    final protected function createNodeWithTextContent(string $tag, ?string $textContent, ?HasMessageInterface $object = null, array $methodToAttributeMap = []): \DOMElement
     {
         $element = $this->createElement($tag);
 

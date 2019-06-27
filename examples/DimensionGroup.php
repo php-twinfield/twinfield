@@ -96,7 +96,7 @@ if ($executeListAllWithoutFilter) {
 /* DimensionGroup
  * \PhpTwinfield\DimensionGroup
  * Available getters: getCode, getMessages, getName, getOffice, getResult, getShortName, getStatus, hasMessages, getDimensions
- * Available setters: setCode, setName, setOffice, setShortName, setStatus, addDimension,removeDimension
+ * Available setters: fromCode, setCode, setName, setOffice, setShortName, setStatus, addDimension,removeDimension
  */
 
 /* DimensionGroupDimension
@@ -178,6 +178,7 @@ if ($executeCopy) {
 
     echo "Result of copy process: {$dimensionGroupCopy->getResult()}<br />";
     echo "Code of copied DimensionGroup: {$dimensionGroupCopy->getCode()}<br />";
+    echo "Status of copied DimensionGroup: {$dimensionGroupCopy->getStatus()}<br />";
 }
 
 // Create a new DimensionGroup from scratch, alternatively read an existing DimensionGroup as shown above and than modify the values in the same way as shown below
@@ -221,6 +222,7 @@ if ($executeNew) {
 
     echo "Result of creation process: {$dimensionGroupNew->getResult()}<br />";
     echo "Code of new DimensionGroup: {$dimensionGroupNew->getCode()}<br />";
+    echo "Status of new DimensionGroup: {$dimensionGroupNew->getStatus()}<br />";
 }
 
 // Delete a DimensionGroup based off the passed in code and optionally the office.
@@ -236,4 +238,6 @@ if ($executeDelete) {
     echo "</pre>";
 
     echo "Result of deletion process: {$dimensionGroupDeleted->getResult()}<br />";
+    echo "Code of deleted DimensionGroup: {$dimensionGroupDeleted->getCode()}<br />";
+    echo "Status of deleted DimensionGroup: {$dimensionGroupDeleted->getStatus()}<br />";
 }

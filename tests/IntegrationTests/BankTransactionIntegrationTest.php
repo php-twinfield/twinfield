@@ -63,9 +63,9 @@ class BankTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals('EUR', Util::objectToStr($bankTransaction->getCurrency()));
         $this->assertEquals(new DateTimeImmutable('2013-11-04'), $bankTransaction->getDate());
         $this->assertSame('import', $bankTransaction->getOrigin());
-        $this->assertNull($bankTransaction->getFreetext1());
-        $this->assertNull($bankTransaction->getFreetext2());
-        $this->assertNull($bankTransaction->getFreetext3());
+        $this->assertNull($bankTransaction->getFreeText1());
+        $this->assertNull($bankTransaction->getFreeText2());
+        $this->assertNull($bankTransaction->getFreeText3());
         $this->assertSame(4, $bankTransaction->getStatementNumber());
         $this->assertTrue(Money::EUR(97401)->equals($bankTransaction->getStartValue()));
         $this->assertTrue(Money::EUR(140956)->equals($bankTransaction->getCloseValue()));

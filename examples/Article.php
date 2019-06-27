@@ -96,15 +96,15 @@ if ($executeListAllWithoutFilter) {
  * Available getters: getAllowChangePerformanceType, getAllowChangeUnitsPrice, getAllowChangeVatCode, getAllowDecimalQuantity, getAllowDiscountOrPremium,
  * getAllowDiscountOrPremiumToString, getCode, getMessages, getName, getOffice, getPercentage, getPerformanceType, getResult, getShortName, getStatus, getType, getUnitNamePlural, getUnitNameSingular, getVatCode, hasMessages, getLines
  *
- * Available setters: setAllowChangePerformanceType, setAllowChangeUnitsPrice, setAllowChangeVatCode, setAllowDecimalQuantity, setAllowDiscountOrPremium,
+ * Available setters: fromCode, setAllowChangePerformanceType, setAllowChangeUnitsPrice, setAllowChangeVatCode, setAllowDecimalQuantity, setAllowDiscountOrPremium,
  * setCode, setName, setOffice, setPercentage, setPerformanceType, setShortName, setStatus, setType, setUnitNamePlural, setUnitNameSingular, setVatCode, addLine, removeLine
  *
  */
 
 /* ArticleLine
  * \PhpTwinfield\ArticleLine
- * Available getters: getFreeText1, getFreeText2, getFreetext3, getID, getInUse, getMessages, getName, getResult, getShortName, getStatus, getSubCode, getUnits, getUnitsPriceExcl, getUnitsPriceInc, hasMessages
- * Available setters: setFreeText1, setFreeText2, setFreetext3, setID, setName, setShortName, setStatus, setSubCode, setUnits, setUnitsPriceExcl, setUnitsPriceInc
+ * Available getters: getFreeText1, getFreeText2, getFreeText3, getID, getInUse, getMessages, getName, getResult, getShortName, getStatus, getSubCode, getUnits, getUnitsPriceExcl, getUnitsPriceInc, hasMessages
+ * Available setters: setFreeText1, setFreeText2, setFreeText3, setID, setName, setShortName, setStatus, setSubCode, setUnits, setUnitsPriceExcl, setUnitsPriceInc
  */
 
 if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
@@ -168,7 +168,7 @@ if ($executeRead) {
         echo "FreeText1 (string): " . Util::objectToStr($articleLine->getFreeText1()) . "<br />";                                                   // string|null
         echo "FreeText2 (\\PhpTwinfield\\CostCenter): <pre>" . print_r($articleLine->getFreeText2(), true) . "</pre><br />";                        // CostCenter|null              Optional. The cost center linked to the article.
         echo "FreeText2 (string): " . Util::objectToStr($articleLine->getFreeText2()) . "<br />";                                                   // string|null
-        echo "FreeText3: {$articleLine->getFreetext3()}<br />";                                                                                     // string|null                  Free text element 3
+        echo "FreeText3: {$articleLine->getFreeText3()}<br />";                                                                                     // string|null                  Free text element 3
         echo "ID: {$articleLine->getID()}<br />";                                                                                                   // int|null                     Line ID
         echo "InUse (bool): {$articleLine->getInUse()}<br />";                                                                                      // bool|null                    Read-only attribute. Indicates that the sub item has been used in an invoice.
         echo "InUse (string): " . Util::formatBoolean($articleLine->getInUse()) . "<br />";                                                         // string|null
@@ -212,6 +212,7 @@ if ($executeCopy) {
 
     echo "Result of copy process: {$articleCopy->getResult()}<br />";
     echo "Code of copied Article: {$articleCopy->getCode()}<br />";
+    echo "Status of copied Article: {$articleCopy->getStatus()}<br />";
 }
 
 // Create a new Article from scratch, alternatively read an existing Article as shown above and than modify the values in the same way as shown below
@@ -254,7 +255,7 @@ if ($executeNew) {
     $freeText2->setCode('00000');
     //$articleLine->setFreeText2($freeText1);                      		                                                                            // CostCenter|null              Optional. The cost center linked to the article.
     //$articleLine->setFreeText2(\PhpTwinfield\CostCenter::fromCode('00000'));                            	                                        // string|null
-    //$articleLine->setFreetext3("");                                                                                                               // string|null                  Free text element 3
+    //$articleLine->setFreeText3("");                                                                                                               // string|null                  Free text element 3
     $articleLine->setID(1);                                                                                                                         // int|null                     Line ID.
     $articleLine->setName("Example Sub Article");                                                                                                   // string|null                  Sub article name.
     $articleLine->setShortName("ExmplSubArt");                                                                                                      // string|null                  Sub article short name.
@@ -281,6 +282,7 @@ if ($executeNew) {
 
     echo "Result of creation process: {$articleNew->getResult()}<br />";
     echo "Code of new Article: {$articleNew->getCode()}<br />";
+    echo "Status of new Article: {$articleNew->getStatus()}<br />";
 }
 
 // Delete a Article based off the passed in code and optionally the office.
@@ -296,4 +298,6 @@ if ($executeDelete) {
     echo "</pre>";
 
     echo "Result of deletion process: {$articleDeleted->getResult()}<br />";
+    echo "Code of deleted Article: {$articleDeleted->getCode()}<br />";
+    echo "Status of deleted Article: {$articleDeleted->getStatus()}<br />";
 }

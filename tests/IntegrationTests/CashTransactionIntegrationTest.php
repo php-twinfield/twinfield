@@ -63,9 +63,9 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals('EUR', Util::objectToStr($cashTransaction->getCurrency()));
         $this->assertEquals(new DateTimeImmutable('2013-11-04'), $cashTransaction->getDate());
         $this->assertSame('import', $cashTransaction->getOrigin());
-        $this->assertNull($cashTransaction->getFreetext1());
-        $this->assertNull($cashTransaction->getFreetext2());
-        $this->assertNull($cashTransaction->getFreetext3());
+        $this->assertNull($cashTransaction->getFreeText1());
+        $this->assertNull($cashTransaction->getFreeText2());
+        $this->assertNull($cashTransaction->getFreeText3());
         $this->assertSame(4, $cashTransaction->getStatementNumber());
         $this->assertTrue(Money::EUR(97401)->equals($cashTransaction->getStartValue()));
         $this->assertTrue(Money::EUR(140956)->equals($cashTransaction->getCloseValue()));

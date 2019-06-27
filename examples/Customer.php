@@ -114,7 +114,7 @@ if ($executeListAllWithoutFilter) {
  * Available getters: getBeginPeriod, getBeginYear, getBehaviour, getCode, getDiscountArticle, getDiscountArticleID, getEndPeriod, getEndYear, getGroup, getInUse, getMessages, getName, getOffice,
  * getPaymentConditionDiscountDays, getPaymentConditionDiscountPercentage, getRemittanceAdviceSendMail, getRemittanceAdviceSendType, getResult, getShortName, getStatus, getTouched, getType, getUID, getWebsite, hasMessages, getAddresses, getBanks, getCreditManagement, getFinancials, getPostingRules
  *
- * Available setters: setBeginPeriod, setBeginYear, setBehaviour, setCode, setDiscountArticle, setDiscountArticleID, setEndPeriod, setEndYear, setGroup, setName, setOffice, setPaymentConditionDiscountDays,
+ * Available setters: fromCode, setBeginPeriod, setBeginYear, setBehaviour, setCode, setDiscountArticle, setDiscountArticleID, setEndPeriod, setEndYear, setGroup, setName, setOffice, setPaymentConditionDiscountDays,
  * setPaymentConditionDiscountPercentage, setRemittanceAdviceSendMail, setRemittanceAdviceSendType, setShortName, setStatus, setType, setWebsite, setCreditManagement, setFinancials, addAddress, addBank, addPostingRule, removeAddress, removeBank, removePostingRule
  *
  */
@@ -143,8 +143,8 @@ if ($executeListAllWithoutFilter) {
 
 /* CustomerCreditManagement
  * \PhpTwinfield\CustomerCreditManagement
- * Available getters: getBaseCreditLimit, getBlocked, getBlockedLocked, getBlockedModified, getComment, getFreeText1, getFreetext2, getFreetext3, getMessages, getReminderEmail, getResponsibleUser, getResult, getSendReminder, hasMessages
- * Available setters: setBaseCreditLimit, setBlocked, setBlockedLocked, setBlockedModified, setComment, setFreeText1, setFreetext2, setFreetext3, setReminderEmail, setResponsibleUser, setSendReminder
+ * Available getters: getBaseCreditLimit, getBlocked, getBlockedLocked, getBlockedModified, getComment, getFreeText1, getFreeText2, getFreeText3, getMessages, getReminderEmail, getResponsibleUser, getResult, getSendReminder, hasMessages
+ * Available setters: setBaseCreditLimit, setBlocked, setBlockedLocked, setBlockedModified, setComment, setFreeText1, setFreeText2, setFreeText3, setReminderEmail, setResponsibleUser, setSendReminder
  */
 
 /* CustomerAddress
@@ -203,7 +203,7 @@ if ($executeRead) {
     echo "EndYear: {$customer->getEndYear()}<br />";                                                                               			        // int|null                         Determines together with endperiod the period till which the dimension may be used.
     echo "Group (\\PhpTwinfield\\DimensionGroup): <pre>" . print_r($customer->getGroup(), true) . "</pre><br />";                      			    // DimensionGroup|null              Sets the dimension group. See Dimension group.
     echo "Group (string): " . Util::objectToStr($customer->getGroup()) . "<br />";                                                              	// string|null
-    echo "InUse (bool): {$customer->getInUse()}<br />";                                                                                   			// bool|null                        Indicates whether the balancesheet is used in a financial transaction or not. Read-only attribute.
+    echo "InUse (bool): {$customer->getInUse()}<br />";                                                                                   			// bool|null                        Indicates whether the dimension is used in a financial transaction or not. Read-only attribute.
     echo "InUse (string): " . Util::formatBoolean($customer->getInUse()) . "<br />";                                                                // string|null
 
     if ($customer->hasMessages()) {                                                                                              					// bool                             Object contains (error) messages true/false.
@@ -305,8 +305,8 @@ if ($executeRead) {
     echo "Comment: {$customerCreditManagement->getComment()}<br />";                                                                                // string|null                      Comment.
     echo "Freetext1 (bool): {$customerCreditManagement->getFreeText1()}<br />";                                                                     // bool|null                        Right of use.
     echo "Freetext1 (string): " . Util::formatBoolean($customerCreditManagement->getFreeText1()) ."<br />";                                         // string|null
-    echo "Freetext2: {$customerCreditManagement->getFreetext2()}<br />";                                                                            // string|null                      Segment code.
-    echo "Freetext3: {$customerCreditManagement->getFreetext3()}<br />";                                                                            // string|null                      Not in use.
+    echo "Freetext2: {$customerCreditManagement->getFreeText2()}<br />";                                                                            // string|null                      Segment code.
+    echo "Freetext3: {$customerCreditManagement->getFreeText3()}<br />";                                                                            // string|null                      Not in use.
 
     if ($customerCreditManagement->hasMessages()) {                                                                                					// bool                             Object contains (error) messages true/false.
         echo "Messages: " . print_r($customerCreditManagement->getMessages(), true) . "<br />";                                    					// Array|null                       (Error) messages.
@@ -460,6 +460,7 @@ if ($executeCopy) {
 
     echo "Result of copy process: {$customerCopy->getResult()}<br />";
     echo "Code of copied Customer: {$customerCopy->getCode()}<br />";
+    echo "Status of copied Customer: {$customerCopy->getStatus()}<br />";
 }
 
 // Create a new Customer from scratch, alternatively read an existing Customer as shown above and than modify the values in the same way as shown below
@@ -505,8 +506,8 @@ if ($executeNew) {
     $customerCreditManagement->setBlockedLocked(false);                                                                                             // bool|null
     $customerCreditManagement->setComment('Comment');                                                                                               // string|null                      Comment.
     $customerCreditManagement->setFreeText1(true);                                                                                                  // bool|null                        Right of use.
-    $customerCreditManagement->setFreetext2(2);                                                                                                     // string|null                      Segment code.
-    $customerCreditManagement->setFreetext3('');                                                                                                    // string|null
+    $customerCreditManagement->setFreeText2(2);                                                                                                     // string|null                      Segment code.
+    $customerCreditManagement->setFreeText3('');                                                                                                    // string|null
     $customerCreditManagement->setReminderEmail('test@example.com');                                                                                // string|null                      Mandatory if sendreminder is email.
     $user = new \PhpTwinfield\User;
     $user->setCode('TWINAPPS');
@@ -648,6 +649,7 @@ if ($executeNew) {
 
     echo "Result of creation process: {$customerNew->getResult()}<br />";
     echo "Code of new Customer: {$customerNew->getCode()}<br />";
+    echo "Status of new Customer: {$customerNew->getStatus()}<br />";
 }
 
 // Delete a Customer based off the passed in code and optionally the office.
@@ -663,4 +665,6 @@ if ($executeDelete) {
     echo "</pre>";
 
     echo "Result of deletion process: {$customerDeleted->getResult()}<br />";
+    echo "Code of deleted Customer: {$customerDeleted->getCode()}<br />";
+    echo "Status of deleted Customer: {$customerDeleted->getStatus()}<br />";
 }

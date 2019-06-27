@@ -15,7 +15,7 @@ trait FreeText4Field
     /**
      * @return null|string
      */
-    public function getFreetext4(): ?string
+    public function getFreeText4(): ?string
     {
         return $this->freeText4;
     }
@@ -24,7 +24,7 @@ trait FreeText4Field
      * @param null|string $freeText4
      * @return $this
      */
-    public function setFreetext4(?string $freeText4): self
+    public function setFreeText4(?string $freeText4): self
     {
         $this->freeText4 = $freeText4;
         return $this;

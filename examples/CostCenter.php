@@ -100,7 +100,7 @@ if ($executeListAllWithoutFilter) {
 /* CostCenter
  * \PhpTwinfield\CostCenter
  * Available getters: getBehaviour, getCode, getInUse, getMessages, getName, getOffice, getResult, getShortName, getStatus, getTouched, getType, getUID, hasMessages
- * Available setters: setBehaviour, setCode, setName, setOffice, setShortName, setStatus, setType
+ * Available setters: fromCode, setBehaviour, setCode, setName, setOffice, setShortName, setStatus, setType
  */
 
 if ($executeListAllWithFilter || $executeListAllWithoutFilter) {
@@ -168,6 +168,7 @@ if ($executeCopy) {
 
     echo "Result of copy process: {$costCenterCopy->getResult()}<br />";
     echo "Code of copied CostCenter: {$costCenterCopy->getCode()}<br />";
+    echo "Status of copied CostCenter: {$costCenterCopy->getStatus()}<br />";
 }
 
 // Create a new CostCenter from scratch, alternatively read an existing CostCenter as shown above and than modify the values in the same way as shown below
@@ -197,6 +198,7 @@ if ($executeNew) {
 
     echo "Result of creation process: {$costCenterNew->getResult()}<br />";
     echo "Code of new CostCenter: {$costCenterNew->getCode()}<br />";
+    echo "Status of new CostCenter: {$costCenterNew->getStatus()}<br />";
 }
 
 // Delete a CostCenter based off the passed in code and optionally the office.
@@ -212,4 +214,6 @@ if ($executeDelete) {
     echo "</pre>";
 
     echo "Result of deletion process: {$costCenterDeleted->getResult()}<br />";
+    echo "Code of deleted CostCenter: {$costCenterDeleted->getCode()}<br />";
+    echo "Status of deleted CostCenter: {$costCenterDeleted->getStatus()}<br />";
 }
