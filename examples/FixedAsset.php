@@ -57,22 +57,22 @@ $office = \PhpTwinfield\Office::fromCode($officeCode);
  *                         office                  Sets the office code.
  *                         Usage:                  $options['office'] = 'SomeOfficeCode';
  *
- *                         level	               Specifies the dimension level.
+ *                         level                   Specifies the dimension level.
  *                         Available values:       1, 2, 3, 4, 5, 6
  *                         Usage:                  $options['level'] = 3;
  *
- *                         section	               Restricts to financial or time & expenses dimensions.
+ *                         section                 Restricts to financial or time & expenses dimensions.
  *                         Available values:       financials, teq
  *                         Usage:                  $options['section'] = 'financials';
  *
- *                         dimtype	               Specifies the dimension type.
+ *                         dimtype                 Specifies the dimension type.
  *                         Available values:       BAS, PNL, DEB, CRD, KPL, PRJ, AST, ACT
  *                         Usage:                  $options['dimtype'] = 'AST';
  *
- *                         modifiedsince	       Restricts to dimensions modified after or at the specified date (and time), format yyyyMMddHHmmss or yyyyMMdd
+ *                         modifiedsince           Restricts to dimensions modified after or at the specified date (and time), format yyyyMMddHHmmss or yyyyMMdd
  *                         Usage:                  $options['modifiedsince'] = '20190101170000' or $options['modifiedsince'] = '20190101';
  *
- *                         group	               Specifies the dimension group (wildcards allowed).
+ *                         group                   Specifies the dimension group (wildcards allowed).
  *                         Usage:                  $options['group'] = 'DIMGROUP';
  *
  */
@@ -154,37 +154,37 @@ if ($executeRead) {
     echo "</pre>";
 
     echo "FixedAsset<br />";
-    echo "Behaviour: {$fixedAsset->getBehaviour()}<br />";                                                                                   		    // Behaviour|null                   Determines the behaviour of dimensions. Read-only attribute.
-    echo "Code: {$fixedAsset->getCode()}<br />";                                                                                   					    // string|null                      Dimension code, must be compliant with the mask of the AST Dimension type.
-    echo "Group (\\PhpTwinfield\\DimensionGroup): <pre>" . print_r($fixedAsset->getGroup(), true) . "</pre><br />";                      			    // DimensionGroup|null              Sets the dimension group. See Dimension group.
-    echo "Group (string): " . Util::objectToStr($fixedAsset->getGroup()) . "<br />";                                                              	    // string|null
-    echo "InUse (bool): {$fixedAsset->getInUse()}<br />";                                                                                   			// bool|null                        Indicates whether the fixed asset is used in a financial transaction or not. Read-only attribute.
+    echo "Behaviour: {$fixedAsset->getBehaviour()}<br />";                                                                                              // Behaviour|null                   Determines the behaviour of dimensions. Read-only attribute.
+    echo "Code: {$fixedAsset->getCode()}<br />";                                                                                                        // string|null                      Dimension code, must be compliant with the mask of the AST Dimension type.
+    echo "Group (\\PhpTwinfield\\DimensionGroup): <pre>" . print_r($fixedAsset->getGroup(), true) . "</pre><br />";                                     // DimensionGroup|null              Sets the dimension group. See Dimension group.
+    echo "Group (string): " . Util::objectToStr($fixedAsset->getGroup()) . "<br />";                                                                    // string|null
+    echo "InUse (bool): {$fixedAsset->getInUse()}<br />";                                                                                               // bool|null                        Indicates whether the fixed asset is used in a financial transaction or not. Read-only attribute.
     echo "InUse (string): " . Util::formatBoolean($fixedAsset->getInUse()) . "<br />";                                                                  // string|null
 
-    if ($fixedAsset->hasMessages()) {                                                                                              					    // bool                             Object contains (error) messages true/false.
-        echo "Messages: " . print_r($fixedAsset->getMessages(), true) . "<br />";                                                  					    // Array|null                       (Error) messages.
+    if ($fixedAsset->hasMessages()) {                                                                                                                   // bool                             Object contains (error) messages true/false.
+        echo "Messages: " . print_r($fixedAsset->getMessages(), true) . "<br />";                                                                       // Array|null                       (Error) messages.
     }
 
-    echo "Name: {$fixedAsset->getName()}<br />";                                                                                   					    // string|null                      Name of the dimension.
-    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($fixedAsset->getOffice(), true) . "</pre><br />";                      					    // Office|null                      Office code.
-    echo "Office (string): " . Util::objectToStr($fixedAsset->getOffice()) . "<br />";                                                              	// string|null
-    echo "Result: {$fixedAsset->getResult()}<br />";                                                                               					    // int|null                         Result (0 = error, 1 or empty = success).
-    echo "ShortName: {$fixedAsset->getShortName()}<br />";                                                                         					    // string|null                      Not in use.
-    echo "Status: {$fixedAsset->getStatus()}<br />";                                                                               					    // Status|null                      Status of the fixed asset.
+    echo "Name: {$fixedAsset->getName()}<br />";                                                                                                        // string|null                      Name of the dimension.
+    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($fixedAsset->getOffice(), true) . "</pre><br />";                                           // Office|null                      Office code.
+    echo "Office (string): " . Util::objectToStr($fixedAsset->getOffice()) . "<br />";                                                                  // string|null
+    echo "Result: {$fixedAsset->getResult()}<br />";                                                                                                    // int|null                         Result (0 = error, 1 or empty = success).
+    echo "ShortName: {$fixedAsset->getShortName()}<br />";                                                                                              // string|null                      Not in use.
+    echo "Status: {$fixedAsset->getStatus()}<br />";                                                                                                    // Status|null                      Status of the fixed asset.
     echo "Touched: {$fixedAsset->getTouched()}<br />";                                                                                                  // int|null                         Count of the number of times the dimension settings are changed. Read-only attribute.
     echo "Type (\\PhpTwinfield\\DimensionType): <pre>" . print_r($fixedAsset->getType(), true) . "</pre><br />";                                        // DimensionType|null               Dimension type. See Dimension type. Dimension type of fixed assets is AST.
     echo "Type (string): " . Util::objectToStr($fixedAsset->getType()) . "<br />";                                                                      // string|null
     echo "UID: {$fixedAsset->getUID()}<br />";                                                                                                          // string|null                      Unique identification of the dimension. Read-only attribute.
 
     echo "FixedAssetFinancials<br />";
-    $fixedAssetFinancials = $fixedAsset->getFinancials();                                                                           			        // FixedAssetFinancials|null        FixedAssetFinancials object.
+    $fixedAssetFinancials = $fixedAsset->getFinancials();                                                                                               // FixedAssetFinancials|null        FixedAssetFinancials object.
 
     echo "AccountType: {$fixedAssetFinancials->getAccountType()}<br />";                                                                                // AccountType|null                 Fixed value inherit. Read-only attribute.
-    echo "Level: {$fixedAssetFinancials->getLevel()}<br />";                                                                                            // int|null                        	Specifies the dimension level. Normally the level of fixed assets is level 3. Read-only attribute.
+    echo "Level: {$fixedAssetFinancials->getLevel()}<br />";                                                                                            // int|null                         Specifies the dimension level. Normally the level of fixed assets is level 3. Read-only attribute.
     echo "MatchType: {$fixedAssetFinancials->getMatchType()}<br />";                                                                                    // MatchType|null                   The matchable value of the balance account. Read-only attribute.
 
-    if ($fixedAssetFinancials->hasMessages()) {                                                                                					        // bool                             Object contains (error) messages true/false.
-        echo "Messages: " . print_r($fixedAssetFinancials->getMessages(), true) . "<br />";                                    					        // Array|null                       (Error) messages.
+    if ($fixedAssetFinancials->hasMessages()) {                                                                                                         // bool                             Object contains (error) messages true/false.
+        echo "Messages: " . print_r($fixedAssetFinancials->getMessages(), true) . "<br />";                                                             // Array|null                       (Error) messages.
     }
 
     echo "Result: {$fixedAssetFinancials->getResult()}<br />";                                                                                          // int|null                         Result (0 = error, 1 or empty = success).
@@ -224,8 +224,8 @@ if ($executeRead) {
     echo "LastDepreciation Locked (bool): {$fixedAssetFixedAssets->getLastDepreciationLocked()}<br />";                                                 // bool|null
     echo "LastDepreciation Locked (string): " . Util::formatBoolean($fixedAssetFixedAssets->getLastDepreciationLocked()) . "<br />";                    // string|null
 
-    if ($fixedAssetFixedAssets->hasMessages()) {                                                                                					    // bool                             Object contains (error) messages true/false.
-        echo "Messages: " . print_r($fixedAssetFixedAssets->getMessages(), true) . "<br />";                                    					    // Array|null                       (Error) messages.
+    if ($fixedAssetFixedAssets->hasMessages()) {                                                                                                        // bool                             Object contains (error) messages true/false.
+        echo "Messages: " . print_r($fixedAssetFixedAssets->getMessages(), true) . "<br />";                                                            // Array|null                       (Error) messages.
     }
 
     echo "Method (\\PhpTwinfield\\AssetMethod): <pre>" . print_r($fixedAssetFixedAssets->getMethod(), true) . "</pre><br />";                           // AssetMethod|null                 The asset method. See Asset methods.
@@ -253,7 +253,7 @@ if ($executeRead) {
     echo "SellDate (string): " . Util::formatDate($fixedAssetFixedAssets->getSellDate()) . "<br />";                                                    // string|null
     echo "SellDate Locked (bool): {$fixedAssetFixedAssets->getSellDateLocked()}<br />";                                                                 // bool|null
     echo "SellDate Locked (string): " . Util::formatBoolean($fixedAssetFixedAssets->getSellDateLocked()) . "<br />";                                    // string|null
-    echo "Status: {$fixedAssetFixedAssets->getStatus()}<br />";                                                                               	        // FixedAssetsStatus|null           The status of the asset.
+    echo "Status: {$fixedAssetFixedAssets->getStatus()}<br />";                                                                                         // FixedAssetsStatus|null           The status of the asset.
     echo "Status Locked (bool): {$fixedAssetFixedAssets->getStatusLocked()}<br />";                                                                     // bool|null                        The value future depreciation should stop at.
     echo "Status Locked (string): " . Util::formatBoolean($fixedAssetFixedAssets->getStatusLocked()) . "<br />";                                        // string|null
     echo "StopValue (\\Money\\Money): <pre>" . print_r($fixedAssetFixedAssets->getStopValue(), true) . "</pre><br />";                                  // Money|null                       Transaction line amount.
@@ -304,8 +304,8 @@ if ($executeRead) {
         echo "Line Locked (bool): {$fixedAssetTransactionLine->getLineLocked()}<br />";                                                                 // bool|null
         echo "Line Locked (string): " . Util::formatBoolean($fixedAssetTransactionLine->getLineLocked()) . "<br />";                                    // string|null
 
-        if ($fixedAssetTransactionLine->hasMessages()) {                                                                                			    // bool                             Object contains (error) messages true/false.
-            echo "Messages: " . print_r($fixedAssetTransactionLine->getMessages(), true) . "<br />";                                    			    // Array|null                       (Error) messages.
+        if ($fixedAssetTransactionLine->hasMessages()) {                                                                                                // bool                             Object contains (error) messages true/false.
+            echo "Messages: " . print_r($fixedAssetTransactionLine->getMessages(), true) . "<br />";                                                    // Array|null                       (Error) messages.
         }
 
         echo "Number: {$fixedAssetTransactionLine->getNumber()}<br />";                                                                                 // int|null                         Transaction number.

@@ -144,21 +144,21 @@ if ($executeRead) {
     echo "</pre>";
 
     echo "Project<br />";
-    echo "Behaviour: {$project->getBehaviour()}<br />";                                                                                   		    // Behaviour|null               Determines the behaviour of dimensions. Read-only attribute.
-    echo "Code: {$project->getCode()}<br />";                                                                                   					// string|null                  Dimension code, must be compliant with the mask of the ACT Dimension type.
-    echo "InUse (bool): {$project->getInUse()}<br />";                                                                                   			// bool|null                    Indicates whether the project is used in a transaction or not. Read-only attribute.
+    echo "Behaviour: {$project->getBehaviour()}<br />";                                                                                             // Behaviour|null               Determines the behaviour of dimensions. Read-only attribute.
+    echo "Code: {$project->getCode()}<br />";                                                                                                       // string|null                  Dimension code, must be compliant with the mask of the ACT Dimension type.
+    echo "InUse (bool): {$project->getInUse()}<br />";                                                                                              // bool|null                    Indicates whether the project is used in a transaction or not. Read-only attribute.
     echo "InUse (string): " . Util::formatBoolean($project->getInUse()) . "<br />";                                                                 // string|null
 
-    if ($project->hasMessages()) {                                                                                              					// bool                         Object contains (error) messages true/false.
-        echo "Messages: " . print_r($project->getMessages(), true) . "<br />";                                                  					// Array|null                   (Error) messages.
+    if ($project->hasMessages()) {                                                                                                                  // bool                         Object contains (error) messages true/false.
+        echo "Messages: " . print_r($project->getMessages(), true) . "<br />";                                                                      // Array|null                   (Error) messages.
     }
 
-    echo "Name: {$project->getName()}<br />";                                                                                   					// string|null                  Project description.
-    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($project->getOffice(), true) . "</pre><br />";                      					// Office|null                  Office code.
-    echo "Office (string): " . Util::objectToStr($project->getOffice()) . "<br />";                                                              	// string|null
-    echo "Result: {$project->getResult()}<br />";                                                                               					// int|null                     Result (0 = error, 1 or empty = success).
-    echo "ShortName: {$project->getShortName()}<br />";                                                                         					// string|null                  Short project description.
-    echo "Status: {$project->getStatus()}<br />";                                                                               					// Status|null                  Status of the project.
+    echo "Name: {$project->getName()}<br />";                                                                                                       // string|null                  Project description.
+    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($project->getOffice(), true) . "</pre><br />";                                          // Office|null                  Office code.
+    echo "Office (string): " . Util::objectToStr($project->getOffice()) . "<br />";                                                                 // string|null
+    echo "Result: {$project->getResult()}<br />";                                                                                                   // int|null                     Result (0 = error, 1 or empty = success).
+    echo "ShortName: {$project->getShortName()}<br />";                                                                                             // string|null                  Short project description.
+    echo "Status: {$project->getStatus()}<br />";                                                                                                   // Status|null                  Status of the project.
     echo "Touched: {$project->getTouched()}<br />";                                                                                                 // int|null                     Count of the number of times the dimension settings are changed. Read-only attribute.
     echo "Type (\\PhpTwinfield\\DimensionType): <pre>" . print_r($project->getType(), true) . "</pre><br />";                                       // DimensionType|null           Dimension type. See Dimension type. Dimension type of projects is ACT.
     echo "Type (string): " . Util::objectToStr($project->getType()) . "<br />";                                                                     // string|null
@@ -166,9 +166,9 @@ if ($executeRead) {
     echo "VatCode (\\PhpTwinfield\\VatCode): <pre>" . print_r($project->getVatCode(), true) . "</pre><br />";                                       // VatCode|null                 The VAT code if one code will apply for all projects within the project. Note that if any VAT codes are
     echo "VatCode (string): " . Util::objectToStr($project->getVatCode()) . "<br />";                                                               // string|null                  defined on project level, these will apply regardless of what is defined on project level.
 
-    $projectProjects = $project->getProjects();                                                                           			                // ProjectProjects|null         ProjectProjects object.
+    $projectProjects = $project->getProjects();                                                                                                     // ProjectProjects|null         ProjectProjects object.
 
-    echo "Authoriser (\\PhpTwinfield\\User): <pre>" . print_r($projectProjects->getAuthoriser(), true) . "</pre><br />";                      		// User|null                    A specific authoriser for an project.
+    echo "Authoriser (\\PhpTwinfield\\User): <pre>" . print_r($projectProjects->getAuthoriser(), true) . "</pre><br />";                            // User|null                    A specific authoriser for an project.
     echo "Authoriser (string): " . Util::objectToStr($projectProjects->getAuthoriser()) . "<br />";                                                 // string|null                  If "change" = allow then locked = false and inherit = false
     echo "Authoriser Inherit (bool): {$projectProjects->getAuthoriserInherit()}<br />";                                                             // bool|null
     echo "Authoriser Inherit (string): " . Util::formatBoolean($projectProjects->getAuthoriserInherit()) . "<br />";                                // string|null                  If "change" = disallow then locked = true and inherit = false
@@ -182,7 +182,7 @@ if ($executeRead) {
     echo "Billable Inherit (string): " . Util::formatBoolean($projectProjects->getBillableInherit()) . "<br />";                                    // string|null                  If "change" = disallow then locked = true and inherit = false.
     echo "Billable Locked (bool): {$projectProjects->getBillableLocked()}<br />";                                                                   // bool|null
     echo "Billable Locked (string): " . Util::formatBoolean($projectProjects->getBillableLocked()) . "<br />";                                      // string|null                  If "change" = inherit then locked = true and inherit = true
-    echo "Customer (\\PhpTwinfield\\Customer): <pre>" . print_r($projectProjects->getCustomer(), true) . "</pre><br />";                      		// Customer|null                An project always needs to be linked to a customer.
+    echo "Customer (\\PhpTwinfield\\Customer): <pre>" . print_r($projectProjects->getCustomer(), true) . "</pre><br />";                            // Customer|null                An project always needs to be linked to a customer.
     echo "Customer (string): " . Util::objectToStr($projectProjects->getCustomer()) . "<br />";                                                     // string|null                   Choose to have the customer ‘inherited’ (from a project) or you can specify the customer here.
     echo "Customer Inherit (bool): {$projectProjects->getCustomerInherit()}<br />";                                                                 // bool|null
     echo "Customer Inherit (string): " . Util::formatBoolean($projectProjects->getCustomerInherit()) . "<br />";                                    // string|null                  If "change" = allow then locked = false and inherit = false
@@ -190,11 +190,11 @@ if ($executeRead) {
     echo "Customer Locked (string): " . Util::formatBoolean($projectProjects->getCustomerLocked()) . "<br />";                                      // string|null                  If "change" = inherit then locked = true and inherit = true
     echo "Invoice Description: {$projectProjects->getInvoiceDescription()}<br />";                                                                  // string|null                  This field can be used to enter a longer project description which will be available on the invoice template.
 
-    if ($projectProjects->hasMessages()) {                                                                                					        // bool                         Object contains (error) messages true/false.
-        echo "Messages: " . print_r($projectProjects->getMessages(), true) . "<br />";                                    					        // Array|null                   (Error) messages.
+    if ($projectProjects->hasMessages()) {                                                                                                          // bool                         Object contains (error) messages true/false.
+        echo "Messages: " . print_r($projectProjects->getMessages(), true) . "<br />";                                                              // Array|null                   (Error) messages.
     }
 
-    echo "Rate (\\PhpTwinfield\\Rate): <pre>" . print_r($projectProjects->getRate(), true) . "</pre><br />";                      		            // Rate|null                    Choose to define a specific rate code here or you could also decide that these settings should be inherited from project or user level (@inherit).
+    echo "Rate (\\PhpTwinfield\\Rate): <pre>" . print_r($projectProjects->getRate(), true) . "</pre><br />";                                        // Rate|null                    Choose to define a specific rate code here or you could also decide that these settings should be inherited from project or user level (@inherit).
     echo "Rate (string): " . Util::objectToStr($projectProjects->getRate()) . "<br />";                                                             // string|null                  You can also set whether a change of the rate code is allowed or disallowed when a user is entering their timesheet (@locked).
     echo "Rate Inherit (bool): {$projectProjects->getRateInherit()}<br />";                                                                         // bool|null
     echo "Rate Inherit (string): " . Util::formatBoolean($projectProjects->getRateInherit()) . "<br />";                                            // string|null                  If "change" = allow then locked = false and inherit = false
@@ -216,11 +216,11 @@ if ($executeRead) {
         echo "Billable Locked (bool): {$projectQuantity->getBillableLocked()}<br />";                                                               // bool|null                    If "billable" = true and "change is allowed" then locked = false
         echo "Billable Locked (string): " . Util::formatBoolean($projectQuantity->getBillableLocked()) . "<br />";                                  // string|null
 
-        if ($projectQuantity->hasMessages()) {                                                                                					    // bool                         Object contains (error) messages true/false.
-            echo "Messages: " . print_r($projectQuantity->getMessages(), true) . "<br />";                                    					    // Array|null                   (Error) messages.
+        if ($projectQuantity->hasMessages()) {                                                                                                      // bool                         Object contains (error) messages true/false.
+            echo "Messages: " . print_r($projectQuantity->getMessages(), true) . "<br />";                                                          // Array|null                   (Error) messages.
         }
 
-        echo "Label: {$projectQuantity->getLabel()}<br />";                                                                         			    // string|null                  The label of the quantity.
+        echo "Label: {$projectQuantity->getLabel()}<br />";                                                                                         // string|null                  The label of the quantity.
         echo "Mandatory (bool): {$projectQuantity->getMandatory()}<br />";                                                                          // bool|null                    Is the quantity line mandatory or not.
         echo "Mandatory (string): " . Util::formatBoolean($projectQuantity->getMandatory()) . "<br />";                                             // string|null
         echo "Rate (\\PhpTwinfield\\Rate): <pre>" . print_r($projectQuantity->getRate(), true) . "</pre><br />";                                    // Rate|null                    The rate.
@@ -279,7 +279,7 @@ if ($executeNew) {
 
     $authoriser = new \PhpTwinfield\User;
     $authoriser->setCode('TWINAPPS');
-    $projectProjects->setAuthoriser($authoriser);                      		                                                                        // User|null                    A specific authoriser for an project.
+    $projectProjects->setAuthoriser($authoriser);                                                                                                   // User|null                    A specific authoriser for an project.
     $projectProjects->setAuthoriser(\PhpTwinfield\User::fromCode('TWINAPPS'));                                                                      // string|null                  If "change" = allow then locked = false and inherit = false
     $projectProjects->setAuthoriserInherit(false);                                                                                                  // bool|null
     $projectProjects->setAuthoriserLocked(false);                                                                                                   // bool|null
@@ -296,7 +296,7 @@ if ($executeNew) {
     $projectProjects->setInvoiceDescription('Example Invoice Description');                                                                         // string|null                  This field can be used to enter a longer project description which will be available on the invoice template.
     $rate = new \PhpTwinfield\Rate;
     $rate->setCode('DIRECT');
-    $projectProjects->setRate($rate);                      		                                                                                    // Rate|null                    Choose to define a specific rate code here or you could also decide that these settings should be inherited from project or user level (@inherit).
+    $projectProjects->setRate($rate);                                                                                                               // Rate|null                    Choose to define a specific rate code here or you could also decide that these settings should be inherited from project or user level (@inherit).
     $projectProjects->setRate(\PhpTwinfield\Rate::fromCode('DIRECT'));                                                                              // string|null                  You can also set whether a change of the rate code is allowed or disallowed when a user is entering their timesheet (@locked).
     $projectProjects->setRateInherit(false);                                                                                                        // bool|null
     $projectProjects->setRateLocked(true);                                                                                                          // bool|null                    If "change" = disallow then locked = true and inherit = false
@@ -311,12 +311,12 @@ if ($executeNew) {
     $projectQuantity = new \PhpTwinfield\ProjectQuantity;
     $projectQuantity->setBillable(false);                                                                                                           // bool|null                    Is the quantity line billable or not.
     $projectQuantity->setBillableLocked(false);                                                                                                     // bool|null
-    $projectQuantity->setLabel('Example Quantity');                                                       	                                        // string|null
+    $projectQuantity->setLabel('Example Quantity');                                                                                                 // string|null
     $projectQuantity->setMandatory(false);                                                                                                          // bool|null                    Is the quantity line mandatory or not.
     $rate = new \PhpTwinfield\Rate;
     $rate->setCode('KILOMETERS');
-    $projectQuantity->setRate($rate);                      		                                                                                    // Rate|null                    The rate.
-    $projectQuantity->setRate(\PhpTwinfield\Rate::fromCode('KILOMETERS'));                                                       	                // string|null
+    $projectQuantity->setRate($rate);                                                                                                               // Rate|null                    The rate.
+    $projectQuantity->setRate(\PhpTwinfield\Rate::fromCode('KILOMETERS'));                                                                          // string|null
 
     $projectProjects->addQuantity($projectQuantity);                                                                                                // ProjectQuantity             Add an ProjectQuantity object to the ProjectProjects object
     //$projectProjects->removeQuantity(0);                                                                                                          // int                          Remove a quantity based on the index of the quantity within the array

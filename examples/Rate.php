@@ -122,32 +122,32 @@ if ($executeRead) {
     echo "</pre>";
 
     echo "Rate<br />";
-    echo "Code: {$rate->getCode()}<br />";                                                                              	// string|null                  Rate code.
-    echo "Created (\\DateTimeInterface): <pre>" . print_r($rate->getCreated(), true) . "</pre><br />";              	    // DateTimeInterface|null       The date/time the rate was created. Read-only attribute.
+    echo "Code: {$rate->getCode()}<br />";                                                                                  // string|null                  Rate code.
+    echo "Created (\\DateTimeInterface): <pre>" . print_r($rate->getCreated(), true) . "</pre><br />";                      // DateTimeInterface|null       The date/time the rate was created. Read-only attribute.
     echo "Created (string): " . Util::formatDateTime($rate->getCreated()) . "<br />";                                       // string|null
-    echo "Currency (\\PhpTwinfield\\Currency): <pre>" . print_r($rate->getCurrency(), true) . "</pre><br />";           	// Currency|null                Currency code.
+    echo "Currency (\\PhpTwinfield\\Currency): <pre>" . print_r($rate->getCurrency(), true) . "</pre><br />";               // Currency|null                Currency code.
     echo "Currency (string): " . Util::objectToStr($rate->getCurrency()) . "<br />";                                        // string|null
 
-    if ($rate->hasMessages()) {                                                                                         	// bool                         Object contains (error) messages true/false.
-        echo "Messages: " . print_r($rate->getMessages(), true) . "<br />";                                             	// Array|null                   (Error) messages.
+    if ($rate->hasMessages()) {                                                                                             // bool                         Object contains (error) messages true/false.
+        echo "Messages: " . print_r($rate->getMessages(), true) . "<br />";                                                 // Array|null                   (Error) messages.
     }
 
-    echo "Modified (\\DateTimeInterface): <pre>" . print_r($rate->getModified(), true) . "</pre><br />";            	    // DateTimeInterface|null       The date/time the rate was modified. Read-only attribute.
+    echo "Modified (\\DateTimeInterface): <pre>" . print_r($rate->getModified(), true) . "</pre><br />";                    // DateTimeInterface|null       The date/time the rate was modified. Read-only attribute.
     echo "Modified (string): " . Util::formatDateTime($rate->getModified()) . "<br />";                                     // string|null
-    echo "Name: {$rate->getName()}<br />";                                                                              	// string|null                  Rate description.
-    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($rate->getOffice(), true) . "</pre><br />";                 	// Office|null                  Office code.
+    echo "Name: {$rate->getName()}<br />";                                                                                  // string|null                  Rate description.
+    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($rate->getOffice(), true) . "</pre><br />";                     // Office|null                  Office code.
     echo "Office (string): " . Util::objectToStr($rate->getOffice()) . "<br />";                                            // string|null
-    echo "Result: {$rate->getResult()}<br />";                                                                          	// int|null                     Result (0 = error, 1 or empty = success).
-    echo "ShortName: {$rate->getShortName()}<br />";                                                                    	// string|null                  Short rate description.
-    echo "Status: {$rate->getStatus()}<br />";                                                                          	// Status|null                  Status of the rate.
-    echo "Touched: {$rate->getTouched()}<br />";                                                                        	// int|null                     The number of times the rate is modified. Read-only attribute.
-    echo "Type: {$rate->getType()}<br />";                                                                              	// RateType|null                The rate type.
-    echo "Unit: {$rate->getUnit()}<br />";                                                                              	// int|null                     How will be charged e.g. if charged per hour Time, set it to 60. If charged per 8 hours, set it to 8 * 60 = 460.
-                                                                                                                        	//                              Quantities refers to items such as kilometers. If charged per kilometer set it to 1.
-    echo "User (\\PhpTwinfield\\User): <pre>" . print_r($rate->getUser(), true) . "</pre><br />";                       	// User|null                    The code of the user who created or modified the Rate. Read-only attribute.
+    echo "Result: {$rate->getResult()}<br />";                                                                              // int|null                     Result (0 = error, 1 or empty = success).
+    echo "ShortName: {$rate->getShortName()}<br />";                                                                        // string|null                  Short rate description.
+    echo "Status: {$rate->getStatus()}<br />";                                                                              // Status|null                  Status of the rate.
+    echo "Touched: {$rate->getTouched()}<br />";                                                                            // int|null                     The number of times the rate is modified. Read-only attribute.
+    echo "Type: {$rate->getType()}<br />";                                                                                  // RateType|null                The rate type.
+    echo "Unit: {$rate->getUnit()}<br />";                                                                                  // int|null                     How will be charged e.g. if charged per hour Time, set it to 60. If charged per 8 hours, set it to 8 * 60 = 460.
+                                                                                                                            //                              Quantities refers to items such as kilometers. If charged per kilometer set it to 1.
+    echo "User (\\PhpTwinfield\\User): <pre>" . print_r($rate->getUser(), true) . "</pre><br />";                           // User|null                    The code of the user who created or modified the Rate. Read-only attribute.
     echo "User (string): " . Util::objectToStr($rate->getUser()) . "<br />";                                                // string|null
 
-    $rateRateChanges = $rate->getRateChanges();                                                                         	// Array|null                   Array of RateRateChange objects.
+    $rateRateChanges = $rate->getRateChanges();                                                                             // Array|null                   Array of RateRateChange objects.
 
     foreach ($rateRateChanges as $key => $rateRateChange) {
         echo "RateRateChange {$key}<br />";
@@ -207,7 +207,7 @@ if ($executeNew) {
     $rate->setName("Example Rate");                                                                                         // string|null                  Rate description.
     $rate->setOffice($office);                                                                                              // Office|null                  Office code.
     $rate->setOffice(\PhpTwinfield\Office::fromCode($officeCode));                                                          // string|null
-    $rate->setType(\PhpTwinfield\Enums\RateType::TIME());                                                  	                // RateType|null                The rate type.
+    $rate->setType(\PhpTwinfield\Enums\RateType::TIME());                                                                   // RateType|null                The rate type.
     $rate->setUnit(60);                                                                                                     // int|null                     How will be charged e.g. if charged per hour Time, set it to 60. If charged per 8 hours, set it to 8 * 60 = 460.
                                                                                                                             //                              Quantities refers to items such as kilometers. If charged per kilometer set it to 1.
     // Optional values for creating a new Rate

@@ -58,25 +58,25 @@ $office = \PhpTwinfield\Office::fromCode($officeCode);
  *                         office                  Sets the office code.
  *                         Usage:                  $options['office'] = 'SomeOfficeCode';
  *
- *                         level	               Specifies the dimension level.
+ *                         level                   Specifies the dimension level.
  *                         Available values:       1, 2, 3, 4, 5, 6
  *                         Usage:                  $options['level'] = 2;
  *
- *                         section	               Restricts to financial or time & expenses dimensions.
+ *                         section                 Restricts to financial or time & expenses dimensions.
  *                         Available values:       financials, teq
  *                         Usage:                  $options['section'] = 'financials';
  *
- *                         dimtype	               Specifies the dimension type.
+ *                         dimtype                 Specifies the dimension type.
  *                         Available values:       BAS, PNL, DEB, CRD, KPL, PRJ, AST, ACT
  *                         Usage:                  $options['dimtype'] = 'CRD';
  *
- *                         modifiedsince	       Restricts to dimensions modified after or at the specified date (and time), format yyyyMMddHHmmss or yyyyMMdd
+ *                         modifiedsince           Restricts to dimensions modified after or at the specified date (and time), format yyyyMMddHHmmss or yyyyMMdd
  *                         Usage:                  $options['modifiedsince'] = '20190101170000' or $options['modifiedsince'] = '20190101';
  *
- *                         group	               Specifies the dimension group (wildcards allowed).
+ *                         group                   Specifies the dimension group (wildcards allowed).
  *                         Usage:                  $options['group'] = 'DIMGROUP';
  *
- *                         matchtype    	       This option will show only the relations (dimension type: DEB and/or CRD).
+ *                         matchtype               This option will show only the relations (dimension type: DEB and/or CRD).
  *                         Usage:                  $options['matchtype'] = 'relation';
  *
  */
@@ -178,33 +178,33 @@ if ($executeRead) {
     echo "</pre>";
 
     echo "Supplier<br />";
-    echo "BeginPeriod: {$supplier->getBeginPeriod()}<br />";                                                                               			// int|null                         Determines together with beginyear the period from which the dimension may be used.
-    echo "BeginYear: {$supplier->getBeginYear()}<br />";                                                                               			    // int|null                         Determines together with beginperiod the period from which the dimension may be used.
-    echo "Behaviour: {$supplier->getBehaviour()}<br />";                                                                                   		    // Behaviour|null                   Determines the behaviour of dimensions. Read-only attribute.
-    echo "Code: {$supplier->getCode()}<br />";                                                                                   					// string|null                      Dimension code, must be compliant with the mask of the CRD Dimension type.
-    echo "EndPeriod: {$supplier->getEndPeriod()}<br />";                                                                               			    // int|null                         Determines together with endyear the period till which the dimension may be used.
-    echo "EndYear: {$supplier->getEndYear()}<br />";                                                                               			        // int|null                         Determines together with endperiod the period till which the dimension may be used.
-    echo "Group (\\PhpTwinfield\\DimensionGroup): <pre>" . print_r($supplier->getGroup(), true) . "</pre><br />";                      			    // DimensionGroup|null              Sets the dimension group. See Dimension group.
-    echo "Group (string): " . Util::objectToStr($supplier->getGroup()) . "<br />";                                                              	// string|null
-    echo "InUse (bool): {$supplier->getInUse()}<br />";                                                                                   			// bool|null                        Indicates whether the dimension is used in a financial transaction or not. Read-only attribute.
+    echo "BeginPeriod: {$supplier->getBeginPeriod()}<br />";                                                                                        // int|null                         Determines together with beginyear the period from which the dimension may be used.
+    echo "BeginYear: {$supplier->getBeginYear()}<br />";                                                                                            // int|null                         Determines together with beginperiod the period from which the dimension may be used.
+    echo "Behaviour: {$supplier->getBehaviour()}<br />";                                                                                            // Behaviour|null                   Determines the behaviour of dimensions. Read-only attribute.
+    echo "Code: {$supplier->getCode()}<br />";                                                                                                      // string|null                      Dimension code, must be compliant with the mask of the CRD Dimension type.
+    echo "EndPeriod: {$supplier->getEndPeriod()}<br />";                                                                                            // int|null                         Determines together with endyear the period till which the dimension may be used.
+    echo "EndYear: {$supplier->getEndYear()}<br />";                                                                                                // int|null                         Determines together with endperiod the period till which the dimension may be used.
+    echo "Group (\\PhpTwinfield\\DimensionGroup): <pre>" . print_r($supplier->getGroup(), true) . "</pre><br />";                                   // DimensionGroup|null              Sets the dimension group. See Dimension group.
+    echo "Group (string): " . Util::objectToStr($supplier->getGroup()) . "<br />";                                                                  // string|null
+    echo "InUse (bool): {$supplier->getInUse()}<br />";                                                                                             // bool|null                        Indicates whether the dimension is used in a financial transaction or not. Read-only attribute.
     echo "InUse (string): " . Util::formatBoolean($supplier->getInUse()) . "<br />";                                                                // string|null
 
-    if ($supplier->hasMessages()) {                                                                                              					// bool                             Object contains (error) messages true/false.
-        echo "Messages: " . print_r($supplier->getMessages(), true) . "<br />";                                                  					// Array|null                       (Error) messages.
+    if ($supplier->hasMessages()) {                                                                                                                 // bool                             Object contains (error) messages true/false.
+        echo "Messages: " . print_r($supplier->getMessages(), true) . "<br />";                                                                     // Array|null                       (Error) messages.
     }
 
-    echo "Name: {$supplier->getName()}<br />";                                                                                   					// string|null                      Name of the dimension.
-    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($supplier->getOffice(), true) . "</pre><br />";                      					// Office|null                      Office code.
-    echo "Office (string): " . Util::objectToStr($supplier->getOffice()) . "<br />";                                                              	// string|null
+    echo "Name: {$supplier->getName()}<br />";                                                                                                      // string|null                      Name of the dimension.
+    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($supplier->getOffice(), true) . "</pre><br />";                                         // Office|null                      Office code.
+    echo "Office (string): " . Util::objectToStr($supplier->getOffice()) . "<br />";                                                                // string|null
     echo "PaymentCondition:<br />";                                                                                                                 //                                  Sets the payment condition of a dimension.
     echo "PaymentCondition DiscountDays: {$supplier->getPaymentConditionDiscountDays()}<br />";                                                     // int|null                         Number of discount days.
     echo "PaymentCondition DiscountPercentage: {$supplier->getPaymentConditionDiscountPercentage()}<br />";                                         // float|null                       Discount percentage.
     echo "RemittanceAdvice:<br />";                                                                                                                 //
     echo "RemittanceAdvice SendMail: {$supplier->getRemittanceAdviceSendMail()}<br />";                                                             // string|null                      Mandatory if sendtype = ByEmail, remittance advice will be sent using this e-mail address.
     echo "RemittanceAdvice SendType: {$supplier->getRemittanceAdviceSendType()}<br />";                                                             // RemittanceAdviceSendType|null    To file manager, By e-mail
-    echo "Result: {$supplier->getResult()}<br />";                                                                               					// int|null                         Result (0 = error, 1 or empty = success).
-    echo "ShortName: {$supplier->getShortName()}<br />";                                                                         					// string|null                      Short name of the dimension.
-    echo "Status: {$supplier->getStatus()}<br />";                                                                               					// Status|null                      Status of the supplier.
+    echo "Result: {$supplier->getResult()}<br />";                                                                                                  // int|null                         Result (0 = error, 1 or empty = success).
+    echo "ShortName: {$supplier->getShortName()}<br />";                                                                                            // string|null                      Short name of the dimension.
+    echo "Status: {$supplier->getStatus()}<br />";                                                                                                  // Status|null                      Status of the supplier.
     echo "Touched: {$supplier->getTouched()}<br />";                                                                                                // int|null                         Count of the number of times the dimension settings are changed. Read-only attribute.
     echo "Type (\\PhpTwinfield\\DimensionType): <pre>" . print_r($supplier->getType(), true) . "</pre><br />";                                      // DimensionType|null               Dimension type. See Dimension type. Dimension type of suppliers is CRD.
     echo "Type (string): " . Util::objectToStr($supplier->getType()) . "<br />";                                                                    // string|null
@@ -217,7 +217,7 @@ if ($executeRead) {
         echo "SupplierAddress {$key}<br />";
 
         echo "City: {$supplierAddress->getCity()}<br />";                                                                                           // string|null                      City.
-        echo "Country (\\PhpTwinfield\\Country): <pre>" . print_r($supplierAddress->getCountry(), true) . "</pre><br />";                      		// Country|null                     Country code. The ISO country codes are used.
+        echo "Country (\\PhpTwinfield\\Country): <pre>" . print_r($supplierAddress->getCountry(), true) . "</pre><br />";                           // Country|null                     Country code. The ISO country codes are used.
         echo "Country (string): " . Util::objectToStr($supplierAddress->getCountry()) . "<br />";                                                   // string|null
         echo "Default (bool): {$supplierAddress->getDefault()}<br />";                                                                              // bool|null                        Is this the default address, only one default address is possible.
         echo "Default (string): " . Util::formatBoolean($supplierAddress->getDefault()) . "<br />";                                                 // string|null
@@ -230,15 +230,15 @@ if ($executeRead) {
         echo "Field6: {$supplierAddress->getField6()}<br />";                                                                                       // string|null                      User defined fields, the labels are configured in the Dimension type.
         echo "ID: {$supplierAddress->getID()}<br />";                                                                                               // int|null                         Sequence number of the address line.
 
-        if ($supplierAddress->hasMessages()) {                                                                                					    // bool                             Object contains (error) messages true/false.
-            echo "Messages: " . print_r($supplierAddress->getMessages(), true) . "<br />";                                    					    // Array|null                       (Error) messages.
+        if ($supplierAddress->hasMessages()) {                                                                                                      // bool                             Object contains (error) messages true/false.
+            echo "Messages: " . print_r($supplierAddress->getMessages(), true) . "<br />";                                                          // Array|null                       (Error) messages.
         }
 
-        echo "Name: {$supplierAddress->getName()}<br />";                                                                    			            // string|null                     	Company name.
+        echo "Name: {$supplierAddress->getName()}<br />";                                                                                           // string|null                      Company name.
         echo "Postcode: {$supplierAddress->getPostcode()}<br />";                                                                                   // string|null                      Postcode.
         echo "Result: {$supplierAddress->getResult()}<br />";                                                                                       // int|null                         Result (0 = error, 1 or empty = success).
-        echo "Telefax: {$supplierAddress->getTelefax()}<br />";                                                                    			        // string|null                     	Fax number.
-        echo "Telephone: {$supplierAddress->getTelephone()}<br />";                                                                    			    // string|null                     	Telephone number.
+        echo "Telefax: {$supplierAddress->getTelefax()}<br />";                                                                                     // string|null                      Fax number.
+        echo "Telephone: {$supplierAddress->getTelephone()}<br />";                                                                                 // string|null                      Telephone number.
         echo "Type: {$supplierAddress->getType()}<br />";                                                                                           // AddressType|null                 The type of the address.
     }
 
@@ -257,34 +257,34 @@ if ($executeRead) {
         echo "Blocked (bool): {$supplierBank->getBlocked()}<br />";                                                                                 // bool|null
         echo "Blocked (string): " . Util::formatBoolean($supplierBank->getBlocked()) . "<br />";                                                    // string|null
         echo "City: {$supplierBank->getCity()}<br />";                                                                                              // string|null                      City.
-        echo "Country (\\PhpTwinfield\\Country): <pre>" . print_r($supplierBank->getCountry(), true) . "</pre><br />";                      		// Country|null                     Bank country code. The ISO country codes are used.
+        echo "Country (\\PhpTwinfield\\Country): <pre>" . print_r($supplierBank->getCountry(), true) . "</pre><br />";                              // Country|null                     Bank country code. The ISO country codes are used.
         echo "Country (string): " . Util::objectToStr($supplierBank->getCountry()) . "<br />";                                                      // string|null
         echo "Default (bool): {$supplierBank->getDefault()}<br />";                                                                                 // bool|null                        Is this the default bank account, only one default bank account is possible.
         echo "Default (string): " . Util::formatBoolean($supplierBank->getDefault()) . "<br />";                                                    // string|null
         echo "ID: {$supplierBank->getID()}<br />";                                                                                                  // int|null                         Sequence number of the bank account line. When adding a new bank, do not supply the @id. When changing a bank account, supply the corresponding @id.
         echo "IBAN: {$supplierBank->getIban()}<br />";                                                                                              // string|null                      IBAN account number.
 
-        if ($supplierBank->hasMessages()) {                                                                                					        // bool                             Object contains (error) messages true/false.
-            echo "Messages: " . print_r($supplierBank->getMessages(), true) . "<br />";                                    					        // Array|null                       (Error) messages.
+        if ($supplierBank->hasMessages()) {                                                                                                         // bool                             Object contains (error) messages true/false.
+            echo "Messages: " . print_r($supplierBank->getMessages(), true) . "<br />";                                                             // Array|null                       (Error) messages.
         }
 
-        echo "NatBicCode: {$supplierBank->getNatBicCode()}<br />";                                                                    			    // string|null              	    National bank code.
+        echo "NatBicCode: {$supplierBank->getNatBicCode()}<br />";                                                                                  // string|null                      National bank code.
         echo "Postcode: {$supplierBank->getPostcode()}<br />";                                                                                      // string|null                      Postcode.
         echo "Result: {$supplierBank->getResult()}<br />";                                                                                          // int|null                         Result (0 = error, 1 or empty = success).
-        echo "State: {$supplierBank->getState()}<br />";                                                                    			            // string|null                     	State.
+        echo "State: {$supplierBank->getState()}<br />";                                                                                            // string|null                      State.
     }
 
     echo "SupplierFinancials<br />";
-    $supplierFinancials = $supplier->getFinancials();                                                                           			        // SupplierFinancials|null          SupplierFinancials object.
+    $supplierFinancials = $supplier->getFinancials();                                                                                               // SupplierFinancials|null          SupplierFinancials object.
 
     echo "AccountType: {$supplierFinancials->getAccountType()}<br />";                                                                              // AccountType|null                 Fixed value inherit.
     echo "DueDays: {$supplierFinancials->getDueDays()}<br />";                                                                                      // int|null                         The number of due days.
-    echo "Level: {$supplierFinancials->getLevel()}<br />";                                                                                          // int|null                        	Specifies the dimension level. Normally the level of suppliers is level 2. Read-only attribute.
+    echo "Level: {$supplierFinancials->getLevel()}<br />";                                                                                          // int|null                         Specifies the dimension level. Normally the level of suppliers is level 2. Read-only attribute.
     echo "MatchType: {$supplierFinancials->getMatchType()}<br />";                                                                                  // MatchType|null                   Fixed value customersupplier.
     echo "MeansOfPayment: {$supplierFinancials->getMeansOfPayment()}<br />";                                                                        // MeansOfPayment|null              The option none is only allowed in case payavailable is set to false. The option paymentfile is only allowed in case payavailable is set to true.
 
-    if ($supplierFinancials->hasMessages()) {                                                                                					    // bool                             Object contains (error) messages true/false.
-        echo "Messages: " . print_r($supplierFinancials->getMessages(), true) . "<br />";                                    					    // Array|null                       (Error) messages.
+    if ($supplierFinancials->hasMessages()) {                                                                                                       // bool                             Object contains (error) messages true/false.
+        echo "Messages: " . print_r($supplierFinancials->getMessages(), true) . "<br />";                                                           // Array|null                       (Error) messages.
     }
 
     echo "PayAvailable (bool): {$supplierFinancials->getPayAvailable()}<br />";                                                                     // bool|null                        Determines if direct debit is possible.
@@ -312,8 +312,8 @@ if ($executeRead) {
         echo "ElementValue: {$supplierChildValidation->getElementValue()}<br />";                                                                   // string|null
         echo "Level: {$supplierChildValidation->getLevel()}<br />";                                                                                 // int|null
 
-        if ($supplierChildValidation->hasMessages()) {                                                                                				// bool                             Object contains (error) messages true/false.
-            echo "Messages: " . print_r($supplierChildValidation->getMessages(), true) . "<br />";                                    				// Array|null                       (Error) messages.
+        if ($supplierChildValidation->hasMessages()) {                                                                                              // bool                             Object contains (error) messages true/false.
+            echo "Messages: " . print_r($supplierChildValidation->getMessages(), true) . "<br />";                                                  // Array|null                       (Error) messages.
         }
 
         echo "Result: {$supplierChildValidation->getResult()}<br />";                                                                               // int|null                         Result (0 = error, 1 or empty = success).
@@ -332,12 +332,12 @@ if ($executeRead) {
         echo "Description: {$supplierPostingRule->getDescription()}<br />";                                                                         // string|null                      Description.
         echo "ID: {$supplierPostingRule->getID()}<br />";                                                                                           // int|null                         Sequence number of the posting rule. Fixed value 1.
 
-        if ($supplierPostingRule->hasMessages()) {                                                                                					// bool                             Object contains (error) messages true/false.
-            echo "Messages: " . print_r($supplierPostingRule->getMessages(), true) . "<br />";                                    					// Array|null                       (Error) messages.
+        if ($supplierPostingRule->hasMessages()) {                                                                                                  // bool                             Object contains (error) messages true/false.
+            echo "Messages: " . print_r($supplierPostingRule->getMessages(), true) . "<br />";                                                      // Array|null                       (Error) messages.
         }
 
         echo "Result: {$supplierPostingRule->getResult()}<br />";                                                                                   // int|null                         Result (0 = error, 1 or empty = success).
-        echo "Status: {$supplierPostingRule->getStatus()}<br />";                                                                               	// Status|null                      Status of the posting rule.
+        echo "Status: {$supplierPostingRule->getStatus()}<br />";                                                                                   // Status|null                      Status of the posting rule.
 
         $supplierLines = $supplierPostingRule->getLines();                                                                                          // array|null                       Array of SupplierLine objects.
 
@@ -355,11 +355,11 @@ if ($executeRead) {
             echo "Dimension3 (string): " . Util::objectToStr($supplierLine->getDimension3()) . "<br />";                                            // string|null
             echo "Dimension3ID: {$supplierLine->getDimension3ID()}<br />";                                                                          // string|null
 
-            if ($supplierLine->hasMessages()) {                                                                                					    // bool                             Object contains (error) messages true/false.
-                echo "Messages: " . print_r($supplierLine->getMessages(), true) . "<br />";                                    					    // Array|null                       (Error) messages.
+            if ($supplierLine->hasMessages()) {                                                                                                     // bool                             Object contains (error) messages true/false.
+                echo "Messages: " . print_r($supplierLine->getMessages(), true) . "<br />";                                                         // Array|null                       (Error) messages.
             }
 
-            echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($supplierLine->getOffice(), true) . "</pre><br />";                      		// Office|null                      Destination company.
+            echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($supplierLine->getOffice(), true) . "</pre><br />";                             // Office|null                      Destination company.
             echo "Office (string): " . Util::objectToStr($supplierLine->getOffice()) . "<br />";                                                    // string|null
             echo "Ratio: {$supplierLine->getRatio()}<br />";                                                                                        // float|null                       The ratio of the posting rule line.
             echo "Result: {$supplierLine->getResult()}<br />";                                                                                      // int|null                         Result (0 = error, 1 or empty = success).
@@ -459,7 +459,7 @@ if ($executeNew) {
     $country->setCode('NL');
     $supplierAddress->setCountry($country);                                                                                                         // Country|null                     Country code. The ISO country codes are used.
     $supplierAddress->setCountry(\PhpTwinfield\Country::fromCode('NL'));                                                                            // string|null
-    $supplierAddress->setDefault(true);                                                                                                             // bool|null                       	Is this the default address, only one default address is possible.
+    $supplierAddress->setDefault(true);                                                                                                             // bool|null                        Is this the default address, only one default address is possible.
     $supplierAddress->setEmail('test@example.com');                                                                                                 // string|null
     $supplierAddress->setField1('');                                                                                                                // string|null                      User defined fields, the labels are configured in the Dimension type.
     $supplierAddress->setField2('');                                                                                                                // string|null                      User defined fields, the labels are configured in the Dimension type.

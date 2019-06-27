@@ -149,11 +149,11 @@ if ($executeRead) {
     echo "</pre>";
 
     echo "Invoice<br />";
-    echo "Bank (\\PhpTwinfield\\CashBankBook): <pre>" . print_r($invoice->getBank(), true) . "</pre><br />";                      					// CashBankBook|null            Bank code.
-    echo "Bank (string): " . Util::objectToStr($invoice->getBank()) . "<br />";                                                              		// string|null
-    echo "Currency (\\PhpTwinfield\\Currency): <pre>" . print_r($invoice->getCurrency(), true) . "</pre><br />";                      				// Currency|null                Currency code.
+    echo "Bank (\\PhpTwinfield\\CashBankBook): <pre>" . print_r($invoice->getBank(), true) . "</pre><br />";                                        // CashBankBook|null            Bank code.
+    echo "Bank (string): " . Util::objectToStr($invoice->getBank()) . "<br />";                                                                     // string|null
+    echo "Currency (\\PhpTwinfield\\Currency): <pre>" . print_r($invoice->getCurrency(), true) . "</pre><br />";                                    // Currency|null                Currency code.
     echo "Currency (string): " . Util::objectToStr($invoice->getCurrency()) . "<br />";                                                             // string|null
-    echo "Customer (\\PhpTwinfield\\Customer): <pre>" . print_r($invoice->getCustomer(), true) . "</pre><br />";                      				// Customer|null                Customer code.
+    echo "Customer (\\PhpTwinfield\\Customer): <pre>" . print_r($invoice->getCustomer(), true) . "</pre><br />";                                    // Customer|null                Customer code.
     echo "Customer (string): " . Util::objectToStr($invoice->getCustomer()) . "<br />";                                                             // string|null
     echo "DeliverAddressNumber: {$invoice->getDeliverAddressNumber()}<br />";                                                                       // int|null
     echo "DueDate (\\DateTimeInterface): <pre>" . print_r($invoice->getDueDate(), true) . "</pre><br />";                                           // DateTimeInterface|null       Due date.
@@ -166,31 +166,31 @@ if ($executeRead) {
     echo "InvoiceDate (\\DateTimeInterface): <pre>" . print_r($invoice->getInvoiceDate(), true) . "</pre><br />";                                   // DateTimeInterface|null       Invoice date.
     echo "InvoiceDate (string): " . Util::formatDate($invoice->getInvoiceDate()) . "<br />";                                                        // string|null
     echo "InvoiceNumber: {$invoice->getInvoiceNumber()}<br />";                                                                                     // string|null                  Invoice Number.
-    echo "InvoiceType (\\PhpTwinfield\\InvoiceType): <pre>" . print_r($invoice->getInvoiceType(), true) . "</pre><br />";                      		// InvoiceType|null             Invoice type code.
+    echo "InvoiceType (\\PhpTwinfield\\InvoiceType): <pre>" . print_r($invoice->getInvoiceType(), true) . "</pre><br />";                           // InvoiceType|null             Invoice type code.
     echo "InvoiceType (string): " . Util::objectToStr($invoice->getInvoiceType()) . "<br />";                                                       // string|null
 
-    if ($invoice->hasMessages()) {                                                                                              					// bool                         Object contains (error) messages true/false.
-        echo "Messages: " . print_r($invoice->getMessages(), true) . "<br />";                                                  					// Array|null                   (Error) messages.
+    if ($invoice->hasMessages()) {                                                                                                                  // bool                         Object contains (error) messages true/false.
+        echo "Messages: " . print_r($invoice->getMessages(), true) . "<br />";                                                                      // Array|null                   (Error) messages.
     }
 
-    echo "PaymentMethod: {$invoice->getPaymentMethod()}<br />";                                                             					    // PaymentMethod|null           The payment method.
+    echo "PaymentMethod: {$invoice->getPaymentMethod()}<br />";                                                                                     // PaymentMethod|null           The payment method.
     echo "PerformanceDate (\\DateTimeInterface): <pre>" . print_r($invoice->getPerformanceDate(), true) . "</pre><br />";                           // DateTimeInterface|null       Performance date, when set-up on the invoice header.
     echo "PerformanceDate (string): " . Util::formatDate($invoice->getPerformanceDate()) . "<br />";                                                // string|null
     echo "Period: {$invoice->getPeriod()}<br />";                                                                                                   // string|null                  Period in YYYY/PP format.
-    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($invoice->getOffice(), true) . "</pre><br />";                      					// Office|null                  Office code.
-    echo "Office (string): " . Util::objectToStr($invoice->getOffice()) . "<br />";                                                              	// string|null
-    echo "Result: {$invoice->getResult()}<br />";                                                                               					// int|null                     Result (0 = error, 1 or empty = success).
-    echo "Status: {$invoice->getStatus()}<br />";                                                                               					// Status|null                  Status of the invoice.
+    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($invoice->getOffice(), true) . "</pre><br />";                                          // Office|null                  Office code.
+    echo "Office (string): " . Util::objectToStr($invoice->getOffice()) . "<br />";                                                                 // string|null
+    echo "Result: {$invoice->getResult()}<br />";                                                                                                   // int|null                     Result (0 = error, 1 or empty = success).
+    echo "Status: {$invoice->getStatus()}<br />";                                                                                                   // Status|null                  Status of the invoice.
 
     $invoiceTotals = $invoice->getTotals();
 
     echo "InvoiceTotals<br />";
 
-    if ($invoiceTotals->hasMessages()) {                                                                                              				// bool                         Object contains (error) messages true/false.
-        echo "Messages: " . print_r($invoiceTotals->getMessages(), true) . "<br />";                                                  				// Array|null                   (Error) messages.
+    if ($invoiceTotals->hasMessages()) {                                                                                                            // bool                         Object contains (error) messages true/false.
+        echo "Messages: " . print_r($invoiceTotals->getMessages(), true) . "<br />";                                                                // Array|null                   (Error) messages.
     }
 
-    echo "Result: {$invoiceTotals->getResult()}<br />";                                                                               				// int|null                     Result (0 = error, 1 or empty = success).
+    echo "Result: {$invoiceTotals->getResult()}<br />";                                                                                             // int|null                     Result (0 = error, 1 or empty = success).
     echo "ValueExcl (\\Money\\Money): <pre>" . print_r($invoiceTotals->getValueExcl(), true) . "</pre><br />";                                      // Money|null                   Value without VAT. Read-only attribute.
     echo "ValueExcl (string): " . Util::formatMoney($invoiceTotals->getValueExcl()) . "<br />";                                                     // string|null
     echo "ValueInc (\\Money\\Money): <pre>" . print_r($invoiceTotals->getValueInc(), true) . "</pre><br />";                                        // Money|null                   Value with VAT. Read-only attribute.
@@ -198,7 +198,7 @@ if ($executeRead) {
 
     if ($invoice->getFinancialCode() != null && $invoice->getFinancialNumber != null) {
         $match = $invoice->getMatchReference();
-        echo "Match (\\PhpTwinfield\\MatchReference): <pre>" . print_r($match, true) . "</pre><br />";                      					    // MatchReference|null
+        echo "Match (\\PhpTwinfield\\MatchReference): <pre>" . print_r($match, true) . "</pre><br />";                                              // MatchReference|null
     }
 
     $invoiceLines = $invoice->getLines();                                                                                                           // array|null                   Array of InvoiceLine objects.
@@ -208,7 +208,7 @@ if ($executeRead) {
 
         echo "AllowDiscountOrPremium (bool): {$invoiceLine->getAllowDiscountOrPremium()}<br />";                                                    // bool|null                    Calculate discount on this line.
         echo "AllowDiscountOrPremium (string): " . Util::formatBoolean($invoiceLine->getAllowDiscountOrPremium()) . "<br />";                       // string|null
-        echo "Article (\\PhpTwinfield\\Article): <pre>" . print_r($invoiceLine->getArticle(), true) . "</pre><br />";                      			// Article|null                 Article code.
+        echo "Article (\\PhpTwinfield\\Article): <pre>" . print_r($invoiceLine->getArticle(), true) . "</pre><br />";                               // Article|null                 Article code.
         echo "Article (string): " . Util::objectToStr($invoiceLine->getArticle()) . "<br />";                                                       // string|null
         echo "Description: {$invoiceLine->getDescription()}<br />";                                                                                 // string|null                  Invoice line description, only on the lines with article ‘0’ or ‘-‘.
         echo "Dim1 (\\PhpTwinfield\\GeneralLedger): <pre>" . print_r($invoiceLine->getDim1(), true) . "</pre><br />";                               // GeneralLedger|null           Balance account.
@@ -218,18 +218,18 @@ if ($executeRead) {
         echo "FreeText3: {$invoiceLine->getFreeText3()}<br />";                                                                                     // string|null                  Free text field 3 as entered on the invoice type.
         echo "ID: {$invoiceLine->getID()}<br />";                                                                                                   // int|null                     Line ID
 
-        if ($invoiceLine->hasMessages()) {                                                                                					        // bool                         Object contains (error) messages true/false.
-            echo "Messages: " . print_r($invoiceLine->getMessages(), true) . "<br />";                                    					        // Array|null                   (Error) messages.
+        if ($invoiceLine->hasMessages()) {                                                                                                          // bool                         Object contains (error) messages true/false.
+            echo "Messages: " . print_r($invoiceLine->getMessages(), true) . "<br />";                                                              // Array|null                   (Error) messages.
         }
 
         echo "PerformanceDate (\\DateTimeInterface): <pre>" . print_r($invoiceLine->getPerformanceDate(), true) . "</pre><br />";                   // DateTimeInterface|null       Performance date, when set-up on invoice lines.
         echo "PerformanceDate (string): " . Util::formatDate($invoiceLine->getPerformanceDate()) . "<br />";                                        // string|null
         echo "PerformanceType: {$invoiceLine->getPerformanceType()}<br />";                                                                         // PerformanceType|null         The performance type in case of an ICT sales invoice.
-        echo "Quantity: {$invoiceLine->getQuantity()}<br />";                                                                               		// int|null                     The quantity on the sales invoice line.
+        echo "Quantity: {$invoiceLine->getQuantity()}<br />";                                                                                       // int|null                     The quantity on the sales invoice line.
         echo "Result: {$invoiceLine->getResult()}<br />";                                                                                           // int|null                     Result (0 = error, 1 or empty = success).
         echo "SubArticle (\\PhpTwinfield\\ArticleLine): <pre>" . print_r($invoiceLine->getSubArticle(), true) . "</pre><br />";                     // ArticleLine|null             Sub-article code.
         echo "SubArticle (string): {$invoiceLine->getSubArticleToString()}<br />";                                                                  // string|null
-        echo "Units: {$invoiceLine->getUnits()}<br />";                                                                               			    // int|null                     The number of units per quantity.
+        echo "Units: {$invoiceLine->getUnits()}<br />";                                                                                             // int|null                     The number of units per quantity.
         echo "UnitsPriceExcl (\\Money\\Money): <pre>" . print_r($invoiceLine->getUnitsPriceExcl(), true) . "</pre><br />";                          // Money|null                   Only valid for invoice types with VAT exclusive units prices.
         echo "UnitsPriceExcl (string): " . Util::formatMoney($invoiceLine->getUnitsPriceExcl()) . "<br />";                                         // string|null                  Only add this tag to an XML request if the setting Prices can be changed on an item is set to true. Otherwise, the price will be determined by the system.
         echo "UnitsPriceInc (\\Money\\Money): <pre>" . print_r($invoiceLine->getUnitsPriceInc(), true) . "</pre><br />";                            // Money|null                   Only valid for invoice types with VAT inclusive units prices.
@@ -238,7 +238,7 @@ if ($executeRead) {
         echo "ValueExcl (string): " . Util::formatMoney($invoiceLine->getValueExcl()) . "<br />";                                                   // string|null
         echo "ValueInc (\\Money\\Money): <pre>" . print_r($invoiceLine->getValueInc(), true) . "</pre><br />";                                      // Money|null                   Calculated element. Read-only attribute.
         echo "ValueInc (string): " . Util::formatMoney($invoiceLine->getValueInc()) . "<br />";                                                     // string|null
-        echo "VatCode (\\PhpTwinfield\\VatCode): <pre>" . print_r($invoiceLine->getVatCode(), true) . "</pre><br />";                      			// VatCode|null                 VAT code.
+        echo "VatCode (\\PhpTwinfield\\VatCode): <pre>" . print_r($invoiceLine->getVatCode(), true) . "</pre><br />";                               // VatCode|null                 VAT code.
         echo "VatCode (string): " . Util::objectToStr($invoiceLine->getVatCode()) . "<br />";                                                       // string|null
         echo "VatValue (\\Money\\Money): <pre>" . print_r($invoiceLine->getVatValue(), true) . "</pre><br />";                                      // Money|null                   Calculated element. Read-only attribute.
         echo "VatValue (string): " . Util::formatMoney($invoiceLine->getVatValue()) . "<br />";                                                     // string|null
@@ -249,15 +249,15 @@ if ($executeRead) {
     foreach ($invoiceVatLines as $key => $invoiceVatLine) {
         echo "InvoiceVatLine {$key}<br />";
 
-        if ($invoiceVatLine->hasMessages()) {                                                                                					    // bool                         Object contains (error) messages true/false.
-            echo "Messages: " . print_r($invoiceVatLine->getMessages(), true) . "<br />";                                    					    // Array|null                   (Error) messages.
+        if ($invoiceVatLine->hasMessages()) {                                                                                                       // bool                         Object contains (error) messages true/false.
+            echo "Messages: " . print_r($invoiceVatLine->getMessages(), true) . "<br />";                                                           // Array|null                   (Error) messages.
         }
 
         echo "PerformanceDate (\\DateTimeInterface): <pre>" . print_r($invoiceVatLine->getPerformanceDate(), true) . "</pre><br />";                // DateTimeInterface|null       The performance date. Only in case performancetype = services. Read-only attribute.
         echo "PerformanceDate (string): " . Util::formatDate($invoiceVatLine->getPerformanceDate()) . "<br />";                                     // string|null
         echo "PerformanceType: {$invoiceVatLine->getPerformanceType()}<br />";                                                                      // PerformanceType|null         The performance type. Read-only attribute.
         echo "Result: {$invoiceVatLine->getResult()}<br />";                                                                                        // int|null                     Result (0 = error, 1 or empty = success).
-        echo "VatCode (\\PhpTwinfield\\VatCode): <pre>" . print_r($invoiceVatLine->getVatCode(), true) . "</pre><br />";                      		// VatCode|null                 VAT code. Read-only attribute.
+        echo "VatCode (\\PhpTwinfield\\VatCode): <pre>" . print_r($invoiceVatLine->getVatCode(), true) . "</pre><br />";                            // VatCode|null                 VAT code. Read-only attribute.
         echo "VatCode (string): " . Util::objectToStr($invoiceVatLine->getVatCode()) . "<br />";                                                    // string|null
         echo "VatValue (\\Money\\Money): <pre>" . print_r($invoiceVatLine->getVatValue(), true) . "</pre><br />";                                   // Money|null                   VAT amount. Read-only attribute.
         echo "VatValue (string): " . Util::formatMoney($invoiceVatLine->getVatValue()) . "<br />";                                                  // string|null
@@ -344,15 +344,15 @@ if ($executeNew) {
     $invoiceLine->setAllowDiscountOrPremium(true);                                                                                                  // bool|null                    Calculate discount on this line.
     $article = new \PhpTwinfield\Article;
     $article->setCode('9060');
-    $invoiceLine->setArticle($article);                      		                                                                                // Article|null                 Article code.
-    $invoiceLine->setArticle(\PhpTwinfield\Article::fromCode('9060'));                      	                                                    // string|null
-    //$invoiceLine->setDescription('Example Description');                                                       	                                // string|null                  Invoice line description, only on the lines with article ‘0’ or ‘-‘.
+    $invoiceLine->setArticle($article);                                                                                                             // Article|null                 Article code.
+    $invoiceLine->setArticle(\PhpTwinfield\Article::fromCode('9060'));                                                                              // string|null
+    //$invoiceLine->setDescription('Example Description');                                                                                          // string|null                  Invoice line description, only on the lines with article ‘0’ or ‘-‘.
     $dim1 = new \PhpTwinfield\GeneralLedger;
     $dim1->setCode('9060');
-    $invoiceLine->setDim1($dim1);                      		                                                                                        // GeneralLedger|null           Balance account.
-    $invoiceLine->setDim1(\PhpTwinfield\GeneralLedger::fromCode('9060'));               	                                                        // string|null
-    //$invoiceLine->setFreeText1('Example Free Text 1');                                                       	                                    // string|null                  Free text field 1 as entered on the invoice type.
-    //$invoiceLine->setFreeText2('Example Free Text 2');                                                       	                                    // string|null                  Free text field 2 as entered on the invoice type.
+    $invoiceLine->setDim1($dim1);                                                                                                                   // GeneralLedger|null           Balance account.
+    $invoiceLine->setDim1(\PhpTwinfield\GeneralLedger::fromCode('9060'));                                                                           // string|null
+    //$invoiceLine->setFreeText1('Example Free Text 1');                                                                                            // string|null                  Free text field 1 as entered on the invoice type.
+    //$invoiceLine->setFreeText2('Example Free Text 2');                                                                                            // string|null                  Free text field 2 as entered on the invoice type.
     //$invoiceLine->setFreeText3("Example Free Text 3");                                                                                            // string|null                  Free text field 3 as entered on the invoice type.
     $invoiceLine->setID(1);                                                                                                                         // int|null                     Line ID.
     //$invoiceLine->setPerformanceType(\PhpTwinfield\Enums\PerformanceType::SERVICES());                                                            // PerformanceType|null         The performance type in case of an ICT sales invoice.
@@ -361,8 +361,8 @@ if ($executeNew) {
     $invoiceLine->setQuantity(1);                                                                                                                   // int|null                     The quantity on the sales invoice line.
     $subArticle = new \PhpTwinfield\ArticleLine;
     $subArticle->setSubCode('9060');
-    $invoiceLine->setSubArticle($subArticle);                      		                                                                            // ArticleLine|null             Sub-article code.
-    $invoiceLine->setSubArticle(\PhpTwinfield\ArticleLine::fromCode('9060'));                   	                                                // string|null
+    $invoiceLine->setSubArticle($subArticle);                                                                                                       // ArticleLine|null             Sub-article code.
+    $invoiceLine->setSubArticle(\PhpTwinfield\ArticleLine::fromCode('9060'));                                                                       // string|null
     $invoiceLine->setUnits(1);                                                                                                                      // int|null                     The number of units per quantity.
     $invoiceLine->setUnitsPriceExcl(\Money\Money::EUR(1000));                                                                                       // Money|null                   Only valid for invoice types with VAT exclusive units prices. Only add this tag to an XML request if the setting Prices can be changed on an item is set to true. Otherwise, the price will be determined by the system. (Equals 10.00 EUR)
     //$invoiceLine->setUnitsPriceInc(\Money\Money::EUR(1210));                                                                                      // Money|null                   Only valid for invoice types with VAT inclusive units prices. Only add this tag to an XML request if the setting Prices can be changed on an item is set to true. Otherwise, the price will be determined by the system. (Equals 12.10 EUR)

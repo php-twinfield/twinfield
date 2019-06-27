@@ -58,25 +58,25 @@ $office = \PhpTwinfield\Office::fromCode($officeCode);
  *                         office                  Sets the office code.
  *                         Usage:                  $options['office'] = 'SomeOfficeCode';
  *
- *                         level	               Specifies the dimension level.
+ *                         level                   Specifies the dimension level.
  *                         Available values:       1, 2, 3, 4, 5, 6
  *                         Usage:                  $options['level'] = 2;
  *
- *                         section	               Restricts to financial or time & expenses dimensions.
+ *                         section                 Restricts to financial or time & expenses dimensions.
  *                         Available values:       financials, teq
  *                         Usage:                  $options['section'] = 'financials';
  *
- *                         dimtype	               Specifies the dimension type.
+ *                         dimtype                 Specifies the dimension type.
  *                         Available values:       BAS, PNL, DEB, CRD, KPL, PRJ, AST, ACT
  *                         Usage:                  $options['dimtype'] = 'DEB';
  *
- *                         modifiedsince	       Restricts to dimensions modified after or at the specified date (and time), format yyyyMMddHHmmss or yyyyMMdd
+ *                         modifiedsince           Restricts to dimensions modified after or at the specified date (and time), format yyyyMMddHHmmss or yyyyMMdd
  *                         Usage:                  $options['modifiedsince'] = '20190101170000' or $options['modifiedsince'] = '20190101';
  *
- *                         group	               Specifies the dimension group (wildcards allowed).
+ *                         group                   Specifies the dimension group (wildcards allowed).
  *                         Usage:                  $options['group'] = 'DIMGROUP';
  *
- *                         matchtype    	       This option will show only the relations (dimension type: DEB and/or CRD).
+ *                         matchtype               This option will show only the relations (dimension type: DEB and/or CRD).
  *                         Usage:                  $options['matchtype'] = 'relation';
  *
  */
@@ -192,36 +192,36 @@ if ($executeRead) {
     echo "</pre>";
 
     echo "Customer<br />";
-    echo "BeginPeriod: {$customer->getBeginPeriod()}<br />";                                                                               			// int|null                         Determines together with beginyear the period from which the dimension may be used.
-    echo "BeginYear: {$customer->getBeginYear()}<br />";                                                                               			    // int|null                         Determines together with beginperiod the period from which the dimension may be used.
-    echo "Behaviour: {$customer->getBehaviour()}<br />";                                                                                   		    // Behaviour|null                   Determines the behaviour of dimensions. Read-only attribute.
-    echo "Code: {$customer->getCode()}<br />";                                                                                   					// string|null                      Dimension code, must be compliant with the mask of the DEB Dimension type.
+    echo "BeginPeriod: {$customer->getBeginPeriod()}<br />";                                                                                        // int|null                         Determines together with beginyear the period from which the dimension may be used.
+    echo "BeginYear: {$customer->getBeginYear()}<br />";                                                                                            // int|null                         Determines together with beginperiod the period from which the dimension may be used.
+    echo "Behaviour: {$customer->getBehaviour()}<br />";                                                                                            // Behaviour|null                   Determines the behaviour of dimensions. Read-only attribute.
+    echo "Code: {$customer->getCode()}<br />";                                                                                                      // string|null                      Dimension code, must be compliant with the mask of the DEB Dimension type.
     echo "DiscountArticle (\\PhpTwinfield\\Article): <pre>" . print_r($customer->getDiscountArticle(), true) . "</pre><br />";                      // Article|null                     The discount or premium article.
     echo "DiscountArticle (string): " . Util::objectToStr($customer->getDiscountArticle()) . "<br />";                                              // string|null
     echo "DiscountArticleID: {$customer->getDiscountArticleID()}<br />";                                                                            // string|null
-    echo "EndPeriod: {$customer->getEndPeriod()}<br />";                                                                               			    // int|null                         Determines together with endyear the period till which the dimension may be used.
-    echo "EndYear: {$customer->getEndYear()}<br />";                                                                               			        // int|null                         Determines together with endperiod the period till which the dimension may be used.
-    echo "Group (\\PhpTwinfield\\DimensionGroup): <pre>" . print_r($customer->getGroup(), true) . "</pre><br />";                      			    // DimensionGroup|null              Sets the dimension group. See Dimension group.
-    echo "Group (string): " . Util::objectToStr($customer->getGroup()) . "<br />";                                                              	// string|null
-    echo "InUse (bool): {$customer->getInUse()}<br />";                                                                                   			// bool|null                        Indicates whether the dimension is used in a financial transaction or not. Read-only attribute.
+    echo "EndPeriod: {$customer->getEndPeriod()}<br />";                                                                                            // int|null                         Determines together with endyear the period till which the dimension may be used.
+    echo "EndYear: {$customer->getEndYear()}<br />";                                                                                                // int|null                         Determines together with endperiod the period till which the dimension may be used.
+    echo "Group (\\PhpTwinfield\\DimensionGroup): <pre>" . print_r($customer->getGroup(), true) . "</pre><br />";                                   // DimensionGroup|null              Sets the dimension group. See Dimension group.
+    echo "Group (string): " . Util::objectToStr($customer->getGroup()) . "<br />";                                                                  // string|null
+    echo "InUse (bool): {$customer->getInUse()}<br />";                                                                                             // bool|null                        Indicates whether the dimension is used in a financial transaction or not. Read-only attribute.
     echo "InUse (string): " . Util::formatBoolean($customer->getInUse()) . "<br />";                                                                // string|null
 
-    if ($customer->hasMessages()) {                                                                                              					// bool                             Object contains (error) messages true/false.
-        echo "Messages: " . print_r($customer->getMessages(), true) . "<br />";                                                  					// Array|null                       (Error) messages.
+    if ($customer->hasMessages()) {                                                                                                                 // bool                             Object contains (error) messages true/false.
+        echo "Messages: " . print_r($customer->getMessages(), true) . "<br />";                                                                     // Array|null                       (Error) messages.
     }
 
-    echo "Name: {$customer->getName()}<br />";                                                                                   					// string|null                      Name of the dimension.
-    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($customer->getOffice(), true) . "</pre><br />";                      					// Office|null                      Office code.
-    echo "Office (string): " . Util::objectToStr($customer->getOffice()) . "<br />";                                                              	// string|null
+    echo "Name: {$customer->getName()}<br />";                                                                                                      // string|null                      Name of the dimension.
+    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($customer->getOffice(), true) . "</pre><br />";                                         // Office|null                      Office code.
+    echo "Office (string): " . Util::objectToStr($customer->getOffice()) . "<br />";                                                                // string|null
     echo "PaymentCondition:<br />";                                                                                                                 //                                  Sets the payment condition of a dimension.
     echo "PaymentCondition DiscountDays: {$customer->getPaymentConditionDiscountDays()}<br />";                                                     // int|null                         Number of discount days.
     echo "PaymentCondition DiscountPercentage: {$customer->getPaymentConditionDiscountPercentage()}<br />";                                         // float|null                       Discount percentage.
     echo "RemittanceAdvice:<br />";                                                                                                                 //
     echo "RemittanceAdvice SendMail: {$customer->getRemittanceAdviceSendMail()}<br />";                                                             // string|null                      Mandatory if sendtype = ByEmail, remittance advice will be sent using this e-mail address.
     echo "RemittanceAdvice SendType: {$customer->getRemittanceAdviceSendType()}<br />";                                                             // RemittanceAdviceSendType|null    To file manager, By e-mail
-    echo "Result: {$customer->getResult()}<br />";                                                                               					// int|null                         Result (0 = error, 1 or empty = success).
-    echo "ShortName: {$customer->getShortName()}<br />";                                                                         					// string|null                      Short name of the dimension.
-    echo "Status: {$customer->getStatus()}<br />";                                                                               					// Status|null                      Status of the customer.
+    echo "Result: {$customer->getResult()}<br />";                                                                                                  // int|null                         Result (0 = error, 1 or empty = success).
+    echo "ShortName: {$customer->getShortName()}<br />";                                                                                            // string|null                      Short name of the dimension.
+    echo "Status: {$customer->getStatus()}<br />";                                                                                                  // Status|null                      Status of the customer.
     echo "Touched: {$customer->getTouched()}<br />";                                                                                                // int|null                         Count of the number of times the dimension settings are changed. Read-only attribute.
     echo "Type (\\PhpTwinfield\\DimensionType): <pre>" . print_r($customer->getType(), true) . "</pre><br />";                                      // DimensionType|null               Dimension type. See Dimension type. Dimension type of customers is DEB.
     echo "Type (string): " . Util::objectToStr($customer->getType()) . "<br />";                                                                    // string|null
@@ -234,7 +234,7 @@ if ($executeRead) {
         echo "CustomerAddress {$key}<br />";
 
         echo "City: {$customerAddress->getCity()}<br />";                                                                                           // string|null                      City.
-        echo "Country (\\PhpTwinfield\\Country): <pre>" . print_r($customerAddress->getCountry(), true) . "</pre><br />";                      		// Country|null                     Country code. The ISO country codes are used.
+        echo "Country (\\PhpTwinfield\\Country): <pre>" . print_r($customerAddress->getCountry(), true) . "</pre><br />";                           // Country|null                     Country code. The ISO country codes are used.
         echo "Country (string): " . Util::objectToStr($customerAddress->getCountry()) . "<br />";                                                   // string|null
         echo "Default (bool): {$customerAddress->getDefault()}<br />";                                                                              // bool|null                        Is this the default address, only one default address is possible.
         echo "Default (string): " . Util::formatBoolean($customerAddress->getDefault()) . "<br />";                                                 // string|null
@@ -247,15 +247,15 @@ if ($executeRead) {
         echo "Field6: {$customerAddress->getField6()}<br />";                                                                                       // string|null                      User defined fields, the labels are configured in the Dimension type.
         echo "ID: {$customerAddress->getID()}<br />";                                                                                               // int|null                         Sequence number of the address line.
 
-        if ($customerAddress->hasMessages()) {                                                                                					    // bool                             Object contains (error) messages true/false.
-            echo "Messages: " . print_r($customerAddress->getMessages(), true) . "<br />";                                    					    // Array|null                       (Error) messages.
+        if ($customerAddress->hasMessages()) {                                                                                                      // bool                             Object contains (error) messages true/false.
+            echo "Messages: " . print_r($customerAddress->getMessages(), true) . "<br />";                                                          // Array|null                       (Error) messages.
         }
 
-        echo "Name: {$customerAddress->getName()}<br />";                                                                    			            // string|null                     	Company name.
+        echo "Name: {$customerAddress->getName()}<br />";                                                                                           // string|null                      Company name.
         echo "Postcode: {$customerAddress->getPostcode()}<br />";                                                                                   // string|null                      Postcode.
         echo "Result: {$customerAddress->getResult()}<br />";                                                                                       // int|null                         Result (0 = error, 1 or empty = success).
-        echo "Telefax: {$customerAddress->getTelefax()}<br />";                                                                    			        // string|null                     	Fax number.
-        echo "Telephone: {$customerAddress->getTelephone()}<br />";                                                                    			    // string|null                     	Telephone number.
+        echo "Telefax: {$customerAddress->getTelefax()}<br />";                                                                                     // string|null                      Fax number.
+        echo "Telephone: {$customerAddress->getTelephone()}<br />";                                                                                 // string|null                      Telephone number.
         echo "Type: {$customerAddress->getType()}<br />";                                                                                           // AddressType|null                 The type of the address.
     }
 
@@ -274,24 +274,24 @@ if ($executeRead) {
         echo "Blocked (bool): {$customerBank->getBlocked()}<br />";                                                                                 // bool|null
         echo "Blocked (string): " . Util::formatBoolean($customerBank->getBlocked()) . "<br />";                                                    // string|null
         echo "City: {$customerBank->getCity()}<br />";                                                                                              // string|null                      City.
-        echo "Country (\\PhpTwinfield\\Country): <pre>" . print_r($customerBank->getCountry(), true) . "</pre><br />";                      		// Country|null                     Bank country code. The ISO country codes are used.
+        echo "Country (\\PhpTwinfield\\Country): <pre>" . print_r($customerBank->getCountry(), true) . "</pre><br />";                              // Country|null                     Bank country code. The ISO country codes are used.
         echo "Country (string): " . Util::objectToStr($customerBank->getCountry()) . "<br />";                                                      // string|null
         echo "Default (bool): {$customerBank->getDefault()}<br />";                                                                                 // bool|null                        Is this the default bank account, only one default bank account is possible.
         echo "Default (string): " . Util::formatBoolean($customerBank->getDefault()) . "<br />";                                                    // string|null
         echo "ID: {$customerBank->getID()}<br />";                                                                                                  // int|null                         Sequence number of the bank account line. When adding a new bank, do not supply the @id. When changing a bank account, supply the corresponding @id.
         echo "IBAN: {$customerBank->getIban()}<br />";                                                                                              // string|null                      IBAN account number.
 
-        if ($customerBank->hasMessages()) {                                                                                					        // bool                             Object contains (error) messages true/false.
-            echo "Messages: " . print_r($customerBank->getMessages(), true) . "<br />";                                    					        // Array|null                       (Error) messages.
+        if ($customerBank->hasMessages()) {                                                                                                         // bool                             Object contains (error) messages true/false.
+            echo "Messages: " . print_r($customerBank->getMessages(), true) . "<br />";                                                             // Array|null                       (Error) messages.
         }
 
-        echo "NatBicCode: {$customerBank->getNatBicCode()}<br />";                                                                    			    // string|null              	    National bank code.
+        echo "NatBicCode: {$customerBank->getNatBicCode()}<br />";                                                                                  // string|null                      National bank code.
         echo "Postcode: {$customerBank->getPostcode()}<br />";                                                                                      // string|null                      Postcode.
         echo "Result: {$customerBank->getResult()}<br />";                                                                                          // int|null                         Result (0 = error, 1 or empty = success).
-        echo "State: {$customerBank->getState()}<br />";                                                                    			            // string|null                     	State.
+        echo "State: {$customerBank->getState()}<br />";                                                                                            // string|null                      State.
     }
 
-    $customerCreditManagement = $customer->getCreditManagement();                                                                           		// CustomerCreditManagement|null    CustomerCreditManagement object.
+    $customerCreditManagement = $customer->getCreditManagement();                                                                                   // CustomerCreditManagement|null    CustomerCreditManagement object.
 
     echo "CustomerCreditManagement<br />";
     echo "BaseCreditLimit (\\Money\\Money): <pre>" . print_r($customerCreditManagement->getBaseCreditLimit(), true) . "</pre><br />";               // Money|null                       The credit limit amount.
@@ -308,8 +308,8 @@ if ($executeRead) {
     echo "Freetext2: {$customerCreditManagement->getFreeText2()}<br />";                                                                            // string|null                      Segment code.
     echo "Freetext3: {$customerCreditManagement->getFreeText3()}<br />";                                                                            // string|null                      Not in use.
 
-    if ($customerCreditManagement->hasMessages()) {                                                                                					// bool                             Object contains (error) messages true/false.
-        echo "Messages: " . print_r($customerCreditManagement->getMessages(), true) . "<br />";                                    					// Array|null                       (Error) messages.
+    if ($customerCreditManagement->hasMessages()) {                                                                                                 // bool                             Object contains (error) messages true/false.
+        echo "Messages: " . print_r($customerCreditManagement->getMessages(), true) . "<br />";                                                     // Array|null                       (Error) messages.
     }
 
     echo "ReminderEmail: {$customerCreditManagement->getReminderEmail()}<br />";                                                                    // string|null                      Mandatory if sendreminder is email.
@@ -319,7 +319,7 @@ if ($executeRead) {
     echo "SendReminder: {$customerCreditManagement->getSendReminder()}<br />";                                                                      // SendReminder|null                Determines if and how a customer will be reminded.
 
     echo "CustomerFinancials<br />";
-    $customerFinancials = $customer->getFinancials();                                                                           			        // CustomerFinancials|null          CustomerFinancials object.
+    $customerFinancials = $customer->getFinancials();                                                                                               // CustomerFinancials|null          CustomerFinancials object.
 
     echo "AccountType: {$customerFinancials->getAccountType()}<br />";                                                                              // AccountType|null                 Fixed value inherit.
     echo "CollectionSchema: {$customerFinancials->getCollectionSchema()}<br />";                                                                    // CollectionSchema|null            Collection schema information. Apply this information only when the customer invoices are collected by SEPA direct debit.
@@ -327,12 +327,12 @@ if ($executeRead) {
     echo "EBillMail: {$customerFinancials->getEBillMail()}<br />";                                                                                  // string|null                      The mail address the electronic sales invoice is sent to.
     echo "EBilling (bool): {$customerFinancials->getEBilling()}<br />";                                                                             // bool|null                        Determines if the sales invoices will be sent electronically to the customer.
     echo "EBilling (string): " . Util::formatBoolean($customerFinancials->getEBilling()) . "<br />";                                                // string|null
-    echo "Level: {$customerFinancials->getLevel()}<br />";                                                                                          // int|null                        	Specifies the dimension level. Normally the level of customers is level 2. Read-only attribute.
+    echo "Level: {$customerFinancials->getLevel()}<br />";                                                                                          // int|null                         Specifies the dimension level. Normally the level of customers is level 2. Read-only attribute.
     echo "MatchType: {$customerFinancials->getMatchType()}<br />";                                                                                  // MatchType|null                   Fixed value customersupplier.
     echo "MeansOfPayment: {$customerFinancials->getMeansOfPayment()}<br />";                                                                        // MeansOfPayment|null              The option none is only allowed in case payavailable is set to false. The option paymentfile is only allowed in case payavailable is set to true.
 
-    if ($customerFinancials->hasMessages()) {                                                                                					    // bool                             Object contains (error) messages true/false.
-        echo "Messages: " . print_r($customerFinancials->getMessages(), true) . "<br />";                                    					    // Array|null                       (Error) messages.
+    if ($customerFinancials->hasMessages()) {                                                                                                       // bool                             Object contains (error) messages true/false.
+        echo "Messages: " . print_r($customerFinancials->getMessages(), true) . "<br />";                                                           // Array|null                       (Error) messages.
     }
 
     echo "PayAvailable (bool): {$customerFinancials->getPayAvailable()}<br />";                                                                     // bool|null                        Determines if direct debit is possible.
@@ -359,23 +359,23 @@ if ($executeRead) {
         echo "ElementValue: {$customerChildValidation->getElementValue()}<br />";                                                                   // string|null
         echo "Level: {$customerChildValidation->getLevel()}<br />";                                                                                 // int|null
 
-        if ($customerChildValidation->hasMessages()) {                                                                                				// bool                             Object contains (error) messages true/false.
-            echo "Messages: " . print_r($customerChildValidation->getMessages(), true) . "<br />";                                    				// Array|null                       (Error) messages.
+        if ($customerChildValidation->hasMessages()) {                                                                                              // bool                             Object contains (error) messages true/false.
+            echo "Messages: " . print_r($customerChildValidation->getMessages(), true) . "<br />";                                                  // Array|null                       (Error) messages.
         }
 
         echo "Result: {$customerChildValidation->getResult()}<br />";                                                                               // int|null                         Result (0 = error, 1 or empty = success).
         echo "Type: {$customerChildValidation->getType()}<br />";                                                                                   // ChildValidationType|null
     }
 
-    $customerCollectMandate = $customerFinancials->getCollectMandate();                                                                           	// CollectMandate|null              CollectMandate object.
+    $customerCollectMandate = $customerFinancials->getCollectMandate();                                                                             // CollectMandate|null              CollectMandate object.
 
     echo "CustomerCollectMandate<br />";
     echo "FirstRunDate (\\DateTimeInterface): <pre>" . print_r($customerCollectMandate->getFirstRunDate(), true) . "</pre><br />";                  // \DateTimeInterface|null          Date on which the first run was collected.
     echo "FirstRunDate (string): " . Util::formatDate($customerCollectMandate->getFirstRunDate()) . "<br />";                                       // string|null
     echo "ID: {$customerCollectMandate->getID()}<br />";                                                                                            // string|null                      Mandate id which the debtor can collect with.
 
-    if ($customerCollectMandate->hasMessages()) {                                                                                					// bool                             Object contains (error) messages true/false.
-        echo "Messages: " . print_r($customerCollectMandate->getMessages(), true) . "<br />";                                    					// Array|null                       (Error) messages.
+    if ($customerCollectMandate->hasMessages()) {                                                                                                   // bool                             Object contains (error) messages true/false.
+        echo "Messages: " . print_r($customerCollectMandate->getMessages(), true) . "<br />";                                                       // Array|null                       (Error) messages.
     }
 
     echo "SignatureDate (\\DateTimeInterface): <pre>" . print_r($customerCollectMandate->getSignatureDate(), true) . "</pre><br />";                // \DateTimeInterface|null          Date on which the mandate is signed.
@@ -393,12 +393,12 @@ if ($executeRead) {
         echo "Description: {$customerPostingRule->getDescription()}<br />";                                                                         // string|null                      Description.
         echo "ID: {$customerPostingRule->getID()}<br />";                                                                                           // int|null                         Sequence number of the posting rule. Fixed value 1.
 
-        if ($customerPostingRule->hasMessages()) {                                                                                					// bool                             Object contains (error) messages true/false.
-            echo "Messages: " . print_r($customerPostingRule->getMessages(), true) . "<br />";                                    					// Array|null                       (Error) messages.
+        if ($customerPostingRule->hasMessages()) {                                                                                                  // bool                             Object contains (error) messages true/false.
+            echo "Messages: " . print_r($customerPostingRule->getMessages(), true) . "<br />";                                                      // Array|null                       (Error) messages.
         }
 
         echo "Result: {$customerPostingRule->getResult()}<br />";                                                                                   // int|null                         Result (0 = error, 1 or empty = success).
-        echo "Status: {$customerPostingRule->getStatus()}<br />";                                                                               	// Status|null                      Status of the posting rule.
+        echo "Status: {$customerPostingRule->getStatus()}<br />";                                                                                   // Status|null                      Status of the posting rule.
 
         $customerLines = $customerPostingRule->getLines();                                                                                          // array|null                       Array of CustomerLine objects.
 
@@ -416,11 +416,11 @@ if ($executeRead) {
             echo "Dimension3 (string): " . Util::objectToStr($customerLine->getDimension3()) . "<br />";                                            // string|null
             echo "Dimension3ID: {$customerLine->getDimension3ID()}<br />";                                                                          // string|null
 
-            if ($customerLine->hasMessages()) {                                                                                					    // bool                             Object contains (error) messages true/false.
-                echo "Messages: " . print_r($customerLine->getMessages(), true) . "<br />";                                    					    // Array|null                       (Error) messages.
+            if ($customerLine->hasMessages()) {                                                                                                     // bool                             Object contains (error) messages true/false.
+                echo "Messages: " . print_r($customerLine->getMessages(), true) . "<br />";                                                         // Array|null                       (Error) messages.
             }
 
-            echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($customerLine->getOffice(), true) . "</pre><br />";                      		// Office|null                      Destination company.
+            echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($customerLine->getOffice(), true) . "</pre><br />";                             // Office|null                      Destination company.
             echo "Office (string): " . Util::objectToStr($customerLine->getOffice()) . "<br />";                                                    // string|null
             echo "Ratio: {$customerLine->getRatio()}<br />";                                                                                        // float|null                       The ratio of the posting rule line.
             echo "Result: {$customerLine->getResult()}<br />";                                                                                      // int|null                         Result (0 = error, 1 or empty = success).
@@ -556,7 +556,7 @@ if ($executeNew) {
     $country->setCode('NL');
     $customerAddress->setCountry($country);                                                                                                         // Country|null                     Country code. The ISO country codes are used.
     $customerAddress->setCountry(\PhpTwinfield\Country::fromCode('NL'));                                                                            // string|null
-    $customerAddress->setDefault(true);                                                                                                             // bool|null                       	Is this the default address, only one default address is possible.
+    $customerAddress->setDefault(true);                                                                                                             // bool|null                        Is this the default address, only one default address is possible.
     $customerAddress->setEmail('test@example.com');                                                                                                 // string|null
     $customerAddress->setField1('');                                                                                                                // string|null                      User defined fields, the labels are configured in the Dimension type.
     $customerAddress->setField2('');                                                                                                                // string|null                      User defined fields, the labels are configured in the Dimension type.

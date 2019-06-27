@@ -127,34 +127,34 @@ if ($executeRead) {
     echo "</pre>";
 
     echo "AssetMethod<br />";
-    echo "CalcMethod: {$assetMethod->getCalcMethod()}<br />";                                                                                   		        // CalcMethod|null                      The calculation method.
-    echo "Code: {$assetMethod->getCode()}<br />";                                                                                   					        // string|null                          Asset method code.
-    echo "Created (\\DateTimeInterface): <pre>" . print_r($assetMethod->getCreated(), true) . "</pre><br />";                       					        // \DateTimeInterface|null              Date/time the asset method is created.
-    echo "Created (string): " . Util::formatDate($assetMethod->getCreated()) . "<br />";                                                            	        // string|null
+    echo "CalcMethod: {$assetMethod->getCalcMethod()}<br />";                                                                                                   // CalcMethod|null                      The calculation method.
+    echo "Code: {$assetMethod->getCode()}<br />";                                                                                                               // string|null                          Asset method code.
+    echo "Created (\\DateTimeInterface): <pre>" . print_r($assetMethod->getCreated(), true) . "</pre><br />";                                                   // \DateTimeInterface|null              Date/time the asset method is created.
+    echo "Created (string): " . Util::formatDate($assetMethod->getCreated()) . "<br />";                                                                        // string|null
     echo "DepreciateReconciliation: {$assetMethod->getDepreciateReconciliation()}<br />";                                                                       // DepreciateReconciliation|null        Depreciate as of the revaluation date. Depreciate in retrospect, back to the purchase date.
-    echo "InUse (bool): {$assetMethod->getInUse()}<br />";                                                                                   			        // bool|null
+    echo "InUse (bool): {$assetMethod->getInUse()}<br />";                                                                                                      // bool|null
     echo "InUse (string): " . Util::formatBoolean($assetMethod->getInUse()) . "<br />";                                                                         // string|null
 
-    if ($assetMethod->hasMessages()) {                                                                                              					        // bool                                 Object contains (error) messages true/false.
-        echo "Messages: " . print_r($assetMethod->getMessages(), true) . "<br />";                                                  					        // Array|null                           (Error) messages.
+    if ($assetMethod->hasMessages()) {                                                                                                                          // bool                                 Object contains (error) messages true/false.
+        echo "Messages: " . print_r($assetMethod->getMessages(), true) . "<br />";                                                                              // Array|null                           (Error) messages.
     }
 
-    echo "Modified (\\DateTimeInterface): <pre>" . print_r($assetMethod->getModified(), true) . "</pre><br />";                     					        // \DateTimeInterface|null      	    Date/time the asset method is modified the last time.
-    echo "Modified (string): " . Util::formatDate($assetMethod->getModified()) . "<br />";                                                          	        // string|null
-    echo "Name: {$assetMethod->getName()}<br />";                                                                                   					        // string|null                          The name of the asset method.
-    echo "NrOfPeriods: {$assetMethod->getNrOfPeriods()}<br />";                                                                               				    // int|null                             The number of periods over which the asset linked to the asset method should be depreciated.
-    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($assetMethod->getOffice(), true) . "</pre><br />";                      					        // Office|null                          Office code.
-    echo "Office (string): " . Util::objectToStr($assetMethod->getOffice()) . "<br />";                                                              		    // string|null
-    echo "Percentage: {$assetMethod->getPercentage()}<br />";                                                                               				    // int|null
-    echo "Result: {$assetMethod->getResult()}<br />";                                                                               					        // int|null                             Result (0 = error, 1 or empty = success).
-    echo "ShortName: {$assetMethod->getShortName()}<br />";                                                                         					        // string|null                          The short name of the asset method.
-    echo "Status: {$assetMethod->getStatus()}<br />";                                                                               					        // Status|null                          Status of the asset method.
+    echo "Modified (\\DateTimeInterface): <pre>" . print_r($assetMethod->getModified(), true) . "</pre><br />";                                                 // \DateTimeInterface|null              Date/time the asset method is modified the last time.
+    echo "Modified (string): " . Util::formatDate($assetMethod->getModified()) . "<br />";                                                                      // string|null
+    echo "Name: {$assetMethod->getName()}<br />";                                                                                                               // string|null                          The name of the asset method.
+    echo "NrOfPeriods: {$assetMethod->getNrOfPeriods()}<br />";                                                                                                 // int|null                             The number of periods over which the asset linked to the asset method should be depreciated.
+    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($assetMethod->getOffice(), true) . "</pre><br />";                                                  // Office|null                          Office code.
+    echo "Office (string): " . Util::objectToStr($assetMethod->getOffice()) . "<br />";                                                                         // string|null
+    echo "Percentage: {$assetMethod->getPercentage()}<br />";                                                                                                   // int|null
+    echo "Result: {$assetMethod->getResult()}<br />";                                                                                                           // int|null                             Result (0 = error, 1 or empty = success).
+    echo "ShortName: {$assetMethod->getShortName()}<br />";                                                                                                     // string|null                          The short name of the asset method.
+    echo "Status: {$assetMethod->getStatus()}<br />";                                                                                                           // Status|null                          Status of the asset method.
     echo "Touched: {$assetMethod->getTouched()}<br />";                                                                                                         // int|null                             Count of the number of times the dimension settings are changed. Read-only attribute.
     echo "User (\\PhpTwinfield\\User): <pre>" . print_r($assetMethod->getUser(), true) . "</pre><br />";                                                        // User|null                            The user who modified the asset method the last time.
     echo "User (string): " . Util::objectToStr($assetMethod->getUser()) . "<br />";                                                                             // string|null
 
     echo "AssetMethodBalanceAccounts<br />";
-    $assetMethodBalanceAccounts = $assetMethod->getBalanceAccounts();                                                                           			    // AssetMethodBalanceAccounts|null      AssetMethodBalanceAccounts object.
+    $assetMethodBalanceAccounts = $assetMethod->getBalanceAccounts();                                                                                           // AssetMethodBalanceAccounts|null      AssetMethodBalanceAccounts object.
 
     echo "AssetsToActivate (\\PhpTwinfield\\GeneralLedger): <pre>" . print_r($assetMethodBalanceAccounts->getAssetsToActivate(), true) . "</pre><br />";        // GeneralLedger|null                   Assets to activate balance sheet.
     echo "AssetsToActivate (string): " . Util::objectToStr($assetMethodBalanceAccounts->getAssetsToActivate()) . "<br />";                                      // string|null
@@ -163,8 +163,8 @@ if ($executeRead) {
     echo "DepreciationGroup (\\PhpTwinfield\\DimensionGroup): <pre>" . print_r($assetMethodBalanceAccounts->getDepreciationGroup(), true) . "</pre><br />";     // DimensionGroup|null                  Depreciation group.
     echo "DepreciationGroup (string): " . Util::objectToStr($assetMethodBalanceAccounts->getDepreciationGroup()) . "<br />";                                    // string|null
 
-    if ($assetMethodBalanceAccounts->hasMessages()) {                                                                                					        // bool                                 Object contains (error) messages true/false.
-        echo "Messages: " . print_r($assetMethodBalanceAccounts->getMessages(), true) . "<br />";                                    					        // Array|null                           (Error) messages.
+    if ($assetMethodBalanceAccounts->hasMessages()) {                                                                                                           // bool                                 Object contains (error) messages true/false.
+        echo "Messages: " . print_r($assetMethodBalanceAccounts->getMessages(), true) . "<br />";                                                               // Array|null                           (Error) messages.
     }
 
     echo "PurchaseValue (\\PhpTwinfield\\GeneralLedger): <pre>" . print_r($assetMethodBalanceAccounts->getPurchaseValue(), true) . "</pre><br />";              // GeneralLedger|null                   Purchase value balance sheet.
@@ -178,13 +178,13 @@ if ($executeRead) {
     echo "ToBeInvoiced (string): " . Util::objectToStr($assetMethodBalanceAccounts->getToBeInvoiced()) . "<br />";                                              // string|null
 
     echo "AssetMethodProfitLossAccounts<br />";
-    $assetMethodProfitLossAccounts = $assetMethod->getProfitLossAccounts();                                                                           			// AssetMethodProfitLossAccounts|null  AssetMethodProfitLossAccounts object.
+    $assetMethodProfitLossAccounts = $assetMethod->getProfitLossAccounts();                                                                                     // AssetMethodProfitLossAccounts|null  AssetMethodProfitLossAccounts object.
 
     echo "Depreciation (\\PhpTwinfield\\GeneralLedger): <pre>" . print_r($assetMethodProfitLossAccounts->getDepreciation(), true) . "</pre><br />";             // GeneralLedger|null                   Depreciation costs profit and loss account.
     echo "Depreciation (string): " . Util::objectToStr($assetMethodProfitLossAccounts->getDepreciation()) . "<br />";                                           // string|null
 
-    if ($assetMethodProfitLossAccounts->hasMessages()) {                                                                                					    // bool                                 Object contains (error) messages true/false.
-        echo "Messages: " . print_r($assetMethodProfitLossAccounts->getMessages(), true) . "<br />";                                    					    // Array|null                           (Error) messages.
+    if ($assetMethodProfitLossAccounts->hasMessages()) {                                                                                                        // bool                                 Object contains (error) messages true/false.
+        echo "Messages: " . print_r($assetMethodProfitLossAccounts->getMessages(), true) . "<br />";                                                            // Array|null                           (Error) messages.
     }
 
     echo "Reconciliation (\\PhpTwinfield\\GeneralLedger): <pre>" . print_r($assetMethodProfitLossAccounts->getReconciliation(), true) . "</pre><br />";         // GeneralLedger|null                   Revaluation reserve profit and loss account.
@@ -201,8 +201,8 @@ if ($executeRead) {
         echo "ElementValue: {$assetMethodFreeText->getElementValue()}<br />";                                                                                   // string|null                          Free text.
         echo "ID: {$assetMethodFreeText->getID()}<br />";                                                                                                       // int|null                             Free text id. In total, five free text fields are available.
 
-        if ($assetMethodFreeText->hasMessages()) {                                                                                				                // bool                                 Object contains (error) messages true/false.
-            echo "Messages: " . print_r($assetMethodFreeText->getMessages(), true) . "<br />";                                    				                // Array|null                           (Error) messages.
+        if ($assetMethodFreeText->hasMessages()) {                                                                                                              // bool                                 Object contains (error) messages true/false.
+            echo "Messages: " . print_r($assetMethodFreeText->getMessages(), true) . "<br />";                                                                  // Array|null                           (Error) messages.
         }
 
         echo "Result: {$assetMethodFreeText->getResult()}<br />";                                                                                               // int|null                             Result (0 = error, 1 or empty = success).

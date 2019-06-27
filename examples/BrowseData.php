@@ -32,40 +32,40 @@ $browseDataApiConnector = new \PhpTwinfield\ApiConnectors\BrowseDataApiConnector
 
 /* Codes of all available Browse Definitions
  Browse code            Description
- 000	                General ledger transactions
- 010	                Transactions still to be matched
- 020	                Transaction list
- 100	                Customer transactions
- 200	                Supplier transactions
- 300	                Project transactions
- 301	                Asset transactions
- 400	                Cash transactions
- 410	                Bank transactions
- 900	                Cost centers
- 030_1	                General Ledger (details)
- 030_2	                General Ledger (details) (v2)
- 031	                General Ledger (intercompany)
- 040_1	                Annual Report (totals)
- 050_1	                Annual Report (YTD)
- 060	                Annual Report (totals multicurrency)
- 130_1	                Customers
- 130_2	                Customers (v2)
- 164	                Credit Management
- 230_1	                Suppliers
- 230_2	                Suppliers (v2)
- 302_1	                Fixed Assets
- 610_1	                Time & Expenses (Totals)
- 620	                Time & Expenses (Multicurrency)
- 650_1	                Time & Expenses (Details)
- 651_1	                Time & Expenses (Totals per week)
- 652_1	                Time & Expenses (Totals per period)
- 660_1	                Time & Expenses (Billing details)
- 661_1	                Time & Expenses (Billing per week)
- 662_1	                Time & Expenses (Billing per period)
- 670	                Transaction summary
- 680	                Bank link details
- 690	                Vat Return status
- 700	                Hierarchy access
+ 000                    General ledger transactions
+ 010                    Transactions still to be matched
+ 020                    Transaction list
+ 100                    Customer transactions
+ 200                    Supplier transactions
+ 300                    Project transactions
+ 301                    Asset transactions
+ 400                    Cash transactions
+ 410                    Bank transactions
+ 900                    Cost centers
+ 030_1                  General Ledger (details)
+ 030_2                  General Ledger (details) (v2)
+ 031                    General Ledger (intercompany)
+ 040_1                  Annual Report (totals)
+ 050_1                  Annual Report (YTD)
+ 060                    Annual Report (totals multicurrency)
+ 130_1                  Customers
+ 130_2                  Customers (v2)
+ 164                    Credit Management
+ 230_1                  Suppliers
+ 230_2                  Suppliers (v2)
+ 302_1                  Fixed Assets
+ 610_1                  Time & Expenses (Totals)
+ 620                    Time & Expenses (Multicurrency)
+ 650_1                  Time & Expenses (Details)
+ 651_1                  Time & Expenses (Totals per week)
+ 652_1                  Time & Expenses (Totals per period)
+ 660_1                  Time & Expenses (Billing details)
+ 661_1                  Time & Expenses (Billing per week)
+ 662_1                  Time & Expenses (Billing per period)
+ 670                    Transaction summary
+ 680                    Bank link details
+ 690                    Vat Return status
+ 700                    Hierarchy access
  */
 
  /* BrowseDefinition
