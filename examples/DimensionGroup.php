@@ -126,26 +126,26 @@ if ($executeRead) {
     echo "</pre>";
 
     echo "DimensionGroup<br />";
-    echo "Code: {$dimensionGroup->getCode()}<br />";                                                                                   					// string|null                  Dimension group code.
+    echo "Code: {$dimensionGroup->getCode()}<br />";                                                                                                    // string|null                  Dimension group code.
 
-    if ($dimensionGroup->hasMessages()) {                                                                                              					// bool                         Object contains (error) messages true/false.
-        echo "Messages: " . print_r($dimensionGroup->getMessages(), true) . "<br />";                                                  					// Array|null                   (Error) messages.
+    if ($dimensionGroup->hasMessages()) {                                                                                                               // bool                         Object contains (error) messages true/false.
+        echo "Messages: " . print_r($dimensionGroup->getMessages(), true) . "<br />";                                                                   // Array|null                   (Error) messages.
     }
 
-    echo "Name: {$dimensionGroup->getName()}<br />";                                                                                   					// string|null                  Name of the dimension group.
-    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($dimensionGroup->getOffice(), true) . "</pre><br />";                      					// Office|null                  Office code.
+    echo "Name: {$dimensionGroup->getName()}<br />";                                                                                                    // string|null                  Name of the dimension group.
+    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($dimensionGroup->getOffice(), true) . "</pre><br />";                                       // Office|null                  Office code.
     echo "Office (string): " . Util::objectToStr($dimensionGroup->getOffice()) . "<br />";                                                              // string|null
-    echo "Result: {$dimensionGroup->getResult()}<br />";                                                                               					// int|null                     Result (0 = error, 1 or empty = success).
-    echo "ShortName: {$dimensionGroup->getShortName()}<br />";                                                                         					// string|null                  Short name of the dimension group.
-    echo "Status: {$dimensionGroup->getStatus()}<br />";                                                                               					// Status|null                  Status of the dimension group.
+    echo "Result: {$dimensionGroup->getResult()}<br />";                                                                                                // int|null                     Result (0 = error, 1 or empty = success).
+    echo "ShortName: {$dimensionGroup->getShortName()}<br />";                                                                                          // string|null                  Short name of the dimension group.
+    echo "Status: {$dimensionGroup->getStatus()}<br />";                                                                                                // Status|null                  Status of the dimension group.
 
-    $dimensionGroupDimensions = $dimensionGroup->getDimensions();                                                                           			// Array|null                   Array of DimensionGroupDimension objects.
+    $dimensionGroupDimensions = $dimensionGroup->getDimensions();                                                                                       // Array|null                   Array of DimensionGroupDimension objects.
 
     foreach ($dimensionGroupDimensions as $key => $dimensionGroupDimension) {
         echo "DimensionGroupDimension {$key}<br />";
 
-        if ($dimensionGroupDimension->hasMessages()) {                                                                                					// bool                         Object contains (error) messages true/false.
-            echo "Messages: " . print_r($dimensionGroupDimension->getMessages(), true) . "<br />";                                    					// Array|null                   (Error) messages.
+        if ($dimensionGroupDimension->hasMessages()) {                                                                                                  // bool                         Object contains (error) messages true/false.
+            echo "Messages: " . print_r($dimensionGroupDimension->getMessages(), true) . "<br />";                                                      // Array|null                   (Error) messages.
         }
 
         echo "Code: <pre>" . print_r($dimensionGroupDimension->getCode(), true) . "</pre><br />";                                                       // object|null                  Code of the dimension.

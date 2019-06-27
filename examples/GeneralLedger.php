@@ -54,22 +54,22 @@ $office = \PhpTwinfield\Office::fromCode($officeCode);
  *                         office                  Sets the office code.
  *                         Usage:                  $options['office'] = 'SomeOfficeCode';
  *
- *                         level	               Specifies the dimension level.
+ *                         level                   Specifies the dimension level.
  *                         Available values:       1, 2, 3, 4, 5, 6
  *                         Usage:                  $options['level'] = 2;
  *
- *                         section	               Restricts to financial or time & expenses dimensions.
+ *                         section                 Restricts to financial or time & expenses dimensions.
  *                         Available values:       financials, teq
  *                         Usage:                  $options['section'] = 'financials';
  *
- *                         dimtype	               Specifies the dimension type.
+ *                         dimtype                 Specifies the dimension type.
  *                         Available values:       BAS, PNL, DEB, CRD, KPL, PRJ, AST, ACT
  *                         Usage:                  $options['dimtype'] = 'BAS';
  *
- *                         modifiedsince	       Restricts to dimensions modified after or at the specified date (and time), format yyyyMMddHHmmss or yyyyMMdd
+ *                         modifiedsince           Restricts to dimensions modified after or at the specified date (and time), format yyyyMMddHHmmss or yyyyMMdd
  *                         Usage:                  $options['modifiedsince'] = '20190101170000' or $options['modifiedsince'] = '20190101';
  *
- *                         group	               Specifies the dimension group (wildcards allowed).
+ *                         group                   Specifies the dimension group (wildcards allowed).
  *                         Usage:                  $options['group'] = 'DIMGROUP';
  *
  */
@@ -141,41 +141,41 @@ if ($executeRead) {
     echo "</pre>";
 
     echo "GeneralLedger<br />";
-    echo "BeginPeriod: {$generalLedger->getBeginPeriod()}<br />";                                                                               			// int|null                         Determines together with beginyear the period from which the dimension may be used.
-    echo "BeginYear: {$generalLedger->getBeginYear()}<br />";                                                                               			    // int|null                         Determines together with beginperiod the period from which the dimension may be used.
-    echo "Behaviour: {$generalLedger->getBehaviour()}<br />";                                                                                   		    // Behaviour|null                   Determines the behaviour of dimensions. Read-only attribute.
-    echo "Code: {$generalLedger->getCode()}<br />";                                                                                   					    // string|null                      Dimension code, must be compliant with the mask of the BAS or PNL Dimension type.
-    echo "EndPeriod: {$generalLedger->getEndPeriod()}<br />";                                                                               			    // int|null                         Determines together with endyear the period till which the dimension may be used.
-    echo "EndYear: {$generalLedger->getEndYear()}<br />";                                                                               			        // int|null                         Determines together with endperiod the period till which the dimension may be used.
-    echo "Group (\\PhpTwinfield\\DimensionGroup): <pre>" . print_r($generalLedger->getGroup(), true) . "</pre><br />";                      			    // DimensionGroup|null              Sets the dimension group. See Dimension group.
-    echo "Group (string): " . Util::objectToStr($generalLedger->getGroup()) . "<br />";                                                              		// string|null
-    echo "InUse (bool): {$generalLedger->getInUse()}<br />";                                                                                   			    // bool|null                        Indicates if the balance or profit and loss account is used in a financial transaction or linked to a VAT code or linked to an article or not in use at all. Read-only attribute.
+    echo "BeginPeriod: {$generalLedger->getBeginPeriod()}<br />";                                                                                           // int|null                         Determines together with beginyear the period from which the dimension may be used.
+    echo "BeginYear: {$generalLedger->getBeginYear()}<br />";                                                                                               // int|null                         Determines together with beginperiod the period from which the dimension may be used.
+    echo "Behaviour: {$generalLedger->getBehaviour()}<br />";                                                                                               // Behaviour|null                   Determines the behaviour of dimensions. Read-only attribute.
+    echo "Code: {$generalLedger->getCode()}<br />";                                                                                                         // string|null                      Dimension code, must be compliant with the mask of the BAS or PNL Dimension type.
+    echo "EndPeriod: {$generalLedger->getEndPeriod()}<br />";                                                                                               // int|null                         Determines together with endyear the period till which the dimension may be used.
+    echo "EndYear: {$generalLedger->getEndYear()}<br />";                                                                                                   // int|null                         Determines together with endperiod the period till which the dimension may be used.
+    echo "Group (\\PhpTwinfield\\DimensionGroup): <pre>" . print_r($generalLedger->getGroup(), true) . "</pre><br />";                                      // DimensionGroup|null              Sets the dimension group. See Dimension group.
+    echo "Group (string): " . Util::objectToStr($generalLedger->getGroup()) . "<br />";                                                                     // string|null
+    echo "InUse (bool): {$generalLedger->getInUse()}<br />";                                                                                                // bool|null                        Indicates if the balance or profit and loss account is used in a financial transaction or linked to a VAT code or linked to an article or not in use at all. Read-only attribute.
     echo "InUse (string): " . Util::formatBoolean($generalLedger->getInUse()) . "<br />";                                                                   // string|null
 
-    if ($generalLedger->hasMessages()) {                                                                                              					    // bool                             Object contains (error) messages true/false.
-        echo "Messages: " . print_r($generalLedger->getMessages(), true) . "<br />";                                                  					    // Array|null                       (Error) messages.
+    if ($generalLedger->hasMessages()) {                                                                                                                    // bool                             Object contains (error) messages true/false.
+        echo "Messages: " . print_r($generalLedger->getMessages(), true) . "<br />";                                                                        // Array|null                       (Error) messages.
     }
 
-    echo "Name: {$generalLedger->getName()}<br />";                                                                                   					    // string|null                      Name of the dimension.
-    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($generalLedger->getOffice(), true) . "</pre><br />";                      					    // Office|null                      Office code.
-    echo "Office (string): " . Util::objectToStr($generalLedger->getOffice()) . "<br />";                                                              		// string|null
-    echo "Result: {$generalLedger->getResult()}<br />";                                                                               					    // int|null                         Result (0 = error, 1 or empty = success).
-    echo "ShortName: {$generalLedger->getShortName()}<br />";                                                                         					    // string|null                      Short name of the dimension.
-    echo "Status: {$generalLedger->getStatus()}<br />";                                                                               					    // Status|null                      Status of the generalLedger.
+    echo "Name: {$generalLedger->getName()}<br />";                                                                                                         // string|null                      Name of the dimension.
+    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($generalLedger->getOffice(), true) . "</pre><br />";                                            // Office|null                      Office code.
+    echo "Office (string): " . Util::objectToStr($generalLedger->getOffice()) . "<br />";                                                                   // string|null
+    echo "Result: {$generalLedger->getResult()}<br />";                                                                                                     // int|null                         Result (0 = error, 1 or empty = success).
+    echo "ShortName: {$generalLedger->getShortName()}<br />";                                                                                               // string|null                      Short name of the dimension.
+    echo "Status: {$generalLedger->getStatus()}<br />";                                                                                                     // Status|null                      Status of the generalLedger.
     echo "Touched: {$generalLedger->getTouched()}<br />";                                                                                                   // int|null                         Count of the number of times the dimension settings are changed. Read-only attribute.
     echo "Type (\\PhpTwinfield\\DimensionType): <pre>" . print_r($generalLedger->getType(), true) . "</pre><br />";                                         // DimensionType|null               Dimension type. See Dimension type. Dimension type of balance accounts is BAS and type of profit and loss is PNL.
     echo "Type (string): " . Util::objectToStr($generalLedger->getType()) . "<br />";                                                                       // string|null
     echo "UID: {$generalLedger->getUID()}<br />";                                                                                                           // string|null                      Unique identification of the dimension. Read-only attribute.
 
     echo "GeneralLedgerFinancials<br />";
-    $generalLedgerFinancials = $generalLedger->getFinancials();                                                                           			        // GeneralLedgerFinancials|null     GeneralLedgerFinancials object.
+    $generalLedgerFinancials = $generalLedger->getFinancials();                                                                                             // GeneralLedgerFinancials|null     GeneralLedgerFinancials object.
 
     echo "AccountType: {$generalLedgerFinancials->getAccountType()}<br />";                                                                                 // AccountType|null                 Fixed value balance.
-    echo "Level: {$generalLedgerFinancials->getLevel()}<br />";                                                                                             // int|null                        	Specifies the dimension level. Normally the level of balance accounts is level 1. Read-only attribute.
+    echo "Level: {$generalLedgerFinancials->getLevel()}<br />";                                                                                             // int|null                         Specifies the dimension level. Normally the level of balance accounts is level 1. Read-only attribute.
     echo "MatchType: {$generalLedgerFinancials->getMatchType()}<br />";                                                                                     // MatchType|null                   Sets the matchable value of the balance account.
 
-    if ($generalLedgerFinancials->hasMessages()) {                                                                                					        // bool                             Object contains (error) messages true/false.
-        echo "Messages: " . print_r($generalLedgerFinancials->getMessages(), true) . "<br />";                                    					        // Array|null                       (Error) messages.
+    if ($generalLedgerFinancials->hasMessages()) {                                                                                                          // bool                             Object contains (error) messages true/false.
+        echo "Messages: " . print_r($generalLedgerFinancials->getMessages(), true) . "<br />";                                                              // Array|null                       (Error) messages.
     }
 
     echo "Result: {$generalLedgerFinancials->getResult()}<br />";                                                                                           // int|null                         Result (0 = error, 1 or empty = success).
@@ -193,8 +193,8 @@ if ($executeRead) {
         echo "ElementValue: {$generalLedgerChildValidation->getElementValue()}<br />";                                                                      // string|null
         echo "Level: {$generalLedgerChildValidation->getLevel()}<br />";                                                                                    // int|null
 
-        if ($generalLedgerChildValidation->hasMessages()) {                                                                                				    // bool                             Object contains (error) messages true/false.
-            echo "Messages: " . print_r($generalLedgerChildValidation->getMessages(), true) . "<br />";                                    				    // Array|null                       (Error) messages.
+        if ($generalLedgerChildValidation->hasMessages()) {                                                                                                 // bool                             Object contains (error) messages true/false.
+            echo "Messages: " . print_r($generalLedgerChildValidation->getMessages(), true) . "<br />";                                                     // Array|null                       (Error) messages.
         }
 
         echo "Result: {$generalLedgerChildValidation->getResult()}<br />";                                                                                  // int|null                         Result (0 = error, 1 or empty = success).

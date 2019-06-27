@@ -138,24 +138,24 @@ if ($executeRead) {
     echo "AllowDecimalQuantity (string): " . Util::formatBoolean($article->getAllowDecimalQuantity()) . "<br />";                                   // string|null
     echo "AllowDiscountOrPremium (bool): {$article->getAllowDiscountOrPremium()}<br />";                                                            // bool|null                    Is discount or premium allowed.
     echo "AllowDiscountOrPremium (string): " . Util::formatBoolean($article->getAllowDiscountOrPremium()) . "<br />";                               // string|null
-    echo "Code: {$article->getCode()}<br />";                                                                                   					// string|null                  Article code.
+    echo "Code: {$article->getCode()}<br />";                                                                                                       // string|null                  Article code.
 
-    if ($article->hasMessages()) {                                                                                              					// bool                         Object contains (error) messages true/false.
-        echo "Messages: " . print_r($article->getMessages(), true) . "<br />";                                                  					// Array|null                   (Error) messages.
+    if ($article->hasMessages()) {                                                                                                                  // bool                         Object contains (error) messages true/false.
+        echo "Messages: " . print_r($article->getMessages(), true) . "<br />";                                                                      // Array|null                   (Error) messages.
     }
 
-    echo "Name: {$article->getName()}<br />";                                                                                   					// string|null                  Article description.
-    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($article->getOffice(), true) . "</pre><br />";                      					// Office|null                  Office code.
-    echo "Office (string): " . Util::objectToStr($article->getOffice()) . "<br />";                                                              	// string|null
+    echo "Name: {$article->getName()}<br />";                                                                                                       // string|null                  Article description.
+    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($article->getOffice(), true) . "</pre><br />";                                          // Office|null                  Office code.
+    echo "Office (string): " . Util::objectToStr($article->getOffice()) . "<br />";                                                                 // string|null
     echo "Percentage (bool): {$article->getPercentage()}<br />";                                                                                    // bool|null                    Only available when article type is discount or premium.
     echo "Percentage (string): " . Util::formatBoolean($article->getPercentage()) . "<br />";                                                       // string|null
-    echo "PerformanceType: {$article->getPerformanceType()}<br />";                                                                               	// PerformanceType|null         The performance type.
-    echo "Result: {$article->getResult()}<br />";                                                                               					// int|null                     Result (0 = error, 1 or empty = success).
-    echo "ShortName: {$article->getShortName()}<br />";                                                                         					// string|null                  Short article description.
-    echo "Status: {$article->getStatus()}<br />";                                                                               					// Status|null                  Status of the article.
+    echo "PerformanceType: {$article->getPerformanceType()}<br />";                                                                                 // PerformanceType|null         The performance type.
+    echo "Result: {$article->getResult()}<br />";                                                                                                   // int|null                     Result (0 = error, 1 or empty = success).
+    echo "ShortName: {$article->getShortName()}<br />";                                                                                             // string|null                  Short article description.
+    echo "Status: {$article->getStatus()}<br />";                                                                                                   // Status|null                  Status of the article.
     echo "Type: {$article->getType()}<br />";                                                                                                       // ArticleType|null             Set to normal in case special item is none. Set to either discount or premium in case special item is deduction or premium respectively.
-    echo "UnitNamePlural: {$article->getUnitNamePlural()}<br />";                                                                         			// string|null                  Unit name for multiple items.
-    echo "UnitNameSingular: {$article->getUnitNameSingular()}<br />";                                                                         		// string|null                  Unit name for a single item.
+    echo "UnitNamePlural: {$article->getUnitNamePlural()}<br />";                                                                                   // string|null                  Unit name for multiple items.
+    echo "UnitNameSingular: {$article->getUnitNameSingular()}<br />";                                                                               // string|null                  Unit name for a single item.
     echo "VatCode (\\PhpTwinfield\\VatCode): <pre>" . print_r($article->getVatCode(), true) . "</pre><br />";                                       // VatCode|null                 Default VAT code.
     echo "VatCode (string): " . Util::objectToStr($article->getVatCode()) . "<br />";                                                               // string|null
 
@@ -173,16 +173,16 @@ if ($executeRead) {
         echo "InUse (bool): {$articleLine->getInUse()}<br />";                                                                                      // bool|null                    Read-only attribute. Indicates that the sub item has been used in an invoice.
         echo "InUse (string): " . Util::formatBoolean($articleLine->getInUse()) . "<br />";                                                         // string|null
 
-        if ($articleLine->hasMessages()) {                                                                                					        // bool                         Object contains (error) messages true/false.
-            echo "Messages: " . print_r($articleLine->getMessages(), true) . "<br />";                                    					        // Array|null                   (Error) messages.
+        if ($articleLine->hasMessages()) {                                                                                                          // bool                         Object contains (error) messages true/false.
+            echo "Messages: " . print_r($articleLine->getMessages(), true) . "<br />";                                                              // Array|null                   (Error) messages.
         }
 
-        echo "Name: {$articleLine->getName()}<br />";                                                                                   			// string|null                  Sub article name.
+        echo "Name: {$articleLine->getName()}<br />";                                                                                               // string|null                  Sub article name.
         echo "Result: {$articleLine->getResult()}<br />";                                                                                           // int|null                     Result (0 = error, 1 or empty = success).
-        echo "ShortName: {$articleLine->getShortName()}<br />";                                                                         			// string|null                  Sub article short name.
-        echo "Status: {$articleLine->getStatus()}<br />";                                                                               			// Status|null                  Status of the sub article.
-        echo "SubCode: {$articleLine->getSubCode()}<br />";                                                                                   		// string|null                  Can only be empty if there is just one sub article
-        echo "Units: {$articleLine->getUnits()}<br />";                                                                               			    // int|null                     The number of units of the article per quantity
+        echo "ShortName: {$articleLine->getShortName()}<br />";                                                                                     // string|null                  Sub article short name.
+        echo "Status: {$articleLine->getStatus()}<br />";                                                                                           // Status|null                  Status of the sub article.
+        echo "SubCode: {$articleLine->getSubCode()}<br />";                                                                                         // string|null                  Can only be empty if there is just one sub article
+        echo "Units: {$articleLine->getUnits()}<br />";                                                                                             // int|null                     The number of units of the article per quantity
         echo "UnitsPriceExcl (\\Money\\Money): <pre>" . print_r($articleLine->getUnitsPriceExcl(), true) . "</pre><br />";                          // Money|null                   Price excluding VAT
         echo "UnitsPriceExcl (string): " . Util::formatMoney($articleLine->getUnitsPriceExcl()) . "<br />";                                         // string|null
         echo "UnitsPriceInc (\\Money\\Money): <pre>" . print_r($articleLine->getUnitsPriceInc(), true) . "</pre><br />";                            // Money|null                   Price including VAT
@@ -249,12 +249,12 @@ if ($executeNew) {
 
     $freeText1 = new \PhpTwinfield\GeneralLedger;
     $freeText1->setCode('9060');
-    $articleLine->setFreeText1($freeText1);                      		                                                                            // GeneralLedger|null           Mandatory. The general ledger code linked to the article.
-    $articleLine->setFreeText1(\PhpTwinfield\GeneralLedger::fromCode('9060'));                   	                                                // string|null
+    $articleLine->setFreeText1($freeText1);                                                                                                         // GeneralLedger|null           Mandatory. The general ledger code linked to the article.
+    $articleLine->setFreeText1(\PhpTwinfield\GeneralLedger::fromCode('9060'));                                                                      // string|null
     $freeText2 = new \PhpTwinfield\CostCenter;
     $freeText2->setCode('00000');
-    //$articleLine->setFreeText2($freeText1);                      		                                                                            // CostCenter|null              Optional. The cost center linked to the article.
-    //$articleLine->setFreeText2(\PhpTwinfield\CostCenter::fromCode('00000'));                            	                                        // string|null
+    //$articleLine->setFreeText2($freeText1);                                                                                                       // CostCenter|null              Optional. The cost center linked to the article.
+    //$articleLine->setFreeText2(\PhpTwinfield\CostCenter::fromCode('00000'));                                                                      // string|null
     //$articleLine->setFreeText3("");                                                                                                               // string|null                  Free text element 3
     $articleLine->setID(1);                                                                                                                         // int|null                     Line ID.
     $articleLine->setName("Example Sub Article");                                                                                                   // string|null                  Sub article name.

@@ -46,6 +46,6 @@ Renew the authorization by clicking <a href=\"{$twin_redirect_uri}\">here</a> an
 You will receive this email once a week until the authorization is renewed.";
 
 if ($refreshTokenStorage['refresh_expiry'] < (time() + ($daysLeftAfterWhichRequestRenewal * 60 * 60 * 24))) {
-	SendEmail($accountingAdminEmail, $fromEmail, $subject, $body);
+    SendEmail($accountingAdminEmail, $fromEmail, $subject, $body);
 }
 ?>

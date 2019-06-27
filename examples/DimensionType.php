@@ -130,45 +130,45 @@ if ($executeRead) {
     echo "</pre>";
 
     echo "DimensionType<br />";
-    echo "Code: {$dimensionType->getCode()}<br />";                                                                                   					// string|null                  Dimension type.
-    echo "Mask: {$dimensionType->getMask()}<br />";                                                                                   					// string|null                  Dimension type mask.
+    echo "Code: {$dimensionType->getCode()}<br />";                                                                                                     // string|null                  Dimension type.
+    echo "Mask: {$dimensionType->getMask()}<br />";                                                                                                     // string|null                  Dimension type mask.
 
-    if ($dimensionType->hasMessages()) {                                                                                              					// bool                         Object contains (error) messages true/false.
-        echo "Messages: " . print_r($dimensionType->getMessages(), true) . "<br />";                                                  					// Array|null                   (Error) messages.
+    if ($dimensionType->hasMessages()) {                                                                                                                // bool                         Object contains (error) messages true/false.
+        echo "Messages: " . print_r($dimensionType->getMessages(), true) . "<br />";                                                                    // Array|null                   (Error) messages.
     }
 
-    echo "Name: {$dimensionType->getName()}<br />";                                                                                   					// string|null                  Dimension type name.
-    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($dimensionType->getOffice(), true) . "</pre><br />";                      					// Office|null                  Office code.
+    echo "Name: {$dimensionType->getName()}<br />";                                                                                                     // string|null                  Dimension type name.
+    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($dimensionType->getOffice(), true) . "</pre><br />";                                        // Office|null                  Office code.
     echo "Office (string): " . Util::objectToStr($dimensionType->getOffice()) . "<br />";                                                               // string|null
-    echo "Result: {$dimensionType->getResult()}<br />";                                                                               					// int|null                     Result (0 = error, 1 or empty = success).
-    echo "ShortName: {$dimensionType->getShortName()}<br />";                                                                         					// string|null                  Dimension type short name.
-    echo "Status: {$dimensionType->getStatus()}<br />";                                                                               					// Status|null                  Status of the dimension type.
+    echo "Result: {$dimensionType->getResult()}<br />";                                                                                                 // int|null                     Result (0 = error, 1 or empty = success).
+    echo "ShortName: {$dimensionType->getShortName()}<br />";                                                                                           // string|null                  Dimension type short name.
+    echo "Status: {$dimensionType->getStatus()}<br />";                                                                                                 // Status|null                  Status of the dimension type.
 
-    $dimensionTypeLevels = $dimensionType->getLevels();                                                                           			            // DimensionTypeLevels|null     DimensionTypeLevels object.
+    $dimensionTypeLevels = $dimensionType->getLevels();                                                                                                 // DimensionTypeLevels|null     DimensionTypeLevels object.
 
-    echo "Financials: {$dimensionTypeLevels->getFinancials()}<br />";                                                                               	// int|null                     Read-only attribute. Financial level.
+    echo "Financials: {$dimensionTypeLevels->getFinancials()}<br />";                                                                                   // int|null                     Read-only attribute. Financial level.
 
-    if ($dimensionTypeLevels->hasMessages()) {                                                                                              			// bool                         Object contains (error) messages true/false.
-        echo "Messages: " . print_r($dimensionTypeLevels->getMessages(), true) . "<br />";                                                  			// Array|null                   (Error) messages.
+    if ($dimensionTypeLevels->hasMessages()) {                                                                                                          // bool                         Object contains (error) messages true/false.
+        echo "Messages: " . print_r($dimensionTypeLevels->getMessages(), true) . "<br />";                                                              // Array|null                   (Error) messages.
     }
 
-    echo "Result: {$dimensionTypeLevels->getResult()}<br />";                                                                               			// int|null                     Result (0 = error, 1 or empty = success).
-    echo "Time: {$dimensionTypeLevels->getTime()}<br />";                                                                               			    // int|null                     Read-only attribute. Level in time & expenses.
+    echo "Result: {$dimensionTypeLevels->getResult()}<br />";                                                                                           // int|null                     Result (0 = error, 1 or empty = success).
+    echo "Time: {$dimensionTypeLevels->getTime()}<br />";                                                                                               // int|null                     Read-only attribute. Level in time & expenses.
 
-    $dimensionTypeAddress = $dimensionType->getAddress();                                                                           			        // DimensionTypeAddress|null    DimensionTypeAddress object.
+    $dimensionTypeAddress = $dimensionType->getAddress();                                                                                               // DimensionTypeAddress|null    DimensionTypeAddress object.
 
-    echo "Label 1: {$dimensionTypeAddress->getLabel1()}<br />";                                                                                   		// string|null                  Address labels, description of field1 in the dimension address element.
-    echo "Label 2: {$dimensionTypeAddress->getLabel2()}<br />";                                                                                   		// string|null                  Address labels, description of field2 in the dimension address element.
-    echo "Label 3: {$dimensionTypeAddress->getLabel3()}<br />";                                                                                   		// string|null                  Address labels, description of field3 in the dimension address element.
-    echo "Label 4: {$dimensionTypeAddress->getLabel4()}<br />";                                                                                   		// string|null                  Address labels, description of field4 in the dimension address element.
-    echo "Label 5: {$dimensionTypeAddress->getLabel5()}<br />";                                                                                   		// string|null                  Address labels, description of field5 in the dimension address element.
-    echo "Label 6: {$dimensionTypeAddress->getLabel6()}<br />";                                                                                   		// string|null                  Address labels, description of field6 in the dimension address element.
+    echo "Label 1: {$dimensionTypeAddress->getLabel1()}<br />";                                                                                         // string|null                  Address labels, description of field1 in the dimension address element.
+    echo "Label 2: {$dimensionTypeAddress->getLabel2()}<br />";                                                                                         // string|null                  Address labels, description of field2 in the dimension address element.
+    echo "Label 3: {$dimensionTypeAddress->getLabel3()}<br />";                                                                                         // string|null                  Address labels, description of field3 in the dimension address element.
+    echo "Label 4: {$dimensionTypeAddress->getLabel4()}<br />";                                                                                         // string|null                  Address labels, description of field4 in the dimension address element.
+    echo "Label 5: {$dimensionTypeAddress->getLabel5()}<br />";                                                                                         // string|null                  Address labels, description of field5 in the dimension address element.
+    echo "Label 6: {$dimensionTypeAddress->getLabel6()}<br />";                                                                                         // string|null                  Address labels, description of field6 in the dimension address element.
 
-    if ($dimensionTypeAddress->hasMessages()) {                                                                                              			// bool                         Object contains (error) messages true/false.
-        echo "Messages: " . print_r($dimensionTypeAddress->getMessages(), true) . "<br />";                                                  			// Array|null                   (Error) messages.
+    if ($dimensionTypeAddress->hasMessages()) {                                                                                                         // bool                         Object contains (error) messages true/false.
+        echo "Messages: " . print_r($dimensionTypeAddress->getMessages(), true) . "<br />";                                                             // Array|null                   (Error) messages.
     }
 
-    echo "Result: {$dimensionTypeAddress->getResult()}<br />";                                                                               			// int|null                     Result (0 = error, 1 or empty = success).
+    echo "Result: {$dimensionTypeAddress->getResult()}<br />";                                                                                          // int|null                     Result (0 = error, 1 or empty = success).
 }
 
 // Copy an existing DimensionType to a new entity
