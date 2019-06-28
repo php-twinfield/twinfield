@@ -244,21 +244,12 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     }
 
     /**
-     * @param HasMessageInterface $returnedObject
-     * @param HasMessageInterface $returnedObject
-     * @return array
-     */
-    public function testEqual(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): array
-    {
-        return parent::testEqual;
-    }
-
-    /**
+     * @param HasEqualInterface $apiConnector
      * @param array $sentObjects
      * @param MappedResponseCollection $mappedResponseCollection
      * @return MappedResponseCollection
      */
-    public function testSentEqualsResponse(array $sentObjects, MappedResponseCollection $mappedResponseCollection): MappedResponseCollection
+    public function testSentEqualsResponse(HasEqualInterface $apiConnector, array $sentObjects, MappedResponseCollection $mappedResponseCollection): MappedResponseCollection
     {
         $checkedMappedResponseCollection = new MappedResponseCollection();
 
@@ -267,21 +258,21 @@ abstract class BaseApiConnector implements LoggerAwareInterface
             $sentObject = $sentObjects[$key];
 
             if ($returnedObject->getResult() == 1) {
-                $testResult = $this->testEqual($returnedObject, $sentObject);
+                $testResult = $apiConnector->testEqual($returnedObject, $sentObject);
                 $equal = $testResult[0];
                 $returnedObject = $testResult[1];
 
                 if ($equal === false) {
-                    $individualMappedResponse = $this->sendAll([$returnedObject], true)[0];
+                    $individualMappedResponse = $apiConnector->sendAll([$returnedObject], true)[0];
                     $returnedObject = $individualMappedResponse->unwrap();
 
                     if ($returnedObject->getResult() == 1) {
-                        $testResult = $this->testEqual($returnedObject, $sentObject);
+                        $testResult = $apiConnector->testEqual($returnedObject, $sentObject);
                         $equal = $testResult[0];
                         $returnedObject = $testResult[1];
 
                         if ($equal === false) {
-                            $individualMappedResponse = $this->getMappedResponse($returnedObject);
+                            $individualMappedResponse = $apiConnector->getMappedResponse($returnedObject);
                         }
                     }
                 }

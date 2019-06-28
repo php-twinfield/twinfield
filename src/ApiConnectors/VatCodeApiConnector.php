@@ -4,6 +4,7 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\DomDocuments\VatCodesDocument;
 use PhpTwinfield\Exception;
+use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Mappers\VatCodeMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
@@ -25,7 +26,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Emile Bons <emile@emilebons.nl>, extended by Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class VatCodeApiConnector extends BaseApiConnector
+class VatCodeApiConnector extends BaseApiConnector implements HasEqualInterface
 {
     /**
      * Requests a specific VatCode based off the passed in code and optionally the office.
@@ -96,16 +97,19 @@ class VatCodeApiConnector extends BaseApiConnector
             return $mappedResponseCollection;
         }
 
-        return self::testSentEqualsResponse($vatCodes, $mappedResponseCollection);
+        return self::testSentEqualsResponse($this, $vatCodes, $mappedResponseCollection);
     }
 
     /**
-     * @param VatCode $returnedObject
-     * @param VatCode $sentObject
+     * @param HasMessageInterface $returnedObject
+     * @param HasMessageInterface $sentObject
      * @return array
      */
-    public function testEqual(VatCode $returnedObject, VatCode $sentObject): array
+    public function testEqual(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): array
     {
+        Assert::IsInstanceOf($returnedObject, VatCode::class);
+        Assert::IsInstanceOf($sentObject, VatCode::class);
+
         $equal = false;
         $dateArray = [];
 
@@ -129,11 +133,13 @@ class VatCodeApiConnector extends BaseApiConnector
     }
 
     /**
-     * @param VatCode $vatCode
+     * @param HasMessageInterface $vatCode
      * @return IndividualMappedResponse
      */
-    public function getMappedResponse(VatCode $vatCode): IndividualMappedResponse
+    public function getMappedResponse(HasMessageInterface $vatCode): IndividualMappedResponse
     {
+        Assert::IsInstanceOf($vatCode, VatCode::class);
+
         $request_vatCode = new Request\Read\VatCode();
         $request_vatCode->setCode($vatCode->getCode());
         $response = $this->sendXmlDocument($request_vatCode);

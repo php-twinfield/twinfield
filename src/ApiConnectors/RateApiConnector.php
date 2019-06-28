@@ -4,6 +4,7 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\DomDocuments\RatesDocument;
 use PhpTwinfield\Exception;
+use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Mappers\RateMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Rate;
@@ -24,7 +25,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class RateApiConnector extends BaseApiConnector
+class RateApiConnector extends BaseApiConnector implements HasEqualInterface
 {
     /**
      * Requests a specific Rate based off the passed in code and optionally the office.
@@ -95,16 +96,19 @@ class RateApiConnector extends BaseApiConnector
             return $mappedResponseCollection;
         }
 
-        return self::testSentEqualsResponse($rates, $mappedResponseCollection);
+        return self::testSentEqualsResponse($this, $rates, $mappedResponseCollection);
     }
 
     /**
-     * @param Rate $returnedObject
-     * @param Rate $sentObject
+     * @param HasMessageInterface $returnedObject
+     * @param HasMessageInterface $sentObject
      * @return array
      */
-    public function testEqual(Rate $returnedObject, Rate $sentObject): array
+    public function testEqual(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): array
     {
+        Assert::IsInstanceOf($returnedObject, Rate::class);
+        Assert::IsInstanceOf($sentObject, Rate::class);
+
         $equal = true;
         $idArray = [];
 
@@ -128,11 +132,13 @@ class RateApiConnector extends BaseApiConnector
     }
 
     /**
-     * @param Rate $rate
+     * @param HasMessageInterface $rate
      * @return IndividualMappedResponse
      */
-    public function getMappedResponse(Rate $rate): IndividualMappedResponse
+    public function getMappedResponse(HasMessageInterface $rate): IndividualMappedResponse
     {
+        Assert::IsInstanceOf($rate, Rate::class);
+
         $request_rate = new Request\Read\Rate();
         $request_rate->setOffice($rate->getOffice())
             ->setCode($rate->getCode());
