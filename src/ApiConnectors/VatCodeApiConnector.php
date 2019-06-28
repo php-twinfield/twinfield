@@ -7,10 +7,12 @@ use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\VatCodeMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
+use PhpTwinfield\Response\IndividualMappedResponse;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Response\ResponseException;
 use PhpTwinfield\Services\FinderService;
+use PhpTwinfield\Util;
 use PhpTwinfield\VatCode;
 use Webmozart\Assert\Assert;
 
@@ -133,8 +135,7 @@ class VatCodeApiConnector extends BaseApiConnector
     public function getMappedResponse(VatCode $vatCode): IndividualMappedResponse
     {
         $request_vatCode = new Request\Read\VatCode();
-        $request_vatCode->setOffice($office)
-            ->setCode($code);
+        $request_vatCode->setCode($vatCode->getCode());
         $response = $this->sendXmlDocument($request_vatCode);
 
         $mappedResponseCollection = $this->getProcessXmlService()->mapAll([$response], "vat", function(Response $response): VatCode {

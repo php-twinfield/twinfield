@@ -8,6 +8,7 @@ use PhpTwinfield\Mappers\RateMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Rate;
 use PhpTwinfield\Request as Request;
+use PhpTwinfield\Response\IndividualMappedResponse;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Response\ResponseException;
