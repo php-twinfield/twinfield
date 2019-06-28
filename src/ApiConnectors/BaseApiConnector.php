@@ -177,7 +177,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
 
     /**
      * Convert options array to an ArrayOfString which is accepted by Twinfield.
-     * 
+     *
      * In some cases you are not allowed to change certain options (such as the dimtype, which should always be DEB when using CustomerApiConnector->ListAll()),
      * in which case the $forcedOptions parameter will be set by the ApiConnector for this option, which will override any user settings in $options
      *
@@ -190,7 +190,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
         if (isset($options['ArrayOfString'])) {
             return $options;
         }
-        
+
         $optionsArrayOfString = ['ArrayOfString' => []];
 
         foreach ($forcedOptions as $key => $value) {
@@ -242,7 +242,17 @@ abstract class BaseApiConnector implements LoggerAwareInterface
 
         return $objects;
     }
-    
+
+    /**
+     * @param HasMessageInterface $returnedObject
+     * @param HasMessageInterface $returnedObject
+     * @return array
+     */
+    public function testEqual(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): array
+    {
+        return parent::testEqual;
+    }
+
     /**
      * @param array $sentObjects
      * @param MappedResponseCollection $mappedResponseCollection
@@ -251,7 +261,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     public function testSentEqualsResponse(array $sentObjects, MappedResponseCollection $mappedResponseCollection): MappedResponseCollection
     {
         $checkedMappedResponseCollection = new MappedResponseCollection();
-        
+
         foreach($mappedResponseCollection as $key => $individualMappedResponse) {
             $returnedObject = $individualMappedResponse->unwrap();
             $sentObject = $sentObjects[$key];
@@ -260,26 +270,26 @@ abstract class BaseApiConnector implements LoggerAwareInterface
                 $testResult = $this->testEqual($returnedObject, $sentObject);
                 $equal = $testResult[0];
                 $returnedObject = $testResult[1];
-                
+
                 if ($equal === false) {
-                    $individualMappedResponse = $this->sendAll([$returnedObject], true)[0];                    
+                    $individualMappedResponse = $this->sendAll([$returnedObject], true)[0];
                     $returnedObject = $individualMappedResponse->unwrap();
-                    
+
                     if ($returnedObject->getResult() == 1) {
                         $testResult = $this->testEqual($returnedObject, $sentObject);
                         $equal = $testResult[0];
                         $returnedObject = $testResult[1];
-                        
+
                         if ($equal === false) {
                             $individualMappedResponse = $this->getMappedResponse($returnedObject);
                         }
                     }
                 }
             }
-            
+
             $checkedMappedResponseCollection->append($individualMappedResponse);
         }
-     
+
         return $checkedMappedResponseCollection;
     }
 }

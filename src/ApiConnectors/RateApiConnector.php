@@ -100,7 +100,7 @@ class RateApiConnector extends BaseApiConnector
 
     /**
      * @param Rate $returnedObject
-     * @param Rate $returnedObject
+     * @param Rate $sentObject
      * @return array
      */
     public function testEqual(Rate $returnedObject, Rate $sentObject): array

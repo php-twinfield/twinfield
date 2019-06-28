@@ -101,7 +101,7 @@ class VatCodeApiConnector extends BaseApiConnector
 
     /**
      * @param VatCode $returnedObject
-     * @param VatCode $returnedObject
+     * @param VatCode $sentObject
      * @return array
      */
     public function testEqual(VatCode $returnedObject, VatCode $sentObject): array
