@@ -4,6 +4,7 @@ namespace PhpTwinfield\UnitTests;
 
 use PhpTwinfield\ApiConnectors\RateApiConnector;
 use PhpTwinfield\Rate;
+use PhpTwinfield\RateRateChange;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
@@ -43,6 +44,9 @@ class RateApiConnectorTest extends TestCase
     private function createRate(): Rate
     {
         $rate = new Rate();
+        $rateChange = new RateRateChange();
+        $rateChange->setID(2);
+        $rate->addRateChange($rateChange);
         return $rate;
     }
 
