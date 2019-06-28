@@ -128,7 +128,7 @@ class InvoicesDocument extends BaseDocument
                     $article->setAllowChangeVatCode(true);
                 }
 
-                if ($article->getAllowChangeVatCode() == true) {
+                if ($article->getAllowChangeVatCode()) {
                     $lineElement->appendChild($this->createNodeWithTextContent('vatcode', Util::objectToStr($line->getVatCode())));
                 }
             }

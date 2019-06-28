@@ -4,7 +4,9 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Exception;
+use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Response\ResponseException;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
@@ -239,5 +241,45 @@ abstract class BaseApiConnector implements LoggerAwareInterface
         }
 
         return $objects;
+    }
+    
+    /**
+     * @param array $sentObjects
+     * @param MappedResponseCollection $mappedResponseCollection
+     * @return MappedResponseCollection
+     */
+    public function testSentEqualsResponse(array $sentObjects, MappedResponseCollection $mappedResponseCollection): MappedResponseCollection
+    {
+        $checkedMappedResponseCollection = new MappedResponseCollection();
+        
+        foreach($mappedResponseCollection as $key => $individualMappedResponse) {
+            $returnedObject = $individualMappedResponse->unwrap();
+            $sentObject = $sentObjects[$key];
+
+            if ($returnedObject->getResult() == 1) {
+                $testResult = $this->testEqual($returnedObject, $sentObject);
+                $equal = $testResult[0];
+                $returnedObject = $testResult[1];
+                
+                if ($equal === false) {
+                    $individualMappedResponse = $this->sendAll([$returnedObject], true)[0];                    
+                    $returnedObject = $individualMappedResponse->unwrap();
+                    
+                    if ($returnedObject->getResult() == 1) {
+                        $testResult = $this->testEqual($returnedObject, $sentObject);
+                        $equal = $testResult[0];
+                        $returnedObject = $testResult[1];
+                        
+                        if ($equal === false) {
+                            $individualMappedResponse = $this->getMappedResponse($returnedObject);
+                        }
+                    }
+                }
+            }
+            
+            $checkedMappedResponseCollection->append($individualMappedResponse);
+        }
+     
+        return $checkedMappedResponseCollection;
     }
 }

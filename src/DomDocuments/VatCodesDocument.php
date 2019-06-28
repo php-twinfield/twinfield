@@ -59,6 +59,12 @@ class VatCodesDocument extends BaseDocument
                 // Makes percentage element
                 $percentageElement = $this->createElement('percentage');
                 $percentagesElement->appendChild($percentageElement);
+                
+                $status = $percentage->getStatus();
+                
+                if (!empty($status)) {
+                    $percentageElement->setAttribute('status', $status);
+                }
 
                 $percentageElement->appendChild($this->createNodeWithTextContent('date', Util::formatDate($percentage->getDate())));
                 $percentageElement->appendChild($this->createNodeWithTextContent('name', $percentage->getName()));

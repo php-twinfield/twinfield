@@ -64,10 +64,11 @@ class VatCodeApiConnector extends BaseApiConnector
 
     /**
      * @param VatCode[] $vatCodes
+     * @param bool|null $reSend
      * @return MappedResponseCollection
      * @throws Exception
      */
-    public function sendAll(array $vatCodes): MappedResponseCollection
+    public function sendAll(array $vatCodes, bool $reSend = false): MappedResponseCollection
     {
         Assert::allIsInstanceOf($vatCodes, VatCode::class);
 
@@ -85,9 +86,62 @@ class VatCodeApiConnector extends BaseApiConnector
             $responses[] = $this->sendXmlDocument($vatCodesDocument);
         }
 
-        return $this->getProcessXmlService()->mapAll($responses, "vat", function(Response $response): VatCode {
+        $mappedResponseCollection = $this->getProcessXmlService()->mapAll($responses, "vat", function(Response $response): VatCode {
             return VatCodeMapper::map($response);
         });
+
+        if ($reSend) {
+            return $mappedResponseCollection;
+        }
+
+        return self::testSentEqualsResponse($vatCodes, $mappedResponseCollection);
+    }
+
+    /**
+     * @param VatCode $returnedObject
+     * @param VatCode $returnedObject
+     * @return array
+     */
+    public function testEqual(VatCode $returnedObject, VatCode $sentObject): array
+    {
+        $equal = false;
+        $dateArray = [];
+
+        $returnedPercentages = $returnedObject->getPercentages();
+        $sentPercentages = $sentObject->getPercentages();
+
+        foreach ($sentPercentages as $key => $sentPercentage) {
+            $dateArray[] = Util::formatDate($sentPercentage->getDate());
+        }
+
+        foreach ($returnedPercentages as $key => $returnedPercentage) {
+            $date = Util::formatDate($returnedPercentage->getDate());
+
+            if (!in_array($date, $dateArray)) {
+                $returnedPercentage->setStatus(\PhpTwinfield\Enums\Status::DELETED());
+                $equal = true;
+            }
+        }
+
+        return [$equal, $returnedObject];
+    }
+
+    /**
+     * @param VatCode $vatCode
+     * @return IndividualMappedResponse
+     */
+    public function getMappedResponse(VatCode $vatCode): IndividualMappedResponse
+    {
+        $request_vatCode = new Request\Read\VatCode();
+        $request_vatCode->setOffice($office)
+            ->setCode($code);
+        $response = $this->sendXmlDocument($request_vatCode);
+
+        $mappedResponseCollection = $this->getProcessXmlService()->mapAll([$response], "vat", function(Response $response): VatCode {
+            return VatCodeMapper::map($response);
+        });
+
+        return ($mappedResponseCollection[0]);
     }
 
     /**

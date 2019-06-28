@@ -64,10 +64,11 @@ class RateApiConnector extends BaseApiConnector
 
     /**
      * @param Rate[] $rates
+     * @param bool|null $reSend
      * @return MappedResponseCollection
      * @throws Exception
      */
-    public function sendAll(array $rates): MappedResponseCollection
+    public function sendAll(array $rates, bool $reSend = false): MappedResponseCollection
     {
         Assert::allIsInstanceOf($rates, Rate::class);
 
@@ -85,9 +86,62 @@ class RateApiConnector extends BaseApiConnector
             $responses[] = $this->sendXmlDocument($ratesDocument);
         }
 
-        return $this->getProcessXmlService()->mapAll($responses, "projectrate", function(Response $response): Rate {
+        $mappedResponseCollection = $this->getProcessXmlService()->mapAll($responses, "projectrate", function(Response $response): Rate {
             return RateMapper::map($response);
         });
+
+        if ($reSend) {
+            return $mappedResponseCollection;
+        }
+
+        return self::testSentEqualsResponse($rates, $mappedResponseCollection);
+    }
+
+    /**
+     * @param Rate $returnedObject
+     * @param Rate $returnedObject
+     * @return array
+     */
+    public function testEqual(Rate $returnedObject, Rate $sentObject): array
+    {
+        $equal = true;
+        $idArray = [];
+
+        $returnedRateChanges = $returnedObject->getRateChanges();
+        $sentRateChanges = $sentObject->getRateChanges();
+
+        foreach ($sentRateChanges as $key => $sentRateChange) {
+            $idArray[] = $sentRateChange->getID();
+        }
+
+        foreach ($returnedRateChanges as $key => $returnedRateChange) {
+            $id = $returnedRateChange->getID();
+
+            if (!in_array($id, $idArray)) {
+                $returnedRateChange->setStatus(\PhpTwinfield\Enums\Status::DELETED());
+                $equal = false;
+            }
+        }
+
+        return [$equal, $returnedObject];
+    }
+
+    /**
+     * @param Rate $rate
+     * @return IndividualMappedResponse
+     */
+    public function getMappedResponse(Rate $rate): IndividualMappedResponse
+    {
+        $request_rate = new Request\Read\Rate();
+        $request_rate->setOffice($rate->getOffice())
+            ->setCode($rate->getCode());
+        $response = $this->sendXmlDocument($request_rate);
+
+        $mappedResponseCollection = $this->getProcessXmlService()->mapAll([$response], "projectrate", function(Response $response): Rate {
+            return RateMapper::map($response);
+        });
+
+        return ($mappedResponseCollection[0]);
     }
 
     /**

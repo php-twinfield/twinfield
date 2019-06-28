@@ -63,6 +63,14 @@ class VatCodeMapper extends BaseMapper
 
                 // Make a new temporary VatCodePercentage class
                 $vatCodePercentage = new VatCodePercentage();
+                
+                if (!empty($percentageElement->getAttribute('inuse'))) {
+                    $vatCodePercentage->setInUse($percentageElement->getAttribute('inuse'));
+                }
+                
+                if (!empty($percentageElement->getAttribute('status'))) {
+                    $vatCodePercentage->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $percentageElement->getAttribute('status')));
+                }
 
                  // Set the vat code percentage elements from the percentage element
                 $vatCodePercentage->setCreated(self::parseDateTimeAttribute(self::getField($percentageElement, 'created', $vatCodePercentage)))
@@ -86,7 +94,9 @@ class VatCodeMapper extends BaseMapper
                         $vatCodeAccount = new VatCodeAccount();
 
                         // Set the ID attribute
-                        $vatCodeAccount->setID($accountElement->getAttribute('id'));
+                        if (!empty($accountElement->getAttribute('id'))) {
+                            $vatCodeAccount->setID($accountElement->getAttribute('id'));
+                        }
 
                         // Set the vat code percentage account elements from the account element
                         $vatCodeAccount->setDim1(self::parseObjectAttribute(\PhpTwinfield\GeneralLedger::class, $vatCodeAccount, $accountElement, 'dim1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
