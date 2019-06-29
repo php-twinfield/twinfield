@@ -45,6 +45,7 @@ class VatCodeApiConnectorTest extends TestCase
     {
         $vatCode = new VatCode();
         $vatCodePercentage = new VatCodePercentage();
+        $vatCodePercentage->setDate(\PhpTwinfield\Util::parseDate('20121001'));
         $vatCode->addPercentage($vatCodePercentage);
         return $vatCode;
     }
