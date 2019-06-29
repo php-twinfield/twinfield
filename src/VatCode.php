@@ -34,7 +34,7 @@ class VatCode extends BaseObject implements HasCodeInterface
     use UserField;
 
     private $percentages = [];
-    
+
     public static function fromCode(string $code) {
         $instance = new self;
         $instance->setCode($code);

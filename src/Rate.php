@@ -36,7 +36,7 @@ class Rate extends BaseObject implements HasCodeInterface
     use UserField;
 
     private $rateChanges = [];
-    
+
     public static function fromCode(string $code) {
         $instance = new self;
         $instance->setCode($code);
@@ -64,22 +64,22 @@ class Rate extends BaseObject implements HasCodeInterface
             return false;
         }
     }
-    
+
     public function removeRateChangeByID($id)
     {
         $found = false;
-        
+
         foreach ($this->rateChanges as $index => $rateChange) {
             if ($id == $rateChange->getID()) {
                 unset($this->rateChanges[$index]);
                 $found = true;
             }
         }
-        
+
         if ($found) {
             return true;
         }
-        
+
         return false;
     }
 }

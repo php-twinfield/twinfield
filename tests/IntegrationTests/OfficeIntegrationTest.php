@@ -21,7 +21,7 @@ class OfficeIntegrationTest extends TestCase
      * @var OfficeApiConnector|\PHPUnit_Framework_MockObject_MockObject
      */
     private $officeApiConnector;
-    
+
     /**
      * @var Office
      */
@@ -66,7 +66,7 @@ class OfficeIntegrationTest extends TestCase
 
                 throw new \InvalidArgumentException("Unknown service {$service->getValue()}");
             });
-            
+
         $this->officeApiConnector = new OfficeApiConnector($this->connection);
     }
 

@@ -21,7 +21,7 @@ class DimensionGroup extends BaseObject implements HasCodeInterface
     use StatusField;
 
     private $dimensions = [];
-    
+
     public static function fromCode(string $code) {
         $instance = new self;
         $instance->setCode($code);

@@ -58,7 +58,7 @@ abstract class BaseIntegrationTest extends TestCase
 
                 throw new \InvalidArgumentException("Unknown service {$service->getValue()}");
             });
-            
+
         $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
         $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
             $office = new Office;

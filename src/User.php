@@ -55,7 +55,7 @@ class User extends BaseObject implements HasCodeInterface
     use TouchedField;
     use TypeField;
     use TypeLockedField;
-    
+
     public static function fromCode(string $code) {
         $instance = new self;
         $instance->setCode($code);

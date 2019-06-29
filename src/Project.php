@@ -40,7 +40,7 @@ class Project extends BaseObject implements HasCodeInterface
         $this->setType(\PhpTwinfield\DimensionType::fromCode('PRJ'));
         $this->setProjects(new ProjectProjects);
     }
-    
+
     public static function fromCode(string $code) {
         $instance = new self;
         $instance->setCode($code);
