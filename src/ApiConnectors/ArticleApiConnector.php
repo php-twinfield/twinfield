@@ -97,7 +97,7 @@ class ArticleApiConnector extends BaseApiConnector implements HasEqualInterface
 
         return self::testSentEqualsResponse($this, $articles, $mappedResponseCollection);
     }
-    
+
     /**
      * @param HasMessageInterface $returnedObject
      * @param HasMessageInterface $sentObject
@@ -128,26 +128,6 @@ class ArticleApiConnector extends BaseApiConnector implements HasEqualInterface
         }
 
         return [$equal, $returnedObject];
-    }
-
-    /**
-     * @param HasMessageInterface $article
-     * @return IndividualMappedResponse
-     */
-    public function getMappedResponse(HasMessageInterface $article): IndividualMappedResponse
-    {
-        Assert::IsInstanceOf($article, Article::class);
-        
-        $request_article = new Request\Read\Article();
-        $request_article->setOffice($article->getOffice())
-            ->setCode($article->getCode());
-        $response = $this->sendXmlDocument($request_article);
-        
-        $mappedResponseCollection = $this->getProcessXmlService()->mapAll([$response], "article", function(Response $response): Article {
-            return ArticleMapper::map($response, $this->getConnection());
-        });
-
-        return ($mappedResponseCollection[0]);
     }
 
 	/**

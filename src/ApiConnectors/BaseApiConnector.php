@@ -255,26 +255,16 @@ abstract class BaseApiConnector implements LoggerAwareInterface
 
         foreach($mappedResponseCollection as $key => $individualMappedResponse) {
             $returnedObject = $individualMappedResponse->unwrap();
-            $sentObject = $sentObjects[$key];
 
             if ($returnedObject->getResult() == 1) {
-                $testResult = $apiConnector->testEqual($returnedObject, $sentObject);
+                $testResult = $apiConnector->testEqual($returnedObject, $sentObjects[$key]);
                 $equal = $testResult[0];
                 $returnedObject = $testResult[1];
 
                 if (!$equal) {
-                    $individualMappedResponse = $apiConnector->sendAll([$returnedObject], true)[0];
-                    $returnedObject = $individualMappedResponse->unwrap();
-
-                    if ($returnedObject->getResult() == 1) {
-                        $testResult = $apiConnector->testEqual($returnedObject, $sentObject);
-                        $equal = $testResult[0];
-                        $returnedObject = $testResult[1];
-
-                        if (!$equal) {
-                            $individualMappedResponse = $apiConnector->getMappedResponse($returnedObject);
-                        }
-                    }
+                    $apiConnector->sendAll([$returnedObject], true)[0];
+                    sleep(2);
+                    $individualMappedResponse = $this->sendAll([$sentObjects[$key]], true)[0];
                 }
             }
 

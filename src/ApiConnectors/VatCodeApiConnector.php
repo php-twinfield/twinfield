@@ -110,7 +110,7 @@ class VatCodeApiConnector extends BaseApiConnector implements HasEqualInterface
         Assert::IsInstanceOf($returnedObject, VatCode::class);
         Assert::IsInstanceOf($sentObject, VatCode::class);
 
-        $equal = false;
+        $equal = true;
         $dateArray = [];
 
         $returnedPercentages = $returnedObject->getPercentages();
@@ -125,30 +125,11 @@ class VatCodeApiConnector extends BaseApiConnector implements HasEqualInterface
 
             if (!in_array($date, $dateArray)) {
                 $returnedPercentage->setStatus(\PhpTwinfield\Enums\Status::DELETED());
-                $equal = true;
+                $equal = false;
             }
         }
 
         return [$equal, $returnedObject];
-    }
-
-    /**
-     * @param HasMessageInterface $vatCode
-     * @return IndividualMappedResponse
-     */
-    public function getMappedResponse(HasMessageInterface $vatCode): IndividualMappedResponse
-    {
-        Assert::IsInstanceOf($vatCode, VatCode::class);
-
-        $request_vatCode = new Request\Read\VatCode();
-        $request_vatCode->setCode($vatCode->getCode());
-        $response = $this->sendXmlDocument($request_vatCode);
-
-        $mappedResponseCollection = $this->getProcessXmlService()->mapAll([$response], "vat", function(Response $response): VatCode {
-            return VatCodeMapper::map($response);
-        });
-
-        return ($mappedResponseCollection[0]);
     }
 
     /**

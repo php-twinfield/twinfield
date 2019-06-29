@@ -132,26 +132,6 @@ class RateApiConnector extends BaseApiConnector implements HasEqualInterface
     }
 
     /**
-     * @param HasMessageInterface $rate
-     * @return IndividualMappedResponse
-     */
-    public function getMappedResponse(HasMessageInterface $rate): IndividualMappedResponse
-    {
-        Assert::IsInstanceOf($rate, Rate::class);
-
-        $request_rate = new Request\Read\Rate();
-        $request_rate->setOffice($rate->getOffice())
-            ->setCode($rate->getCode());
-        $response = $this->sendXmlDocument($request_rate);
-
-        $mappedResponseCollection = $this->getProcessXmlService()->mapAll([$response], "projectrate", function(Response $response): Rate {
-            return RateMapper::map($response);
-        });
-
-        return ($mappedResponseCollection[0]);
-    }
-
-    /**
      * List all rates.
      *
      * @param string $pattern  The search pattern. May contain wildcards * and ?
