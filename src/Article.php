@@ -46,10 +46,12 @@ class Article extends BaseObject implements HasCodeInterface
 
     public function __construct()
     {
+        $this->setAllowChangePerformanceType(true);
         $this->setAllowChangeUnitsPrice(false);
         $this->setAllowChangeVatCode(false);
         $this->setAllowDecimalQuantity(false);
         $this->setAllowDiscountorPremium(true);
+        $this->setPercentage(false);
         $this->setType(\PhpTwinfield\Enums\ArticleType::NORMAL());
     }
     

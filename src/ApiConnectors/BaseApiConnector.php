@@ -262,7 +262,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
                 $equal = $testResult[0];
                 $returnedObject = $testResult[1];
 
-                if ($equal === false) {
+                if (!$equal) {
                     $individualMappedResponse = $apiConnector->sendAll([$returnedObject], true)[0];
                     $returnedObject = $individualMappedResponse->unwrap();
 
@@ -271,7 +271,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
                         $equal = $testResult[0];
                         $returnedObject = $testResult[1];
 
-                        if ($equal === false) {
+                        if (!$equal) {
                             $individualMappedResponse = $apiConnector->getMappedResponse($returnedObject);
                         }
                     }
