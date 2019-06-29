@@ -63,7 +63,7 @@ class ArticleMapper extends BaseMapper
             ->setUnitNameSingular(self::getField($headerElement, 'unitnamesingular', $article))
             ->setUnitNamePlural(self::getField($headerElement, 'unitnameplural', $article))
             ->setVatCode(self::parseObjectAttribute(\PhpTwinfield\VatCode::class, $article, $headerElement, 'vatcode'));
-            
+
         if ($article->getOffice() !== null) {
             $currencies = self::getOfficeCurrencies($connection, $article->getOffice());
         }

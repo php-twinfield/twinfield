@@ -22,7 +22,7 @@ trait EndDateField
     {
         return $this->endDate;
     }
-    
+
     /**
      * @param \DateTimeInterface|null $endDate
      * @return $this

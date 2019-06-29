@@ -21,7 +21,7 @@ trait ReportingCurrencyField
     {
         return $this->reportingCurrency;
     }
-    
+
     /**
      * @return $this
      */

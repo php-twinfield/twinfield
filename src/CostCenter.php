@@ -35,7 +35,7 @@ class CostCenter extends BaseObject implements HasCodeInterface
     {
         $this->setType(\PhpTwinfield\DimensionType::fromCode('KPL'));
     }
-    
+
     public static function fromCode(string $code) {
         $instance = new self;
         $instance->setCode($code);

@@ -10,7 +10,7 @@ function RetrieveRefreshTokenFromStore() {
 
     $refreshTokenStorage                       = array();
     $refreshTokenStorage['refresh_expiry']     = 'SavedRefreshExpiryTimeStamp';
-    
+
     return $refreshTokenStorage;
 }
 

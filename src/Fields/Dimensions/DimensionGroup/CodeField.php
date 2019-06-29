@@ -19,7 +19,7 @@ trait CodeField
     {
         return $this->code;
     }
-    
+
     /**
      * @return $this
      */

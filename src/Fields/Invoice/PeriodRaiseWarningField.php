@@ -19,7 +19,7 @@ trait PeriodRaiseWarningField
     {
         return $this->periodRaiseWarning;
     }
-    
+
     /**
      * @param bool $periodRaiseWarning
      * @return $this

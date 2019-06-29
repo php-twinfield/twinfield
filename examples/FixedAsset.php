@@ -398,7 +398,7 @@ if ($executeNew) {
     //$fixedAssetFixedAssets->setSellDate($sellDate);                                                                                                   // DateTimeInterface|null           The date the asset is sold.
     //$fixedAssetFixedAssets->setSellDate(Util::parseDate('20190101'));                                                                                 // string|null
     $fixedAssetFixedAssets->setStopValue(\Money\Money::EUR(0));                                                                                         // Money|null                       The value future depreciation should stop at. (Equals 0.00 EUR)
-    
+
     $fixedAsset->setFixedAssets($fixedAssetFixedAssets);                                                                                                // FixedAssetFixedAssets            Set the FixedAssetFixedAssets object tot the FixedAsset object
 
     try {

@@ -45,11 +45,11 @@ class GeneralLedgersDocument extends BaseDocument
 
         $generalLedgerElement->appendChild($this->createNodeWithTextContent('beginperiod', $generalLedger->getBeginPeriod()));
         $generalLedgerElement->appendChild($this->createNodeWithTextContent('beginyear', $generalLedger->getBeginYear()));
-        
+
         if (!empty($generalLedger->getCode())) {
             $generalLedgerElement->appendChild($this->createNodeWithTextContent('code', $generalLedger->getCode()));
         }
-        
+
         $generalLedgerElement->appendChild($this->createNodeWithTextContent('endperiod', $generalLedger->getEndPeriod()));
         $generalLedgerElement->appendChild($this->createNodeWithTextContent('endyear', $generalLedger->getEndYear()));
         $generalLedgerElement->appendChild($this->createNodeWithTextContent('name', $generalLedger->getName()));

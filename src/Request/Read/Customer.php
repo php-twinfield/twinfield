@@ -21,7 +21,7 @@ class Customer extends Read
      *
      * @access public
      * @param Office|null $office
-     * @param string $code     
+     * @param string $code
      */
     public function __construct(?Office $office = null, $code = null)
     {

@@ -6,7 +6,7 @@ use PhpTwinfield\Article;
 
 /**
  * The article
- * Used by: InvoiceLine 
+ * Used by: InvoiceLine
  *
  * @package PhpTwinfield\Traits
  */

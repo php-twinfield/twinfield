@@ -19,7 +19,7 @@ trait AllowDecimalQuantityField
     {
         return $this->allowDecimalQuantity;
     }
-    
+
     /**
      * @param bool $allowDecimalQuantity
      * @return $this

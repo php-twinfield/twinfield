@@ -97,7 +97,7 @@ class TransactionMapper extends BaseMapper
             ->setOrigin(self::getField($transactionElement, 'origin', $transaction))
             ->setNumber(self::getField($transactionElement, 'number', $transaction))
             ->setPeriod(self::getField($transactionElement, 'period', $transaction));
-            
+
         if ($transaction->getOffice() !== null) {
             $currencies = self::getOfficeCurrencies($connection, $transaction->getOffice());
         }

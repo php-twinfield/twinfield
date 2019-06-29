@@ -13,8 +13,8 @@ use PhpTwinfield\Response\MappedResponseCollection;
 interface HasEqualInterface
 {
     public function testEqual(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): array;
-    
+
     public function sendAll(array $objects, bool $reSend): MappedResponseCollection;
-    
+
     public function getMappedResponse(HasMessageInterface $object): IndividualMappedResponse;
 }

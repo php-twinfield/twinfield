@@ -53,7 +53,7 @@ class FixedAssetMapper extends BaseMapper
             ->setTouched(self::getField($fixedAssetElement, 'touched', $fixedAsset))
             ->setType(self::parseObjectAttribute(\PhpTwinfield\DimensionType::class, $fixedAsset, $fixedAssetElement, 'type', array('name' => 'setName', 'shortname' => 'setShortName')))
             ->setUID(self::getField($fixedAssetElement, 'uid', $fixedAsset));
-            
+
         if ($fixedAsset->getOffice() !== null) {
             $currencies = self::getOfficeCurrencies($connection, $fixedAsset->getOffice());
         }

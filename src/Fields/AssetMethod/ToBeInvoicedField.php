@@ -21,7 +21,7 @@ trait ToBeInvoicedField
     {
         return $this->toBeInvoiced;
     }
-    
+
     /**
      * @return $this
      */

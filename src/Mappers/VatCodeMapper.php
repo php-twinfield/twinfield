@@ -63,11 +63,11 @@ class VatCodeMapper extends BaseMapper
 
                 // Make a new temporary VatCodePercentage class
                 $vatCodePercentage = new VatCodePercentage();
-                
+
                 if (!empty($percentageElement->getAttribute('inuse'))) {
                     $vatCodePercentage->setInUse($percentageElement->getAttribute('inuse'));
                 }
-                
+
                 if (!empty($percentageElement->getAttribute('status'))) {
                     $vatCodePercentage->setStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\Status::class, $percentageElement->getAttribute('status')));
                 }

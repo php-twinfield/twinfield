@@ -19,7 +19,7 @@ trait BlockedField
     {
         return $this->blocked;
     }
-    
+
     /**
      * @param bool $blocked
      * @return $this

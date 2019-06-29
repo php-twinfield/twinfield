@@ -205,39 +205,39 @@ if ($executeGetBrowseData) {
     } catch (ResponseException $e) {
         $browseData = $e->getReturnedObject();
     }
-    
+
     echo "<pre>";
     print_r($browseData);
-    echo "</pre>"; 
-    
+    echo "</pre>";
+
     echo "Browse Data<br />";
     echo "First: {$browseData->getFirst()}<br />";
     echo "Last: {$browseData->getLast()}<br />";
     echo "Total: {$browseData->getTotal()}<br /><br />";
-    
+
     $browseDataHeaders = $browseData->getHeaders();
     $tableHeader = array("Result #", "Office", "Code", "Number", "Line");
-    
+
     foreach ($browseDataHeaders as $browseDataHeader) {
         $tableHeader[] = $browseDataHeader->getLabel();
     }
-       
+
     $browseDataRows = $browseData->getRows();
-    
+
     foreach ($browseDataRows as $key => $browseDataRow) {
         $tableRows[$key][] = $key;
         $tableRows[$key][] = $browseDataRow->getOffice();
         $tableRows[$key][] = $browseDataRow->getCode();
         $tableRows[$key][] = $browseDataRow->getNumber();
         $tableRows[$key][] = $browseDataRow->getLine();
-        
+
         $browseDataCells = $browseDataRow->getCells();
-        
+
         foreach ($browseDataCells as $browseDataCell) {
             $tableRows[$key][] = $browseDataCell->getValue();
         }
     }
-    
+
     ?>
     <table>
     <tr>

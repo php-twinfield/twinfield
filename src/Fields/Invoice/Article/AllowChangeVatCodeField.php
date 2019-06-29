@@ -19,7 +19,7 @@ trait AllowChangeVatCodeField
     {
         return $this->allowChangeVatCode;
     }
-    
+
     /**
      * @param bool $allowChangeVatCode
      * @return $this
