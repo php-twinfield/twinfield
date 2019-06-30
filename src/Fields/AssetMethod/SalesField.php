@@ -21,7 +21,7 @@ trait SalesField
     {
         return $this->sales;
     }
-    
+
     /**
      * @return $this
      */

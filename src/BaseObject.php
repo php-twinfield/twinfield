@@ -35,7 +35,7 @@ abstract class BaseObject implements HasMessageInterface
     {
         $this->messages[] = $message;
     }
-    
+
     public function setMessages($messages)
     {
         $this->messages = $messages;

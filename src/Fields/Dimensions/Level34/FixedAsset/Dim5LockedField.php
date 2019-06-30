@@ -19,7 +19,7 @@ trait Dim5LockedField
     {
         return $this->dim5Locked;
     }
-    
+
     /**
      * @param bool $dim5Locked
      * @return $this

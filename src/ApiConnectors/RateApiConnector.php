@@ -4,6 +4,7 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\DomDocuments\RatesDocument;
 use PhpTwinfield\Exception;
+use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Mappers\RateMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Rate;
@@ -23,7 +24,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class RateApiConnector extends BaseApiConnector
+class RateApiConnector extends BaseApiConnector implements HasEqualInterface
 {
     /**
      * Requests a specific Rate based off the passed in code and optionally the office.
@@ -64,10 +65,11 @@ class RateApiConnector extends BaseApiConnector
 
     /**
      * @param Rate[] $rates
+     * @param bool|null $reSend
      * @return MappedResponseCollection
      * @throws Exception
      */
-    public function sendAll(array $rates): MappedResponseCollection
+    public function sendAll(array $rates, bool $reSend = false): MappedResponseCollection
     {
         Assert::allIsInstanceOf($rates, Rate::class);
 
@@ -85,9 +87,47 @@ class RateApiConnector extends BaseApiConnector
             $responses[] = $this->sendXmlDocument($ratesDocument);
         }
 
-        return $this->getProcessXmlService()->mapAll($responses, "projectrate", function(Response $response): Rate {
+        $mappedResponseCollection = $this->getProcessXmlService()->mapAll($responses, "projectrate", function(Response $response): Rate {
             return RateMapper::map($response);
         });
+
+        if ($reSend) {
+            return $mappedResponseCollection;
+        }
+
+        return self::testSentEqualsResponse($this, $rates, $mappedResponseCollection);
+    }
+
+    /**
+     * @param HasMessageInterface $returnedObject
+     * @param HasMessageInterface $sentObject
+     * @return array
+     */
+    public function testEqual(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): array
+    {
+        Assert::IsInstanceOf($returnedObject, Rate::class);
+        Assert::IsInstanceOf($sentObject, Rate::class);
+
+        $equal = true;
+        $idArray = [];
+
+        $returnedRateChanges = $returnedObject->getRateChanges();
+        $sentRateChanges = $sentObject->getRateChanges();
+
+        foreach ($sentRateChanges as $key => $sentRateChange) {
+            $idArray[] = $sentRateChange->getID();
+        }
+
+        foreach ($returnedRateChanges as $key => $returnedRateChange) {
+            $id = $returnedRateChange->getID();
+
+            if (!in_array($id, $idArray)) {
+                $returnedRateChange->setStatus(\PhpTwinfield\Enums\Status::DELETED());
+                $equal = false;
+            }
+        }
+
+        return [$equal, $returnedObject];
     }
 
     /**

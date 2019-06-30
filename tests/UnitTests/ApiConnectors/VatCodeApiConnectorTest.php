@@ -4,6 +4,7 @@ namespace PhpTwinfield\UnitTests;
 
 use PhpTwinfield\ApiConnectors\VatCodeApiConnector;
 use PhpTwinfield\VatCode;
+use PhpTwinfield\VatCodePercentage;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
@@ -43,6 +44,9 @@ class VatCodeApiConnectorTest extends TestCase
     private function createVatCode(): VatCode
     {
         $vatCode = new VatCode();
+        $vatCodePercentage = new VatCodePercentage();
+        $vatCodePercentage->setDate(\PhpTwinfield\Util::parseDate('20121001'));
+        $vatCode->addPercentage($vatCodePercentage);
         return $vatCode;
     }
 

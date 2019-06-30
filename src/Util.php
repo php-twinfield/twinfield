@@ -22,7 +22,7 @@ final class Util
         if ($money === null) {
             return null;
         }
-        
+
         $decimalformatter = new DecimalMoneyFormatter(new ISOCurrencies());
 
         return $decimalformatter->format($money);
@@ -40,7 +40,7 @@ final class Util
         if ($moneyString === null || $currency === null) {
             return null;
         }
-        
+
         $parser = new DecimalMoneyParser(new ISOCurrencies());
         return $parser->parse($moneyString, $currency);
     }
@@ -56,7 +56,7 @@ final class Util
         if ($date === null) {
             return null;
         }
-        
+
         return $date->format("Ymd");
     }
 
@@ -72,7 +72,7 @@ final class Util
         if ($dateString === null) {
             return null;
         }
-        
+
         $date = \DateTimeImmutable::createFromFormat("Ymd|", $dateString);
 
         if (false === $date) {
@@ -93,7 +93,7 @@ final class Util
         if ($datetime === null) {
             return null;
         }
-        
+
         return $datetime->format("YmdHis");
     }
 
@@ -109,7 +109,7 @@ final class Util
         if ($dateString === null) {
             return null;
         }
-        
+
         $date = \DateTimeImmutable::createFromFormat("YmdHis", $dateString);
 
         if (false === $date) {
@@ -128,7 +128,7 @@ final class Util
         if ($boolean === null) {
             return null;
         }
-        
+
         return $boolean ? "true" : "false";
     }
 
@@ -141,7 +141,7 @@ final class Util
         if ($value === null) {
             return null;
         }
-        
+
         return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 
@@ -154,7 +154,7 @@ final class Util
         if ($object === null) {
             return null;
         }
-        
+
         return $object->getCode();
     }
 

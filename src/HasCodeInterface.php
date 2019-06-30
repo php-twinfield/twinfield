@@ -12,5 +12,5 @@ interface HasCodeInterface
      * Gets the code from an object
      */
     public function getCode(): ?string;
-    
+
 }

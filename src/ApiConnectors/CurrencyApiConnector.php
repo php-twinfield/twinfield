@@ -5,6 +5,7 @@ namespace PhpTwinfield\ApiConnectors;
 use PhpTwinfield\Currency;
 use PhpTwinfield\DomDocuments\CurrenciesDocument;
 use PhpTwinfield\Exception;
+use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Mappers\CurrencyMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
@@ -12,6 +13,7 @@ use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Response\ResponseException;
 use PhpTwinfield\Services\FinderService;
+use PhpTwinfield\Util;
 use Webmozart\Assert\Assert;
 
 /**
@@ -23,7 +25,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class CurrencyApiConnector extends BaseApiConnector
+class CurrencyApiConnector extends BaseApiConnector implements HasEqualInterface
 {
     /**
      * Requests a specific Currency based off the passed in code and optionally the office.
@@ -91,10 +93,11 @@ class CurrencyApiConnector extends BaseApiConnector
 
     /**
      * @param Currency[] $currencies
+     * @param bool|null $reSend
      * @return MappedResponseCollection
      * @throws Exception
      */
-    public function sendAll(array $currencies): MappedResponseCollection
+    public function sendAll(array $currencies, bool $reSend = false): MappedResponseCollection
     {
         Assert::allIsInstanceOf($currencies, Currency::class);
 
@@ -112,9 +115,58 @@ class CurrencyApiConnector extends BaseApiConnector
             $responses[] = $this->sendXmlDocument($currenciesDocument);
         }
 
-        return $this->getProcessXmlService()->mapAll($responses, "currency", function(Response $response): Currency {
+        $mappedResponseCollection = $this->getProcessXmlService()->mapAll($responses, "currency", function(Response $response): Currency {
             return CurrencyMapper::map($response);
         });
+
+        if ($reSend) {
+            return $mappedResponseCollection;
+        }
+
+        return self::testSentEqualsResponse($this, $currencies, $mappedResponseCollection);
+    }
+
+    /**
+     * @param HasMessageInterface $returnedObject
+     * @param HasMessageInterface $sentObject
+     * @return array
+     */
+    public function testEqual(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): array
+    {
+        Assert::IsInstanceOf($returnedObject, Currency::class);
+        Assert::IsInstanceOf($sentObject, Currency::class);
+
+        $currencyResponse = $this->get($returnedObject->getCode(), $returnedObject->getOffice());
+
+        foreach ($returnedObject->getRates() as $key => $rate) {
+            $returnedObject->removeRate($key);
+        }
+
+        foreach ($currencyResponse->getRates() as $key => $rate) {
+            $returnedObject->addRate($rate);
+        }
+
+        $equal = true;
+
+        $dateArray = [];
+
+        $returnedRates = $returnedObject->getRates();
+        $sentRates = $sentObject->getRates();
+
+        foreach ($sentRates as $sentRate) {
+            $dateArray[] = Util::formatDate($sentRate->getStartDate());
+        }
+
+        foreach ($returnedRates as $returnedRate) {
+            $date = Util::formatDate($returnedRate->getStartDate());
+
+            if (!in_array($date, $dateArray)) {
+                $returnedRate->setStatus(\PhpTwinfield\Enums\Status::DELETED());
+                $equal = false;
+            }
+        }
+
+        return [$equal, $returnedObject];
     }
 
     /**

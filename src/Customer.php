@@ -72,7 +72,7 @@ class Customer extends BaseObject implements HasCodeInterface
         $this->setCreditManagement(new CustomerCreditManagement);
         $this->setFinancials(new CustomerFinancials);
     }
-    
+
     public static function fromCode(string $code) {
         $instance = new self;
         $instance->setCode($code);
@@ -122,22 +122,22 @@ class Customer extends BaseObject implements HasCodeInterface
             return false;
         }
     }
-    
+
     public function removeAddressByID($id)
     {
         $found = false;
-                
+
         foreach ($this->addresses as $index => $address) {
             if ($id == $address->getID()) {
                 unset($this->addresses[$index]);
                 $found = true;
             }
         }
-        
+
         if ($found) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -161,22 +161,22 @@ class Customer extends BaseObject implements HasCodeInterface
             return false;
         }
     }
-    
+
     public function removeBankByID($id)
     {
         $found = false;
-                
+
         foreach ($this->banks as $index => $bank) {
             if ($id == $bank->getID()) {
                 unset($this->banks[$index]);
                 $found = true;
             }
         }
-        
+
         if ($found) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -200,22 +200,22 @@ class Customer extends BaseObject implements HasCodeInterface
             return false;
         }
     }
-    
+
     public function removePostingRuleByID($id)
     {
         $found = false;
-                
+
         foreach ($this->postingRules as $index => $postingRule) {
             if ($id == $postingRule->getID()) {
                 unset($this->postingRules[$index]);
                 $found = true;
             }
         }
-        
+
         if ($found) {
             return true;
         }
-        
+
         return false;
     }
 }

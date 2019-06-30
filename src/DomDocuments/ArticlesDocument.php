@@ -64,7 +64,7 @@ class ArticlesDocument extends BaseDocument
         $headerElement->appendChild($this->createNodeWithTextContent('vatcode', Util::objectToStr($article->getVatCode())));
 
         //Clear VAT code in case of a discount/premium article with percentage set to true to prevent errors
-        if ($article->getType() != "normal" && $article->getPercentage() == true) {
+        if ($article->getType() != "normal" && $article->getPercentage()) {
             $headerElement->getElementsByTagName('vatcode')->item(0)->nodeValue = "";
         }
 

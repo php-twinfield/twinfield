@@ -42,7 +42,7 @@ class FixedAsset extends BaseObject implements HasCodeInterface
         $this->setFinancials(new FixedAssetFinancials);
         $this->setFixedAssets(new FixedAssetFixedAssets);
     }
-    
+
     public static function fromCode(string $code) {
         $instance = new self;
         $instance->setCode($code);

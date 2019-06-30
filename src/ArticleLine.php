@@ -33,7 +33,7 @@ class ArticleLine extends BaseObject
     use UnitsField;
     use UnitsPriceExclField;
     use UnitsPriceIncField;
-    
+
     public static function fromCode(string $code) {
         $instance = new self;
         $instance->setSubCode($code);

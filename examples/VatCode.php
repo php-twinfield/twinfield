@@ -98,8 +98,8 @@ if ($executeListAllWithoutFilter) {
 
 /* VatCodePercentage
  * \PhpTwinfield\VatCodePercentage
- * Available getters: getCreated, getDate, getMessages, getName, getPercentage, getResult, getShortName, getUser, hasMessages, getAccounts
- * Available setters: setDate, setName, setPercentage, setShortName, addAccount, removeAccount
+ * Available getters: getCreated, getDate, getInUse, getMessages, getName, getPercentage, getResult, getShortName, getStatus, getUser, hasMessages, getAccounts
+ * Available setters: setDate, setName, setPercentage, setShortName, setStatus, addAccount, removeAccount
  */
 
 /* VatCodeAccount
@@ -164,10 +164,13 @@ if ($executeRead) {
         echo "Created (string): " . Util::formatDate($vatCodePercentage->getCreated()) . "<br />";                                                  // string|null
         echo "Date (\\DateTimeInterface): <pre>" . print_r($vatCodePercentage->getDate(), true) . "</pre><br />";                                   // \DateTimeInterface|null      Effective date.
         echo "Date (string): " . Util::formatDate($vatCodePercentage->getDate()) . "<br />";                                                        // string|null
+        echo "InUse (bool): <pre>" . print_r($vatCodePercentage->getInUse(), true) . "</pre><br />";                                                // bool|null
+        echo "InUse (string): " . Util::formatBoolean($vatCodePercentage->getInUse() . "<br />";                                                    // string|null
         echo "Name: {$vatCodePercentage->getName()}<br />";                                                                                         // string|null                  Name of the VAT line.
         echo "Percentage: {$vatCodePercentage->getPercentage()}<br />";                                                                             // float|null                   Percentage of the VAT line.
         echo "Result: {$vatCodePercentage->getResult()}<br />";                                                                                     // int|null                     Result (0 = error, 1 or empty = success).
         echo "ShortName: {$vatCodePercentage->getShortName()}<br />";                                                                               // string|null                  Short name of the VAT line.
+        echo "Status: {$vatCodePercentage->getStatus()}<br />";                                                                                     // Status|null                  Status of the percentage.
         echo "User (\\PhpTwinfield\\User): <pre>" . print_r($vatCodePercentage->getUser(), true) . "</pre><br />";                                  // User|null                    The code of the user who created or modified the VAT line. Read-only attribute.
         echo "User (string): " . Util::objectToStr($vatCodePercentage->getUser()) . "<br />";                                                       // string|null
 
@@ -244,6 +247,8 @@ if ($executeNew) {
     $vatCodePercentage->setName("BTW 21%");                                                                                                         // string|null                  Name of the VAT line.
     $vatCodePercentage->setPercentage(21);                                                                                                          // float|null                   Percentage of the VAT line.
     $vatCodePercentage->setShortName("VH 21%");                                                                                                     // string|null                  Short name of the VAT line.
+    $vatCodePercentage->setStatus(\PhpTwinfield\Enums\Status::ACTIVE());                                                                            // Status|null                  For creating and updating active should be used. For deleting deleted should be used.
+    //$vatCodePercentage->setStatus(\PhpTwinfield\Enums\Status::DELETED());                                                                         // Status|null
 
     // The minimum amount of VatCodeAccounts linked to a VatCodePercentage object is 1
     $vatCodeAccount = new \PhpTwinfield\VatCodeAccount;

@@ -52,7 +52,7 @@ class GeneralLedger extends BaseObject implements HasCodeInterface
 
         $this->setFinancials(new GeneralLedgerFinancials);
     }
-    
+
     public static function fromCode(string $code) {
         $instance = new self;
         $instance->setCode($code);

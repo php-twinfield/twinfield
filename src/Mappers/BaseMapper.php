@@ -60,19 +60,19 @@ abstract class BaseMapper
 
         return $fieldElement->textContent;
     }
-    
+
     protected static function getOfficeCurrencies(AuthenticatedConnection $connection, Office $office): array
     {
         $currencies = ["base" => '', "reporting" => ''];
-        
+
         $officeApiConnector = new OfficeApiConnector($connection);
         $fullOffice = $officeApiConnector->get($office->getCode());
-        
+
         if ($fullOffice->getResult() == 1) {
             $currencies['base'] = Util::objectToStr($fullOffice->getBaseCurrency());
             $currencies['reporting'] = Util::objectToStr($fullOffice->getReportingCurrency());
         }
-        
+
         return $currencies;
     }
 
@@ -159,15 +159,15 @@ abstract class BaseMapper
     protected static function parseObjectAttribute(?string $objectClass, HasMessageInterface $object, \DOMElement $element, string $fieldTagName, array $attributes = [])
     {
         $value = self::getField($element, $fieldTagName, $object);
-        
+
         if ($value === null) {
             return null;
         }
-        
+
         if ($objectClass === null) {
             $objectClass = self::parseUnknownEntity($object, $element, $fieldTagName);
         }
-        
+
         $object2 = new $objectClass();
         $object2->setCode($value);
 

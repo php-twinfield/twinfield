@@ -4,6 +4,7 @@ namespace PhpTwinfield\UnitTests;
 
 use PhpTwinfield\ApiConnectors\AssetMethodApiConnector;
 use PhpTwinfield\AssetMethod;
+use PhpTwinfield\AssetMethodFreeText;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
@@ -43,6 +44,16 @@ class AssetMethodApiConnectorTest extends TestCase
     private function createAssetMethod(): AssetMethod
     {
         $assetMethod = new AssetMethod();
+        $freeTexts = [];
+
+        for ($i = 1; $i <=5; $i++) {
+            $freeTexts[$i] = new AssetMethodFreeText;
+            $freeTexts[$i]->setID($i)
+                ->setElementValue($i)
+                ->setType(\PhpTwinfield\Enums\FreeTextType::TEXT());
+            $assetMethod->addFreeText($freeTexts[$i]);
+        }
+
         return $assetMethod;
     }
 

@@ -19,7 +19,7 @@ trait AllowDiscountOrPremiumField
     {
         return $this->allowDiscountOrPremium;
     }
-    
+
     /**
      * @param bool $allowDiscountOrPremium
      * @return $this

@@ -21,7 +21,7 @@ trait VatCodeField
     {
         return $this->vatCode;
     }
-    
+
     /**
      * @return $this
      */

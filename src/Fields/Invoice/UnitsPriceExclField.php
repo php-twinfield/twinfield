@@ -21,7 +21,7 @@ trait UnitsPriceExclField
     {
         return $this->unitsPriceExcl;
     }
-    
+
     /**
      * @param Money|null $unitsPriceExcl
      * @return $this

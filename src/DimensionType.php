@@ -30,7 +30,7 @@ class DimensionType extends BaseObject implements HasCodeInterface
         $this->setAddress(new DimensionTypeAddress);
         $this->setLevels(new DimensionTypeLevels);
     }
-    
+
     public static function fromCode(string $code) {
         $instance = new self;
         $instance->setCode($code);

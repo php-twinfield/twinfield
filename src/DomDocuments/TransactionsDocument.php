@@ -153,15 +153,15 @@ class TransactionsDocument extends BaseDocument
             if (Util::objectUses(BaselineField::class, $transactionLine) && !empty($transactionLine->getBaseline())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('baseline', $transactionLine->getBaseline()));
             }
-            
+
             if (!empty($transactionLine->getBaseValue())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('basevalue', Util::formatMoney($transactionLine->getBaseValue())));
             }
-            
+
             if (!empty($transactionLine->getComment())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('comment', $transactionLine->getComment()));
             }
-            
+
             if (Util::objectUses(CurrencyDateField::class, $transactionLine) && !empty($transactionLine->getCurrencyDate())) {
                 $lineElement->appendChild($this->createNodeWithTextContent("currencydate", Util::formatDate($transactionLine->getCurrencyDate())));
             }
@@ -169,7 +169,7 @@ class TransactionsDocument extends BaseDocument
             if (!empty($transactionLine->getDescription())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('description', $transactionLine->getDescription()));
             }
-            
+
             if (!empty($transactionLine->getDestOffice())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('destoffice', Util::objectToStr($transactionLine->getDestOffice())));
             }
@@ -197,27 +197,27 @@ class TransactionsDocument extends BaseDocument
             if (Util::objectUses(PerformanceVatNumberField::class, $transactionLine) && !empty($transactionLine->getPerformanceVatNumber())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('performancevatnumber', $transactionLine->getPerformanceVatNumber()));
             }
-            
+
             if (!empty($transactionLine->getRate())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('rate', $transactionLine->getRate()));
             }
-            
+
             if (!empty($transactionLine->getRepRate())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('reprate', $transactionLine->getRepRate()));
             }
-            
+
             if (!empty($transactionLine->getRepValue())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('repvalue', Util::formatMoney($transactionLine->getRepValue())));
             }
-            
+
             if (Util::objectUses(VatBaseTotalField::class, $transactionLine) && !empty($transactionLine->getVatBaseTotal())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('vatbasetotal', Util::formatMoney($transactionLine->getVatBaseTotal())));
             }
-            
+
             if (!empty($transactionLine->getVatBaseTurnover())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('vatbaseturnover', Util::formatMoney($transactionLine->getVatBaseTurnover())));
             }
-            
+
             if (!empty($transactionLine->getVatBaseValue())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('vatbasevalue', Util::formatMoney($transactionLine->getVatBaseValue())));
             }
@@ -225,15 +225,15 @@ class TransactionsDocument extends BaseDocument
             if (!empty($transactionLine->getVatCode())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('vatcode', Util::objectToStr($transactionLine->getVatCode())));
             }
-            
+
             if (Util::objectUses(VatRepTotalField::class, $transactionLine) && !empty($transactionLine->getVatRepTotal())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('vatreptotal', Util::formatMoney($transactionLine->getVatRepTotal())));
             }
-            
+
             if (!empty($transactionLine->getVatRepValue())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('vatrepvalue', Util::formatMoney($transactionLine->getVatRepValue())));
             }
-            
+
             if (!empty($transactionLine->getVatRepTurnover())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('vatrepturnover', Util::formatMoney($transactionLine->getVatRepTurnover())));
             }
@@ -241,11 +241,11 @@ class TransactionsDocument extends BaseDocument
             if (Util::objectUses(VatTotalField::class, $transactionLine) && !empty($transactionLine->getVatTotal())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('vattotal', Util::formatMoney($transactionLine->getVatTotal())));
             }
-            
+
             if (!empty($transactionLine->getVatTurnover())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('vatturnover', Util::formatMoney($transactionLine->getVatTurnover())));
             }
-            
+
             if (!empty($transactionLine->getVatValue())) {
                 $lineElement->appendChild($this->createNodeWithTextContent('vatvalue', Util::formatMoney($transactionLine->getVatValue())));
             }

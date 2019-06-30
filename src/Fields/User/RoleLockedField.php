@@ -19,7 +19,7 @@ trait RoleLockedField
     {
         return $this->roleLocked;
     }
-    
+
     /**
      * @param bool $roleLocked
      * @return $this

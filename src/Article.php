@@ -46,13 +46,15 @@ class Article extends BaseObject implements HasCodeInterface
 
     public function __construct()
     {
+        $this->setAllowChangePerformanceType(true);
         $this->setAllowChangeUnitsPrice(false);
         $this->setAllowChangeVatCode(false);
         $this->setAllowDecimalQuantity(false);
         $this->setAllowDiscountorPremium(true);
+        $this->setPercentage(false);
         $this->setType(\PhpTwinfield\Enums\ArticleType::NORMAL());
     }
-    
+
     public static function fromCode(string $code) {
         $instance = new self;
         $instance->setCode($code);
@@ -80,22 +82,22 @@ class Article extends BaseObject implements HasCodeInterface
             return false;
         }
     }
-    
+
     public function removeLineByID($id)
     {
         $found = false;
-        
+
         foreach ($this->lines as $index => $line) {
             if ($id == $line->getID()) {
                 unset($this->lines[$index]);
                 $found = true;
             }
         }
-        
+
         if ($found) {
             return true;
         }
-        
+
         return false;
     }
 }

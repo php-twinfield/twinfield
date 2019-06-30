@@ -6,7 +6,7 @@ use PhpTwinfield\ArticleLine;
 
 /**
  * The sub article
- * Used by: InvoiceLine 
+ * Used by: InvoiceLine
  *
  * @package PhpTwinfield\Traits
  */
@@ -39,7 +39,7 @@ trait SubArticleField
         $this->subArticle = $subArticle;
         return $this;
     }
-    
+
     /**
      * @param string|null $subArticleString
      * @return $this

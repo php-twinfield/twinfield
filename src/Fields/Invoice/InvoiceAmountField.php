@@ -22,7 +22,7 @@ trait InvoiceAmountField
     {
         return $this->invoiceAmount;
     }
-    
+
     /**
      * @param Money|null $invoiceAmount
      * @return $this

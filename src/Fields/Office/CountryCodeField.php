@@ -21,7 +21,7 @@ trait CountryCodeField
     {
         return $this->countryCode;
     }
-    
+
     /**
      * @return $this
      */

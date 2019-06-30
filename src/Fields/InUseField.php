@@ -6,7 +6,7 @@ trait InUseField
 {
     /**
      * In use field
-     * Used by: Activity, ArticleLine, AssetMethod, CostCenter, Customer, FixedAsset, GeneralLedger, Project, Supplier
+     * Used by: Activity, ArticleLine, AssetMethod, CostCenter, Customer, FixedAsset, GeneralLedger, Project, Supplier, VatCodePercentage
      *
      * @var bool
      */

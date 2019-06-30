@@ -42,7 +42,7 @@ class ActivitiesDocument extends BaseDocument
         if (!empty($status)) {
             $activityElement->setAttribute('status', $status);
         }
-        
+
         if (!empty($activity->getCode())) {
             $activityElement->appendChild($this->createNodeWithTextContent('code', $activity->getCode()));
         }

@@ -21,7 +21,7 @@ trait DepreciationField
     {
         return $this->depreciation;
     }
-    
+
     /**
      * @return $this
      */

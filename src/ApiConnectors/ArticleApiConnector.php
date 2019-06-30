@@ -5,6 +5,7 @@ namespace PhpTwinfield\ApiConnectors;
 use PhpTwinfield\Article;
 use PhpTwinfield\DomDocuments\ArticlesDocument;
 use PhpTwinfield\Exception;
+use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Mappers\ArticleMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
@@ -23,7 +24,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Willem van de Sande <W.vandeSande@MailCoupon.nl>, extended by Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class ArticleApiConnector extends BaseApiConnector
+class ArticleApiConnector extends BaseApiConnector implements HasEqualInterface
 {
     /**
      * Requests a specific Article based off the passed in code and optionally the office.
@@ -64,10 +65,11 @@ class ArticleApiConnector extends BaseApiConnector
 
     /**
      * @param Article[] $articles
+     * @param bool|null $reSend
      * @return MappedResponseCollection
      * @throws Exception
      */
-    public function sendAll(array $articles): MappedResponseCollection
+    public function sendAll(array $articles, bool $reSend = false): MappedResponseCollection
     {
         Assert::allIsInstanceOf($articles, Article::class);
 
@@ -84,9 +86,47 @@ class ArticleApiConnector extends BaseApiConnector
             $responses[] = $this->sendXmlDocument($articlesDocument);
         }
 
-        return $this->getProcessXmlService()->mapAll($responses, "article", function(Response $response): Article {
+        $mappedResponseCollection = $this->getProcessXmlService()->mapAll($responses, "article", function(Response $response): Article {
             return ArticleMapper::map($response, $this->getConnection());
         });
+
+        if ($reSend) {
+            return $mappedResponseCollection;
+        }
+
+        return self::testSentEqualsResponse($this, $articles, $mappedResponseCollection);
+    }
+
+    /**
+     * @param HasMessageInterface $returnedObject
+     * @param HasMessageInterface $sentObject
+     * @return array
+     */
+    public function testEqual(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): array
+    {
+        Assert::IsInstanceOf($returnedObject, Article::class);
+        Assert::IsInstanceOf($sentObject, Article::class);
+
+        $equal = true;
+        $idArray = [];
+
+        $returnedLines = $returnedObject->getLines();
+        $sentLines = $sentObject->getLines();
+
+        foreach ($sentLines as $key => $sentLine) {
+            $idArray[] = $sentLine->getID();
+        }
+
+        foreach ($returnedLines as $key => $returnedLine) {
+            $id = $returnedLine->getID();
+
+            if (!in_array($id, $idArray)) {
+                $returnedLine->setStatus(\PhpTwinfield\Enums\Status::DELETED());
+                $equal = false;
+            }
+        }
+
+        return [$equal, $returnedObject];
     }
 
 	/**

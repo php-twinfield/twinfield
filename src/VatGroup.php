@@ -16,7 +16,7 @@ class VatGroup extends BaseObject implements HasCodeInterface
     use CodeField;
     use NameField;
     use ShortNameField;
-    
+
     public static function fromCode(string $code) {
         $instance = new self;
         $instance->setCode($code);

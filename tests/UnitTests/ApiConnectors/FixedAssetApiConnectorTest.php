@@ -45,7 +45,7 @@ class FixedAssetApiConnectorTest extends TestCase
             ->willReturn($this->processXmlService);
 
         $this->apiConnector = new FixedAssetApiConnector($connection);
-        
+
         $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
         $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
             $office = new Office;

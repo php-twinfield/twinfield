@@ -19,7 +19,7 @@ trait Dim4Field
     {
         return $this->dim4;
     }
-    
+
     /**
      * @return $this
      */

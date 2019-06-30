@@ -5,6 +5,7 @@ namespace PhpTwinfield\ApiConnectors;
 use PhpTwinfield\AssetMethod;
 use PhpTwinfield\DomDocuments\AssetMethodsDocument;
 use PhpTwinfield\Exception;
+use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Mappers\AssetMethodMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
@@ -23,7 +24,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class AssetMethodApiConnector extends BaseApiConnector
+class AssetMethodApiConnector extends BaseApiConnector implements HasEqualInterface
 {
     /**
      * Requests a specific AssetMethod based off the passed in code and optionally the office.
@@ -64,10 +65,11 @@ class AssetMethodApiConnector extends BaseApiConnector
 
     /**
      * @param AssetMethod[] $assetMethods
+     * @param bool|null $reSend
      * @return MappedResponseCollection
      * @throws Exception
      */
-    public function sendAll(array $assetMethods): MappedResponseCollection
+    public function sendAll(array $assetMethods, bool $reSend = false): MappedResponseCollection
     {
         Assert::allIsInstanceOf($assetMethods, AssetMethod::class);
 
@@ -85,9 +87,49 @@ class AssetMethodApiConnector extends BaseApiConnector
             $responses[] = $this->sendXmlDocument($assetMethodsDocument);
         }
 
-        return $this->getProcessXmlService()->mapAll($responses, "assetmethod", function(Response $response): AssetMethod {
+        $mappedResponseCollection = $this->getProcessXmlService()->mapAll($responses, "assetmethod", function(Response $response): AssetMethod {
             return AssetMethodMapper::map($response);
         });
+
+        if ($reSend) {
+            return $mappedResponseCollection;
+        }
+
+        return self::testSentEqualsResponse($this, $assetMethods, $mappedResponseCollection);
+    }
+
+    /**
+     * @param HasMessageInterface $returnedObject
+     * @param HasMessageInterface $sentObject
+     * @return array
+     */
+    public function testEqual(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): array
+    {
+        Assert::IsInstanceOf($returnedObject, AssetMethod::class);
+        Assert::IsInstanceOf($sentObject, AssetMethod::class);
+
+        $equal = true;
+
+        $idArray = [];
+
+        $returnedFreeTexts = $returnedObject->getFreeTexts();
+        $sentFreeTexts = $sentObject->getFreeTexts();
+
+        foreach ($sentFreeTexts as $key => $sentFreeText) {
+            $idArray[] = $sentFreeText->getID();
+        }
+
+        foreach ($returnedFreeTexts as $key => $returnedFreeText) {
+            $id = $returnedFreeText->getID();
+
+            if (!in_array($id, $idArray)) {
+                $returnedFreeText->setType(\PhpTwinfield\Enums\FreeTextType::TEXT());
+                $returnedFreeText->setElementValue('');
+                $equal = false;
+            }
+        }
+
+        return [$equal, $returnedObject];
     }
 
 	/**

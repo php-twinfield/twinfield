@@ -4,6 +4,7 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\DomDocuments\VatCodesDocument;
 use PhpTwinfield\Exception;
+use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Mappers\VatCodeMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
@@ -11,6 +12,7 @@ use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Response\ResponseException;
 use PhpTwinfield\Services\FinderService;
+use PhpTwinfield\Util;
 use PhpTwinfield\VatCode;
 use Webmozart\Assert\Assert;
 
@@ -23,7 +25,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Emile Bons <emile@emilebons.nl>, extended by Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class VatCodeApiConnector extends BaseApiConnector
+class VatCodeApiConnector extends BaseApiConnector implements HasEqualInterface
 {
     /**
      * Requests a specific VatCode based off the passed in code and optionally the office.
@@ -64,10 +66,11 @@ class VatCodeApiConnector extends BaseApiConnector
 
     /**
      * @param VatCode[] $vatCodes
+     * @param bool|null $reSend
      * @return MappedResponseCollection
      * @throws Exception
      */
-    public function sendAll(array $vatCodes): MappedResponseCollection
+    public function sendAll(array $vatCodes, bool $reSend = false): MappedResponseCollection
     {
         Assert::allIsInstanceOf($vatCodes, VatCode::class);
 
@@ -85,9 +88,47 @@ class VatCodeApiConnector extends BaseApiConnector
             $responses[] = $this->sendXmlDocument($vatCodesDocument);
         }
 
-        return $this->getProcessXmlService()->mapAll($responses, "vat", function(Response $response): VatCode {
+        $mappedResponseCollection = $this->getProcessXmlService()->mapAll($responses, "vat", function(Response $response): VatCode {
             return VatCodeMapper::map($response);
         });
+
+        if ($reSend) {
+            return $mappedResponseCollection;
+        }
+
+        return self::testSentEqualsResponse($this, $vatCodes, $mappedResponseCollection);
+    }
+
+    /**
+     * @param HasMessageInterface $returnedObject
+     * @param HasMessageInterface $sentObject
+     * @return array
+     */
+    public function testEqual(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): array
+    {
+        Assert::IsInstanceOf($returnedObject, VatCode::class);
+        Assert::IsInstanceOf($sentObject, VatCode::class);
+
+        $equal = true;
+        $dateArray = [];
+
+        $returnedPercentages = $returnedObject->getPercentages();
+        $sentPercentages = $sentObject->getPercentages();
+
+        foreach ($sentPercentages as $key => $sentPercentage) {
+            $dateArray[] = Util::formatDate($sentPercentage->getDate());
+        }
+
+        foreach ($returnedPercentages as $key => $returnedPercentage) {
+            $date = Util::formatDate($returnedPercentage->getDate());
+
+            if (!in_array($date, $dateArray)) {
+                $returnedPercentage->setStatus(\PhpTwinfield\Enums\Status::DELETED());
+                $equal = false;
+            }
+        }
+
+        return [$equal, $returnedObject];
     }
 
     /**

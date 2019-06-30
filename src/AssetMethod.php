@@ -48,7 +48,7 @@ class AssetMethod extends BaseObject implements HasCodeInterface
         $this->setBalanceAccounts(new AssetMethodBalanceAccounts);
         $this->setProfitLossAccounts(new AssetMethodProfitLossAccounts);
     }
-    
+
     public static function fromCode(string $code) {
         $instance = new self;
         $instance->setCode($code);
@@ -98,22 +98,22 @@ class AssetMethod extends BaseObject implements HasCodeInterface
             return false;
         }
     }
-    
+
     public function removeFreeTextByID($id)
     {
         $found = false;
-        
+
         foreach ($this->freeTexts as $index => $freeText) {
             if ($id == $freeText->getID()) {
                 unset($this->freeTexts[$index]);
                 $found = true;
             }
         }
-        
+
         if ($found) {
             return true;
         }
-        
+
         return false;
     }
 }

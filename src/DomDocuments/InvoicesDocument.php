@@ -67,11 +67,11 @@ class InvoicesDocument extends BaseDocument
         $headerElement->appendChild($this->createNodeWithTextContent('headertext', $invoice->getHeaderText()));
         $headerElement->appendChild($this->createNodeWithTextContent('invoiceaddressnumber', $invoice->getInvoiceAddressNumber()));
         $headerElement->appendChild($this->createNodeWithTextContent('invoicedate', Util::formatDate($invoice->getInvoiceDate())));
-        
+
         if (!empty($invoice->getInvoiceNumber())) {
             $headerElement->appendChild($this->createNodeWithTextContent('invoicenumber', $invoice->getInvoiceNumber()));
         }
-        
+
         $headerElement->appendChild($this->createNodeWithTextContent('invoicetype', Util::objectToStr($invoice->getInvoiceType())));
         $headerElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($invoice->getOffice())));
         $headerElement->appendChild($this->createNodeWithTextContent('paymentmethod', $invoice->getPaymentMethod()));
@@ -128,7 +128,7 @@ class InvoicesDocument extends BaseDocument
                     $article->setAllowChangeVatCode(true);
                 }
 
-                if ($article->getAllowChangeVatCode() == true) {
+                if ($article->getAllowChangeVatCode()) {
                     $lineElement->appendChild($this->createNodeWithTextContent('vatcode', Util::objectToStr($line->getVatCode())));
                 }
             }

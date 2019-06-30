@@ -19,7 +19,7 @@ trait AllowChangeUnitsPriceField
     {
         return $this->allowChangeUnitsPrice;
     }
-    
+
     /**
      * @param bool $allowChangeUnitsPrice
      * @return $this

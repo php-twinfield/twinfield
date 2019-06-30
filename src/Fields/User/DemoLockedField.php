@@ -19,7 +19,7 @@ trait DemoLockedField
     {
         return $this->demoLocked;
     }
-    
+
     /**
      * @param bool $demoLocked
      * @return $this

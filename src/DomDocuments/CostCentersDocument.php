@@ -42,7 +42,7 @@ class CostCentersDocument extends BaseDocument
         if (!empty($status)) {
             $costCenterElement->setAttribute('status', $status);
         }
-        
+
         if (!empty($costCenter->getCode())) {
             $costCenterElement->appendChild($this->createNodeWithTextContent('code', $costCenter->getCode()));
         }

@@ -46,12 +46,12 @@ class InvoiceApiConnectorTest extends TestCase
             ->willReturn($this->processXmlService);
 
         $this->apiConnector = new InvoiceApiConnector($connection);
-        
+
         $mockInvoiceTypeApiConnector = \Mockery::mock('overload:'.InvoiceTypeApiConnector::class)->makePartial();
         $mockInvoiceTypeApiConnector->shouldReceive('getInvoiceTypeVatType')->andReturnUsing(function() {
             return 'exclusive';
         });
- 
+
         $mockArticleApiConnector = \Mockery::mock('overload:'.ArticleApiConnector::class)->makePartial();
         $mockArticleApiConnector->shouldReceive('get')->andReturnUsing(function() {
             $article = new Article;

@@ -4,9 +4,11 @@ namespace PhpTwinfield;
 
 use PhpTwinfield\Fields\CreatedField;
 use PhpTwinfield\Fields\DateField;
+use PhpTwinfield\Fields\InUseField;
 use PhpTwinfield\Fields\NameField;
 use PhpTwinfield\Fields\PercentageField;
 use PhpTwinfield\Fields\ShortNameField;
+use PhpTwinfield\Fields\StatusField;
 use PhpTwinfield\Fields\UserField;
 
 /**
@@ -17,9 +19,11 @@ class VatCodePercentage extends BaseObject
 {
     use CreatedField;
     use DateField;
+    use InUseField;
     use PercentageField;
     use NameField;
     use ShortNameField;
+    use StatusField;
     use UserField;
 
     private $accounts = [];
@@ -44,22 +48,22 @@ class VatCodePercentage extends BaseObject
             return false;
         }
     }
-    
+
     public function removeAccountByID($id)
     {
         $found = false;
-        
+
         foreach ($this->accounts as $index => $account) {
             if ($id == $account->getID()) {
                 unset($this->accounts[$index]);
                 $found = true;
             }
         }
-        
+
         if ($found) {
             return true;
         }
-        
+
         return false;
     }
 }

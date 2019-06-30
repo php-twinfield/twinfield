@@ -21,7 +21,7 @@ trait BaseValueOpenField
     {
         return $this->baseValueOpen;
     }
-    
+
     /**
      * @param Money|null $baseValueOpen
      * @return $this

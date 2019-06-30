@@ -240,8 +240,8 @@ if ($executeNew) {
     $dimensionType->setCode('BAS');
     //$dimensionType->setCode('PNL');
     $generalLedger->setType($dimensionType);                                                                                                                // DimensionType|null
-    $generalLedger->setType(\PhpTwinfield\DimensionType::fromCode('BAS'));                                                                                  // string|null                 
-    //$generalLedger->setType(\PhpTwinfield\DimensionType::fromCode('PNL'));                                                                                  // string|null                 
+    $generalLedger->setType(\PhpTwinfield\DimensionType::fromCode('BAS'));                                                                                  // string|null
+    //$generalLedger->setType(\PhpTwinfield\DimensionType::fromCode('PNL'));                                                                                  // string|null
     $generalLedger->setOffice($office);                                                                                                                     // Office|null                      Office code.
     $generalLedger->setOffice(\PhpTwinfield\Office::fromCode($officeCode));                                                                                 // string|null
 

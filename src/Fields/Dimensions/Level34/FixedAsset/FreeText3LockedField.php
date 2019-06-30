@@ -19,7 +19,7 @@ trait FreeText3LockedField
     {
         return $this->freeText3Locked;
     }
-    
+
     /**
      * @param bool $freeText3Locked
      * @return $this

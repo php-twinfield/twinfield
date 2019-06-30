@@ -4,7 +4,9 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Exception;
+use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Response\ResponseException;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
@@ -175,7 +177,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
 
     /**
      * Convert options array to an ArrayOfString which is accepted by Twinfield.
-     * 
+     *
      * In some cases you are not allowed to change certain options (such as the dimtype, which should always be DEB when using CustomerApiConnector->ListAll()),
      * in which case the $forcedOptions parameter will be set by the ApiConnector for this option, which will override any user settings in $options
      *
@@ -188,7 +190,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
         if (isset($options['ArrayOfString'])) {
             return $options;
         }
-        
+
         $optionsArrayOfString = ['ArrayOfString' => []];
 
         foreach ($forcedOptions as $key => $value) {
@@ -239,5 +241,36 @@ abstract class BaseApiConnector implements LoggerAwareInterface
         }
 
         return $objects;
+    }
+
+    /**
+     * @param HasEqualInterface $apiConnector
+     * @param array $sentObjects
+     * @param MappedResponseCollection $mappedResponseCollection
+     * @return MappedResponseCollection
+     */
+    public function testSentEqualsResponse(HasEqualInterface $apiConnector, array $sentObjects, MappedResponseCollection $mappedResponseCollection): MappedResponseCollection
+    {
+        $checkedMappedResponseCollection = new MappedResponseCollection();
+
+        foreach($mappedResponseCollection as $key => $individualMappedResponse) {
+            $returnedObject = $individualMappedResponse->unwrap();
+
+            if ($returnedObject->getResult() == 1) {
+                $testResult = $apiConnector->testEqual($returnedObject, $sentObjects[$key]);
+                $equal = $testResult[0];
+                $returnedObject = $testResult[1];
+
+                if (!$equal) {
+                    $apiConnector->sendAll([$returnedObject], true)[0];
+                    sleep(2);
+                    $individualMappedResponse = $apiConnector->sendAll([$sentObjects[$key]], true)[0];
+                }
+            }
+
+            $checkedMappedResponseCollection->append($individualMappedResponse);
+        }
+
+        return $checkedMappedResponseCollection;
     }
 }
