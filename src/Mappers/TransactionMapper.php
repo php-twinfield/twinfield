@@ -148,6 +148,8 @@ class TransactionMapper extends BaseMapper
 
                 $transactionLine = new $transactionLineClassName();
                 $lineType        = $lineElement->getAttribute('type');
+                
+                $transactionLine->setLineType(self::parseEnumAttribute(\PhpTwinfield\Enums\LineType::class, $lineType));
 
                 $transactionLine
                     ->setBaseValue(self::parseMoneyAttribute(self::getField($lineElement, 'basevalue', $transactionLine), $currencies['base']))
@@ -158,7 +160,6 @@ class TransactionMapper extends BaseMapper
                     ->setDestOffice(self::parseObjectAttribute(\PhpTwinfield\Office::class, $transactionLine, $lineElement, 'destoffice'))
                     ->setDim1(self::parseObjectAttribute(null, $transactionLine, $lineElement, 'dim1', array('name' => 'setName', 'shortname' => 'setShortName', 'dimensiontype' => 'setTypeFromString')))
                     ->setId($lineElement->getAttribute('id'))
-                    ->setLineType(self::parseEnumAttribute(\PhpTwinfield\Enums\LineType::class, $lineType))
                     ->setMatchStatus(self::parseEnumAttribute(\PhpTwinfield\Enums\MatchStatus::class, self::getField($lineElement, 'matchstatus', $transactionLine)))
                     ->setRate(self::getField($lineElement, 'rate', $transactionLine))
                     ->setRepRate(self::getField($lineElement, 'reprate', $transactionLine))
