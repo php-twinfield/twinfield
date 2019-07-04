@@ -9,6 +9,7 @@ use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Mappers\ArticleMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
+use PhpTwinfield\Response\IndividualMappedResponse;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Response\ResponseException;
@@ -120,13 +121,33 @@ class ArticleApiConnector extends BaseApiConnector implements HasEqualInterface
         foreach ($returnedLines as $key => $returnedLine) {
             $id = $returnedLine->getID();
 
-            if (!in_array($id, $idArray)) {
+            if (!in_array($id, $idArray) && $returnedLine->getStatus() != 'deleted') {
                 $returnedLine->setStatus(\PhpTwinfield\Enums\Status::DELETED());
                 $equal = false;
             }
         }
 
         return [$equal, $returnedObject];
+    }
+
+    /**
+     * @param HasMessageInterface $returnedObject
+     * @return IndividualMappedResponse
+     */
+    public function getMappedResponse(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): IndividualMappedResponse
+    {
+        Assert::IsInstanceOf($returnedObject, Article::class);
+
+        $request_article = new Request\Read\Article();
+        $request_article->setOffice($returnedObject->getOffice())
+            ->setCode($returnedObject->getCode());
+        $response = $this->sendXmlDocument($request_article);
+
+        $mappedResponseCollection = $this->getProcessXmlService()->mapAll([$response], "article", function(Response $response): Article {
+            return ArticleMapper::map($response, $this->getConnection());
+        });
+
+        return ($mappedResponseCollection[0]);
     }
 
 	/**

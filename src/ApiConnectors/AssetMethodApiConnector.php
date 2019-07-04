@@ -9,6 +9,7 @@ use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Mappers\AssetMethodMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
+use PhpTwinfield\Response\IndividualMappedResponse;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Response\ResponseException;
@@ -122,7 +123,7 @@ class AssetMethodApiConnector extends BaseApiConnector implements HasEqualInterf
         foreach ($returnedFreeTexts as $key => $returnedFreeText) {
             $id = $returnedFreeText->getID();
 
-            if (!in_array($id, $idArray)) {
+            if (!in_array($id, $idArray) && (!empty($returnedFreeText->getElementValue()) || $returnedFreeText->getType() != 'text')) {
                 $returnedFreeText->setType(\PhpTwinfield\Enums\FreeTextType::TEXT());
                 $returnedFreeText->setElementValue('');
                 $equal = false;
@@ -130,6 +131,26 @@ class AssetMethodApiConnector extends BaseApiConnector implements HasEqualInterf
         }
 
         return [$equal, $returnedObject];
+    }
+
+    /**
+     * @param HasMessageInterface $returnedObject
+     * @return IndividualMappedResponse
+     */
+    public function getMappedResponse(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): IndividualMappedResponse
+    {
+        Assert::IsInstanceOf($returnedObject, AssetMethod::class);
+
+        $request_assetMethod = new Request\AssetMethod();
+        $request_assetMethod->setOffice($returnedObject->getOffice())
+            ->setCode($returnedObject->getCode());
+        $response = $this->sendXmlDocument($request_assetMethod);
+
+        $mappedResponseCollection = $this->getProcessXmlService()->mapAll([$response], "assetmethod", function(Response $response): AssetMethod {
+            return AssetMethodMapper::map($response);
+        });
+
+        return ($mappedResponseCollection[0]);
     }
 
 	/**

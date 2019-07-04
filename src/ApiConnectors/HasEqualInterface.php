@@ -3,6 +3,7 @@
 namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\HasMessageInterface;
+use PhpTwinfield\Response\IndividualMappedResponse;
 use PhpTwinfield\Response\MappedResponseCollection;
 
 /**
@@ -14,4 +15,6 @@ interface HasEqualInterface
     public function testEqual(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): array;
 
     public function sendAll(array $objects, bool $reSend): MappedResponseCollection;
+
+    public function getMappedResponse(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): IndividualMappedResponse;
 }

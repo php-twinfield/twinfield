@@ -9,6 +9,7 @@ use PhpTwinfield\Mappers\RateMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Rate;
 use PhpTwinfield\Request as Request;
+use PhpTwinfield\Response\IndividualMappedResponse;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Response\ResponseException;
@@ -121,13 +122,33 @@ class RateApiConnector extends BaseApiConnector implements HasEqualInterface
         foreach ($returnedRateChanges as $key => $returnedRateChange) {
             $id = $returnedRateChange->getID();
 
-            if (!in_array($id, $idArray)) {
+            if (!in_array($id, $idArray) && $returnedRateChange->getStatus() != 'deleted') {
                 $returnedRateChange->setStatus(\PhpTwinfield\Enums\Status::DELETED());
                 $equal = false;
             }
         }
 
         return [$equal, $returnedObject];
+    }
+
+    /**
+     * @param HasMessageInterface $returnedObject
+     * @return IndividualMappedResponse
+     */
+    public function getMappedResponse(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): IndividualMappedResponse
+    {
+        Assert::IsInstanceOf($returnedObject, Rate::class);
+
+        $request_rate = new Request\Read\Rate();
+        $request_rate->setOffice($returnedObject->getOffice())
+            ->setCode($returnedObject->getCode());
+        $response = $this->sendXmlDocument($request_rate);
+
+        $mappedResponseCollection = $this->getProcessXmlService()->mapAll([$response], "projectrate", function(Response $response): Rate {
+            return RateMapper::map($response);
+        });
+
+        return ($mappedResponseCollection[0]);
     }
 
     /**

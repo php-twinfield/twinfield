@@ -9,6 +9,7 @@ use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Mappers\CurrencyMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
+use PhpTwinfield\Response\IndividualMappedResponse;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Response\ResponseException;
@@ -160,13 +161,22 @@ class CurrencyApiConnector extends BaseApiConnector implements HasEqualInterface
         foreach ($returnedRates as $returnedRate) {
             $date = Util::formatDate($returnedRate->getStartDate());
 
-            if (!in_array($date, $dateArray)) {
+            if (!in_array($date, $dateArray) && $returnedRate->getStatus() != 'deleted') {
                 $returnedRate->setStatus(\PhpTwinfield\Enums\Status::DELETED());
                 $equal = false;
             }
         }
 
         return [$equal, $returnedObject];
+    }
+
+    /**
+     * @param HasMessageInterface $returnedObject
+     * @return IndividualMappedResponse
+     */
+    public function getMappedResponse(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): IndividualMappedResponse
+    {
+        return $this->sendAll([$sentObject], true)[0];
     }
 
     /**

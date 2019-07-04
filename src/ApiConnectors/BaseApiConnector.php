@@ -262,9 +262,29 @@ abstract class BaseApiConnector implements LoggerAwareInterface
                 $returnedObject = $testResult[1];
 
                 if (!$equal) {
-                    $apiConnector->sendAll([$returnedObject], true)[0];
-                    sleep(2);
-                    $individualMappedResponse = $apiConnector->sendAll([$sentObjects[$key]], true)[0];
+                    $tempMappedResponse = $apiConnector->sendAll([$returnedObject], true)[0];
+                    $tempReturnedObject = $tempMappedResponse->unwrap();
+
+                    if ($tempReturnedObject->getResult() == 1) {
+                        $individualMappedResponse = $tempMappedResponse;
+                        $returnedObject = $tempReturnedObject;
+
+                        $testResult = $apiConnector->testEqual($returnedObject, $sentObjects[$key]);
+                        $equal = $testResult[0];
+                        $returnedObject = $testResult[1];
+
+                        if (!$equal || is_a($returnedObject, \PhpTwinfield\Currency::class)) {
+                            sleep(2);
+
+                            $tempMappedResponse = $apiConnector->getMappedResponse($returnedObject, $sentObjects[$key]);
+                            $tempReturnedObject = $tempMappedResponse->unwrap();
+
+                            if ($returnedObject->getResult() == 1) {
+                                $individualMappedResponse = $tempMappedResponse;
+                                $returnedObject = $tempReturnedObject;
+                            }
+                        }
+                    }
                 }
             }
 

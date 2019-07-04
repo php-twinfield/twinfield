@@ -148,7 +148,7 @@ class TransactionMapper extends BaseMapper
 
                 $transactionLine = new $transactionLineClassName();
                 $lineType        = $lineElement->getAttribute('type');
-                
+
                 $transactionLine->setLineType(self::parseEnumAttribute(\PhpTwinfield\Enums\LineType::class, $lineType));
 
                 $transactionLine
