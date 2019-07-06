@@ -1,5 +1,4 @@
 <?php
-
 /* Article
  * Twinfield UI:            https://accounting.twinfield.com/UI/#/Sales/ClassicItems
  * API Documentation:       https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles
@@ -7,6 +6,9 @@
 
 //Optionally declare the namespace PhpTwinfield so u can call classes without prepending \PhpTwinfield\
 namespace PhpTwinfield;
+
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 
 // Use the ResponseException class to handle errors when listing, getting and sending objects to/from Twinfield
 use PhpTwinfield\Response\ResponseException;

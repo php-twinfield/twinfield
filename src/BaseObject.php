@@ -45,6 +45,10 @@ abstract class BaseObject implements HasMessageInterface
 
     public function hasMessages()
     {
+        if (empty($this->messages)) {
+            return false;
+        }
+
         return count($this->messages) > 0;
     }
 }

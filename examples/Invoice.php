@@ -1,5 +1,4 @@
 <?php
-
 /* Invoice
  * Twinfield UI:            https://accounting.twinfield.com/UI/#/Sales/ClassicInvoices
  * API Documentation:       https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices
@@ -7,6 +6,9 @@
 
 //Optionally declare the namespace PhpTwinfield so u can call classes without prepending \PhpTwinfield\
 namespace PhpTwinfield;
+
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 
 // Use the ResponseException class to handle errors when listing, getting and sending objects to/from Twinfield
 use PhpTwinfield\Response\ResponseException;
@@ -173,12 +175,12 @@ if ($executeRead) {
         echo "Messages: " . print_r($invoice->getMessages(), true) . "<br />";                                                                      // Array|null                   (Error) messages.
     }
 
+    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($invoice->getOffice(), true) . "</pre><br />";                                          // Office|null                  Office code.
+    echo "Office (string): " . Util::objectToStr($invoice->getOffice()) . "<br />";                                                                 // string|null
     echo "PaymentMethod: {$invoice->getPaymentMethod()}<br />";                                                                                     // PaymentMethod|null           The payment method.
     echo "PerformanceDate (\\DateTimeInterface): <pre>" . print_r($invoice->getPerformanceDate(), true) . "</pre><br />";                           // DateTimeInterface|null       Performance date, when set-up on the invoice header.
     echo "PerformanceDate (string): " . Util::formatDate($invoice->getPerformanceDate()) . "<br />";                                                // string|null
     echo "Period: {$invoice->getPeriod()}<br />";                                                                                                   // string|null                  Period in YYYY/PP format.
-    echo "Office (\\PhpTwinfield\\Office): <pre>" . print_r($invoice->getOffice(), true) . "</pre><br />";                                          // Office|null                  Office code.
-    echo "Office (string): " . Util::objectToStr($invoice->getOffice()) . "<br />";                                                                 // string|null
     echo "Result: {$invoice->getResult()}<br />";                                                                                                   // int|null                     Result (0 = error, 1 or empty = success).
     echo "Status: {$invoice->getStatus()}<br />";                                                                                                   // Status|null                  Status of the invoice.
 
@@ -368,7 +370,7 @@ if ($executeNew) {
     //$invoiceLine->setUnitsPriceInc(\Money\Money::EUR(1210));                                                                                      // Money|null                   Only valid for invoice types with VAT inclusive units prices. Only add this tag to an XML request if the setting Prices can be changed on an item is set to true. Otherwise, the price will be determined by the system. (Equals 12.10 EUR)
     $vatCode = new \PhpTwinfield\VatCode;
     $vatCode->setCode('VH');
-    //$invoiceLine->getVatCode($vatCode);                                                                                                           // VatCode|null                 VAT code.
+    //$invoiceLine->setVatCode($vatCode);                                                                                                           // VatCode|null                 VAT code.
     //$invoiceLine->setVatCode(\PhpTwinfield\VatCode::fromCode('VH'));                                                                              // string|null
 
     $invoice->addLine($invoiceLine);                                                                                                                // InvoiceLine                  Add an InvoiceLine object to the Invoice object

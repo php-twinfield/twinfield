@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
 /* To use OAuth 2 for logging in it is necessary that a user with access rights to Twinfield grants authorization.
 
  * On loading a page containing the following code the user will be redirected to the Twinfield Login page.

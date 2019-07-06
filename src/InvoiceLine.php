@@ -53,5 +53,6 @@ class InvoiceLine extends BaseObject
         $this->article   = $article;
         $this->setFreeText1($freeText1);
         $this->setFreeText2($freeText2);
+        $this->setAllowDiscountOrPremium(true);
     }
 }
