@@ -8,7 +8,6 @@
             <invoicenumber>20130-6000</invoicenumber>
             <paymentreference>+++100/0160/01495+++</paymentreference>
             <office>001</office>
-            <duedate>20130506</duedate>
         </header>
         <lines>
             <line type="total" id="1">

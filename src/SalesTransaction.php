@@ -2,7 +2,6 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Transactions\TransactionFields\DueDateField;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
 use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
@@ -12,7 +11,6 @@ use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
  */
 class SalesTransaction extends BaseTransaction
 {
-    use DueDateField;
     use InvoiceNumberField;
     use PaymentReferenceField;
     use ThreeDimFields;

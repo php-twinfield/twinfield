@@ -62,7 +62,6 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($salesTransaction->getFreetext1());
         $this->assertNull($salesTransaction->getFreetext2());
         $this->assertNull($salesTransaction->getFreetext3());
-        $this->assertEquals(new \DateTimeImmutable('2013-05-06'), $salesTransaction->getDueDate());
         $this->assertSame('20130-6000', $salesTransaction->getInvoiceNumber());
         $this->assertSame('+++100/0160/01495+++', $salesTransaction->getPaymentReference());
         $this->assertSame('', $salesTransaction->getOriginReference());
@@ -157,8 +156,7 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
             ->setPeriod('2013/05')
             ->setInvoiceNumber('20130-6000')
             ->setPaymentReference('+++100/0160/01495+++')
-            ->setOffice(Office::fromCode('001'))
-            ->setDueDate(new \DateTimeImmutable('2013-05-06'));
+            ->setOffice(Office::fromCode('001'));
 
         $totalLine = new SalesTransactionLine();
         $totalLine
@@ -205,7 +203,6 @@ class SalesTransactionIntegrationTest extends BaseIntegrationTest
                 <header>
                     <code name="Verkoopfactuur" shortname="Verkoop">VRK</code>
                     <date>20170901</date>
-                    <duedate>20170901</duedate>
                     <period>2017/09</period>
                     <office name="Development BV" shortname="Development BV">DEV1000</office>
                     <number>201702412</number>
