@@ -8,7 +8,6 @@ use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Mappers\VatCodeMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
-use PhpTwinfield\Response\IndividualMappedResponse;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Response\ResponseException;
@@ -130,25 +129,6 @@ class VatCodeApiConnector extends BaseApiConnector implements HasEqualInterface
         }
 
         return [$equal, $returnedObject];
-    }
-
-    /**
-     * @param HasMessageInterface $returnedObject
-     * @return IndividualMappedResponse
-     */
-    public function getMappedResponse(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): IndividualMappedResponse
-    {
-        Assert::IsInstanceOf($returnedObject, VatCode::class);
-
-        $request_vatCode = new Request\Read\VatCode();
-        $request_vatCode->setCode($returnedObject->getCode());
-        $response = $this->sendXmlDocument($request_vatCode);
-
-        $mappedResponseCollection = $this->getProcessXmlService()->mapAll([$response], "vat", function(Response $response): VatCode {
-            return VatCodeMapper::map($response);
-        });
-
-        return ($mappedResponseCollection[0]);
     }
 
     /**

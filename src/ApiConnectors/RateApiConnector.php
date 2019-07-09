@@ -9,7 +9,6 @@ use PhpTwinfield\Mappers\RateMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Rate;
 use PhpTwinfield\Request as Request;
-use PhpTwinfield\Response\IndividualMappedResponse;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Response\ResponseException;
@@ -129,26 +128,6 @@ class RateApiConnector extends BaseApiConnector implements HasEqualInterface
         }
 
         return [$equal, $returnedObject];
-    }
-
-    /**
-     * @param HasMessageInterface $returnedObject
-     * @return IndividualMappedResponse
-     */
-    public function getMappedResponse(HasMessageInterface $returnedObject, HasMessageInterface $sentObject): IndividualMappedResponse
-    {
-        Assert::IsInstanceOf($returnedObject, Rate::class);
-
-        $request_rate = new Request\Read\Rate();
-        $request_rate->setOffice($returnedObject->getOffice())
-            ->setCode($returnedObject->getCode());
-        $response = $this->sendXmlDocument($request_rate);
-
-        $mappedResponseCollection = $this->getProcessXmlService()->mapAll([$response], "projectrate", function(Response $response): Rate {
-            return RateMapper::map($response);
-        });
-
-        return ($mappedResponseCollection[0]);
     }
 
     /**
