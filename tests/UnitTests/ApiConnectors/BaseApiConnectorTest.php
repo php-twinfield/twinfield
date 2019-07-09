@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\UnitTests;
 
+use PhpTwinfield\ApiConnectors\ApiOptions;
 use PhpTwinfield\ApiConnectors\BaseApiConnector;
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Exception;
@@ -71,15 +72,15 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
 
     private function getResendErrorMessages(): array
     {
-        return (new \ReflectionClassConstant(
-            BaseApiConnector::class,
-            "RETRY_REQUEST_EXCEPTION_MESSAGES"
-        ))->getValue();
+        return [
+            "SSL: Connection reset by peer",
+            "Your logon credentials are not valid anymore. Try to log on again."
+        ];
     }
 
     private function getMaxNumRetries(): int
     {
-        return $this->service->getConfig(BaseApiConnector::CONFIG_MAX_RETRIES);
+        return 3;
     }
 
     public function testSendDocumentLogsRequestAndResponse()
@@ -296,22 +297,22 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
                 [
                     $this->connection,
                     [
-                        BaseApiConnector::CONFIG_MAX_RETRIES => 5
+                        ApiOptions::CONFIG_MAX_RETRIES => 5
                     ]
                 ]
             )
             ->getMockForAbstractClass();
 
-        $this->connection->expects($this->exactly($this->getMaxNumRetries() + 1))
+        $this->connection->expects($this->exactly(6))
             ->method("getAuthenticatedClient")
             ->with(Services::PROCESSXML())
             ->willReturn($this->client);
 
-        $this->connection->expects($this->exactly($this->getMaxNumRetries() + 1))
+        $this->connection->expects($this->exactly(6))
             ->method("resetClient")
             ->with(Services::PROCESSXML());
 
-        $this->client->expects($this->exactly($this->getMaxNumRetries() + 1))
+        $this->client->expects($this->exactly(6))
             ->method("sendDocument")
             ->willThrowException($exception);
 
@@ -324,46 +325,14 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
 
     public function testSendDocumentRetryBadGateway()
     {
-        $request_document = new \DOMDocument();
-        $request_document->loadXML('<dimension>value</dimension>');
-
-        $this->connection->expects($this->any())
-            ->method("getAuthenticatedClient")
-            ->with(Services::PROCESSXML())
-            ->willReturn($this->client);
-
-        $this->client->expects($this->any())
-            ->method("sendDocument")
-            ->will($this->throwException(new \SoapFault('Server', 'Bad Gateway')));
-
-        $this->service->setLogger($this);
-        try {
-            $this->service->sendXmlDocument($request_document);
-        } catch (\PhpTwinfield\Exception $e) {
-        }
-
-        self::assertCount(8, $this->logs);
-
-        [$level, $message, $context] = $this->logs[0];
-        self::assertSame(LogLevel::DEBUG, $level);
-        self::assertSame('Sending request to Twinfield.', $message);
-        self::assertSame($this->completeXml('<dimension>value</dimension>'), $context['document_xml']);
-
-        [$level, $message, $context] = $this->logs[1];
-        self::assertSame(LogLevel::INFO, $level);
-        self::assertSame("Retrying request. Reason for initial failure: Bad Gateway", $message);
-        self::assertEmpty($context);
-    }
-    public function testSendDocumentRetryCustomMessage()
-    {
-        $expectedErrorMessage = 'my custom error message';
+        $expectedErrorMessage = 'Bad Gateway';
         $this->service = $this->getMockBuilder(BaseApiConnector::class)
             ->setConstructorArgs(
                 [
                     $this->connection,
                     [
-                        BaseApiConnector::CONFIG_MAX_RETRIES => 0,
-                        BaseApiConnector::CONFIG_EXCEPTION_MESSAGES => [
+                        ApiOptions::CONFIG_MAX_RETRIES => 3,
+                        ApiOptions::RETRIABLE_EXCEPTION_MESSAGES => [
                             $expectedErrorMessage
                         ]
                     ]
@@ -397,7 +366,209 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
 
         [$level, $message, $context] = $this->logs[1];
         self::assertSame(LogLevel::INFO, $level);
-        self::assertSame("Retrying request. Reason for initial failure: " . $expectedErrorMessage, $message);
+        self::assertSame("Retrying request. Reason for initial failure: Bad Gateway", $message);
+        self::assertEmpty($context);
+    }
+    public function testSendDocumentRetryCustomMessage()
+    {
+
+        $expectedErrorMessage = 'my custom error message';
+        $this->service = $this->getMockForAbstractClass(
+            BaseApiConnector::class,
+            [
+                $this->connection,
+                [
+                    ApiOptions::RETRIABLE_EXCEPTION_MESSAGES => [
+                        $expectedErrorMessage
+                    ]
+                ]
+            ]
+        );
+
+        $request_document = new \DOMDocument();
+        $request_document->loadXML('<dimension>value</dimension>');
+
+        $this->connection->expects($this->any())
+            ->method("getAuthenticatedClient")
+            ->with(Services::PROCESSXML())
+            ->willReturn($this->client);
+
+        $this->client->expects($this->any())
+            ->method("sendDocument")
+            ->will($this->throwException(new \SoapFault('Server', $expectedErrorMessage)));
+
+        $this->service->setLogger($this);
+        try {
+            $this->service->sendXmlDocument($request_document);
+        } catch (\PhpTwinfield\Exception $e) {
+        }
+
+        self::assertCount(8, $this->logs);
+
+        [$level, $message, $context] = $this->logs[0];
+        self::assertSame(LogLevel::DEBUG, $level);
+        self::assertSame('Sending request to Twinfield.', $message);
+        self::assertSame($this->completeXml('<dimension>value</dimension>'), $context['document_xml']);
+
+        [$level, $message, $context] = $this->logs[1];
+        self::assertSame(LogLevel::INFO, $level);
+        self::assertSame("Retrying request. Reason for initial failure: my custom error message", $message);
+        self::assertEmpty($context);
+    }
+    public function testOverrideMessagesAndThrowSSLError()
+    {
+
+        $customErrorMessage = 'my custom error message';
+        $baseErrorMessage = 'SSL: Connection reset by peer';
+        $this->service = $this->getMockForAbstractClass(
+            BaseApiConnector::class,
+            [
+                $this->connection,
+                [
+                    ApiOptions::RETRIABLE_EXCEPTION_MESSAGES => [
+                        $customErrorMessage
+                    ]
+                ]
+            ]
+        );
+
+        $request_document = new \DOMDocument();
+        $request_document->loadXML('<dimension>value</dimension>');
+
+        $this->connection->expects($this->any())
+            ->method("getAuthenticatedClient")
+            ->with(Services::PROCESSXML())
+            ->willReturn($this->client);
+
+
+        $this->client->expects($this->any())
+            ->method("sendDocument")
+            ->will(
+                $this->onConsecutiveCalls(
+                    $this->throwException(new \SoapFault('Server', $customErrorMessage)),
+                    $this->throwException(new \SoapFault('Server', $baseErrorMessage)),
+                    $this->throwException(new \SoapFault('Server', $baseErrorMessage)),
+                    $this->throwException(new \SoapFault('Server', $baseErrorMessage))
+                )
+            );
+
+        $this->service->setLogger($this);
+        try {
+            $this->service->sendXmlDocument($request_document);
+        } catch (\PhpTwinfield\Exception $e) {
+        }
+
+        self::assertCount(4, $this->logs);
+
+        [$level, $message, $context] = $this->logs[1];
+        self::assertSame(LogLevel::INFO, $level);
+        self::assertSame('Retrying request. Reason for initial failure: my custom error message', $message);
+        [$level, $message, $context] = $this->logs[3];
+        self::assertSame(LogLevel::ERROR, $level);
+        self::assertSame('Request to Twinfield failed: SSL: Connection reset by peer', $message);
+
+    }
+    public function testSendDocumentAddACustomMessage()
+    {
+
+        $customErrorMessage = 'my custom error message';
+        $baseErrorMessage = 'SSL: Connection reset by peer';
+        $this->service = $this->getMockForAbstractClass(
+            BaseApiConnector::class,
+            [
+                $this->connection,
+                [
+                    ApiOptions::APPEND_RETRIABLE_EXCEPTION_MESSAGES => [
+                        $customErrorMessage
+                    ]
+                ]
+            ]
+        );
+
+        $request_document = new \DOMDocument();
+        $request_document->loadXML('<dimension>value</dimension>');
+
+        $this->connection->expects($this->any())
+            ->method("getAuthenticatedClient")
+            ->with(Services::PROCESSXML())
+            ->willReturn($this->client);
+
+
+        $this->client->expects($this->any())
+            ->method("sendDocument")
+            ->will(
+                $this->onConsecutiveCalls(
+                    $this->throwException(new \SoapFault('Server', $customErrorMessage)),
+                    $this->throwException(new \SoapFault('Server', $baseErrorMessage)),
+                    $this->throwException(new \SoapFault('Server', $baseErrorMessage)),
+                    $this->throwException(new \SoapFault('Server', $baseErrorMessage))
+                )
+            );
+
+        $this->service->setLogger($this);
+        try {
+            $this->service->sendXmlDocument($request_document);
+        } catch (\PhpTwinfield\Exception $e) {
+        }
+
+        self::assertCount(8, $this->logs);
+
+        [$level, $message, $context] = $this->logs[1];
+        self::assertSame(LogLevel::INFO, $level);
+        self::assertSame('Retrying request. Reason for initial failure: my custom error message', $message);
+        [$level, $message, $context] = $this->logs[3];
+        self::assertSame(LogLevel::INFO, $level);
+        self::assertSame('Retrying request. Reason for initial failure: SSL: Connection reset by peer', $message);
+        [$level, $message, $context] = $this->logs[5];
+        self::assertSame(LogLevel::INFO, $level);
+        self::assertSame('Retrying request. Reason for initial failure: SSL: Connection reset by peer', $message);
+        [$level, $message, $context] = $this->logs[7];
+        self::assertSame(LogLevel::ERROR, $level);
+        self::assertSame('Request to Twinfield failed: SSL: Connection reset by peer', $message);
+
+    }
+    public function testSendDocumentZeroRetries()
+    {
+
+        $expectedErrorMessage = 'my custom error message';
+        $this->service = $this->getMockForAbstractClass(
+            BaseApiConnector::class,
+            [
+                $this->connection,
+                [
+                    ApiOptions::CONFIG_MAX_RETRIES => 0
+                ]
+            ]
+        );
+
+        $request_document = new \DOMDocument();
+        $request_document->loadXML('<dimension>value</dimension>');
+
+        $this->connection->expects($this->any())
+            ->method("getAuthenticatedClient")
+            ->with(Services::PROCESSXML())
+            ->willReturn($this->client);
+
+        $this->client->expects($this->any())
+            ->method("sendDocument")
+            ->will($this->throwException(new \SoapFault('Server', $expectedErrorMessage)));
+
+        $this->service->setLogger($this);
+        try {
+            $this->service->sendXmlDocument($request_document);
+        } catch (\PhpTwinfield\Exception $e) {
+        }
+
+        self::assertCount(2, $this->logs);
+
+        [$level, $message, $context] = $this->logs[0];
+        self::assertSame(LogLevel::DEBUG, $level);
+        self::assertSame('Sending request to Twinfield.', $message);
+        self::assertSame($this->completeXml('<dimension>value</dimension>'), $context['document_xml']);
+
+        [$level, $message, $context] = $this->logs[1];
+        self::assertSame(LogLevel::ERROR, $level);
+        self::assertSame("Request to Twinfield failed: my custom error message", $message);
         self::assertEmpty($context);
     }
 }

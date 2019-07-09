@@ -181,7 +181,54 @@ $sortFields[] = new BrowseSortField('fin.trs.head.code');
 $browseData = $connector->getBrowseData('000', $columns, $sortFields);
 ```
 
+### ApiConnector Configuration
+
+It is possible to configure any ApiConnector by passing an array of configuration when creating the object.
+
+| Configuration key                               | Default Value                                                | Description                                                  |
+| ----------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ApiOptions::CONFIG_MAX_RETRIES                  | 3                                                            | The number of retries that should happen.                    |
+| ApiOptions::RETRIABLE_EXCEPTION_MESSAGES        | [ <br />"SSL: Connection reset by peer",     <br />"Your logon credentials are not valid anymore. Try to log on again." <br />] | The exception messages that should be match in order to retry automatically. If you set this option it will overwrite the default values. |
+| ApiOptions::APPEND_RETRIABLE_EXCEPTION_MESSAGES | []                                                           | The exception messages that should be added to the default exception messages. |
+
+If you need to overwrite the default messages use the **ApiOptions::RETRIABLE_EXCEPTION_MESSAGES**, if you need to add a new message use the **ApiOptions::APPEND_RETRIABLE_EXCEPTION_MESSAGES**.
+
+
+
+In the example below the number of retries will be 5 and it will retry if the error message matches one of the messages passed.
+
+```php
+$connector = new BrowseDataApiConnector(
+    $connection,
+    [
+        ApiOptions::CONFIG_MAX_RETRIES => 5,
+        ApiOptions::RETRIABLE_EXCEPTION_MESSAGES => [
+            "SSL: Connection reset by peer",
+            "Bad Gateway"
+        ]
+    ]
+);
+```
+
+
+
+Another example, adding a new exception message to the stack:
+
+```php
+$connector = new BrowseDataApiConnector(
+    $connection,
+    [
+        ApiOptions::APPEND_RETRIABLE_EXCEPTION_MESSAGES => [
+            "Bad Gateway"
+        ]
+    ]
+);
+```
+
+
+
 ### Supported resources
+
 Not all resources from the Twinfield API are currently implemented. Feel free to create a pull request when you need
 support for another resource.
 
