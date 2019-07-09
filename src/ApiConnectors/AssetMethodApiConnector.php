@@ -122,7 +122,7 @@ class AssetMethodApiConnector extends BaseApiConnector implements HasEqualInterf
         foreach ($returnedFreeTexts as $key => $returnedFreeText) {
             $id = $returnedFreeText->getID();
 
-            if (!in_array($id, $idArray)) {
+            if (!in_array($id, $idArray) && (!empty($returnedFreeText->getElementValue()) || $returnedFreeText->getType() != 'text')) {
                 $returnedFreeText->setType(\PhpTwinfield\Enums\FreeTextType::TEXT());
                 $returnedFreeText->setElementValue('');
                 $equal = false;

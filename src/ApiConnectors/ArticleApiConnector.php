@@ -120,7 +120,7 @@ class ArticleApiConnector extends BaseApiConnector implements HasEqualInterface
         foreach ($returnedLines as $key => $returnedLine) {
             $id = $returnedLine->getID();
 
-            if (!in_array($id, $idArray)) {
+            if (!in_array($id, $idArray) && $returnedLine->getStatus() != 'deleted') {
                 $returnedLine->setStatus(\PhpTwinfield\Enums\Status::DELETED());
                 $equal = false;
             }

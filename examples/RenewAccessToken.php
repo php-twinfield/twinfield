@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
 /* Store a valid access token and cluster through a scheduled task/cron job running in the background.
  * Running the following code every 60 minutes (or a bit less as Access Tokens are valid for exactly 60 minutes)
  * will reduce connection time when working with the API (by about 2 seconds).

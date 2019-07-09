@@ -160,6 +160,7 @@ class SalesTransactionLine extends BaseTransactionLine
 
     /*
      * Payment status of the transaction. If line type detail or vat always notmatchable. Read-only attribute.
+     * NOTE: The above statement from the Twinfield API documentation is incorrect as detail lines can also have other match statuses than notmatchable
      *
      * @param MatchStatus|null $matchStatus
      * @return $this
@@ -167,7 +168,8 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setMatchStatus(?MatchStatus $matchStatus): parent
     {
-        if ($matchStatus !== null && in_array($this->getLineType(), [LineType::DETAIL(), LineType::VAT()]) && $matchStatus != MatchStatus::NOTMATCHABLE()) {
+        //if ($matchStatus !== null && in_array($this->getLineType(), [LineType::DETAIL(), LineType::VAT()]) && $matchStatus != MatchStatus::NOTMATCHABLE()) {
+        if ($matchStatus !== null && in_array($this->getLineType(), [LineType::VAT()]) && $matchStatus != MatchStatus::NOTMATCHABLE()) {
             throw Exception::invalidMatchStatusForLineType($matchStatus, $this);
         }
 

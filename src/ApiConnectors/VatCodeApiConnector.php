@@ -122,7 +122,7 @@ class VatCodeApiConnector extends BaseApiConnector implements HasEqualInterface
         foreach ($returnedPercentages as $key => $returnedPercentage) {
             $date = Util::formatDate($returnedPercentage->getDate());
 
-            if (!in_array($date, $dateArray)) {
+            if (!in_array($date, $dateArray) && $returnedPercentage->getStatus() != 'deleted') {
                 $returnedPercentage->setStatus(\PhpTwinfield\Enums\Status::DELETED());
                 $equal = false;
             }

@@ -63,16 +63,23 @@ trait CloseAndStartValueFields
      */
     public function setStartValue(?Money $startValue): void
     {
-        $currency = new Currency();
-        $currency->setCode($startValue->getCurrency());
+        if (!empty($startValue->getCurrency())) {
+            $currency = \PhpTwinfield\Currency::fromCode($startValue->getCurrency());
+            $this->currency = $currency;
+        }
 
-        $this->currency = $currency;
         $this->startValue = $startValue;
         $this->closeValue = $startValue;
     }
 
     public function getCloseValue(): Money
     {
-        return $this->closeValue ?? new Money(0, new \Money\Currency($this->getCurrency()->getCode()));
+        if (!empty($this->getCurrency())) {
+           $currencyCode = $this->getCurrency()->getCode();
+        } else {
+            $currencyCode = 'EUR';
+        }
+
+        return $this->closeValue ?? new Money(0, new \Money\Currency($currencyCode));
     }
 }

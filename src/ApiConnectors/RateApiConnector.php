@@ -121,7 +121,7 @@ class RateApiConnector extends BaseApiConnector implements HasEqualInterface
         foreach ($returnedRateChanges as $key => $returnedRateChange) {
             $id = $returnedRateChange->getID();
 
-            if (!in_array($id, $idArray)) {
+            if (!in_array($id, $idArray) && $returnedRateChange->getStatus() != 'deleted') {
                 $returnedRateChange->setStatus(\PhpTwinfield\Enums\Status::DELETED());
                 $equal = false;
             }

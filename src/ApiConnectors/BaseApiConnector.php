@@ -263,8 +263,9 @@ abstract class BaseApiConnector implements LoggerAwareInterface
 
                 if (!$equal) {
                     $apiConnector->sendAll([$returnedObject], true)[0];
-                    sleep(2);
-                    $individualMappedResponse = $apiConnector->sendAll([$sentObjects[$key]], true)[0];
+					sleep(2);
+					$sentObjects[$key]->setCode($returnedObject->getCode());
+					$individualMappedResponse = $apiConnector->sendAll([$sentObjects[$key]], true)[0];
                 }
             }
 

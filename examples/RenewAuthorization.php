@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
 /* A user with login access to Twinfield needs to grant authorization to the API at least every 550 days.
  * Consider running this script through a task schedular/Cron once every week to check if the authorization needs to be imminently renewed.
  * Email the user the request for renewal of the authorization at that time and keep resending the request every week until authorization is granted.

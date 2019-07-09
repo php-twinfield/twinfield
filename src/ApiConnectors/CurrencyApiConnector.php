@@ -160,7 +160,7 @@ class CurrencyApiConnector extends BaseApiConnector implements HasEqualInterface
         foreach ($returnedRates as $returnedRate) {
             $date = Util::formatDate($returnedRate->getStartDate());
 
-            if (!in_array($date, $dateArray)) {
+            if (!in_array($date, $dateArray) && $returnedRate->getStatus() != 'deleted') {
                 $returnedRate->setStatus(\PhpTwinfield\Enums\Status::DELETED());
                 $equal = false;
             }
