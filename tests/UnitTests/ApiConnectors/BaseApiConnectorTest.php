@@ -79,8 +79,7 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
 
     private function getMaxNumRetries(): int
     {
-        $reflectionConstant = new \ReflectionClassConstant(BaseApiConnector::class,"MAX_RETRIES");
-        return $reflectionConstant->getValue();
+        return $this->service->getConfig(BaseApiConnector::CONFIG_MAX_RETRIES);
     }
 
     public function testSendDocumentLogsRequestAndResponse()
@@ -285,5 +284,120 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
 
         $numRetries = $this->getObjectAttribute($this->service, "numRetries");
         $this->assertEquals(0, $numRetries);
+    }
+    /**
+     * @dataProvider soapFaultProvider
+     * @dataProvider errorExceptionProvider
+     */
+    public function testResendXmlDocumentStopsAfterCustomMaxRetries(\Exception $exception)
+    {
+        $this->service = $this->getMockBuilder(BaseApiConnector::class)
+            ->setConstructorArgs(
+                [
+                    $this->connection,
+                    [
+                        BaseApiConnector::CONFIG_MAX_RETRIES => 5
+                    ]
+                ]
+            )
+            ->getMockForAbstractClass();
+
+        $this->connection->expects($this->exactly($this->getMaxNumRetries() + 1))
+            ->method("getAuthenticatedClient")
+            ->with(Services::PROCESSXML())
+            ->willReturn($this->client);
+
+        $this->connection->expects($this->exactly($this->getMaxNumRetries() + 1))
+            ->method("resetClient")
+            ->with(Services::PROCESSXML());
+
+        $this->client->expects($this->exactly($this->getMaxNumRetries() + 1))
+            ->method("sendDocument")
+            ->willThrowException($exception);
+
+        $this->expectException(Exception::class);
+        $this->service->sendXmlDocument(new \DOMDocument());
+
+        $numRetries = $this->getObjectAttribute($this->service, "numRetries");
+        $this->assertEquals(0, $numRetries);
+    }
+
+    public function testSendDocumentRetryBadGateway()
+    {
+        $request_document = new \DOMDocument();
+        $request_document->loadXML('<dimension>value</dimension>');
+
+        $this->connection->expects($this->any())
+            ->method("getAuthenticatedClient")
+            ->with(Services::PROCESSXML())
+            ->willReturn($this->client);
+
+        $this->client->expects($this->any())
+            ->method("sendDocument")
+            ->will($this->throwException(new \SoapFault('Server', 'Bad Gateway')));
+
+        $this->service->setLogger($this);
+        try {
+            $this->service->sendXmlDocument($request_document);
+        } catch (\PhpTwinfield\Exception $e) {
+        }
+
+        self::assertCount(8, $this->logs);
+
+        [$level, $message, $context] = $this->logs[0];
+        self::assertSame(LogLevel::DEBUG, $level);
+        self::assertSame('Sending request to Twinfield.', $message);
+        self::assertSame($this->completeXml('<dimension>value</dimension>'), $context['document_xml']);
+
+        [$level, $message, $context] = $this->logs[1];
+        self::assertSame(LogLevel::INFO, $level);
+        self::assertSame("Retrying request. Reason for initial failure: Bad Gateway", $message);
+        self::assertEmpty($context);
+    }
+    public function testSendDocumentRetryCustomMessage()
+    {
+        $expectedErrorMessage = 'my custom error message';
+        $this->service = $this->getMockBuilder(BaseApiConnector::class)
+            ->setConstructorArgs(
+                [
+                    $this->connection,
+                    [
+                        BaseApiConnector::CONFIG_MAX_RETRIES => 0,
+                        BaseApiConnector::CONFIG_EXCEPTION_MESSAGES => [
+                            $expectedErrorMessage
+                        ]
+                    ]
+                ]
+            )
+            ->getMockForAbstractClass();
+        $request_document = new \DOMDocument();
+        $request_document->loadXML('<dimension>value</dimension>');
+
+        $this->connection->expects($this->any())
+            ->method("getAuthenticatedClient")
+            ->with(Services::PROCESSXML())
+            ->willReturn($this->client);
+
+        $this->client->expects($this->any())
+            ->method("sendDocument")
+            ->will($this->throwException(new \SoapFault('Server', $expectedErrorMessage)));
+
+        $this->service->setLogger($this);
+        try {
+            $this->service->sendXmlDocument($request_document);
+        } catch (\PhpTwinfield\Exception $e) {
+        }
+
+        self::assertCount(8, $this->logs);
+
+        [$level, $message, $context] = $this->logs[0];
+        self::assertSame(LogLevel::DEBUG, $level);
+        self::assertSame('Sending request to Twinfield.', $message);
+        self::assertSame($this->completeXml('<dimension>value</dimension>'), $context['document_xml']);
+
+        [$level, $message, $context] = $this->logs[1];
+        self::assertSame(LogLevel::INFO, $level);
+        self::assertSame("Retrying request. Reason for initial failure: " . $expectedErrorMessage, $message);
+        self::assertEmpty($context);
     }
 }

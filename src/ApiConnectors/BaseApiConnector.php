@@ -24,13 +24,27 @@ abstract class BaseApiConnector implements LoggerAwareInterface
      */
     private const RETRY_REQUEST_EXCEPTION_MESSAGES = [
         "SSL: Connection reset by peer",
-        "Your logon credentials are not valid anymore. Try to log on again."
+        "Your logon credentials are not valid anymore. Try to log on again.",
+        "Bad Gateway"
     ];
 
     /**
      * @var int
      */
     private const MAX_RETRIES = 3;
+
+    /**
+     * The key for the configuration array that indicates the max retires
+     * @var string
+     */
+    public const CONFIG_MAX_RETRIES = 'max_retries';
+
+    /**
+     * The key for the configuration array that indicates the exceptions messages that would be retried
+     * @var string
+     */
+    public const CONFIG_EXCEPTION_MESSAGES = 'exception_messages';
+
 
     /**
      * @var AuthenticatedConnection
@@ -42,9 +56,53 @@ abstract class BaseApiConnector implements LoggerAwareInterface
      */
     private $numRetries = 0;
 
-    public function __construct(AuthenticatedConnection $connection)
+    /**
+     * @var mixed
+     */
+    private $config;
+
+    public function __construct(AuthenticatedConnection $connection, array $configuration = [])
     {
         $this->connection = $connection;
+        $this->setConfig($configuration);
+    }
+
+    /**
+     * @param array $configuration
+     */
+    private function setConfig(array $configuration): void
+    {
+
+        if (!empty($configuration[self::CONFIG_MAX_RETRIES]) && (int) $configuration[self::CONFIG_MAX_RETRIES] >= 0) {
+            $this->config[self::CONFIG_MAX_RETRIES] = $configuration[self::CONFIG_MAX_RETRIES];
+        } else {
+            $this->config[self::CONFIG_MAX_RETRIES] = self::MAX_RETRIES;
+        }
+
+        if (!empty($configuration[self::CONFIG_EXCEPTION_MESSAGES])) {
+            $this->config[self::CONFIG_EXCEPTION_MESSAGES] = [];
+            foreach($configuration[self::CONFIG_EXCEPTION_MESSAGES] as $message) {
+                $this->config[self::CONFIG_EXCEPTION_MESSAGES][] = (string) $message;
+            }
+        } else {
+            $this->config[self::CONFIG_EXCEPTION_MESSAGES] = self::RETRY_REQUEST_EXCEPTION_MESSAGES;
+        }
+
+    }
+
+    /**
+     * @param string $key
+     * @return mixed
+     * @throws \RuntimeException
+     */
+    public function getConfig(string $key)
+    {
+        if (empty($this->config[$key])) {
+            throw new \RuntimeException(
+                sprintf('The configuration for the key: [%s] was not set.', $key)
+            );
+        }
+        return $this->config[$key];
     }
 
     /**
@@ -64,6 +122,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
      * @param \DOMDocument $document
      * @return \PhpTwinfield\Response\Response
      * @throws Exception
+     * @throws \RuntimeException
      */
     public function sendXmlDocument(\DOMDocument $document) {
         $this->logSendingDocument($document);
@@ -83,13 +142,13 @@ abstract class BaseApiConnector implements LoggerAwareInterface
             $this->connection->resetClient(Services::PROCESSXML());
 
             /* For a given set of exception messages, always retry the request. */
-            foreach (self::RETRY_REQUEST_EXCEPTION_MESSAGES as $message) {
+            foreach ($this->getConfig(self::CONFIG_EXCEPTION_MESSAGES) as $message) {
                 if (stripos($exception->getMessage(), $message) === false) {
                     continue;
                 }
                 $this->numRetries++;
 
-                if ($this->numRetries > self::MAX_RETRIES) {
+                if ($this->numRetries > $this->getConfig(self::CONFIG_MAX_RETRIES)) {
                     break;
                 }
 
