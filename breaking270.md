@@ -1,4 +1,4 @@
-# Breaking changes since 2.6.2
+# Breaking changes since 2.7.0
 Release ... added multiple new resources, but also broke several existing ones.
 
 Breaking changes are present in:

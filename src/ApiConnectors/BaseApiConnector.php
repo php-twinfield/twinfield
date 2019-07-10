@@ -19,22 +19,6 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     use LoggerAwareTrait;
 
     /**
-     * Make sure to only add error messages for failure cases that caused the server not to accept / receive the
-     * request. Else the automatic retry will cause the request to be understood by the server twice.
-     *
-     * @var string[]
-     */
-    private const RETRY_REQUEST_EXCEPTION_MESSAGES = [
-        "SSL: Connection reset by peer",
-        "Your logon credentials are not valid anymore. Try to log on again."
-    ];
-
-    /**
-     * @var int
-     */
-    private const MAX_RETRIES = 3;
-
-    /**
      * @var AuthenticatedConnection
      */
     private $connection;
@@ -44,9 +28,23 @@ abstract class BaseApiConnector implements LoggerAwareInterface
      */
     private $numRetries = 0;
 
-    public function __construct(AuthenticatedConnection $connection)
+    /**
+     * @var ApiOptions
+     */
+    private $options;
+
+    /**
+     * @throws \InvalidArgumentException
+     */
+    public function __construct(AuthenticatedConnection $connection, ?ApiOptions $options = null)
     {
         $this->connection = $connection;
+
+        if ($options === null) {
+            $this->options = new ApiOptions();
+        } else {
+            $this->options = $options;
+        }
     }
 
     /**
@@ -58,6 +56,11 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     public function getConnection(): AuthenticatedConnection
     {
         return $this->connection;
+    }
+
+    public function getOptions(): ApiOptions
+    {
+        return $this->options;
     }
 
     /**
@@ -77,6 +80,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
      * @param \DOMDocument $document
      * @return \PhpTwinfield\Response\Response
      * @throws Exception
+     * @throws \RuntimeException
      */
     public function sendXmlDocument(\DOMDocument $document) {
         $this->logSendingDocument($document);
@@ -96,13 +100,13 @@ abstract class BaseApiConnector implements LoggerAwareInterface
             $this->connection->resetClient(Services::PROCESSXML());
 
             /* For a given set of exception messages, always retry the request. */
-            foreach (self::RETRY_REQUEST_EXCEPTION_MESSAGES as $message) {
+            foreach ($this->getOptions()->getRetriableExceptionMessages() as $message) {
                 if (stripos($exception->getMessage(), $message) === false) {
                     continue;
                 }
                 $this->numRetries++;
 
-                if ($this->numRetries > self::MAX_RETRIES) {
+                if ($this->numRetries > $this->getOptions()->getMaxRetries()) {
                     break;
                 }
 

@@ -212,8 +212,8 @@ class CustomerDocumentUnitTest extends TestCase
             <vatcode/>
 	    </financials>
 	    <creditmanagement>
-            <basecreditlimit/>
-            <blocked/>
+            <basecreditlimit>0</basecreditlimit>
+            <blocked>false</blocked>
             <comment/>
             <freetext1/>
             <freetext2/>

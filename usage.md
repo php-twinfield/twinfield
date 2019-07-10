@@ -162,6 +162,76 @@ if ($accessTokenStorage['access_expiry'] > time()) {
 }
 ```
 
+#### ApiConnector Configuration
+The ApiConnector has a constructor second parameter that can be used to configure some aspects of its operation.
+
+The ApiOptions has the following methods signature:
+
+ ```php
+/**
+ * This will allow you to enforce the messages or the number of max retries.
+ * Passing null you will use the default values.
+ */
+public function __construct(?array $messages = null, ?int $maxRetries = null);
+/**
+ * This will allow you to get all the exception messages
+ */
+public function getRetriableExceptionMessages(): array
+/**
+ * This will allow you to replace the exception messages that should be retried
+ */
+public function setRetriableExceptionMessages(array $retriableExceptionMessages): ApiOptions
+/**
+ * This will allow you to add new messages to the array of exception messages
+ */
+public function addMessages(array $messages): ApiOptions
+/**
+ * This will allow you to get the number of max retries
+ */
+public function getMaxRetries(): int
+/**
+ * This will allow you to set the number of max retries
+ */
+public function setMaxRetries(int $maxRetries): ApiOptions
+```
+
+:exclamation: All the *get* methods will return a new instance with the configuration you changed.
+
+##### Configuration Examples
+Below are some examples on how to use the configuration object
+
+ ```php
+$connector = new BrowseDataApiConnector(
+    $connection,
+    new ApiOptions(
+        [
+            "SSL: Connection reset by peer",
+            "Bad Gateway"
+        ], 
+        3
+    )
+);
+```
+
+The example below will look for the default messages plus the "Bad Gateway" message.
+
+ ```php
+$options = new ApiOptions(
+    null, 
+    3
+);
+$connector = new BrowseDataApiConnector(
+    $connection,
+    $options->addMessages(["Bad Gateway"])
+);
+```
+
+##### Configuration default values
+| Attribute                    | Default Value                                                                                                                   | Description                                                                  |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Max retries                  | 3                                                                                                                               | The number of retries that should happen before throwing an error.           |
+| Retriable exception messages | [ <br />"SSL: Connection reset by peer",     <br />"Your logon credentials are not valid anymore. Try to log on again." <br />] | The exception messages that should be match in order to retry automatically. |
+
 ## Getting data from the API
 See [Customer Example](examples/Customer.php) among others for a complete example.
 
