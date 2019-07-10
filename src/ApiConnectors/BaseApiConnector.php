@@ -57,7 +57,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     {
         return $this->connection;
     }
-    
+
     public function getOptions(): ApiOptions
     {
         return $this->options;
