@@ -34,6 +34,7 @@ class CustomerCreditManagement extends BaseObject
 
     public function __construct()
     {
+        $this->setBlocked(false);
         $this->setSendReminder(\PhpTwinfield\Enums\SendReminder::TRUE());
     }
 }

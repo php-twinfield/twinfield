@@ -105,7 +105,12 @@ class CustomersDocument extends BaseDocument
         $creditManagementElement = $this->createElement('creditmanagement');
         $customerElement->appendChild($creditManagementElement);
 
-        $creditManagementElement->appendChild($this->createNodeWithTextContent('basecreditlimit', Util::formatMoney($creditManagement->getBaseCreditLimit())));
+        if ($creditManagement->getBaseCreditLimit() !== null) {
+            $creditManagementElement->appendChild($this->createNodeWithTextContent('basecreditlimit', Util::formatMoney($creditManagement->getBaseCreditLimit())));
+        } else {
+            $creditManagementElement->appendChild($this->createNodeWithTextContent('basecreditlimit', 0));
+        }
+        
         $creditManagementElement->appendChild($this->createNodeWithTextContent('blocked', Util::formatBoolean($creditManagement->getBlocked())));
         $creditManagementElement->appendChild($this->createNodeWithTextContent('comment', $creditManagement->getComment()));
         $creditManagementElement->appendChild($this->createNodeWithTextContent('freetext1', Util::formatBoolean($creditManagement->getFreeText1())));
