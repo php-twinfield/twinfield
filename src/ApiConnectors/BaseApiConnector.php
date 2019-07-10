@@ -17,22 +17,6 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     use LoggerAwareTrait;
 
     /**
-     * Make sure to only add error messages for failure cases that caused the server not to accept / receive the
-     * request. Else the automatic retry will cause the request to be understood by the server twice.
-     *
-     * @var string[]
-     */
-    private const RETRY_REQUEST_EXCEPTION_MESSAGES = [
-        "SSL: Connection reset by peer",
-        "Your logon credentials are not valid anymore. Try to log on again."
-    ];
-
-    /**
-     * @var int
-     */
-    private const MAX_RETRIES = 3;
-
-    /**
      * @var AuthenticatedConnection
      */
     private $connection;
@@ -43,71 +27,26 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     private $numRetries = 0;
 
     /**
-     * @var mixed
+     * @var ApiOptions
      */
-    private $config;
+    private $options;
 
     /**
      * @throws \InvalidArgumentException
      */
-    public function __construct(AuthenticatedConnection $connection, array $configuration = [])
+    public function __construct(AuthenticatedConnection $connection, ApiOptions $options = null)
     {
         $this->connection = $connection;
-
-        $this->config[ApiOptions::RETRIABLE_EXCEPTION_MESSAGES] = ApiOptions::RETRIABLE_EXCEPTION_MESSAGES;
-        $this->config[ApiOptions::CONFIG_MAX_RETRIES] = self::MAX_RETRIES;
-
-        $this->setConfig($configuration);
-    }
-
-    /**
-     * @throws \InvalidArgumentException
-     */
-    private function setConfig(array $configuration): void
-    {
-        if (array_key_exists(ApiOptions::CONFIG_MAX_RETRIES, $configuration)) {
-            if ($configuration[ApiOptions::CONFIG_MAX_RETRIES] < 0) {
-                throw new \InvalidArgumentException(
-                    'The CONFIG_MAX_RETRIES configuration cannot be less than zero.'
-                );
-            }
-            $this->config[ApiOptions::CONFIG_MAX_RETRIES] = $configuration[ApiOptions::CONFIG_MAX_RETRIES];
-        }
-
-        if (empty($configuration[ApiOptions::RETRIABLE_EXCEPTION_MESSAGES])) {
-            $error_messages = self::RETRY_REQUEST_EXCEPTION_MESSAGES;
+        if ($options === null) {
+            $this->options = new ApiOptions();
         } else {
-            $error_messages = $configuration[ApiOptions::RETRIABLE_EXCEPTION_MESSAGES];
+            $this->options = $options;
         }
-
-        if (!empty($configuration[ApiOptions::APPEND_RETRIABLE_EXCEPTION_MESSAGES])) {
-            $error_messages = array_merge(
-                $error_messages,
-                $configuration[ApiOptions::APPEND_RETRIABLE_EXCEPTION_MESSAGES]
-            );
-        }
-
-        $this->config[ApiOptions::CONFIG_EXCEPTION_MESSAGES] = array_filter(
-            $error_messages,
-            static function(string $message):bool {
-                return trim($message) !== '';
-            }
-        );
     }
 
-    /**
-     * @param string $key
-     * @return mixed
-     * @throws \RuntimeException
-     */
-    public function getConfig(string $key)
+    public function getOptions(): ApiOptions
     {
-        if (!array_key_exists($key, $this->config)) {
-            throw new \RuntimeException(
-                sprintf('The configuration for the key: [%s] was not set.', $key)
-            );
-        }
-        return $this->config[$key];
+        return $this->options;
     }
 
     /**
@@ -147,13 +86,13 @@ abstract class BaseApiConnector implements LoggerAwareInterface
             $this->connection->resetClient(Services::PROCESSXML());
 
             /* For a given set of exception messages, always retry the request. */
-            foreach ($this->getConfig(ApiOptions::CONFIG_EXCEPTION_MESSAGES) as $message) {
+            foreach ($this->getOptions()->getRetriableExceptionMessages() as $message) {
                 if (stripos($exception->getMessage(), $message) === false) {
                     continue;
                 }
                 $this->numRetries++;
 
-                if ($this->numRetries > $this->getConfig(ApiOptions::CONFIG_MAX_RETRIES)) {
+                if ($this->numRetries > $this->getOptions()->getMaxRetries()) {
                     break;
                 }
 

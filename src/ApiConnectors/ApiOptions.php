@@ -2,32 +2,113 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+/**
+ * Class ApiOptions
+ * @package PhpTwinfield\ApiConnectors
+ */
 final class ApiOptions
 {
     /**
-     * The key for the configuration array that indicates the max retires
-     * @var string
+     * @var string[] exception messages that should be retried
      */
-    public const CONFIG_MAX_RETRIES = 'max_retries';
+    private $retriableExceptionMessages = [
+        "SSL: Connection reset by peer",
+        "Your logon credentials are not valid anymore. Try to log on again."
+    ];
+    private $maxRetries = 3;
 
     /**
-     * The key for the configuration array inside the BaseApiConnector
-     * @var string
+     * @throws \InvalidArgumentException
      */
-    public const CONFIG_EXCEPTION_MESSAGES = 'config_exception_messages';
+    public function __construct(?array $messages = null, ?int $maxRetries = null)
+    {
+        if ($messages !== null) {
+            $this->validateMessages($messages);
+            $this->retriableExceptionMessages = $messages;
+        }
+        if ($maxRetries !== null) {
+            $this->validateMaxRetries($maxRetries);
+            $this->maxRetries = $maxRetries;
+        }
+    }
 
     /**
-     * The key for the configuration array that indicates the exceptions messages that would be retried
-     * This key will overwrite the default retriable messages.
-     * @var string
+     * @throws \InvalidArgumentException
      */
-    public const RETRIABLE_EXCEPTION_MESSAGES = 'retriable_messages';
-    /**
-     * The key for the configuration array that indicates the exceptions messages that would be retried
-     * This key will append to the array of retriable messages.
-     * @var string
-     */
-    public const APPEND_RETRIABLE_EXCEPTION_MESSAGES = 'append_retriable_messages';
+    private function validateMaxRetries(int $maxRetries): void
+    {
+        if ($maxRetries < 0) {
+            throw new \InvalidArgumentException('The max retries should be a positive integer.');
+        }
+    }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
+    private function validateMessages(array $messages): void
+    {
+        $exceptions = [];
+        array_walk(
+            $messages,
+            static function(string $message, string $key):void
+            {
+                if (trim($message) === '') {
+                    $exceptions[] = sprintf('The exception message should not be empty. Key: [%s]', $key);
+                }
+            }
+        );
+        if (count($exceptions)) {
+            throw new \InvalidArgumentException(implode(PHP_EOL, $exceptions));
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getRetriableExceptionMessages(): array
+    {
+        return $this->retriableExceptionMessages;
+    }
+
+    /**
+     * @throws \InvalidArgumentException
+     */
+    public function setRetriableExceptionMessages(array $retriableExceptionMessages): ApiOptions
+    {
+        return new self(
+            $retriableExceptionMessages,
+            $this->maxRetries
+        );
+    }
+
+    /**
+     * @throws \InvalidArgumentException
+     */
+    public function addMessages(array $messages): ApiOptions
+    {
+        return new self(
+            array_merge($messages, $this->retriableExceptionMessages),
+            $this->maxRetries
+        );
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxRetries(): int
+    {
+        return $this->maxRetries;
+    }
+
+    /**
+     * @throws \InvalidArgumentException
+     */
+    public function setMaxRetries(int $maxRetries): ApiOptions
+    {
+        return new self(
+            $this->retriableExceptionMessages,
+            $maxRetries
+        );
+    }
 
 }

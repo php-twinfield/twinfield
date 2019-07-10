@@ -296,9 +296,7 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
             ->setConstructorArgs(
                 [
                     $this->connection,
-                    [
-                        ApiOptions::CONFIG_MAX_RETRIES => 5
-                    ]
+                    new ApiOptions(null, 5)
                 ]
             )
             ->getMockForAbstractClass();
@@ -330,12 +328,7 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
             ->setConstructorArgs(
                 [
                     $this->connection,
-                    [
-                        ApiOptions::CONFIG_MAX_RETRIES => 3,
-                        ApiOptions::RETRIABLE_EXCEPTION_MESSAGES => [
-                            $expectedErrorMessage
-                        ]
-                    ]
+                    new ApiOptions([$expectedErrorMessage], 3)
                 ]
             )
             ->getMockForAbstractClass();
@@ -377,11 +370,7 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
             BaseApiConnector::class,
             [
                 $this->connection,
-                [
-                    ApiOptions::RETRIABLE_EXCEPTION_MESSAGES => [
-                        $expectedErrorMessage
-                    ]
-                ]
+                new ApiOptions([$expectedErrorMessage])
             ]
         );
 
@@ -420,15 +409,12 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
 
         $customErrorMessage = 'my custom error message';
         $baseErrorMessage = 'SSL: Connection reset by peer';
+
         $this->service = $this->getMockForAbstractClass(
             BaseApiConnector::class,
             [
                 $this->connection,
-                [
-                    ApiOptions::RETRIABLE_EXCEPTION_MESSAGES => [
-                        $customErrorMessage
-                    ]
-                ]
+                new ApiOptions([$customErrorMessage])
             ]
         );
 
@@ -473,15 +459,12 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
 
         $customErrorMessage = 'my custom error message';
         $baseErrorMessage = 'SSL: Connection reset by peer';
+        $options = new ApiOptions();
         $this->service = $this->getMockForAbstractClass(
             BaseApiConnector::class,
             [
                 $this->connection,
-                [
-                    ApiOptions::APPEND_RETRIABLE_EXCEPTION_MESSAGES => [
-                        $customErrorMessage
-                    ]
-                ]
+                $options->addMessages([$customErrorMessage])
             ]
         );
 
@@ -535,9 +518,7 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
             BaseApiConnector::class,
             [
                 $this->connection,
-                [
-                    ApiOptions::CONFIG_MAX_RETRIES => 0
-                ]
+                new ApiOptions(null, 0)
             ]
         );
 
