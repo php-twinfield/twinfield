@@ -315,10 +315,15 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
             ->willThrowException($exception);
 
         $this->expectException(Exception::class);
-        $this->service->sendXmlDocument(new \DOMDocument());
+        try{
+            $this->service->sendXmlDocument(new \DOMDocument());
+        }catch (\Exception $e) {
+            throw $e;
+        } finally {
+            $numRetries = $this->getObjectAttribute($this->service, "numRetries");
+            $this->assertEquals(0, $numRetries);
+        }
 
-        $numRetries = $this->getObjectAttribute($this->service, "numRetries");
-        $this->assertEquals(0, $numRetries);
     }
 
     public function testSendDocumentRetryBadGateway()

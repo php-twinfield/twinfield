@@ -2,19 +2,13 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
-/**
- * Class ApiOptions
- * @package PhpTwinfield\ApiConnectors
- */
 final class ApiOptions
 {
-    /**
-     * @var string[] exception messages that should be retried
-     */
     private $retriableExceptionMessages = [
         "SSL: Connection reset by peer",
         "Your logon credentials are not valid anymore. Try to log on again."
     ];
+
     private $maxRetries = 3;
 
     /**
@@ -47,18 +41,12 @@ final class ApiOptions
      */
     private function validateMessages(array $messages): void
     {
-        $exceptions = [];
-        array_walk(
-            $messages,
-            static function(string $message, string $key):void
-            {
-                if (trim($message) === '') {
-                    $exceptions[] = sprintf('The exception message should not be empty. Key: [%s]', $key);
-                }
+        foreach ($messages as $key => $message) {
+            if (trim($message) === '') {
+                throw new \InvalidArgumentException(
+                    sprintf('The exception message should not be empty. Key: [%s]', $key)
+                );
             }
-        );
-        if (count($exceptions)) {
-            throw new \InvalidArgumentException(implode(PHP_EOL, $exceptions));
         }
     }
 
@@ -110,5 +98,4 @@ final class ApiOptions
             $maxRetries
         );
     }
-
 }

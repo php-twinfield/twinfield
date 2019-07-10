@@ -34,7 +34,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     /**
      * @throws \InvalidArgumentException
      */
-    public function __construct(AuthenticatedConnection $connection, ApiOptions $options = null)
+    public function __construct(AuthenticatedConnection $connection, ?ApiOptions $options = null)
     {
         $this->connection = $connection;
         if ($options === null) {
