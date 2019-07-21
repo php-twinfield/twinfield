@@ -57,7 +57,7 @@ $office = \PhpTwinfield\Office::fromCode($officeCode);
  */
 
 /* Read a BankTransaction based off the passed in bank day book code, transaction number and optionally the office.
- * The used transaction type, in the example below BNK depends on the administration. It is possible that there are multiple bank day book codes in an administration.
+ * The used transaction type, in the example below BNK, depends on the administration. It is possible that there are multiple bank day book codes in an administration.
  * See https://accounting.twinfield.com/UI/#/Settings/Company/TransactionTypes for available codes for (bank) day books in your office
  */
 
@@ -267,7 +267,7 @@ if ($executeNew) {
     $bankTransactionLine2->setDim1($dim1);                                                                                                                  // object|null                  If line type = total the bank balance account. If line type = detail the customer or supplier balance account or profit and loss account.
     $bankTransactionLine2->setDim1(\PhpTwinfield\GeneralLedger::fromCode('2500'));                                                                          // string|null                  If line type = vat the VAT balance account. When an empty dim1 is entered, by default the general ledger account will be taken as entered at the VAT code in Twinfield.
     $bankTransactionLine2->setID(2);                                                                                                                        // int|null            	        Line ID.
-    $bankTransactionLine2->setValue(\Money\Money::EUR(-10000));                                                                                              // Money|null                   If line type = total amount including VAT. If line type = detail amount without VAT. If line type = vat VAT amount.
+    $bankTransactionLine2->setValue(\Money\Money::EUR(-10000));                                                                                              // Money|null                  If line type = total amount including VAT. If line type = detail amount without VAT. If line type = vat VAT amount.
 
     //$bankTransactionLine2->setComment('Example Comments');                                                                                                // string|null                  Comment set on the transaction line.
     $currencyDate = \DateTime::createFromFormat('d-m-Y', '01-09-2019');

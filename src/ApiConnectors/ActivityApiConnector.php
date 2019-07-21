@@ -49,7 +49,7 @@ class ActivityApiConnector extends BaseApiConnector
     }
 
     /**
-     * Sends a Activity instance to Twinfield to update or add.
+     * Sends an Activity instance to Twinfield to update or add.
      *
      * @param Activity $activity
      * @return Activity

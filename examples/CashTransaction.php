@@ -57,7 +57,7 @@ $office = \PhpTwinfield\Office::fromCode($officeCode);
  */
 
 /* Read a CashTransaction based off the passed in cash day book code, transaction number and optionally the office.
- * The used transaction type, in the example below KAS depends on the administration. It is possible that there are multiple cash day book codes in an administration.
+ * The used transaction type, in the example below KAS, depends on the administration. It is possible that there are multiple cash day book codes in an administration.
  * See https://accounting.twinfield.com/UI/#/Settings/Company/TransactionTypes for available codes for (cash) day books in your office
  */
 
