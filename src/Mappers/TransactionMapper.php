@@ -124,7 +124,7 @@ class TransactionMapper extends BaseMapper
         }
 
         if (Util::objectUses(RegimeField::class, $transaction)) {
-            $transaction->setRegime(self::getField($transactionElement, 'regime', $transaction));
+            $transaction->setRegime(self::parseEnumAttribute(\PhpTwinfield\Enums\Regime::class, self::getField($transactionElement, 'regime', $transaction)));
         }
 
         if (Util::objectUses(StatementNumberField::class, $transaction)) {

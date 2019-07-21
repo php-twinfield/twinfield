@@ -309,7 +309,7 @@ if ($executeNew) {
     $activityProjects->setValidTill($validTill);                                                                                                    // DateTimeInterface|null       An activity can be set to only be valid for certain dates. Users will then only be able to book hours to the activity during these dates.
     $activityProjects->setValidTill(Util::parseDate('20191231'));                                                                                   // string|null
 
-    // The minimum amount of ActivityQuantities linked to a ActivityProjects object is 0, the maximum amount is 4
+    // The minimum amount of ActivityQuantities linked to an ActivityProjects object is 0, the maximum amount is 4
     $activityQuantity = new \PhpTwinfield\ActivityQuantity;
     $activityQuantity->setBillable(false);                                                                                                          // bool|null                    Is the quantity line billable or not.
     $activityQuantity->setBillableLocked(false);                                                                                                    // bool|null
