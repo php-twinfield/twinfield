@@ -2,25 +2,38 @@
 
 namespace PhpTwinfield\DomDocuments;
 
+use PhpTwinfield\BankTransaction;
 use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\BaseTransactionLine;
 use PhpTwinfield\CashTransaction;
 use PhpTwinfield\Enums\LineType;
-use PhpTwinfield\JournalTransactionLine;
-use PhpTwinfield\Transactions\TransactionFields\DueDateField;
-use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
-use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
-use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
-use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
-use PhpTwinfield\Transactions\TransactionLineFields\FreeCharField;
-use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
-use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
+use PhpTwinfield\Fields\DueDateField;
+use PhpTwinfield\Fields\FreeText1Field;
+use PhpTwinfield\Fields\FreeText2Field;
+use PhpTwinfield\Fields\FreeText3Field;
+use PhpTwinfield\Fields\InvoiceNumberField;
+use PhpTwinfield\Fields\PerformanceDateField;
+use PhpTwinfield\Fields\PerformanceTypeField;
+use PhpTwinfield\Fields\Transaction\CloseAndStartValueFields;
+use PhpTwinfield\Fields\Transaction\PaymentReferenceField;
+use PhpTwinfield\Fields\Transaction\RegimeField;
+use PhpTwinfield\Fields\Transaction\StatementNumberField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\BaselineField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\CurrencyDateField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\FreeCharField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\PerformanceCountryField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\PerformanceVatNumberField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\ValueFields;
+use PhpTwinfield\Fields\Transaction\TransactionLine\ValueOpenField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\VatBaseTotalField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\VatRepTotalField;
+use PhpTwinfield\Fields\Transaction\TransactionLine\VatTotalField;
 use PhpTwinfield\Util;
 
 /**
  * TransactionsDocument class.
  *
- * @author Dylan Schoenmakers <dylan@opifer.nl>
+ * @author Dylan Schoenmakers <dylan@opifer.nl>, extended by Yannick Aerssens <y.r.aerssens@gmail.com>
  */
 class TransactionsDocument extends BaseDocument
 {
@@ -43,11 +56,12 @@ class TransactionsDocument extends BaseDocument
         // Transaction
         $transactionElement = $this->createElement('transaction');
         $transactionElement->setAttribute('destiny', $transaction->getDestiny());
+
         if ($transaction->getRaiseWarning() !== null) {
-            $transactionElement->appendChild($this->createBooleanAttribute('raisewarning', $transaction->getRaiseWarning()));
+            $transactionElement->setAttribute('raisewarning', Util::formatBoolean($transaction->getRaiseWarning()));
         }
-        if ($transaction->isAutoBalanceVat() !== null) {
-            $transactionElement->appendChild($this->createBooleanAttribute('autobalancevat', $transaction->isAutoBalanceVat()));
+        if ($transaction->getAutoBalanceVat() !== null) {
+            $transactionElement->setAttribute('autobalancevat', Util::formatBoolean($transaction->getAutoBalanceVat()));
         }
 
         $this->rootElement->appendChild($transactionElement);
@@ -56,62 +70,59 @@ class TransactionsDocument extends BaseDocument
         $headerElement = $this->createElement('header');
         $transactionElement->appendChild($headerElement);
 
-        $codeElement = $this->createNodeWithTextContent('code', $transaction->getCode());
-        $headerElement->appendChild($codeElement);
+        $headerElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($transaction->getOffice())));
+        $headerElement->appendChild($this->createNodeWithTextContent('code', $transaction->getCode()));
 
         if ($transaction->getNumber() !== null) {
-            $numberElement = $this->createNodeWithTextContent('number', $transaction->getNumber());
-            $headerElement->appendChild($numberElement);
+            $headerElement->appendChild($this->createNodeWithTextContent('number', $transaction->getNumber()));
+        }
+
+        if ($transaction->getPeriod() !== null) {
+            $headerElement->appendChild($this->createNodeWithTextContent('period', $transaction->getPeriod()));
         }
 
         if ($transaction->getCurrency() !== null) {
-            $currencyElement = $this->createNodeWithTextContent('currency', $transaction->getCurrency());
-            $headerElement->appendChild($currencyElement);
+            $headerElement->appendChild($this->createNodeWithTextContent('currency', Util::objectToStr($transaction->getCurrency())));
         }
 
-        $this->appendDateElement($headerElement, "date", $transaction->getDate());
-
-        if ($transaction->getPeriod() !== null) {
-            $periodElement = $this->createNodeWithTextContent('period', $transaction->getPeriod());
-            $headerElement->appendChild($periodElement);
+        if (Util::objectUses(RegimeField::class, $transaction) && $transaction->getRegime() !== null) {
+            $headerElement->appendChild($this->createNodeWithTextContent('regime', $transaction->getRegime()));
         }
 
-        if (
-            in_array(InvoiceNumberField::class, class_uses($transaction)) &&
-            $transaction->getInvoiceNumber() !== null
-        ) {
-            $invoiceNumberElement = $this->createNodeWithTextContent('invoicenumber', $transaction->getInvoiceNumber());
-            $headerElement->appendChild($invoiceNumberElement);
-        }
+        $headerElement->appendChild($this->createNodeWithTextContent("date", Util::formatDate($transaction->getDate()), $transaction, array('raisewarning' => 'getDateRaiseWarningToString')));
 
-        if (
-            in_array(PaymentReferenceField::class, class_uses($transaction)) &&
-            $transaction->getPaymentReference() !== null
-        ) {
-            $paymentReferenceElement = $this->createNodeWithTextContent('paymentreference', $transaction->getPaymentReference());
-            $headerElement->appendChild($paymentReferenceElement);
-        }
-
-        $officeElement = $this->createNodeWithTextContent('office', $transaction->getOffice());
-        $headerElement->appendChild($officeElement);
-
-        if (Util::objectUses(DueDateField::class, $transaction) &&
-            $transaction->getDueDate() !== null
-        ) {
-            $this->appendDateElement($headerElement, "duedate", $transaction->getDueDate());
-        }
-
-        if (Util::objectUses(StatementNumberField::class, $transaction) &&
-            $transaction->getStatementnumber() !== null) {
+        if (Util::objectUses(StatementNumberField::class, $transaction) && $transaction->getStatementnumber() !== null) {
             $headerElement->appendChild($this->createNodeWithTextContent('statementnumber', $transaction->getStatementnumber()));
         }
 
-        if ($transaction instanceof CashTransaction) {
-            $headerElement->appendChild($this->createNodeWithTextContent('startvalue', Util::formatMoney($transaction->getStartvalue())));
-            $headerElement->appendChild($this->createNodeWithTextContent('closevalue', Util::formatMoney($transaction->getClosevalue())));
+        if (Util::objectUses(CloseAndStartValueFields::class, $transaction)) {
+            $headerElement->appendChild($this->createNodeWithTextContent('startvalue', Util::formatMoney($transaction->getStartValue())));
+            $headerElement->appendChild($this->createNodeWithTextContent('closevalue', Util::formatMoney($transaction->getCloseValue())));
         }
 
-        $this->appendFreeTextFields($headerElement, $transaction);
+        if (Util::objectUses(DueDateField::class, $transaction) && $transaction->getDueDate() !== null) {
+            $headerElement->appendChild($this->createNodeWithTextContent("duedate", Util::formatDate($transaction->getDueDate())));
+        }
+
+        if (Util::objectUses(InvoiceNumberField::class, $transaction) && $transaction->getInvoiceNumber() !== null) {
+            $headerElement->appendChild($this->createNodeWithTextContent('invoicenumber', $transaction->getInvoiceNumber(), $transaction, array('raisewarning' => 'getInvoiceNumberRaiseWarningToString')));
+        }
+
+        if (Util::objectUses(PaymentReferenceField::class, $transaction) && $transaction->getPaymentReference() !== null) {
+            $headerElement->appendChild($this->createNodeWithTextContent('paymentreference', $transaction->getPaymentReference()));
+        }
+
+        if ($transaction->getFreeText1() !== null) {
+            $headerElement->appendChild($this->createNodeWithTextContent("freetext1", $transaction->getFreeText1()));
+        }
+
+        if ($transaction->getFreeText2() !== null) {
+            $headerElement->appendChild($this->createNodeWithTextContent("freetext2", $transaction->getFreeText2()));
+        }
+
+        if ($transaction->getFreeText3() !== null) {
+            $headerElement->appendChild($this->createNodeWithTextContent("freetext3", $transaction->getFreeText3()));
+        }
 
         $linesElement = $this->createElement('lines');
         $transactionElement->appendChild($linesElement);
@@ -124,116 +135,119 @@ class TransactionsDocument extends BaseDocument
             $lineElement->setAttribute('id', $transactionLine->getId());
             $linesElement->appendChild($lineElement);
 
-            $dim1Element = $this->createNodeWithTextContent('dim1', $transactionLine->getDim1());
-            $lineElement->appendChild($dim1Element);
+            $lineElement->appendChild($this->createNodeWithTextContent('dim1', Util::objectToStr($transactionLine->getDim1())));
 
-            $dim2 = $transactionLine->getDim2();
-            if (!empty($dim2)) {
-                $dim2Element = $this->createNodeWithTextContent('dim2', $dim2);
-                $lineElement->appendChild($dim2Element);
+            if (!empty($transactionLine->getDim2())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('dim2', Util::objectToStr($transactionLine->getDim2())));
             }
 
-            $this->appendValueValues($lineElement, $transactionLine);
-
-            if (Util::objectUses(PerformanceFields::class, $transactionLine)) {
-                /** @var PerformanceFields $transactionLine */
-                $performanceType = $transactionLine->getPerformanceType();
-                if (!empty($performanceType)) {
-                    $perfElement = $this->createNodeWithTextContent('performancetype', $performanceType);
-                    $lineElement->appendChild($perfElement);
-                }
-
-                $performanceCountry = $transactionLine->getPerformanceCountry();
-                if (!empty($performanceCountry)) {
-                    $perfCountryElement = $this->createNodeWithTextContent('performancecountry', $performanceCountry);
-                    $lineElement->appendChild($perfCountryElement);
-                }
-
-                $performanceVatNumber = $transactionLine->getPerformanceVatNumber();
-                if (!empty($performanceVatNumber)) {
-                    $perfVatNumberElement = $this->createNodeWithTextContent('performancevatnumber', $performanceVatNumber);
-                    $lineElement->appendChild($perfVatNumberElement);
-                }
-
-                $performanceDate = $transactionLine->getPerformanceDate();
-                if (!empty($performanceDate)) {
-                    $this->appendDateElement($lineElement, "performancedate", $transactionLine->getPerformanceDate());
-                }
+            if (!empty($transactionLine->getDim3())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('dim3', Util::objectToStr($transactionLine->getDim3())));
             }
 
-            if (Util::objectUses(FreeCharField::class, $transactionLine)) {
-                /** @var FreeCharField $transactionLine */
-                $freeChar = $transactionLine->getFreeChar();
-                if (!empty($freeChar)) {
-                    $freeCharElement = $this->createNodeWithTextContent('freechar', $freeChar);
-                    $lineElement->appendChild($freeCharElement);
-                }
+            if (Util::objectUses(ValueFields::class, $transactionLine)) {
+                $lineElement->appendChild($this->createNodeWithTextContent('debitcredit', $transactionLine->getDebitCredit()));
+                $lineElement->appendChild($this->createNodeWithTextContent('value', Util::formatMoney($transactionLine->getValue())));
             }
 
-            if (Util::objectUses(FreeTextFields::class, $transactionLine)) {
-                $freetext1 = $transactionLine->getFreetext1();
-                if (!empty($freetext1)) {
-                    $freetext1Element = $this->createNodeWithTextContent('freetext1', $freetext1);
-                    $lineElement->appendChild($freetext1Element);
-                }
-
-                $freetext2 = $transactionLine->getFreetext2();
-                if (!empty($freetext2)) {
-                    $freetext2Element = $this->createNodeWithTextContent('freetext2', $freetext2);
-                    $lineElement->appendChild($freetext2Element);
-                }
-
-                $freetext3 = $transactionLine->getFreetext3();
-                if (!empty($freetext3)) {
-                    $freetext3Element = $this->createNodeWithTextContent('freetext3', $freetext3);
-                    $lineElement->appendChild($freetext3Element);
-                }
+            if (Util::objectUses(BaselineField::class, $transactionLine) && !empty($transactionLine->getBaseline())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('baseline', $transactionLine->getBaseline()));
             }
 
-            if (Util::objectUses(VatTotalFields::class, $transactionLine)) {
-                /** @var VatTotalFields $transactionLine */
-                $vatTotal = $transactionLine->getVatTotal();
-                if (!empty($vatTotal)) {
-                    $vatTotalElement = $this->createNodeWithTextContent('vattotal', Util::formatMoney($vatTotal));
-                    $lineElement->appendChild($vatTotalElement);
-                }
-
-                $vatBaseTotal= $transactionLine->getVatBaseTotal();
-                if (!empty($vatBaseTotal)) {
-                    $vatBaseTotalElement = $this->createNodeWithTextContent('vatbasetotal', Util::formatMoney($vatBaseTotal));
-                    $lineElement->appendChild($vatBaseTotalElement);
-                }
+            if (!empty($transactionLine->getBaseValue())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('basevalue', Util::formatMoney($transactionLine->getBaseValue())));
             }
 
-            if (Util::objectUses(InvoiceNumberField::class, $transactionLine) &&
-                $transactionLine->getInvoiceNumber() !== null
-            ) {
-                $invoiceNumberElement = $this->createNodeWithTextContent('invoicenumber', $transactionLine->getInvoiceNumber());
-                $lineElement->appendChild($invoiceNumberElement);
+            if (!empty($transactionLine->getComment())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('comment', $transactionLine->getComment()));
             }
 
-            $vatValue = $transactionLine->getVatValue();
-            if (!empty($vatValue)) {
-                $vatElement = $this->createNodeWithTextContent('vatvalue', Util::formatMoney($vatValue));
-                $lineElement->appendChild($vatElement);
+            if (Util::objectUses(CurrencyDateField::class, $transactionLine) && !empty($transactionLine->getCurrencyDate())) {
+                $lineElement->appendChild($this->createNodeWithTextContent("currencydate", Util::formatDate($transactionLine->getCurrencyDate())));
             }
 
-            $baseline = $transactionLine->getBaseline();
-            if (!empty($baseline)) {
-                $baselineElement = $this->createNodeWithTextContent('baseline', $baseline);
-                $lineElement->appendChild($baselineElement);
+            if (!empty($transactionLine->getDescription())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('description', $transactionLine->getDescription()));
             }
 
-            if ($transactionLine->getDescription() !== null) {
-                $descriptionNode = $this->createTextNode($transactionLine->getDescription());
-                $descriptionElement = $this->createElement('description');
-                $descriptionElement->appendChild($descriptionNode);
-                $lineElement->appendChild($descriptionElement);
+            if (!empty($transactionLine->getDestOffice())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('destoffice', Util::objectToStr($transactionLine->getDestOffice())));
             }
 
-            if (!LineType::TOTAL()->equals($transactionLine->getLineType()) && $transactionLine->getVatCode() !== null) {
-                $vatCodeElement = $this->createNodeWithTextContent('vatcode', $transactionLine->getVatCode());
-                $lineElement->appendChild($vatCodeElement);
+            if (Util::objectUses(FreeCharField::class, $transactionLine) && !empty($transactionLine->getFreeChar())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('freechar', $transactionLine->getFreeChar()));
+            }
+
+            if (Util::objectUses(InvoiceNumberField::class, $transactionLine) && !empty($transactionLine->getInvoiceNumber())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('invoicenumber', $transactionLine->getInvoiceNumber()));
+            }
+
+            if (Util::objectUses(PerformanceCountryField::class, $transactionLine) && !empty($transactionLine->getPerformanceCountry())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('performancecountry', Util::objectToStr($transactionLine->getPerformanceCountry())));
+            }
+
+            if (Util::objectUses(PerformanceDateField::class, $transactionLine) && !empty($transactionLine->getPerformanceDate())) {
+                $lineElement->appendChild($this->createNodeWithTextContent("performancedate", Util::formatDate($transactionLine->getPerformanceDate())));
+            }
+
+            if (Util::objectUses(PerformanceTypeField::class, $transactionLine) && !empty($transactionLine->getPerformanceType())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('performancetype', $transactionLine->getPerformanceType()));
+            }
+
+            if (Util::objectUses(PerformanceVatNumberField::class, $transactionLine) && !empty($transactionLine->getPerformanceVatNumber())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('performancevatnumber', $transactionLine->getPerformanceVatNumber()));
+            }
+
+            if (!empty($transactionLine->getRate())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('rate', $transactionLine->getRate()));
+            }
+
+            if (!empty($transactionLine->getRepRate())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('reprate', $transactionLine->getRepRate()));
+            }
+
+            if (!empty($transactionLine->getRepValue())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('repvalue', Util::formatMoney($transactionLine->getRepValue())));
+            }
+
+            if (Util::objectUses(VatBaseTotalField::class, $transactionLine) && !empty($transactionLine->getVatBaseTotal())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatbasetotal', Util::formatMoney($transactionLine->getVatBaseTotal())));
+            }
+
+            if (!empty($transactionLine->getVatBaseTurnover())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatbaseturnover', Util::formatMoney($transactionLine->getVatBaseTurnover())));
+            }
+
+            if (!empty($transactionLine->getVatBaseValue())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatbasevalue', Util::formatMoney($transactionLine->getVatBaseValue())));
+            }
+
+            if (!empty($transactionLine->getVatCode())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatcode', Util::objectToStr($transactionLine->getVatCode())));
+            }
+
+            if (Util::objectUses(VatRepTotalField::class, $transactionLine) && !empty($transactionLine->getVatRepTotal())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatreptotal', Util::formatMoney($transactionLine->getVatRepTotal())));
+            }
+
+            if (!empty($transactionLine->getVatRepValue())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatrepvalue', Util::formatMoney($transactionLine->getVatRepValue())));
+            }
+
+            if (!empty($transactionLine->getVatRepTurnover())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatrepturnover', Util::formatMoney($transactionLine->getVatRepTurnover())));
+            }
+
+            if (Util::objectUses(VatTotalField::class, $transactionLine) && !empty($transactionLine->getVatTotal())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vattotal', Util::formatMoney($transactionLine->getVatTotal())));
+            }
+
+            if (!empty($transactionLine->getVatTurnover())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatturnover', Util::formatMoney($transactionLine->getVatTurnover())));
+            }
+
+            if (!empty($transactionLine->getVatValue())) {
+                $lineElement->appendChild($this->createNodeWithTextContent('vatvalue', Util::formatMoney($transactionLine->getVatValue())));
             }
         }
     }

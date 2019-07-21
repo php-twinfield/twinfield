@@ -2,50 +2,64 @@
 
 namespace PhpTwinfield;
 
-class User
+use PhpTwinfield\Fields\CodeField;
+use PhpTwinfield\Fields\CreatedField;
+use PhpTwinfield\Fields\EmailField;
+use PhpTwinfield\Fields\ModifiedField;
+use PhpTwinfield\Fields\NameField;
+use PhpTwinfield\Fields\ShortNameField;
+use PhpTwinfield\Fields\StatusField;
+use PhpTwinfield\Fields\TouchedField;
+use PhpTwinfield\Fields\User\AcceptExtraCostField;
+use PhpTwinfield\Fields\User\CultureField;
+use PhpTwinfield\Fields\User\CultureNameField;
+use PhpTwinfield\Fields\User\CultureNativeNameField;
+use PhpTwinfield\Fields\User\DemoField;
+use PhpTwinfield\Fields\User\DemoLockedField;
+use PhpTwinfield\Fields\User\ExchangeQuotaField;
+use PhpTwinfield\Fields\User\ExchangeQuotaLockedField;
+use PhpTwinfield\Fields\User\FileManagerQuotaField;
+use PhpTwinfield\Fields\User\FileManagerQuotaLockedField;
+use PhpTwinfield\Fields\User\IsCurrentUserField;
+use PhpTwinfield\Fields\User\LevelField;
+use PhpTwinfield\Fields\User\PasswordField;
+use PhpTwinfield\Fields\User\RoleField;
+use PhpTwinfield\Fields\User\RoleLockedField;
+use PhpTwinfield\Fields\User\TypeField;
+use PhpTwinfield\Fields\User\TypeLockedField;
+
+class User extends BaseObject implements HasCodeInterface
 {
-    /**
-     * @var string The code of the user.
-     */
-    private $code;
+    use AcceptExtraCostField;
+    use CodeField;
+    use CreatedField;
+    use CultureField;
+    use CultureNameField;
+    use CultureNativeNameField;
+    use DemoField;
+    use DemoLockedField;
+    use EmailField;
+    use ExchangeQuotaField;
+    use ExchangeQuotaLockedField;
+    use FileManagerQuotaField;
+    use FileManagerQuotaLockedField;
+    use IsCurrentUserField;
+    use LevelField;
+    use ModifiedField;
+    use NameField;
+    use PasswordField;
+    use RoleField;
+    use RoleLockedField;
+    use ShortNameField;
+    use StatusField;
+    use TouchedField;
+    use TypeField;
+    use TypeLockedField;
 
-    /**
-     * @var string The name of the user.
-     */
-    private $name;
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
 
-    /**
-     * @var string The short name of the user.
-     */
-    private $shortName;
-
-    public function getCode(): string
-    {
-        return $this->code;
-    }
-
-    public function setCode(string $code): void
-    {
-        $this->code = $code;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function getShortName(): string
-    {
-        return $this->shortName;
-    }
-
-    public function setShortName(string $value): void
-    {
-        $this->shortName = $value;
+        return $instance;
     }
 }

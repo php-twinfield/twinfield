@@ -14,8 +14,8 @@
     </header>
     <lines>
         <line type="total" id="1">
-            <dim1 name="Crediteuren" shortname="Crediteuren" type="BAS" inuse="true" vatcode="" vatobligatory="false">1600</dim1>
-            <dim2 name="Supplier 0" shortname="" type="CRD" inuse="true" vatcode="" vatobligatory="false">2000</dim2>
+            <dim1 name="Crediteuren" shortname="Crediteuren" dimensiontype="BAS">1600</dim1>
+            <dim2 name="Supplier 0" shortname="" dimensiontype="CRD">2000</dim2>
             <value>121.00</value>
             <debitcredit>credit</debitcredit>
             <description />
@@ -33,7 +33,7 @@
             <matchstatus>available</matchstatus>
         </line>
         <line type="detail" id="2">
-            <dim1 name="Omzet (19%)" shortname="Omzet (19%)" type="PNL" inuse="true" vatcode="" vatobligatory="false">8020</dim1>
+            <dim1 name="Omzet (19%)" shortname="Omzet (19%)" dimensiontype="PNL">8020</dim1>
             <value>100.00</value>
             <debitcredit>debit</debitcredit>
             <description>Outfit</description>
@@ -47,7 +47,7 @@
             <matchstatus>notmatchable</matchstatus>
         </line>
         <line id="3" type="vat">
-            <dim1 name="Te vord OB 19%" shortname="Te vord OB 19%" type="BAS" inuse="true" vatcode="" vatobligatory="false">1510</dim1>
+            <dim1 name="Te vord OB 19%" shortname="Te vord OB 19%" dimensiontype="BAS">1510</dim1>
             <value>21.00</value>
             <vatcode>IH</vatcode>
             <debitcredit>debit</debitcredit>

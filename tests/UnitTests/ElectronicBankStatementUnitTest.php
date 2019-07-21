@@ -2,9 +2,10 @@
 
 namespace PhpTwinfield\UnitTests;
 
-use Money\Currency;
 use Money\Money;
+use PhpTwinfield\Currency;
 use PhpTwinfield\ElectronicBankStatement;
+use PhpTwinfield\Util;
 use PHPUnit\Framework\TestCase;
 
 class ElectronicBankStatementUnitTest extends TestCase
@@ -15,9 +16,9 @@ class ElectronicBankStatementUnitTest extends TestCase
     public function testCanSetCurrencyManually()
     {
         $ebs = new ElectronicBankStatement();
-        $ebs->setCurrency(new Currency("HUF"));
+        $ebs->setCurrency(Currency::fromCode("HUF"));
 
-        $this->assertEquals("HUF", $ebs->getCurrency());
+        $this->assertEquals("HUF", Util::objectToStr($ebs->getCurrency()));
     }
 
     /**
@@ -26,8 +27,8 @@ class ElectronicBankStatementUnitTest extends TestCase
     public function testCannotChangeCurrencyOnceValueIsSet()
     {
         $ebs = new ElectronicBankStatement();
-        $ebs->setStartvalue(Money::GBP(1));
+        $ebs->setStartValue(Money::GBP(1));
 
-        $ebs->setCurrency(new Currency("EUR"));
+        $ebs->setCurrency(Currency::fromCode("EUR"));
     }
 }

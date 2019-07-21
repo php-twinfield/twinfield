@@ -2,20 +2,17 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Transactions\TransactionFields\OfficeField;
+use PhpTwinfield\Fields\CodeField;
+use PhpTwinfield\Fields\NameField;
+use PhpTwinfield\Fields\OfficeField;
+use PhpTwinfield\Fields\ShortNameField;
 
-class BrowseDefinition
+class BrowseDefinition extends BaseObject implements HasCodeInterface
 {
+    use CodeField;
+    use NameField;
     use OfficeField;
-
-    /** @var string */
-    private $code;
-
-    /** @var string */
-    private $name;
-
-    /** @var string */
-    private $shortName;
+    use ShortNameField;
 
     /** @var bool */
     private $visible;
@@ -29,60 +26,6 @@ class BrowseDefinition
     public function __construct()
     {
         $this->columns = [];
-    }
-
-    /**
-     * @return string
-     */
-    public function getCode(): string
-    {
-        return $this->code;
-    }
-
-    /**
-     * @param string $code
-     * @return BrowseDefinition
-     */
-    public function setCode(string $code): BrowseDefinition
-    {
-        $this->code = $code;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     * @return BrowseDefinition
-     */
-    public function setName(string $name): BrowseDefinition
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getShortName(): string
-    {
-        return $this->shortName;
-    }
-
-    /**
-     * @param string $shortName
-     * @return BrowseDefinition
-     */
-    public function setShortName(string $shortName): BrowseDefinition
-    {
-        $this->shortName = $shortName;
-        return $this;
     }
 
     /**
@@ -122,13 +65,13 @@ class BrowseDefinition
     }
 
     /**
-     * @param $index
+     * @param $id
      * @return bool
      */
-    public function removeColumn($index)
+    public function removeColumn($id)
     {
-        if (array_key_exists($index, $this->columns)) {
-            unset($this->columns[$index]);
+        if (array_key_exists($id, $this->columns)) {
+            unset($this->columns[$id]);
             return true;
         } else {
             return false;

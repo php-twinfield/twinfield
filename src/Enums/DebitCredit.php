@@ -5,13 +5,13 @@ namespace PhpTwinfield\Enums;
 use MyCLabs\Enum\Enum;
 
 /**
- * @method static DebitCredit DEBIT()
  * @method static DebitCredit CREDIT()
+ * @method static DebitCredit DEBIT()
  */
 class DebitCredit extends Enum
 {
-    protected const DEBIT = "debit";
-    protected const CREDIT = "credit";
+    public const CREDIT      = "credit";
+    public const DEBIT       = "debit";
 
     final public function invert(): self
     {

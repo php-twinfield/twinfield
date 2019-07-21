@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<salesinvoice result="1">
+    <header>
+        <office>DEV1000</office>
+        <invoicetype>INVOICE</invoicetype>
+        <invoicenumber>10</invoicenumber>
+        <invoicedate>20190410</invoicedate>
+        <duedate>20190510</duedate>
+        <bank>BNK</bank>
+        <invoiceaddressnumber>1</invoiceaddressnumber>
+        <deliveraddressnumber>1</deliveraddressnumber>
+        <customer>1000</customer>
+        <period>2019/4</period>
+        <currency>EUR</currency>
+        <status>concept</status>
+        <paymentmethod>cash</paymentmethod>
+        <headertext>Headertext</headertext>
+        <footertext>Footertext</footertext>
+    </header>
+    <lines>
+        <line id="1">
+            <article>9060</article>
+            <subarticle>9060</subarticle>
+            <quantity>1</quantity>
+            <units>1</units>
+            <allowdiscountorpremium>true</allowdiscountorpremium>
+            <description>Afronding</description>
+            <valueexcl>0.00</valueexcl>
+            <vatvalue>0.00</vatvalue>
+            <valueinc>0.00</valueinc>
+            <unitspriceexcl>0.00</unitspriceexcl>
+            <freetext1/>
+            <freetext2/>
+            <freetext3/>
+            <dim1>9060</dim1>
+            <vatcode name="Export Buiten EU naam" shortname="EXP-BUI-EUK" type="sales">EXP-BUI-EU</vatcode>
+        </line>
+    </lines>
+    <vatlines>
+        <vatline>
+            <vatcode name="RExport Buiten EU naam">EXP-BUI-EU</vatcode>
+            <vatvalue>0.00</vatvalue>
+            <performancetype/>
+            <performancedate/>
+        </vatline>
+    </vatlines>
+    <totals>
+        <valueinc>0.00</valueinc>
+        <valueexcl>0.00</valueexcl>
+    </totals>
+</salesinvoice>

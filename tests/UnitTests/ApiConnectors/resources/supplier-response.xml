@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<dimension status="active" result="1">
+    <office name="Development BV" shortname="Development BV">DEV1000</office>
+    <type name="Crediteuren" shortname="Crediteuren">CRD</type>
+    <code>2000</code>
+    <uid>149e5dcb-8b37-446b-b865-f3928572618f</uid>
+    <name>Smits</name>
+    <shortname/>
+    <inuse>true</inuse>
+    <behaviour>normal</behaviour>
+    <touched>6</touched>
+    <beginperiod>0</beginperiod>
+    <beginyear>0</beginyear>
+    <endperiod>0</endperiod>
+    <endyear>0</endyear>
+    <website>http://www.test.com</website>
+    <cocnumber/>
+    <vatnumber/>
+    <editdimensionname>true</editdimensionname>
+    <financials>
+        <matchtype>customersupplier</matchtype>
+        <accounttype>inherit</accounttype>
+        <subanalyse>false</subanalyse>
+        <duedays>30</duedays>
+        <level>2</level>
+        <payavailable>true</payavailable>
+        <meansofpayment>paymentfile</meansofpayment>
+        <paycode name="SEPA betalingen Nederland" shortname="SEPA betalingen NL" id="F8A7C510-E28A-46CF-9257-482747020837">SEPANLCT</paycode>
+        <ebilling>false</ebilling>
+        <ebillmail/>
+        <substitutionlevel>1</substitutionlevel>
+        <substitutewith name="Crediteuren" shortname="Crediteuren" dimensiontype="BAS" id="96BCE6FD-D8FB-4238-9066-335951B6AE9B">1600</substitutewith>
+        <relationsreference>L2000</relationsreference>
+        <vattype name="" shortname=""/>
+        <vatcode name="BTW Hoog naam" shortname="HoogK" type="purchase" fixed="false">IH</vatcode>
+        <vatobligatory>false</vatobligatory>
+        <performancetype/>
+        <collectmandate>
+            <id>2000</id>
+            <signaturedate/>
+            <firstrundate/>
+        </collectmandate>
+        <collectionschema>core</collectionschema>
+        <childvalidations>
+            <childvalidation type="code" level="1">1600</childvalidation>
+        </childvalidations>
+    </financials>
+    <remittanceadvice>
+        <sendtype>ByEmail</sendtype>
+        <sendmail>test@test.nl</sendmail>
+    </remittanceadvice>
+    <addresses>
+        <address id="1" type="invoice" default="true">
+            <name>BDRNAAM</name>
+            <country name="Nederland" shortname="">NL</country>
+            <city>Utrecht</city>
+            <postcode>Postcode</postcode>
+            <telephone>Telefoon</telephone>
+            <telefax>Fax</telefax>
+            <email>test@test.com</email>
+            <contact/>
+            <field1>TAV</field1>
+            <field2>ADRESRGL1</field2>
+            <field3>ADRESRGL2</field3>
+            <field4>NL854800219B01</field4>
+            <field5>KVK</field5>
+            <field6/>
+        </address>
+    </addresses>
+    <banks>
+        <bank default="true" id="1" blocked="false" destination="1">
+            <ascription>Smits</ascription>
+            <accountnumber>417164300</accountnumber>
+            <address>
+                <field2>Testadres</field2>
+                <field3>10</field3>
+            </address>
+            <bankname>ABN</bankname>
+            <biccode>ABNANL2A</biccode>
+            <city>Utrecht</city>
+            <country name="Nederland" shortname="">NL</country>
+            <iban>NL91ABNA0417164300</iban>
+            <natbiccode>NL</natbiccode>
+            <postcode>1234AB</postcode>
+            <state>Teststraat</state>
+        </bank>
+    </banks>
+    <postingrules>
+        <postingrule id="1" status="active">
+            <currency name="EURO" shortname="&#x20AC;">EUR</currency>
+            <amount>100.00</amount>
+            <description>Test</description>
+            <lines>
+                <line>
+                    <office name="" shortname=""/>
+                    <dimension1 name="Goodwill" shortname="Goodwill" dimensiontype="BAS" id="223E7623-6BF8-44D9-97FC-E6C07EF912FD">0100</dimension1>
+                    <dimension2 name="Hoevelaken" shortname="" dimensiontype="KPL" id="235B085C-AFB8-4479-BFC5-C210E18D51F9">00001</dimension2>
+                    <dimension3 name="Afschrijving Computer" shortname="" dimensiontype="AST" id="64ECC423-9C05-43AA-84A0-204A276A68D9">60010</dimension3>
+                    <ratio>23</ratio>
+                    <vatcode name="Geen btw" shortname="Geen btw">#</vatcode>
+                    <description>Test</description>
+                </line>
+            </lines>
+        </postingrule>
+    </postingrules>
+    <paymentconditions>
+        <paymentcondition>
+            <discountdays>14</discountdays>
+            <discountpercentage>10.00</discountpercentage>
+        </paymentcondition>
+    </paymentconditions>
+    <blockedaccountpaymentconditions>
+        <percentage>20.00</percentage>
+        <includevat>true</includevat>
+    </blockedaccountpaymentconditions>
+</dimension>

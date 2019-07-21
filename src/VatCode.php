@@ -2,40 +2,64 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Fields\CodeField;
+use PhpTwinfield\Fields\CreatedField;
+use PhpTwinfield\Fields\ModifiedField;
+use PhpTwinfield\Fields\NameField;
+use PhpTwinfield\Fields\OfficeField;
+use PhpTwinfield\Fields\ShortNameField;
+use PhpTwinfield\Fields\StatusField;
+use PhpTwinfield\Fields\TouchedField;
+use PhpTwinfield\Fields\UIDField;
+use PhpTwinfield\Fields\UserField;
+use PhpTwinfield\Fields\VatCode\TypeField;
+
 /**
  * Class VatCode
  *
- * @author Emile Bons <emile@emilebons.nl>
+ * @author Emile Bons <emile@emilebons.nl>, extended by Yannick Aerssens <y.r.aerssens@gmail.com>
  */
-class VatCode
+class VatCode extends BaseObject implements HasCodeInterface
 {
-    /**
-     * @var string The code of the VAT code.
-     */
-    private $code;
+    use CodeField;
+    use CreatedField;
+    use ModifiedField;
+    use NameField;
+    use OfficeField;
+    use ShortNameField;
+    use StatusField;
+    use TouchedField;
+    use TypeField;
+    use UIDField;
+    use UserField;
 
-    /**
-     * @var string The name of the VAT code.
-     */
-    private $name;
+    private $percentages = [];
 
-    public function getCode(): string
-    {
-        return $this->code;
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
+
+        return $instance;
     }
 
-    public function setCode(string $code): void
+    public function getPercentages()
     {
-        $this->code = $code;
+        return $this->percentages;
     }
 
-    public function getName(): string
+    public function addPercentage(VatCodePercentage $percentage)
     {
-        return $this->name;
+        $this->percentages[] = $percentage;
+        return $this;
     }
 
-    public function setName(string $name): void
+    public function removePercentage($index)
     {
-        $this->name = $name;
+        if (array_key_exists($index, $this->percentages)) {
+            unset($this->percentages[$index]);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

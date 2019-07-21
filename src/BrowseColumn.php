@@ -4,7 +4,7 @@ namespace PhpTwinfield;
 
 use PhpTwinfield\Enums\BrowseColumnOperator;
 
-class BrowseColumn
+class BrowseColumn extends BaseObject
 {
     /** @var int */
     private $id;

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<assetmethod inuse="false" result="1" status="active">
+    <office name="Development BV" shortname="Development BV">DEV1000</office>
+    <code>101</code>
+    <name>Inventaris</name>
+    <shortname>Inv</shortname>
+    <created>20190426120347</created>
+    <modified>20190501092003</modified>
+    <touched>10</touched>
+    <user name="Test User" shortname="TstUsr">API000001</user>
+    <nrofperiods>0</nrofperiods>
+    <percentage>10</percentage>
+    <depreciatereconciliation>from_purchase_date</depreciatereconciliation>
+    <calcmethod>linearpercentage</calcmethod>
+    <balanceaccounts>
+        <purchasevaluegroup name="" shortname=""/>
+        <purchasevalue name="Afschr inventaris" shortname="Afschr inventaris" dimensiontype="BAS">0155</purchasevalue>
+        <depreciationgroup name="" shortname=""/>
+        <depreciation name="Inventaris" shortname="Inventaris" dimensiontype="BAS">0150</depreciation>
+        <assetstoactivate name="" shortname="" dimensiontype=""/>
+        <reconciliation name="" shortname="" dimensiontype=""/>
+        <tobeinvoiced name="" shortname="" dimensiontype=""/>
+    </balanceaccounts>
+    <profitlossaccounts>
+        <depreciation name="Afschr kstn inventaris" shortname="Afschr kstn inventar" dimensiontype="PNL">4750</depreciation>
+        <sales name="" shortname="" dimensiontype=""/>
+        <reconciliation name="" shortname="" dimensiontype=""/>
+    </profitlossaccounts>
+    <freetexts>
+        <freetext id="1" type="text">1</freetext>
+        <freetext id="2" type="text">2</freetext>
+        <freetext id="3" type="text">3</freetext>
+        <freetext id="4" type="text">4</freetext>
+        <freetext id="5" type="text">5</freetext>
+    </freetexts>
+</assetmethod>

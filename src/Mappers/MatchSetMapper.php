@@ -29,13 +29,13 @@ class MatchSetMapper extends BaseMapper
 
     private static function createMatchSetFrom(\DOMDocument $document): MatchSet
     {
+        $MatchSetElement = $document->documentElement;
+
         $matchSet = new MatchSet();
 
-        $matchSet->setOffice(Office::fromCode(self::getValueFromTag($document, "office")));
-        $matchSet->setMatchCode(new MatchCode(self::getValueFromTag($document, "matchcode")));
-        $matchSet->setMatchDate(
-            \DateTimeImmutable::createFromFormat("Ymd", self::getValueFromTag($document, "matchdate"))
-        );
+        $matchSet->setOffice(Office::fromCode(self::getField($MatchSetElement, "office")));
+        $matchSet->setMatchCode(new MatchCode(self::getField($MatchSetElement, "matchcode")));
+        $matchSet->setMatchDate(\DateTimeImmutable::createFromFormat("Ymd", self::getField($MatchSetElement, "matchdate")));
 
         return $matchSet;
     }
@@ -54,10 +54,7 @@ class MatchSetMapper extends BaseMapper
         }
     }
 
-    private static function getMatchReferenceFrom(
-        \DOMElement $lineElement,
-        Office $office
-    ): MatchReferenceInterface {
+    private static function getMatchReferenceFrom(\DOMElement $lineElement, Office $office): MatchReferenceInterface {
         return new MatchReference(
             $office,
             self::getField($lineElement, 'transcode'),

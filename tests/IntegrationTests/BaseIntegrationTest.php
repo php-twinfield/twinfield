@@ -2,6 +2,8 @@
 
 namespace PhpTwinfield\IntegrationTests;
 
+use PhpTwinfield\ApiConnectors\OfficeApiConnector;
+use PhpTwinfield\Currency;
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
@@ -56,6 +58,15 @@ abstract class BaseIntegrationTest extends TestCase
 
                 throw new \InvalidArgumentException("Unknown service {$service->getValue()}");
             });
+
+        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
+        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
+            $office = new Office;
+            $office->setResult(1);
+            $office->setBaseCurrency(Currency::fromCode('EUR'));
+            $office->setReportingCurrency(Currency::fromCode('USD'));
+            return $office;
+        });
     }
 
     protected function getSuccessfulResponse(): Response

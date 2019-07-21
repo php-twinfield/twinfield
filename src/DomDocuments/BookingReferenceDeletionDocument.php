@@ -3,6 +3,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\BookingReference;
+use PhpTwinfield\Util;
 
 class BookingReferenceDeletionDocument extends BaseDocument
 {
@@ -18,7 +19,7 @@ class BookingReferenceDeletionDocument extends BaseDocument
         $this->rootElement->setAttribute("action", "delete");
         $this->rootElement->setAttribute("reason", $reason);
 
-        $this->appendOfficeField($this->rootElement, $bookingReference->getOffice());
+        $this->rootElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($bookingReference->getOffice())));
 
         $this->rootElement->appendChild(
             $this->createNodeWithTextContent("code", $bookingReference->getCode())

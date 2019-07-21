@@ -32,12 +32,8 @@ class TransactionApiConnector extends BaseApiConnector
      * @throws Exception
      * @return BaseTransaction
      */
-    public function get(
-        string $transactionClassName,
-        string $code,
-        string $transactionNumber,
-        Office $office
-    ): BaseTransaction {
+    public function get(string $transactionClassName, string $code, string $transactionNumber, Office $office): BaseTransaction
+    {
         // Make a request to read a single transaction
         $request_transaction = new Request\Read\Transaction();
         $request_transaction
@@ -48,7 +44,7 @@ class TransactionApiConnector extends BaseApiConnector
         // Send the Request document and set the response to this instance
         $response = $this->sendXmlDocument($request_transaction);
 
-        return TransactionMapper::map($transactionClassName, $response);
+        return TransactionMapper::map($transactionClassName, $response, $this->getConnection());
     }
 
     /**
@@ -76,14 +72,10 @@ class TransactionApiConnector extends BaseApiConnector
 
         $classname = get_class(reset($transactions));
 
-        /*
-         * We can have multiple documents sent, so we need to collect all documents.
-         */
         /** @var Response[] $responses */
         $responses = [];
 
         foreach ($this->getProcessXmlService()->chunk($transactions) as $chunk) {
-
             $transactionsDocument = new TransactionsDocument();
 
             foreach ($chunk as $transaction) {
@@ -93,12 +85,8 @@ class TransactionApiConnector extends BaseApiConnector
             $responses[] = $this->sendXmlDocument($transactionsDocument);
         }
 
-        return $this->getProcessXmlService()->mapAll(
-            $responses,
-            "transaction",
-            function (Response $subresponse) use ($classname): BaseTransaction {
-                return TransactionMapper::map($classname, $subresponse);
-            }
-        );
+        return $this->getProcessXmlService()->mapAll($responses, "transaction", function (Response $subresponse) use ($classname): BaseTransaction {
+            return TransactionMapper::map($classname, $subresponse, $this->getConnection());
+        });
     }
 }

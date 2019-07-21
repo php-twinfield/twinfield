@@ -2,20 +2,27 @@
 
 namespace PhpTwinfield\IntegrationTests;
 
+use PhpTwinfield\ApiConnectors\ArticleApiConnector;
 use PhpTwinfield\ApiConnectors\InvoiceApiConnector;
+use PhpTwinfield\ApiConnectors\InvoiceTypeApiConnector;
+use PhpTwinfield\Article;
 use PhpTwinfield\Customer;
+use PhpTwinfield\Currency;
 use PhpTwinfield\DomDocuments\InvoicesDocument;
 use PhpTwinfield\Invoice;
 use PhpTwinfield\InvoiceLine;
 use PhpTwinfield\InvoiceTotals;
+use PhpTwinfield\InvoiceVatLine;
 use PhpTwinfield\Mappers\InvoiceMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Util;
 
 /**
  * @covers Invoice
  * @covers InvoiceLine
  * @covers InvoiceTotals
+ * @covers InvoiceVatLine
  * @covers InvoicesDocument
  * @covers InvoiceMapper
  * @covers InvoiceApiConnector
@@ -32,6 +39,25 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         parent::setUp();
 
         $this->invoiceApiConnector = new InvoiceApiConnector($this->connection);
+
+        $mockInvoiceTypeApiConnector = \Mockery::mock('overload:'.InvoiceTypeApiConnector::class)->makePartial();
+        $mockInvoiceTypeApiConnector->shouldReceive('getInvoiceTypeVatType')->andReturnUsing(function() {
+            return 'exclusive';
+        });
+
+        $mockArticleApiConnector = \Mockery::mock('overload:'.ArticleApiConnector::class)->makePartial();
+        $mockArticleApiConnector->shouldReceive('get')->andReturnUsing(function() {
+            $article = new Article;
+            $article->setAllowChangeVatCode(true);
+            return $article;
+        });
+    }
+
+    protected function tearDown()
+    {
+        unset($mockInvoiceTypeApiConnector, $mockArticleApiConnector);
+
+        \Mockery::close();
     }
 
     public function testGetConceptInvoiceWorks()
@@ -44,46 +70,59 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Invoice::class))
             ->willReturn($response);
 
-        $invoice = $this->invoiceApiConnector->get('FACTUUR', '5', $this->office);
+        $invoice = $this->invoiceApiConnector->get('FACTUUR', '5', Office::fromCode('001'));
 
         $this->assertInstanceOf(Invoice::class, $invoice);
         $this->assertEquals(Office::fromCode("11024"), $invoice->getOffice());
-        $this->assertSame('FACTUUR', $invoice->getInvoiceType());
+        $this->assertSame('FACTUUR', Util::objectToStr($invoice->getInvoiceType()));
         $this->assertSame('5', $invoice->getInvoiceNumber());
-        $this->assertSame('20120831', $invoice->getInvoiceDate());
-        $this->assertSame('BNK', $invoice->getBank());
-        $this->assertSame('1', $invoice->getInvoiceAddressNumber());
-        $this->assertSame('1', $invoice->getDeliverAddressNumber());
-        $this->assertSame('1000', $invoice->getCustomer()->getCode());
-        $this->assertSame('2012/8', $invoice->getPeriod());
-        $this->assertSame('EUR', $invoice->getCurrency());
-        $this->assertSame('concept', $invoice->getStatus());
-        $this->assertSame('cash', $invoice->getPaymentMethod());
+        $this->assertSame('20120831', Util::formatDate($invoice->getInvoiceDate()));
+        $this->assertSame('BNK', Util::objectToStr($invoice->getBank()));
+        $this->assertSame(1, $invoice->getInvoiceAddressNumber());
+        $this->assertSame(1, $invoice->getDeliverAddressNumber());
+        $this->assertSame('1000', Util::objectToStr($invoice->getCustomer()));
+        $this->assertSame('2012/08', $invoice->getPeriod());
+        $this->assertSame('EUR', Util::objectToStr($invoice->getCurrency()));
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\InvoiceStatus');
+        $this->assertSame($ReflectObject->getConstant('CONCEPT'), (string)$invoice->getStatus());
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\PaymentMethod');
+        $this->assertSame($ReflectObject->getConstant('CASH'), (string)$invoice->getPaymentMethod());
+        $this->assertSame('HEADER', $invoice->getHeaderText());
+        $this->assertSame('FOOTER', $invoice->getFooterText());
 
         $invoiceLines = $invoice->getLines();
         $this->assertCount(1, $invoiceLines);
-        $this->assertArrayHasKey('1', $invoiceLines);
+        $this->assertArrayHasKey(0, $invoiceLines);
 
         /** @var InvoiceLine $invoiceLine */
-        $invoiceLine = $invoiceLines['1'];
+        $invoiceLine = $invoiceLines[0];
 
-        $this->assertSame('1', $invoiceLine->getID());
-        $this->assertSame('0', $invoiceLine->getArticle());
-        $this->assertSame('118', $invoiceLine->getSubArticle());
-        $this->assertSame('1', $invoiceLine->getQuantity());
-        $this->assertSame('1', $invoiceLine->getUnits());
-        $this->assertSame('true', $invoiceLine->getAllowDiscountOrPremium());
+        $this->assertSame(1, $invoiceLine->getID());
+        $this->assertSame('0', Util::objectToStr($invoiceLine->getArticle()));
+        $this->assertSame('118', $invoiceLine->getSubArticleToString());
+        $this->assertSame(1.0, $invoiceLine->getQuantity());
+        $this->assertSame(1, $invoiceLine->getUnits());
+        $this->assertSame(true, $invoiceLine->getAllowDiscountOrPremium());
         $this->assertSame('CoalesceFunctioningOnImpatienceTShirt', $invoiceLine->getDescription());
-        $this->assertSame('15.00', $invoiceLine->getValueExcl());
-        $this->assertSame('0.00', $invoiceLine->getVatValue());
-        $this->assertSame('15.00', $invoiceLine->getValueInc());
-        $this->assertSame('15.00', $invoiceLine->getUnitsPriceExcl());
-        $this->assertSame('8020', $invoiceLine->getDim1());
+        $this->assertSame('15.00', Util::formatMoney($invoiceLine->getValueExcl()));
+        $this->assertSame('0.00', Util::formatMoney($invoiceLine->getVatValue()));
+        $this->assertSame('15.00', Util::formatMoney($invoiceLine->getValueInc()));
+        $this->assertSame('15.00', Util::formatMoney($invoiceLine->getUnitsPriceExcl()));
+        $this->assertSame('8020', Util::objectToStr($invoiceLine->getDim1()));
 
-        // TODO - Vat lines
+        $invoiceVatLines = $invoice->getVatLines();
+        $this->assertCount(1, $invoiceVatLines);
 
-        $this->assertSame('15.00', $invoice->getTotals()->getValueInc());
-        $this->assertSame('15.00', $invoice->getTotals()->getValueExcl());
+        /** @var InvoiceVatLine $invoiceVatLine */
+        $invoiceVatLine = current($invoiceVatLines);
+
+        $this->assertSame('VN', Util::objectToStr($invoiceLine->getVatCode()));
+        $this->assertSame('0.00', Util::formatMoney($invoiceLine->getVatValue()));
+        $this->assertNull($invoiceLine->getPerformanceType());
+        $this->assertNull($invoiceLine->getPerformanceDate());
+
+        $this->assertSame('15.00', Util::formatMoney($invoice->getTotals()->getValueInc()));
+        $this->assertSame('15.00', Util::formatMoney($invoice->getTotals()->getValueExcl()));
 
         $this->assertNull($invoice->getFinancialNumber());
         $this->assertNull($invoice->getFinancialCode());
@@ -99,48 +138,61 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
             ->with($this->isInstanceOf(\PhpTwinfield\Request\Read\Invoice::class))
             ->willReturn($response);
 
-        $invoice = $this->invoiceApiConnector->get('FACTUUR', '5', $this->office);
+        $invoice = $this->invoiceApiConnector->get('FACTUUR', '5', Office::fromCode('001'));
 
         $this->assertInstanceOf(Invoice::class, $invoice);
         $this->assertEquals(Office::fromCode("11024"), $invoice->getOffice());
-        $this->assertSame('FACTUUR', $invoice->getInvoiceType());
+        $this->assertSame('FACTUUR', Util::objectToStr($invoice->getInvoiceType()));
         $this->assertSame('5', $invoice->getInvoiceNumber());
-        $this->assertSame('20120831', $invoice->getInvoiceDate());
-        $this->assertSame('BNK', $invoice->getBank());
-        $this->assertSame('1', $invoice->getInvoiceAddressNumber());
-        $this->assertSame('1', $invoice->getDeliverAddressNumber());
-        $this->assertSame('1000', $invoice->getCustomer()->getCode());
-        $this->assertSame('2012/8', $invoice->getPeriod());
-        $this->assertSame('EUR', $invoice->getCurrency());
-        $this->assertSame('final', $invoice->getStatus());
-        $this->assertSame('cash', $invoice->getPaymentMethod());
+        $this->assertSame('20120831', Util::formatDate($invoice->getInvoiceDate()));
+        $this->assertSame('BNK', Util::objectToStr($invoice->getBank()));
+        $this->assertSame(1, $invoice->getInvoiceAddressNumber());
+        $this->assertSame(1, $invoice->getDeliverAddressNumber());
+        $this->assertSame('1000', Util::objectToStr($invoice->getCustomer()));
+        $this->assertSame('2012/08', $invoice->getPeriod());
+        $this->assertSame('EUR', Util::objectToStr($invoice->getCurrency()));
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\InvoiceStatus');
+        $this->assertSame($ReflectObject->getConstant('FINAL'), (string)$invoice->getStatus());
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\PaymentMethod');
+        $this->assertSame($ReflectObject->getConstant('CASH'), (string)$invoice->getPaymentMethod());
+        $this->assertSame('HEADER', $invoice->getHeaderText());
+        $this->assertSame('FOOTER', $invoice->getFooterText());
 
         $invoiceLines = $invoice->getLines();
         $this->assertCount(1, $invoiceLines);
-        $this->assertArrayHasKey('1', $invoiceLines);
+        $this->assertArrayHasKey(0, $invoiceLines);
 
         /** @var InvoiceLine $invoiceLine */
-        $invoiceLine = $invoiceLines['1'];
+        $invoiceLine = $invoiceLines[0];
 
-        $this->assertSame('1', $invoiceLine->getID());
-        $this->assertSame('0', $invoiceLine->getArticle());
-        $this->assertSame('118', $invoiceLine->getSubArticle());
-        $this->assertSame('1', $invoiceLine->getQuantity());
-        $this->assertSame('1', $invoiceLine->getUnits());
-        $this->assertSame('true', $invoiceLine->getAllowDiscountOrPremium());
+        $this->assertSame(1, $invoiceLine->getID());
+        $this->assertSame('0', Util::objectToStr($invoiceLine->getArticle()));
+        $this->assertSame('118', $invoiceLine->getSubArticleToString());
+        $this->assertSame(1.0, $invoiceLine->getQuantity());
+        $this->assertSame(1, $invoiceLine->getUnits());
+        $this->assertSame(true, $invoiceLine->getAllowDiscountOrPremium());
         $this->assertSame('CoalesceFunctioningOnImpatienceTShirt', $invoiceLine->getDescription());
-        $this->assertSame('15.00', $invoiceLine->getValueExcl());
-        $this->assertSame('0.00', $invoiceLine->getVatValue());
-        $this->assertSame('15.00', $invoiceLine->getValueInc());
-        $this->assertSame('15.00', $invoiceLine->getUnitsPriceExcl());
-        $this->assertSame('8020', $invoiceLine->getDim1());
+        $this->assertSame('15.00', Util::formatMoney($invoiceLine->getValueExcl()));
+        $this->assertSame('0.00', Util::formatMoney($invoiceLine->getVatValue()));
+        $this->assertSame('15.00', Util::formatMoney($invoiceLine->getValueInc()));
+        $this->assertSame('15.00', Util::formatMoney($invoiceLine->getUnitsPriceExcl()));
+        $this->assertSame('8020', Util::objectToStr($invoiceLine->getDim1()));
 
-        // TODO - Vat lines
+        $invoiceVatLines = $invoice->getVatLines();
+        $this->assertCount(1, $invoiceVatLines);
 
-        $this->assertSame('15.00', $invoice->getTotals()->getValueInc());
-        $this->assertSame('15.00', $invoice->getTotals()->getValueExcl());
+        /** @var InvoiceVatLine $invoiceVatLine */
+        $invoiceVatLine = current($invoiceVatLines);
 
-        $this->assertSame('123456789', $invoice->getFinancialNumber());
+        $this->assertSame('VN', Util::objectToStr($invoiceLine->getVatCode()));
+        $this->assertSame('0.00', Util::formatMoney($invoiceLine->getVatValue()));
+        $this->assertNull($invoiceLine->getPerformanceType());
+        $this->assertNull($invoiceLine->getPerformanceDate());
+
+        $this->assertSame('15.00', Util::formatMoney($invoice->getTotals()->getValueInc()));
+        $this->assertSame('15.00', Util::formatMoney($invoice->getTotals()->getValueExcl()));
+
+        $this->assertSame(123456789, $invoice->getFinancialNumber());
         $this->assertSame('123456789', $invoice->getFinancialCode());
     }
 
@@ -151,38 +203,35 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
 
         $invoice = new Invoice();
         $invoice->setOffice(Office::fromCode('11024'));
-        $invoice->setInvoiceType('FACTUUR');
+        $invoice->setInvoiceType(\PhpTwinfield\InvoiceType::fromCode('FACTUUR'));
         $invoice->setInvoiceNumber('5');
-        $invoice->setInvoiceDate('20120831');
-        $invoice->setBank('BNK');
-        $invoice->setInvoiceAddressNumber('1');
-        $invoice->setDeliverAddressNumber('1');
+        $invoice->setInvoiceDate(Util::parseDate('20120831'));
+        $invoice->setBank(\PhpTwinfield\CashBankBook::fromCode('BNK'));
+        $invoice->setInvoiceAddressNumber(1);
+        $invoice->setDeliverAddressNumber(1);
         $invoice->setCustomer($customer);
-        $invoice->setPeriod('2012/8');
-        $invoice->setCurrency('EUR');
-        $invoice->setStatus('concept');
-        $invoice->setPaymentMethod('cash');
+        $invoice->setPeriod('2012/08');
+        $invoice->setCurrency(Currency::fromCode('EUR'));
+        $invoice->setStatus(\PhpTwinfield\Enums\InvoiceStatus::CONCEPT());
+        $invoice->setPaymentMethod(\PhpTwinfield\Enums\PaymentMethod::CASH());
+        $invoice->setHeaderText('HEADER');
+        $invoice->setFooterText('FOOTER');
 
         $invoiceLine = new InvoiceLine();
-        $invoiceLine->setID('1');
-        $invoiceLine->setArticle('4');
-        $invoiceLine->setSubArticle('118');
-        $invoiceLine->setQuantity('1');
-        $invoiceLine->setUnits('1');
-        $invoiceLine->setAllowDiscountOrPremium('true');
+        $invoiceLine->setID(1);
+        $invoiceLine->setArticle(\PhpTwinfield\Article::fromCode('4'));
+        $invoiceLine->setSubArticle(\PhpTwinfield\ArticleLine::fromCode('118'));
+        $invoiceLine->setQuantity(1);
+        $invoiceLine->setUnits(1);
+        $invoiceLine->setAllowDiscountOrPremium(true);
         $invoiceLine->setDescription('CoalesceFunctioningOnImpatienceTShirt');
-        $invoiceLine->setValueExcl('15.00');
-        $invoiceLine->setVatValue('0.00');
-        $invoiceLine->setValueInc('15.00');
-        $invoiceLine->setUnitsPriceExcl('15.00');
-        $invoiceLine->setDim1('8020');
-        $invoiceLine->setVatCode('VN');
+        $invoiceLine->setValueExcl(Util::parseMoney(15.00, new \Money\Currency('EUR')));
+        $invoiceLine->setVatValue(Util::parseMoney(0.00, new \Money\Currency('EUR')));
+        $invoiceLine->setValueInc(Util::parseMoney(15.00, new \Money\Currency('EUR')));
+        $invoiceLine->setUnitsPriceExcl(Util::parseMoney(15.00, new \Money\Currency('EUR')));
+        $invoiceLine->setDim1(\PhpTwinfield\GeneralLedger::fromCode('8020'));
+        $invoiceLine->setVatCode(\PhpTwinfield\VatCode::fromCode('VN'));
         $invoice->addLine($invoiceLine);
-
-        $totals = new InvoiceTotals();
-        $totals->setValueExcl('15.00');
-        $totals->setValueInc('15.00');
-        $invoice->setTotals($totals);
 
         $this->processXmlService
             ->expects($this->once())

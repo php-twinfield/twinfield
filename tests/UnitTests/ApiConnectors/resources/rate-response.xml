@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<projectrate status="active" inuse="false" result="1">
+    <office name="Development BV" shortname="Development BV">DEV1000</office>
+    <code>DIRECT</code>
+    <name>Direct rate</name>
+    <shortname>DirectK</shortname>
+    <created>20161223182142</created>
+    <modified>20161223182142</modified>
+    <touched>0</touched>
+    <user name="Site supervisor" shortname="Site supervisor">SUPER</user>
+    <type>time</type>
+    <unit>60</unit>
+    <currency name="EURO" shortname="&#x20AC;">EUR</currency>
+    <ratechanges>
+        <ratechange lastused="" status="active" id="2">
+            <begindate>20100101</begindate>
+            <enddate>20991231</enddate>
+            <internalrate>60.0000</internalrate>
+            <externalrate>120.0000</externalrate>
+        </ratechange>
+    </ratechanges>
+</projectrate>

@@ -3,8 +3,10 @@
 namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Mappers\OfficeMapper;
+use PhpTwinfield\Exception;
 use PhpTwinfield\Office;
 use PhpTwinfield\Services\FinderService;
+use PhpTwinfield\Request as Request;
 use PhpTwinfield\Request\Catalog\Office as OfficeRequestDocument;
 
 /**
@@ -14,10 +16,29 @@ use PhpTwinfield\Request\Catalog\Office as OfficeRequestDocument;
  * If you require more complex interactions or a heavier amount of control over the requests to/from then look inside
  * the methods or see the advanced guide detailing the required usages.
  *
- * @author Emile Bons <emile@emilebons.nl>
+ * @author Emile Bons <emile@emilebons.nl>, extended by Yannick Aerssens <y.r.aerssens@gmail.com>
  */
 class OfficeApiConnector extends BaseApiConnector
 {
+    /**
+     * Requests a specific Office based off the passed in code.
+     *
+     * @param string $code
+     * @return Office      The requested Office or Office object with error message if it can't be found.
+     * @throws Exception
+     */
+    public function get(string $code): Office
+    {
+        // Make a request to read a single Office. Set the required values
+        $request_office = new Request\Read\Office();
+        $request_office->setCode($code);
+
+        // Send the Request document and set the response to this instance.
+        $response = $this->sendXmlDocument($request_office);
+
+        return OfficeMapper::map($response);
+    }
+
     /**
      * List the available offices when you are using the OAuth based authentication and don't have an office code yet.
      * For more information following see.
@@ -64,27 +85,18 @@ class OfficeApiConnector extends BaseApiConnector
         int $maxRows = 100,
         array $options = []
     ): array {
-        $response = $this->getFinderService()->searchFinder(FinderService::TYPE_OFFICES, $pattern, $field, $firstRow, $maxRows, $options);
+        $optionsArrayOfString = $this->convertOptionsToArrayOfString($options);
 
-        if ($response->data->TotalRows == 0) {
-            return [];
-        }
+        $response = $this->getFinderService()->searchFinder(FinderService::TYPE_OFFICES, $pattern, $field, $firstRow, $maxRows, $optionsArrayOfString);
 
-        $offices = [];
-        foreach ($response->data->Items->ArrayOfString as $officeArray) {
-          $office = new Office();
-          if(is_array($officeArray)) {
-            $office->setCode($officeArray[0]);
-            $office->setCountryCode($officeArray[2]);
-            $office->setName($officeArray[1]);
-          } else {
-            $office->setCode($officeArray->string[0]);
-            $office->setCountryCode($officeArray->string[2]);
-            $office->setName($officeArray->string[1]);
-          }
-          $offices[] = $office;
-        }
+        $officeListAllTags = array(
+            0       => 'setCode',
+            1       => 'setName',
+            2       => 'setCountryCodeFromString',
+            3       => 'setVatPeriod',
+            4       => 'setVatFirstQuarterStartsIn',
+        );
 
-        return $offices;
+        return $this->mapListAll(Office::class, $response->data, $officeListAllTags);
     }
 }

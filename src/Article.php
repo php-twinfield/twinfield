@@ -2,187 +2,64 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Transactions\TransactionFields\OfficeField;
-use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
+use PhpTwinfield\Fields\CodeField;
+use PhpTwinfield\Fields\Invoice\AllowDiscountOrPremiumField;
+use PhpTwinfield\Fields\Invoice\Article\AllowChangePerformanceTypeField;
+use PhpTwinfield\Fields\Invoice\Article\AllowChangeUnitsPriceField;
+use PhpTwinfield\Fields\Invoice\Article\AllowChangeVatCodeField;
+use PhpTwinfield\Fields\Invoice\Article\AllowDecimalQuantityField;
+use PhpTwinfield\Fields\Invoice\Article\PercentageField;
+use PhpTwinfield\Fields\Invoice\Article\TypeField;
+use PhpTwinfield\Fields\Invoice\Article\UnitNamePluralField;
+use PhpTwinfield\Fields\Invoice\Article\UnitNameSingularField;
+use PhpTwinfield\Fields\NameField;
+use PhpTwinfield\Fields\OfficeField;
+use PhpTwinfield\Fields\PerformanceTypeField;
+use PhpTwinfield\Fields\ShortNameField;
+use PhpTwinfield\Fields\StatusField;
+use PhpTwinfield\Fields\VatCodeField;
 
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles
  * @todo Add documentation and typehints to all properties.
  */
-class Article
+class Article extends BaseObject implements HasCodeInterface
 {
-    use VatCodeField;
+    use AllowChangePerformanceTypeField;
+    use AllowChangeUnitsPriceField;
+    use AllowChangeVatCodeField;
+    use AllowDecimalQuantityField;
+    use AllowDiscountOrPremiumField;
+    use CodeField;
+    use NameField;
     use OfficeField;
+    use PercentageField;
+    use PerformanceTypeField;
+    use ShortNameField;
+    use StatusField;
+    use TypeField;
+    use UnitNamePluralField;
+    use UnitNameSingularField;
+    use VatCodeField;
 
-    private $code;
-    private $status;
-    private $type;
-    private $name;
-    private $shortName;
-    private $unitNameSingular;
-    private $unitNamePlural;
-    private $allowChangeVatCode = false;
-    private $performanceType;
-    private $allowChangePerformanceType;
-    private $percentage;
-    private $allowDiscountorPremium = true;
-    private $allowChangeUnitsPrice = false;
-    private $allowDecimalQuantity = false;
     private $lines = [];
 
-    public function getCode()
+    public function __construct()
     {
-        return $this->code;
+        $this->setAllowChangePerformanceType(true);
+        $this->setAllowChangeUnitsPrice(false);
+        $this->setAllowChangeVatCode(false);
+        $this->setAllowDecimalQuantity(false);
+        $this->setAllowDiscountorPremium(true);
+        $this->setPercentage(false);
+        $this->setType(\PhpTwinfield\Enums\ArticleType::NORMAL());
     }
 
-    public function setCode($code)
-    {
-        $this->code = $code;
-        return $this;
-    }
+    public static function fromCode(string $code) {
+        $instance = new self;
+        $instance->setCode($code);
 
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    public function setStatus($status)
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    public function setType($type)
-    {
-        $this->type = $type;
-        return $this;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    public function getShortName()
-    {
-        return $this->shortName;
-    }
-
-    public function setShortName($shortName)
-    {
-        $this->shortName = $shortName;
-        return $this;
-    }
-
-    public function getUnitNameSingular()
-    {
-        return $this->unitNameSingular;
-    }
-
-    public function setUnitNameSingular($unitNameSingular)
-    {
-        $this->unitNameSingular = $unitNameSingular;
-        return $this;
-    }
-
-    public function getUnitNamePlural()
-    {
-        return $this->unitNamePlural;
-    }
-
-    public function setUnitNamePlural($unitNamePlural)
-    {
-        $this->unitNamePlural = $unitNamePlural;
-        return $this;
-    }
-
-    public function getAllowChangeVatCode(): bool
-    {
-        return $this->allowChangeVatCode;
-    }
-
-    public function setAllowChangeVatCode(bool $allowChangeVatCode): self
-    {
-        $this->allowChangeVatCode = $allowChangeVatCode;
-        return $this;
-    }
-
-    public function getPerformanceType()
-    {
-        return $this->performanceType;
-    }
-
-    public function setPerformanceType($performanceType)
-    {
-        $this->performanceType = $performanceType;
-        return $this;
-    }
-
-    public function getAllowChangePerformanceType()
-    {
-        return $this->allowChangePerformanceType;
-    }
-
-    public function setAllowChangePerformanceType($allowChangePerformanceType)
-    {
-        $this->allowChangePerformanceType
-            = $allowChangePerformanceType;
-        return $this;
-    }
-
-    public function getPercentage()
-    {
-        return $this->percentage;
-    }
-
-    public function setPercentage($percentage)
-    {
-        $this->percentage = $percentage;
-        return $this;
-    }
-
-    public function getAllowDiscountorPremium(): bool
-    {
-        return $this->allowDiscountorPremium;
-    }
-
-    public function setAllowDiscountorPremium(bool $allowDiscountorPremium): self
-    {
-        $this->allowDiscountorPremium = $allowDiscountorPremium;
-        return $this;
-    }
-
-    public function getAllowChangeUnitsPrice(): bool
-    {
-        return $this->allowChangeUnitsPrice;
-    }
-
-    public function setAllowChangeUnitsPrice(bool $allowChangeUnitsPrice): self
-    {
-        $this->allowChangeUnitsPrice = $allowChangeUnitsPrice;
-        return $this;
-    }
-
-    public function getAllowDecimalQuantity(): bool
-    {
-        return $this->allowDecimalQuantity;
-    }
-
-    public function setAllowDecimalQuantity(bool $allowDecimalQuantity): self
-    {
-        $this->allowDecimalQuantity = $allowDecimalQuantity;
-        return $this;
+        return $instance;
     }
 
     public function getLines()
@@ -192,7 +69,7 @@ class Article
 
     public function addLine(ArticleLine $line)
     {
-        $this->lines[$line->getID()] = $line;
+        $this->lines[] = $line;
         return $this;
     }
 
@@ -204,5 +81,23 @@ class Article
         } else {
             return false;
         }
+    }
+
+    public function removeLineByID($id)
+    {
+        $found = false;
+
+        foreach ($this->lines as $index => $line) {
+            if ($id == $line->getID()) {
+                unset($this->lines[$index]);
+                $found = true;
+            }
+        }
+
+        if ($found) {
+            return true;
+        }
+
+        return false;
     }
 }

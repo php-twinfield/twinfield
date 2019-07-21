@@ -5,11 +5,13 @@ namespace PhpTwinfield\Enums;
 use MyCLabs\Enum\Enum;
 
 /**
- * @method static PerformanceType SERVICES()
+ * @method static PerformanceType EMPTY()
  * @method static PerformanceType GOODS()
+ * @method static PerformanceType SERVICES()
  */
 class PerformanceType extends Enum
 {
-    protected const SERVICES = "services";
-    protected const GOODS = "goods";
+    public const EMPTY            = "";
+    public const GOODS           = "goods";
+    public const SERVICES        = "services";
 }

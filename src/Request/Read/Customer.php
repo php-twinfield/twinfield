@@ -1,10 +1,12 @@
 <?php
 namespace PhpTwinfield\Request\Read;
 
+use PhpTwinfield\Office;
+
 /**
- * Used to request a specific custom from a certain
+ * Used to request a specific Customer from a certain
  * office and code.
- * 
+ *
  * @package PhpTwinfield
  * @subpackage Request\Read
  * @author Leon Rowland <leon@rowland.nl>
@@ -16,62 +18,24 @@ class Customer extends Read
     /**
      * Sets the <type> to dimensions for the request and
      * sets the dimtype, office and code if they are present.
-     * 
+     *
      * @access public
+     * @param Office|null $office
+     * @param string $code
      */
-    public function __construct($office = null, $code = null, $dimType = 'DEB')
+    public function __construct(?Office $office = null, $code = null)
     {
         parent::__construct();
 
         $this->add('type', 'dimensions');
-        
+        $this->add('dimtype', 'DEB');
+
         if (null !== $office) {
             $this->setOffice($office);
         }
-        
+
         if (null !== $code) {
             $this->setCode($code);
         }
-        
-        $this->setDimType($dimType);
-    }
-
-    /**
-     * Sets the office code for this customer request.
-     * 
-     * @access public
-     * @param int $office
-     * @return \PhpTwinfield\Request\Read\Customer
-     */
-    public function setOffice($office)
-    {
-        $this->add('office', $office);
-        return $this;
-    }
-
-    /**
-     * Sets the code for this customer request.
-     * 
-     * @access public
-     * @param string $code
-     * @return \PhpTwinfield\Request\Read\Customer
-     */
-    public function setCode($code)
-    {
-        $this->add('code', $code);
-        return $this;
-    }
-    
-    /**
-     * Sets the dimtype for the request.
-     * 
-     * @access public
-     * @param string $dimType
-     * @return \PhpTwinfield\Request\Read\Customer
-     */
-    public function setDimType($dimType)
-    {
-        $this->add('dimtype', $dimType);
-        return $this;
     }
 }

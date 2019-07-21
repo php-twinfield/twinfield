@@ -41,4 +41,9 @@ abstract class BaseService extends \SoapClient
 
         parent::__construct($wsdl, $options);
     }
+
+    public function __call($func, $args)
+    {
+        return $this->__soapCall($func, $args);
+    }
 }

@@ -1,32 +1,15 @@
 <?php
 namespace PhpTwinfield;
 
+use PhpTwinfield\Fields\Invoice\ValueExclField;
+use PhpTwinfield\Fields\Invoice\ValueIncField;
+
 /**
  * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices
  * @todo Add documentation and typehints to all properties.
  */
-class InvoiceTotals
+class InvoiceTotals extends BaseObject
 {
-    private $valueExcl;
-    private $valueInc;
-
-    public function getValueExcl()
-    {
-        return $this->valueExcl;
-    }
-
-    public function setValueExcl($valueExcl)
-    {
-        $this->valueExcl = $valueExcl;
-    }
-
-    public function getValueInc()
-    {
-        return $this->valueInc;
-    }
-
-    public function setValueInc($valueInc)
-    {
-        $this->valueInc = $valueInc;
-    }
+    use ValueExclField;
+    use ValueIncField;
 }

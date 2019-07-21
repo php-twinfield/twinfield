@@ -2,17 +2,23 @@
 
 namespace PhpTwinfield\UnitTests;
 
-use Money\Currency;
+use PhpTwinfield\ApiConnectors\OfficeApiConnector;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
 use PhpTwinfield\BaseTransaction;
+use PhpTwinfield\Currency;
 use PhpTwinfield\Enums\Destiny;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\SalesTransaction;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\ProcessXmlService;
+use PhpTwinfield\Util;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
+ */
 class TransactionApiConnectorTest extends TestCase
 {
     /**
@@ -42,6 +48,15 @@ class TransactionApiConnectorTest extends TestCase
             ->willReturn($this->processXmlService);
 
         $this->apiConnector = new TransactionApiConnector($connection);
+
+        $mockOfficeApiConnector = \Mockery::mock('overload:'.OfficeApiConnector::class)->makePartial();
+        $mockOfficeApiConnector->shouldReceive('get')->andReturnUsing(function() {
+            $office = new Office;
+            $office->setResult(1);
+            $office->setBaseCurrency(Currency::fromCode('EUR'));
+            $office->setReportingCurrency(Currency::fromCode('USD'));
+            return $office;
+        });
     }
 
     private function createTransaction(string $transactionClassName): BaseTransaction
@@ -75,9 +90,9 @@ class TransactionApiConnectorTest extends TestCase
 		</header>
 		<lines>
 			<line type="total" id="1">
-				<dim1 name="Debiteuren" shortname="" type="BAS" inuse="true" vatcode="" vatobligatory="false">130000
+				<dim1 name="Debiteuren" shortname="" dimensiontype="BAS">130000
 				</dim1>
-				<dim2 name="Test 2" shortname="" type="DEB" inuse="true" vatcode="" vatobligatory="false">Dxxxx</dim2>
+				<dim2 name="Test 2" shortname="" dimensiontype="DEB">Dxxxx</dim2>
 				<debitcredit>debit</debitcredit>
 				<value>100.00</value>
 				<description/>
@@ -95,9 +110,7 @@ class TransactionApiConnectorTest extends TestCase
 				<matchstatus>available</matchstatus>
 			</line>
 			<line type="detail" id="2">
-				<dim1 name="Tussenrekening transitorisch boeken" shortname="" type="BAS" inuse="true" vatcode=""
-					  vatobligatory="false">191000
-				</dim1>
+				<dim1 name="Tussenrekening transitorisch boeken" shortname="" dimensiontype="BAS">191000</dim1>
 				<debitcredit>credit</debitcredit>
 				<value>100.00</value>
 				<description>Outfit</description>
@@ -122,7 +135,7 @@ class TransactionApiConnectorTest extends TestCase
         $mapped = $this->apiConnector->send($transaction);
 
         $this->assertEquals("VRK", $mapped->getCode());
-        $this->assertEquals(new Currency("EUR"), $mapped->getCurrency());
+        $this->assertEquals("EUR", Util::objectToStr($mapped->getCurrency()));
         $this->assertEquals("2017/09", $mapped->getPeriod());
         $this->assertEquals("INV123458", $mapped->getInvoiceNumber());
         $this->assertEquals(new \DateTimeImmutable("2017-09-01"), $mapped->getDate());

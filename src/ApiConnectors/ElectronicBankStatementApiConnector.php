@@ -35,7 +35,6 @@ class ElectronicBankStatementApiConnector extends BaseApiConnector
         $responses = [];
 
         foreach ($this->getProcessXmlService()->chunk($statements) as $chunk) {
-
             $document = new ElectronicBankStatementDocument();
 
             foreach ($chunk as $statement) {

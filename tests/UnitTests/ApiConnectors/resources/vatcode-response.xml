@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<vat status="active" result="1">
+    <code>VH</code>
+    <name>VAT Sales High</name>
+    <shortname>VATSlsHigh</shortname>
+    <uid>149e5dcb-8b37-446b-b865-f3928572618f</uid>
+    <created>20041027101342</created>
+    <modified>20190410185128</modified>
+    <touched>0</touched>
+    <user name="Twinapps" shortname="Twinapps">TWINAPPS</user>
+    <type>sales</type>
+    <percentages>
+        <percentage status="active" inuse="true">
+            <date>20121001</date>
+            <percentage>21.000000000</percentage>
+            <created>20171016135323</created>
+            <name>VAT Sales High</name>
+            <shortname>VATSlsHigh</shortname>
+            <user name="Site supervisor" shortname="Site supervisor">SUPER</user>
+            <discountaccount name="" shortname="" dimensiontype=""/>
+            <writeoffaccount name="" shortname="" dimensiontype=""/>
+            <accounts>
+                <account id="1">
+                    <dim1 name="Te betalen OB hoog" shortname="Te betalen OB 19%" dimensiontype="BAS">1530</dim1>
+                    <groupcountry name="Nederland" shortname="">NL</groupcountry>
+                    <group name="Leveringen/Diensten belast met hoog %" shortname="L/D Hoog">NL1A</group>
+                    <percentage>100.0</percentage>
+                    <linetype>vat</linetype>
+                </account>
+            </accounts>
+        </percentage>
+    </percentages>
+</vat>

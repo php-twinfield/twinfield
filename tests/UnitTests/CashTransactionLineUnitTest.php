@@ -7,7 +7,9 @@ use Money\Money;
 use PhpTwinfield\CashTransaction;
 use PhpTwinfield\CashTransactionLine;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Enums\MatchStatus;
 use PhpTwinfield\SalesTransaction;
+use PhpTwinfield\Util;
 
 class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
 {
@@ -51,8 +53,8 @@ class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
     {
         $this->line->setLineType(LineType::DETAIL());
 
-        $this->assertEquals($this->line, $this->line->setDim2('test'), 'Fluid interface is expected');
-        $this->assertSame('test', $this->line->getDim2());
+        $this->assertEquals($this->line, $this->line->setDim2(\PhpTwinfield\CostCenter::fromCode('test')), 'Fluid interface is expected');
+        $this->assertSame('test', Util::objectToStr($this->line->getDim2()));
     }
 
     public function testCanNotSetDim2IfLineTypeIsNotDetail()
@@ -67,8 +69,8 @@ class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
     {
         $this->line->setLineType(LineType::DETAIL());
 
-        $this->assertEquals($this->line, $this->line->setDim3('test'), 'Fluid interface is expected');
-        $this->assertSame('test', $this->line->getDim3());
+        $this->assertEquals($this->line, $this->line->setDim3(\PhpTwinfield\Project::fromCode('test')), 'Fluid interface is expected');
+        $this->assertSame('test', Util::objectToStr($this->line->getDim3()));
     }
 
     public function testCanNotSetDim3IfLineTypeIsNotDetail()
@@ -83,8 +85,9 @@ class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
     {
         $this->line->setLineType(LineType::DETAIL());
 
-        $this->assertEquals($this->line, $this->line->setMatchStatus(CashTransactionLine::MATCHSTATUS_MATCHED), 'Fluid interface is expected');
-        $this->assertSame(CashTransactionLine::MATCHSTATUS_MATCHED, $this->line->getMatchStatus());
+        $this->assertEquals($this->line, $this->line->setMatchStatus(MatchStatus::MATCHED()), 'Fluid interface is expected');
+        $ReflectObject = new \ReflectionClass('\PhpTwinfield\Enums\MatchStatus');
+        $this->assertSame($ReflectObject->getConstant('MATCHED'), (string)$this->line->getMatchStatus());
     }
 
     public function testCanNotSetMatchStatusOtherThanNotMatchableIfLineTypeIsNotDetail()
@@ -92,7 +95,7 @@ class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
         $this->expectExceptionMessage('Invalid match status \'matched\' for line class PhpTwinfield\CashTransactionLine and type \'vat\'.');
 
         $this->line->setLineType(LineType::VAT());
-        $this->line->setMatchStatus(CashTransactionLine::MATCHSTATUS_MATCHED);
+        $this->line->setMatchStatus(MatchStatus::MATCHED());
     }
 
     public function testSetMatchLevel()
@@ -105,7 +108,7 @@ class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
 
     public function testCanNotSetMatchLevelIfLineTypeIsNotDetail()
     {
-        $this->expectExceptionMessage('Invalid field \'matchLevel\' for line class PhpTwinfield\CashTransactionLine and type \'vat\'.');
+        $this->expectExceptionMessage('Invalid field \'matchlevel\' for line class PhpTwinfield\CashTransactionLine and type \'vat\'.');
 
         $this->line->setLineType(LineType::VAT());
         $this->line->setMatchLevel(1);
@@ -121,7 +124,7 @@ class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
 
     public function testCanNotSetBaseValueOpenIfLineTypeIsNotDetail()
     {
-        $this->expectExceptionMessage('Invalid field \'baseValueOpen\' for line class PhpTwinfield\CashTransactionLine and type \'vat\'.');
+        $this->expectExceptionMessage('Invalid field \'basevalueopen\' for line class PhpTwinfield\CashTransactionLine and type \'vat\'.');
 
         $this->line->setLineType(LineType::VAT());
         $this->line->setBaseValueOpen(Money::EUR(100));
@@ -173,21 +176,5 @@ class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
 
         $this->line->setLineType(LineType::DETAIL());
         $this->line->setVatRepTurnover(Money::EUR(100));
-    }
-
-    public function testSetInvoiceNumber()
-    {
-        $this->line->setLineType(LineType::DETAIL());
-
-        $this->assertEquals($this->line, $this->line->setInvoiceNumber('11001770'), 'Fluid interface is expected');
-        $this->assertSame('11001770', $this->line->getInvoiceNumber());
-    }
-
-    public function testCanNotSetInvoiceNumberIfLineTypeIsNotDetail()
-    {
-        $this->expectExceptionMessage('Invalid field \'invoicenumber\' for line class PhpTwinfield\CashTransactionLine and type \'total\'.');
-
-        $this->line->setLineType(LineType::TOTAL());
-        $this->line->setInvoiceNumber('11001770');
     }
 }

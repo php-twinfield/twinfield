@@ -18,7 +18,7 @@
         <ebilling>false</ebilling>
         <relationsreference></relationsreference>
         <substitutionlevel>1</substitutionlevel>
-        <substitutewith>1300</substitutewith>
+        <substitutewith name="Debiteuren" shortname="Debiteuren" dimensiontype="BAS" id="1D96A530-850A-4640-8A92-6A07D40E2612">1300</substitutewith>
         <vatobligatory>false</vatobligatory>
         <performancetype />
         <collectmandate>

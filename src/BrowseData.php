@@ -2,7 +2,7 @@
 
 namespace PhpTwinfield;
 
-class BrowseData
+class BrowseData extends BaseObject
 {
     /** @var int */
     private $first;

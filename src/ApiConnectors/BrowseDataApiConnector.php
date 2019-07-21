@@ -2,13 +2,13 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
-use PhpTwinfield\Exception;
 use PhpTwinfield\BrowseColumn;
 use PhpTwinfield\BrowseSortField;
+use PhpTwinfield\Exception;
 use PhpTwinfield\Mappers\BrowseDataMapper;
 use PhpTwinfield\Mappers\BrowseDefinitionMapper;
-use PhpTwinfield\Request\BrowseData;
 use PhpTwinfield\Mappers\BrowseFieldMapper;
+use PhpTwinfield\Request\BrowseData;
 use PhpTwinfield\Request\Catalog\BrowseField;
 use PhpTwinfield\Request\Read\BrowseDefinition;
 use Webmozart\Assert\Assert;

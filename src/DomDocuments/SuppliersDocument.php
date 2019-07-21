@@ -2,45 +2,30 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Supplier;
+use PhpTwinfield\Util;
 
 /**
- * The Document Holder for making new XML customers. Is a child class
+ * The Document Holder for making new XML Supplier. Is a child class
  * of DOMDocument and makes the required DOM tree for the interaction in
- * creating a new customer.
+ * creating a new Supplier.
  *
  * @package PhpTwinfield
  * @subpackage Invoice\DOM
- * @author Leon Rowland <leon@rowland.nl>
+ * @author Leon Rowland <leon@rowland.nl>, extended by Yannick Aerssens <y.r.aerssens@gmail.com>
  * @copyright (c) 2013, Pronamic
  */
-class SuppliersDocument extends \DOMDocument
+class SuppliersDocument extends BaseDocument
 {
-    /**
-     * Holds the <dimension> element
-     * that all additional elements should be a child of
-     * @var \DOMElement
-     */
-    private $dimensionElement;
-
-    /**
-     * Creates the <dimension> element and adds it to the property
-     * dimensionElement
-     *
-     * @access public
-     */
-    public function __construct()
+    final protected function getRootTagName(): string
     {
-        parent::__construct('1.0', 'UTF-8');
-
-        $this->dimensionElement = $this->createElement('dimension');
-        $this->appendChild($this->dimensionElement);
+        return "dimensions";
     }
 
     /**
      * Turns a passed Supplier class into the required markup for interacting
      * with Twinfield.
      *
-     * This method doesn't return anything, instead just adds the invoice to
+     * This method doesn't return anything, instead just adds the Supplier to
      * this DOMDOcument instance for submission usage.
      *
      * @access public
@@ -49,190 +34,234 @@ class SuppliersDocument extends \DOMDocument
      */
     public function addSupplier(Supplier $supplier)
     {
-        // Elements and their associated methods for customer
-        $supplierTags = array(
-            'code'      => 'getCode',
-            'name'      => 'getName',
-            'type'      => 'getType',
-            'website'   => 'getWebsite',
-            'office'    => 'getOffice',
-        );
-
-        if ($supplier->getOffice()) {
-            $supplierTags['office'] = 'getOffice';
-        }
+        $supplierElement = $this->createElement('dimension');
+        $this->rootElement->appendChild($supplierElement);
 
         $status = $supplier->getStatus();
+
         if (!empty($status)) {
-            $this->dimensionElement->setAttribute('status', $status);
+            $supplierElement->setAttribute('status', $status);
         }
 
-        // Go through each customer element and use the assigned method
-        foreach ($supplierTags as $tag => $method) {
+        $supplierElement->appendChild($this->createNodeWithTextContent('beginperiod', $supplier->getBeginPeriod()));
+        $supplierElement->appendChild($this->createNodeWithTextContent('beginyear', $supplier->getBeginYear()));
 
-            // Make text node for method value
-            $node = $this->createTextNode($supplier->$method());
-
-            // Make the actual element and assign the node
-            $element = $this->createElement($tag);
-            $element->appendChild($node);
-
-            // Add the full element
-            $this->dimensionElement->appendChild($element);
+        if (!empty($supplier->getCode())) {
+            $supplierElement->appendChild($this->createNodeWithTextContent('code', $supplier->getCode()));
         }
 
-        // Check if the financial information should be supplied
-        if ($supplier->getDueDays() > 0) {
+        $supplierElement->appendChild($this->createNodeWithTextContent('endperiod', $supplier->getEndPeriod()));
+        $supplierElement->appendChild($this->createNodeWithTextContent('endyear', $supplier->getEndYear()));
+        $supplierElement->appendChild($this->createNodeWithTextContent('name', $supplier->getName()));
+        $supplierElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($supplier->getOffice())));
+        $supplierElement->appendChild($this->createNodeWithTextContent('shortname', $supplier->getShortName()));
+        $supplierElement->appendChild($this->createNodeWithTextContent('type', Util::objectToStr($supplier->getType())));
+        $supplierElement->appendChild($this->createNodeWithTextContent('website', $supplier->getWebsite()));
 
-            // Financial elements and their methods
-            $financialsTags = array(
-                'duedays'      => 'getDueDays',
-                'payavailable' => 'getPayAvailable',
-                'paycode'      => 'getPayCode',
-                'vatcode'      => 'getVatCode',
-                'ebilling'     => 'getEBilling',
-                'ebillmail'    => 'getEBillMail'
-            );
+        $financials = $supplier->getFinancials();
 
-            // Make the financial element
-            $financialElement = $this->createElement('financials');
-            $this->dimensionElement->appendChild($financialElement);
+        $financialsElement = $this->createElement('financials');
+        $supplierElement->appendChild($financialsElement);
 
-            // Go through each financial element and use the assigned method
-            foreach ($financialsTags as $tag => $method) {
+        $financialsElement->appendChild($this->createNodeWithTextContent('duedays', $financials->getDueDays()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('meansofpayment', $financials->getMeansOfPayment()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('payavailable', Util::formatBoolean($financials->getPayAvailable())));
+        $financialsElement->appendChild($this->createNodeWithTextContent('paycode', Util::objectToStr($financials->getPayCode())));
+        $financialsElement->appendChild($this->createNodeWithTextContent('relationsreference', $financials->getRelationsReference()));
+        $financialsElement->appendChild($this->createNodeWithTextContent('substitutewith', Util::objectToStr($financials->getSubstituteWith())));
+        $financialsElement->appendChild($this->createNodeWithTextContent('vatcode', Util::objectToStr($financials->getVatCode())));
 
-                // Make the text node for the method value
-                $nodeValue = $supplier->$method();
-                if (is_bool($nodeValue)) {
-                    $nodeValue = ($nodeValue) ? 'true' : 'false';
-                }
-                $node = $this->createTextNode($nodeValue);
+        $childValidations = $financials->getChildValidations();
 
-                // Make the actual element and assign the node
-                $element = $this->createElement($tag);
-                $element->appendChild($node);
+        if (!empty($childValidations)) {
+            // Make childvalidations element
+            $childValidationsElement = $this->createElement('childvalidations');
+            $financialsElement->appendChild($childValidationsElement);
 
-                // Add the full element
-                $financialElement->appendChild($element);
+            // Go through each childvalidation assigned to the supplier financials
+            foreach ($childValidations as $childValidation) {
+                // Make childvalidation element
+                $childValidationsElement->appendChild($this->createNodeWithTextContent('childvalidation', $childValidation->getElementValue(), $childValidation, array('level' => 'getLevel', 'type' => 'getType')));
             }
         }
 
-
         $addresses = $supplier->getAddresses();
+
         if (!empty($addresses)) {
-
-            // Address elements and their methods
-            $addressTags = array(
-                'name'      => 'getName',
-                'contact'   => 'getContact',
-                'country'   => 'getCountry',
-                'city'      => 'getCity',
-                'postcode'  => 'getPostcode',
-                'telephone' => 'getTelephone',
-                'telefax'   => 'getFax',
-                'email'     => 'getEmail',
-                'field1'    => 'getField1',
-                'field2'    => 'getField2',
-                'field3'    => 'getField3',
-                'field4'    => 'getField4',
-                'field5'    => 'getField5',
-                'field6'    => 'getField6'
-            );
-
             // Make addresses element
             $addressesElement = $this->createElement('addresses');
-            $this->dimensionElement->appendChild($addressesElement);
+            $supplierElement->appendChild($addressesElement);
 
-            // Go through each address assigned to the customer
+            // Go through each address assigned to the supplier
             foreach ($addresses as $address) {
-
-                // Makes new address element
+                // Make address element
                 $addressElement = $this->createElement('address');
                 $addressesElement->appendChild($addressElement);
 
-                // Set attributes
-                $addressElement->setAttribute('default', $address->getDefault());
-                $addressElement->setAttribute('type', $address->getType());
+                $default = Util::formatBoolean($address->getDefault());
 
-                // Go through each address element and use the assigned method
-                foreach ($addressTags as $tag => $method) {
-
-                    // Make the text node for the method value
-                    $node = $this->createTextNode($address->$method());
-
-                    // Make the actual element and assign the text node
-                    $element = $this->createElement($tag);
-                    $element->appendChild($node);
-
-                    // Add the completed element
-                    $addressElement->appendChild($element);
+                if (!empty($default)) {
+                    $addressElement->setAttribute('default', $default);
                 }
+
+                $id = $address->getID();
+
+                if (!empty($id)) {
+                    $addressElement->setAttribute('id', $id);
+                }
+
+                $type = $address->getType();
+
+                if (!empty($type)) {
+                    $addressElement->setAttribute('type', $type);
+                }
+
+                $addressElement->appendChild($this->createNodeWithTextContent('city', $address->getCity()));
+                $addressElement->appendChild($this->createNodeWithTextContent('country', Util::objectToStr($address->getCountry())));
+                $addressElement->appendChild($this->createNodeWithTextContent('email', $address->getEmail()));
+                $addressElement->appendChild($this->createNodeWithTextContent('field1', $address->getField1()));
+                $addressElement->appendChild($this->createNodeWithTextContent('field2', $address->getField2()));
+                $addressElement->appendChild($this->createNodeWithTextContent('field3', $address->getField3()));
+                $addressElement->appendChild($this->createNodeWithTextContent('field4', $address->getField4()));
+                $addressElement->appendChild($this->createNodeWithTextContent('field5', $address->getField5()));
+                $addressElement->appendChild($this->createNodeWithTextContent('field6', $address->getField6()));
+                $addressElement->appendChild($this->createNodeWithTextContent('name', $address->getName()));
+                $addressElement->appendChild($this->createNodeWithTextContent('postcode', $address->getPostcode()));
+                $addressElement->appendChild($this->createNodeWithTextContent('telefax', $address->getTelefax()));
+                $addressElement->appendChild($this->createNodeWithTextContent('telephone', $address->getTelephone()));
             }
         }
 
         $banks = $supplier->getBanks();
+
         if (!empty($banks)) {
-
-            // Bank elements and their methods
-            $bankTags = array(
-                'ascription'      => 'getAscription',
-                'accountnumber'   => 'getAccountnumber',
-                'bankname'        => 'getBankname',
-                'biccode'         => 'getBiccode',
-                'city'            => 'getCity',
-                'country'         => 'getCountry',
-                'iban'            => 'getIban',
-                'natbiccode'      => 'getNatbiccode',
-                'postcode'        => 'getPostcode',
-                'state'           => 'getState'
-            );
-
             // Make banks element
             $banksElement = $this->createElement('banks');
-            $this->dimensionElement->appendChild($banksElement);
+            $supplierElement->appendChild($banksElement);
 
-            // Go through each bank assigned to the customer
+            // Go through each bank assigned to the supplier
             foreach ($banks as $bank) {
-
-                // Makes new bank element
+                // Make bank element
                 $bankElement = $this->createElement('bank');
                 $banksElement->appendChild($bankElement);
 
-                // Set attributes
-                $bankElement->setAttribute('default', $bank->getDefault());
+                $blocked = Util::formatBoolean($bank->getBlocked());
 
-                // Go through each bank element and use the assigned method
-                foreach ($bankTags as $tag => $method) {
-
-                    // Make the text node for the method value
-                    $node = $this->createTextNode($bank->$method());
-
-                    // Make the actual element and assign the text node
-                    $element = $this->createElement($tag);
-                    $element->appendChild($node);
-
-                    // Add the completed element
-                    $bankElement->appendChild($element);
+                if (!empty($blocked)) {
+                    $bankElement->setAttribute('blocked', $blocked);
                 }
 
-                // Bank address fields
+                $default = Util::formatBoolean($bank->getDefault());
 
-                // Make the text nodes for the bank address fields
-                $field2Node = $this->createTextNode($bank->getAddressField2());
-                $field3Node = $this->createTextNode($bank->getAddressField3());
+                if (!empty($default)) {
+                    $bankElement->setAttribute('default', $default);
+                }
 
-                // Make the actual elements and assign the text nodes
-                $field2Element = $this->createElement('field2');
-                $field3Element = $this->createElement('field3');
-                $field2Element->appendChild($field2Node);
-                $field3Element->appendChild($field3Node);
+                $id = $bank->getID();
 
-                // Combine the fields in an address element and add that to the bank element
-                $addressElement = $this->createElement('address');
-                $addressElement->appendChild($field2Element);
-                $addressElement->appendChild($field3Element);
-                $bankElement->appendChild($addressElement);
+                if (!empty($id)) {
+                    $bankElement->setAttribute('id', $id);
+                }
+
+                $bankAddressElement = $this->createElement('address');
+                $bankAddressElement->appendChild($this->createNodeWithTextContent('field2', $bank->getAddressField2()));
+                $bankAddressElement->appendChild($this->createNodeWithTextContent('field3', $bank->getAddressField3()));
+                $bankElement->appendChild($bankAddressElement);
+
+                $bankElement->appendChild($this->createNodeWithTextContent('ascription', $bank->getAscription()));
+                $bankElement->appendChild($this->createNodeWithTextContent('accountnumber', $bank->getAccountNumber()));
+                $bankElement->appendChild($this->createNodeWithTextContent('bankname', $bank->getBankName()));
+                $bankElement->appendChild($this->createNodeWithTextContent('biccode', $bank->getBicCode()));
+                $bankElement->appendChild($this->createNodeWithTextContent('city', $bank->getCity()));
+                $bankElement->appendChild($this->createNodeWithTextContent('country', Util::objectToStr($bank->getCountry())));
+                $bankElement->appendChild($this->createNodeWithTextContent('iban', $bank->getIban()));
+                $bankElement->appendChild($this->createNodeWithTextContent('natbiccode', $bank->getNatBicCode()));
+                $bankElement->appendChild($this->createNodeWithTextContent('postcode', $bank->getPostcode()));
+                $bankElement->appendChild($this->createNodeWithTextContent('state', $bank->getState()));
             }
         }
+
+        $remittanceAdviceElement = $this->createElement('remittanceadvice');
+        $supplierElement->appendChild($remittanceAdviceElement);
+
+        $remittanceAdviceElement->appendChild($this->createNodeWithTextContent('sendmail', $supplier->getRemittanceAdviceSendMail()));
+        $remittanceAdviceElement->appendChild($this->createNodeWithTextContent('sendtype', $supplier->getRemittanceAdviceSendType()));
+
+        $group = Util::objectToStr($supplier->getGroup());
+
+        if (!empty($group)) {
+            $groupsElement = $this->createElement('groups');
+            $groupsElement->appendChild($this->createNodeWithTextContent('group', $group));
+            $supplierElement->appendChild($groupsElement);
+        }
+
+        $postingRules = $supplier->getPostingRules();
+
+        if (!empty($postingRules)) {
+            // Make postingrules element
+            $postingRulesElement = $this->createElement('postingrules');
+            $supplierElement->appendChild($postingRulesElement);
+
+            // Go through each posting rule assigned to the supplier
+            foreach ($postingRules as $postingRule) {
+                // Make postingrule element
+                $postingRuleElement = $this->createElement('postingrule');
+                $postingRulesElement->appendChild($postingRuleElement);
+
+                $id = $postingRule->getID();
+
+                if (!empty($id)) {
+                    $postingRuleElement->setAttribute('id', $id);
+                }
+
+                $status = $postingRule->getStatus();
+
+                if (!empty($status)) {
+                    $postingRuleElement->setAttribute('status', $status);
+                }
+
+                $postingRuleElement->appendChild($this->createNodeWithTextContent('amount', Util::formatMoney($postingRule->getAmount())));
+                $postingRuleElement->appendChild($this->createNodeWithTextContent('currency', Util::objectToStr($postingRule->getCurrency())));
+                $postingRuleElement->appendChild($this->createNodeWithTextContent('description', $postingRule->getDescription()));
+
+                $postingRuleLines = $postingRule->getLines();
+
+                if (!empty($postingRuleLines)) {
+                    // Make lines element
+                    $postingRuleLinesElement = $this->createElement('lines');
+                    $postingRuleElement->appendChild($postingRuleLinesElement);
+
+                    // Go through each line assigned to the supplier posting rule
+                    foreach ($postingRuleLines as $postingRuleLine) {
+                        // Make line element
+                        $postingRuleLineElement = $this->createElement('line');
+                        $postingRuleLinesElement->appendChild($postingRuleLineElement);
+
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension1', Util::objectToStr($postingRuleLine->getDimension1())));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension2', Util::objectToStr($postingRuleLine->getDimension2())));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('dimension3', Util::objectToStr($postingRuleLine->getDimension3())));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('description', $postingRuleLine->getDescription()));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('office', Util::objectToStr($postingRuleLine->getOffice())));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('ratio', $postingRuleLine->getRatio()));
+                        $postingRuleLineElement->appendChild($this->createNodeWithTextContent('vatcode', Util::objectToStr($postingRuleLine->getVatCode())));
+                    }
+                }
+            }
+        }
+
+        $paymentconditionsElement = $this->createElement('paymentconditions');
+        $supplierElement->appendChild($paymentconditionsElement);
+
+        $paymentconditionElement = $this->createElement('paymentcondition');
+        $paymentconditionsElement->appendChild($paymentconditionElement);
+
+        $paymentconditionElement->appendChild($this->createNodeWithTextContent('discountdays', $supplier->getPaymentConditionDiscountDays()));
+        $paymentconditionElement->appendChild($this->createNodeWithTextContent('discountpercentage', $supplier->getPaymentConditionDiscountPercentage()));
+
+        $blockedAccountPaymentConditionsElement = $this->createElement('blockedaccountpaymentconditions');
+        $supplierElement->appendChild($blockedAccountPaymentConditionsElement);
+
+        $blockedAccountPaymentConditionsElement->appendChild($this->createNodeWithTextContent('includevat', $supplier->getBlockedAccountPaymentConditionsIncludeVat()));
+        $blockedAccountPaymentConditionsElement->appendChild($this->createNodeWithTextContent('percentage', $supplier->getBlockedAccountPaymentConditionsPercentage()));
     }
 }

@@ -2,121 +2,69 @@
 
 namespace PhpTwinfield;
 
-use Money\Currency;
-use Money\Money;
+use PhpTwinfield\BankTransactionLine;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
-use PhpTwinfield\Transactions\Transaction;
-use PhpTwinfield\Transactions\TransactionFields\AutoBalanceVatField;
-use PhpTwinfield\Transactions\TransactionFields\CodeNumberOfficeFields;
-use PhpTwinfield\Transactions\TransactionFields\DestinyField;
-use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
-use PhpTwinfield\Transactions\TransactionFields\LinesField;
-use PhpTwinfield\Transactions\TransactionFields\RaiseWarningField;
-use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
-use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
-use PhpTwinfield\Transactions\TransactionLineFields\DateField;
-use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
-use Webmozart\Assert\Assert;
+use PhpTwinfield\Fields\Transaction\CloseAndStartValueFields;
+use PhpTwinfield\Fields\Transaction\StatementNumberField;
 
-/**
+/*
  * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
  */
-class BankTransaction implements Transaction
+class BankTransaction extends BaseTransaction
 {
-    use DestinyField;
-    use AutoBalanceVatField;
-    use PeriodField;
-    use CodeNumberOfficeFields;
-    use DateField;
-    use StatementNumberField;
-    use RaiseWarningField;
-
-    use StartAndCloseValueFields;
-
-    use FreeTextFields;
-
-    use LinesField {
-        addLine as protected traitAddLine;
+    use CloseAndStartValueFields {
+        setCurrency as protected traitSetCurrency;
     }
 
-    /**
-     * The date/time on which the transaction was created.
-     * Read-only attribute.
-     *
-     * @var \DateTimeImmutable
-     */
-    private $inputDate;
-
-    /**
-     * The bank transaction origin.
-     * Read-only attribute.
-     *
-     * @var mixed
-     */
-    private $origin;
-
-    /**
-     * The date/time on which the bank transaction was modified the last time.
-     * Read-only attribute.
-     *
-     * @var \DateTimeInterface
-     */
-    private $modificationDate;
+    use StatementNumberField;
 
     public function __construct()
     {
-        $this->currency   = new Currency("EUR");
-        $this->startvalue = new Money(0, $this->getCurrency());
+        $this->startValue = new \Money\Money(0, new \Money\Currency('XXX'));
     }
 
+    /*
+     * @return string
+     */
     public function getLineClassName(): string
     {
-        return Transactions\BankTransactionLine\Base::class;
+        return BankTransactionLine::class;
     }
 
-    /**
-     * The bank transaction origin.
-     * Read-only attribute.
+    /*
+     * Set the currency. Can only be done when the start value is still 0.
      *
-     * @return mixed
+     * @param Currency $currency
+     * @return $this
      */
-    public function getOrigin()
+    public function setCurrency(?Currency $currency): parent
     {
-        return $this->origin;
+        $this->traitSetCurrency($currency);
+
+        return $this;
     }
 
-    public function getInputDate(): \DateTimeInterface
+    /*
+     * @param $line
+     * @return $this
+     */
+    public function addLine($line)
     {
-        return $this->inputDate;
-    }
+        parent::addLine($line);
 
-    public function addLine(Transactions\BankTransactionLine\Base $line): void
-    {
-        Assert::notEmpty($this->startvalue);
-
-        /*
-         * Max is 500 lines. 
-         */
-        Assert::lessThan($this->getLineCount(), 500);
-
-        /*
-         * Calls the addLine() method on the LinesField trait. Uses an alias in the `use` statement at top of this
-         * class, because parent::addLine() doesn't work for traits.
-         */
-        $this->traitAddLine($line);
-
+        /* @var BankTransactionLine $line */
         if (!$line->getLineType()->equals(LineType::TOTAL())) {
             /*
-             * Don't add total lines to the closevalue, they are summaries of the details and vat lines.
-             *
-             * @link https://github.com/php-twinfield/twinfield/issues/39
+             * Don't add total lines to the close value, they are summaries of the details and vat lines.
              */
             if ($line->getDebitCredit()->equals(DebitCredit::CREDIT())) {
-                $this->closevalue = $this->getClosevalue()->add($line->getValue());
+                $this->closeValue = $this->getCloseValue()->add($line->getValue());
             } else {
-                $this->closevalue = $this->getClosevalue()->subtract($line->getValue());
+                $this->closeValue = $this->getCloseValue()->subtract($line->getValue());
             }
         }
+
+        return $this;
     }
 }

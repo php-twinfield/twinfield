@@ -55,10 +55,10 @@ class BrowseDataMapper extends BaseMapper
             $keyElement = $rowElement->getElementsByTagName('key')[0];
 
             $browseDataRow
-                ->setOffice(Office::fromCode(self::getField($keyElement, 'office')))
-                ->setCode(self::getField($keyElement, 'code'))
-                ->setNumber(self::getField($keyElement, 'number'))
-                ->setLine(self::getField($keyElement, 'line'));
+                ->setOffice(Office::fromCode(self::getField($keyElement, 'office', $browseDataRow)))
+                ->setCode(self::getField($keyElement, 'code', $browseDataRow))
+                ->setNumber(self::getField($keyElement, 'number', $browseDataRow))
+                ->setLine(self::getField($keyElement, 'line', $browseDataRow));
 
             $browseData->addRow($browseDataRow);
 

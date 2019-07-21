@@ -4,7 +4,9 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Exception;
+use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Response\ResponseException;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
@@ -37,6 +39,7 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     public function __construct(AuthenticatedConnection $connection, ?ApiOptions $options = null)
     {
         $this->connection = $connection;
+
         if ($options === null) {
             $this->options = new ApiOptions();
         } else {
@@ -44,6 +47,17 @@ abstract class BaseApiConnector implements LoggerAwareInterface
         }
     }
 
+    /**
+     * Will return the current connection
+     *
+     * @return \PhpTwinfield\Secure\AuthenticatedConnection
+     * @throws Exception
+     */
+    public function getConnection(): AuthenticatedConnection
+    {
+        return $this->connection;
+    }
+  
     public function getOptions(): ApiOptions
     {
         return $this->options;
@@ -163,5 +177,105 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     protected function getFinderService(): FinderService
     {
         return $this->connection->getAuthenticatedClient(Services::FINDER());
+    }
+
+    /**
+     * Convert options array to an ArrayOfString which is accepted by Twinfield.
+     *
+     * In some cases you are not allowed to change certain options (such as the dimtype, which should always be DEB when using CustomerApiConnector->ListAll()),
+     * in which case the $forcedOptions parameter will be set by the ApiConnector for this option, which will override any user settings in $options
+     *
+     * @param array $options
+     * @param array $forcedOptions
+     * @return array
+     * @throws Exception
+     */
+    public function convertOptionsToArrayOfString(array $options, array $forcedOptions = []): array {
+        if (isset($options['ArrayOfString'])) {
+            return $options;
+        }
+
+        $optionsArrayOfString = ['ArrayOfString' => []];
+
+        foreach ($forcedOptions as $key => $value) {
+            unset($options[$key]);
+            $optionsArrayOfString['ArrayOfString'][] = array($key, $value);
+        }
+
+        foreach ($options as $key => $value) {
+            $optionsArrayOfString['ArrayOfString'][] = array($key, $value);
+        }
+
+        return $optionsArrayOfString;
+    }
+
+    /**
+     * Map the response of a listAll to an array of the requested class
+     *
+     * Is used by child ApiConnectors to map a $data object received by the FinderService to one or more new entities of $objectClass
+     * using the methods and attributes in $methodToAttributeMap. Returns an array of $objectClass objects
+     *
+     * @param string $objectClass
+     * @param $data
+     * @param array $methodToAttributeMap
+     * @return array
+     * @throws Exception
+     */
+    public function mapListAll(string $objectClass, $data, array $methodToAttributeMap): array {
+        if ($data->TotalRows == 0) {
+            return [];
+        }
+
+        $objects = [];
+
+        foreach ($data->Items->ArrayOfString as $responseArrayElement) {
+            $object = new $objectClass();
+
+            if (isset($responseArrayElement->string[0])) {
+                $elementArray = $responseArrayElement->string;
+            } else {
+                $elementArray = $responseArrayElement;
+            }
+
+            foreach ($methodToAttributeMap as $key => $method) {
+                $object->$method($elementArray[$key]);
+            }
+
+            $objects[] = $object;
+        }
+
+        return $objects;
+    }
+
+    /**
+     * @param HasEqualInterface $apiConnector
+     * @param array $sentObjects
+     * @param MappedResponseCollection $mappedResponseCollection
+     * @return MappedResponseCollection
+     */
+    public function testSentEqualsResponse(HasEqualInterface $apiConnector, array $sentObjects, MappedResponseCollection $mappedResponseCollection): MappedResponseCollection
+    {
+        $checkedMappedResponseCollection = new MappedResponseCollection();
+
+        foreach($mappedResponseCollection as $key => $individualMappedResponse) {
+            $returnedObject = $individualMappedResponse->unwrap();
+
+            if ($returnedObject->getResult() == 1) {
+                $testResult = $apiConnector->testEqual($returnedObject, $sentObjects[$key]);
+                $equal = $testResult[0];
+                $returnedObject = $testResult[1];
+
+                if (!$equal) {
+                    $apiConnector->sendAll([$returnedObject], true)[0];
+					sleep(2);
+					$sentObjects[$key]->setCode($returnedObject->getCode());
+					$individualMappedResponse = $apiConnector->sendAll([$sentObjects[$key]], true)[0];
+                }
+            }
+
+            $checkedMappedResponseCollection->append($individualMappedResponse);
+        }
+
+        return $checkedMappedResponseCollection;
     }
 }
