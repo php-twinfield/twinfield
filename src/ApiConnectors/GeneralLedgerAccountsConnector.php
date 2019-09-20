@@ -24,7 +24,7 @@ class GeneralLedgerAccountsConnector extends BaseApiConnector
      *                         to add multiple options. An option name may be used once, specifying an option multiple
      *                         times will cause an error.
      *
-     * @return GeneralLedgerAccounts[] The General Ledger Accounts found.
+     * @return array The General Ledger Accounts found.
      */
     public function listAll(
         string $pattern = '*',
