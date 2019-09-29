@@ -12,7 +12,7 @@ use PhpTwinfield\MatchSet;
 use PhpTwinfield\Office;
 
 /**
- * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching
+ * @link https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching
  */
 class MatchDocumentUnitTest extends \PHPUnit\Framework\TestCase
 {

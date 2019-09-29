@@ -36,7 +36,7 @@ class WebservicesAuthentication extends AuthenticatedConnection
      * @access private
      * @var string
      */
-    private $cluster = 'https://c3.twinfield.com';
+    private $cluster = 'https://accounting.twinfield.com';
 
     public function __construct(string $username, string $password, string $organization)
     {

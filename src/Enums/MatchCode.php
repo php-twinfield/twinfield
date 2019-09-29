@@ -15,7 +15,7 @@ use MyCLabs\Enum\Enum;
  * @method static self SUPPLIERS() Matching suppliers.
  * @method static self PROJECTS() Matching projects.
  *
- * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching
+ * @link https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching
  */
 final class MatchCode extends Enum
 {

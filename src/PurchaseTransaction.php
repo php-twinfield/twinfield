@@ -7,7 +7,7 @@ use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
 
 /**
- * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/PurchaseTransactions
+ * @link https://accounting.twinfield.com/webservices/documentation/#/ApiReference/PurchaseTransactions
  */
 class PurchaseTransaction extends BaseTransaction
 {

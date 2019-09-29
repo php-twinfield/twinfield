@@ -22,7 +22,7 @@ use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
  * @copyright (c) 2013, Leon Rowland
  * @version 0.0.1
  *
- * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices
+ * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices
  * @todo Add documentation and typehints to all properties.
  * @todo Add support for VatLines.
  */

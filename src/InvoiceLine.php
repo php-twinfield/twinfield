@@ -6,7 +6,7 @@ use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
 
 /**
- * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices
+ * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices
  * @todo Add documentation and typehints to all properties.
  */
 class InvoiceLine

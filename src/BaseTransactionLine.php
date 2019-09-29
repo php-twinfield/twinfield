@@ -20,7 +20,7 @@ use PhpTwinfield\Transactions\TransactionLineFields\VatTurnoverFields;
  * @todo $comment Comment set on the transaction line.
  * @todo $matches Contains matching information. Read-only attribute.
  *
- * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
+ * @link https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
  */
 abstract class BaseTransactionLine implements TransactionLine
 {

@@ -12,7 +12,7 @@ class ProcessXmlService extends BaseService
      * Advise is to limit the number of children within a parent to 25. So 25 elements within a <general> element, 25
      * elements within e.g. a <transactions> element and so on.
      *
-     * @link https://c3.twinfield.com/webservices/documentation/#/GettingStarted/FUP
+     * @link https://accounting.twinfield.com/webservices/documentation/#/GettingStarted/FUP
      */
     private const MAX_CHILDREN = 25;
 

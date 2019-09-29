@@ -12,7 +12,7 @@ use PhpTwinfield\Transactions\TransactionLineFields\DateField;
 use Webmozart\Assert\Assert;
 
 /**
- * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankStatements
+ * @link https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankStatements
  */
 class ElectronicBankStatement
 {

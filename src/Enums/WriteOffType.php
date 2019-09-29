@@ -13,7 +13,7 @@ use MyCLabs\Enum\Enum;
  * @method static self WRITEOFF()
  * @method static self DISCOUNT()
  *
- * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching
+ * @link https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching
  */
 final class WriteOffType extends Enum
 {

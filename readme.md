@@ -96,7 +96,7 @@ You can also send multiple objects in one batch, chunking is handled automatical
 
 ### Browse data
 In order to get financial data out of Twinfield like general ledger transactions, sales invoices, and so on, you can use the the browse data functionality.
-More information about the browse data functionality in Twinfield can be found in the [documentation](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Request/BrowseData).
+More information about the browse data functionality in Twinfield can be found in the [documentation](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Request/BrowseData).
 
 #### Browse definition
 
@@ -263,22 +263,22 @@ support for another resource.
 
 | Component                                                                                                       | get()              | listAll()          | send()             | delete()           |  Mapper             |
 | --------------------------------------------------------------------------------------------------------------- | :----------------: | :----------------: | :----------------: | :----------------: | :----------------: |
-| [Articles](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles)                  | :white_check_mark: |                    | :white_check_mark: |                    | :white_check_mark: |
-| [BankTransaction](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions)|                  |                    | :white_check_mark: | :white_check_mark: |                    |
-| [Customer](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| [Electronic Bank Statements](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankStatements)|         |                    | :white_check_mark: |                    |                    |
-| [Sales Invoices](https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices)               | :white_check_mark: |                    | :white_check_mark: |                    | :white_check_mark: |
-| [Matching](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching)            |                    |                    | :white_check_mark: |                    | :white_check_mark: |                    |
-| [Offices](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Offices)                    |                    | :white_check_mark: |                    |                    | :white_check_mark: |
-| [Suppliers](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers)                | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| Transactions:<br> [Purchase](https://c3.twinfield.com/webservices/documentation/#/ApiReference/PurchaseTransactions), [Sale](https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesTransactions), [Journal](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/JournalTransactions), [Cash](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/CashTransactions) | :white_check_mark: |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| [Users](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Users)                        |                    | :white_check_mark: |                    |                    |                    |
-| [Vat types](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/VAT)                      |                    | :white_check_mark: |                    |                    |                    |
-| [Browse Data](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Request/BrowseData)             | :white_check_mark: |                    |                    |                    | :white_check_mark: |
+| [Articles](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles)                  | :white_check_mark: |                    | :white_check_mark: |                    | :white_check_mark: |
+| [BankTransaction](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions)|                  |                    | :white_check_mark: | :white_check_mark: |                    |
+| [Customer](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
+| [Electronic Bank Statements](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankStatements)|         |                    | :white_check_mark: |                    |                    |
+| [Sales Invoices](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices)               | :white_check_mark: |                    | :white_check_mark: |                    | :white_check_mark: |
+| [Matching](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching)            |                    |                    | :white_check_mark: |                    | :white_check_mark: |                    |
+| [Offices](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Offices)                    |                    | :white_check_mark: |                    |                    | :white_check_mark: |
+| [Suppliers](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers)                | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
+| Transactions:<br> [Purchase](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/PurchaseTransactions), [Sale](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/SalesTransactions), [Journal](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/JournalTransactions), [Cash](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/CashTransactions) | :white_check_mark: |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [Users](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Users)                        |                    | :white_check_mark: |                    |                    |                    |
+| [Vat types](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/VAT)                      |                    | :white_check_mark: |                    |                    |                    |
+| [Browse Data](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Request/BrowseData)             | :white_check_mark: |                    |                    |                    | :white_check_mark: |
 
 ## Links
 
-* [Twinfield API Documentation site](https://c3.twinfield.com/webservices/documentation/)
+* [Twinfield API Documentation site](https://accounting.twinfield.com/webservices/documentation/)
 
 
 ## Authors

@@ -11,7 +11,7 @@ use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
 use PhpTwinfield\Transactions\TransactionLine;
 
 /**
- * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/CashTransactions
+ * @link https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/CashTransactions
  */
 class CashTransaction extends BaseTransaction
 {

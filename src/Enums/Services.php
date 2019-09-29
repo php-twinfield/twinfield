@@ -12,7 +12,7 @@ use PhpTwinfield\Services\ProcessXmlService;
  *
  * Each constant should have a classname as the value. The class contains the WSDL link.
  *
- * @link https://c3.twinfield.com/webservices/documentation/#/GettingStarted/WebServicesOverview
+ * @link https://accounting.twinfield.com/webservices/documentation/#/GettingStarted/WebServicesOverview
  *
  * @method static self FINDER()
  * @method static self PROCESSXML()

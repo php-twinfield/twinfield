@@ -22,7 +22,7 @@ class OfficeApiConnector extends BaseApiConnector
      * List the available offices when you are using the OAuth based authentication and don't have an office code yet.
      * For more information following see.
      *
-     * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Types/XmlWebServices
+     * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Types/XmlWebServices
      * @throws \SoapFault
      * @throws \PhpTwinfield\Exception
      * @throws \ErrorException
