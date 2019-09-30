@@ -2,7 +2,7 @@
 A PHP library for Twinfield Integration.
 Use the Twinfield SOAP Services to have your PHP application communicate directly with your Twinfield account.
 
-**:warning: Note that this libary is *not* created or mainained by Twinfield. You can only get support on the code in this library here. For any questions related to your Twinfield administration or how to do certain things with the Twinfield API, contact your Twinfield account manager.** 
+**:warning: Note that this library is *not* created or maintained by Twinfield. You can only get support on the code in this library here. For any questions related to your Twinfield administration or how to do certain things with the Twinfield API, contact your Twinfield account manager.** 
 
 ## Installation
 
@@ -236,7 +236,7 @@ $connector = new BrowseDataApiConnector(
 );
 ```
 
-The example below will look for the defaul messages plus the "Bad Gateway" message.
+The example below will look for the default messages plus the "Bad Gateway" message.
 
 ```php
 $options = new ApiOptions(

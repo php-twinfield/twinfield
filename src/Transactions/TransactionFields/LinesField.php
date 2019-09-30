@@ -44,7 +44,7 @@ trait LinesField
     public function getLines(): array
     {
         /*
-         * When creating the XML that is send to Twinfield, the lines should always be put in the order: one total line,
+         * When creating the XML that is sent to Twinfield, the lines should always be put in the order: one total line,
          * one or more detail lines and optionally one or more vat lines. Twinfield returns an error when the lines are
          * in an incorrect order.
          */

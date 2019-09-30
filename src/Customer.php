@@ -207,7 +207,7 @@ class Customer
 
     public function getCocNumber()
     {
-        trigger_error('setCocNumber is a deprecated method: get from CustomerAddress::field05', E_USER_NOTICE);
+        trigger_error('getCocNumber is a deprecated method: get from CustomerAddress::field05', E_USER_NOTICE);
         return $this->cocNumber;
     }
 
@@ -220,7 +220,7 @@ class Customer
 
     public function getVatNumber()
     {
-        trigger_error('setVatNumber is a deprecated method: add to CustomerAddress::field04', E_USER_NOTICE);
+        trigger_error('getVatNumber is a deprecated method: add to CustomerAddress::field04', E_USER_NOTICE);
         return $this->vatNumber;
     }
 

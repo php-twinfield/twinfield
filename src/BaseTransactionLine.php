@@ -97,7 +97,7 @@ abstract class BaseTransactionLine implements TransactionLine
     protected $matchLevel;
 
     /**
-     * @var Money|null Meaning differs per transaction type. Read-only attribute. See explanatio in the sub classes.
+     * @var Money|null Meaning differs per transaction type. Read-only attribute. See explanation in the sub classes.
      */
     protected $baseValueOpen;
 

@@ -5,7 +5,7 @@ namespace PhpTwinfield\Enums;
 use MyCLabs\Enum\Enum;
 
 /**
- * Class MatchsCodes
+ * Class MatchCodes
  * @package PhpTwinfield
  *
  * The following matching types are available:
