@@ -176,7 +176,7 @@ class CustomerMapper extends BaseMapper
             // Loop through each returned address for the customer
             foreach ($addressesDOM->getElementsByTagName('address') as $addressDOM) {
 
-                // Make a new tempory CustomerAddress class
+                // Make a new temporary CustomerAddress class
                 $temp_address = new CustomerAddress();
 
                 // Set the attributes ( id, type, default )

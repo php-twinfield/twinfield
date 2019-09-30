@@ -12,7 +12,7 @@ namespace PhpTwinfield;
  *
  * @see MatchReference
  *
- * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching
+ * @link https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching
  */
 interface MatchReferenceInterface
 {

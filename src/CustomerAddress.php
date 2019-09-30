@@ -3,7 +3,7 @@
 namespace PhpTwinfield;
 
 /**
- * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers
+ * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers
  * @todo Add documentation and typehints to all properties.
  */
 class CustomerAddress

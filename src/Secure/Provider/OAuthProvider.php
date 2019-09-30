@@ -10,7 +10,7 @@ use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Authentication/OpenIdConnect
+ * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Authentication/OpenIdConnect
  */
 class OAuthProvider extends AbstractProvider
 {

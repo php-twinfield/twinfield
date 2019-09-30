@@ -6,7 +6,7 @@ use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
 
 /**
- * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles
+ * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles
  * @todo Add documentation and typehints to all properties.
  */
 class Article

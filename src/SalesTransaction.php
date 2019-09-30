@@ -7,7 +7,7 @@ use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
 use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 
 /**
- * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesTransactions
+ * @link https://accounting.twinfield.com/webservices/documentation/#/ApiReference/SalesTransactions
  */
 class SalesTransaction extends BaseTransaction
 {

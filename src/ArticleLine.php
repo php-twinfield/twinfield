@@ -3,7 +3,7 @@
 namespace PhpTwinfield;
 
 /**
- * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles
+ * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles
  * @todo Add documentation and typehints to all properties.
  */
 class ArticleLine

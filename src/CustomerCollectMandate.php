@@ -6,7 +6,7 @@ use PhpTwinfield\Util;
 use Webmozart\Assert\Assert;
 
 /**
- * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers
+ * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers
  */
 class CustomerCollectMandate
 {

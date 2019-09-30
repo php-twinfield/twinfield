@@ -20,7 +20,7 @@ use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
 use Webmozart\Assert\Assert;
 
 /**
- * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
+ * @link https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
  */
 class BankTransaction implements Transaction
 {

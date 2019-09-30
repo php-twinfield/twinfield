@@ -9,7 +9,7 @@ use Webmozart\Assert\Assert;
 trait StartAndCloseValueFields
 {
     /**
-     * Currency code. Set to the currency of the corresponding bank day book when left empty.
+     * Currency code. Set to the currency of the corresponding bank daybook when left empty.
      *
      * @var Currency
      */
@@ -23,7 +23,7 @@ trait StartAndCloseValueFields
     private $startvalue;
 
     /**
-     * Closing balance. If not provided, the closing balance will be based on the opening balance and the total amount of the transactions.
+     * Closing balance. If not provided, the closing balance will be based on the opening balance and the total amount of the transaction.
      *
      * @var Money
      */

@@ -10,7 +10,7 @@ use PhpTwinfield\Util;
  * Class BankTransactionDocument
  * @package PhpTwinfield\DomDocuments
  *
- * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
+ * @link https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
  */
 class BankTransactionDocument extends BaseDocument
 {

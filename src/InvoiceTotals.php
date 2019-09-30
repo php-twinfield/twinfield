@@ -2,7 +2,7 @@
 namespace PhpTwinfield;
 
 /**
- * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices
+ * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices
  * @todo Add documentation and typehints to all properties.
  */
 class InvoiceTotals

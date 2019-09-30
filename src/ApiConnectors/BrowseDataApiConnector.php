@@ -19,7 +19,7 @@ class BrowseDataApiConnector extends BaseApiConnector
      * Requests the browse definition of the given browse code.
      *
      * See the Twinfield documentation for the available browse codes:
-     * https://c3.twinfield.com/webservices/documentation/#/ApiReference/Request/BrowseData#Determine-which-browse-definition-to-use
+     * https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Request/BrowseData#Determine-which-browse-definition-to-use
      *
      * @param string $code
      * @return \PhpTwinfield\BrowseDefinition
@@ -57,7 +57,7 @@ class BrowseDataApiConnector extends BaseApiConnector
     /**
      * Requests financial data from Twinfield. This function is based on so called browse codes. These codes are
      * predefined definitions of financial data. For more information see the Twinfield documentation:
-     * https://c3.twinfield.com/webservices/documentation/#/ApiReference/Request/BrowseData
+     * https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Request/BrowseData
      *
      * @param string $code
      * @param BrowseColumn[] $columns

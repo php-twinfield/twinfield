@@ -25,7 +25,7 @@ abstract class Base implements TransactionLine
     /**
      * Note that the field is not in the documentation but it is in all the examples.
      *
-     * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
+     * @link https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
      */
     use InvoiceNumberField;
 

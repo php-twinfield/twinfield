@@ -3,7 +3,7 @@
 namespace PhpTwinfield;
 
 /**
- * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/JournalTransactions
+ * @link https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/JournalTransactions
  */
 class JournalTransaction extends BaseTransaction
 {

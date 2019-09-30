@@ -3,7 +3,7 @@
 namespace PhpTwinfield;
 
 /**
- * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers
+ * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers
  * @todo Add documentation and typehints to all properties.
  */
 class SupplierBank
