@@ -85,7 +85,7 @@ class TransactionMapper
         $transaction
             ->setOffice($office)
             ->setCode(self::getField($transaction, $transactionElement, 'code'))
-            ->setPeriod(self::getField($transaction, $transactionElement, 'period'))
+            ->setPeriod(self::getField($transaction, $transactionElement, 'period') ?? '')
             ->setDateFromString(self::getField($transaction, $transactionElement, 'date'))
             ->setOrigin(self::getField($transaction, $transactionElement, 'origin'))
             ->setFreetext1(self::getField($transaction, $transactionElement, 'freetext1'))
