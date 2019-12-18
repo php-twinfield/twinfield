@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<transactions result="0">
+    <transaction destiny="temporary" result="0">
+        <header result="0">
+            <code name="Standaard bank" shortname="Standaard bank">BNK</code>
+            <office name="My office" shortname="My office">OFFICE001</office>
+            <date msgtype="warning" msg="Datum 25-07-2019 valt buiten de opgegeven periode (2019/09)." result="0">20190725</date>
+            <statementnumber>0</statementnumber>
+            <currency name="Euro" shortname="Euro">EUR</currency>
+            <startvalue>0.00</startvalue>
+            <closevalue>0.00</closevalue>
+            <origin>import</origin>
+            <user name="Chuck-Norris" shortname="Chuck-Norris">CHUCK-NORRIS</user>
+            <regime>generic</regime>
+            <period>2019/09</period>
+        </header>
+        <lines>
+            <line type="total" id="1">
+                <dim1 name="Standaard bank" shortname="" type="BAS" inuse="true" vatcode="" vatobligatory="false">1100</dim1>
+                <debitcredit>credit</debitcredit>
+                <value>0.00</value>
+                <rate>1</rate>
+                <basevalue>0.00</basevalue>
+                <reprate>1</reprate>
+                <repvalue>0.00</repvalue>
+                <matchstatus>notmatchable</matchstatus>
+            </line>
+            <line type="detail" id="2">
+                <dim1 name="Hoog 21%" shortname="" type="PNL" inuse="true" vatcode="" vatobligatory="false">4700</dim1>
+                <debitcredit>debit</debitcredit>
+                <value>4747824.95</value>
+                <description>2017.123456</description>
+                <rate>1</rate>
+                <basevalue>4747824.95</basevalue>
+                <reprate>1</reprate>
+                <repvalue>4747824.95</repvalue>
+                <currencydate/>
+                <invoicenumber/>
+                <matchlevel>1</matchlevel>
+                <openvalue>4747824.95</openvalue>
+                <openbasevalue>4747824.95</openbasevalue>
+                <openrepvalue>4747824.95</openrepvalue>
+                <matchstatus>available</matchstatus>
+            </line>
+        </lines>
+    </transaction>
+</transactions>

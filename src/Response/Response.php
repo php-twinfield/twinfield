@@ -96,7 +96,7 @@ class Response
         }
 
         if ("1" !== $responseValue) {
-            throw new Exception(implode(", ", $this->getErrorMessages()));
+            throw new Exception(implode(", ", array_merge($this->getErrorMessages(), $this->getWarningMessages())));
         }
     }
 
