@@ -257,4 +257,25 @@ class BankTransactionApiConnectorTest extends TestCase
 
         $this->apiConnector->delete($bookingReference, "It was merely a test transaction & I no longer need it.");
     }
+
+    public function testSendThrowsWhenResponseContainsWarningMessage()
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Datum 25-07-2019 valt buiten de opgegeven periode (2019/09).');
+
+        $response = Response::fromString(file_get_contents(
+            __DIR__."/resources/banktransaction-with-warning-message.xml"
+        ));
+
+        $this->processXmlService->expects($this->once())
+            ->method("sendDocument")
+            ->willReturn($response);
+
+        $responses = $this->apiConnector->sendAll([$this->createBankTransaction()]);
+        $this->assertCount(1, $responses);
+        $response = $responses[0];
+
+        $response->assertSuccessful();
+    }
+
 }
