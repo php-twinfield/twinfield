@@ -4,6 +4,7 @@ namespace PhpTwinfield\Enums;
 
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
+use PhpTwinfield\Services\SelectOfficeService;
 
 /**
  * All web services offered by Twinfield.
@@ -28,4 +29,9 @@ class Services extends \MyCLabs\Enum\Enum
      * Twinfield Process XML web service methods. See below for an overview of the supported XML messages.
      */
     protected const PROCESSXML = ProcessXmlService::class;
+
+    /**
+     * The service that selects the current office in Twinfield
+     */
+    protected const SELECTOFFICE = SelectOfficeService::class;
 }

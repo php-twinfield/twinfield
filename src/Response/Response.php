@@ -94,7 +94,6 @@ class Response
 
             throw new Exception("Not all items were processed successfully by Twinfield: {$successful} success / {$failed} failed.");
         }
-
         if ("1" !== $responseValue) {
             throw new Exception(implode(", ", array_merge($this->getErrorMessages(), $this->getWarningMessages())));
         }

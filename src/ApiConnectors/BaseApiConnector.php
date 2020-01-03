@@ -8,6 +8,7 @@ use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
+use PhpTwinfield\Services\SelectOfficeService;
 use PhpTwinfield\Util;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -163,5 +164,13 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     protected function getFinderService(): FinderService
     {
         return $this->connection->getAuthenticatedClient(Services::FINDER());
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function getSelectOfficeService(): SelectOfficeService
+    {
+        return $this->connection->getAuthenticatedClient(Services::SELECTOFFICE());
     }
 }
