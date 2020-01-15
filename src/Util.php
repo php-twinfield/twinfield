@@ -11,15 +11,36 @@ use Webmozart\Assert\Assert;
 
 final class Util
 {
-    public static function formatMoney(Money $money): string
+    /**
+     * Format a money object to string according to Twinfield specifications.
+     *
+     * @param Money|null $money
+     * @return string|null
+     */
+    public static function formatMoney(?Money $money): ?string
     {
+        if ($money === null) {
+            return null;
+        }
+        
         $decimalformatter = new DecimalMoneyFormatter(new ISOCurrencies());
 
         return $decimalformatter->format($money);
     }
 
-    public static function parseMoney(string $moneyString, Currency $currency): Money
+    /**
+     * Parse a money string and Currency object.
+     *
+     * @param string|null $moneyString
+     * @param Currency|null $currency
+     * @return Money|null
+     */
+    public static function parseMoney(?string $moneyString, ?Currency $currency): ?Money
     {
+        if ($moneyString === null || $currency === null) {
+            return null;
+        }
+        
         $parser = new DecimalMoneyParser(new ISOCurrencies());
         return $parser->parse($moneyString, $currency);
     }
@@ -27,23 +48,31 @@ final class Util
     /**
      * Format a date according to Twinfield specifications.
      *
-     * @param \DateTimeInterface $date
-     * @return string
+     * @param \DateTimeInterface|null $date
+     * @return string|null
      */
-    public static function formatDate(\DateTimeInterface $date): string
+    public static function formatDate(?\DateTimeInterface $date): ?string
     {
+        if ($date === null) {
+            return null;
+        }
+        
         return $date->format("Ymd");
     }
 
     /**
      * Parse a date string from a Twinfield XML.
      *
-     * @param string $dateString
-     * @return \DateTimeImmutable
+     * @param string|null $dateString
+     * @return \DateTimeImmutable|null
      * @throws Exception
      */
-    public static function parseDate(string $dateString): \DateTimeImmutable
+    public static function parseDate(?string $dateString): ?\DateTimeImmutable
     {
+        if ($dateString === null) {
+            return null;
+        }
+        
         $date = \DateTimeImmutable::createFromFormat("Ymd|", $dateString);
 
         if (false === $date) {
@@ -54,14 +83,33 @@ final class Util
     }
 
     /**
+     * Format a date time according to Twinfield specifications.
+     *
+     * @param \DateTimeInterface|null $datetime
+     * @return string|null
+     */
+    public static function formatDateTime(?\DateTimeInterface $datetime): ?string
+    {
+        if ($datetime === null) {
+            return null;
+        }
+        
+        return $datetime->format("YmdHis");
+    }
+
+    /**
      * Parse a date time string from a Twinfield XML.
      *
-     * @param string $dateString
-     * @return \DateTimeImmutable
+     * @param string|null $dateString
+     * @return \DateTimeImmutable|null
      * @throws Exception
      */
-    public static function parseDateTime(string $dateString)
+    public static function parseDateTime(?string $dateString): ?\DateTimeImmutable
     {
+        if ($dateString === null) {
+            return null;
+        }
+        
         $date = \DateTimeImmutable::createFromFormat("YmdHis", $dateString);
 
         if (false === $date) {
@@ -72,29 +120,42 @@ final class Util
     }
 
     /**
-     * @param bool $boolean
-     * @return string
+     * @param bool|null $boolean
+     * @return string|null
      */
-    public static function formatBoolean(bool $boolean): string
+    public static function formatBoolean(?bool $boolean): ?string
     {
+        if ($boolean === null) {
+            return null;
+        }
+        
         return $boolean ? "true" : "false";
     }
 
     /**
-     * @param string $input
-     * @return bool
-     * @throws Exception
+     * @param string|null $value
+     * @return bool|null
      */
-    public static function parseBoolean(string $input): bool
+    public static function parseBoolean(?string $value): ?bool
     {
-        switch ($input) {
-            case "true":
-                return true;
-            case "false":
-                return false;
+        if ($value === null) {
+            return null;
         }
+        
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    }
 
-        throw new Exception("Unknown boolean value \"{$input}\".");
+    /**
+     * @param HasCodeInterface|null $object
+     * @return string|null
+     */
+    public static function objectToStr(?HasCodeInterface $object): ?string
+    {
+        if ($object === null) {
+            return null;
+        }
+        
+        return $object->getCode();
     }
 
     /**

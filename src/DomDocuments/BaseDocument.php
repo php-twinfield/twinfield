@@ -3,6 +3,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Enums\PerformanceType;
+use PhpTwinfield\HasMessageInterface;
 use PhpTwinfield\Office;
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
@@ -156,13 +157,24 @@ abstract class BaseDocument extends \DOMDocument
      * Use this instead of createElement().
      *
      * @param string $tag
-     * @param string $textContent
+     * @param string|null $textContent
+     * @param HasMessageInterface|null $object
+     * @param array $methodToAttributeMap
      * @return \DOMElement
      */
-    final protected function createNodeWithTextContent(string $tag, string $textContent): \DOMElement
+    final protected function createNodeWithTextContent(string $tag, ?string $textContent, ?HasMessageInterface $object = null, array $methodToAttributeMap = []): \DOMElement
     {
         $element = $this->createElement($tag);
-        $element->textContent = $textContent;
+
+        if ($textContent != null) {
+            $element->textContent = $textContent;
+        }
+
+        if (isset($object)) {
+            foreach ($methodToAttributeMap as $attributeName => $method) {
+                $element->setAttribute($attributeName, $object->$method());
+            }
+        }
 
         return $element;
     }

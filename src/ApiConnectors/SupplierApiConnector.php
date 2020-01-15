@@ -37,7 +37,7 @@ class SupplierApiConnector extends BaseApiConnector
         // Make a request to read a single customer. Set the required values
         $request_customer = new Request\Read\Supplier();
         $request_customer
-            ->setOffice($office->getCode())
+            ->setOffice($office)
             ->setCode($code);
 
         $response = $this->sendXmlDocument($request_customer);
