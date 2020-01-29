@@ -85,7 +85,7 @@ class BrowseDataMapper extends BaseMapper
      *
      * @param string $type
      * @param string $value
-     * @return mixed
+     * @return string|\DateTimeInterface|null|float
      * @throws Exception
      */
     private static function parseBrowseDataValue(string $type, string $value)
