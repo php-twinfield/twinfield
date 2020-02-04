@@ -40,4 +40,16 @@ class OfficeIntegrationTest extends BaseIntegrationTest
         $this->assertSame('010', $offices[1]->getCode());
         $this->assertSame('More&Zo Holding', $offices[1]->getName());
     }
+
+    public function testSetOffice()
+    {
+        $this->sessionService
+            ->expects($this->once())
+            ->method("setOffice")
+            ->with($this->office)
+            ->willReturn(true);
+
+        $response = $this->officeApiConnector->setOffice($this->office);
+        $this->assertTrue($response);
+    }
 }
