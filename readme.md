@@ -28,7 +28,7 @@ Some endpoints allow you to filter on the Office, but for instance the BrowseDat
 ```php
 $office = Office::fromCode("someOfficeCode");
 $officeApi = new \PhpTwinfield\ApiConnectors\OfficeApiConnector($connection);
-$officeApi->selectCurrentOffice($office);
+$officeApi->setOffice($office);
 ```
 
 In order to use OAuth2 to authenticate with Twinfield, one should use the `\PhpTwinfield\Secure\Provider\OAuthProvider` to retrieve an `\League\OAuth2\Client\Token\AccessToken` object, and extract the refresh token from this object. Furthermore, it is required to set up a default `\PhpTwinfield\Office`, that will be used during requests to Twinfield. **Please note:** when a different office is specified when sending a request through one of the `ApiConnectors`, this Office will override the default.
