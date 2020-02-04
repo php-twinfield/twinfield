@@ -3,6 +3,7 @@
 namespace PhpTwinfield\IntegrationTests;
 
 use PhpTwinfield\ApiConnectors\OfficeApiConnector;
+use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 
 class OfficeIntegrationTest extends BaseIntegrationTest
@@ -30,6 +31,7 @@ class OfficeIntegrationTest extends BaseIntegrationTest
             ->willReturn($response);
 
         $offices = $this->officeApiConnector->listAllWithoutOfficeCode();
+
         $this->assertCount(2, $offices);
 
         $this->assertSame('001', $offices[0]->getCode());
