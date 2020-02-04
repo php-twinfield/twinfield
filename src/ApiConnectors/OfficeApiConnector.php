@@ -94,9 +94,9 @@ class OfficeApiConnector extends BaseApiConnector
      * @return bool
      * @throws \PhpTwinfield\Exception
      */
-    public function selectCurrentOffice(Office $office)
+    public function setOffice(Office $office)
     {
-        $response = $this->getSelectOfficeService()->updateOffice($office);
+        $response = $this->getSessionService()->setOffice($office);
 
         return $response;
     }

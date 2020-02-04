@@ -4,7 +4,7 @@ namespace PhpTwinfield\Enums;
 
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
-use PhpTwinfield\Services\SelectOfficeService;
+use PhpTwinfield\Services\SessionService;
 
 /**
  * All web services offered by Twinfield.
@@ -33,5 +33,5 @@ class Services extends \MyCLabs\Enum\Enum
     /**
      * The service that selects the current office in Twinfield
      */
-    protected const SELECTOFFICE = SelectOfficeService::class;
+    protected const SESSION = SessionService::class;
 }
