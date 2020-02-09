@@ -8,6 +8,7 @@ use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
+use PhpTwinfield\Services\SessionService;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseIntegrationTest extends TestCase
@@ -32,6 +33,11 @@ abstract class BaseIntegrationTest extends TestCase
      */
     protected $finderService;
 
+    /**
+     * @var FinderService|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $sessionService;
+
     protected function setUp()
     {
         parent::setUp();
@@ -41,6 +47,7 @@ abstract class BaseIntegrationTest extends TestCase
 
         $this->processXmlService = $this->createPartialMock(ProcessXmlService::class, ['sendDocument']);
         $this->finderService     = $this->createPartialMock(FinderService::class, ['searchFinder']);
+        $this->sessionService    = $this->createPartialMock(SessionService::class, ['setOffice']);
 
         $this->connection  = $this->createMock(AuthenticatedConnection::class);
         $this->connection->expects($this->any())
@@ -52,6 +59,9 @@ abstract class BaseIntegrationTest extends TestCase
 
                     case Services::FINDER()->getValue():
                         return $this->finderService;
+
+                    case Services::SESSION()->getValue():
+                        return $this->sessionService;
                 }
 
                 throw new \InvalidArgumentException("Unknown service {$service->getValue()}");

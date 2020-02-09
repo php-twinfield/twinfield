@@ -23,6 +23,14 @@ username and password authentication, the `\PhpTwinfield\Secure\WebservicesAuthe
 $connection = new Secure\WebservicesAuthentication("username", "password", "organization");
 ```
 
+Some endpoints allow you to filter on the Office, but for instance the BrowseData endpoint doesn't. For this you need to switch to the correct office before making the request, you can do this after authentication like so:
+
+```php
+$office = Office::fromCode("someOfficeCode");
+$officeApi = new \PhpTwinfield\ApiConnectors\OfficeApiConnector($connection);
+$officeApi->setOffice($office);
+```
+
 In order to use OAuth2 to authenticate with Twinfield, one should use the `\PhpTwinfield\Secure\Provider\OAuthProvider` to retrieve an `\League\OAuth2\Client\Token\AccessToken` object, and extract the refresh token from this object. Furthermore, it is required to set up a default `\PhpTwinfield\Office`, that will be used during requests to Twinfield. **Please note:** when a different office is specified when sending a request through one of the `ApiConnectors`, this Office will override the default.
 
 Using this information, we can create an instance of the `\PhpTwinfield\Secure\OpenIdConnectAuthentication` class, as follows:
