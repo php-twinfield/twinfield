@@ -26,7 +26,7 @@ trait PeriodField
      */
     public function setPeriod(?string $period): self
     {
-        if (!empty($period) && !preg_match("!\\d{4}/\\d{1,2}!", $period)) {
+        if ($period !== null && !preg_match("!\\d{4}/\\d{1,2}!", $period)) {
             throw new \InvalidArgumentException("Period must be in YYYY/PP format (got: {$period}.");
         }
 
