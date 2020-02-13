@@ -1,10 +1,6 @@
 <?php
 
-use Money\Money;
-use PhpTwinfield\Enums\DebitCredit;
-use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
-use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 use PHPUnit\Framework\TestCase;
 
 /**
