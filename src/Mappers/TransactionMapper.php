@@ -138,7 +138,7 @@ class TransactionMapper
             /*
              * getElementsByTagName searches for all elements on all levels.
              * This condition makes sure we only work with the first level child.
-             * Alternative way would be converting document to
+             * Alternative way would be converting document to DOMXpath
             */
             if (!$lineElement->hasAttribute('type')) {
                 continue;
