@@ -7,14 +7,14 @@ use PhpTwinfield\Response\Response;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
- * 
+ *
  * @package PhpTwinfield
  * @subpackage Mapper
  * @author Willem van de Sande <W.vandeSande@MailCoupon.nl>
  */
 class ArticleMapper extends BaseMapper
 {
-    
+
     /**
      * Maps a Response object to a clean Article entity.
      *
@@ -84,7 +84,13 @@ class ArticleMapper extends BaseMapper
                 $articleLine = new ArticleLine();
 
                 // Set the attributes ( id,status,inuse)
-                $articleLine->setID($lineDOM->getAttribute('id'))
+                $id = $lineDOM->getAttribute('id');
+
+                if (empty($id)) {
+                    $id = $lineDOM->getElementsByTagName('subcode')->item(0)->textContent;
+                }
+
+                $articleLine->setID($id)
                     ->setStatus($lineDOM->getAttribute('status'))
                     ->setInUse($lineDOM->getAttribute('inuse'));
 
