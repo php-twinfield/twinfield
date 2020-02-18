@@ -192,7 +192,7 @@ class Article
 
     public function addLine(ArticleLine $line)
     {
-        $this->lines[$line->getID()] = $line;
+        $this->lines[$line->getSubCode()] = $line;
         return $this;
     }
 
