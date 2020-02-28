@@ -42,7 +42,7 @@ final class Util
      * @return \DateTimeImmutable|null
      * @throws Exception
      */
-    public static function parseDate(string $dateString): \DateTimeImmutable
+    public static function parseDate(string $dateString): ?\DateTimeImmutable
     {
         if ($dateString === '') {
             return null;
