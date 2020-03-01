@@ -39,11 +39,15 @@ final class Util
      * Parse a date string from a Twinfield XML.
      *
      * @param string $dateString
-     * @return \DateTimeImmutable
+     * @return \DateTimeImmutable|null
      * @throws Exception
      */
-    public static function parseDate(string $dateString): \DateTimeImmutable
+    public static function parseDate(string $dateString): ?\DateTimeImmutable
     {
+        if ($dateString === '') {
+            return null;
+        }
+
         $date = \DateTimeImmutable::createFromFormat("Ymd|", $dateString);
 
         if (false === $date) {
