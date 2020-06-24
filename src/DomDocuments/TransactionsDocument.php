@@ -77,7 +77,7 @@ class TransactionsDocument extends BaseDocument
         }
 
         if (
-            in_array(InvoiceNumberField::class, class_uses($transaction)) &&
+            Util::objectUses(InvoiceNumberField::class, $transaction) &&
             $transaction->getInvoiceNumber() !== null
         ) {
             $invoiceNumberElement = $this->createNodeWithTextContent('invoicenumber', $transaction->getInvoiceNumber());
@@ -85,7 +85,7 @@ class TransactionsDocument extends BaseDocument
         }
 
         if (
-            in_array(PaymentReferenceField::class, class_uses($transaction)) &&
+            Util::objectUses(PaymentReferenceField::class, $transaction) &&
             $transaction->getPaymentReference() !== null
         ) {
             $paymentReferenceElement = $this->createNodeWithTextContent('paymentreference', $transaction->getPaymentReference());
