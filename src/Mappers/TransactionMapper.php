@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\Mappers;
 
+use DOMXPath;
 use Money\Currency;
 use Money\Money;
 use PhpTwinfield\BaseTransaction;
@@ -134,7 +135,7 @@ class TransactionMapper
         // Parse the transaction lines
         $transactionLineClassName = $transaction->getLineClassName();
 
-        foreach ($transactionElement->getElementsByTagName('line') as $lineElement) {
+        foreach ((new DOMXPath($document))->query('/transaction/lines/line') as $lineElement) {
             self::checkForMessage($transaction, $lineElement);
 
             /** @var BaseTransactionLine $transactionLine */
