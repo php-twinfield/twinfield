@@ -22,6 +22,7 @@ use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
 use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
+use PhpTwinfield\Transactions\TransactionLineFields\MatchDateField;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
@@ -227,6 +228,14 @@ class TransactionMapper
                 $invoiceNumber = self::getField($transaction, $lineElement, 'invoicenumber');
                 if ($invoiceNumber) {
                     $transactionLine->setInvoiceNumber(self::getField($transaction, $lineElement, 'invoicenumber'));
+                }
+            }
+
+            if (Util::objectUses(MatchDateField::class, $transactionLine)) {
+                /** @var MatchDateField $transactionLine */
+                $matchDate = self::getField($transaction, $lineElement, 'matchdate');
+                if ($matchDate) {
+                    $transactionLine->setMatchDate(Util::parseDate($matchDate));
                 }
             }
 

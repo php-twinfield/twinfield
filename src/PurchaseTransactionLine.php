@@ -5,15 +5,14 @@ namespace PhpTwinfield;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
+use PhpTwinfield\Transactions\TransactionLineFields\MatchDateField;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
 use Webmozart\Assert\Assert;
 
-/**
- * @todo $matchDate Only if line type is total. The date on which the purchase invoice is matched. Read-only attribute.
- */
 class PurchaseTransactionLine extends BaseTransactionLine
 {
+    use MatchDateField;
     use VatTotalFields;
     use ValueOpenField;
 
