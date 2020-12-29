@@ -1,7 +1,7 @@
 {
-  "name": "php-twinfield/twinfield",
+  "name": "pidz-development/twinfield",
   "type": "library",
-  "description": "Library for using the Twinfield Soap Service.",
+  "description": "Fork of Library for using the Twinfield Soap Service.",
   "keywords": [
     "twinfield"
   ],
@@ -15,6 +15,10 @@
     {
       "name": "Leon Rowland",
       "email": "leon@pronamic.nl"
+    },
+    {
+      "name": "Peter van den Broek",
+      "email": "peter.vandenbroek@pidz.nl"
     }
   ],
   "config": {
