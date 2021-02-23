@@ -187,12 +187,12 @@ class InvoiceLine
         return $this;
     }
 
-    public function getPerformanceType(): ?PerformanceType
+    public function getPerformanceType()
     {
         return $this->performanceType;
     }
 
-    public function setPerformanceType(?PerformanceType $performanceType): self
+    public function setPerformanceType( $performanceType)
     {
         $this->performanceType = $performanceType;
         return $this;
