@@ -12,7 +12,7 @@ use PhpTwinfield\Message\Message;
 abstract class BaseObject
 {
     private $result;
-    private $messages = [];
+    private $messages;
 
     public function getResult()
     {

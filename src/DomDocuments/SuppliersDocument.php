@@ -2,7 +2,6 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Supplier;
-use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML customers. Is a child class
@@ -152,7 +151,7 @@ class SuppliersDocument extends \DOMDocument
                 $addressesElement->appendChild($addressElement);
 
                 // Set attributes
-                $addressElement->setAttribute('default', Util::formatBoolean($address->getDefault()));
+                $addressElement->setAttribute('default', $address->getDefault());
                 $addressElement->setAttribute('type', $address->getType());
 
                 // Go through each address element and use the assigned method
