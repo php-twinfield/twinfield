@@ -4,7 +4,6 @@ namespace PhpTwinfield;
 
 use Money\Money;
 use PhpTwinfield\Enums\LineType;
-use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
 use Webmozart\Assert\Assert;
 
@@ -14,9 +13,11 @@ use Webmozart\Assert\Assert;
 class JournalTransactionLine extends BaseTransactionLine
 {
     use PerformanceFields;
-    use InvoiceNumberField {
-        setInvoiceNumber as traitSetInvoiceNumber;
-    }
+
+    /**
+     * @var string|null The invoice number. Only if line type is detail.
+     */
+    private $invoiceNumber;
 
     /**
      * @var JournalTransaction
@@ -105,6 +106,14 @@ class JournalTransactionLine extends BaseTransactionLine
     }
 
     /**
+     * @return string|null
+     */
+    public function getInvoiceNumber(): ?string
+    {
+        return $this->invoiceNumber;
+    }
+
+    /**
      * @param string|null $invoiceNumber
      * @return $this
      * @throws Exception
@@ -115,9 +124,10 @@ class JournalTransactionLine extends BaseTransactionLine
             throw Exception::invalidFieldForLineType('invoiceNumber', $this);
         }
 
-        return $this->traitSetInvoiceNumber($invoiceNumber);
-    }
+        $this->invoiceNumber = $invoiceNumber;
 
+        return $this;
+    }
     /**
      * Payment status of the journal transaction. If line type vat always notmatchable. Read-only attribute.
      *

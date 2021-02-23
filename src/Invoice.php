@@ -2,7 +2,6 @@
 namespace PhpTwinfield;
 
 use PhpTwinfield\Transactions\TransactionFields\DueDateField;
-use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
 
 /**
@@ -22,7 +21,7 @@ use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
  * @copyright (c) 2013, Leon Rowland
  * @version 0.0.1
  *
- * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices
+ * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices
  * @todo Add documentation and typehints to all properties.
  * @todo Add support for VatLines.
  */
@@ -30,10 +29,10 @@ class Invoice
 {
     use PeriodField;
     use DueDateField;
-    use OfficeField;
 
     private $customer;
     private $invoiceType;
+    private $office;
     private $invoiceNumber;
     private $status;
     private $currency;
@@ -46,14 +45,7 @@ class Invoice
     private $headerText;
     private $footerText;
     private $totals;
-
-    private $financialCode;
-    private $financialNumber;
-
-    /**
-     * @var InvoiceLine[]
-     */
-    private $lines = [];
+    private $lines = array();
 
     public function addLine(InvoiceLine $line)
     {
@@ -61,10 +53,17 @@ class Invoice
         return $this;
     }
 
-    /**
-     * @return InvoiceLine[]
-     */
-    public function getLines(): array
+    public function removeLine($uid)
+    {
+        if (array_key_exists($uid, $this->lines)) {
+            unset($this->lines[$uid]);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getLines()
     {
         return $this->lines;
     }
@@ -99,6 +98,17 @@ class Invoice
     public function setInvoiceType($invoiceType)
     {
         $this->invoiceType = $invoiceType;
+        return $this;
+    }
+
+    public function getOffice()
+    {
+        return $this->office;
+    }
+
+    public function setOffice($office)
+    {
+        $this->office = $office;
         return $this;
     }
 
@@ -221,32 +231,5 @@ class Invoice
     {
         $this->footerText = $footerText;
         return $this;
-    }
-
-    public function getFinancialCode()
-    {
-        return $this->financialCode;
-    }
-
-    public function setFinancialCode($financialCode)
-    {
-        $this->financialCode = $financialCode;
-	    return $this;
-    }
-
-    public function getFinancialNumber()
-    {
-        return $this->financialNumber;
-    }
-
-    public function setFinancialNumber($financialNumber)
-    {
-        $this->financialNumber = $financialNumber;
-	    return $this;
-    }
-
-    public function getMatchReference(): MatchReferenceInterface
-    {
-        return new MatchReference($this->getOffice(), $this->getFinancialCode(), $this->getFinancialNumber(), 1);
     }
 }

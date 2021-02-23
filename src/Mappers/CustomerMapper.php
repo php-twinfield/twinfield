@@ -4,13 +4,12 @@ namespace PhpTwinfield\Mappers;
 use PhpTwinfield\Customer;
 use PhpTwinfield\CustomerAddress;
 use PhpTwinfield\CustomerBank;
-use PhpTwinfield\Exception;
+use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
-use PhpTwinfield\Util;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
- *
+ * 
  * @package PhpTwinfield
  * @subpackage Mapper
  * @author Leon Rowland <leon@rowland.nl>
@@ -20,17 +19,16 @@ class CustomerMapper extends BaseMapper
 {
     /**
      * Maps a Response object to a clean Customer entity.
-     *
+     * 
      * @access public
      * @param \PhpTwinfield\Response\Response $response
      * @return Customer
-     * @throws Exception
      */
     public static function map(Response $response)
     {
         // Generate new customer object
         $customer = new Customer();
-
+        
         // Gets the raw DOMDocument response.
         $responseDOM = $response->getResponseDocument();
 
@@ -91,27 +89,8 @@ class CustomerMapper extends BaseMapper
                     $customer->$method($value);
                 }
             }
-
-            $collectMandateElement = $responseDOM->getElementsByTagName('collectmandate')->item(0);
-
-            if ($collectMandateElement !== null) {
-
-                // Collect mandate elements and their methods
-                $collectMandateTags = array(
-                    'id' => 'setID',
-                    'signaturedate' => 'setSignatureDateFromString',
-                    'firstrundate' => 'setFirstRunDateFromString',
-                );
-
-                $customer->setCollectMandate(new \PhpTwinfield\CustomerCollectMandate());
-
-                // Go through each collect mandate element and add to the assigned method
-                foreach ($collectMandateTags as $tag => $method) {
-                    $customer->getCollectMandate()->$method(self::getField($collectMandateElement, $tag));
-                }
-            }
         }
-
+        
         // Credit management elements
         $creditManagementElement = $responseDOM->getElementsByTagName('creditmanagement')->item(0);
 
@@ -176,14 +155,14 @@ class CustomerMapper extends BaseMapper
             // Loop through each returned address for the customer
             foreach ($addressesDOM->getElementsByTagName('address') as $addressDOM) {
 
-                // Make a new temporary CustomerAddress class
+                // Make a new tempory CustomerAddress class
                 $temp_address = new CustomerAddress();
 
                 // Set the attributes ( id, type, default )
                 $temp_address
                     ->setID($addressDOM->getAttribute('id'))
                     ->setType($addressDOM->getAttribute('type'))
-                    ->setDefault(Util::parseBoolean($addressDOM->getAttribute('default')));
+                    ->setDefault($addressDOM->getAttribute('default'));
 
                 // Loop through the element tags. Determine if it exists and set it if it does
                 foreach ($addressTags as $tag => $method) {
@@ -236,7 +215,7 @@ class CustomerMapper extends BaseMapper
                 // Set the attributes ( id, default )
                 $temp_bank
                     ->setID($bankDOM->getAttribute('id'))
-                    ->setDefault(Util::parseBoolean($bankDOM->getAttribute('default')));
+                    ->setDefault($bankDOM->getAttribute('default'));
 
                 // Loop through the element tags. Determine if it exists and set it if it does
                 foreach ($bankTags as $tag => $method) {

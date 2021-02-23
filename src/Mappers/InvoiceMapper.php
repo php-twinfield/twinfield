@@ -1,13 +1,13 @@
 <?php
 namespace PhpTwinfield\Mappers;
 
-use PhpTwinfield\Customer;
 use PhpTwinfield\Invoice;
 use PhpTwinfield\InvoiceLine;
 use PhpTwinfield\InvoiceTotals;
 use PhpTwinfield\Response\Response;
+use PhpTwinfield\Customer;
 
-class InvoiceMapper extends BaseMapper
+class InvoiceMapper
 {
     public static function map(Response $response)
     {
@@ -28,16 +28,16 @@ class InvoiceMapper extends BaseMapper
             'invoiceaddressnumber' => 'setInvoiceAddressNumber',
             'deliveraddressnumber' => 'setDeliverAddressNumber',
             'headertext'           => 'setHeaderText',
-            'footertext'           => 'setFooterText',
+            'footertext'           => 'setFooterText'
         );
 
         $customerTags = array(
-            'customer' => 'setCode',
+            'customer' => 'setCode'
         );
 
         $totalsTags = array(
             'valueexcl' => 'setValueExcl',
-            'valueinc'  => 'setValueInc',
+            'valueinc'  => 'setValueInc'
         );
 
         // Generate new Invoice
@@ -45,8 +45,11 @@ class InvoiceMapper extends BaseMapper
 
         // Loop through all invoice tags
         foreach ($invoiceTags as $tag => $method) {
+            $_tag = $responseDOM->getElementsByTagName($tag)->item(0);
 
-            self::setFromTagValue($responseDOM, $tag, [$invoice, $method]);
+            if (isset($_tag) && isset($_tag->textContent)) {
+                $invoice->$method($_tag->textContent);
+            }
         }
 
         // Make a custom, and loop through custom tags
@@ -93,39 +96,21 @@ class InvoiceMapper extends BaseMapper
             'dim1'                   => 'setDim1',
         );
 
-        /** @var \DOMElement $lineDOM */
         foreach ($responseDOM->getElementsByTagName('line') as $lineDOM) {
+            $temp_line = new InvoiceLine();
 
-            $invoiceLine = new InvoiceLine();
-            $invoiceLine->setID($lineDOM->getAttribute('id'));
+            $temp_line->setID($lineDOM->getAttribute('id'));
 
             foreach ($lineTags as $tag => $method) {
+                $_tag = $lineDOM->getElementsByTagName($tag)->item(0);
 
-                $content = self::getField($lineDOM, $tag);
-
-                if (null !== $content) {
-                    $invoiceLine->$method($content);
+                if (isset($_tag) && isset($_tag->textContent)) {
+                    $temp_line->$method($_tag->textContent);
                 }
             }
 
-            $invoice->addLine($invoiceLine);
-        }
-
-        // Financial elements and their methods
-        $financialsTags = array(
-            'code'      => 'setFinancialCode',
-            'number'    => 'setFinancialNumber'
-        );
-
-        // Financial elements
-        $financialElement = $responseDOM->getElementsByTagName('financials')->item(0);
-
-        if ($financialElement !== null) {
-
-            // Go through each financial element and add to the assigned method
-            foreach ($financialsTags as $tag => $method) {
-                $invoice->$method(self::getField($financialElement, $tag));
-            }
+            $invoice->addLine($temp_line);
+            unset($temp_line);
         }
 
         return $invoice;

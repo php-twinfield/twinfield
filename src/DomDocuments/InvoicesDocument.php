@@ -2,6 +2,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\Invoice;
+use PhpTwinfield\Util;
 
 /**
  * The Document Holder for making new XML invoices.  Is a child class
@@ -71,18 +72,16 @@ class InvoicesDocument extends BaseDocument
         foreach ($headerTags as $tag => $method) {
 
             $value = $this->getValueFromCallback([$invoice, $method]);
-    
-            if(null !== $value) {
-                // Make text node for method value
-                $node = $this->createTextNode($value);
-    
-                // Make the actual element and assign the node
-                $element = $this->createElement($tag);
-                $element->appendChild($node);
-    
-                // Add the full element
-                $headerElement->appendChild($element);
-            }
+
+            // Make text node for method value
+            $node = $this->createTextNode($value);
+            
+            // Make the actual element and assign the node
+            $element = $this->createElement($tag);
+            $element->appendChild($node);
+            
+            // Add the full element
+            $headerElement->appendChild($element);
         }
 
         // Add orders
@@ -119,15 +118,11 @@ class InvoicesDocument extends BaseDocument
                 
                 // Make text node for method value
                 $node = $this->createTextNode($this->getValueFromCallback([$line, $method]));
-
-                if ($node->textContent === "") {
-                    continue;
-                }
-
+                
                 // Make the actual element with tag
                 $element = $this->createElement($tag);
                 $element->appendChild($node);
-
+                
                 // Add the full element
                 $lineElement->appendChild($element);
             }

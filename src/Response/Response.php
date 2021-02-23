@@ -28,7 +28,7 @@ class Response
      * Holds the response, loaded in from the
      * \PhpTwinfield\Secure\Service class.
      *
-     * @var \DOMDocument
+     * @var \DOMNode
      */
     private $responseDocument;
 
@@ -94,8 +94,9 @@ class Response
 
             throw new Exception("Not all items were processed successfully by Twinfield: {$successful} success / {$failed} failed.");
         }
+
         if ("1" !== $responseValue) {
-            throw new Exception(implode(", ", array_merge($this->getErrorMessages(), $this->getWarningMessages())));
+            throw new Exception(implode(", ", $this->getErrorMessages()));
         }
     }
 

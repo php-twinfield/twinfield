@@ -5,6 +5,7 @@ namespace PhpTwinfield\DomDocuments;
 use PhpTwinfield\MatchLine;
 use PhpTwinfield\MatchSet;
 use PhpTwinfield\Util;
+use Webmozart\Assert\Assert;
 
 class MatchDocument extends BaseDocument
 {

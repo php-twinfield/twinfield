@@ -21,7 +21,7 @@ class ResourceOwner implements ResourceOwnerInterface
      */
     public function getId(): string
     {
-        return $this->response["sub"];
+        return $this->response["id"];
     }
 
     /**

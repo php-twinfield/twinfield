@@ -2,13 +2,13 @@
 
 namespace PhpTwinfield;
 
-use Money\Currency;
 use PhpTwinfield\Transactions\Transaction;
 use PhpTwinfield\Transactions\TransactionFields\AutoBalanceVatField;
 use PhpTwinfield\Transactions\TransactionFields\CodeNumberOfficeFields;
 use PhpTwinfield\Transactions\TransactionFields\DestinyField;
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\LinesField;
+use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionFields\RaiseWarningField;
 use PhpTwinfield\Transactions\TransactionLineFields\DateField;
 use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
@@ -30,7 +30,7 @@ abstract class BaseTransaction extends BaseObject implements Transaction
     use LinesField;
 
     /**
-     * @var Currency|null The currency.
+     * @var string|null The currency code.
      */
     private $currency;
 
@@ -40,18 +40,18 @@ abstract class BaseTransaction extends BaseObject implements Transaction
     private $origin;
 
     /**
-     * @return Currency|null
+     * @return string|null
      */
-    public function getCurrency(): ?Currency
+    public function getCurrency(): ?string
     {
         return $this->currency;
     }
 
     /**
-     * @param Currency|null $currency
+     * @param string|null $currency
      * @return $this
      */
-    public function setCurrency(?Currency $currency): BaseTransaction
+    public function setCurrency(?string $currency): BaseTransaction
     {
         $this->currency = $currency;
 

@@ -3,6 +3,7 @@
 namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\ElectronicBankStatement;
+use PhpTwinfield\Util;
 
 /**
  */

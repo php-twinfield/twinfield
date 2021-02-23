@@ -10,14 +10,15 @@ use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Authentication/OpenIdConnect
+ * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Authentication/OpenIdConnect
  */
 class OAuthProvider extends AbstractProvider
 {
     use BearerAuthorizationTrait;
 
     /**
-     * Please note: This scope only works when the SCOPE_OPEN_ID scope is also present.
+     * PLEASE NOTE: This scope is for some reason not actually supported by Twinfield. If this scope is included in
+     * the authorization url, visiting it results in an 'invalid_scope' error message.
      *
      * twf.user (Identity token) - contains Twinfield specific information about the user. This scope contains the following claims:
      * - twf.id - contains GUID of Twinfield ID. Only if you have the availability of a Twinfield ID.
@@ -43,18 +44,6 @@ class OAuthProvider extends AbstractProvider
      * Note that the twf.organisationUser scope is mandatory in order to login.
      */
     public const SCOPE_ORGANISATION_USER = 'twf.organisationUser';
-
-    /**
-     * This scope is required in order to receive and use refresh tokens.
-     */
-    public const SCOPE_OFFLINE_ACCESS = "offline_access";
-
-    /**
-     * This scope is required to retrieve information about the end-user that is logged in. This means this scope is
-     * also required in order to use the SCOPE_USER scope. Using only this scope gives access to the id of the user
-     * that is logged in, using the SCOPE_USER scope returns additional information.
-     */
-    public const SCOPE_OPEN_ID = "openid";
 
     /**
      * @var string
@@ -88,18 +77,12 @@ class OAuthProvider extends AbstractProvider
     /**
      * Returns the default scopes used by this provider.
      *
-     * Besides the ORGANISATION_USER and OPEN_ID scopes, the OFFLINE_ACCESS and ORGANISATION scopes have to
-     * be used in order to receive a refresh token and cluster URL. These are necessary to refresh the access
-     * token and make requests to the correct endpoint.
+     * This should only be the scopes that are required to request the details of the resource owner, rather than all
+     * the available scopes.
      */
     protected function getDefaultScopes(): array
     {
-        return [
-            self::SCOPE_ORGANISATION_USER,
-            self::SCOPE_OPEN_ID,
-            self::SCOPE_OFFLINE_ACCESS,
-            self::SCOPE_ORGANISATION
-        ];
+        return [self::SCOPE_ORGANISATION_USER];
     }
 
     /**
@@ -117,14 +100,12 @@ class OAuthProvider extends AbstractProvider
      */
     protected function getAuthorizationParameters(array $options): array
     {
-        /* The 'SCOPE_USER' scope can only be used in conjunction with the 'SCOPE_OPEN_ID' scope. */
-        if (array_key_exists("scope", $options)) {
-            $hasUserScope = in_array(self::SCOPE_USER, $options["scope"]);
-            $hasOpenIdScope = in_array(self::SCOPE_OPEN_ID, $options["scope"]);
-
-            if ($hasUserScope && !$hasOpenIdScope) {
-                throw new OAuthException("Scope '".self::SCOPE_USER."' requires the ".self::SCOPE_OPEN_ID." scope.");
-            }
+        /**
+         * The 'SCOPE_USER' scope is not actually supported by Twinfield.
+         * @see OAuthProvider::SCOPE_USER
+         */
+        if (array_key_exists("scope", $options) && in_array(self::SCOPE_USER, $options["scope"])) {
+            throw new OAuthException("Scope '" . self::SCOPE_USER . "' is not supported by Twinfield.");
         }
         $options = parent::getAuthorizationParameters($options);
 
@@ -164,6 +145,14 @@ class OAuthProvider extends AbstractProvider
         }
 
         throw new IdentityProviderException($message, $response->getStatusCode(), $response);
+    }
+
+    /**
+     * @throws \BadMethodCallException
+     */
+    public function getResourceOwner(AccessToken $token): void
+    {
+        throw new \BadMethodCallException("This method has not been implemented");
     }
 
     /**

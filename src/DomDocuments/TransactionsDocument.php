@@ -4,15 +4,11 @@ namespace PhpTwinfield\DomDocuments;
 
 use PhpTwinfield\BaseTransaction;
 use PhpTwinfield\BaseTransactionLine;
-use PhpTwinfield\CashTransaction;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\JournalTransactionLine;
 use PhpTwinfield\Transactions\TransactionFields\DueDateField;
-use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
-use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
-use PhpTwinfield\Transactions\TransactionLineFields\FreeCharField;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
 use PhpTwinfield\Util;
@@ -101,16 +97,6 @@ class TransactionsDocument extends BaseDocument
             $this->appendDateElement($headerElement, "duedate", $transaction->getDueDate());
         }
 
-        if (Util::objectUses(StatementNumberField::class, $transaction) &&
-            $transaction->getStatementnumber() !== null) {
-            $headerElement->appendChild($this->createNodeWithTextContent('statementnumber', $transaction->getStatementnumber()));
-        }
-
-        if ($transaction instanceof CashTransaction) {
-            $headerElement->appendChild($this->createNodeWithTextContent('startvalue', Util::formatMoney($transaction->getStartvalue())));
-            $headerElement->appendChild($this->createNodeWithTextContent('closevalue', Util::formatMoney($transaction->getClosevalue())));
-        }
-
         $this->appendFreeTextFields($headerElement, $transaction);
 
         $linesElement = $this->createElement('lines');
@@ -161,35 +147,6 @@ class TransactionsDocument extends BaseDocument
                 }
             }
 
-            if (Util::objectUses(FreeCharField::class, $transactionLine)) {
-                /** @var FreeCharField $transactionLine */
-                $freeChar = $transactionLine->getFreeChar();
-                if (!empty($freeChar)) {
-                    $freeCharElement = $this->createNodeWithTextContent('freechar', $freeChar);
-                    $lineElement->appendChild($freeCharElement);
-                }
-            }
-
-            if (Util::objectUses(FreeTextFields::class, $transactionLine)) {
-                $freetext1 = $transactionLine->getFreetext1();
-                if (!empty($freetext1)) {
-                    $freetext1Element = $this->createNodeWithTextContent('freetext1', $freetext1);
-                    $lineElement->appendChild($freetext1Element);
-                }
-
-                $freetext2 = $transactionLine->getFreetext2();
-                if (!empty($freetext2)) {
-                    $freetext2Element = $this->createNodeWithTextContent('freetext2', $freetext2);
-                    $lineElement->appendChild($freetext2Element);
-                }
-
-                $freetext3 = $transactionLine->getFreetext3();
-                if (!empty($freetext3)) {
-                    $freetext3Element = $this->createNodeWithTextContent('freetext3', $freetext3);
-                    $lineElement->appendChild($freetext3Element);
-                }
-            }
-
             if (Util::objectUses(VatTotalFields::class, $transactionLine)) {
                 /** @var VatTotalFields $transactionLine */
                 $vatTotal = $transactionLine->getVatTotal();
@@ -205,13 +162,6 @@ class TransactionsDocument extends BaseDocument
                 }
             }
 
-            if (Util::objectUses(InvoiceNumberField::class, $transactionLine) &&
-                $transactionLine->getInvoiceNumber() !== null
-            ) {
-                $invoiceNumberElement = $this->createNodeWithTextContent('invoicenumber', $transactionLine->getInvoiceNumber());
-                $lineElement->appendChild($invoiceNumberElement);
-            }
-
             $vatValue = $transactionLine->getVatValue();
             if (!empty($vatValue)) {
                 $vatElement = $this->createNodeWithTextContent('vatvalue', Util::formatMoney($vatValue));
@@ -222,6 +172,15 @@ class TransactionsDocument extends BaseDocument
             if (!empty($baseline)) {
                 $baselineElement = $this->createNodeWithTextContent('baseline', $baseline);
                 $lineElement->appendChild($baselineElement);
+            }
+
+            if (
+                $transactionLine instanceof JournalTransactionLine &&
+                LineType::DETAIL()->equals($transactionLine->getLineType()) &&
+                $transactionLine->getInvoiceNumber() !== null
+            ) {
+                $invoiceNumberElement = $this->createNodeWithTextContent('invoicenumber', $transactionLine->getInvoiceNumber());
+                $lineElement->appendChild($invoiceNumberElement);
             }
 
             if ($transactionLine->getDescription() !== null) {

@@ -21,7 +21,7 @@ final class Util
     public static function parseMoney(string $moneyString, Currency $currency): Money
     {
         $parser = new DecimalMoneyParser(new ISOCurrencies());
-        return $parser->parse($moneyString, $currency);
+        return $parser->parse($moneyString, $currency->getCode());
     }
 
     /**
@@ -39,39 +39,15 @@ final class Util
      * Parse a date string from a Twinfield XML.
      *
      * @param string $dateString
-     * @return \DateTimeImmutable|null
+     * @return \DateTimeImmutable
      * @throws Exception
      */
-    public static function parseDate(string $dateString): ?\DateTimeImmutable
+    public static function parseDate(string $dateString): \DateTimeImmutable
     {
-        if ($dateString === '') {
-            return null;
-        }
-
         $date = \DateTimeImmutable::createFromFormat("Ymd|", $dateString);
 
         if (false === $date) {
             throw new Exception("Invalid date, expected in yyyymmdd format, got \"{$dateString}\".");
-        }
-
-        return $date;
-    }
-
-    /**
-     * Parse a date time string from a Twinfield XML.
-     *
-     * @throws Exception
-     */
-    public static function parseDateTime(string $dateString): ?\DateTimeImmutable
-    {
-        if ($dateString === '') {
-            return null;
-        }
-      
-        $date = \DateTimeImmutable::createFromFormat("YmdHis", $dateString);
-
-        if (false === $date) {
-            throw new Exception("Invalid date, expected in yyyymmddhhiiss format, got \"{$dateString}\".");
         }
 
         return $date;
@@ -123,21 +99,5 @@ final class Util
         );
 
         return in_array($trait, $traits);
-    }
-
-    public static function getPrettyXml(\DOMDocument $document): string
-    {
-        $oldPreserveWhiteSpace = $document->preserveWhiteSpace;
-        $oldFormatOutput = $document->formatOutput;
-
-        $document->preserveWhiteSpace = false;
-        $document->formatOutput = true;
-
-        $xml_string = $document->saveXML();
-
-        $document->preserveWhiteSpace = $oldPreserveWhiteSpace;
-        $document->formatOutput = $oldFormatOutput;
-
-        return $xml_string ?: '';
     }
 }

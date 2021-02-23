@@ -41,7 +41,7 @@ class Supplier extends Read
      * 
      * @access public
      * @param int $office
-     * @return $this
+     * @return \PhpTwinfield\Request\Read\Customer
      */
     public function setOffice($office)
     {
@@ -54,7 +54,7 @@ class Supplier extends Read
      * 
      * @access public
      * @param string $code
-     * @return $this
+     * @return \PhpTwinfield\Request\Read\Customer
      */
     public function setCode($code)
     {
@@ -67,7 +67,7 @@ class Supplier extends Read
      * 
      * @access public
      * @param string $dimType
-     * @return $this
+     * @return \PhpTwinfield\Request\Read\Customer
      */
     public function setDimType($dimType)
     {

@@ -4,7 +4,6 @@ namespace PhpTwinfield\Enums;
 
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
-use PhpTwinfield\Services\SessionService;
 
 /**
  * All web services offered by Twinfield.
@@ -13,7 +12,7 @@ use PhpTwinfield\Services\SessionService;
  *
  * Each constant should have a classname as the value. The class contains the WSDL link.
  *
- * @link https://accounting.twinfield.com/webservices/documentation/#/GettingStarted/WebServicesOverview
+ * @link https://c3.twinfield.com/webservices/documentation/#/GettingStarted/WebServicesOverview
  *
  * @method static self FINDER()
  * @method static self PROCESSXML()
@@ -29,9 +28,4 @@ class Services extends \MyCLabs\Enum\Enum
      * Twinfield Process XML web service methods. See below for an overview of the supported XML messages.
      */
     protected const PROCESSXML = ProcessXmlService::class;
-
-    /**
-     * The service that selects the current office in Twinfield
-     */
-    protected const SESSION = SessionService::class;
 }

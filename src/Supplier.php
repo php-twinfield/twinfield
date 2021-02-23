@@ -2,30 +2,22 @@
 
 namespace PhpTwinfield;
 
-use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
 
 /**
- * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers
+ * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Suppliers
  * @todo Add documentation and typehints to all properties.
  */
 class Supplier
 {
-    use OfficeField;
     use VatCodeField;
 
+    private $office;
     private $code;
     private $UID;
     private $status;
     private $name;
-
-    /**
-     * Dimension type of suppliers is CRD.
-     *
-     * @var string
-     */
-    private $type = "CRD";
-
+    private $type;
     private $inUse;
     private $behaviour;
     private $touched;
@@ -42,9 +34,22 @@ class Supplier
     private $payCode;
     private $eBilling = false;
     private $eBillMail;
+    private $creditManagement;
     private $addresses = array();
     private $banks = array();
     private $groups;
+
+    public function getOffice()
+    {
+        return $this->office;
+    }
+
+    public function setOffice($office)
+    {
+        $this->office = $office;
+
+        return $this;
+    }
 
     public function getCode()
     {
@@ -203,7 +208,7 @@ class Supplier
 
     public function getCocNumber()
     {
-        trigger_error('getCocNumber is a deprecated method: get from SupplierAddress::field05', E_USER_NOTICE);
+        trigger_error('setCocNumber is a deprecated method: get from SupplierAddress::field05', E_USER_NOTICE);
         return $this->cocNumber;
     }
 
@@ -216,7 +221,7 @@ class Supplier
 
     public function getVatNumber()
     {
-        trigger_error('getVatNumber is a deprecated method: add to SupplierAddress::field04', E_USER_NOTICE);
+        trigger_error('setVatNumber is a deprecated method: add to SupplierAddress::field04', E_USER_NOTICE);
         return $this->vatNumber;
     }
 
@@ -306,8 +311,8 @@ class Supplier
 
     public function removeAddress($index)
     {
-        if (array_key_exists($index, $this->addresses)) {
-            unset($this->addresses[$index]);
+        if (array_key_exists($index, $this->addressess)) {
+            unset($this->adressess[$index]);
             return true;
         } else {
             return false;

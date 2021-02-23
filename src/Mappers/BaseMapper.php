@@ -9,9 +9,6 @@ use Webmozart\Assert\Assert;
 
 abstract class BaseMapper
 {
-    /**
-     * @throws \PhpTwinfield\Exception
-     */
     protected static function setFromTagValue(\DOMDocument $document, string $tag, callable $setter): void
     {
         $value = self::getValueFromTag($document, $tag);
@@ -25,12 +22,7 @@ abstract class BaseMapper
             return;
         }
 
-        if ($tag === "date") {
-            \call_user_func($setter, Util::parseDate($value));
-            return;
-        }
-
-        if ($tag === "startvalue") {
+        if ($tag == "startvalue") {
             $currency = new Currency(self::getValueFromTag($document, "currency"));
 
             \call_user_func($setter, Util::parseMoney($value, $currency));
@@ -60,19 +52,5 @@ abstract class BaseMapper
         }
 
         return $element->textContent;
-    }
-
-    protected static function getField(\DOMElement $element, string $fieldTagName): ?string
-    {
-        $fieldElement = $element->getElementsByTagName($fieldTagName)->item(0);
-        if (!isset($fieldElement)) {
-            return null;
-        }
-
-        if ($fieldElement->textContent === "") {
-            return null;
-        }
-
-        return $fieldElement->textContent;
     }
 }

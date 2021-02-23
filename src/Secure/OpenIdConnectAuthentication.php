@@ -2,11 +2,11 @@
 
 namespace PhpTwinfield\Secure;
 
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use League\OAuth2\Client\Token\AccessToken;
 use PhpTwinfield\Office;
 use PhpTwinfield\Secure\Provider\InvalidAccessTokenException;
-use PhpTwinfield\Secure\Provider\OAuthException;
 use PhpTwinfield\Secure\Provider\OAuthProvider;
+use PhpTwinfield\Secure\Provider\OAuthException;
 
 /**
  * This class allows you to authenticate with an access token to the Twinfield APIs.
@@ -21,14 +21,9 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
     private $provider;
 
     /**
-     * @var null|string
+     * @var AccessToken
      */
     private $accessToken;
-
-    /**
-     * @var string
-     */
-    private $refreshToken;
 
     /**
      * @var Office
@@ -41,24 +36,23 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
     private $cluster;
 
     /**
-     * The office code that is part of the Office object that is passed here will be
-     * the default office code used during requests. If an office code is included in
-     * the SOAP request body, this will always take precedence over this default.
-     *
-     * Please note that for most calls an office is mandatory. If you do not supply it
-     * you have to pass it with every request, or call setOffice.
+     * @throws OAuthException
      */
-    public function __construct(OAuthProvider $provider, string $refreshToken, ?Office $office)
+    public function __construct(OAuthProvider $provider, AccessToken $accessToken, Office $office)
     {
-        $this->provider     = $provider;
-        $this->refreshToken = $refreshToken;
-        $this->office       = $office;
-    }
+        $this->provider    = $provider;
+        $this->accessToken = $accessToken;
 
-    public function setOffice(?Office $office)
-    {
-        $this->resetAllClients();
-        $this->office = $office;
+        /*
+         * The office code that is part of the Office object that is passed here will be
+         * the default office code used during requests. If an office code is included in
+         * the SOAP request body, this will always take precedence over this default.
+         */
+        $this->office      = $office;
+
+        if (!$accessToken->getRefreshToken()) {
+            throw new OAuthException("AccessToken does not contain a refresh token.");
+        }
     }
 
     protected function getCluster(): ?string
@@ -68,34 +62,28 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
 
     protected function getSoapHeaders()
     {
-        $headers = [
-            "AccessToken"   =>  $this->accessToken,
-        ];
-
-        // Watch out. When you don't supply an Office and do an authenticated call you will get an
-        // exception from Twinfield saying 'Toegang geweigerd. Company ontbreekt in request header.'
-        if ($this->office !== null) {
-            $headers["CompanyCode"] = $this->office->getCode();
-        }
-
         return new \SoapHeader(
             'http://www.twinfield.com/',
             'Header',
-            $headers
+            [
+                'AccessToken' => $this->accessToken,
+                'CompanyCode' => $this->office->getCode()
+            ]
         );
     }
 
     /**
      * @throws OAuthException
-     * @throws InvalidAccessTokenException
      */
     protected function login(): void
     {
-        if ($this->accessToken === null) {
+        try {
+            $validationResult = $this->validateToken();
+        } catch (InvalidAccessTokenException $e) {
             $this->refreshToken();
+            $validationResult = $this->validateToken();
         }
 
-        $validationResult = $this->validateToken();
         $this->cluster = $validationResult["twf.clusterUrl"];
     }
 
@@ -110,33 +98,27 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
     protected function validateToken(): array
     {
         $validationUrl    = "https://login.twinfield.com/auth/authentication/connect/accesstokenvalidation?token=";
-        $validationResult = @file_get_contents($validationUrl . urlencode($this->accessToken));
-
-        if ($validationResult === false) {
-            throw new InvalidAccessTokenException("Access token is invalid.");
+        try {
+            $validationResult = @file_get_contents($validationUrl . urlencode($this->accessToken));
+            if ($validationResult === false) {
+                throw new InvalidAccessTokenException("Access token is invalid.");
+            }
+        } catch (\Exception $e) {
+            throw new OAuthException("Could not validate access token: {$e->getMessage()}");
         }
 
-        $resultDecoded = \json_decode($validationResult, true);
-        if (\json_last_error() !== JSON_ERROR_NONE) {
-            throw new OAuthException("Error while decoding JSON: " . \json_last_error_msg());
+        $resultDecoded = json_decode($validationResult, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new OAuthException("Error while decoding JSON: " . json_last_error_msg());
         }
         return $resultDecoded;
     }
 
-    /**
-     * @throws OAuthException
-     */
     protected function refreshToken(): void
     {
-        try {
-            $accessToken = $this->provider->getAccessToken(
-                "refresh_token",
-                ["refresh_token" => $this->refreshToken]
-            );
-        } catch (IdentityProviderException $e) {
-            throw new OAuthException($e->getMessage(), 0, $e);
-        }
-
-        $this->accessToken = $accessToken->getToken();
+        $this->accessToken = $this->provider->getAccessToken(
+            "refresh_token",
+            ["refresh_token" => $this->accessToken->getRefreshToken()]
+        );
     }
 }

@@ -3,7 +3,7 @@
 namespace PhpTwinfield;
 
 /**
- * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers
+ * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers
  * @todo Add documentation and typehints to all properties.
  */
 class CustomerBank
@@ -39,19 +39,12 @@ class CustomerBank
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getDefault() : bool
+    public function getDefault()
     {
         return $this->default;
     }
 
-    /**
-     * @param bool $default
-     * @return $this
-     */
-    public function setDefault(bool $default)
+    public function setDefault($default)
     {
         $this->default = $default;
         return $this;

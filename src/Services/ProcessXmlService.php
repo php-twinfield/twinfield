@@ -2,9 +2,11 @@
 
 namespace PhpTwinfield\Services;
 
+use PhpTwinfield\Exception;
 use PhpTwinfield\Response\IndividualMappedResponse;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
+use Webmozart\Assert\Assert;
 
 class ProcessXmlService extends BaseService
 {
@@ -12,7 +14,7 @@ class ProcessXmlService extends BaseService
      * Advise is to limit the number of children within a parent to 25. So 25 elements within a <general> element, 25
      * elements within e.g. a <transactions> element and so on.
      *
-     * @link https://accounting.twinfield.com/webservices/documentation/#/GettingStarted/FUP
+     * @link https://c3.twinfield.com/webservices/documentation/#/GettingStarted/FUP
      */
     private const MAX_CHILDREN = 25;
 

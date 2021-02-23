@@ -6,7 +6,7 @@ use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
 
 /**
- * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers
+ * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers
  * @todo Add documentation and typehints to all properties.
  */
 class Customer
@@ -50,7 +50,6 @@ class Customer
     private $vatCode;
     private $eBilling = false;
     private $eBillMail;
-    private $collectMandate;
     private $creditManagement;
     private $addresses = array();
     private $banks = array();
@@ -207,7 +206,7 @@ class Customer
 
     public function getCocNumber()
     {
-        trigger_error('getCocNumber is a deprecated method: get from CustomerAddress::field05', E_USER_NOTICE);
+        trigger_error('setCocNumber is a deprecated method: get from CustomerAddress::field05', E_USER_NOTICE);
         return $this->cocNumber;
     }
 
@@ -220,7 +219,7 @@ class Customer
 
     public function getVatNumber()
     {
-        trigger_error('getVatNumber is a deprecated method: add to CustomerAddress::field04', E_USER_NOTICE);
+        trigger_error('setVatNumber is a deprecated method: add to CustomerAddress::field04', E_USER_NOTICE);
         return $this->vatNumber;
     }
 
@@ -299,21 +298,6 @@ class Customer
 
     /**
      *
-     * @return CustomerCollectMandate
-     */
-    public function getCollectMandate(): ?CustomerCollectMandate
-    {
-        return $this->collectMandate;
-    }
-
-    public function setCollectMandate(CustomerCollectMandate $collectMandate): self
-    {
-        $this->collectMandate = $collectMandate;
-        return $this;
-    }
-
-    /**
-     *
      * @return CustomerCreditManagement
      */
     public function getCreditManagement(): ?CustomerCreditManagement
@@ -340,8 +324,8 @@ class Customer
 
     public function removeAddress($index)
     {
-        if (array_key_exists($index, $this->addresses)) {
-            unset($this->addresses[$index]);
+        if (array_key_exists($index, $this->addressess)) {
+            unset($this->adressess[$index]);
             return true;
         } else {
             return false;

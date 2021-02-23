@@ -1,8 +1,8 @@
 <?php
 namespace PhpTwinfield\Secure;
 
-use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Exception;
+use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Services\BaseService;
 
 /**
@@ -74,13 +74,5 @@ abstract class AuthenticatedConnection
         if (array_key_exists($key, $this->authenticatedClients)) {
             unset($this->authenticatedClients[$key]);
         }
-    }
-
-    /**
-     * Resets all connections. Useful if you switch between Offices.
-     */
-    protected function resetAllClients(): void
-    {
-        $this->authenticatedClients = [];
     }
 }

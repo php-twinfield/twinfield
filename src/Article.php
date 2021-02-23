@@ -6,7 +6,7 @@ use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
 
 /**
- * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles
+ * @see https://c3.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles
  * @todo Add documentation and typehints to all properties.
  */
 class Article
@@ -192,15 +192,13 @@ class Article
 
     public function addLine(ArticleLine $line)
     {
-        $this->lines[] = $line;
+        $this->lines[$line->getID()] = $line;
         return $this;
     }
 
-    public function removeLine(ArticleLine $line)
+    public function removeLine($index)
     {
-        $index = array_search($line, $this->lines);
-
-        if ($index !== false) {
+        if (array_key_exists($index, $this->lines)) {
             unset($this->lines[$index]);
             return true;
         } else {

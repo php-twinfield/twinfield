@@ -5,10 +5,10 @@ namespace PhpTwinfield;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
-use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
-use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
+use PhpTwinfield\Transactions\TransactionFields\LinesField;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
+use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
 use Webmozart\Assert\Assert;
 
 class SalesTransactionLine extends BaseTransactionLine
@@ -16,7 +16,6 @@ class SalesTransactionLine extends BaseTransactionLine
     use VatTotalFields;
     use ValueOpenField;
     use PerformanceFields;
-    use FreeTextFields;
 
     /**
      * @var SalesTransaction
@@ -89,7 +88,7 @@ class SalesTransactionLine extends BaseTransactionLine
      * - In case of a 'normal' sales transaction credit.
      * - In case of a credit sales transaction debit.
      *
-     * @param DebitCredit $debitCredit
+     * @param DebitCredit::DEBIT() $debitCredit
      * @return $this
      */
     public function setDebitCredit(DebitCredit $debitCredit): BaseTransactionLine

@@ -5,46 +5,46 @@ namespace PhpTwinfield;
 final class MatchReference implements MatchReferenceInterface
 {
     /**
-     * @var BookingReferenceInterface
+     * @var Office
      */
-    private $bookingReference;
+    private $office;
+
+    /**
+     * @var int
+     */
+    private $number;
+
+    /**
+     * @var string
+     */
+    private $code;
 
     /**
      * @var int
      */
     private $lineId;
 
-    public static function fromBookingReference(
-        BookingReferenceInterface $bookingReference,
-        int $lineId
-    ): MatchReferenceInterface {
-        return new self(
-            $bookingReference->getOffice(),
-            $bookingReference->getCode(),
-            $bookingReference->getNumber(),
-            $lineId
-        );
-    }
-
     public function __construct(Office $office, string $code, int $number, int $lineId)
     {
-        $this->bookingReference = new BookingReference($office, $code, $number);
+        $this->office = $office;
+        $this->code   = $code;
+        $this->number = $number;
         $this->lineId = $lineId;
     }
 
     public function getOffice(): Office
     {
-        return $this->bookingReference->getOffice();
+        return $this->office;
     }
 
     public function getCode(): string
     {
-        return $this->bookingReference->getCode();
+        return $this->code;
     }
 
     public function getNumber(): int
     {
-        return $this->bookingReference->getNumber();
+        return $this->number;
     }
 
     public function getLineId(): int

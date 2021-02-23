@@ -69,13 +69,4 @@ class IndividualMappedResponse
     {
         return $this->response->getErrorMessages();
     }
-
-    /**
-     * @return string[]
-     */
-    public function getWarningMessages(): array
-    {
-        return $this->response->getWarningMessages();
-    }
-
 }

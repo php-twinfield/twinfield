@@ -5,14 +5,14 @@ namespace PhpTwinfield;
 use Money\Currency;
 use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
+use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionFields\StartAndCloseValueFields;
-use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
 use PhpTwinfield\Transactions\TransactionLineFields\DateField;
 use Webmozart\Assert\Assert;
 
 /**
- * @link https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankStatements
+ * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankStatements
  */
 class ElectronicBankStatement
 {

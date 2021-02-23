@@ -2,14 +2,14 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
-use PhpTwinfield\DomDocuments\SuppliersDocument;
 use PhpTwinfield\Exception;
-use PhpTwinfield\Mappers\SupplierMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Request as Request;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Supplier;
+use PhpTwinfield\DomDocuments\SuppliersDocument;
+use PhpTwinfield\Mappers\SupplierMapper;
 use Webmozart\Assert\Assert;
 
 /**
@@ -58,7 +58,7 @@ class SupplierApiConnector extends BaseApiConnector
     {
 
         // Make a request to a list of all customers
-        $request_customers = new Request\Catalog\Dimension($office, $dimType);
+        $request_customers = new Request\Catalog\Dimension($office->getCode(), $dimType);
 
         // Send the Request document and set the response to this instance.
         $response = $this->sendXmlDocument($request_customers);

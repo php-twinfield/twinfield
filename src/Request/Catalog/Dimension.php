@@ -21,8 +21,8 @@ class Dimension extends Catalog
      * in.
      * 
      * @access public
-     * @param Office|null $office
-     * @param string|null $dimType
+     * @param string $office
+     * @param string $dimType
      */
     public function __construct(Office $office = null, $dimType = null)
     {
@@ -42,6 +42,7 @@ class Dimension extends Catalog
     /**
      * Sets the officecode for the dimension request.
      * 
+     * @access public
      * @param Office $office
      */
     public function setOffice(Office $office)

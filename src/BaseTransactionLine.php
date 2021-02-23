@@ -6,21 +6,21 @@ use Money\Money;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionLine;
 use PhpTwinfield\Transactions\TransactionLineFields\CommentField;
-use PhpTwinfield\Transactions\TransactionLineFields\FreeCharField;
 use PhpTwinfield\Transactions\TransactionLineFields\ThreeDimFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueFields;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTurnoverFields;
 
 /**
- * @todo $relation Only if line type is total (or detail for Journal and Cash transactions). Read-only attribute.
+ * @todo $relation Only if line type is total (or detail for Journal transactions). Read-only attribute.
  * @todo $repValueOpen Meaning differs per transaction type. Read-only attribute.
  * @todo $vatBaseValue Only if line type is detail. VAT amount in base currency.
  * @todo $vatRepValue Only if line type is detail. VAT amount in reporting currency.
  * @todo $destOffice Office code. Used for inter company transactions.
+ * @todo $freeChar Free character field. Meaning differs per transaction type.
  * @todo $comment Comment set on the transaction line.
  * @todo $matches Contains matching information. Read-only attribute.
  *
- * @link https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
+ * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
  */
 abstract class BaseTransactionLine implements TransactionLine
 {
@@ -28,7 +28,6 @@ abstract class BaseTransactionLine implements TransactionLine
     use ThreeDimFields;
     use VatTurnoverFields;
     use CommentField;
-    use FreeCharField;
 
     public const MATCHSTATUS_AVAILABLE    = 'available';
     public const MATCHSTATUS_MATCHED      = 'matched';
@@ -97,7 +96,7 @@ abstract class BaseTransactionLine implements TransactionLine
     protected $matchLevel;
 
     /**
-     * @var Money|null Meaning differs per transaction type. Read-only attribute. See explanation in the sub classes.
+     * @var Money|null Meaning differs per transaction type. Read-only attribute. See explanatio in the sub classes.
      */
     protected $baseValueOpen;
 

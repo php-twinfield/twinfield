@@ -2,10 +2,8 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
-use PhpTwinfield\Mappers\OfficeMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Services\FinderService;
-use PhpTwinfield\Request\Catalog\Office as OfficeRequestDocument;
 
 /**
  * A facade to make interaction with the the Twinfield service easier when trying to retrieve or send information about
@@ -18,30 +16,6 @@ use PhpTwinfield\Request\Catalog\Office as OfficeRequestDocument;
  */
 class OfficeApiConnector extends BaseApiConnector
 {
-    /**
-     * List the available offices when you are using the OAuth based authentication and don't have an office code yet.
-     * For more information following see.
-     *
-     * @see https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Types/XmlWebServices
-     * @throws \SoapFault
-     * @throws \PhpTwinfield\Exception
-     * @throws \ErrorException
-     * @return Office[] The offices found.
-     */
-    public function listAllWithoutOfficeCode(): array
-    {
-        $offices = [];
-        $document = new OfficeRequestDocument();
-        $response = $this->getProcessXmlService()->sendDocument($document);
-        $response->assertSuccessful();
-
-        foreach (OfficeMapper::mapAll($response) as $office) {
-            $offices[] = $office;
-        }
-
-        return $offices;
-    }
-
     /**
      * List all offices.
      *
@@ -72,32 +46,13 @@ class OfficeApiConnector extends BaseApiConnector
 
         $offices = [];
         foreach ($response->data->Items->ArrayOfString as $officeArray) {
-          $office = new Office();
-          if(is_array($officeArray)) {
-            $office->setCode($officeArray[0]);
-            $office->setCountryCode($officeArray[2]);
-            $office->setName($officeArray[1]);
-          } else {
+            $office = new Office();
             $office->setCode($officeArray->string[0]);
             $office->setCountryCode($officeArray->string[2]);
             $office->setName($officeArray->string[1]);
-          }
-          $offices[] = $office;
+            $offices[] = $office;
         }
 
         return $offices;
-    }
-
-    /**
-     * Selects the current office
-     * @param Office $office
-     * @return bool
-     * @throws \PhpTwinfield\Exception
-     */
-    public function setOffice(Office $office)
-    {
-        $response = $this->getSessionService()->setOffice($office);
-
-        return $response;
     }
 }
