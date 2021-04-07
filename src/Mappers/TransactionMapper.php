@@ -104,7 +104,11 @@ class TransactionMapper
         }
 
         if (Util::objectUses(DueDateField::class, $transaction)) {
-            $transaction->setDueDateFromString(self::getField($transaction, $transactionElement, 'duedate'));
+            $value = self::getField($transaction, $transactionElement, 'duedate');
+
+            if ($value !== null) {
+                $transaction->setDueDateFromString($value);
+            }
         }
         if (Util::objectUses(InvoiceNumberField::class, $transaction)) {
             $transaction->setInvoiceNumber(self::getField($transaction, $transactionElement, 'invoicenumber'));
