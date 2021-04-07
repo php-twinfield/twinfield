@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\IntegrationTests;
 
+use DateTime;
 use Money\Currency;
 use Money\Money;
 use PhpTwinfield\ApiConnectors\TransactionApiConnector;
@@ -90,6 +91,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertEquals(Money::EUR(2100), $totalLine->getVatTotal());
         $this->assertEquals(Money::EUR(2100), $totalLine->getVatBaseTotal());
         $this->assertEquals(Money::EUR(12100), $totalLine->getValueOpen());
+        $this->assertEquals(new DateTime('2020-12-03'), $totalLine->getMatchDate());
 
         $this->assertEquals(LineType::DETAIL(), $detailLine->getLineType());
         $this->assertSame(2, $detailLine->getId());
@@ -110,6 +112,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine->getVatTotal());
         $this->assertNull($detailLine->getVatBaseTotal());
         $this->assertNull($detailLine->getValueOpen());
+        $this->assertNull($detailLine->getMatchDate());
 
         $this->assertEquals(LineType::VAT(), $vatLine->getLineType());
         $this->assertSame(3, $vatLine->getId());
@@ -130,6 +133,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($vatLine->getVatTotal());
         $this->assertNull($vatLine->getVatBaseTotal());
         $this->assertNull($vatLine->getValueOpen());
+        $this->assertNull($vatLine->getMatchDate());
     }
 
     public function testSendPurchaseTransactionWorks()

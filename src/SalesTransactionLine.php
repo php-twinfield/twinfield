@@ -6,6 +6,7 @@ use Money\Money;
 use PhpTwinfield\Enums\DebitCredit;
 use PhpTwinfield\Enums\LineType;
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
+use PhpTwinfield\Transactions\TransactionLineFields\MatchDateField;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
@@ -13,6 +14,7 @@ use Webmozart\Assert\Assert;
 
 class SalesTransactionLine extends BaseTransactionLine
 {
+    use MatchDateField;
     use VatTotalFields;
     use ValueOpenField;
     use PerformanceFields;

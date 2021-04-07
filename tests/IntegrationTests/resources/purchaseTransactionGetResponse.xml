@@ -31,6 +31,7 @@
             <openbasevalue>121.00</openbasevalue>
             <openrepvalue>156.53</openrepvalue>
             <matchstatus>available</matchstatus>
+            <matchdate>20201203</matchdate>
         </line>
         <line type="detail" id="2">
             <dim1 name="Omzet (19%)" shortname="Omzet (19%)" type="PNL" inuse="true" vatcode="" vatobligatory="false">8020</dim1>
