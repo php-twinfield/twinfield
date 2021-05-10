@@ -39,7 +39,9 @@ class BrowseData extends DOMDocument
         parent::__construct();
 
         Assert::allIsInstanceOf($columns, BrowseColumn::class);
-        Assert::allIsInstanceOf($sortFields, BrowseSortField::class);
+        if(count($sortFields)) {
+            Assert::allIsInstanceOf($sortFields, BrowseSortField::class);
+        }
 
         $this->columnsElement = $this->createElement('columns');
         $this->columnsElement->setAttribute('code', $code);
@@ -48,7 +50,9 @@ class BrowseData extends DOMDocument
         $this->columnsElement->appendChild($this->sortElement);
 
         $this->addColumns($columns);
-        $this->addSortFields($sortFields);
+        if(count($sortFields)) {
+            $this->addSortFields($sortFields);
+        }
 
         $this->appendChild($this->columnsElement);
     }
