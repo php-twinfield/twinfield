@@ -388,11 +388,10 @@ class Customer
         return $this->country;
     }
 
-    /**
-     * @param string $country
-     */
-    public function setCountry(string $country): void
+
+    public function setCountry(string $country)
     {
         $this->country = $country;
+        return $this;
     }
 }
