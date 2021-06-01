@@ -30,7 +30,7 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
      */
     private $transactionApiConnector;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->transactionApiConnector = new TransactionApiConnector($this->connection);

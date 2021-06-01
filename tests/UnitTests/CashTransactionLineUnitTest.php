@@ -16,7 +16,7 @@ class CashTransactionLineUnitTest extends \PHPUnit\Framework\TestCase
      */
     private $line;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->line = new CashTransactionLine();
     }

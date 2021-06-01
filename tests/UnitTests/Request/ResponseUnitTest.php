@@ -21,12 +21,11 @@ class ResponseUnitTest extends TestCase
         $this->assertInstanceOf(Response::class, $response);
     }
 
-    /**
-     * @expectedException \PhpTwinfield\Exception
-     * @expectedExceptionMessage Not all items were processed successfully by Twinfield: 0 success / 1 failed.
-     */
     public function testMultipleItemsSentIsNotSuccessFul()
     {
+        $this->expectException(\PhpTwinfield\Exception::class);
+        $this->expectExceptionMessage('Not all items were processed successfully by Twinfield: 0 success / 1 failed.');
+
         $response = Response::fromString('<?xml version="1.0"?>
 <statements target="electronicstatements" importduplicate="0">
     <statement target="electronicstatements" result="0">

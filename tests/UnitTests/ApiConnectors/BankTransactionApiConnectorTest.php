@@ -37,7 +37,7 @@ class BankTransactionApiConnectorTest extends TestCase
      */
     protected $office;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -229,12 +229,11 @@ class BankTransactionApiConnectorTest extends TestCase
         $this->assertEquals(Money::EUR(10000), $line->getVatBaseTurnover());
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage De status van de boeking moet Concept zijn
-     */
     public function testDeleteThrowsWhenResponseContainsErrorMessages()
     {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('De status van de boeking moet Concept zijn');
+
         $bookingReference = new BookingReference(Office::fromCode("OFFICE001"), "BNK", 201700006);
 
         $this->processXmlService->expects($this->once())

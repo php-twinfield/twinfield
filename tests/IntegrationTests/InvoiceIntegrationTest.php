@@ -27,7 +27,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
      */
     private $invoiceApiConnector;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

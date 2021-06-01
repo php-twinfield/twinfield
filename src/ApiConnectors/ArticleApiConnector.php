@@ -59,9 +59,7 @@ class ArticleApiConnector extends BaseApiConnector
 
         Assert::count($articleResponses, 1);
 
-        foreach ($articleResponses as $articleResponse) {
-            return $articleResponse->unwrap();
-        }
+        return $articleResponses->getIterator()->current()->unwrap();
     }
 
     /**

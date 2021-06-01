@@ -99,9 +99,7 @@ class CustomerApiConnector extends BaseApiConnector
 
         Assert::count($customerResponses, 1);
 
-        foreach ($customerResponses as $customerResponse) {
-            return $customerResponse->unwrap();
-        }
+        return $customerResponses->getIterator()->current()->unwrap();
     }
 
     /**

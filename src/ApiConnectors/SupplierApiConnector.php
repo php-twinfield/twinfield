@@ -102,9 +102,7 @@ class SupplierApiConnector extends BaseApiConnector
 
         Assert::count($supplierResponses, 1);
 
-        foreach ($supplierResponses as $supplierResponse) {
-            return $supplierResponse->unwrap();
-        }
+        return $supplierResponses->getIterator()->current()->unwrap();
     }
 
 

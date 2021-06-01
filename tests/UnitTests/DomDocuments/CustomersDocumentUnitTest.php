@@ -17,7 +17,7 @@ class CustomersDocumentUnitTest extends TestCase
      */
     protected $document;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

@@ -28,9 +28,7 @@ class BankTransactionApiConnector extends BaseApiConnector
 
         Assert::count($bankTransactionResponses, 1);
 
-        foreach ($bankTransactionResponses as $bankTransactionResponse) {
-            return $bankTransactionResponse->unwrap();
-        }
+        return $bankTransactionResponses->getIterator()->current()->unwrap();
     }
 
     /**

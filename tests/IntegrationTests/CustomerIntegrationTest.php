@@ -30,7 +30,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
      */
     private $customerApiConnector;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

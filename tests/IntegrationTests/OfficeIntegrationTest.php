@@ -13,7 +13,7 @@ class OfficeIntegrationTest extends BaseIntegrationTest
      */
     private $officeApiConnector;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

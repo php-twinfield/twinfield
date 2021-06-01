@@ -61,9 +61,7 @@ class InvoiceApiConnector extends BaseApiConnector
 
         Assert::count($invoiceResponses, 1);
 
-        foreach ($invoiceResponses as $invoiceResponse) {
-            return $invoiceResponse->unwrap();
-        }
+        return $invoiceResponses->getIterator()->current()->unwrap();
     }
 
     /**
