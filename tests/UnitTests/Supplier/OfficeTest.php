@@ -5,7 +5,7 @@ use PhpTwinfield\DomDocuments\SuppliersDocument;
 use PhpTwinfield\Office;
 use PhpTwinfield\Supplier;
 
-class SupplierOfficeTest extends \PHPUnit\Framework\TestCase
+class OfficeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Office
