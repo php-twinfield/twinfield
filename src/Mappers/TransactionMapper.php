@@ -31,6 +31,8 @@ use PhpTwinfield\Util;
 
 class TransactionMapper
 {
+    private const DEFAULT_CURRENCY_CODE = 'EUR';
+
     /**
      * @param string   $transactionClassName
      * @param Response $response
@@ -94,7 +96,7 @@ class TransactionMapper
             ->setFreetext2(self::getField($transaction, $transactionElement, 'freetext2'))
             ->setFreetext3(self::getField($transaction, $transactionElement, 'freetext3'));
 
-        $currency = new Currency(self::getField($transaction, $transactionElement, 'currency') ?? 'EUR');
+        $currency = new Currency(self::getField($transaction, $transactionElement, 'currency') ?? self::DEFAULT_CURRENCY_CODE);
         $transaction->setCurrency($currency);
 
         $number = self::getField($transaction, $transactionElement, 'number');
