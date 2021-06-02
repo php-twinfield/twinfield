@@ -4,6 +4,7 @@ namespace PhpTwinfield\ApiConnectors;
 
 use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Exception;
+use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\FinderService;
@@ -13,6 +14,7 @@ use PhpTwinfield\Services\SessionService;
 use PhpTwinfield\Util;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Webmozart\Assert\Assert;
 
 abstract class BaseApiConnector implements LoggerAwareInterface
 {
@@ -106,6 +108,12 @@ abstract class BaseApiConnector implements LoggerAwareInterface
             $this->logFailedRequest($exception);
             throw new Exception($exception->getMessage(), 0, $exception);
         }
+    }
+
+    final protected function unwrapSingleResponse(MappedResponseCollection $responses) {
+        Assert::count($responses, 1);
+
+        return $responses->getIterator()->current()->unwrap();
     }
 
     private function logSendingDocument(\DOMDocument $document): void

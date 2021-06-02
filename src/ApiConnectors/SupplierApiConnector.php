@@ -98,11 +98,7 @@ class SupplierApiConnector extends BaseApiConnector
      */
     public function send(Supplier $supplier): Supplier
     {
-        $supplierResponses = $this->sendAll([$supplier]);
-
-        Assert::count($supplierResponses, 1);
-
-        return $supplierResponses->getIterator()->current()->unwrap();
+        return $this->unwrapSingleResponse($this->sendAll([$supplier]));
     }
 
 

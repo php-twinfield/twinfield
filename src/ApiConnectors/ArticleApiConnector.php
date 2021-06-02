@@ -55,11 +55,7 @@ class ArticleApiConnector extends BaseApiConnector
      */
     public function send(Article $article): Article
     {
-        $articleResponses = $this->sendAll([$article]);
-
-        Assert::count($articleResponses, 1);
-
-        return $articleResponses->getIterator()->current()->unwrap();
+        return $this->unwrapSingleResponse($this->sendAll([$article]));
     }
 
     /**
