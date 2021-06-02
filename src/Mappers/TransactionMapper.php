@@ -94,10 +94,8 @@ class TransactionMapper
             ->setFreetext2(self::getField($transaction, $transactionElement, 'freetext2'))
             ->setFreetext3(self::getField($transaction, $transactionElement, 'freetext3'));
 
-        $currency = self::getField($transaction, $transactionElement, 'currency');
-        if (!empty($currency)) {
-            $transaction->setCurrency(new Currency($currency));
-        }
+        $currency = new Currency(self::getField($transaction, $transactionElement, 'currency') ?? 'EUR');
+        $transaction->setCurrency($currency);
 
         $number = self::getField($transaction, $transactionElement, 'number');
         if (!empty($number)) {
@@ -152,11 +150,11 @@ class TransactionMapper
                 ->setId($lineElement->getAttribute('id'))
                 ->setDim1(self::getField($transaction, $lineElement, 'dim1'))
                 ->setDim2(self::getField($transaction, $lineElement, 'dim2'))
-                ->setValue(self::getFieldAsMoneyObject($transaction, $lineElement, 'value'))
+                ->setValue(self::getFieldAsMoney($transaction, $lineElement, 'value', $currency))
                 ->setDebitCredit(new DebitCredit(self::getField($transaction, $lineElement, 'debitcredit')))
-                ->setBaseValue(self::getFieldAsMoneyObject($transaction, $lineElement, 'basevalue'))
+                ->setBaseValue(self::getFieldAsMoney($transaction, $lineElement, 'basevalue', $currency))
                 ->setRate(self::getField($transaction, $lineElement, 'rate'))
-                ->setRepValue(self::getFieldAsMoneyObject($transaction, $lineElement, 'repvalue'))
+                ->setRepValue(self::getFieldAsMoney($transaction, $lineElement, 'repvalue', $currency))
                 ->setRepRate(self::getField($transaction, $lineElement, 'reprate'))
                 ->setDescription(self::getField($transaction, $lineElement, 'description'))
                 ->setMatchStatus(self::getField($transaction, $lineElement, 'matchstatus'))
@@ -164,12 +162,12 @@ class TransactionMapper
                 ->setVatCode(self::getField($transaction, $lineElement, 'vatcode'));
 
             // TODO - according to the docs, the field is called <basevalueopen>, but the examples use <openbasevalue>.
-            $baseValueOpen = self::getFieldAsMoneyObject($transaction, $lineElement, 'basevalueopen') ?: self::getFieldAsMoneyObject($transaction, $lineElement, 'openbasevalue');
+            $baseValueOpen = self::getFieldAsMoney($transaction, $lineElement, 'basevalueopen', $currency) ?: self::getFieldAsMoney($transaction, $lineElement, 'openbasevalue', $currency);
             if ($baseValueOpen) {
                 $transactionLine->setBaseValueOpen($baseValueOpen);
             }
 
-            $vatValue = self::getFieldAsMoneyObject($transaction, $lineElement, 'vatvalue');
+            $vatValue = self::getFieldAsMoney($transaction, $lineElement, 'vatvalue', $currency);
             if ($lineType == LineType::DETAIL() && $vatValue) {
                 $transactionLine->setVatValue($vatValue);
             }
@@ -212,18 +210,18 @@ class TransactionMapper
             }
             if (in_array(ValueOpenField::class, class_uses($transactionLine))) {
                 // TODO - according to the docs, the field is called <valueopen>, but the examples use <openvalue>.
-                $valueOpen = self::getFieldAsMoneyObject($transaction, $lineElement, 'valueopen') ?: self::getFieldAsMoneyObject($transaction, $lineElement, 'openvalue');
+                $valueOpen = self::getFieldAsMoney($transaction, $lineElement, 'valueopen', $currency) ?: self::getFieldAsMoney($transaction, $lineElement, 'openvalue', $currency);
                 if ($valueOpen) {
                     $transactionLine->setValueOpen($valueOpen);
                 }
             }
             if (in_array(VatTotalFields::class, class_uses($transactionLine))) {
-                $vatTotal = self::getFieldAsMoneyObject($transaction, $lineElement, 'vattotal');
+                $vatTotal = self::getFieldAsMoney($transaction, $lineElement, 'vattotal', $currency);
                 if ($vatTotal) {
                     $transactionLine->setVatTotal($vatTotal);
                 }
 
-                $vatBaseTotal = self::getFieldAsMoneyObject($transaction, $lineElement, 'vatbasetotal');
+                $vatBaseTotal = self::getFieldAsMoney($transaction, $lineElement, 'vatbasetotal', $currency);
                 if ($vatBaseTotal) {
                     $transactionLine->setVatBaseTotal($vatBaseTotal);
                 }
@@ -263,10 +261,11 @@ class TransactionMapper
         return $fieldElement->textContent;
     }
 
-    private static function getFieldAsMoneyObject(
+    private static function getFieldAsMoney(
         BaseTransaction $transaction,
         \DOMElement $element,
-        string $fieldTagName
+        string $fieldTagName,
+        Currency $currency
     ): ?Money {
         $fieldValue = self::getField($transaction, $element, $fieldTagName);
 
@@ -274,7 +273,7 @@ class TransactionMapper
             return null;
         }
 
-        return Money::EUR((string)(100 * $fieldValue));
+        return new Money((string)(100 * $fieldValue), $currency);
     }
 
     private static function checkForMessage(BaseTransaction $transaction, \DOMElement $element): void
