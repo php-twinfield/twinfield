@@ -9,7 +9,7 @@ Use the Twinfield SOAP Services to have your PHP application communicate directl
 Install this Twinfield PHP library with Composer:
 
 ```bash
-composer require 'php-twinfield/twinfield:^2.0'
+composer require 'php-twinfield/twinfield:^3.0'
 ```
 
 
