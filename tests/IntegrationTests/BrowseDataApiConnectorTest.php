@@ -16,7 +16,7 @@ class BrowseDataApiConnectorTest extends BaseIntegrationTest
     private $browseDataApiConnector;
 
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

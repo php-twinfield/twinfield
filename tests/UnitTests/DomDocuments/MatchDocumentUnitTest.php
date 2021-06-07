@@ -18,7 +18,7 @@ class MatchDocumentUnitTest extends \PHPUnit\Framework\TestCase
 {
     protected $office;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

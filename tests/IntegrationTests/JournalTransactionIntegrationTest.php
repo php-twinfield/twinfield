@@ -29,7 +29,7 @@ class JournalTransactionIntegrationTest extends BaseIntegrationTest
      */
     private $transactionApiConnector;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

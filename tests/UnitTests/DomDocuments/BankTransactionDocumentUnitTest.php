@@ -18,7 +18,7 @@ class BankTransactionDocumentUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected $document;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

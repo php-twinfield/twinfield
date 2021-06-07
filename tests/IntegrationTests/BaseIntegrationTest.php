@@ -38,7 +38,7 @@ abstract class BaseIntegrationTest extends TestCase
      */
     protected $sessionService;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

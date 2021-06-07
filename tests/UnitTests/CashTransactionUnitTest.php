@@ -16,7 +16,7 @@ class CashTransactionUnitTest extends \PHPUnit\Framework\TestCase
      */
     private $cashTransaction;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->cashTransaction = new CashTransaction();
     }
