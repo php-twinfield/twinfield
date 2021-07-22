@@ -20,7 +20,7 @@ use PhpTwinfield\Transactions\TransactionLineFields\VatTurnoverFields;
  * @todo $comment Comment set on the transaction line.
  * @todo $matches Contains matching information. Read-only attribute.
  *
- * @link https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
+ * @link https://c3.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions
  */
 abstract class BaseTransactionLine implements TransactionLine
 {
@@ -97,7 +97,7 @@ abstract class BaseTransactionLine implements TransactionLine
     protected $matchLevel;
 
     /**
-     * @var Money|null Meaning differs per transaction type. Read-only attribute. See explanation in the sub classes.
+     * @var Money|null Meaning differs per transaction type. Read-only attribute. See explanatio in the sub classes.
      */
     protected $baseValueOpen;
 
@@ -110,6 +110,12 @@ abstract class BaseTransactionLine implements TransactionLine
      * @var Money|null Only if line type is detail. VAT amount in the currency of the transaction.
      */
     protected $vatValue;
+
+    /**
+     * @var \DateTimeInterface|null Only if line type is detail. The line date. Only allowed if the line date in the
+     *                              bank book is set to Allowed or Mandatory.
+     */
+    protected $currencyDate;
 
     public function getLineType(): LineType
     {
@@ -342,6 +348,30 @@ abstract class BaseTransactionLine implements TransactionLine
         }
 
         $this->vatValue = $vatValue;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getCurrencyDate(): ?\DateTimeInterface
+    {
+        return $this->currencyDate;
+    }
+
+    /**
+     * @param \DateTimeInterface|null $currencyDate
+     * @return $this
+     * @throws Exception
+     */
+    public function setCurrencyDate(?\DateTimeInterface $currencyDate): self
+    {
+        if ($currencyDate !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
+            throw Exception::invalidFieldForLineType('currencyDate', $this);
+        }
+
+        $this->currencyDate = $currencyDate;
 
         return $this;
     }
