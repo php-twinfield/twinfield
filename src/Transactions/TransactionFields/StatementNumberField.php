@@ -22,7 +22,7 @@ trait StatementNumberField
      * @param int $statementnumber
      * @return $this
      */
-    public function setStatementnumber(int $statementnumber)
+    public function setStatementnumber($statementnumber)
     {
         $this->statementnumber = $statementnumber;
         return $this;
