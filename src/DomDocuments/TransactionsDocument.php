@@ -77,7 +77,7 @@ class TransactionsDocument extends BaseDocument
         }
 
         if (
-            Util::objectUses(InvoiceNumberField::class, $transaction) &&
+            in_array(InvoiceNumberField::class, class_uses($transaction)) &&
             $transaction->getInvoiceNumber() !== null
         ) {
             $invoiceNumberElement = $this->createNodeWithTextContent('invoicenumber', $transaction->getInvoiceNumber());
@@ -85,7 +85,7 @@ class TransactionsDocument extends BaseDocument
         }
 
         if (
-            Util::objectUses(PaymentReferenceField::class, $transaction) &&
+            in_array(PaymentReferenceField::class, class_uses($transaction)) &&
             $transaction->getPaymentReference() !== null
         ) {
             $paymentReferenceElement = $this->createNodeWithTextContent('paymentreference', $transaction->getPaymentReference());
@@ -216,6 +216,11 @@ class TransactionsDocument extends BaseDocument
             if (!empty($vatValue)) {
                 $vatElement = $this->createNodeWithTextContent('vatvalue', Util::formatMoney($vatValue));
                 $lineElement->appendChild($vatElement);
+            }
+
+            $currencyDate = $transactionLine->getCurrencyDate();
+            if (!empty($currencyDate)) {
+                $this->appendDateElement($lineElement, "currencydate", $transactionLine->getCurrencyDate());
             }
 
             $baseline = $transactionLine->getBaseline();
