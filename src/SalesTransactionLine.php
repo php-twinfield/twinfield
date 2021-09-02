@@ -147,10 +147,6 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setBaseValueOpen(?Money $baseValueOpen): BaseTransactionLine
     {
-        if ($baseValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('baseValueOpen', $this);
-        }
-
         return parent::setBaseValueOpen($baseValueOpen);
     }
 
