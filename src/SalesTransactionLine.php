@@ -135,10 +135,6 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
     {
-        if ($matchLevel !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
-            throw Exception::invalidFieldForLineType('matchLevel', $this);
-        }
-
         return parent::setMatchLevel($matchLevel);
     }
 
