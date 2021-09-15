@@ -70,7 +70,9 @@ class SuppliersDocument extends \DOMDocument
 
         // Go through each customer element and use the assigned method
         foreach ($supplierTags as $tag => $method) {
-
+           if($tag == 'code' && $supplier->$method() == null)
+              continue;
+            
             // Make text node for method value
             $node = $this->createTextNode($supplier->$method());
 
