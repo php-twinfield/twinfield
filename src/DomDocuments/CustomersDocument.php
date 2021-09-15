@@ -90,7 +90,9 @@ class CustomersDocument extends BaseDocument
 
             // Go through each financial element and use the assigned method
             foreach ($financialsTags as $tag => $method) {
-
+              if ($tag == 'code' && $customer->$method() == null)
+                   continue;
+                
                 // Make the text node for the method value
                 $nodeValue = $customer->$method();
                 if (is_bool($nodeValue)) {
