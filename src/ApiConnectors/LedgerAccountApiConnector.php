@@ -46,8 +46,13 @@ class LedgerAccountApiConnector extends BaseApiConnector
         $ledgerAccounts = [];
         foreach ($response->data->Items->ArrayOfString as $ledgerAccountArray) {
             $ledgerAccount = new LedgerAccount();
-            $ledgerAccount->setCode($ledgerAccountArray->string[0]);
-            $ledgerAccount->setName($ledgerAccountArray->string[1]);
+            if (is_array($ledgerAccountArray)) {
+                $ledgerAccount->setCode($ledgerAccountArray[0]);
+                $ledgerAccount->setName($ledgerAccountArray[1]);
+            } else {
+                $ledgerAccount->setCode($ledgerAccountArray->string[0]);
+                $ledgerAccount->setName($ledgerAccountArray->string[1]);
+            }
             $ledgerAccounts[] = $ledgerAccount;
         }
 
