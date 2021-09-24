@@ -2,7 +2,10 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\Mappers\VatMapper;
+use PhpTwinfield\Office;
 use PhpTwinfield\Services\FinderService;
+use PhpTwinfield\VatCodeDetail;
 use PhpTwinfield\VatCode;
 
 /**
@@ -53,5 +56,15 @@ class VatCodeApiConnector extends BaseApiConnector
         }
 
         return $vatCodes;
+    }
+
+    public function get(string $code, Office $office): VatCodeDetail
+    {
+        $response = $this->sendXmlDocument(new \PhpTwinfield\Request\Read\VatCode(
+            $office,
+            $code,
+        ));
+
+        return VatMapper::map($response);
     }
 }

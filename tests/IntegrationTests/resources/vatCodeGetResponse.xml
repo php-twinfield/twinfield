@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<vat status="active" result="1">
+    <code>VH</code>
+    <name>BTW Hoog</name>
+    <shortname>VH</shortname>
+    <uid>8b16d247-81de-4334-8810-8dcb30386f42</uid>
+    <created>20041027101342</created>
+    <modified>20041027101342</modified>
+    <touched>0</touched>
+    <user name="John Doe" shortname="JDoe">JDOE</user>
+    <type>sales</type>
+    <percentages>
+        <percentage status="active" inuse="true">
+            <date>20000101</date>
+            <percentage>19.000000000</percentage>
+            <created>20131002114036</created>
+            <name>BTW Hoog</name>
+            <shortname>VH</shortname>
+            <user name="John Doe" shortname="JDoe">JDOE</user>
+            <discountaccount name="" shortname="" dimensiontype=""/>
+            <writeoffaccount name="" shortname="" dimensiontype=""/>
+            <accounts>
+                <account id="1">
+                    <dim1 name="Af te dragen BTW 21%" shortname="" dimensiontype="BAS">17120</dim1>
+                    <groupcountry name="Nederland" shortname="">NL</groupcountry>
+                    <group name="Leveringen/Diensten belast met hoog %" shortname="L/D Hoog">NL1A</group>
+                    <percentage>100.0</percentage>
+                    <linetype>vat</linetype>
+                </account>
+            </accounts>
+        </percentage>
+        <percentage status="active" inuse="true">
+            <date>20121001</date>
+            <percentage>21.000000000</percentage>
+            <created>20131002114036</created>
+            <name>BTW Hoog</name>
+            <shortname>VH</shortname>
+            <user name="John Doe" shortname="JDoe">JDOE</user>
+            <discountaccount name="" shortname="" dimensiontype=""/>
+            <writeoffaccount name="" shortname="" dimensiontype=""/>
+            <accounts>
+                <account id="1">
+                    <dim1 name="Af te dragen BTW 21%" shortname="" dimensiontype="BAS">17120</dim1>
+                    <groupcountry name="Nederland" shortname="">NL</groupcountry>
+                    <group name="Leveringen/Diensten belast met hoog %" shortname="L/D Hoog">NL1A</group>
+                    <percentage>100.0</percentage>
+                    <linetype>vat</linetype>
+                </account>
+            </accounts>
+        </percentage>
+    </percentages>
+</vat>
