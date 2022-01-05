@@ -274,7 +274,7 @@ support for another resource.
 | [Articles](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Articles)                  | :white_check_mark: |                    | :white_check_mark: |                    | :white_check_mark: |
 | [BankTransaction](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankTransactions)|                  |                    | :white_check_mark: | :white_check_mark: |                    |
 | [Customer](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Customers)                 | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    | :white_check_mark: |
-| [Electronic Bank Statements](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankStatements)| :white_check_mark: |                    | :white_check_mark: |                    |                    |
+| [Electronic Bank Statements](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Transactions/BankStatements)| :white_check_mark: |                    | :white_check_mark: | :no_entry: |                    |
 | [Sales Invoices](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/SalesInvoices)               | :white_check_mark: |                    | :white_check_mark: |                    | :white_check_mark: |
 | [Matching](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Matching)            |                    |                    | :white_check_mark: |                    | :white_check_mark: |                    |
 | [Offices](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Offices)                    |                    | :white_check_mark: |                    |                    | :white_check_mark: |
@@ -283,6 +283,8 @@ support for another resource.
 | [Users](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/Users)                        |                    | :white_check_mark: |                    |                    |                    |
 | [Vat types](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Masters/VAT)                      |                    | :white_check_mark: |                    |                    |                    |
 | [Browse Data](https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Request/BrowseData)             | :white_check_mark: |                    |                    |                    | :white_check_mark: |
+
+:no_entry: : Not supported by the Twinfield API
 
 ## Links
 
@@ -296,3 +298,4 @@ support for another resource.
 * [Remco Tolsma](https://www.remcotolsma.nl/)
 * [Emile Bons](http://www.emilebons.nl/)
 * [Alex Jeensma](http://vontis.nl/)
+* [Marc van de Geijn](https://www.bhosted.nl/)
