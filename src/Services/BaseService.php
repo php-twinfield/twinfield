@@ -11,6 +11,8 @@ namespace PhpTwinfield\Services;
  */
 abstract class BaseService extends \SoapClient
 {
+    public string $headerTag = "Header";
+
     /**
      * Get the WSDL. Can be with or without host.
      *

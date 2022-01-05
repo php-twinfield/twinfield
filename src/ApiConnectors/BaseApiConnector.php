@@ -9,6 +9,7 @@ use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
+use PhpTwinfield\Services\QueryService;
 use PhpTwinfield\Services\SelectOfficeService;
 use PhpTwinfield\Services\SessionService;
 use PhpTwinfield\Util;
@@ -181,5 +182,13 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     protected function getSessionService(): SessionService
     {
         return $this->connection->getAuthenticatedClient(Services::SESSION());
+    }
+
+    /**
+     *
+     */
+    protected function getQueryService(): QueryService
+    {
+        return $this->connection->getAuthenticatedClient(Services::QUERY());
     }
 }

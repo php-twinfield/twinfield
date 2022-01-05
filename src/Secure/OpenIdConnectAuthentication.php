@@ -66,7 +66,7 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
         return $this->cluster;
     }
 
-    protected function getSoapHeaders()
+    protected function getSoapHeaders($headerTag = 'Header')
     {
         $headers = [
             "AccessToken"   =>  $this->accessToken,
@@ -78,9 +78,12 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
             $headers["CompanyCode"] = $this->office->getCode();
         }
 
+        /**
+         * TODO: Check if change from "Header" to "Authentication" is valid for all type of requests
+         */
         return new \SoapHeader(
             'http://www.twinfield.com/',
-            'Header',
+            $headerTag,
             $headers
         );
     }

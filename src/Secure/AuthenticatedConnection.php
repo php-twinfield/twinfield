@@ -20,7 +20,7 @@ abstract class AuthenticatedConnection
     /**
      * @return \SoapHeader|\SoapHeader[]|null
      */
-    abstract protected function getSoapHeaders();
+    abstract protected function getSoapHeaders($headerTag = 'Header');
 
     /**
      * Get the cluster where subsequent requests should be sent.
@@ -57,7 +57,7 @@ abstract class AuthenticatedConnection
                 ["cluster" => $this->getCluster()]
             );
 
-            $this->authenticatedClients[$key]->__setSoapHeaders($this->getSoapHeaders());
+            $this->authenticatedClients[$key]->__setSoapHeaders($this->getSoapHeaders($this->authenticatedClients[$key]->headerTag));
         }
 
         return $this->authenticatedClients[$key];

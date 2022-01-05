@@ -4,6 +4,7 @@ namespace PhpTwinfield\Enums;
 
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
+use PhpTwinfield\Services\QueryService;
 use PhpTwinfield\Services\SessionService;
 
 /**
@@ -17,6 +18,8 @@ use PhpTwinfield\Services\SessionService;
  *
  * @method static self FINDER()
  * @method static self PROCESSXML()
+ * @method static self QUERY()
+ * @method static self SESSION()
  */
 class Services extends \MyCLabs\Enum\Enum
 {
@@ -31,7 +34,13 @@ class Services extends \MyCLabs\Enum\Enum
     protected const PROCESSXML = ProcessXmlService::class;
 
     /**
+     * The Twinfield query webservice
+     */
+    protected const QUERY = QueryService::class;
+
+    /**
      * The service that selects the current office in Twinfield
      */
     protected const SESSION = SessionService::class;
+
 }
