@@ -55,5 +55,10 @@
     "league/oauth2-client": "^2.2",
     "phpstan/phpstan": "^0.12.88",
     "phpunit/phpunit": "^9.5"
+  },
+  "extra": {
+     "branch-alias": {
+       "dev-master": "3.0.1"
+    }
   }
 }
