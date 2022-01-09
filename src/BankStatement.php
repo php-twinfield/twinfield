@@ -36,7 +36,7 @@ class BankStatement
 
     public function setStatementDate(string $statementDate): BankStatement
     {
-        $this->statementDate = Carbon::createFromFormat( "Y-m-d\TH:m:s", $statementDate );
+        $this->statementDate = Carbon::parse( $statementDate );
         return $this;
     }
 
