@@ -19,16 +19,15 @@ class BankStatementMapper extends BaseMapper
     /**
      * @throws \PhpTwinfield\Exception
      */
-    public static function map(\stdClass $bankStatements)
+    public static function map(\stdClass $bankStatements): Collection
     {
         $statements = new Collection();
 
         foreach( $bankStatements as $bankStatement )
         {
-            $statement = new BankStatement( $bankStatement->BankStatement );
-
-            dd( $statement );
+            $statements[] = new BankStatement( $bankStatement->BankStatement );
         }
-        return $bankStatement;
+
+        return $statements;
     }
 }

@@ -3,6 +3,7 @@
 namespace PhpTwinfield\ApiConnectors;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use PhpTwinfield\BankStatement;
 use PhpTwinfield\Mappers\BankStatementMapper;
 use PhpTwinfield\Request\Query\Bank;
@@ -14,10 +15,10 @@ class BankStatementApiConnector extends BaseApiConnector
      *
      * @param Carbon $dateFrom
      * @param Carbon $dateTo
-     * @return Bank The requested bank statements
+     * @return Collection The requested bank statements
      * @throws Exception
      */
-    public function get(Carbon $dateFrom, Carbon $dateTo)
+    public function get(Carbon $dateFrom, Carbon $dateTo): Collection
     {
         // Make a request to query bank statement(s). Set the required values
         $request_bank = new Bank();
