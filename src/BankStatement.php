@@ -18,6 +18,14 @@ class BankStatement
 
     private ?Collection $lines;
 
+    private int $number;
+
+    private int $subId;
+
+    private string $code;
+
+    private string $currency;
+
     public function __construct( ?\stdClass $bankStatement = null )
     {
         if( $bankStatement !== null ) {
@@ -25,11 +33,15 @@ class BankStatement
                  ->setIban($bankStatement->Iban)
                  ->setOpeningBalance($bankStatement->OpeningBalance)
                  ->setClosingBalance($bankStatement->ClosingBalance)
+                 ->setCode($bankStatement->Code)
+                 ->setNumber($bankStatement->Number)
+                 ->setCurrency($bankStatement->Currency)
+                 ->setSubId($bankStatement->SubId)
                  ->setLines($bankStatement->Lines->BankStatementLine);
         }
     }
 
-    public function getStatementDate(): string
+    public function getStatementDate(): Carbon
     {
         return $this->statementDate;
     }
@@ -72,6 +84,51 @@ class BankStatement
         $this->closingBalance = $closingBalance;
         return $this;
     }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(string $number): BankStatement
+    {
+        $this->number = $number;
+        return $this;
+    }
+
+    public function getSubId(): ?int
+    {
+        return $this->subId;
+    }
+
+    public function setSubId(string $subId): BankStatement
+    {
+        $this->subId = $subId;
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): BankStatement
+    {
+        $this->code = $code;
+        return $this;
+    }
+
+    public function getCurrency(): ?string
+    {
+        return $this->currency;
+    }
+
+    public function setCurrency(string $currency): BankStatement
+    {
+        $this->currency = $currency;
+        return $this;
+    }
+
 
     public function getLines()
     {
