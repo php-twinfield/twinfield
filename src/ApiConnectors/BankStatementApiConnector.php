@@ -3,6 +3,8 @@
 namespace PhpTwinfield\ApiConnectors;
 
 use Carbon\Carbon;
+use PhpTwinfield\BankStatement;
+use PhpTwinfield\Mappers\BankStatementMapper;
 use PhpTwinfield\Request\Query\Bank;
 
 class BankStatementApiConnector extends BaseApiConnector
@@ -23,6 +25,8 @@ class BankStatementApiConnector extends BaseApiConnector
             ->setFromDate($dateFrom)
             ->setToDate($dateTo);
 
-        return $this->getQueryService()->sendQuery( $request_bank );
+        $bankStatements = $this->getQueryService()->sendQuery( $request_bank );
+
+        return BankStatementMapper::map( $bankStatements );
     }
 }
