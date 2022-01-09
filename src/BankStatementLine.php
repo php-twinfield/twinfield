@@ -7,11 +7,11 @@ use PhpTwinfield\Request\Query\Bank;
 
 class BankStatementLine
 {
-    private string $transactionTypeId;
+    private int $lineId;
 
-    private float $amount;
+    private string $amount;
 
-    private float $baseAmount;
+    private string $baseAmount;
 
     private string $contraAccountName;
 
@@ -29,13 +29,15 @@ class BankStatementLine
 
     private string $returnReason;
 
+    private string $transactionTypeId;
+
     private string $dimension1;
 
     private string $dimension2;
 
     public function __construct( ?\stdClass $bankStatementLine = null )
     {
-        $this->setTransactionTypeId( $bankStatementLine->TransactionTypeId )
+        $this->setLineId( $bankStatementLine->LineId )
              ->setAmount( $bankStatementLine->Amount )
              ->setBaseAmount( $bankStatementLine->BaseAmount )
              ->setContraAccountName( $bankStatementLine->ContraAccountName )
@@ -46,6 +48,7 @@ class BankStatementLine
              ->setRecognition( $bankStatementLine->Recognition )
              ->setReference( $bankStatementLine->Reference )
              ->setReturnReason( $bankStatementLine->ReturnReason )
+             ->setTransactionTypeId( $bankStatementLine->TransactionTypeId )
              ->setDimension1( $bankStatementLine->Allocations->BankStatementAllocation->Dimension1 )
              ->setDimension2( $bankStatementLine->Allocations->BankStatementAllocation->Dimension2 );
     }
@@ -61,7 +64,18 @@ class BankStatementLine
         return $this;
     }
 
-    public function getAmount()
+    public function getLineId(): int
+    {
+        return $this->lineId;
+    }
+
+    public function setLineId( int $lineId ): BankStatementLine
+    {
+        $this->lineId = $lineId;
+        return $this;
+    }
+
+    public function getAmount(): string
     {
         return $this->amount;
     }
@@ -72,7 +86,7 @@ class BankStatementLine
         return $this;
     }
 
-    public function getBaseAmount()
+    public function getBaseAmount(): string
     {
         return $this->baseAmount;
     }

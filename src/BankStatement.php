@@ -12,9 +12,9 @@ class BankStatement
 
     private ?string $iban;
 
-    private ?float $openingBalance;
+    private ?string $openingBalance;
 
-    private ?float $closingBalance;
+    private ?string $closingBalance;
 
     private ?Collection $lines;
 
@@ -51,23 +51,23 @@ class BankStatement
         return $this;
     }
 
-    public function getOpeningBalance(): ?float
+    public function getOpeningBalance(): ?string
     {
         return $this->openingBalance;
     }
 
-    public function setOpeningBalance(float $openingBalance): BankStatement
+    public function setOpeningBalance(string $openingBalance): BankStatement
     {
         $this->openingBalance = $openingBalance;
         return $this;
     }
 
-    public function getClosingBalance(): ?float
+    public function getClosingBalance(): ?string
     {
         return $this->closingBalance;
     }
 
-    public function setClosingBalance(float $closingBalance): BankStatement
+    public function setClosingBalance(string $closingBalance): BankStatement
     {
         $this->closingBalance = $closingBalance;
         return $this;
@@ -89,15 +89,22 @@ class BankStatement
         return $this;
     }
 
-    public function checkLines()
+    public function getLinesTotalAmount(): string
     {
-        $total = 0.00;
+        $total = "0.00";
 
         foreach( $this->lines as $line )
         {
-            $total += $line->getAmount();
+            $total = bcadd( $total, $line->getAmount(), 2 );
         }
 
-        return( $this->openingBalance + $total == $this->closingBalance );
+        return $total;
+    }
+
+    public function checkLines()
+    {
+        $total = $this->getLinesTotalAmount();
+
+        return( bccomp( bcadd( $this->openingBalance, $total,2), $this->closingBalance, 2 ) == 0 );
     }
 }
