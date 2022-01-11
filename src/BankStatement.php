@@ -4,164 +4,268 @@ namespace PhpTwinfield;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use PhpTwinfield\Request\Query\Bank;
+use Money\Currency;
+use Money\Money;
+use stdClass;
 
 class BankStatement
 {
+    /**
+     * @var Carbon|null
+     */
     private ?Carbon $statementDate;
 
+    /**
+     * @var string|null
+     */
     private ?string $iban;
 
-    private ?string $openingBalance;
+    /**
+     * @var Money|null
+     */
+    private ?Money $openingBalance;
 
-    private ?string $closingBalance;
+    /**
+     * @var Money|null
+     */
+    private ?Money $closingBalance;
 
+    /**
+     * @var Collection|null
+     */
     private ?Collection $lines;
 
+    /**
+     * @var int
+     */
     private int $number;
 
+    /**
+     * @var int
+     */
     private int $subId;
 
+    /**
+     * @var string
+     */
     private string $code;
 
-    private string $currency;
+    /**
+     * @var Currency|null
+     */
+    private ?Currency $currency = null;
 
-    public function __construct( ?\stdClass $bankStatement = null )
+    /**
+     * @param stdClass $bankStatement
+     * @throws Exception
+     */
+    public function __construct( stdClass $bankStatement )
     {
-        if( $bankStatement !== null ) {
-            $this->setStatementDate($bankStatement->StatementDate)
-                 ->setIban($bankStatement->Iban)
-                 ->setOpeningBalance($bankStatement->OpeningBalance)
-                 ->setClosingBalance($bankStatement->ClosingBalance)
-                 ->setCode($bankStatement->Code)
-                 ->setNumber($bankStatement->Number)
-                 ->setCurrency($bankStatement->Currency)
-                 ->setSubId($bankStatement->SubId)
-                 ->setLines($bankStatement->Lines->BankStatementLine);
-        }
+        $this->setStatementDate($bankStatement->StatementDate)
+             ->setIban($bankStatement->Iban)
+             ->setCurrency($bankStatement->Currency)
+             ->setOpeningBalance($bankStatement->OpeningBalance)
+             ->setClosingBalance($bankStatement->ClosingBalance)
+             ->setCode($bankStatement->Code)
+             ->setNumber($bankStatement->Number)
+             ->setSubId($bankStatement->SubId)
+             ->setLines($bankStatement->Lines->BankStatementLine);
     }
 
+    /**
+     * @return Carbon
+     */
     public function getStatementDate(): Carbon
     {
         return $this->statementDate;
     }
 
+    /**
+     * @param string $statementDate
+     * @return $this
+     */
     public function setStatementDate(string $statementDate): BankStatement
     {
         $this->statementDate = Carbon::parse( $statementDate );
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getIban(): string
     {
         return $this->iban;
     }
 
+    /**
+     * @param string $iban
+     * @return $this
+     */
     public function setIban(string $iban): BankStatement
     {
         $this->iban = $iban;
         return $this;
     }
 
-    public function getOpeningBalance(): ?string
+    /**
+     * @return Money|null
+     */
+    public function getOpeningBalance(): ?Money
     {
         return $this->openingBalance;
     }
 
+    /**
+     * @param string $openingBalance
+     * @return $this
+     */
     public function setOpeningBalance(string $openingBalance): BankStatement
     {
-        $this->openingBalance = $openingBalance;
+        $this->openingBalance = new Money( bcmul( $openingBalance, 100 ), $this->currency );
         return $this;
     }
 
-    public function getClosingBalance(): ?string
+    /**
+     * @return Money|null
+     */
+    public function getClosingBalance(): ?Money
     {
         return $this->closingBalance;
     }
 
+    /**
+     * @param string $closingBalance
+     * @return $this
+     */
     public function setClosingBalance(string $closingBalance): BankStatement
     {
-        $this->closingBalance = $closingBalance;
+        $this->closingBalance = new Money( bcmul( $closingBalance, 100 ), $this->currency );
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getNumber(): ?int
     {
         return $this->number;
     }
 
+    /**
+     * @param string $number
+     * @return $this
+     */
     public function setNumber(string $number): BankStatement
     {
         $this->number = $number;
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getSubId(): ?int
     {
         return $this->subId;
     }
 
+    /**
+     * @param string $subId
+     * @return $this
+     */
     public function setSubId(string $subId): BankStatement
     {
         $this->subId = $subId;
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
+    /**
+     * @param string $code
+     * @return $this
+     */
     public function setCode(string $code): BankStatement
     {
         $this->code = $code;
         return $this;
     }
 
-    public function getCurrency(): ?string
+    /**
+     * @return Currency
+     * @throws Exception
+     */
+    public function getCurrency(): Currency
     {
+        if( $this->currency == null ) {
+            throw new Exception("Getting currency, but not initialized yet");
+        }
+
         return $this->currency;
     }
 
+    /**
+     * @param string $currency
+     * @return $this
+     */
     public function setCurrency(string $currency): BankStatement
     {
-        $this->currency = $currency;
+        $this->currency = new Currency( $currency );
         return $this;
     }
 
 
-    public function getLines()
+    /**
+     * @return Collection|null
+     */
+    public function getLines(): ?Collection
     {
         return $this->lines;
     }
 
-    public function setLines( array $lines )
+    /**
+     * @param array $lines
+     * @return $this
+     * @throws Exception
+     */
+    public function setLines(array $lines ): BankStatement
     {
         $this->lines = new Collection();
 
         foreach( $lines as $line ) {
-            $this->lines[] = new BankStatementLine($line);
+            $this->lines[] = new BankStatementLine($line, $this->currency );
         }
 
         return $this;
     }
 
-    public function getLinesTotalAmount(): string
+    /**
+     * @return string
+     */
+    public function getLinesTotalAmount(): Money
     {
-        $total = "0.00";
+        $total = new Money( "0", $this->currency );
 
         foreach( $this->lines as $line )
         {
-            $total = bcadd( $total, $line->getAmount(), 2 );
+            $total = $total->add( $line->getAmount() );
         }
 
         return $total;
     }
 
-    public function checkLines()
+    /**
+     * @return bool
+     */
+    public function checkLines(): bool
     {
-        $total = $this->getLinesTotalAmount();
-
-        return( bccomp( bcadd( $this->openingBalance, $total,2), $this->closingBalance, 2 ) == 0 );
+        return $this->openingBalance->add( $this->getLinesTotalAmount() )->equals( $this->closingBalance );
     }
 }
