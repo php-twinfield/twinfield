@@ -28,8 +28,6 @@ class BankStatementApiConnector extends BaseApiConnector
 
         $bankStatements = $this->getQueryService()->sendQuery( $request_bank );
 
-        dd( $bankStatements );
-
         return BankStatementMapper::map( $bankStatements );
     }
 }
