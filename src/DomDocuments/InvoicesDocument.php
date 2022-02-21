@@ -63,6 +63,7 @@ class InvoicesDocument extends BaseDocument
             'period'               => 'getPeriod',
             'invoicedate'          => 'getInvoiceDate',
             'duedate'              => 'getDueDate',
+            'paymentmethod'        => 'getPaymentMethod',
             'bank'                 => 'getBank',
             'invoiceaddressnumber' => 'getInvoiceAddressNumber',
             'deliveraddressnumber' => 'getDeliverAddressNumber',
