@@ -126,7 +126,7 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
     /**
      * @throws OAuthException
      */
-    protected function refreshToken(): void
+    public function refreshToken(): void
     {
         try {
             $accessToken = $this->provider->getAccessToken(
