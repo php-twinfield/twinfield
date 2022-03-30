@@ -117,6 +117,7 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
         }
 
         $resultDecoded = \json_decode($validationResult, true);
+        info($validationResult);
         if (\json_last_error() !== JSON_ERROR_NONE) {
             throw new OAuthException("Error while decoding JSON: " . \json_last_error_msg());
         }
