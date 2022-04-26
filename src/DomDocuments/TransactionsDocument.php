@@ -124,8 +124,11 @@ class TransactionsDocument extends BaseDocument
             $lineElement->setAttribute('id', $transactionLine->getId());
             $linesElement->appendChild($lineElement);
 
-            $dim1Element = $this->createNodeWithTextContent('dim1', $transactionLine->getDim1());
-            $lineElement->appendChild($dim1Element);
+            $dim1 = $transactionLine->getDim1();
+            if (!empty($dim1)) {
+                $dim1Element = $this->createNodeWithTextContent('dim1', $dim1);
+                $lineElement->appendChild($dim1Element);
+            }
 
             $dim2 = $transactionLine->getDim2();
             if (!empty($dim2)) {
