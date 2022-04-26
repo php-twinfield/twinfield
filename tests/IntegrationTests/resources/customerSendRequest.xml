@@ -15,6 +15,7 @@
 				<signaturedate>20180604</signaturedate>
 				<firstrundate>20180608</firstrundate>
 			</collectmandate>
+			<collectionschema>core</collectionschema>
 		</financials>
 		<addresses>
 			<address type="invoice" default="true">
