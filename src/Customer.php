@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Enums\CollectionSchema;
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
 
@@ -51,6 +52,7 @@ class Customer
     private $eBilling = false;
     private $eBillMail;
     private $collectMandate;
+    private $collectionSchema;
     private $creditManagement;
     private $addresses = array();
     private $banks = array();
@@ -309,6 +311,17 @@ class Customer
     public function setCollectMandate(CustomerCollectMandate $collectMandate): self
     {
         $this->collectMandate = $collectMandate;
+        return $this;
+    }
+
+    public function getCollectionSchema(): ?CollectionSchema
+    {
+        return $this->collectionSchema;
+    }
+
+    public function setCollectionSchema(CollectionSchema $collectionSchema): self
+    {
+        $this->collectionSchema = $collectionSchema;
         return $this;
     }
 
