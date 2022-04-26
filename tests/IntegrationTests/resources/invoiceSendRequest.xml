@@ -10,6 +10,7 @@
             <currency>EUR</currency>
             <period>2012/8</period>
             <invoicedate>20120831</invoicedate>
+            <paymentmethod>cash</paymentmethod>
             <bank>BNK</bank>
             <invoiceaddressnumber>1</invoiceaddressnumber>
             <deliveraddressnumber>1</deliveraddressnumber>
