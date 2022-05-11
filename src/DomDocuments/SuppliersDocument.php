@@ -85,7 +85,7 @@ class SuppliersDocument extends \DOMDocument
         }
 
         // Check if the financial information should be supplied
-        if ($supplier->getDueDays() > 0) {
+        if ($supplier->getDueDays() >= 0) {
 
             // Financial elements and their methods
             $financialsTags = array(
