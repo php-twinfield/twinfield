@@ -30,6 +30,9 @@ class BrowseColumn
     /** @var string|null */
     private $to;
 
+    /** @var string|null */
+    private $finderParam;
+
     /**
      * BrowseColumn constructor.
      */
@@ -181,6 +184,24 @@ class BrowseColumn
     public function setTo(string $to): BrowseColumn
     {
         $this->to = $to;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFinderParam(): ?string
+    {
+        return $this->finderParam;
+    }
+
+    /**
+     * @param string $finderParam
+     * @return BrowseColumn
+     */
+    public function setFinderParam(string $finderParam): BrowseColumn
+    {
+        $this->finderParam = $finderParam;
         return $this;
     }
 }

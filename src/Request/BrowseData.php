@@ -109,6 +109,7 @@ class BrowseData extends DOMDocument
         $columnElement->appendChild($this->createElement('operator', $column->getOperator()->getValue()));
         $columnElement->appendChild($this->createElement('from', $column->getFrom()));
         $columnElement->appendChild($this->createElement('to', $column->getTo()));
+        $columnElement->appendChild($this->createElement('finderparam', $column->getFinderParam()));
 
         $this->columnsElement->appendChild($columnElement);
     }
