@@ -35,7 +35,7 @@ abstract class AuthenticatedConnection
     private $authenticatedClients = [];
 
     /**
-     * Get an authenticated client for a specific service/
+     * Get an authenticated client for a specific service
      *
      * @param Services $service
      * @throws Exception
