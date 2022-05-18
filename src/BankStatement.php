@@ -231,16 +231,19 @@ class BankStatement
     }
 
     /**
-     * @param array $lines
+     * @param array|stdClass $lines
      * @return $this
-     * @throws Exception
      */
-    public function setLines(array $lines ): BankStatement
+    public function setLines(array|stdClass $lines): BankStatement
     {
         $this->lines = new Collection();
 
-        foreach( $lines as $line ) {
-            $this->lines[] = new BankStatementLine($line, $this->currency );
+        if (is_array($lines)) {
+            foreach ($lines as $line) {
+                $this->lines[] = new BankStatementLine($line, $this->currency);
+            }
+        } else {
+            $this->lines[] = new BankStatementLine($lines, $this->currency);
         }
 
         return $this;

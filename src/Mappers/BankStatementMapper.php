@@ -17,7 +17,13 @@ class BankStatementMapper extends BaseMapper
         foreach( $bankStatements as $bankStatement )
         {
             if( property_exists( $bankStatement, 'BankStatement' ) )
-                $statements[] = new BankStatement( $bankStatement->BankStatement );
+                if( is_array( $bankStatement->BankStatement ) ) {
+                    foreach( $bankStatement->BankStatement as $statement ) {
+                        $statements[] = new BankStatement( $statement );
+                    }
+                } else {
+                    $statements[] = new BankStatement( $bankStatement->BankStatement );
+                }
         }
 
         return $statements;
