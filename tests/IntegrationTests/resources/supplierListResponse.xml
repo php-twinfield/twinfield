@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<dimensions office="DEV1000" type="CRD" result="1">
+    <dimension name="John Doe" shortname="">1000</dimension>
+    <dimension name="B. Terwel" shortname="">1001</dimension>
+    <dimension name="Hr E G H K&#xFC;ppers en/of MW M.J. K&#xFC;ppers-Veeneman" shortname="">1002</dimension>
+    <dimension name="" shortname="">CRD</dimension>
+</dimensions>

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<dimension>
+    <code/>
+    <name>Supplier 0</name>
+    <type>CRD</type>
+    <website/>
+    <office>001</office>
+    <financials>
+        <duedays>30</duedays>
+        <payavailable>true</payavailable>
+        <paycode>SEPANLDD</paycode>
+        <vatcode/>
+        <ebilling>false</ebilling>
+        <ebillmail/>
+    </financials>
+    <addresses>
+        <address default="true" type="invoice">
+            <name>Supplier 0</name>
+            <contact/>
+            <country>NL</country>
+            <city>Place</city>
+            <postcode>1000</postcode>
+            <telephone>010-123452000</telephone>
+            <telefax>010-12342000</telefax>
+            <email>info@example.com</email>
+            <field1>Supplier 1</field1>
+            <field2>Streetname part 1 - 1</field2>
+            <field3>Streetname part 1 - 2</field3>
+            <field4/>
+            <field5/>
+            <field6/>
+        </address>
+    </addresses>
+    <banks>
+        <bank default="1">
+            <ascription>Supplier 1</ascription>
+            <accountnumber>123456789</accountnumber>
+            <bankname>ABN Amro</bankname>
+            <biccode>ABNANL2A</biccode>
+            <city>Place</city>
+            <country>NL</country>
+            <iban>NL02ABNA0123456789</iban>
+            <natbiccode/>
+            <postcode/>
+            <state/>
+            <address>
+                <field2/>
+                <field3/>
+            </address>
+        </bank>
+    </banks>
+</dimension>
+
