@@ -3,6 +3,7 @@
 namespace PhpTwinfield\IntegrationTests;
 
 use PhpTwinfield\ApiConnectors\SupplierApiConnector;
+use PhpTwinfield\Enums\MeansOfPayment;
 use PhpTwinfield\Supplier;
 use PhpTwinfield\SupplierAddress;
 use PhpTwinfield\SupplierBank;
@@ -150,6 +151,7 @@ class SupplierIntegrationTest extends BaseIntegrationTest
         $supplier->setDueDays('30');
         $supplier->setPayAvailable(true);
         $supplier->setPayCode('SEPANLDD');
+        $supplier->setMeansOfPayment(MeansOfPayment::PAYMENTFILE());
 
         $address = new SupplierAddress();
         $address->setID('1');

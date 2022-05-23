@@ -12,6 +12,7 @@
         <vatcode/>
         <ebilling>false</ebilling>
         <ebillmail/>
+        <meansofpayment>paymentfile</meansofpayment>
     </financials>
     <addresses>
         <address default="true" type="invoice">

@@ -116,6 +116,12 @@ class SuppliersDocument extends \DOMDocument
                 // Add the full element
                 $financialElement->appendChild($element);
             }
+            $meansOfPayment = $supplier->getMeansOfPayment();
+
+            if ($meansOfPayment !== null) {
+                $meansOfPaymentElement = $this->createElement('meansofpayment', $meansOfPayment->getValue());
+                $financialElement->appendChild($meansOfPaymentElement);
+            }
         }
 
 

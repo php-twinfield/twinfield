@@ -24,6 +24,7 @@
         <level>2</level>
         <payavailable>true</payavailable>
         <paycode name="SEPANLCT" shortname="SEPA NL Excasso">SEPANLCT</paycode>
+        <meansofpayment>paymentfile</meansofpayment>
         <ebilling>false</ebilling>
         <ebillmail></ebillmail>
         <substitutionlevel>1</substitutionlevel>
