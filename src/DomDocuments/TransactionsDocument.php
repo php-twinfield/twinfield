@@ -77,7 +77,7 @@ class TransactionsDocument extends BaseDocument
         }
 
         if (
-            in_array(InvoiceNumberField::class, class_uses($transaction)) &&
+            Util::objectUses(InvoiceNumberField::class, $transaction) &&
             $transaction->getInvoiceNumber() !== null
         ) {
             $invoiceNumberElement = $this->createNodeWithTextContent('invoicenumber', $transaction->getInvoiceNumber());
@@ -85,7 +85,7 @@ class TransactionsDocument extends BaseDocument
         }
 
         if (
-            in_array(PaymentReferenceField::class, class_uses($transaction)) &&
+            Util::objectUses(PaymentReferenceField::class, $transaction) &&
             $transaction->getPaymentReference() !== null
         ) {
             $paymentReferenceElement = $this->createNodeWithTextContent('paymentreference', $transaction->getPaymentReference());
@@ -124,8 +124,11 @@ class TransactionsDocument extends BaseDocument
             $lineElement->setAttribute('id', $transactionLine->getId());
             $linesElement->appendChild($lineElement);
 
-            $dim1Element = $this->createNodeWithTextContent('dim1', $transactionLine->getDim1());
-            $lineElement->appendChild($dim1Element);
+            $dim1 = $transactionLine->getDim1();
+            if (!empty($dim1)) {
+                $dim1Element = $this->createNodeWithTextContent('dim1', $dim1);
+                $lineElement->appendChild($dim1Element);
+            }
 
             $dim2 = $transactionLine->getDim2();
             if (!empty($dim2)) {

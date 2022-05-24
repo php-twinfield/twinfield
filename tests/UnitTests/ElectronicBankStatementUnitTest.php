@@ -20,11 +20,10 @@ class ElectronicBankStatementUnitTest extends TestCase
         $this->assertEquals("HUF", $ebs->getCurrency());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testCannotChangeCurrencyOnceValueIsSet()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $ebs = new ElectronicBankStatement();
         $ebs->setStartvalue(Money::GBP(1));
 

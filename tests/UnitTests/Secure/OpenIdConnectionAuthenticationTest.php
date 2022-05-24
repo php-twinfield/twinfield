@@ -18,7 +18,7 @@ class OpenIdConnectionAuthenticationTest extends TestCase
      */
     private $openIdProvider;
 
-    protected function SetUp()
+    protected function setUp(): void
     {
         $this->openIdProvider = $this->getMockBuilder(OAuthProvider::class)
             ->setMethods([ "getAccessToken" ])

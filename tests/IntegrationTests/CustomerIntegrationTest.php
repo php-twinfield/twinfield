@@ -8,6 +8,7 @@ use PhpTwinfield\CustomerAddress;
 use PhpTwinfield\CustomerBank;
 use PhpTwinfield\CustomerCollectMandate;
 use PhpTwinfield\DomDocuments\CustomersDocument;
+use PhpTwinfield\Enums\CollectionSchema;
 use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
@@ -30,7 +31,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
      */
     private $customerApiConnector;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -212,6 +213,8 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $collectMandate->setSignatureDate(new \DateTimeImmutable('2018-06-04'));
         $collectMandate->setFirstRunDate(new \DateTimeImmutable('2018-06-08'));
         $customer->setCollectMandate($collectMandate);
+
+        $customer->setCollectionSchema(CollectionSchema::CORE());
 
         $this->processXmlService
             ->expects($this->once())

@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Enums\CollectionSchema;
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
 
@@ -51,6 +52,7 @@ class Customer
     private $eBilling = false;
     private $eBillMail;
     private $collectMandate;
+    private $collectionSchema;
     private $creditManagement;
     private $addresses = array();
     private $banks = array();
@@ -312,6 +314,17 @@ class Customer
         return $this;
     }
 
+    public function getCollectionSchema(): ?CollectionSchema
+    {
+        return $this->collectionSchema;
+    }
+
+    public function setCollectionSchema(CollectionSchema $collectionSchema): self
+    {
+        $this->collectionSchema = $collectionSchema;
+        return $this;
+    }
+
     /**
      *
      * @return CustomerCreditManagement
@@ -388,11 +401,10 @@ class Customer
         return $this->country;
     }
 
-    /**
-     * @param string $country
-     */
-    public function setCountry(string $country): void
+
+    public function setCountry(string $country)
     {
         $this->country = $country;
+        return $this;
     }
 }

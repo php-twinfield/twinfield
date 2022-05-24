@@ -57,13 +57,7 @@ class InvoiceApiConnector extends BaseApiConnector
      */
     public function send(Invoice $invoice): Invoice
     {
-        $invoiceResponses = $this->sendAll([$invoice]);
-
-        Assert::count($invoiceResponses, 1);
-
-        foreach ($invoiceResponses as $invoiceResponse) {
-            return $invoiceResponse->unwrap();
-        }
+        return $this->unwrapSingleResponse($this->sendAll([$invoice]));
     }
 
     /**

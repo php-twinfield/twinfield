@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerTrait;
 use Psr\Log\LogLevel;
+use ReflectionProperty;
 
 class BaseApiConnectorTest extends TestCase implements LoggerInterface
 {
@@ -38,7 +39,7 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
      */
     private $logs;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -54,6 +55,14 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
         $this->client = $this->getMockBuilder(ProcessXmlService::class)
             ->disableOriginalConstructor()
             ->getMock();
+    }
+
+    private static function getServiceRetryCount(BaseApiConnector $service): int
+    {
+        $retryRef = new ReflectionProperty(BaseApiConnector::class, 'numRetries');
+        $retryRef->setAccessible(true);
+
+        return $retryRef->getValue($service);
     }
 
     public function soapFaultProvider(): array
@@ -256,7 +265,7 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
             ));
 
         $this->assertEquals($response, $this->service->sendXmlDocument(new \DOMDocument()));
-        $numRetries = $this->getObjectAttribute($this->service, "numRetries");
+        $numRetries = self::getServiceRetryCount($this->service);
         $this->assertEquals(0, $numRetries);
     }
 
@@ -282,7 +291,7 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
         $this->expectException(Exception::class);
         $this->service->sendXmlDocument(new \DOMDocument());
 
-        $numRetries = $this->getObjectAttribute($this->service, "numRetries");
+        $numRetries = self::getServiceRetryCount($this->service);
         $this->assertEquals(0, $numRetries);
     }
 
@@ -320,7 +329,7 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
         } catch (\Exception $e) {
             throw $e;
         } finally {
-            $numRetries = $this->getObjectAttribute($this->service, "numRetries");
+            $numRetries = self::getServiceRetryCount($this->service);
             $this->assertEquals(0, $numRetries);
         }
     }

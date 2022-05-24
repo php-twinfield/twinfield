@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield;
 
+use PhpTwinfield\Enums\MeansOfPayment;
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatCodeField;
 
@@ -39,6 +40,7 @@ class Supplier
     private $editDimensionName;
     private $dueDays = 0;
     private $payAvailable = false;
+    private $meansOfPayment;
     private $payCode;
     private $eBilling = false;
     private $eBillMail;
@@ -257,6 +259,17 @@ class Supplier
     public function setPayAvailable(bool $payAvailable): self
     {
         $this->payAvailable = $payAvailable;
+        return $this;
+    }
+
+    public function getMeansOfPayment(): ?MeansOfPayment
+    {
+        return $this->meansOfPayment;
+    }
+
+    public function setMeansOfPayment(?MeansOfPayment $meansOfPayment): self
+    {
+        $this->meansOfPayment = $meansOfPayment;
         return $this;
     }
 

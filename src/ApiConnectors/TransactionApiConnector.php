@@ -58,9 +58,7 @@ class TransactionApiConnector extends BaseApiConnector
      */
     public function send(BaseTransaction $transaction): BaseTransaction
     {
-        foreach($this->sendAll([$transaction]) as $each) {
-            return $each->unwrap();
-        }
+        return $this->sendAll([$transaction])->getIterator()->current()->unwrap();
     }
 
     /**

@@ -26,7 +26,7 @@ class OAuthProviderTest extends TestCase
      */
     protected $token;
 
-    protected function SetUp()
+    protected function setUp(): void
     {
         $this->httpClient = $this->createMock(ClientInterface::class);
         $this->provider = new OAuthProvider([

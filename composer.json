@@ -27,11 +27,11 @@
     "pronamic/twinfield": "*"
   },
   "require": {
-    "php": ">=7.1",
+    "php": ">=7.3",
     "ext-dom": "*",
     "ext-json": "*",
     "ext-soap": "*",
-    "moneyphp/money": "^3.0",
+    "moneyphp/money": "^3.0 || ^4.0",
     "myclabs/php-enum": "^1.5",
     "psr/http-message": "^1.0",
     "psr/log": "^1.0",
@@ -53,8 +53,7 @@
   "require-dev": {
     "eloquent/liberator": "^2.0",
     "league/oauth2-client": "^2.2",
-    "mediact/dependency-guard": "^1.0",
-    "phpstan/phpstan": "^0.10.1",
-    "phpunit/phpunit": "^7.3"
+    "phpstan/phpstan": "^0.12.88",
+    "phpunit/phpunit": "^9.5"
   }
 }

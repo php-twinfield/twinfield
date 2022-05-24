@@ -36,6 +36,9 @@ class InvoicesDocument extends BaseDocument
     {
         // Make a new <salesinvoice> element
         $invoiceElement = $this->createElement('salesinvoice');
+        if ($invoice->getRaiseWarning() !== null) {
+            $invoiceElement->appendChild($this->createBooleanAttribute('raisewarning', $invoice->getRaiseWarning()));
+        }
 
         // Makes a child header element
         $headerElement = $this->createElement('header');
@@ -60,6 +63,7 @@ class InvoicesDocument extends BaseDocument
             'period'               => 'getPeriod',
             'invoicedate'          => 'getInvoiceDate',
             'duedate'              => 'getDueDate',
+            'paymentmethod'        => 'getPaymentMethod',
             'bank'                 => 'getBank',
             'invoiceaddressnumber' => 'getInvoiceAddressNumber',
             'deliveraddressnumber' => 'getDeliverAddressNumber',

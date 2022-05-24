@@ -5,7 +5,7 @@ use PhpTwinfield\DomDocuments\SuppliersDocument;
 use PhpTwinfield\Office;
 use PhpTwinfield\Supplier;
 
-class SupplierOfficeTest extends \PHPUnit\Framework\TestCase
+class OfficeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Office
@@ -16,7 +16,7 @@ class SupplierOfficeTest extends \PHPUnit\Framework\TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

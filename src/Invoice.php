@@ -3,6 +3,7 @@ namespace PhpTwinfield;
 
 use PhpTwinfield\Transactions\TransactionFields\DueDateField;
 use PhpTwinfield\Transactions\TransactionFields\OfficeField;
+use PhpTwinfield\Transactions\TransactionFields\RaiseWarningField;
 use PhpTwinfield\Transactions\TransactionLineFields\PeriodField;
 
 /**
@@ -31,6 +32,7 @@ class Invoice
     use PeriodField;
     use DueDateField;
     use OfficeField;
+    use RaiseWarningField;
 
     private $customer;
     private $invoiceType;
