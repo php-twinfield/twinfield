@@ -16,6 +16,7 @@
 				<firstrundate>20180608</firstrundate>
 			</collectmandate>
 			<collectionschema>core</collectionschema>
+			<meansofpayment>paymentfile</meansofpayment>
 		</financials>
 		<addresses>
 			<address type="invoice" default="true">
