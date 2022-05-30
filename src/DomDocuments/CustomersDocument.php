@@ -143,6 +143,13 @@ class CustomersDocument extends BaseDocument
                 $collectionSchemaElement = $this->createElement('collectionschema', $collectionSchema->getValue());
                 $financialElement->appendChild($collectionSchemaElement);
             }
+
+            $meansOfPayment = $customer->getMeansOfPayment();
+
+            if ($meansOfPayment !== null) {
+                $meansOfPaymentElement = $this->createElement('meansofpayment', $meansOfPayment->getValue());
+                $financialElement->appendChild($meansOfPaymentElement);
+            }
         }
 
         //check if creditmanagement should be set
