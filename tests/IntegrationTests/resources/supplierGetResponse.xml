@@ -1,0 +1,89 @@
+<dimension status="active" result="1">
+    <office name="001" shortname="001">001</office>
+    <type name="Crediteuren" shortname="Crediteuren">CRD</type>
+    <code>2000</code>
+    <uid>c6c05844-c075-4b51-a4ca-6f30f45d5a12</uid>
+    <name>Supplier 0</name>
+    <shortname></shortname>
+    <inuse>true</inuse>
+    <behaviour>normal</behaviour>
+    <touched>4</touched>
+    <beginperiod>0</beginperiod>
+    <beginyear>0</beginyear>
+    <endperiod>0</endperiod>
+    <endyear>0</endyear>
+    <website>http://www.example.com</website>
+    <cocnumber></cocnumber>
+    <vatnumber></vatnumber>
+    <editdimensionname>false</editdimensionname>
+    <financials>
+        <matchtype>customersupplier</matchtype>
+        <accounttype>inherit</accounttype>
+        <subanalyse>false</subanalyse>
+        <duedays>1</duedays>
+        <level>2</level>
+        <payavailable>true</payavailable>
+        <paycode name="SEPANLCT" shortname="SEPA NL Excasso">SEPANLCT</paycode>
+        <meansofpayment>paymentfile</meansofpayment>
+        <ebilling>false</ebilling>
+        <ebillmail></ebillmail>
+        <substitutionlevel>1</substitutionlevel>
+        <substitutewith name="Crediteuren" shortname="Crediteuren" dimensiontype="BAS">1600</substitutewith>
+        <relationsreference>2000</relationsreference>
+        <vattype name="" shortname=""></vattype>
+        <vatcode/>
+        <vatobligatory>false</vatobligatory>
+        <performancetype/>
+        <collectmandate>
+            <id></id>
+            <signaturedate></signaturedate>
+            <firstrundate></firstrundate>
+        </collectmandate>
+        <collectionschema/>
+    </financials>
+    <addresses>
+        <address id="1" type="invoice" default="true">
+            <name>Supplier 0</name>
+            <country name="Nederland" shortname="">NL</country>
+            <city>Place 2000</city>
+            <postcode>2000</postcode>
+            <telephone>010-123452000</telephone>
+            <telefax>010-12342000</telefax>
+            <email>info@example.com</email>
+            <contact></contact>
+            <field1>supplier 2000</field1>
+            <field2>Streetname part 1 - 2000</field2>
+            <field3>Streetname part 2000</field3>
+            <field4>155676842B01</field4>
+            <field5></field5>
+            <field6></field6>
+        </address>
+    </addresses>
+    <banks>
+        <bank default="true" id="1">
+            <ascription>Supplier 2000</ascription>
+            <accountnumber>123456789</accountnumber>
+            <address>
+                <field2></field2>
+                <field3></field3>
+            </address>
+            <bankname></bankname>
+            <biccode>TESTNL2A</biccode>
+            <city>Place 2000</city>
+            <country name="Nederland" shortname="">NL</country>
+            <iban>NL13TEST0123456789</iban>
+            <natbiccode></natbiccode>
+            <postcode></postcode>
+            <state></state>
+        </bank>
+    </banks>
+    <groups>
+        <group shortname="Relaties" name="Relaties">2REL</group>
+    </groups>
+    <paymentconditions>
+        <paymentcondition>
+            <discountdays>5</discountdays>
+            <discountpercentage>2.75</discountpercentage>
+        </paymentcondition>
+    </paymentconditions>
+</dimension>

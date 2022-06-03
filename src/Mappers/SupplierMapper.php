@@ -1,10 +1,12 @@
 <?php
 namespace PhpTwinfield\Mappers;
 
+use PhpTwinfield\Enums\MeansOfPayment;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Supplier;
 use PhpTwinfield\SupplierAddress;
 use PhpTwinfield\SupplierBank;
+use PhpTwinfield\Util;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
@@ -84,6 +86,12 @@ class SupplierMapper extends BaseMapper
 
                     $supplier->$method($value);
                 }
+            }
+
+            $meansOfPaymentValue = self::getField($financialElement, 'meansofpayment');
+
+            if (MeansOfPayment::isValid($meansOfPaymentValue)) {
+                $supplier->setMeansOfPayment(MeansOfPayment::from($meansOfPaymentValue));
             }
         }
 
