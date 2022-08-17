@@ -40,5 +40,6 @@ abstract class BaseService extends \SoapClient
         }
 
         parent::__construct($wsdl, $options);
+        $this->__setLocation($wsdl); // https://github.com/php-twinfield/twinfield/issues/214
     }
 }
