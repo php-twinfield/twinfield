@@ -6,6 +6,7 @@ use PhpTwinfield\Enums\Services;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
+use PhpTwinfield\Services\DeclarationService;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
 use PhpTwinfield\Services\SessionService;
@@ -34,9 +35,14 @@ abstract class BaseIntegrationTest extends TestCase
     protected $finderService;
 
     /**
-     * @var FinderService|\PHPUnit_Framework_MockObject_MockObject
+     * @var SessionService|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $sessionService;
+
+    /**
+     * @var DeclarationService|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $declarationService;
 
     protected function setUp(): void
     {
@@ -45,9 +51,10 @@ abstract class BaseIntegrationTest extends TestCase
         $this->office = new Office();
         $this->office->setCode("11024");
 
-        $this->processXmlService = $this->createPartialMock(ProcessXmlService::class, ['sendDocument']);
-        $this->finderService     = $this->createPartialMock(FinderService::class, ['searchFinder']);
-        $this->sessionService    = $this->createPartialMock(SessionService::class, ['setOffice']);
+        $this->processXmlService  = $this->createPartialMock(ProcessXmlService::class, ['sendDocument']);
+        $this->finderService      = $this->createPartialMock(FinderService::class, ['searchFinder']);
+        $this->sessionService     = $this->createPartialMock(SessionService::class, ['setOffice']);
+        $this->declarationService = $this->createPartialMock(DeclarationService::class, ['setOffice']);
 
         $this->connection  = $this->createMock(AuthenticatedConnection::class);
         $this->connection->expects($this->any())
@@ -62,6 +69,9 @@ abstract class BaseIntegrationTest extends TestCase
 
                     case Services::SESSION()->getValue():
                         return $this->sessionService;
+
+                    case Services::DECLARATION()->getValue():
+                        return $this->declarationService;
                 }
 
                 throw new \InvalidArgumentException("Unknown service {$service->getValue()}");
