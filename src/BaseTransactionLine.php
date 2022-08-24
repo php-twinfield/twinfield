@@ -111,6 +111,12 @@ abstract class BaseTransactionLine implements TransactionLine
      */
     protected $vatValue;
 
+    /**
+     * @var \DateTimeInterface|null Only if line type is detail. The line date. Only allowed if the line date in the
+     *                              bank book is set to Allowed or Mandatory.
+     */
+    protected $currencyDate;
+
     public function getLineType(): LineType
     {
         return $this->lineType;
@@ -342,6 +348,30 @@ abstract class BaseTransactionLine implements TransactionLine
         }
 
         $this->vatValue = $vatValue;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getCurrencyDate(): ?\DateTimeInterface
+    {
+        return $this->currencyDate;
+    }
+
+    /**
+     * @param \DateTimeInterface|null $currencyDate
+     * @return $this
+     * @throws Exception
+     */
+    public function setCurrencyDate(?\DateTimeInterface $currencyDate): self
+    {
+        if ($currencyDate !== null && !$this->getLineType()->equals(LineType::DETAIL())) {
+            throw Exception::invalidFieldForLineType('currencyDate', $this);
+        }
+
+        $this->currencyDate = $currencyDate;
 
         return $this;
     }

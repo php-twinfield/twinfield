@@ -221,6 +221,11 @@ class TransactionsDocument extends BaseDocument
                 $lineElement->appendChild($vatElement);
             }
 
+            $currencyDate = $transactionLine->getCurrencyDate();
+            if (!empty($currencyDate)) {
+                $this->appendDateElement($lineElement, "currencydate", $transactionLine->getCurrencyDate());
+            }
+
             $baseline = $transactionLine->getBaseline();
             if (!empty($baseline)) {
                 $baselineElement = $this->createNodeWithTextContent('baseline', $baseline);
