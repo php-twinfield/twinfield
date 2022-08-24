@@ -120,6 +120,7 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine->getPerformanceCountry());
         $this->assertNull($detailLine->getPerformanceVatNumber());
         $this->assertNull($detailLine->getPerformanceDate());
+        $this->assertEquals(new DateTimeImmutable('2013-11-04'), $detailLine->getCurrencyDate());
     }
 
     public function testSendCashTransactionWorks()

@@ -244,6 +244,11 @@ class TransactionMapper
                 }
             }
 
+            $currencyDate = self::getField($transaction, $lineElement, 'currencydate');
+            if (!empty($currencyDate)) {
+                $transactionLine->setCurrencyDate(Util::parseDate($currencyDate));
+            }
+
             $transaction->addLine($transactionLine);
         }
 
