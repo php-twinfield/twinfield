@@ -10,7 +10,7 @@ use PhpTwinfield\Util;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
- * 
+ *
  * @package PhpTwinfield
  * @subpackage Mapper
  * @author Leon Rowland <leon@rowland.nl>
@@ -20,7 +20,7 @@ class SupplierMapper extends BaseMapper
 {
     /**
      * Maps a Response object to a clean Supplier entity.
-     * 
+     *
      * @access public
      * @param \PhpTwinfield\Response\Response $response
      * @return Supplier
@@ -29,7 +29,7 @@ class SupplierMapper extends BaseMapper
     {
         // Generate new customer object
         $supplier = new Supplier();
-        
+
         // Gets the raw DOMDocument response.
         $responseDOM = $response->getResponseDocument();
 
@@ -96,7 +96,7 @@ class SupplierMapper extends BaseMapper
         }
 
         $addressesDOMTag = $responseDOM->getElementsByTagName('addresses');
-        if (isset($addressesDOMTag) && $addressesDOMTag->length > 0) {
+        if ($addressesDOMTag->length > 0) {
 
             // Element tags and their methods for address
             $addressTags = array(
@@ -151,7 +151,7 @@ class SupplierMapper extends BaseMapper
         }
 
         $banksDOMTag = $responseDOM->getElementsByTagName('banks');
-        if (isset($banksDOMTag) && $banksDOMTag->length > 0) {
+        if ($banksDOMTag->length > 0) {
 
             // Element tags and their methods for bank
             $bankTags = array(

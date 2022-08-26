@@ -7,14 +7,14 @@ use PhpTwinfield\Response\Response;
 
 /**
  * Maps a response DOMDocument to the corresponding entity.
- * 
+ *
  * @package PhpTwinfield
  * @subpackage Mapper
  * @author Willem van de Sande <W.vandeSande@MailCoupon.nl>
  */
 class ArticleMapper extends BaseMapper
 {
-    
+
     /**
      * Maps a Response object to a clean Article entity.
      *
@@ -63,7 +63,7 @@ class ArticleMapper extends BaseMapper
 
         $linesDOMTag = $responseDOM->getElementsByTagName('lines');
 
-        if (isset($linesDOMTag) && $linesDOMTag->length > 0) {
+        if ($linesDOMTag->length > 0) {
             // Element tags and their methods for lines
             $lineTags = [
                 'unitspriceexcl'  => 'setUnitsPriceExcl',

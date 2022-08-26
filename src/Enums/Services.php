@@ -17,6 +17,7 @@ use PhpTwinfield\Services\SessionService;
  *
  * @method static self FINDER()
  * @method static self PROCESSXML()
+ * @method static self SESSION()
  */
 class Services extends \MyCLabs\Enum\Enum
 {

@@ -151,7 +151,7 @@ class CustomerMapper extends BaseMapper
         }
 
         $addressesDOMTag = $responseDOM->getElementsByTagName('addresses');
-        if (isset($addressesDOMTag) && $addressesDOMTag->length > 0) {
+        if ($addressesDOMTag->length > 0) {
 
             // Element tags and their methods for address
             $addressTags = array(
@@ -206,7 +206,7 @@ class CustomerMapper extends BaseMapper
         }
 
         $banksDOMTag = $responseDOM->getElementsByTagName('banks');
-        if (isset($banksDOMTag) && $banksDOMTag->length > 0) {
+        if ($banksDOMTag->length > 0) {
 
             // Element tags and their methods for bank
             $bankTags = array(
