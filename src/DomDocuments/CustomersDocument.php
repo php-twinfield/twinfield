@@ -96,7 +96,7 @@ class CustomersDocument extends BaseDocument
                 if (is_bool($nodeValue)) {
                     $nodeValue = ($nodeValue) ? 'true' : 'false';
                 }
-                $node = $this->createTextNode($nodeValue);
+                $node = $this->createTextNode((string) $nodeValue);
 
                 // Make the actual element and assign the node
                 $element = $this->createElement($tag);
@@ -231,7 +231,7 @@ class CustomersDocument extends BaseDocument
                 foreach ($addressTags as $tag => $method) {
 
                     // Make the text node for the method value
-                    $node = $this->createTextNode($address->$method());
+                    $node = $this->createTextNode((string) $address->$method());
 
                     // Make the actual element and assign the text node
                     $element = $this->createElement($tag);

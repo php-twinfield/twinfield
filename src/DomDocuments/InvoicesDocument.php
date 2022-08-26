@@ -24,10 +24,10 @@ class InvoicesDocument extends BaseDocument
     /**
      * Turns a passed Invoice class into the required markup for interacting
      * with Twinfield.
-     * 
+     *
      * This method doesn't return anything, instead just adds the invoice
      * to this DOMDocument instance for submission usage.
-     * 
+     *
      * @access public
      * @param Invoice $invoice
      * @return void | [Adds to this instance]
@@ -43,7 +43,7 @@ class InvoicesDocument extends BaseDocument
         // Makes a child header element
         $headerElement = $this->createElement('header');
         $invoiceElement->appendChild($headerElement);
-        
+
         // Set customer element
         $customer = $invoice->getCustomer();
 
@@ -70,20 +70,20 @@ class InvoicesDocument extends BaseDocument
             'headertext'           => 'getHeaderText',
             'footertext'           => 'getFooterText'
         );
-        
+
         // Go through each element and use the assigned method
         foreach ($headerTags as $tag => $method) {
 
             $value = $this->getValueFromCallback([$invoice, $method]);
-    
+
             if(null !== $value) {
                 // Make text node for method value
                 $node = $this->createTextNode($value);
-    
+
                 // Make the actual element and assign the node
                 $element = $this->createElement($tag);
                 $element->appendChild($node);
-    
+
                 // Add the full element
                 $headerElement->appendChild($element);
             }
@@ -92,7 +92,7 @@ class InvoicesDocument extends BaseDocument
         // Add orders
         $linesElement = $this->createElement('lines');
         $invoiceElement->appendChild($linesElement);
-        
+
         // Elements and their associated methods for lines
         $lineTags = array(
             'quantity'        => 'getQuantity',
@@ -120,9 +120,9 @@ class InvoicesDocument extends BaseDocument
 
             // Go through each element and use the assigned method
             foreach ($lineTags as $tag => $method) {
-                
+
                 // Make text node for method value
-                $node = $this->createTextNode($this->getValueFromCallback([$line, $method]));
+                $node = $this->createTextNode((string) $this->getValueFromCallback([$line, $method]));
 
                 if ($node->textContent === "") {
                     continue;

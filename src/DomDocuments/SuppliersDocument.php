@@ -72,7 +72,7 @@ class SuppliersDocument extends \DOMDocument
         foreach ($supplierTags as $tag => $method) {
 
             // Make text node for method value
-            $node = $this->createTextNode($supplier->$method());
+            $node = $this->createTextNode((string) $supplier->$method());
 
             // Make the actual element and assign the node
             $element = $this->createElement($tag);
@@ -107,7 +107,7 @@ class SuppliersDocument extends \DOMDocument
                 if (is_bool($nodeValue)) {
                     $nodeValue = ($nodeValue) ? 'true' : 'false';
                 }
-                $node = $this->createTextNode($nodeValue);
+                $node = $this->createTextNode((string) $nodeValue);
 
                 // Make the actual element and assign the node
                 $element = $this->createElement($tag);
@@ -165,7 +165,7 @@ class SuppliersDocument extends \DOMDocument
                 foreach ($addressTags as $tag => $method) {
 
                     // Make the text node for the method value
-                    $node = $this->createTextNode($address->$method());
+                    $node = $this->createTextNode((string) $address->$method());
 
                     // Make the actual element and assign the text node
                     $element = $this->createElement($tag);
