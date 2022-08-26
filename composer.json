@@ -50,7 +50,7 @@
   "require-dev": {
     "eloquent/liberator": "^3.0",
     "league/oauth2-client": "^2.2",
-    "phpstan/phpstan": "^0.12.88",
+    "phpstan/phpstan": "^1.8",
     "phpunit/phpunit": "^9.5"
   }
 }
