@@ -120,6 +120,7 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($detailLine->getPerformanceCountry());
         $this->assertNull($detailLine->getPerformanceVatNumber());
         $this->assertNull($detailLine->getPerformanceDate());
+        $this->assertEquals(new DateTimeImmutable('2013-11-04'), $detailLine->getCurrencyDate());
     }
 
     public function testSendCashTransactionWorks()
@@ -150,7 +151,8 @@ class CashTransactionIntegrationTest extends BaseIntegrationTest
             ->setDim2('1000')
             ->setValue(Money::EUR(43555))
             ->setInvoiceNumber('11001770')
-            ->setDescription('Invoice paid');
+            ->setDescription('Invoice paid')
+            ->setCurrencyDate(new DateTimeImmutable('2013-11-04'));
 
         $cashTransaction
             ->addLine($totalLine)

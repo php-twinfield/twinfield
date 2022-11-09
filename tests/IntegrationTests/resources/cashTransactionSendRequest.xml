@@ -21,6 +21,7 @@
                 <debitcredit>credit</debitcredit>
                 <value>435.55</value>
                 <invoicenumber>11001770</invoicenumber>
+                <currencydate>20131104</currencydate>
                 <description>Invoice paid</description>
             </line>
         </lines>
