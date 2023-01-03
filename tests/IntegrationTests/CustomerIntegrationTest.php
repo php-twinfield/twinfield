@@ -8,6 +8,8 @@ use PhpTwinfield\CustomerAddress;
 use PhpTwinfield\CustomerBank;
 use PhpTwinfield\CustomerCollectMandate;
 use PhpTwinfield\DomDocuments\CustomersDocument;
+use PhpTwinfield\Enums\CollectionSchema;
+use PhpTwinfield\Enums\MeansOfPayment;
 use PhpTwinfield\Mappers\CustomerMapper;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
@@ -173,6 +175,7 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $customer->setName('Customer 0');
         $customer->setDueDays('30');
         $customer->setPayAvailable(true);
+        $customer->setMeansOfPayment(MeansOfPayment::PAYMENTFILE());
         $customer->setPayCode('SEPANLDD');
 
         $address = new CustomerAddress();
@@ -212,6 +215,8 @@ class CustomerIntegrationTest extends BaseIntegrationTest
         $collectMandate->setSignatureDate(new \DateTimeImmutable('2018-06-04'));
         $collectMandate->setFirstRunDate(new \DateTimeImmutable('2018-06-08'));
         $customer->setCollectMandate($collectMandate);
+
+        $customer->setCollectionSchema(CollectionSchema::CORE());
 
         $this->processXmlService
             ->expects($this->once())

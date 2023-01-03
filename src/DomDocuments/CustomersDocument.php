@@ -136,6 +136,20 @@ class CustomersDocument extends BaseDocument
                     $collectMandateElement->appendChild($element);
                 }
             }
+
+            $collectionSchema = $customer->getCollectionSchema();
+
+            if ($collectionSchema !== null) {
+                $collectionSchemaElement = $this->createElement('collectionschema', $collectionSchema->getValue());
+                $financialElement->appendChild($collectionSchemaElement);
+            }
+
+            $meansOfPayment = $customer->getMeansOfPayment();
+
+            if ($meansOfPayment !== null) {
+                $meansOfPaymentElement = $this->createElement('meansofpayment', $meansOfPayment->getValue());
+                $financialElement->appendChild($meansOfPaymentElement);
+            }
         }
 
         //check if creditmanagement should be set
