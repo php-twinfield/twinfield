@@ -20,6 +20,12 @@
   "config": {
     "sort-packages": true
   },
+  "conflict": {
+    "pronamic/twinfield": "*"
+  },
+  "replace": {
+    "pronamic/twinfield": "*"
+  },
   "require": {
     "php": ">=7.3",
     "ext-dom": "*",

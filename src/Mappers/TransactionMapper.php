@@ -82,15 +82,7 @@ class TransactionMapper
         if (!empty($raiseWarning)) {
             $transaction->setRaiseWarning(Util::parseBoolean($raiseWarning));
         }
-
-        if (!empty($response->getErrorMessages())) {
-            \LogService::error("[TransactionMapper map] Got error messages therefore no map could be created. Got error messages: " . print_r($response->getErrorMessages(), true));
-        }
-
-        if (!empty($response->getWarningMessages())) {
-            \LogService::warning("[TransactionMapper map] Got warning messages therefore no map could be created. Got warning messages: " . print_r($response->getWarningMessages(), true));
-        }
-
+        
         $office = new Office();
         $office->setCode(self::getField($transaction, $transactionElement, 'office'));
 
