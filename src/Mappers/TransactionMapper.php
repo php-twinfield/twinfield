@@ -82,7 +82,7 @@ class TransactionMapper
         if (!empty($raiseWarning)) {
             $transaction->setRaiseWarning(Util::parseBoolean($raiseWarning));
         }
-        
+
         $office = new Office();
         $office->setCode(self::getField($transaction, $transactionElement, 'office'));
 
