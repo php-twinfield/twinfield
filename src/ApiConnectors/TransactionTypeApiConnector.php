@@ -55,8 +55,6 @@ class TransactionTypeApiConnector extends BaseApiConnector
 
         $response = $this->getFinderService()->searchFinder(FinderService::TYPE_TRANSACTION_TYPES, $pattern, $field, $firstRow, $maxRows, $options);
 
-        file_put_contents(__DIR__ . '/../../dev/raw_results.'.time().'.php', var_export($response, true));
-
         if ($response->data->TotalRows == 0) {
             return [];
         }
