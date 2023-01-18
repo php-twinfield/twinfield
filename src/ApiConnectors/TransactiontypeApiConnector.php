@@ -2,57 +2,60 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\Enums\Category;
+use PhpTwinfield\Office;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\TransactionType;
-use PhpTwinfield\User;
 
-class TransactiontypeApiConnector extends BaseApiConnector
+class TransactionTypeApiConnector extends BaseApiConnector
 {
-    const ACCESS_RULES_DISABLED = 0;
-    const ACCESS_RULES_ENABLED = 1;
-
-    const MUTUAL_OFFICES_DISABLED = 0;
-    const MUTUAL_OFFICES_ENABLED = 1;
-
     /**
-     * List all users.
+     * List all transaction types (daybooks)
      *
-     * @param string|null  $officeCode    The office code, if only users from one office should be listed
-     * @param integer|null $accessRules   One of the self::ACCESS_RULES_* constants.
-     * @param integer|null $mutualOffices One of the self::MUTUAL_OFFICES_* constants.
-     * @param string       $pattern       The search pattern. May contain wildcards * and ?
-     * @param int          $field         The search field determines which field or fields will be searched. The
-     *                                    available fields depends on the finder type. Passing a value outside the
-     *                                    specified values will cause an error.
-     * @param int          $firstRow      First row to return, useful for paging
-     * @param int          $maxRows       Maximum number of rows to return, useful for paging
-     * @param array        $options       The Finder options. Passing an unsupported name or value causes an error. It's
-     *                                    possible to add multiple options. An option name may be used once, specifying
-     *                                    an option multiple times will cause an error.
+     * @param Office|null   $office   The office code, if only transaction types from one office should be listed
+     * @param bool          $hidden   If set also hidden transaction types are returned.
+     * @param bool          $ic       Shows only “InterCompany” transaction types in the result set. This option cannot
+     *                                be used in combination with the 'hidden' option.
+     * @param Category|null $category The office code, if only transaction types from one office should be listed
+     * @param string        $pattern  The search pattern. May contain wildcards * and ?
+     * @param int           $field    The search field determines which field or fields will be searched. The
+     *                                available fields depends on the finder type. Passing a value outside the
+     *                                specified values will cause an error.
+     * @param int           $firstRow First row to return, useful for paging
+     * @param int           $maxRows  Maximum number of rows to return, useful for paging
      *
      * @return TransactionType[]
      */
     public function listAll(
-        $officeCode = null,
-        $accessRules = null,
-        $mutualOffices = null,
-        $pattern = '*',
-        $field = 0,
-        $firstRow = 1,
-        $maxRows = 100,
-        $options = array()
+        ?Office $office = null,
+        bool $hidden = false,
+        bool $ic = false,
+        ?Category $category = null,
+        string $pattern = '*',
+        int $field = 0,
+        int $firstRow = 1,
+        int $maxRows = 100
     ): array {
-        if (!is_null($officeCode)) {
-            $options['office'] = $officeCode;
+        $options = [];
+        if (!is_null($office)) {
+            $options['office'] = $office->getCode();
         }
-        if (!is_null($accessRules)) {
-            $options['accessRules'] = $accessRules;
+
+        if ($hidden && $ic) {
+            throw new \InvalidArgumentException("The 'ic' option cannot be used in combination with the 'hidden' option");
+        } elseif ($hidden) {
+            $options['hidden'] = 1;
+        } elseif ($ic) {
+            $options['ic'] = 1;
         }
-        if (!is_null($mutualOffices)) {
-            $options['mutualOffices'] = $mutualOffices;
+
+        if (!is_null($category)) {
+            $options['category'] = $category->getValue();
         }
 
         $response = $this->getFinderService()->searchFinder(FinderService::TYPE_TRANSACTION_TYPES, $pattern, $field, $firstRow, $maxRows, $options);
+
+        file_put_contents(__DIR__ . '/../../dev/raw_results.'.time().'.php', var_export($response, true));
 
         if ($response->data->TotalRows == 0) {
             return [];
