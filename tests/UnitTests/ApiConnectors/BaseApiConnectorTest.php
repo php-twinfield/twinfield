@@ -139,7 +139,7 @@ class BaseApiConnectorTest extends TestCase implements LoggerInterface
      *
      * @inheritdoc
      */
-    public function log($level, $message, array $context = array())
+    public function log($level, $message, array $context = array()): void
     {
         $this->logs[] = [$level, $message, $context];
     }
