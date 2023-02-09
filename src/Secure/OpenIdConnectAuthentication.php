@@ -27,11 +27,6 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
     private $accessToken;
 
     /**
-     * @var string
-     */
-    private $refreshToken;
-
-    /**
      * @var Office
      */
     private $office;
@@ -61,15 +56,13 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
      */
     public function __construct(
         OAuthProvider $provider,
-        string $refreshToken,
+        ?AccessTokenInterface $accessToken,
         ?Office $office = null,
-        ?AccessTokenInterface $accessToken = null
     )
     {
-        $this->provider     = $provider;
-        $this->refreshToken = $refreshToken;
-        $this->office       = $office;
-        $this->accessToken  = $accessToken;
+        $this->provider    = $provider;
+        $this->accessToken = $accessToken;
+        $this->office      = $office;
     }
 
     public function setOffice(?Office $office)
@@ -196,14 +189,7 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
      */
     protected function refreshToken(): void
     {
-        // If you pass an empty refresh token, it will try to derive it from the accessToken object
-        // If that is set.
-        $refreshToken = !empty($this->refreshToken)
-            ? $this->refreshToken
-            : ($this->hasAccessToken()
-                ? $this->getAccessToken()->getRefreshToken() ?? null
-                : null
-            );
+        $refreshToken = $this->accessToken->getRefreshToken();
 
         try {
             $accessToken = $this->provider->getAccessToken(
