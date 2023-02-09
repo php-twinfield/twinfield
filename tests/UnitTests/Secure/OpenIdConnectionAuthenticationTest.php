@@ -20,17 +20,28 @@ class OpenIdConnectionAuthenticationTest extends TestCase
      */
     private $openIdProvider;
 
+    /**
+     * @var AccessToken
+     */
+    private $accessToken;
+
     protected function setUp(): void
     {
         $this->openIdProvider = $this->getMockBuilder(OAuthProvider::class)
             ->setMethods([ "getAccessToken" ])
             ->getMock();
+
+        $this->accessToken = new AccessToken([
+            'access_token'  => 'foo',
+            'refresh_token' => 'bar',
+            'expires_in'    => 1000,
+        ]);
     }
 
     public function testSetOfficeAndResetAuthenticatedClients()
     {
         $openIdConnect = $this->getMockBuilder(OpenIdConnectAuthentication::class)
-            ->setConstructorArgs([ $this->openIdProvider, "refresh", null ])
+            ->setConstructorArgs([ $this->openIdProvider, $this->accessToken, null ])
             ->setMethods([ "resetAllClients" ])
             ->getMock();
 
@@ -47,44 +58,10 @@ class OpenIdConnectionAuthenticationTest extends TestCase
         $this->assertEmpty($openIdConnect->authenticatedClients);
     }
 
-    /**
-     * When instantiating the class the accessToken property is still null. The flow should be:
-     * -- login ->
-     *      access_token = null     -> getRefreshToken
-     * -- validateToken
-     */
-    public function testRefreshAccessTokenWhenAccessTokenIsNullAndLoginIsSuccessful()
-    {
-        $this->openIdProvider->expects($this->once())
-            ->method("getAccessToken")
-            ->willReturn(new AccessToken([
-                "access_token"  =>  "stub",
-            ]));
-
-        $openIdConnect = $this->getMockBuilder(OpenIdConnectAuthentication::class)
-            ->setConstructorArgs([ $this->openIdProvider, "refresh", null ])
-            ->setMethods(["validateToken"])
-            ->getMock();
-
-        $openIdConnect->expects($this->once())
-            ->method("validateToken")
-            ->willReturn(
-                ["twf.clusterUrl" => "someClusterUrl"]
-            );
-
-        $openIdConnect = Liberator::liberate($openIdConnect);
-        $this->assertNull($openIdConnect->getAccessToken());
-
-        $openIdConnect->login();
-
-        $this->assertEquals("stub", $openIdConnect->getAccessToken());
-        $this->assertEquals("someClusterUrl", $openIdConnect->getCluster());
-    }
-
     public function testRefreshAndAccessTokenAreSetLoginSuccess()
     {
         $openIdConnect = $this->getMockBuilder(OpenIdConnectAuthentication::class)
-            ->setConstructorArgs([ $this->openIdProvider, "refresh", null, new AccessToken([
+            ->setConstructorArgs([ $this->openIdProvider, $this->accessToken, null, new AccessToken([
                 'access_token' => 'test',
                 'expires_in' => time() + 1000,
             ]) ])
@@ -110,7 +87,7 @@ class OpenIdConnectionAuthenticationTest extends TestCase
     public function testInvalidTokenLogin()
     {
         $openIdConnect = $this->getMockBuilder(OpenIdConnectAuthentication::class)
-            ->setConstructorArgs([ $this->openIdProvider, "refresh", null ])
+            ->setConstructorArgs([ $this->openIdProvider, $this->accessToken, null ])
             ->setMethods(["validateToken", "refreshToken"])
             ->getMock();
 
@@ -130,7 +107,7 @@ class OpenIdConnectionAuthenticationTest extends TestCase
     public function testSetAccessToken(): void
     {
         $accessTokenMock = $this->createMock(AccessTokenInterface::class);
-        $openIdConnect = new OpenIdConnectAuthentication($this->openIdProvider, 'test');
+        $openIdConnect = new OpenIdConnectAuthentication($this->openIdProvider, $accessTokenMock);
 
         $result = $openIdConnect->setAccessToken($accessTokenMock);
 
@@ -143,45 +120,14 @@ class OpenIdConnectionAuthenticationTest extends TestCase
         $accessTokenMock = $this->createMock(AccessTokenInterface::class);
         $openIdConnect = new OpenIdConnectAuthentication(
             $this->openIdProvider,
-            'test',
+            $accessTokenMock,
             null,
-            $accessTokenMock
         );
 
         $this->assertEquals($accessTokenMock, $openIdConnect->getAccessToken());
     }
 
-    public function testHasAccessToken(): void
-    {
-        $accessTokenMock = $this->createMock(AccessTokenInterface::class);
-        $openIdConnect = new OpenIdConnectAuthentication(
-            $this->openIdProvider,
-            'test',
-            null,
-            $accessTokenMock
-        );
-
-        $this->assertTrue($openIdConnect->hasAccessToken());
-    }
-
-    public function testHasNoAccessToken(): void
-    {
-        $openIdConnect = new OpenIdConnectAuthentication($this->openIdProvider, 'test');
-
-        $this->assertFalse($openIdConnect->hasAccessToken());
-    }
-
-    public function testIsExpiredAccessTokenWithoutToken(): void
-    {
-        $openIdConnect = new OpenIdConnectAuthentication($this->openIdProvider, 'test');
-
-        $openIdConnect = Liberator::liberate($openIdConnect);
-        $result = $openIdConnect->isExpiredAccessToken();
-
-        $this->assertTrue($result);
-    }
-
-    public function testIsExpiredAccessTokenWithToken(): void
+    public function testIsExpiredAccessToken(): void
     {
         $accessTokenMock = $this->createMock(AccessTokenInterface::class);
         $accessTokenMock->expects($this->once())
@@ -190,9 +136,8 @@ class OpenIdConnectionAuthenticationTest extends TestCase
 
         $openIdConnect = new OpenIdConnectAuthentication(
             $this->openIdProvider,
-            'test',
+            $accessTokenMock,
             null,
-            $accessTokenMock
         );
 
         $openIdConnect = Liberator::liberate($openIdConnect);
@@ -210,9 +155,8 @@ class OpenIdConnectionAuthenticationTest extends TestCase
 
         $openIdConnect = new OpenIdConnectAuthentication(
             $this->openIdProvider,
-            'test',
+            $accessTokenMock,
             null,
-            $accessTokenMock
         );
 
         $openIdConnect = Liberator::liberate($openIdConnect);
@@ -223,7 +167,7 @@ class OpenIdConnectionAuthenticationTest extends TestCase
 
     public function testRegisterAfterValidateCallback(): void
     {
-        $openIdConnect = new OpenIdConnectAuthentication($this->openIdProvider, 'test');
+        $openIdConnect = new OpenIdConnectAuthentication($this->openIdProvider, $this->accessToken);
         $openIdConnect->registerAfterValidateCallback(function() {});
 
         $openIdConnect = Liberator::liberate($openIdConnect);
@@ -237,7 +181,7 @@ class OpenIdConnectionAuthenticationTest extends TestCase
     {
         $this->expectException(InvalidAccessTokenException::class);
 
-        $openIdConnect = new OpenIdConnectAuthentication($this->openIdProvider, 'test');
+        $openIdConnect = new OpenIdConnectAuthentication($this->openIdProvider, $this->accessToken);
         $openIdConnect = Liberator::liberate($openIdConnect);
         $openIdConnect->validateToken();
     }
@@ -247,7 +191,7 @@ class OpenIdConnectionAuthenticationTest extends TestCase
         $accessToken = $this->createMock(AccessTokenInterface::class);
 
         $openIdConnect = $this->getMockBuilder(OpenIdConnectAuthentication::class)
-            ->setConstructorArgs([$this->openIdProvider, "refresh", null, $accessToken])
+            ->setConstructorArgs([$this->openIdProvider, $accessToken, null])
             ->setMethods(["getValidationResult"])
             ->getMock();
         $openIdConnect->expects($this->once())

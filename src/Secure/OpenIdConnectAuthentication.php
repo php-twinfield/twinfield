@@ -56,7 +56,7 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
      */
     public function __construct(
         OAuthProvider $provider,
-        ?AccessTokenInterface $accessToken,
+        AccessTokenInterface $accessToken,
         ?Office $office = null,
     )
     {
@@ -87,8 +87,6 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
      */
     protected function getSoapHeaders(): \SoapHeader
     {
-        $this->throwExceptionMissingAccessToken();
-
         $headers = [
             "AccessToken" => $this->getAccessToken()->getToken(),
         ];
@@ -113,7 +111,7 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
     protected function login(): void
     {
         // Refresh the token when it's not set or is set, but expired or incomplete.
-        if (!$this->hasAccessToken() || $this->isExpiredAccessToken()) {
+        if ($this->isExpiredAccessToken()) {
             $this->refreshToken();
         }
 
@@ -145,7 +143,6 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
     protected function validateToken(): array
     {
         $this->setValidatedAccessToken(false);
-        $this->throwExceptionMissingAccessToken();
 
         $accessToken = $this->getAccessToken();
         $validationResult = $this->getValidationResult($accessToken);
@@ -157,16 +154,6 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
         }
 
         return $resultDecoded;
-    }
-
-    /**
-     * @throws InvalidAccessTokenException
-     */
-    protected function throwExceptionMissingAccessToken(): void
-    {
-        if (!$this->hasAccessToken()) {
-            throw new InvalidAccessTokenException("Missing access token.");
-        }
     }
 
     /**
@@ -211,15 +198,11 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
      */
     protected function isExpiredAccessToken(): bool
     {
-        $accessToken = $this->getAccessToken();
-        if ($accessToken instanceof AccessTokenInterface) {
-            try {
-                return $accessToken->hasExpired();
-            }
-            catch (\Exception $e) {}
+        try {
+            return $this->accessToken->hasExpired();
+        } catch (\RuntimeException $e) {
+            return true;
         }
-
-        return true;
     }
 
     /**
