@@ -171,10 +171,9 @@ class OpenIdConnectionAuthenticationTest extends TestCase
         $openIdConnect->registerAfterValidateCallback(function() {});
 
         $openIdConnect = Liberator::liberate($openIdConnect);
-        $callbacks = $openIdConnect->getAfterValidateCallbacks();
 
-        $this->assertCount(1, $callbacks);
-        $this->assertInstanceOf(Closure::class, $callbacks[0]);
+        $this->assertCount(1, $openIdConnect->afterValidateCallbacks);
+        $this->assertInstanceOf(Closure::class, $openIdConnect->afterValidateCallbacks[0]);
     }
 
     public function testValidateTokenWithMissingAccessToken(): void

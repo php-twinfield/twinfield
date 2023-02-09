@@ -243,19 +243,10 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
         return $this;
     }
 
-    protected function getAfterValidateCallbacks(): array
-    {
-        return $this->afterValidateCallbacks;
-    }
-
     protected function callAfterValidateCallbacks(AccessTokenInterface $accessToken): void
     {
-        $callbacks = $this->getAfterValidateCallbacks();
-
-        if (!empty($callbacks)) {
-            foreach ($callbacks as $callback) {
-                $callback($accessToken);
-            }
+        foreach ($this->afterValidateCallbacks as $callback) {
+            $callback($accessToken);
         }
     }
 }
