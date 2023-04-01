@@ -70,14 +70,14 @@ final class TransactionsDocumentUnitTest extends TestCase
         $totalLine
             ->setLineType(LineType::TOTAL())
             ->setId(1)
-            ->setDim1('1002')
+            ->setDim1('')
             ->setValue(Money::EUR(12100));
 
         $detailLine = new CashTransactionLine();
         $detailLine
             ->setLineType(LineType::DETAIL())
             ->setId(2)
-            ->setDim1('1300')
+            ->setDim1('')
             ->setDim2('1000')
             ->setValue(Money::EUR(10000))
             ->setVatCode('VH')
@@ -113,7 +113,7 @@ final class TransactionsDocumentUnitTest extends TestCase
         $detailLine
             ->setLineType(LineType::DETAIL())
             ->setId(2)
-            ->setDim1('1300')
+            ->setDim1('')
             ->setDim2('1000')
             ->setValue(Money::EUR(10000))
             ->setVatCode('VH')
@@ -153,7 +153,7 @@ final class TransactionsDocumentUnitTest extends TestCase
         $totalLine
             ->setLineType(LineType::TOTAL())
             ->setId(1)
-            ->setDim1('1600')
+            ->setDim1('')
             ->setDim2('2000')
             ->setValue(Money::EUR(12100))
             ->setDescription('');
@@ -162,7 +162,7 @@ final class TransactionsDocumentUnitTest extends TestCase
         $detailLine
             ->setLineType(LineType::DETAIL())
             ->setId(2)
-            ->setDim1('8020')
+            ->setDim1('')
             ->setValue(Money::EUR(10000))
             ->setDescription('Outfit')
             ->setVatCode('IH');
@@ -200,7 +200,7 @@ final class TransactionsDocumentUnitTest extends TestCase
         $totalLine
             ->setLineType(LineType::TOTAL())
             ->setId(1)
-            ->setDim1('1300')
+            ->setDim1('')
             ->setDim2('1000')
             ->setValue(Money::EUR(12100))
             ->setDescription('');
@@ -209,7 +209,7 @@ final class TransactionsDocumentUnitTest extends TestCase
         $detailLine
             ->setLineType(LineType::DETAIL())
             ->setId(2)
-            ->setDim1('8020')
+            ->setDim1('')
             ->setValue(Money::EUR(10000))
             ->setDescription('Outfit')
             ->setVatCode('VH');
