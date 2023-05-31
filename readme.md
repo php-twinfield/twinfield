@@ -19,6 +19,7 @@ composer require 'php-twinfield/twinfield:^3.0'
 You need to set up a `\PhpTwinfield\Secure\AuthenticatedConnection` class with your credentials. When using basic 
 username and password authentication, the `\PhpTwinfield\Secure\WebservicesAuthentication` class should be used, as follows:
 
+#### Username and password
 ```php
 $connection = new Secure\WebservicesAuthentication("username", "password", "organization");
 ```
@@ -30,6 +31,7 @@ $office = Office::fromCode("someOfficeCode");
 $officeApi = new \PhpTwinfield\ApiConnectors\OfficeApiConnector($connection);
 $officeApi->setOffice($office);
 ```
+#### oAuth2
 
 In order to use OAuth2 to authenticate with Twinfield, one should use the `\PhpTwinfield\Secure\Provider\OAuthProvider` to retrieve an `\League\OAuth2\Client\Token\AccessToken` object, and extract the refresh token from this object. Furthermore, it is required to set up a default `\PhpTwinfield\Office`, that will be used during requests to Twinfield. **Please note:** when a different office is specified when sending a request through one of the `ApiConnectors`, this Office will override the default.
 
@@ -47,6 +49,44 @@ $office       = \PhpTwinfield\Office::fromCode("someOfficeCode");
 
 $connection  = new \PhpTwinfield\Secure\OpenIdConnectAuthentication($provider, $refreshToken, $office);
 ```
+
+In the case you have an existing accessToken object you may pass that to the constructor or set it, to limit the amount of access token and validate requests, since the accessToken is valid for 1 hour.
+
+```php
+$provider    = new OAuthProvider([
+    'clientId'     => 'someClientId',
+    'clientSecret' => 'someClientSecret',
+    'redirectUri'  => 'https://example.org/'
+]);
+$accessToken  = $provider->getAccessToken("authorization_code", ["code" => ...]);
+$refreshToken = $accessToken->getRefreshToken();
+$office       = \PhpTwinfield\Office::fromCode("someOfficeCode");
+
+$connection  = new \PhpTwinfield\Secure\OpenIdConnectAuthentication($provider, $refreshToken, $office, $accessToken);
+```
+or
+```php
+$connection = new \PhpTwinfield\Secure\OpenIdConnectAuthentication($provider, $refreshToken, $office);
+$connection->setAccessToken($accessToken);
+```
+
+Setting an access token will force a new validation request on every login.
+
+It's also possible to provide callables, that will be called when a new access token is validated.
+This way you're able to store the new 'validated' access token object and your application can re-use the token within an hour.
+This way you can optimize the number of requests.
+
+**Be aware to store your access token in an appropriate and secure way. E.g. encrypting it.**
+
+```php
+$connection = new \PhpTwinfield\Secure\OpenIdConnectAuthentication($provider, $refreshToken, $office, $accessToken);
+$connection->registerAfterValidateCallback(
+    function(\League\OAuth2\Client\Token\AccessTokenInterface $accessToken) {
+        // Store the access token.
+    }
+);
+```
+
 For more information about retrieving the initial `AccessToken`, please refer to: https://github.com/thephpleague/oauth2-client#usage
 
 ### Getting data from the API
