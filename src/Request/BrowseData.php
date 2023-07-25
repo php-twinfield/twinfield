@@ -103,12 +103,12 @@ class BrowseData extends DOMDocument
         $columnElement = $this->createElement('column');
 
         $columnElement->appendChild($this->createElement('field', $column->getField()));
-        $columnElement->appendChild($this->createElement('label', $column->getLabel()));
+        $columnElement->appendChild($this->createElement('label', (string) $column->getLabel()));
         $columnElement->appendChild($this->createElement('visible', Util::formatBoolean($column->isVisible())));
         $columnElement->appendChild($this->createElement('ask', Util::formatBoolean($column->isAsk())));
         $columnElement->appendChild($this->createElement('operator', $column->getOperator()->getValue()));
-        $columnElement->appendChild($this->createElement('from', $column->getFrom()));
-        $columnElement->appendChild($this->createElement('to', $column->getTo()));
+        $columnElement->appendChild($this->createElement('from', (string) $column->getFrom()));
+        $columnElement->appendChild($this->createElement('to', (string) $column->getTo()));
 
         $this->columnsElement->appendChild($columnElement);
     }
