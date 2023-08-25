@@ -23,9 +23,9 @@ final class TransactionTypesIntegrationTest extends BaseIntegrationTest
         $this->transactionTypeApiConnector = new TransactionTypeApiConnector($this->connection);
     }
 
-    public function testListAllWorks()
+    public function testListAllWithMultipleResults()
     {
-        $response = require __DIR__ . '/resources/transactionTypesListAllResponse.php';
+        $response = require __DIR__ . '/resources/transactionTypesListAllWithMultipleResultsResponse.php';
 
         $this->finderService
             ->expects($this->once())
@@ -47,6 +47,22 @@ final class TransactionTypesIntegrationTest extends BaseIntegrationTest
         $this->assertSame('Verkoopfactuur', $transactionTypes[4]->getName());
     }
 
+    public function testListAllWithSingleResult()
+    {
+        $response = require __DIR__ . '/resources/transactionTypesListAllWithSingleResultResponse.php';
+
+        $this->finderService
+            ->expects($this->once())
+            ->method("searchFinder")
+            ->with(FinderService::TYPE_TRANSACTION_TYPES, '*', 0, 1, 100, [])
+            ->willReturn($response);
+
+        $transactionTypes = $this->transactionTypeApiConnector->listAll();
+
+        $this->assertSame('BEGINBALANS', $transactionTypes[0]->getCode());
+        $this->assertSame('Beginbalans', $transactionTypes[0]->getName());
+    }
+
     public function testListAllTheIcOptionCannotBeUsedInCombinationWithTheHiddenOption()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -56,7 +72,7 @@ final class TransactionTypesIntegrationTest extends BaseIntegrationTest
 
     public function testListAllWithCategory()
     {
-        $response = require __DIR__ . '/resources/transactionTypesListAllResponse.php';
+        $response = require __DIR__ . '/resources/transactionTypesListAllWithMultipleResultsResponse.php';
 
         $this->finderService
             ->expects($this->once())
@@ -71,7 +87,7 @@ final class TransactionTypesIntegrationTest extends BaseIntegrationTest
 
     public function testListAllWithTheIcOption()
     {
-        $response = require __DIR__ . '/resources/transactionTypesListAllResponse.php';
+        $response = require __DIR__ . '/resources/transactionTypesListAllWithMultipleResultsResponse.php';
 
         $this->finderService
             ->expects($this->once())
@@ -86,7 +102,7 @@ final class TransactionTypesIntegrationTest extends BaseIntegrationTest
 
     public function testListAllWithTheHiddenOption()
     {
-        $response = require __DIR__ . '/resources/transactionTypesListAllResponse.php';
+        $response = require __DIR__ . '/resources/transactionTypesListAllWithMultipleResultsResponse.php';
 
         $this->finderService
             ->expects($this->once())

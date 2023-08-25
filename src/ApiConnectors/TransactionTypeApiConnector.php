@@ -62,8 +62,15 @@ class TransactionTypeApiConnector extends BaseApiConnector
         $transactionTypes = [];
         foreach ($response->data->Items->ArrayOfString as $transactionTypeArray) {
             $transactionType = new TransactionType();
-            $transactionType->setCode($transactionTypeArray->string[0]);
-            $transactionType->setName($transactionTypeArray->string[1]);
+
+            if (is_array($transactionTypeArray)) {
+                $transactionType->setCode($transactionTypeArray[0]);
+                $transactionType->setName($transactionTypeArray[1]);
+            } else {
+                $transactionType->setCode($transactionTypeArray->string[0]);
+                $transactionType->setName($transactionTypeArray->string[1]);
+            }
+
             $transactionTypes[] = $transactionType;
         }
 
