@@ -85,12 +85,12 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertSame('', $totalLine->getDescription());
         $this->assertSame(PurchaseTransactionLine::MATCHSTATUS_AVAILABLE, $totalLine->getMatchStatus());
         $this->assertSame(2, $totalLine->getMatchLevel());
-        $this->assertEquals(Money::EUR(12100), $totalLine->getBaseValueOpen());
+        $this->assertEquals(Money::EUR(12000), $totalLine->getBaseValueOpen());
         $this->assertNull($totalLine->getVatCode());
         $this->assertNull($totalLine->getVatValue());
         $this->assertEquals(Money::EUR(2100), $totalLine->getVatTotal());
         $this->assertEquals(Money::EUR(2100), $totalLine->getVatBaseTotal());
-        $this->assertEquals(Money::EUR(12100), $totalLine->getValueOpen());
+        $this->assertEquals(Money::EUR(12000), $totalLine->getValueOpen());
         $this->assertEquals(new DateTime('2020-12-03'), $totalLine->getMatchDate());
 
         $this->assertEquals(LineType::DETAIL(), $detailLine->getLineType());
@@ -134,6 +134,20 @@ class PurchaseTransactionIntegrationTest extends BaseIntegrationTest
         $this->assertNull($vatLine->getVatBaseTotal());
         $this->assertNull($vatLine->getValueOpen());
         $this->assertNull($vatLine->getMatchDate());
+
+        $matches = $totalLine->getMatches();
+        $this->assertCount(1, $matches);
+        $match = $matches[0];
+        $this->assertEquals(Destiny::TEMPORARY(), $match->getStatus());
+        $this->assertEquals(new DateTime('2020-12-03'), $match->getMatchDate());
+        $this->assertEquals(Money::EUR(100), $match->getMatchValue());
+        $matchLines = $match->getMatchLines();
+        $this->assertCount(1, $matchLines);
+        $matchLine = $matchLines[0];
+        $this->assertEquals('BNK', $matchLine->getCode());
+        $this->assertEquals('201300022', $matchLine->getNumber());
+        $this->assertEquals(1, $matchLine->getLine());
+        $this->assertEquals(Money::EUR(-100), $matchLine->getMatchValue());
     }
 
     public function testSendPurchaseTransactionWorks()
