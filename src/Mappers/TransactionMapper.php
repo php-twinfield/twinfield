@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\Mappers;
 
+use DOMElement;
 use DOMXPath;
 use Money\Currency;
 use Money\Money;
@@ -18,16 +19,20 @@ use PhpTwinfield\Message\Message;
 use PhpTwinfield\Office;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\SalesTransaction;
+use PhpTwinfield\Transactions\MatchLine;
+use PhpTwinfield\Transactions\MatchSet;
 use PhpTwinfield\Transactions\TransactionFields\DueDateField;
 use PhpTwinfield\Transactions\TransactionFields\FreeTextFields;
 use PhpTwinfield\Transactions\TransactionFields\InvoiceNumberField;
 use PhpTwinfield\Transactions\TransactionFields\PaymentReferenceField;
 use PhpTwinfield\Transactions\TransactionFields\StatementNumberField;
+use PhpTwinfield\Transactions\TransactionLine;
 use PhpTwinfield\Transactions\TransactionLineFields\MatchDateField;
 use PhpTwinfield\Transactions\TransactionLineFields\PerformanceFields;
 use PhpTwinfield\Transactions\TransactionLineFields\ValueOpenField;
 use PhpTwinfield\Transactions\TransactionLineFields\VatTotalFields;
 use PhpTwinfield\Util;
+use UnexpectedValueException;
 
 class TransactionMapper
 {
@@ -83,55 +88,60 @@ class TransactionMapper
             $transaction->setRaiseWarning(Util::parseBoolean($raiseWarning));
         }
 
+        $header = self::getFirstChildElementByName($transactionElement, 'header');
+        if ($header === null) {
+            throw new UnexpectedValueException('Transaction section is missing a header section');
+        }
+
         $office = new Office();
-        $office->setCode(self::getField($transaction, $transactionElement, 'office'));
+        $office->setCode(self::getField($transaction, $header, 'office'));
 
         $transaction
             ->setOffice($office)
-            ->setCode(self::getField($transaction, $transactionElement, 'code'))
-            ->setPeriod(self::getField($transaction, $transactionElement, 'period'))
-            ->setDateFromString(self::getField($transaction, $transactionElement, 'date'))
-            ->setOrigin(self::getField($transaction, $transactionElement, 'origin'))
-            ->setFreetext1(self::getField($transaction, $transactionElement, 'freetext1'))
-            ->setFreetext2(self::getField($transaction, $transactionElement, 'freetext2'))
-            ->setFreetext3(self::getField($transaction, $transactionElement, 'freetext3'));
+            ->setCode(self::getField($transaction, $header, 'code'))
+            ->setPeriod(self::getField($transaction, $header, 'period'))
+            ->setDateFromString(self::getField($transaction, $header, 'date'))
+            ->setOrigin(self::getField($transaction, $header, 'origin'))
+            ->setFreetext1(self::getField($transaction, $header, 'freetext1'))
+            ->setFreetext2(self::getField($transaction, $header, 'freetext2'))
+            ->setFreetext3(self::getField($transaction, $header, 'freetext3'));
 
-        $currency = new Currency(self::getField($transaction, $transactionElement, 'currency') ?? self::DEFAULT_CURRENCY_CODE);
+        $currency = new Currency(self::getField($transaction, $header, 'currency') ?? self::DEFAULT_CURRENCY_CODE);
         $transaction->setCurrency($currency);
 
-        $number = self::getField($transaction, $transactionElement, 'number');
+        $number = self::getField($transaction, $header, 'number');
         if (!empty($number)) {
             $transaction->setNumber($number);
         }
 
         if (Util::objectUses(DueDateField::class, $transaction)) {
-            $value = self::getField($transaction, $transactionElement, 'duedate');
+            $value = self::getField($transaction, $header, 'duedate');
 
             if ($value !== null) {
                 $transaction->setDueDateFromString($value);
             }
         }
         if (Util::objectUses(InvoiceNumberField::class, $transaction)) {
-            $transaction->setInvoiceNumber(self::getField($transaction, $transactionElement, 'invoicenumber'));
+            $transaction->setInvoiceNumber(self::getField($transaction, $header, 'invoicenumber'));
         }
         if (Util::objectUses(PaymentReferenceField::class, $transaction)) {
             $transaction
-                ->setPaymentReference(self::getField($transaction, $transactionElement, 'paymentreference'));
+                ->setPaymentReference(self::getField($transaction, $header, 'paymentreference'));
         }
         if (Util::objectUses(StatementNumberField::class, $transaction)) {
-            $transaction->setStatementnumber(self::getField($transaction, $transactionElement, 'statementnumber'));
+            $transaction->setStatementnumber(self::getField($transaction, $header, 'statementnumber'));
         }
 
         if ($transaction instanceof SalesTransaction) {
-            $transaction->setOriginReference(self::getField($transaction, $transactionElement, 'originreference'));
+            $transaction->setOriginReference(self::getField($transaction, $header, 'originreference'));
         }
         if ($transaction instanceof JournalTransaction) {
-            $transaction->setRegime(self::getField($transaction, $transactionElement, 'regime'));
+            $transaction->setRegime(self::getField($transaction, $header, 'regime'));
         }
         if ($transaction instanceof CashTransaction) {
             $transaction->setStartvalue(
                 Util::parseMoney(
-                    self::getField($transaction, $transactionElement, 'startvalue'),
+                    self::getField($transaction, $header, 'startvalue'),
                     $transaction->getCurrency()
                 )
             );
@@ -140,6 +150,7 @@ class TransactionMapper
         // Parse the transaction lines
         $transactionLineClassName = $transaction->getLineClassName();
 
+        /** @var DOMElement $lineElement */
         foreach ((new DOMXPath($document))->query('/transaction/lines/line') as $lineElement) {
             self::checkForMessage($transaction, $lineElement);
 
@@ -162,6 +173,11 @@ class TransactionMapper
                 ->setMatchStatus(self::getField($transaction, $lineElement, 'matchstatus'))
                 ->setMatchLevel(self::getField($transaction, $lineElement, 'matchlevel'))
                 ->setVatCode(self::getField($transaction, $lineElement, 'vatcode'));
+
+            $matches = $lineElement->getElementsByTagName('matches')->item(0);
+            if ($matches !== null) {
+                self::parseMatches($transaction, $transactionLine, $matches);
+            }
 
             // TODO - according to the docs, the field is called <basevalueopen>, but the examples use <openbasevalue>.
             $baseValueOpen = self::getFieldAsMoney($transaction, $lineElement, 'basevalueopen', $currency) ?: self::getFieldAsMoney($transaction, $lineElement, 'openbasevalue', $currency);
@@ -255,9 +271,22 @@ class TransactionMapper
         return $transaction;
     }
 
-    private static function getField(BaseTransaction $transaction, \DOMElement $element, string $fieldTagName): ?string
+    private static function getFirstChildElementByName(DOMElement $element, string $fieldTagName): ?DOMElement
     {
-        $fieldElement = $element->getElementsByTagName($fieldTagName)->item(0);
+        $fieldElement = null;
+        foreach ($element->childNodes as $node) {
+            if ($node->nodeName === $fieldTagName) {
+                $fieldElement = $node;
+                break;
+            }
+        }
+
+        return $fieldElement;
+    }
+
+    private static function getField(BaseTransaction $transaction, DOMElement $element, string $fieldTagName): ?string
+    {
+        $fieldElement = self::getFirstChildElementByName($element, $fieldTagName);
 
         if (!isset($fieldElement)) {
             return null;
@@ -270,7 +299,7 @@ class TransactionMapper
 
     private static function getFieldAsMoney(
         BaseTransaction $transaction,
-        \DOMElement $element,
+        DOMElement $element,
         string $fieldTagName,
         Currency $currency
     ): ?Money {
@@ -283,7 +312,7 @@ class TransactionMapper
         return new Money((string)(100 * $fieldValue), $currency);
     }
 
-    private static function checkForMessage(BaseTransaction $transaction, \DOMElement $element): void
+    private static function checkForMessage(BaseTransaction $transaction, DOMElement $element): void
     {
         if ($element->hasAttribute('msg')) {
             $message = new Message();
@@ -292,6 +321,33 @@ class TransactionMapper
             $message->setField($element->nodeName);
 
             $transaction->addMessage($message);
+        }
+    }
+
+    private static function parseMatches(BaseTransaction $baseTransaction, BaseTransactionLine $transactionLine, DOMElement $element): void
+    {
+        /** @var DOMElement $set */
+        foreach ($element->getElementsByTagName('set') as $set) {
+            $status = Destiny::from($set->getAttribute('status'));
+            $matchDate = Util::parseDate(self::getField($baseTransaction, $set, 'matchdate'));
+            $matchValue = self::getFieldAsMoney($baseTransaction, $set, 'matchvalue', $baseTransaction->getCurrency());
+
+            $matchLines = [];
+            /** @var DOMElement $lines */
+            $lines = $set->getElementsByTagName('lines')->item(0);
+            /** @var DOMElement $line */
+            foreach ($lines->childNodes as $line) {
+                if ($line->nodeName !== 'line') {
+                    continue;
+                }
+                $code = (string)self::getField($baseTransaction, $line, 'code');
+                $number = (int)self::getField($baseTransaction, $line, 'number');
+                $lineNum = (int)self::getField($baseTransaction, $line, 'line');
+                $lineMatchValue = self::getFieldAsMoney($baseTransaction, $line, 'matchvalue', $baseTransaction->getCurrency());
+
+                $matchLines[] = new MatchLine($code, $number, $lineNum, $lineMatchValue);
+            }
+            $transactionLine->addMatch(new MatchSet($status, $matchDate, $matchValue, $matchLines));
         }
     }
 }

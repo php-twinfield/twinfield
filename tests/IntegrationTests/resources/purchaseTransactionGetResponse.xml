@@ -27,11 +27,26 @@
             <vatbasetotal>21.00</vatbasetotal>
             <matchlevel>2</matchlevel>
             <customersupplier>2</customersupplier>
-            <openvalue>121.00</openvalue>
-            <openbasevalue>121.00</openbasevalue>
-            <openrepvalue>156.53</openrepvalue>
+            <openvalue>120.00</openvalue>
+            <openbasevalue>120.00</openbasevalue>
+            <openrepvalue>155.23</openrepvalue>
             <matchstatus>available</matchstatus>
             <matchdate>20201203</matchdate>
+            <matches>
+                <set status="temporary">
+                    <matchdate>20201203</matchdate>
+                    <lines>
+                        <line>
+                            <code>BNK</code>
+                            <number>201300022</number>
+                            <line>1</line>
+                            <method>payment</method>
+                            <matchvalue>-1.00</matchvalue>
+                        </line>
+                    </lines>
+                    <matchvalue>1.00</matchvalue>
+                </set>
+            </matches>
         </line>
         <line type="detail" id="2">
             <dim1 name="Omzet (19%)" shortname="Omzet (19%)" type="PNL" inuse="true" vatcode="" vatobligatory="false">8020</dim1>
