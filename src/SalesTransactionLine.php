@@ -115,7 +115,8 @@ class SalesTransactionLine extends BaseTransactionLine
     }
 
     /**
-     * Payment status of the sales transaction. If line type detail or vat always notmatchable. Read-only attribute.
+     * Payment status of the sales transaction. If line type detail or vat always notmatchable, according to the documentation.
+     * However, in practice this appears to be untrue for detail, see issue #177. Read-only attribute.
      *
      * @param string|null $matchStatus
      * @return $this
@@ -125,7 +126,7 @@ class SalesTransactionLine extends BaseTransactionLine
     {
         if (
             $matchStatus !== null &&
-            in_array($this->getLineType(), [LineType::DETAIL(), LineType::VAT()]) &&
+            $this->getLineType() === LineType::VAT() &&
             $matchStatus != self::MATCHSTATUS_NOTMATCHABLE
         ) {
             throw Exception::invalidMatchStatusForLineType($matchStatus, $this);
