@@ -126,7 +126,7 @@ class SalesTransactionLine extends BaseTransactionLine
     {
         if (
             $matchStatus !== null &&
-            $this->getLineType() === LineType::VAT() &&
+            $this->getLineType()->equals(LineType::VAT()) &&
             $matchStatus != self::MATCHSTATUS_NOTMATCHABLE
         ) {
             throw Exception::invalidMatchStatusForLineType($matchStatus, $this);
@@ -144,7 +144,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setMatchLevel(?int $matchLevel): BaseTransactionLine
     {
-        if ($matchLevel !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
+        if ($matchLevel !== null && $this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType('matchLevel', $this);
         }
 
@@ -160,7 +160,7 @@ class SalesTransactionLine extends BaseTransactionLine
      */
     public function setBaseValueOpen(?Money $baseValueOpen): BaseTransactionLine
     {
-        if ($baseValueOpen !== null && !$this->getLineType()->equals(LineType::TOTAL())) {
+        if ($baseValueOpen !== null && $this->getLineType()->equals(LineType::VAT())) {
             throw Exception::invalidFieldForLineType('baseValueOpen', $this);
         }
 
