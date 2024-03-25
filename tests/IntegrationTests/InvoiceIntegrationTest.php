@@ -79,6 +79,7 @@ class InvoiceIntegrationTest extends BaseIntegrationTest
         $this->assertSame('15.00', $invoiceLine->getValueInc());
         $this->assertSame('15.00', $invoiceLine->getUnitsPriceExcl());
         $this->assertSame('8020', $invoiceLine->getDim1());
+        $this->assertSame('VN', $invoiceLine->getVatCode());
 
         // TODO - Vat lines
 
