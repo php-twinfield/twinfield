@@ -91,6 +91,7 @@ class InvoiceMapper extends BaseMapper
             'performancedate'        => 'setPerformanceDate',
             'performancetype'        => 'setPerformanceType',
             'dim1'                   => 'setDim1',
+            'vatcode'                => 'setVatCode',
         );
 
         /** @var \DOMElement $lineDOM */
