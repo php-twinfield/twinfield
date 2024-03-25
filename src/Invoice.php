@@ -63,6 +63,12 @@ class Invoice
         return $this;
     }
 
+    public function removeLine(InvoiceLine $line)
+    {
+        unset($this->lines[$line->getID()]);
+        return $this;
+    }
+
     /**
      * @return InvoiceLine[]
      */
