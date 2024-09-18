@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\Secure\Provider;
 
+use Dummy\StringStream;
 use GuzzleHttp\ClientInterface;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
@@ -77,7 +78,7 @@ class OAuthProviderTest extends TestCase
         $response = $this->createMock(ResponseInterface::class);
         $response->expects($this->any())
             ->method("getBody")
-            ->willReturn('{"access_token":"mock_access_token", "token_type":"bearer"}');
+            ->willReturn(new StringStream('{"access_token":"mock_access_token", "token_type":"bearer"}'));
         $response->expects($this->any())
             ->method("getHeader")
             ->willReturn(['content-type' => 'json']);
@@ -102,7 +103,7 @@ class OAuthProviderTest extends TestCase
         $response = $this->createMock(ResponseInterface::class);
         $response->expects($this->any())
             ->method("getBody")
-            ->willReturn('{"error":{"type":"request","message":"someErrorMessage"}}');
+            ->willReturn(new StringStream('{"error":{"type":"request","message":"someErrorMessage"}}'));
         $response->expects($this->any())
             ->method("getHeader")
             ->willReturn(['content-type' => 'json']);
@@ -125,7 +126,7 @@ class OAuthProviderTest extends TestCase
         $response = $this->createMock(ResponseInterface::class);
         $response->expects($this->any())
             ->method("getBody")
-            ->willReturn('{"sub": "someId", "twf.organisationId": "someOrganisationId"}');
+            ->willReturn(new StringStream('{"sub": "someId", "twf.organisationId": "someOrganisationId"}'));
         $response->expects($this->any())
             ->method("getHeader")
             ->willReturn(['content-type' => 'json']);

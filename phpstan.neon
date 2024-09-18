@@ -1,2 +1,46 @@
 parameters:
 	ignoreErrors:
+		-
+			message: "#^Method Dummy\\\\StringStream\\:\\:eof\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: tests/Dummy/StringStream.php
+
+		-
+			message: "#^Method Dummy\\\\StringStream\\:\\:getContents\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: tests/Dummy/StringStream.php
+
+		-
+			message: "#^Method Dummy\\\\StringStream\\:\\:getSize\\(\\) should return int\\|null but return statement is missing\\.$#"
+			count: 1
+			path: tests/Dummy/StringStream.php
+
+		-
+			message: "#^Method Dummy\\\\StringStream\\:\\:isReadable\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: tests/Dummy/StringStream.php
+
+		-
+			message: "#^Method Dummy\\\\StringStream\\:\\:isSeekable\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: tests/Dummy/StringStream.php
+
+		-
+			message: "#^Method Dummy\\\\StringStream\\:\\:isWritable\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: tests/Dummy/StringStream.php
+
+		-
+			message: "#^Method Dummy\\\\StringStream\\:\\:read\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: tests/Dummy/StringStream.php
+
+		-
+			message: "#^Method Dummy\\\\StringStream\\:\\:tell\\(\\) should return int but return statement is missing\\.$#"
+			count: 1
+			path: tests/Dummy/StringStream.php
+
+		-
+			message: "#^Method Dummy\\\\StringStream\\:\\:write\\(\\) should return int but return statement is missing\\.$#"
+			count: 1
+			path: tests/Dummy/StringStream.php
