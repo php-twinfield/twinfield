@@ -85,7 +85,7 @@ class ArticlesDocument extends \DOMDocument
             if (is_bool($nodeValue)) {
                 $nodeValue = ($nodeValue) ? 'true' : 'false';
             }
-            $node = $this->createTextNode($nodeValue);
+            $node = $this->createTextNode($nodeValue ?? '');
 
             // Make the actual element and assign the node
             $element = $this->createElement($tag);
@@ -138,7 +138,7 @@ class ArticlesDocument extends \DOMDocument
                 // Go through each line element and use the assigned method
                 foreach ($lineTags as $tag => $method) {
                     // Make the text node for the method value
-                    $node = $this->createTextNode($line->$method());
+                    $node = $this->createTextNode($line->$method() ?? '');
 
                     // Make the actual element and assign the text node
                     $element = $this->createElement($tag);
