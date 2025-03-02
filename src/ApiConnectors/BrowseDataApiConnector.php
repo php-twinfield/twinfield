@@ -69,8 +69,10 @@ class BrowseDataApiConnector extends BaseApiConnector
     {
         Assert::minCount($columns, 1);
         Assert::allIsInstanceOf($columns, BrowseColumn::class);
-        Assert::allIsInstanceOf($sortFields, BrowseSortField::class);
-
+        if(count($sortFields)) {
+            Assert::allIsInstanceOf($sortFields, BrowseSortField::class);
+        }
+        
         $requestBrowseData = new BrowseData($code, $columns, $sortFields);
 
         $response = $this->sendXmlDocument($requestBrowseData);
