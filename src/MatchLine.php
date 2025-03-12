@@ -49,7 +49,7 @@ class MatchLine
      * If you want to add a write off, add it manually with setWriteOff(). Pass $value for partial matching.
      * @see setWriteOff()
      */
-    public static function addToMatchSet(MatchSet $set, MatchReferenceInterface $reference, Money $value = null): self
+    public static function addToMatchSet(MatchSet $set, MatchReferenceInterface $reference, ?Money $value = null): self
     {
         Assert::eq($set->getOffice(), $reference->getOffice());
 

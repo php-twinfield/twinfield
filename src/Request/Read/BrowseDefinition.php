@@ -12,7 +12,7 @@ class BrowseDefinition extends Read
      * @param string $code
      * @param Office|null $office
      */
-    public function __construct(string $code, Office $office = null)
+    public function __construct(string $code, ?Office $office = null)
     {
         parent::__construct();
 

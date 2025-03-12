@@ -15,7 +15,7 @@ class SessionService extends BaseService {
      * @param string|null $wsdl
      * @param array $options
      */
-    public function __construct(string $wsdl = null, array $options = [])
+    public function __construct(?string $wsdl = null, array $options = [])
     {
         // If no cluster is set, it means we're dealing with a login call
         // Hence we set the cluster to use the authentication url

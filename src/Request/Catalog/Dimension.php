@@ -24,7 +24,7 @@ class Dimension extends Catalog
      * @param Office|null $office
      * @param string|null $dimType
      */
-    public function __construct(Office $office = null, $dimType = null)
+    public function __construct(?Office $office = null, $dimType = null)
     {
         parent::__construct();
 
