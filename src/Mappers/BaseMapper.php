@@ -3,6 +3,8 @@
 namespace PhpTwinfield\Mappers;
 
 use Money\Currency;
+use PhpTwinfield\BaseObject;
+use PhpTwinfield\Message\Message;
 use PhpTwinfield\Office;
 use PhpTwinfield\Util;
 use Webmozart\Assert\Assert;
@@ -10,6 +12,9 @@ use Webmozart\Assert\Assert;
 abstract class BaseMapper
 {
     /**
+     * @param \DOMDocument $document
+     * @param string $tag
+     * @param callable $setter
      * @throws \PhpTwinfield\Exception
      */
     protected static function setFromTagValue(\DOMDocument $document, string $tag, callable $setter): void
@@ -41,6 +46,11 @@ abstract class BaseMapper
         \call_user_func($setter, $value);
     }
 
+    /**
+     * @param \DOMDocument $document
+     * @param string $tag
+     * @return null|string
+     */
     protected static function getValueFromTag(\DOMDocument $document, string $tag): ?string
     {
         /** @var \DOMNodeList $nodelist */
@@ -62,6 +72,11 @@ abstract class BaseMapper
         return $element->textContent;
     }
 
+    /**
+     * @param \DOMElement $element
+     * @param string $fieldTagName
+     * @return null|string
+     */
     protected static function getField(\DOMElement $element, string $fieldTagName): ?string
     {
         $fieldElement = $element->getElementsByTagName($fieldTagName)->item(0);
@@ -74,5 +89,48 @@ abstract class BaseMapper
         }
 
         return $fieldElement->textContent;
+    }
+
+    /**
+     * @param \DOMElement $element
+     * @param string $tag
+     * @param callable $setter
+     * @throws \PhpTwinfield\Exception
+     */
+    protected static function setValueFromElementTag(\DOMElement $element, string $tag, callable $setter)
+    {
+        $value = self::getField($element, $tag);
+
+        if ($value === null) {
+            return;
+        }
+
+        if ($tag === "validfrom") {
+            \call_user_func($setter, Util::parseDate($value));
+            return;
+        }
+
+        if ($tag === "validto") {
+            \call_user_func($setter, Util::parseDate($value));
+            return;
+        }
+
+        \call_user_func($setter, $value);
+    }
+
+    /**
+     * @param BaseObject $object
+     * @param \DOMElement $element
+     */
+    protected static function checkForMessage(BaseObject $object, \DOMElement $element): void
+    {
+        if ($element->hasAttribute('msg')) {
+            $message = new Message;
+            $message->setType($element->getAttribute('msgtype'));
+            $message->setMessage($element->getAttribute('msg'));
+            $message->setField($element->nodeName);
+
+            $object->addMessage($message);
+        }
     }
 }
