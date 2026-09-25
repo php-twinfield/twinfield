@@ -92,8 +92,35 @@ class FinderService extends BaseService
                 'field' => $field,
                 'firstRow' => $firstRow,
                 'maxRows' => $maxRows,
-                'options' => $options,
+                'options' => self::toArrayOfArrayOfString($options),
             ]
         );
+    }
+
+    /**
+     * Convert finder options to the ArrayOfArrayOfString structure the Twinfield WSDL expects.
+     *
+     * Accepts either an associative array (['dimtype' => 'BAS']), a list of [name, value] pairs, or an array that is
+     * already in the SOAP structure (['ArrayOfString' => ...]), which is passed through unchanged.
+     *
+     * @param array $options
+     * @return array
+     */
+    public static function toArrayOfArrayOfString(array $options): array
+    {
+        if ($options === [] || array_key_exists('ArrayOfString', $options)) {
+            return $options;
+        }
+
+        $arrayOfString = [];
+        foreach ($options as $name => $value) {
+            if (is_array($value)) {
+                [$name, $value] = array_values($value);
+            }
+
+            $arrayOfString[] = ['string' => [(string) $name, (string) $value]];
+        }
+
+        return ['ArrayOfString' => $arrayOfString];
     }
 }
