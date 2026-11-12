@@ -7,6 +7,7 @@
   ],
   "homepage": "https://github.com/php-twinfield/twinfield",
   "license": "GPL-3.0-or-later",
+  "abandoned": "solvebeam/twinfield",
   "authors": [
     {
       "name": "Remco Tolsma",
