@@ -1,4 +1,18 @@
 # Twinfield  [![Build Status](https://travis-ci.org/php-twinfield/twinfield.svg?branch=master)](http://travis-ci.org/php-twinfield/twinfield)
+> [!NOTE]
+> **Looking for a modern alternative?** [SolveBeam](https://www.solvebeam.com/) has released [solvebeam/twinfield-php](https://github.com/solvebeam/twinfield-php), a new PHP SDK for the Twinfield API, built on PSR standards. It is a separate project by a different organisation, with its own API. It is not a drop-in replacement for this library and needs PHP 8.3 or newer.
+>
+> ```sh
+> composer require solvebeam/twinfield
+> ```
+>
+> - [Documentation](https://php.twinfield.solvebeam.com/)
+> - [Examples](https://github.com/solvebeam/twinfield-php/tree/main/examples)
+> - [Changelog](https://github.com/solvebeam/twinfield-php/blob/main/CHANGELOG.md)
+
+> [!WARNING]
+> This library is no longer very actively developed or maintained and will probably be archived in the near future.
+
 A PHP library for Twinfield Integration.
 Use the Twinfield SOAP Services to have your PHP application communicate directly with your Twinfield account.
 
