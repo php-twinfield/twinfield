@@ -2,6 +2,7 @@
 
 namespace PhpTwinfield\ApiConnectors;
 
+use PhpTwinfield\Exception;
 use PhpTwinfield\LedgerAccount;
 use PhpTwinfield\Services\FinderService;
 
@@ -21,6 +22,7 @@ class LedgerAccountApiConnector extends BaseApiConnector
      *                         times will cause an error.
      *
      * @return LedgerAccount[] The found ledger accounts.
+     * @throws Exception
      */
     public function listAll(
         string $pattern = '*',
@@ -29,28 +31,91 @@ class LedgerAccountApiConnector extends BaseApiConnector
         int $maxRows = 100,
         array $options = []
     ): array {
-        $response = $this->getFinderService()
-            ->searchFinder(
+        $response = $this->searchFinder(
+            FinderService::TYPE_DIMENSIONS_FINANCIALS,
+            $pattern,
+            $field,
+            $firstRow,
+            $maxRows,
+            $options
+        );
+
+        $type = $options['dimtype'] ?? null;
+
+        return array_map(function (array $row) use ($type): LedgerAccount {
+            $ledgerAccount = new LedgerAccount();
+            $ledgerAccount->setCode((string) $row[0]);
+            $ledgerAccount->setName((string) ($row[1] ?? ''));
+            $ledgerAccount->setType($type);
+
+            return $ledgerAccount;
+        }, self::getFinderRows($response));
+    }
+
+    /**
+     * List every ledger account of one dimension type, following the Finder paging until all rows are fetched.
+     *
+     * @param string $dimType  LedgerAccount::TYPE_BALANCE_SHEET (BAS) or LedgerAccount::TYPE_PROFIT_AND_LOSS (PNL).
+     * @param int    $pageSize Number of rows requested per Finder call.
+     * @param array  $options  Additional Finder options, e.g. ['modifiedsince' => '20240101000000'].
+     *
+     * @return LedgerAccount[]
+     * @throws Exception
+     * @throws \InvalidArgumentException
+     */
+    public function listAllOfType(string $dimType, int $pageSize = 100, array $options = []): array
+    {
+        if (!in_array($dimType, [LedgerAccount::TYPE_BALANCE_SHEET, LedgerAccount::TYPE_PROFIT_AND_LOSS], true)) {
+            throw new \InvalidArgumentException("Ledger accounts are dimensions of type BAS or PNL, '{$dimType}' given.");
+        }
+
+        if ($pageSize < 1) {
+            throw new \InvalidArgumentException('The page size should be a positive integer.');
+        }
+
+        $options['dimtype'] = $dimType;
+
+        $ledgerAccounts = [];
+        $firstRow = 1;
+
+        do {
+            $response = $this->searchFinder(
                 FinderService::TYPE_DIMENSIONS_FINANCIALS,
-                $pattern,
-                $field,
+                '*',
+                FinderService::SEARCH_FIELD_CODE_OR_NAME,
                 $firstRow,
-                $maxRows,
+                $pageSize,
                 $options
             );
 
-        if ($response->data->TotalRows == 0) {
-            return [];
-        }
+            $totalRows = (int) ($response->data->TotalRows ?? 0);
+            $rows = self::getFinderRows($response);
 
-        $ledgerAccounts = [];
-        foreach ($response->data->Items->ArrayOfString as $ledgerAccountArray) {
-            $ledgerAccount = new LedgerAccount();
-            $ledgerAccount->setCode($ledgerAccountArray->string[0]);
-            $ledgerAccount->setName($ledgerAccountArray->string[1]);
-            $ledgerAccounts[] = $ledgerAccount;
-        }
+            foreach ($rows as $row) {
+                $ledgerAccount = new LedgerAccount();
+                $ledgerAccount->setCode((string) $row[0]);
+                $ledgerAccount->setName((string) ($row[1] ?? ''));
+                $ledgerAccount->setType($dimType);
+                $ledgerAccounts[] = $ledgerAccount;
+            }
+
+            $firstRow += count($rows);
+        } while ($rows !== [] && $firstRow <= $totalRows);
 
         return $ledgerAccounts;
+    }
+
+    /**
+     * List all balance sheet (BAS) and profit and loss (PNL) accounts of the office.
+     *
+     * @return LedgerAccount[]
+     * @throws Exception
+     */
+    public function listAllBalanceSheetAndProfitAndLoss(int $pageSize = 100, array $options = []): array
+    {
+        return array_merge(
+            $this->listAllOfType(LedgerAccount::TYPE_BALANCE_SHEET, $pageSize, $options),
+            $this->listAllOfType(LedgerAccount::TYPE_PROFIT_AND_LOSS, $pageSize, $options)
+        );
     }
 }
